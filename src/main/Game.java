@@ -1,0 +1,171 @@
+package main;
+
+import gamestates.Exploring;
+import gamestates.Gamestate;
+import gamestates.LevelSelect;
+import gamestates.MainMenu;
+import gamestates.StartScreen;
+
+import java.awt.Graphics;
+
+
+public class Game implements Runnable {
+    public final static int GAME_DEFAULT_WIDTH = 1050;
+    public final static int GAME_DEFAULT_HEIGHT = 750;
+    public static final float SCALE = 1.0f;               // Størrelsen påvirker prosessor
+    public static final int GAME_WIDTH = (int) (GAME_DEFAULT_WIDTH * SCALE);
+    public static final int GAME_HEIGHT = (int) (GAME_DEFAULT_HEIGHT * SCALE);
+
+    private GameWindow gameWindow;
+    private GamePanel gamePanel;
+    private Thread gameThread;     
+    private final int FPS_SET = 60;                          // Påvirker prosessor
+    private final int UPS_SET = 60;
+    
+    private StartScreen startScreen;
+    private MainMenu mainMenu;
+    private LevelSelect levelSelect;
+    private Exploring exploring;
+    //private AudioOptions audioOptions;
+    //private AudioPlayer audioPlayer;
+
+    public Game() {
+        initClasses();
+        this.gamePanel = new GamePanel(this);
+        this.gameWindow = new GameWindow(this.gamePanel);
+        gamePanel.requestFocus(true);
+        startGameLoop();
+    }
+
+
+    private void initClasses() {
+        //this.audioOptions = new AudioOptions(this);
+        //this.audioPlayer = new AudioPlayer();
+        this.startScreen = new StartScreen(this);
+        this.mainMenu = new MainMenu(this);
+        this.levelSelect = new LevelSelect(this);
+        this.exploring = new Exploring(this);
+    }
+
+    private void startGameLoop() {
+        this.gameThread = new Thread(this);    // Game passes inn som argument i tråden
+        this.gameThread.start();
+    }
+
+
+    private void update() {
+        switch(Gamestate.state) {
+            case START_SCREEN:
+                startScreen.update();
+                break;
+            case MAIN_MENU:
+                mainMenu.update();
+                break;
+            case LEVEL_SELECT:
+                levelSelect.update();
+                break;
+            case EXPLORING:
+                exploring.update();
+                break;
+            case QUIT:
+            default:
+                System.exit(0);
+                break;
+        }
+    }
+
+    public void render(Graphics g) {
+        switch(Gamestate.state) {
+            case START_SCREEN:
+                startScreen.draw(g);
+                break;
+            case MAIN_MENU:
+                mainMenu.draw(g);
+                break;
+            case LEVEL_SELECT:
+                levelSelect.draw(g);
+                break;
+            case EXPLORING:
+                exploring.draw(g);
+                break;
+            default:
+                break;
+        }
+    }
+/* 
+    public void windowLostFocus() {
+        if (Gamestate.state.equals(Gamestate.PLAYING)) {
+            playing.getPlayer().resetDirBooleans();
+        }
+    }
+    */
+
+    @Override
+    public void run() {
+        double timePerFrame = 1000000000.0 / FPS_SET;  // 1 milliard nanosekunder / FPS_SET
+        double timePerUpdate = 1000000000.0 / UPS_SET;  // 1 milliard nanosekunder / FPS_SET
+        int frames = 0;               // Hvor mange frames som har passert siden sist sjekk
+        long lastCheck = System.currentTimeMillis();
+        long previousTime = System.nanoTime();
+        int updates = 0;
+        double deltaU = 0;     // delta UPS
+        double deltaF = 0;     // delta FPS
+
+
+        // Kaller repaint hvis riktig tidsintervall har passert
+        while (true) {
+            long currentTime = System.nanoTime();
+
+            deltaU += (currentTime - previousTime) / timePerUpdate;
+            deltaF += (currentTime - previousTime) / timePerFrame;
+            previousTime = currentTime;
+
+            if (deltaU >= 1) {
+                update();
+                updates++;
+                deltaU--;
+            }
+
+            if (deltaF >= 1) {
+                gamePanel.repaint();
+                frames++;
+                deltaF--;
+            }
+
+            // Printer hvor mange frames som faktisk passerer i sekundet
+            if (System.currentTimeMillis() - lastCheck >= 1000) {
+                lastCheck = System.currentTimeMillis();
+                System.out.println("FPS: " + frames + " | UPS: " + updates);
+                frames = 0;
+                updates = 0;
+        }
+        }
+    }
+
+    public StartScreen getStartScreen() {
+        return this.startScreen;
+    }
+
+    public MainMenu getMainMenu() {
+        return this.mainMenu;
+    }
+
+    public LevelSelect getLevelSelect() {
+        return this.levelSelect;
+    }
+
+    public Exploring getExploring() {
+        return this.exploring;
+    }
+
+/* 
+    public AudioOptions getAudioOptions() {
+        return audioOptions;
+    }
+
+    public AudioPlayer getAudioPlayer() {
+        return audioPlayer;
+    }
+
+    */
+}
