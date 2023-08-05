@@ -19,13 +19,13 @@ public class Game implements Runnable {
 
     public static final int GAME_DEFAULT_WIDTH = 1050;
     public static final int GAME_DEFAULT_HEIGHT = 750;
-    //public static final float SCALE = 0.8f;
-    public static final float SCALE = SCREEN_HEIGHT / (float) GAME_DEFAULT_HEIGHT;
+    public static final float SCALE = 0.8f;
+    //public static final float SCALE = SCREEN_HEIGHT / (float) GAME_DEFAULT_HEIGHT;
 
     public static final int GAME_WIDTH = (int) (GAME_DEFAULT_WIDTH * SCALE);
     public static final int GAME_HEIGHT = (int) (GAME_DEFAULT_HEIGHT * SCALE);
 
-    public static final boolean fullScreen = true;
+    public static final boolean fullScreen = false;
 
     private GameWindow gameWindow;
     private GamePanel gamePanel;
