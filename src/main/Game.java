@@ -1,20 +1,31 @@
 package main;
 
 import gamestates.Exploring;
+import gamestates.Flying;
 import gamestates.Gamestate;
 import gamestates.LevelSelect;
 import gamestates.MainMenu;
 import gamestates.StartScreen;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 
 
 public class Game implements Runnable {
-    public final static int GAME_DEFAULT_WIDTH = 1050;
-    public final static int GAME_DEFAULT_HEIGHT = 750;
-    public static final float SCALE = 1.0f;               // Størrelsen påvirker prosessor
+    public static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    public static final int SCREEN_WIDTH = (int) screenSize.getWidth();
+    public static final int SCREEN_HEIGHT = (int) screenSize.getHeight();
+
+    public static final int GAME_DEFAULT_WIDTH = 1050;
+    public static final int GAME_DEFAULT_HEIGHT = 750;
+    //public static final float SCALE = 0.8f;
+    public static final float SCALE = SCREEN_HEIGHT / (float) GAME_DEFAULT_HEIGHT;
+
     public static final int GAME_WIDTH = (int) (GAME_DEFAULT_WIDTH * SCALE);
     public static final int GAME_HEIGHT = (int) (GAME_DEFAULT_HEIGHT * SCALE);
+
+    public static final boolean fullScreen = true;
 
     private GameWindow gameWindow;
     private GamePanel gamePanel;
@@ -26,17 +37,17 @@ public class Game implements Runnable {
     private MainMenu mainMenu;
     private LevelSelect levelSelect;
     private Exploring exploring;
+    private Flying flying;
     //private AudioOptions audioOptions;
     //private AudioPlayer audioPlayer;
 
     public Game() {
         initClasses();
         this.gamePanel = new GamePanel(this);
-        this.gameWindow = new GameWindow(this.gamePanel);
+        this.gameWindow = new GameWindow(this.gamePanel, SCREEN_WIDTH, SCREEN_HEIGHT);
         gamePanel.requestFocus(true);
         startGameLoop();
     }
-
 
     private void initClasses() {
         //this.audioOptions = new AudioOptions(this);
@@ -45,6 +56,7 @@ public class Game implements Runnable {
         this.mainMenu = new MainMenu(this);
         this.levelSelect = new LevelSelect(this);
         this.exploring = new Exploring(this);
+        this.flying = new Flying(this);
     }
 
     private void startGameLoop() {
@@ -67,6 +79,9 @@ public class Game implements Runnable {
             case EXPLORING:
                 exploring.update();
                 break;
+            case FLYING:
+                flying.update();
+                break;
             case QUIT:
             default:
                 System.exit(0);
@@ -88,22 +103,25 @@ public class Game implements Runnable {
             case EXPLORING:
                 exploring.draw(g);
                 break;
+            case FLYING:
+                flying.draw(g);
+                break;
             default:
                 break;
         }
     }
-/* 
+
     public void windowLostFocus() {
-        if (Gamestate.state.equals(Gamestate.PLAYING)) {
-            playing.getPlayer().resetDirBooleans();
+        if (Gamestate.state.equals(Gamestate.EXPLORING)) {
+            exploring.resetDirBooleans();
         }
     }
-    */
+
 
     @Override
     public void run() {
         double timePerFrame = 1000000000.0 / FPS_SET;  // 1 milliard nanosekunder / FPS_SET
-        double timePerUpdate = 1000000000.0 / UPS_SET;  // 1 milliard nanosekunder / FPS_SET
+        double timePerUpdate = 1000000000.0 / UPS_SET;  // 1 milliard nanosekunder / UPS_SET
         int frames = 0;               // Hvor mange frames som har passert siden sist sjekk
         long lastCheck = System.currentTimeMillis();
         long previousTime = System.nanoTime();
@@ -156,6 +174,10 @@ public class Game implements Runnable {
 
     public Exploring getExploring() {
         return this.exploring;
+    }
+
+    public Flying getFlying() {
+        return this.flying;
     }
 
 /* 

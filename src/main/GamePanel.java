@@ -16,11 +16,11 @@ public class GamePanel extends JPanel {
     public GamePanel(Game game) {
         this.game = game;
         addKeyListener(new KeyboardInputs(this, game));
-        setPanelSize();
+        setPanelSize(GAME_WIDTH, GAME_HEIGHT);
         this.setFocusable(true);   // Denne linjen bør være i denne klassen
     }
 
-    private void setPanelSize() {              // Notat 1
+    private void setPanelSize(int screen_width, int screen_height) {              // Notat 1
         Dimension size = new Dimension(GAME_WIDTH, GAME_HEIGHT);
         this.setMinimumSize(size);
         this.setPreferredSize(size);

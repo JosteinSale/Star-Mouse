@@ -1,0 +1,217 @@
+cutscene;true;object;0
+info;You search through locker #1...
+endSequence
+info;You found 100 credits!
+updateInventory;credits;100
+setStartCutscene;object;0;1
+endSequence
+
+cutscene;true;object;0
+info;Nothing more of use here.
+endSequence
+
+cutscene;true;object;1
+info;You search through locker #2...
+endSequence
+info;It's empty
+setStartCutscene;object;1;1
+endSequence
+
+cutscene;true;object;1
+info;It's empty
+endSequence
+
+cutscene;true;object;2
+info;You search through locker #3...
+endSequence
+info;You found 200 credits!
+updateInventory;credits;200
+setStartCutscene;object;2;1
+endSequence
+
+cutscene;true;object;2
+info;Nothing more of use here.
+endSequence
+
+cutscene;true;door;3
+wait;1
+endSequence
+
+cutscene;true;door;4
+numberDisplay;6;7;3;0
+endSequence
+
+cutscene;false;door;4
+setRequirementMet;1;0
+info;You hear a short beep. The door unlocks itself!
+endSequence
+
+cutscene;true;door;4
+info;Nothing happened...
+endSequence
+
+cutscene;true;npc;5
+dialogue;Oliver;normal;0;2;Changed your mind?
+endSequence
+infoChoice;Go flying with Oliver?;Yes;No
+endSequence
+
+cutscene;true;automatic;5
+dialogue;Max;happy;1;2;Sure! It'll be fun
+endSequence
+dialogue;Oliver;happy;1;3;Great, thanks!
+endSequence
+dialogue;Max;normal;0;2;I'll see you in the hangar then
+endSequence
+
+cutscene;true;automatic;5
+wait;1
+endSequence
+
+cutscene;true;npc;6
+dialogue;Lance;nervous;0;3;Man, the nerves are killing me...
+endSequence
+dialogue;Lance;nervous;1;2;Oh, and uh... stay away from my locker Max
+endSequence
+
+cutscene;true;npc;7
+dialogue;Charlotte;normal;2;1;Hi Max! 
+endSequence
+
+cutscene;true;npc;8
+dialogue;Nina;normal;3;1;Wish us good luck at the exam today!
+endSequence
+
+cutscene;true;npc;9
+dialogue;Shady pilot;normal;4;2;Hey buddy. I can sell you a bomb for 300 credits if you're interested.
+endSequence
+dialogue;Shady pilot;normal;4;2;So whadda' you say?
+endSequence
+infoChoice;Buy 1 bomb for 300 credits?;No;Yes
+endSequence
+
+cutscene;true;npc;9
+dialogue;Shady pilot;normal;4;2;Suit yourself
+endSequence
+
+cutscene;true;npc;9
+purchase;300
+endSequence
+
+cutscene;true;npc;9
+dialogue;Shady pilot;normal;4;2;Just don't tell anyone where you got it, 'kay?
+endSequence
+info;You aquired 1 bomb and lost 300 credits!
+updateInventory;bombs;1
+updateInventory;credits;-300
+endSequence
+
+cutscene;true;npc;9
+dialogue;Shady pilot;normal;4;2;You ain't got the credits pal
+endSequence
+
+cutscene;false;automatic;10
+wait;60
+endSequence
+playerWalk;741f;470f;120
+endSequence
+wait;90
+endSequence
+dialogue;Oliver;normal;0;2;Hey
+endSequence
+dialogue;Max;normal;0;2;Hey
+endSequence
+wait;60
+endSequence
+dialogue;Max;eyes_shut;4;8;So...
+endSequence
+dialogue;Max;happy;1;1;The weather looks really good today, right?
+setDir;player;right
+endSequence
+dialogue;Max;happy;1;1;Perfect flying conditions! You're in luck brother!
+endSequence
+dialogue;Oliver;normal;0;30;...
+endSequence
+setDir;Oliver;left
+dialogue;Oliver;happy;1;3;I suppose so
+endSequence
+dialogue;Max;laughing;3;1;With the way you've been training, there's no way you'll NOT pass
+endSequence
+dialogue;Max;happy;1;1;I'm sure of it!
+endSequence
+dialogue;Oliver;normal;0;4;...Thanks
+endSequence
+dialogue;Oliver;nervous;2;2;But they said it's a really tough one this year
+endSequence
+dialogue;Oliver;nervous;2;4;I...
+endSequence
+dialogue;Oliver;nervous;2;1;I guess I just really have to concentrate, right?
+endSequence
+setDir;Oliver;up
+wait;60
+endSequence
+dialogue;Max;normal;0;2;You'll do just fine
+endSequence
+dialogue;Max;normal;0;2;In a few hours you'll be a pilot, just like me
+endSequence
+setDir;player;up
+dialogue;Max;eyes_shut;4;3;You'll see
+endSequence
+wait;90
+endSequence
+dialogue;Max;thoughtful;5;2;Besides, what you should REALLY be worrying about...
+endSequence
+dialogue;Max;teasing;2;2;...is all the cute female cadettes that will want to date you
+endSequence
+setDir;Oliver;left
+dialogue;Oliver;shocked;3;1;egh what??
+endSequence
+dialogue;Max;teasing;2;2;A stout, handsome pilot like you, they'll be lining up in masses!
+endSequence
+dialogue;Oliver;blushing;4;1;Brother stop!
+endSequence
+setDir;player;right
+dialogue;Max;teasing;2;1;Maybe even Charlotte, eh?
+endSequence
+dialogue;Oliver;blushing;4;2;wah..? I don't... I'm not into... How'd you...?
+endSequence
+dialogue;Max;laughing;3;3;Hahaha!
+endSequence
+dialogue;Oliver;blushing;4;1;Shut up!
+endSequence
+dialogue;Max;happy;1;2;Heh sorry, I'm just teasing
+endSequence
+dialogue;Max;happy;1;1;I'll stop
+endSequence
+dialogue;Oliver;grumpy;5;3;You're mean...
+endSequence
+wait;60
+endSequence
+dialogue;Oliver;grumpy;5;3;Anyway, I wanted to ask you...
+endSequence
+dialogue;Oliver;normal;0;2;There's still a while until the exam starts
+endSequence
+dialogue;Oliver;normal;0;6;...
+endSequence
+dialogue;Oliver;nervous;2;2;Do you think we could take a test ride together?
+endSequence
+dialogue;Oliver;nervous;2;2;Just to, you know... refresh the basics?
+endSequence
+infoChoice;Go flying with Oliver?;Yes;No
+endSequence
+
+cutscene;true;automatic;10
+dialogue;Max;happy;1;2;Sure! It'll be fun
+endSequence
+dialogue;Oliver;happy;1;3;Great, thanks!
+endSequence
+dialogue;Max;normal;0;2;I'll see you in the hangar then
+endSequence
+
+cutscene;true;automatic;10
+dialogue;Max;happy;1;2;There's no need for that, I'm certain you know the basics in and out!
+endSequence
+dialogue;Oliver;happy;1;2;...Thanks. Yeah you're probably right.
+endSequence
+
+X

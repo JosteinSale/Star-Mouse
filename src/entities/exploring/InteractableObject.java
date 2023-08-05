@@ -1,38 +1,32 @@
 package entities.exploring;
 
-import java.awt.Graphics;
-import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
 
-import main.Game;
-import ui.InfoBox;
+import entities.Entity;
 
-public class InteractableObject extends InteractableEntity {
-    private InfoBox infoBox;
+public class InteractableObject extends Entity {
+    private String name;                      // Kan brukes i bugtesting
+    private int startCutscene = 0;
     // private BufferedImage objectImg;
     // private boolean isVisible;
     // private boolean isActive;
     // private Action action;   (action can be performed when object is interacted with)
 
-    public InteractableObject(Float hitbox, String text) {
+    public InteractableObject(Float hitbox, String name) {
         super(hitbox);
-        infoBox = new InfoBox(text);
-    }
-
-    public void drawTextBox(Graphics g) {
-        this.infoBox.draw(g);
-    }
-
-    public void drawHitbox(Graphics g) {
-        g.drawRect(
-            (int) (hitbox.x * Game.SCALE),
-            (int) (hitbox.y * Game.SCALE),
-            (int) (hitbox.width * Game.SCALE),
-            (int) (hitbox.height * Game.SCALE));
+        this.name = name;
     }
 
     public Rectangle2D.Float getHitbox() {
         return this.hitbox;
-    }  
+    }
+
+    public void setStartCutscene(int index) {
+        this.startCutscene = index;
+    }
+
+    public int getStartCutscene() {
+        return this.startCutscene;
+    }
 }

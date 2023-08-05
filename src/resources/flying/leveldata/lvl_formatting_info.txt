@@ -1,0 +1,19 @@
+FLYING LEVELDATA
+
+AUTOMATIC TRIGGER:
+[0] = automaticTrigger (String), [1] = hitbox.x, [2] = hitbox.y, [3] = hitbox.width
+[4] = hitbox.height, [5] = cutsceneName
+
+TARGET:
+[0] = target (String), [1] = xPos (int), [2] = yPos (int)
+
+DRONE:
+[0] = drone (String), [1] = xPos (int), [2] = yPos (int)
+
+SMALL SHIP
+[0] = smallShip (String), [1] = xPos (int), [2] = yPos (int), [3] = direction (String)
+* direction is 'right' or 'left'
+
+OCTADRONE:
+[0] = octaDrone (String), [1] = xPos (int), [2] = yPos (int), [3] = shootTimer (int)
+* shootTimer: 60 = 1 second. An enemy is onScreen for 6.25 seconds.

@@ -13,7 +13,7 @@ public class StartScreen extends State implements Statemethods {
 
     public StartScreen(Game game) {
         super(game);
-        bgImg = LoadSave.getImageBackground(LoadSave.START_SCREEN_BG);
+        bgImg = LoadSave.getExpImageBackground(LoadSave.START_SCREEN_BG);
     }
 
     @Override

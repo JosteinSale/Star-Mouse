@@ -1,0 +1,142 @@
+Cutscene formatting - EXPLORING
+
+NEW CUTSCENE
+--------------------
+[0] = cutscene, [1] = canReset (boolean), [2] = triggerObject (string), [3] = totalElementNr (in sheet)
+
+* Each element in an area (except player) must have at least one cutscene
+* The cutscenes must be ordered like their respective elements
+
+
+INFOBOX-EVENT
+--------------------
+[0] = infobox, [1] = text
+
+* Max ~50 letters total per info
+* Max 27 letters per word
+
+
+INFO CHOICE
+--------------------
+[0] = infoChoice, [1] = question (String), [2] = leftAnswer, [3] = rightAnswer
+
+* leftAnswer sends the player to the cutscene immediately after the one in question.
+* rightAnswer sends the player to the cutscene 2 steps ahead.
+* Both must have the same triggerObject as the original cutscene.
+
+
+DIALOGUE-EVENT
+--------------------
+[0] = dialogue, [1] = characterName (String), [2] = emotion (not used for event), 
+[3] = portraitIndex, [4] = speed (int), [5] = text (String)
+
+* Max ~90 letters total per dialogue (see notes in DialogueBox)
+* Max 32 letters per word
+
+
+FADE IN
+--------------------
+[0] = fadeIn, [1] = speed (int)
+
+
+SET PLAYER VISIBLE
+--------------------
+[0] = setPlayerVisible, [1] = visible (boolean)
+
+
+DRAW BLACK SCREEN
+--------------------
+[0] = blackScreen, [1] = active (boolean)
+
+
+WAIT
+--------------------
+[0] = wait, [1] = nrOfFrames (int)
+
+* This can also be used in order to advance events 
+  that are not advanced automatically, if needed. 
+
+
+SET OVERLAY IMAGE
+--------------------
+[0] = setOverlayImage, [1] = fileName (String)
+
+
+SET OVERLAY IMAGE ACTIVE
+--------------------
+[0] = setOverlayActive, [1] = active (boolean)
+
+
+SET STARTING CUTSCENE-INDEX FOR ELEMENT
+--------------------
+[0] = setStartCutscene, [1] = triggerObject (string), [2] = elementNrIndex (e.g door #0), 
+[3] = newStartCutsceneIndex
+
+
+SET REQUIREMENT MET
+--------------------
+[0] = setRequirementMet, [1] = doorIndex, [2] = requirementIndex
+
+
+SET PLAYER SPRITESHEET
+--------------------
+[0] = setPlayerSheet, [1] = sheetIndex
+
+
+PLAYER WALK
+--------------------
+[0] = playerWalk, [1] = targetX, [2] = targetY, [3] = framesDuration
+
+
+SET DIRECTION
+--------------------
+[0] = setDir, [1] = entityName (String), [2] = dir (String)
+
+
+ADD TO INVENTORY  (items)
+--------------------
+[0] = addToInventory, [1] = itemName (String, capital letters), [2] = itemDescription,
+[3] = imageFileName (String)
+
+* Max 22 letter for itemName
+* Max ~60 letters for itemDescription
+
+
+UPDATE INVENTORY
+--------------------
+[0] = updateInventory, [1] = credits/bombs/health (String), [2] = amount (+/- int)
+
+
+PURCHASE (check if player has enough credits)
+--------------------
+[0] = purchase, [1] = amountOfCredits
+
+* If player has enough credits, cutscene +1 is started
+* Else, cutscene +2 is started
+
+
+END SEQUENCE
+--------------------
+[0] = endSequence
+
+
+END CUTSCENE;
+--------------------
+empty line
+
+
+END SHEET;
+X
+
+
+
+GENERAL STUFF:
+-Each element can have several cutscenes. 
+ (That's why we include the elementNr in the cutscene-header, so that we know which element
+  the cutscene belongs to).
+  .The setStartCutscene-event can be used to change between which cutscenes are started 
+  whenever an element is first interacted with.
+  .This could be in response to certain requirements being met, or a certain infoChoice-option
+   being taken.
+
+OBS: I can make an event that changes an npc's inForeground-boolean!

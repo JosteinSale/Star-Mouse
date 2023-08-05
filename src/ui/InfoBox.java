@@ -12,21 +12,23 @@ import static utils.Constants.UI.*;
 
 public class InfoBox {
     private Font infoFont;
-    private String text;                 // Bør ikke være lengre enn 85 bokstaver
-    private ArrayList<String> formattedString;
+    private ArrayList<String> formattedStrings;
     private BufferedImage infoBoxImg;
     private int X = (int) ((Game.GAME_DEFAULT_WIDTH/2 -  INFOBOX_WIDTH/2) * Game.SCALE);
     private int Y = (int) (580 * Game.SCALE);
 
-    public InfoBox(String text) {
-        infoBoxImg = LoadSave.getImageSprite(LoadSave.INFO_BOX);
+    public InfoBox() {
+        infoBoxImg = LoadSave.getExpImageSprite(LoadSave.INFO_BOX);
         infoFont = LoadSave.getInfoFont();
-        this.text = text;
-        this.formattedString = new ArrayList<>();
-        formatString();
+        this.formattedStrings = new ArrayList<>();
     }
 
-    private void formatString() {
+    public void setText(String text) {
+        this.formattedStrings = formatString(text);
+    }
+
+    private ArrayList<String> formatString(String text) {
+        ArrayList<String> formattedString = new ArrayList<>();
         String[] words = text.split(" ");
         int letterCount = 0;
         String line = "";
@@ -42,6 +44,7 @@ public class InfoBox {
             }
         }
         formattedString.add(line);
+        return formattedString;
     }
 
     public void draw(Graphics g) {
@@ -52,11 +55,11 @@ public class InfoBox {
 
         g.setColor(Color.BLACK);
         g.setFont(infoFont);   // Er allerede justert ift Game.SCALE
-        for (int i = 0; i < formattedString.size(); i++) {
+        for (int i = 0; i < formattedStrings.size(); i++) {
             g.drawString(
-                formattedString.get(i), 
-                X + (int) (50 * Game.SCALE), 
-                Y + (int) (45 * Game.SCALE) + (int)((i * 40) * Game.SCALE));
+                formattedStrings.get(i), 
+                X + (int) (60 * Game.SCALE), 
+                Y + (int) (60 * Game.SCALE) + (int)((i * 40) * Game.SCALE));
         }
     }
 }

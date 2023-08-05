@@ -1,13 +1,24 @@
 package utils;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
+
+import cutscenes.Cutscene;
+import entities.exploring.*;
+import static utils.Constants.Exploring.Cutscenes.*;
+import game_events.*;
+
 
 public class HelpMethods {
     
-    private static boolean IsSolid(
-        int pixelX, int pixelY, BufferedImage collisionImg) {
+    public static boolean IsSolid(int pixelX, int pixelY, BufferedImage collisionImg) {
         Color c = new Color(collisionImg.getRGB(pixelX, pixelY));
         if (c.getRed() > 0 && c.getRed() < 100) {
             return true;
@@ -17,21 +28,324 @@ public class HelpMethods {
         }
     }
 
-    // Sjekker de fire hjørnene til hitboksen
-    public static boolean CanWalkHere(Rectangle2D.Float hitbox, float deltaX, float deltaY, BufferedImage collisionImg) {
-        float newX1 = (hitbox.x + deltaX) / 3;
-        float newY1 = (hitbox.y + deltaY) / 3;
-        float newX2 = (hitbox.x + hitbox.width + deltaX) / 3;
-        float newY2 = (hitbox.y + hitbox.height + deltaY) / 3;
+    // Sjekker de fire hjørnene til hitboksen. Brukes i exploring.
+    public static boolean CollidesWithMap(Rectangle2D.Float hitbox, BufferedImage collisionImg) {
+        float newX1 = (hitbox.x) / 3;
+        float newY1 = (hitbox.y) / 3;
+        float newX2 = (hitbox.x + hitbox.width) / 3;
+        float newY2 = (hitbox.y + hitbox.height) / 3;
         if (
             !IsSolid((int)newX1, (int)newY1, collisionImg) && 
             !IsSolid((int)newX2, (int)newY1, collisionImg) &&
             !IsSolid((int)newX1, (int)newY2, collisionImg) && 
             !IsSolid((int)newX2, (int)newY2, collisionImg)) { 
-                return true;
+                return false;
             }
         else {
-            return false;
+            return true;
         }
+    }
+
+    public static boolean CollidesWithNpc(Rectangle2D.Float playerHitbox, ArrayList<Rectangle2D.Float> npcHitboxes) {
+        for (Rectangle2D.Float npcHitbox : npcHitboxes) {
+            if (npcHitbox.intersects(playerHitbox)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static Rectangle2D.Float CreateHitbox(String[] lineData) {
+        Float x = Float.parseFloat(lineData[1]);
+        Float y = Float.parseFloat(lineData[2]);
+        Float width = Float.parseFloat(lineData[3]);
+        Float height = Float.parseFloat(lineData[4]);
+        Rectangle2D.Float hitbox = new Rectangle2D.Float(x, y, width, height);
+        return hitbox;
+    }
+
+    public static PlayerExp GetPlayer(String[] lineData, BufferedImage clImg) {
+        Rectangle2D.Float hitbox = CreateHitbox(lineData);
+        Integer direction = Integer.parseInt(lineData[5]);
+        PlayerExp player = new PlayerExp(hitbox, direction, clImg);
+        return player;
+    }
+
+    public static Oliver GetOliver(String[] lineData) {
+        Rectangle2D.Float hitbox = CreateHitbox(lineData);
+        Integer direction = Integer.parseInt(lineData[5]);
+        Boolean inForeground = Boolean.parseBoolean(lineData[6]);
+        Oliver oliver = new Oliver(hitbox, direction, inForeground);
+        return oliver;
+    }
+
+    public static StandardNpc GetStandardNpc(String[] lineData) {
+        Rectangle2D.Float hitbox = CreateHitbox(lineData);
+        String name = lineData[5];
+        String spriteFileName = lineData[6];
+        Integer xDrawOffset = Integer.parseInt(lineData[7]);
+        Integer yDrawOffset = Integer.parseInt(lineData[8]);
+        Boolean inForeground = Boolean.parseBoolean(lineData[9]);
+        StandardNpc npc = new StandardNpc(
+            name, hitbox, spriteFileName, xDrawOffset, yDrawOffset, inForeground);
+        return npc;
+    }
+
+    public static InteractableObject GetInteractableObject(String[] lineData) {
+        Rectangle2D.Float hitbox = CreateHitbox(lineData);
+        String name = lineData[5];
+        InteractableObject object = new InteractableObject(hitbox, name);
+        return object;
+    }
+
+    public static Door GetDoor(String[] lineData) {
+        Rectangle2D.Float hitbox = CreateHitbox(lineData);
+        Integer nrOfRequirements = Integer.parseInt(lineData[5]);
+        String name = lineData[6];
+        Integer areaItLeadsTo = Integer.parseInt(lineData[7]);
+        Integer playerDirUponReentering = Integer.parseInt(lineData[8]);
+        Door door = new Door(hitbox, nrOfRequirements, name, areaItLeadsTo, playerDirUponReentering);
+        return door;
+    }
+
+    public static AutomaticTrigger GetAutomaticTrigger(String[] lineData) {
+        Rectangle2D.Float hitbox = CreateHitbox(lineData);
+        String name = lineData[5];
+        AutomaticTrigger trigger = new AutomaticTrigger(hitbox, name);
+        return trigger;
+    }
+
+    // Each cutscene pertains to one element. One element can have several cutscenes
+    public static ArrayList<ArrayList<Cutscene>> GetCutscenes(List<String> cutsceneData) {
+        ArrayList<ArrayList<Cutscene>> allCutscenes = new ArrayList<>();
+        ArrayList<ArrayList<GeneralEvent>> allSequences = new ArrayList<>();
+        int triggerIndex = 0;
+        int cutsceneIndex = 0;
+        int sequenceIndex = 0;
+        // 1st loop: creating the initial cutscene- and sequence-objects
+        for (String line: cutsceneData) {
+            String[] lineData = line.split(";");
+            if (lineData[0].equals("cutscene")) {
+                Cutscene cutscene = new Cutscene();
+                Integer triggerIndex2 = Integer.parseInt(lineData[3]);
+                if (triggerIndex2 > (allCutscenes.size() - 1)) {
+                    ArrayList<Cutscene> cutscenesForElement = new ArrayList<>();
+                    allCutscenes.add(cutscenesForElement);
+                }
+                allCutscenes.get(triggerIndex2).add(cutscene); 
+            }
+            else if (lineData[0].equals("endSequence")) {
+                ArrayList<GeneralEvent> sequence = new ArrayList<>();
+                allSequences.add(sequence);
+            }
+        }
+        // 2nd loop: adding the data
+        for (String line : cutsceneData) {
+            String[] lineData = line.split(";");
+            if (lineData[0].equals("cutscene")) {
+                Boolean canReset = Boolean.parseBoolean(lineData[1]);
+                int triggerObject = GetTrigger(lineData[2]);
+                Integer newTriggerIndex = Integer.parseInt(lineData[3]);
+                if (newTriggerIndex != triggerIndex) {
+                    triggerIndex = newTriggerIndex;
+                    cutsceneIndex = 0;
+                }
+                allCutscenes.get(triggerIndex).get(cutsceneIndex).setCanReset(canReset);
+                allCutscenes.get(triggerIndex).get(cutsceneIndex).setTrigger(triggerObject);
+            }
+            else if (lineData[0].equals("setGameplayActive")) {
+                Boolean active = Boolean.parseBoolean(lineData[1]);
+                SetGameplayEvent event = new SetGameplayEvent(active);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("fadeHeader")) {
+                String inOut = lineData[1];
+                Integer yPos = Integer.parseInt(lineData[2]);
+                Integer fadeSpeed = Integer.parseInt(lineData[3]);
+                String headerText = lineData[4];
+                FadeHeaderEvent event = new FadeHeaderEvent(inOut, yPos, fadeSpeed, headerText);
+                allSequences.get(sequenceIndex).add(event);
+            }               
+            else if (lineData[0].equals("info")) {
+                InfoBoxEvent event = new InfoBoxEvent(lineData[1]);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("dialogue")) {
+                String name = lineData[1];
+                Integer portraitIndex = Integer.parseInt(lineData[3]);
+                Integer speed = Integer.parseInt(lineData[4]);
+                String text = lineData[5];
+                DialogueEvent event = new DialogueEvent(name, speed, text, portraitIndex);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("fadeIn")) {
+                Integer speed = Integer.parseInt(lineData[1]);
+                FadeInEvent event = new FadeInEvent(speed);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("setPlayerVisible")) {
+                Boolean visible = Boolean.parseBoolean(lineData[1]);
+                SetVisibleEvent event = new SetVisibleEvent(visible);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("wait")) {
+                Integer waitFrames = Integer.parseInt(lineData[1]);
+                WaitEvent event = new WaitEvent(waitFrames);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("blackScreen")) {
+                Boolean active = Boolean.parseBoolean(lineData[1]);
+                BlackScreenEvent event = new BlackScreenEvent(active);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("setOverlayImage")) {
+                String fileName = lineData[1];
+                SetOverlayImageEvent event = new SetOverlayImageEvent(fileName);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("setOverlayActive")) {
+                Boolean active = Boolean.parseBoolean(lineData[1]);
+                SetOverlayActiveEvent event = new SetOverlayActiveEvent(active);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("infoChoice")) {
+                String question = lineData[1];
+                String leftChoice = lineData[2];
+                String rightChoice = lineData[3];
+                InfoChoiceEvent event = new InfoChoiceEvent(question, leftChoice, rightChoice);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("setStartCutscene")) {
+                int triggerObject = GetTrigger(lineData[1]);
+                Integer elementNr = Integer.parseInt(lineData[2]);
+                Integer newStartingCutscene = Integer.parseInt(lineData[3]);
+                SetStartingCutsceneEvent event = new SetStartingCutsceneEvent(
+                    triggerObject, elementNr, newStartingCutscene);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("setRequirementMet")) {
+                Integer doorIndex = Integer.parseInt(lineData[1]);
+                Integer requirementIndex = Integer.parseInt(lineData[2]);
+                SetRequirementMetEvent event = new SetRequirementMetEvent(doorIndex, requirementIndex);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("setPlayerSheet")) {
+                Integer sheetIndex = Integer.parseInt(lineData[1]);
+                SetPlayerSheetEvent event = new SetPlayerSheetEvent(sheetIndex);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("playerWalk")) {
+                Float targetX = Float.parseFloat(lineData[1]);
+                Float targetY = Float.parseFloat(lineData[2]);
+                Integer framesDuration = Integer.parseInt(lineData[3]);
+                PlayerWalkEvent event = new PlayerWalkEvent(targetX, targetY, framesDuration);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("setDir")) {
+                String entityName = lineData[1];
+                int dir = GetDirection(lineData[2]);
+                SetDirEvent event = new SetDirEvent(entityName, dir);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("addToInventory")) {
+                String itemName = lineData[1];
+                String description = lineData[2];
+                String imgFileName = lineData[3];
+                AddToInventoryEvent event = new AddToInventoryEvent(itemName, description, imgFileName);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("numberDisplay")) {
+                Integer nr1 = Integer.parseInt(lineData[1]);
+                Integer nr2 = Integer.parseInt(lineData[2]);
+                Integer nr3 = Integer.parseInt(lineData[3]);
+                Integer nr4 = Integer.parseInt(lineData[4]);
+                int[] passCode = {nr1, nr2, nr3, nr4};
+                NumberDisplayEvent event = new NumberDisplayEvent(passCode);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("updateInventory")) {
+                String type = lineData[1];
+                Integer amount = Integer.parseInt(lineData[2]);
+                UpdateInventoryEvent event = new UpdateInventoryEvent(type, amount);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("purchase")) {
+                Integer amount = Integer.parseInt(lineData[1]);
+                PurchaseEvent event = new PurchaseEvent(amount);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("endSequence")) {
+                allCutscenes.get(triggerIndex).get(cutsceneIndex).addSequence(allSequences.get(sequenceIndex));
+                sequenceIndex += 1;
+            } 
+            else if (lineData[0].equals("")) {
+                cutsceneIndex += 1;
+            }
+        }
+        return allCutscenes;
+    }
+
+    public static int GetCharacterIndex(String name) {
+        int index = switch (name) {
+            case "Max" -> 0;
+            case "Oliver" -> 1;
+            case "Lance" -> 2;
+            case "Charlotte" -> 2;
+            case "Nina" -> 2;
+            case "Shady pilot" -> 2;
+            default -> throw new IllegalArgumentException(
+                    "No characterIndex available for '" + name + "'");
+        };
+        return index;
+    }
+
+    /**For use by the exploring-cutsceneManager */
+    public static int GetDirection(String string) {
+        int dir = switch (string) {
+            case "right" -> 0;
+            case "left" -> 1;
+            case "down" -> 2;
+            case "up" -> 3;
+            default -> throw new IllegalArgumentException(
+                    "'" + string + "' is not a valid direction");
+        };
+        return dir;
+    }
+
+
+    private static int GetTrigger(String string) {
+        int trigger = switch (string) {
+            case "object" -> OBJECT;
+            case "objectChoice" -> OBJECT;
+            case "door" -> DOOR;
+            case "npc" -> NPC;
+            case "automatic" -> AUTOMATIC;
+            default -> throw new IllegalArgumentException(
+                    "'" + string + "' is not a valid argument");
+        };
+        return trigger;
+    }
+
+    // This method was copied on 17.07.2023 from:
+    // https://stackoverflow.com/questions/23729944/java-how-to-visually-center-a-specific-string-not-just-a-font-in-a-rectangle
+    /**
+     * Draw a String centered in the middle of a Rectangle.
+     *
+     * @param g    The Graphics instance.
+     * @param text The String to draw.
+     * @param rect The Rectangle to center the text in.
+     */
+    public static void DrawCenteredString(Graphics g, String text, Rectangle rect, Font font) {
+        // Get the FontMetrics
+        FontMetrics metrics = g.getFontMetrics(font);
+        // Determine the X coordinate for the text
+        int x = rect.x + (rect.width - metrics.stringWidth(text)) / 2;
+        // Determine the Y coordinate for the text (note we add the ascent, as in java
+        // 2d 0 is top of the screen)
+        int y = rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
+        // Set the font
+        g.setFont(font);
+        // Draw the String
+        g.drawString(text, x, y);
     }
 }

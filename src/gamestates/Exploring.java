@@ -1,158 +1,101 @@
 package gamestates;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 
-import entities.exploring.InteractableObject;
 import main.Game;
+import misc.Area;
+import ui.InventoryItem;
+import ui.PauseExploring;
 import utils.LoadSave;
-import static utils.Constants.Exploring.*;
-import static utils.HelpMethods.CanWalkHere;
 
 public class Exploring extends State implements Statemethods {
-    private BufferedImage bgImg;
-    private BufferedImage collisionImg;
-
-    private Rectangle2D.Float playerHitbox;
-    private boolean leftIsPressed, upIsPressed, rightIsPressed, downIsPressed;
-    private float playerSpeed = 4f;
-
-    private boolean textBoxActive = false;
-    private ArrayList<InteractableObject> objects;
-    private int activeObjectIndex;
+    private int currentLevel = 1;
+    private int currentArea = 1;
+    private ArrayList<Area> areas;
+    private PauseExploring pauseOverlay;
 
     public Exploring(Game game) {
         super(game);
-                                        // These names need to be filled in automatically
-        bgImg = LoadSave.getImageBackground(LoadSave.LEVEL1_AREA1_BG);
-        collisionImg = LoadSave.getImageCollision(LoadSave.LEVEL1_AREA1_CL);   
+        areas = new ArrayList<>();
+        loadLevel(currentLevel);
+        pauseOverlay = new PauseExploring();
+    }
 
-        playerHitbox = new Rectangle2D.Float(480f, 510f, 45f, 18f);
-
-        objects = new ArrayList<>();
-        InteractableObject bed = new InteractableObject(
-            new Rectangle2D.Float(267f, 429f, 155, 138f), 
-            "My bed. Semi-comfortable."); 
-        InteractableObject drawer = new InteractableObject(
-            new Rectangle2D.Float(450f, 450f, 132f, 10f), 
-            "A drawer with all my stuff. Clothes mostly, not much of interest.");  
-        InteractableObject xbox = new InteractableObject(
-            new Rectangle2D.Float(650f, 459f, 90f, 51f), 
-            "I don't have time for that now...");
-        //doorHitbox = new Rectangle2D.Float(729f, 531f, 54f, 69f);    
-        objects.add(bed);
-        objects.add(drawer);
-        objects.add(xbox);
+    // Laster inn alle areas for denne levelen
+    // Kan kalles fra andre deler av programmet senere
+    public void loadLevel(int level) {
+        ArrayList<List<String>> levelData = LoadSave.getExpLevelData(level);
+        ArrayList<List<String>> cutsceneData = LoadSave.getExpCutsceneData(level);
+        for (int i = 0; i < levelData.size(); i++) {
+            Area area = new Area(this, level, i + 1, levelData.get(i), cutsceneData.get(i));
+            areas.add(area);
+        }
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (textBoxActive) {
-            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                textBoxActive = false;   // bytter dette ut med getNextString senere
-            }
-            return;
-        } else {
-            if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                leftIsPressed = true;
-            }
-            if (e.getKeyCode() == KeyEvent.VK_UP) {
-                upIsPressed = true;
-            }
-            if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                rightIsPressed = true;
-            }
-            if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                downIsPressed = true;
-            }
-            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                checkHitboxes();
-            }
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.pauseOverlay.flipActive();
+        }
+        else if (pauseOverlay.isActive()) {
+            pauseOverlay.keyPressed(e);
+        }
+        else {
+            areas.get(currentArea - 1).keyPressed(e);  
         }
     }
 
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            leftIsPressed = false;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_UP) {
-            upIsPressed = false;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            rightIsPressed = false;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            downIsPressed = false;
-        }
+        areas.get(currentArea - 1).keyReleased(e);  
     }
 
-    private void checkHitboxes() {
-        for (int i = 0; i < objects.size(); i++) {
-            if (playerHitbox.intersects(objects.get(i).getHitbox())) {
-                textBoxActive = true;
-                activeObjectIndex = i;
-            }
-        }
-    }
 
     @Override
     public void update() {
-        if (leftIsPressed) {
-            if (CanWalkHere(playerHitbox, -playerSpeed, 0f, collisionImg)) {
-                playerHitbox.x -= playerSpeed;
-            }
+        if (pauseOverlay.isActive()) {
+            pauseOverlay.update();
         }
-        if (upIsPressed) {
-            if (CanWalkHere(playerHitbox, 0f, -playerSpeed, collisionImg)) {
-                playerHitbox.y -= playerSpeed;
-            }
-        }
-        if (rightIsPressed) {
-            if (CanWalkHere(playerHitbox, playerSpeed, 0f, collisionImg)) {
-                playerHitbox.x += playerSpeed;
-            }
-        }
-        if (downIsPressed) {
-            if (CanWalkHere(playerHitbox, 0f, playerSpeed, collisionImg)) {
-                playerHitbox.y += playerSpeed;
-            }
-        }
+        else {
+            areas.get(currentArea - 1).update();  
+        }   
+    }
+
+    public void goToArea(int area) {
+        this.currentArea = area;
+        areas.get(currentArea - 1).update();
+        // Den nye arean må få oppdatert seg før vi tegner den.
     }
 
 
     @Override
-    public void draw(Graphics g) {       // These names need to be filled in automatically
-        g.drawImage(
-            bgImg, 
-            0, 0, 
-            (int) (LEVEL1_AREA1_BG_WIDTH * Game.SCALE), 
-            (int) (LEVEL1_AREA1_BG_HEIGHT * Game.SCALE), 
-            null);
-        drawHitboxes(g);
-        if (textBoxActive) {
-            objects.get(activeObjectIndex).drawTextBox(g);
+    public void draw(Graphics g) {
+        areas.get(currentArea - 1).draw(g);
+        if (pauseOverlay.isActive()) {
+            pauseOverlay.draw(g);
         }
     }
 
-    private void drawHitboxes(Graphics g) {
-        // player 
-        g.setColor(Color.RED);
-        g.drawRect(
-            (int) (playerHitbox.x * Game.SCALE),
-            (int) (playerHitbox.y * Game.SCALE),
-            (int) (playerHitbox.width * Game.SCALE),
-            (int) (playerHitbox.height * Game.SCALE));
-        
-        // objects
-        for (InteractableObject ob : objects) {
-            ob.drawHitbox(g);
-        }
+    public void resetDirBooleans() {
+        areas.get(currentArea - 1).getPlayer().resetAll();
     }
 
+    public void addToInventory(InventoryItem item) {
+        this.pauseOverlay.addItem(item);
+    }
+
+    public void updateInventory(String type, int amount) {
+        this.pauseOverlay.updateValues(type, amount);
+    }
+
+    public boolean playerHasEnoughCredits(int amount) {
+        if (amount <= this.pauseOverlay.getCredits()) {
+            return true;
+        }
+        return false;
+    }
 }

@@ -1,0 +1,31 @@
+PLAYER:
+[0] = player (String), [1] = hitbox-x, [2] = hitbox-y, [3] = hitbox-width, 
+[4] = hitbox-height, [5] = playerDir (int)
+
+OBJECT:
+[0] = object (String), [1] = hitbox-x, [2] = hitbox-y, [3] = hitbox-width, 
+[4] = hitbox-height, [5] = objectName (String)
+
+DOOR:
+[0] = door (String), [1] = hitbox-x, [2] = hitbox-y, [3] = hitbox-width, 
+[4] = hitbox-height, [5] = nrOfRequirments, [6] = name (String),
+[7] = areaDoorLeadsTo (int), [8] = playerDirUponReentering (int)
+
+NPC (special):
+[0] = npc-name (String), [1] = hitbox-x, [2] = hitbox-y, [3] = hitbox-width, 
+[4] = hitbox-height, [5] = npcDir (int), [6] = inForeground (boolean)
+
+NPC (regular):
+[0] = npc (String), [1] = hitbox-x, [2] = hitbox-y, [3] = hitbox-width, 
+[4] = hitbox-height, [5] = npcName, [6] = spriteFileName, [7] = xDrawOffset (int)
+[8] = yDrawOffset (int), [9] = inForeground (boolean)
+   						       
+AUTOMATIC TRIGGER:
+[0] = automaticTrigger, [1] = hitbox-x, [2] = hitbox-y, [3] = hitbox-width, 
+[4] = hitbox-height, [5] = name (String)
+
+*OBS: the entries in the csv-files must be ordered like above!
+*Or else, the indexes will be messed up.
+
+(directions):
+	right = 0,  left = 1, down = 2, up = 3

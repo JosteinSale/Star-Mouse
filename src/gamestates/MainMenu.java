@@ -1,6 +1,5 @@
 package gamestates;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -22,8 +21,8 @@ public class MainMenu extends State implements Statemethods {
 
     public MainMenu(Game game) {
         super(game);
-        bgImg = LoadSave.getImageBackground(LoadSave.MAIN_MENU_BG);
-        cursorImg = LoadSave.getImageSprite(LoadSave.CURSOR_SPRITE);
+        bgImg = LoadSave.getExpImageBackground(LoadSave.MAIN_MENU_BG);
+        cursorImg = LoadSave.getExpImageSprite(LoadSave.CURSOR_SPRITE_BLACK);
     }
 
     @Override
@@ -38,7 +37,7 @@ public class MainMenu extends State implements Statemethods {
         }
         else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             if (selectedIndex == 0) {
-                Gamestate.state = Gamestate.LEVEL_SELECT;
+                Gamestate.state = Gamestate.FLYING;
             }
             else if (selectedIndex == 1) {
                 //TODO

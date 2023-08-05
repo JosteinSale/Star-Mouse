@@ -16,7 +16,7 @@ public class LevelSelect extends State implements Statemethods {
 
     public LevelSelect(Game game) {
         super(game);
-        bgImg = LoadSave.getImageBackground(LoadSave.LEVEL_SELECT_BG);
+        bgImg = LoadSave.getExpImageBackground(LoadSave.LEVEL_SELECT_BG);
 
     }
 
