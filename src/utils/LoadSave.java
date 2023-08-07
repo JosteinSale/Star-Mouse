@@ -51,6 +51,7 @@ public class LoadSave {
     public static final String REPAIR_SPRITE = "sprite_repair.png";
     public static final String BOMB_PICKUP_SPRITE = "sprite_bombPickup.png";
     public static final String BOMB_SPRITE = "sprite_bomb.png";
+    public static final String BOMB_EXPLOSION_SPRITE = "sprite_bombExplosion.png";
     public static final String PLAYER_PROJECTILE_BLUE = "player_prjct1.png";
     public static final String PLAYER_PROJECTILE_GREEN = "player_prjct2.png";
     public static final String DRONE_PROJECTILE = "drone_projectile.png";

@@ -12,10 +12,10 @@ smallShip;500;-1500;right
 smallShip;500;-1600;right
 smallShip;800;-1600;right
 smallShip;500;-1700;right
-automaticTrigger;0f;-300f;10f;10f;Section1
-automaticTrigger;0f;-3000f;10f;10f;Section2
-automaticTrigger;0f;-6000f;10f;10f;Section3
-automaticTrigger;0f;-9000f;10f;10f;Section4
-automaticTrigger;0f;-11500f;10f;10f;Section5
-automaticTrigger;0f;-12500f;10f;10f;Section6
-automaticTrigger;0f;-15500f;10f;10f;Section7
+automaticTrigger;0f;-300f;10f;10f;move+obstacles
+automaticTrigger;0f;-3000f;10f;10f;targets+obstacles
+automaticTrigger;0f;-6000f;10f;10f;teleportation+targets
+automaticTrigger;0f;-9000f;10f;10f;teleport_through_obstacles+targets
+automaticTrigger;0f;-11500f;10f;10f;powerups+targets+repair
+automaticTrigger;0f;-12500f;10f;10f;bombs+targets
+automaticTrigger;0f;-15500f;10f;10f;done!

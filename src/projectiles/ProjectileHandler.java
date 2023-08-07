@@ -23,6 +23,7 @@ public class ProjectileHandler {
     private ArrayList<Projectile> allProjectiles;
     private ArrayList<Integer> projectilesToRemove;
     private ArrayList<ProjectileHit> projectileHits;
+    private ArrayList<BombExplosion> bombExplosions;         
     private Rectangle2D.Float screenBox;
 
     private BufferedImage clImg;
@@ -31,14 +32,20 @@ public class ProjectileHandler {
     private BufferedImage dronePrjctImg;
     private BufferedImage octadronePrjctImg;
     private BufferedImage[] hitAnimation;
+    private BufferedImage[] bombExplosionAnimation;
 
     private boolean powerUp = false;
+    private boolean explosionsActive = false;
+    private boolean canShootBomb = true;
     private boolean spaceIsPressed;
     private boolean bIsPressed;
     private int shootTick = 0;
+    private int bombShootTick = 0;
     private int shootBuffer = 10;
+    private int bombShootBuffer = 30;
     private int shootDamage = 10;
-    private int nrOfBombs = 10;
+    private int explosionDamage = 100;
+    private int nrOfBombs = 50;
 
     private float fgSpeed;
 
@@ -50,6 +57,7 @@ public class ProjectileHandler {
         this.allProjectiles = new ArrayList<>();
         this.projectilesToRemove = new ArrayList<>();
         this.projectileHits = new ArrayList<>();
+        this.bombExplosions = new ArrayList<>();
         this.screenBox = new Rectangle2D.Float(0, 0, Game.GAME_DEFAULT_WIDTH, Game.GAME_DEFAULT_HEIGHT);
     }
 
@@ -67,6 +75,12 @@ public class ProjectileHandler {
             hitAnimation[i] = hitImg.getSubimage(
                 i * PRJT_HIT_SPRITE_SIZE, 0, PRJT_HIT_SPRITE_SIZE, PRJT_HIT_SPRITE_SIZE);
         }
+        this.bombExplosionAnimation = new BufferedImage[11];
+        BufferedImage explosionImg = LoadSave.getFlyImageSprite(LoadSave.BOMB_EXPLOSION_SPRITE);
+        for (int i = 0; i < bombExplosionAnimation.length; i++) {
+            bombExplosionAnimation[i] = explosionImg.getSubimage(
+                i * BOMBEXPLOSION_SPRITE_WIDTH, 0, BOMBEXPLOSION_SPRITE_WIDTH, BOMBEXPLOSION_SPRITE_HEIGHT);
+        }
     }
 
     public void update(float yLevelOffset, float xLevelOffset, float fgCurSpeed) {
@@ -78,6 +92,7 @@ public class ProjectileHandler {
         removeOffScreenProjectiles();
         checkProjectileCollisions(yLevelOffset, xLevelOffset);  //checks 1: enemies, 2: maps
         updateHits(fgCurSpeed);
+        updateBombExplosions(fgCurSpeed);
     }
 
     private void checkPlayerShoot() {
@@ -86,8 +101,8 @@ public class ProjectileHandler {
             shootTick = shootBuffer;
             this.addPlayerProjectile(player.getHitbox().x, player.getHitbox().y);
         }
-        if (bIsPressed && shootTick == 0) {
-            shootTick = shootBuffer;
+        if (bIsPressed && bombShootTick == 0) {
+            bombShootTick = bombShootBuffer;
             this.addBombProjectile(player.getHitbox().x, player.getHitbox().y);
         }
     }
@@ -150,7 +165,11 @@ public class ProjectileHandler {
         shootTick--;
         if (shootTick < 0) {
             shootTick = 0;
-        }  
+        }
+        bombShootTick--;
+        if (bombShootTick < 0) {
+            bombShootTick = 0;
+        }
     }
 
     private void moveProjectiles() {
@@ -166,6 +185,9 @@ public class ProjectileHandler {
         for (Projectile p : allProjectiles) {
             if (!p.getHitbox().intersects(screenBox)) {
                 projectilesToRemove.add(index);
+                if (p.getType() == BOMB_PROJECTILE) {
+                    canShootBomb = true;
+                }
             }
             index += 1;
         }
@@ -185,7 +207,7 @@ public class ProjectileHandler {
         for (Projectile p : allProjectiles) {
             if (p.isActive()) {
                 if (p.getType() == BOMB_PROJECTILE) {
-                    checkBombCollision();
+                    checkBombCollision(p, yLevelOffset, xLevelOffset);
                 } else {
                     for (Enemy enemy : enemyManager.getActiveEnemiesOnScreen()) {
                         if (p.getHitbox().intersects(enemy.getHitbox())) {
@@ -221,8 +243,53 @@ public class ProjectileHandler {
         }
     }
 
-    private void checkBombCollision() {
+    private void checkBombCollision(Projectile p, float yLevelOffset, float xLevelOffset) {
+        for (Enemy enemy : enemyManager.getActiveEnemiesOnScreen()) {
+            if (p.getHitbox().intersects(enemy.getHitbox())) {
+                p.setActive(false);
+                addBombExplosion(p.getHitbox());
+                return;
+            }
+        }
+        p.updateCollisionPixels();
+        for (int[] cor : p.getCollisionPixels()) {
+            int xPos = cor[0] + (int) (xLevelOffset / 3);
+            int yPos = cor[1] - (int) (yLevelOffset / 3);
+            if (IsSolid(xPos, yPos, clImg)) {
+                p.setActive(false);
+                addBombExplosion(p.getHitbox());
+                return;
+            }
+        }
+    }
 
+    private void addBombExplosion(Rectangle2D.Float prjctHb) {
+        bombExplosions.add(new BombExplosion(
+                    bombExplosionAnimation, (int) (prjctHb.x + 5), (int) (prjctHb.y + 5)));
+    }
+
+    private void updateBombExplosions(float fgSpeed) {
+        int toRemove = 0;
+        for (BombExplosion b : bombExplosions) {
+            if (b.isDone()) {
+                toRemove += 1;
+            }
+            else {
+                b.update(fgSpeed);
+                if (b.explosionHappens()) {
+                    for (Enemy enemy : enemyManager.getActiveEnemiesOnScreen()) {
+                        enemy.takeDamage(explosionDamage);
+                        if (enemy.isDead()) {
+                            enemyManager.addExplosion(enemy.getHitbox());
+                        }
+                    }
+                }
+            }
+        }
+        while (toRemove > 0) {
+            bombExplosions.remove(0);
+            toRemove -= 1;
+        }
     }
 
     private void updateHits(float fgCurSpeed) {
@@ -265,6 +332,9 @@ public class ProjectileHandler {
                 (int) (PRJT_HIT_SPRITE_SIZE * 5 * Game.SCALE),
                 null);
             }
+        }
+        for (BombExplosion b : bombExplosions) {
+            b.draw(g);
         }
     }
 
