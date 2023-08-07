@@ -16,6 +16,7 @@ import static utils.HelpMethods.IsSolid;
 
 import entities.Entity;
 import main.Game;
+import ui.StatusDisplay;
 import utils.LoadSave;
 
 public class PlayerFly extends Entity {
@@ -24,6 +25,7 @@ public class PlayerFly extends Entity {
     private BufferedImage[][] animations;
     private BufferedImage tpShadowImg;
     private ShipFlame flame;
+    private StatusDisplay statusDisplay;
 
     private boolean leftIsPressed, upIsPressed, rightIsPressed, downIsPressed, mIsPressed;
     private int planeAction;
@@ -59,6 +61,7 @@ public class PlayerFly extends Entity {
         updateCollisionPixels();
         this.statusFont = LoadSave.getInfoFont();
         this.flame = new ShipFlame();
+        this.statusDisplay = new StatusDisplay();
     }
 
     private void loadAnimations() {
@@ -385,19 +388,9 @@ public class PlayerFly extends Entity {
                 (int) ((hitbox.y - 20) * Game.SCALE), 
                 (int) (SHIP_SPRITE_WIDTH * 3 * Game.SCALE), 
                 (int) (SHIP_SPRITE_HEIGHT * 3 * Game.SCALE), null);
-
-
-            // Hitbox
-            /* 
-            g.setColor(Color.WHITE);
-            g.fillRect(
-                (int) (hitbox.x * Game.SCALE), 
-                (int) (hitbox.y * Game.SCALE), 
-                (int) (hitbox.width * Game.SCALE), 
-                (int) (hitbox.height * Game.SCALE)
-                );
-                */
-                
+            
+            statusDisplay.draw(g);
+            this.drawHitbox(g, 0, 0);
         }
     }
 
