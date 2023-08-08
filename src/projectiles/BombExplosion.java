@@ -19,7 +19,6 @@ public class BombExplosion {
     private int aniIndex = 0;
     private int aniTickPerFrame = 5;
     boolean done = false;        // Is true when animation is over
-    boolean explode = false;     // Is true when enemies should take damage 
 
     public BombExplosion(BufferedImage[] animation, int x, int y) {
         this.x = x;
@@ -35,8 +34,7 @@ public class BombExplosion {
         if (aniTick > aniTickPerFrame) {
             aniIndex ++;
             aniTick = 0;
-            if (aniIndex == 6) {explode = true;}
-            else if (aniIndex > 10) {
+            if (aniIndex > 10) {
                 done = true;
                 aniIndex = 10;
             }
@@ -57,6 +55,6 @@ public class BombExplosion {
     }
 
     public boolean explosionHappens() {
-        return this.explode;
+        return (aniIndex == 6) && (aniTick == 0);
     }
 }

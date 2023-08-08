@@ -18,6 +18,7 @@ import entities.flying.Repair;
 import game_events.*;
 import main.Game;
 import projectiles.ProjectileHandler;
+import ui.PauseFlying;
 import ui.TextboxManager2;
 import utils.LoadSave;
 import static utils.HelpMethods.GetAutomaticTrigger;
@@ -30,6 +31,7 @@ import static utils.Constants.Flying.TypeConstants.BOMB;
 
 public class Flying implements Statemethods {
     private Game game;
+    private PauseFlying pauseOverlay;
     private Integer level = 0;
     private EnemyManager enemyManager;
     private ProjectileHandler projectileHandler;
@@ -59,6 +61,7 @@ public class Flying implements Statemethods {
 
     public Flying(Game game) {
         this.game = game;
+        this.pauseOverlay = new PauseFlying(this);
         this.automaticTriggers = new ArrayList<>();
         this.pickupItems = new ArrayList<>();
         loadMapImages();
@@ -69,7 +72,7 @@ public class Flying implements Statemethods {
     }
 
     private void loadMapImages() {
-        this.clImg = LoadSave.getFlyImageCollision("BorderTest1.png");
+        this.clImg = LoadSave.getFlyImageCollision("erwerr.png");
         this.clImgHeight = clImg.getHeight() * 3;
         this.clImgWidth = clImg.getWidth() * 3;
         this.clYOffset = Game.GAME_DEFAULT_HEIGHT - clImgHeight + 150;
@@ -80,7 +83,7 @@ public class Flying implements Statemethods {
     }
 
     private void initClasses() {
-        Rectangle2D.Float playerHitbox = new Rectangle2D.Float(500f, 600f, 50f, 50f);
+        Rectangle2D.Float playerHitbox = new Rectangle2D.Float(500f, 400f, 50f, 50f);
         this.player = new PlayerFly(playerHitbox, clImg);
         this.enemyManager = new EnemyManager(player);
         this.projectileHandler = new ProjectileHandler(player, enemyManager, clImg);
@@ -158,17 +161,24 @@ public class Flying implements Statemethods {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            this.pause = !pause;
+            this.flipPause();
+        }
+        else if (pause) {
+            pauseOverlay.keyPressed(e);
         }
         else {
             if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             projectileHandler.setSpacePressed(true);
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_B) {
+            }
+            else if (e.getKeyCode() == KeyEvent.VK_B) {
             projectileHandler.setBPressed(true);
+            }
+            this.player.keyPressed(e);
         }
-        this.player.keyPressed(e);
-        }
+    }
+
+    public void flipPause() {
+        this.pause = !pause;
     }
 
     @Override
@@ -194,7 +204,7 @@ public class Flying implements Statemethods {
                 if (!cutsceneManager.isActive()) {
                     checkCutsceneTriggers();
                 }
-                //updateChartingY();
+                updateChartingY();
                 moveMaps();
                 moveCutscenes();
                 player.update(clYOffset, clXOffset);
@@ -269,6 +279,9 @@ public class Flying implements Statemethods {
         this.enemyManager.draw(g);
         this.projectileHandler.draw(g);
         this.cutsceneManager.draw(g);
+        if (pause) {
+            pauseOverlay.draw(g);
+        }
     }
 
     private void drawMaps(Graphics g) {

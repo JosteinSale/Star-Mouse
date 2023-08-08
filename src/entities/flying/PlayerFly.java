@@ -39,7 +39,7 @@ public class PlayerFly extends Entity {
     private int edgeDist = 20;
     private int pushDistance = 40;
     private int teleportDistance = 250;
-    private int maxHP = 1000;
+    private int maxHP = 100;
     private int HP = maxHP;
     private int collisionDmg = 10;
     private int flipX = 1;      // 1 = høyre, -1 = venstre. Brukes i checkTeleportCollision
@@ -62,6 +62,8 @@ public class PlayerFly extends Entity {
         this.statusFont = LoadSave.getInfoFont();
         this.flame = new ShipFlame();
         this.statusDisplay = new StatusDisplay();
+        this.statusDisplay.setMaxHP(maxHP);
+        this.statusDisplay.setHP(maxHP);
     }
 
     private void loadAnimations() {
@@ -239,7 +241,7 @@ public class PlayerFly extends Entity {
                 }
             }
             if (nrOfCollisions > 0) {
-                HP -= collisionDmg;
+                takeCollisionDmg();
             }
         }
     }
@@ -249,7 +251,7 @@ public class PlayerFly extends Entity {
             this.planeAction = TAKING_COLLISION_DAMAGE;
             hitbox.x -= (teleportDistance * flipX);
             updateCollisionPixels();
-            HP -= collisionDmg;
+            takeCollisionDmg();
             while (!collidesWithMap(yLevelOffset, xLevelOffset)) {
                 hitbox.x += (teleportDistance/10 * flipX);
             }
@@ -263,12 +265,9 @@ public class PlayerFly extends Entity {
                 (int) (collisionXs[i] + xLevelOffset) / 3, 
                 (int) (collisionYs[i] - yLevelOffset) / 3, 
                 clImg)) {
-                    this.resetControls();
                     if ((planeAction != TELEPORTING_RIGHT) && (planeAction != TELEPORTING_LEFT)) {
                         // Trengs fordi denne metoden kan kalles fra 2 forskjellige steder
                         pushInOppositeDirectionOf(i, pushDistance);
-                        this.planeAction = TAKING_COLLISION_DAMAGE;
-                        this.aniTick = 0;
                     }
                     this.updateCollisionPixels();
                     return true;
@@ -288,9 +287,8 @@ public class PlayerFly extends Entity {
             for (int i = 0; i < 9; i++) {
                 Point point = new Point((int) collisionXs[i], (int) collisionYs[i]);
                 if (enemyHitbox.contains(point)) {
-                    HP -= collisionDmg;
+                    takeCollisionDmg();
                     pushInOppositeDirectionOf(i, pushDistance);
-                    this.planeAction = TAKING_COLLISION_DAMAGE;
                     this.updateCollisionPixels();
                     this.resetControls();
                     return true;
@@ -353,17 +351,12 @@ public class PlayerFly extends Entity {
     private void resetPlayer() {
         hitbox.x = 500;
         hitbox.y = 350;
-        HP = 1000;
+        HP = maxHP;
         updateCollisionPixels();
     }
 
     public void draw(Graphics g) {
         if (visible) {
-            // StatusBar
-            g.setFont(statusFont);
-            g.setColor(Color.BLACK);
-            g.drawString(Integer.toString(HP), 30, 30);
-
             // Teleport shadows
             if (mIsPressed) {
                 g.setColor(Color.LIGHT_GRAY);
@@ -411,8 +404,6 @@ public class PlayerFly extends Entity {
         this.mIsPressed = false;
         this.xSpeed = 0;
         this.ySpeed = 0;
-        this.aniTick = 0;
-        this.aniIndex = 0;
     }
 
     public boolean takesCollisionDmg() {
@@ -424,6 +415,16 @@ public class PlayerFly extends Entity {
         this.aniTick = 0;
         this.aniIndex = 0;
         this.planeAction = TAKING_SHOOT_DAMAGE;
+        this.statusDisplay.setHP(this.HP);
+    }
+
+    private void takeCollisionDmg() {
+        HP -= collisionDmg;
+        this.aniTick = 0;
+        this.aniIndex = 0;
+        this.resetControls();
+        this.planeAction = TAKING_COLLISION_DAMAGE;
+        this.statusDisplay.setHP(HP);
     }
 
     public Rectangle2D.Float getHitbox() {
@@ -439,6 +440,15 @@ public class PlayerFly extends Entity {
         if (HP > maxHP) {
             HP = maxHP;
         }
+        this.statusDisplay.setHP(this.HP);
+    }
+
+    public void setBombs(int nr) {
+        this.statusDisplay.setBombs(nr);
+    }
+
+    public void setKilledEnemies(int nr) {
+        this.statusDisplay.setKilledEnemies(nr);
     }
     
 }

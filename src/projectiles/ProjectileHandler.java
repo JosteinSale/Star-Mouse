@@ -104,6 +104,7 @@ public class ProjectileHandler {
         if (bIsPressed && bombShootTick == 0) {
             bombShootTick = bombShootBuffer;
             this.addBombProjectile(player.getHitbox().x, player.getHitbox().y);
+            this.player.setBombs(nrOfBombs);
         }
     }
 
@@ -210,13 +211,16 @@ public class ProjectileHandler {
                     checkBombCollision(p, yLevelOffset, xLevelOffset);
                 } else {
                     for (Enemy enemy : enemyManager.getActiveEnemiesOnScreen()) {
-                        if (p.getHitbox().intersects(enemy.getHitbox())) {
-                            p.setActive(false);
-                            enemy.takeDamage(p.getDamage());
+                        if (!enemy.isDead()) {
+                            if (p.getHitbox().intersects(enemy.getHitbox())) {
+                                p.setActive(false);
+                                enemy.takeDamage(p.getDamage());
                             if (enemy.isDead()) {
                                 enemyManager.addExplosion(enemy.getHitbox());
+                                enemyManager.increaseKilledEnemies();
                             }
                             break;
+                            }
                         }
                     }
                     if (p.getHitbox().intersects(player.getHitbox())) {
@@ -276,11 +280,12 @@ public class ProjectileHandler {
             }
             else {
                 b.update(fgSpeed);
-                if (b.explosionHappens()) {
+                if (b.explosionHappens()) {   // Still a bit buggy
                     for (Enemy enemy : enemyManager.getActiveEnemiesOnScreen()) {
                         enemy.takeDamage(explosionDamage);
                         if (enemy.isDead()) {
                             enemyManager.addExplosion(enemy.getHitbox());
+                            enemyManager.increaseKilledEnemies();
                         }
                     }
                 }
@@ -356,5 +361,6 @@ public class ProjectileHandler {
 
     public void addBombToInventory() {
         this.nrOfBombs++;
+        this.player.setBombs(nrOfBombs);
     }
 }

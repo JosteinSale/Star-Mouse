@@ -10,6 +10,8 @@ public class Constants {
         public static final int DIALOGUEBOX_HEIGHT = 63 * 3;
         public static final int PAUSE_EXPLORING_WIDTH = 800;
         public static final int PAUSE_EXPLORING_HEIGHT = 600;
+        public static final int PAUSE_FLYING_WIDTH = 600;
+        public static final int PAUSE_FLYING_HEIGHT = 400;
         public static final int NUMBER_DISPLAY_WIDTH = 164 * 3;
         public static final int NUMBER_DISPLAY_HEIGHT = 130 * 3;
         public static final int NUMBER_SELECT_WIDTH = 11 * 3;

@@ -25,6 +25,7 @@ public class EnemyManager {
     private BufferedImage[] explosionAnimation;
     private ArrayList<Explosion> explosions;
     private int collisionDmg = 10;
+    private int killedEnemies = 0;
 
     public EnemyManager(PlayerFly player) {
         this.player = player;
@@ -98,6 +99,8 @@ public class EnemyManager {
                     enemy.takeDamage(collisionDmg);
                     if (enemy.isDead()) {
                         this.addExplosion(enemy.getHitbox());
+                        killedEnemies++;
+                        player.setKilledEnemies(killedEnemies);
                     }
                 }
             }
@@ -143,5 +146,10 @@ public class EnemyManager {
 
     public ArrayList<Enemy> getActiveEnemiesOnScreen() {
         return this.activeEnemiesOnScreen;
+    }
+
+    public void increaseKilledEnemies() {
+        this.killedEnemies++;
+        this.player.setKilledEnemies(killedEnemies);
     }
 }
