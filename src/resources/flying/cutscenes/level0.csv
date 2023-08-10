@@ -41,7 +41,7 @@ endSequence
 dialogue;Max;happy;1;2;Ok! Hold M to see where you can teleport...
 wait;240
 endSequence
-dialogue;Max;normal;0;2;...then press M + left/right.
+dialogue;Max;normal;0;2;...then tap left/right.
 wait;240
 endSequence
 dialogue;Oliver;nervous;2;2;It's kinda hard to control
@@ -66,6 +66,9 @@ cutscene;false;automatic;5
 dialogue;Max;normal;0;2;Powerups make your shots stronger!
 wait;240
 endSequence
+dialogue;Max;normal;0;2;Repairs can... uh... repair.
+wait;200
+endSequence
 
 cutscene;false;automatic;6
 dialogue;Max;thoughtful;5;2;Bombs can take out many targets at once.
@@ -74,19 +77,21 @@ endSequence
 dialogue;Max;normal;0;2;Shoot them with B
 wait;200
 endSequence
+
+cutscene;false;automatic;7
 dialogue;Max;eyes_closed;4;2;But use them sparingly, they're not cheap.
 wait;240
 endSequence
 dialogue;Oliver;normal;0;2;Doesn't the military pay for them?
 wait;240
 endSequence
-dialogue;Max;thoughtful;5;3;Eh... Good question
+dialogue;Max;thoughtful;5;3;...good question
 wait;200
 endSequence
 
-cutscene;false;automatic;7
+cutscene;false;automatic;8
 dialogue;Max;laughing;3;2;Nice, looks like you got the hang of it!
-wait;240
+wait;200
 endSequence
 dialogue;Max;happy;1;2;Let's head back to the academy
 wait;200

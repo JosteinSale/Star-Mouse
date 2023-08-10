@@ -6,6 +6,7 @@ public enum Gamestate {
     LEVEL_SELECT,
     EXPLORING,
     FLYING,
+    LEVEL_EDITOR,
     QUIT;
 
     public static Gamestate state = START_SCREEN;

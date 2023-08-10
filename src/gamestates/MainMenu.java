@@ -40,7 +40,7 @@ public class MainMenu extends State implements Statemethods {
                 Gamestate.state = Gamestate.FLYING;
             }
             else if (selectedIndex == 1) {
-                //TODO
+                Gamestate.state = Gamestate.LEVEL_EDITOR;
             }
             else if (selectedIndex == 2) {
                 //TODO

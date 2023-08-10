@@ -69,15 +69,16 @@ public class Flying implements Statemethods {
         loadEventReactions();
         loadLevelData(level);
         loadCutscenes(level);
+        //startAt(-13000);      // Brukes for testing
     }
 
     private void loadMapImages() {
-        this.clImg = LoadSave.getFlyImageCollision("erwerr.png");
+        this.clImg = LoadSave.getFlyImageCollision("BorderTest2.png");
         this.clImgHeight = clImg.getHeight() * 3;
         this.clImgWidth = clImg.getWidth() * 3;
         this.clYOffset = Game.GAME_DEFAULT_HEIGHT - clImgHeight + 150;
         this.clXOffset = 150;
-        this.bgImg = LoadSave.getFlyImageBackground("BigFile_test2.png");
+        this.bgImg = LoadSave.getFlyImageBackground("erwerr2.png");
         this.bgImgHeight = bgImg.getHeight();
         this.bgYOffset = Game.GAME_DEFAULT_HEIGHT - bgImgHeight;
     }
@@ -100,13 +101,19 @@ public class Flying implements Statemethods {
                 automaticTriggers.add(GetAutomaticTrigger(lineData));
             }
             else if (lineData[0].equals("powerup")) {
-                pickupItems.add(GetPickupItem(lineData, POWERUP));
+                int width = 30;
+                int height = 50;
+                pickupItems.add(GetPickupItem(lineData, width, height, POWERUP));
             }
             else if (lineData[0].equals("repair")) {
-                pickupItems.add(GetPickupItem(lineData, REPAIR));
+                int width = 60;
+                int height = 60;
+                pickupItems.add(GetPickupItem(lineData, width, height, REPAIR));
             }
             else if (lineData[0].equals("bomb")) {
-                pickupItems.add(GetPickupItem(lineData, BOMB));
+                int width = 45;
+                int height = 45;
+                pickupItems.add(GetPickupItem(lineData, width, height, BOMB));
             }
         }
     }
@@ -158,6 +165,18 @@ public class Flying implements Statemethods {
         */
     }
 
+    private void startAt(int y) {
+        this.clYOffset -= y;
+        this.bgYOffset -= y * (bgCurSpeed / fgCurSpeed);
+        for (PickupItem p : pickupItems) {
+            p.getHitbox().y -= y;
+        }
+        for (AutomaticTrigger trigger : automaticTriggers) {
+            trigger.getHitbox().y -= y;
+        }
+        //TODO - enemies
+    }
+
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -204,7 +223,7 @@ public class Flying implements Statemethods {
                 if (!cutsceneManager.isActive()) {
                     checkCutsceneTriggers();
                 }
-                updateChartingY();
+                //updateChartingY();
                 moveMaps();
                 moveCutscenes();
                 player.update(clYOffset, clXOffset);

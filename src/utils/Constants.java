@@ -115,6 +115,7 @@ public class Constants {
             public static final int EXPLOSION_SPRITE_SIZE = 40;
             public static final int BOMBEXPLOSION_SPRITE_WIDTH = 300;
             public static final int BOMBEXPLOSION_SPRITE_HEIGHT = 250;
+            public static final int ALL_SPRITES_SIZE = 30;
         }
 
         public static class Cutscenes {

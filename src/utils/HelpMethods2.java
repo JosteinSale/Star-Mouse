@@ -59,8 +59,10 @@ public class HelpMethods2 {
         return animations;
     }
 
-    public static PickupItem GetPickupItem(String[] lineData, int type) {
-        Rectangle2D.Float hitbox = CreateHitbox(lineData);
+    public static PickupItem GetPickupItem(String[] lineData, int width, int height, int type) {
+        float x = Float.parseFloat(lineData[1]);
+        float y = Float.parseFloat(lineData[2]);
+        Rectangle2D.Float hitbox = new Rectangle2D.Float(x, y, width, height);
         if (type == POWERUP) {
             Powerup powerup = new Powerup(hitbox);
             return powerup;

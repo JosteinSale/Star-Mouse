@@ -64,6 +64,8 @@ public class LoadSave {
     public static final String SMALLSHIP_SPRITE = "sprites_smallShip.png";
     public static final String OCTADRONE_SPRITE = "sprites_octaDrone.png";
 
+    public static final String ALL_ENTITY_SPRITES = "sprites_all.png";
+
     // Fonts
     public static final String MAIN_FONT = "DTM-Mono.otf";
 

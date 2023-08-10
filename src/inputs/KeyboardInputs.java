@@ -32,6 +32,9 @@ public class KeyboardInputs implements KeyListener {
             case FLYING:
                 game.getFlying().keyPressed(e);
                 break;
+            case LEVEL_EDITOR:
+                game.getLevelEditor().keyPressed(e);
+                break;
             default:
                 break;
         }
@@ -54,6 +57,9 @@ public class KeyboardInputs implements KeyListener {
                 break;
             case FLYING:
                 game.getFlying().keyReleased(e);
+                break;
+            case LEVEL_EDITOR:
+                game.getLevelEditor().keyReleased(e);
                 break;
             default:
                 break;

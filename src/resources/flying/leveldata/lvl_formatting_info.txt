@@ -4,6 +4,10 @@ AUTOMATIC TRIGGER:
 [0] = automaticTrigger (String), [1] = hitbox.x, [2] = hitbox.y, [3] = hitbox.width
 [4] = hitbox.height, [5] = cutsceneName
 
+
+POWERUP:
+[0] = powerup (String), [1] = hitbox.x, [2] = hitbox.y
+
 TARGET:
 [0] = target (String), [1] = xPos (int), [2] = yPos (int)
 

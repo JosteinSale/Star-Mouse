@@ -3,6 +3,7 @@ package main;
 import gamestates.Exploring;
 import gamestates.Flying;
 import gamestates.Gamestate;
+import gamestates.LevelEditor;
 import gamestates.LevelSelect;
 import gamestates.MainMenu;
 import gamestates.StartScreen;
@@ -38,6 +39,7 @@ public class Game implements Runnable {
     private LevelSelect levelSelect;
     private Exploring exploring;
     private Flying flying;
+    private LevelEditor levelEditor;
     //private AudioOptions audioOptions;
     //private AudioPlayer audioPlayer;
 
@@ -57,6 +59,7 @@ public class Game implements Runnable {
         this.levelSelect = new LevelSelect(this);
         this.exploring = new Exploring(this);
         this.flying = new Flying(this);
+        this.levelEditor = new LevelEditor(this);
     }
 
     private void startGameLoop() {
@@ -82,6 +85,9 @@ public class Game implements Runnable {
             case FLYING:
                 flying.update();
                 break;
+            case LEVEL_EDITOR:
+                levelEditor.update();
+                break;
             case QUIT:
             default:
                 System.exit(0);
@@ -105,6 +111,9 @@ public class Game implements Runnable {
                 break;
             case FLYING:
                 flying.draw(g);
+                break;
+            case LEVEL_EDITOR:
+                levelEditor.draw(g);
                 break;
             default:
                 break;
@@ -178,6 +187,10 @@ public class Game implements Runnable {
 
     public Flying getFlying() {
         return this.flying;
+    }
+
+    public LevelEditor getLevelEditor() {
+        return this.levelEditor;
     }
 
 /* 
