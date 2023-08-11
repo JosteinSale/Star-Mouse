@@ -7,6 +7,7 @@ automaticTrigger;0f;-11000f;10f;10f;powerups+targets+repair
 automaticTrigger;0f;-12300f;10f;10f;bombs+targets
 automaticTrigger;0f;-13700f;10f;10f;use_bombs_sparingly
 automaticTrigger;0f;-15600f;10f;10f;done!
+automaticTrigger;0f;-16500f;10f;10f;endLevel
 target;280;-2640
 target;510;-2790
 target;740;-2930

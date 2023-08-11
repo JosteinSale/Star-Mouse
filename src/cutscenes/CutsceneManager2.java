@@ -176,6 +176,7 @@ public class CutsceneManager2 {
         if (this.screenAlphaFade > 255) {
             this.advance();
             screenAlphaFade = 255;
+            fadeOutActive = false;   // Removing this line is a workaround for the blip-bug.
         }
     }
 

@@ -25,7 +25,7 @@ public class EnemyManager {
     private BufferedImage[] explosionAnimation;
     private ArrayList<Explosion> explosions;
     private int collisionDmg = 10;
-    private int killedEnemies = 0;
+    private ArrayList<Integer> killedEnemies;           // Contains the enemyTypes
 
     public EnemyManager(PlayerFly player) {
         this.player = player;
@@ -33,6 +33,7 @@ public class EnemyManager {
         allEnemies = new ArrayList<>();
         activeEnemiesOnScreen = new ArrayList<>();
         this.explosions = new ArrayList<>();
+        this.killedEnemies = new ArrayList<>();
         loadEnemiesForLvl(0);
     }
 
@@ -99,8 +100,7 @@ public class EnemyManager {
                     enemy.takeDamage(collisionDmg);
                     if (enemy.isDead()) {
                         this.addExplosion(enemy.getHitbox());
-                        killedEnemies++;
-                        player.setKilledEnemies(killedEnemies);
+                        increaseKilledEnemies(enemy.getType());
                     }
                 }
             }
@@ -148,8 +148,12 @@ public class EnemyManager {
         return this.activeEnemiesOnScreen;
     }
 
-    public void increaseKilledEnemies() {
-        this.killedEnemies++;
-        this.player.setKilledEnemies(killedEnemies);
+    public void increaseKilledEnemies(int enemyType) {
+        this.killedEnemies.add(enemyType);
+        this.player.setKilledEnemies(killedEnemies.size());
+    }
+
+    public ArrayList<Integer> getKilledEnemies() {
+        return this.killedEnemies;
     }
 }

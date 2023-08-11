@@ -217,7 +217,7 @@ public class ProjectileHandler {
                                 enemy.takeDamage(p.getDamage());
                             if (enemy.isDead()) {
                                 enemyManager.addExplosion(enemy.getHitbox());
-                                enemyManager.increaseKilledEnemies();
+                                enemyManager.increaseKilledEnemies(enemy.getType());
                             }
                             break;
                             }
@@ -280,12 +280,12 @@ public class ProjectileHandler {
             }
             else {
                 b.update(fgSpeed);
-                if (b.explosionHappens()) {   // Still a bit buggy
+                if (b.explosionHappens()) {   
                     for (Enemy enemy : enemyManager.getActiveEnemiesOnScreen()) {
                         enemy.takeDamage(explosionDamage);
                         if (enemy.isDead()) {
                             enemyManager.addExplosion(enemy.getHitbox());
-                            enemyManager.increaseKilledEnemies();
+                            enemyManager.increaseKilledEnemies(enemy.getType());
                         }
                     }
                 }

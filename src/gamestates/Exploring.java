@@ -98,4 +98,9 @@ public class Exploring extends State implements Statemethods {
         }
         return false;
     }
+
+    /** Returns the number of credits in the player's inventory */
+    public int getCredits() {
+        return this.pauseOverlay.getCredits();
+    }
 }

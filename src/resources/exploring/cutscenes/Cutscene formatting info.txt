@@ -6,6 +6,8 @@ NEW CUTSCENE
 
 * Each element in an area (except player) must have at least one cutscene
 * The cutscenes must be ordered like their respective elements
+    .E.g the third npc in the levelData-sheet will trigger the third 
+    npc-Cutscene in the cutscene-sheet.
 
 
 INFOBOX-EVENT
@@ -115,6 +117,11 @@ PURCHASE (check if player has enough credits)
 * Else, cutscene +2 is started
 
 
+GO TO FLYING 
+--------------------
+[0] = goToFlying (String), [1] = level
+
+
 END SEQUENCE
 --------------------
 [0] = endSequence
@@ -140,3 +147,5 @@ GENERAL STUFF:
    being taken.
 
 OBS: I can make an event that changes an npc's inForeground-boolean!
+
+

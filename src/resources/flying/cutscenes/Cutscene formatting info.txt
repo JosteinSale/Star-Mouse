@@ -20,6 +20,11 @@ FADE IN
 [0] = fadeIn, [1] = speed (int)
 
 
+FADE OUT
+--------------------
+[0] = fadeOut, [1] = speed (int)
+
+
 SET PLAYER VISIBLE
 --------------------
 [0] = setPlayerVisible, [1] = visible (boolean)
@@ -52,6 +57,12 @@ SET STARTING CUTSCENE-INDEX FOR ELEMENT
 --------------------
 [0] = setStartCutscene, [1] = triggerObject (string), [2] = elementNrIndex (e.g door #0), 
 [3] = newStartCutsceneIndex
+
+
+LEVEL FINISHED
+--------------------
+[0] = levelFinished
+* This activates the levelFinished-overlay. 
 
 
 FADE IN/OUT HEADER

@@ -97,4 +97,17 @@ dialogue;Max;happy;1;2;Let's head back to the academy
 wait;200
 endSequence
 
+cutscene;false;automatic;9
+fadeOut;5
+endSequence
+setGameplayActive;false
+blackScreen;true
+wait;40
+endSequence
+fadeHeader;in;200;10;Level finished
+wait;60
+endSequence
+levelFinished
+endSequence
+
 X

@@ -15,6 +15,7 @@ import cutscenes.Cutscene;
 import cutscenes.CutsceneManager;
 import entities.exploring.*;
 import gamestates.Exploring;
+import gamestates.Gamestate;
 import main.Game;
 import ui.InventoryItem;
 import ui.TextboxManager;
@@ -153,6 +154,9 @@ public class Area {
         else if (event instanceof FadeInEvent evt) {
             this.cutsceneManager.startFadeIn(evt.speed(), false);
         }
+        else if (event instanceof FadeOutEvent evt) {
+            this.cutsceneManager.startFadeOut(evt.speed(), false);
+        }
         else if (event instanceof SetVisibleEvent evt) {
             this.player.setVisible(evt.visible());
         }
@@ -207,6 +211,10 @@ public class Area {
                 opt = 1;
             }
             this.cutsceneManager.jumpToCutscene(opt);
+        }
+        else if (event instanceof GoToFlyingEvent evt) {
+            Gamestate.state = Gamestate.FLYING;
+            this.exploring.getGame().getFlying().update();
         }
     }
 

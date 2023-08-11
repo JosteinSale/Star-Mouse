@@ -54,7 +54,6 @@ public class NpcManager {
 
     public void setNpcDir(String name, int dir) {
         for (NPC npc : allNpcs) {
-            System.out.println(npc.getName());
             if (npc.getName().equals(name)) {
                 npc.setDir(dir);
                 return;

@@ -13,11 +13,10 @@ import entities.exploring.AutomaticTrigger;
 import entities.flying.EnemyManager;
 import entities.flying.PickupItem;
 import entities.flying.PlayerFly;
-import entities.flying.Powerup;
-import entities.flying.Repair;
 import game_events.*;
 import main.Game;
 import projectiles.ProjectileHandler;
+import ui.LevelFinishedOverlay;
 import ui.PauseFlying;
 import ui.TextboxManager2;
 import utils.LoadSave;
@@ -32,6 +31,7 @@ import static utils.Constants.Flying.TypeConstants.BOMB;
 public class Flying implements Statemethods {
     private Game game;
     private PauseFlying pauseOverlay;
+    private LevelFinishedOverlay levelFinishedOverlay;
     private Integer level = 0;
     private EnemyManager enemyManager;
     private ProjectileHandler projectileHandler;
@@ -43,6 +43,7 @@ public class Flying implements Statemethods {
     private int repairHealth = 100;
     private boolean pause = false;
     private boolean gamePlayActive = true;
+    private boolean levelFinished = false;
 
     private BufferedImage clImg;
     private BufferedImage bgImg;
@@ -61,7 +62,6 @@ public class Flying implements Statemethods {
 
     public Flying(Game game) {
         this.game = game;
-        this.pauseOverlay = new PauseFlying(this);
         this.automaticTriggers = new ArrayList<>();
         this.pickupItems = new ArrayList<>();
         loadMapImages();
@@ -69,7 +69,7 @@ public class Flying implements Statemethods {
         loadEventReactions();
         loadLevelData(level);
         loadCutscenes(level);
-        //startAt(-13000);      // Brukes for testing
+        //startAt(-16000);      // Brukes for testing
     }
 
     private void loadMapImages() {
@@ -91,6 +91,8 @@ public class Flying implements Statemethods {
         this.eventHandler = new EventHandler();
         TextboxManager2 textboxManager = new TextboxManager2();
         this.cutsceneManager = new CutsceneManager2(eventHandler, textboxManager);
+        this.pauseOverlay = new PauseFlying(this);
+        this.levelFinishedOverlay = new LevelFinishedOverlay(this);
     }
 
     private void loadLevelData(Integer level) {
@@ -137,6 +139,9 @@ public class Flying implements Statemethods {
         else if (event instanceof FadeInEvent evt) {
             this.cutsceneManager.startFadeIn(evt.speed());
         }
+        else if (event instanceof FadeOutEvent evt) {
+            this.cutsceneManager.startFadeOut(evt.speed());
+        }
         else if (event instanceof SetVisibleEvent evt) {
             this.player.setVisible(evt.visible());
         }
@@ -158,6 +163,12 @@ public class Flying implements Statemethods {
         else if (event instanceof FadeHeaderEvent evt) {
             cutsceneManager.fadeHeader(evt.inOut(), evt.yPos(), evt.fadeSpeed(), evt.header());
         }
+        else if (event instanceof LevelFinishedEvent evt) {
+            this.levelFinished = true;
+            this.levelFinishedOverlay.setLevelStats(
+                game.getExploring().getCredits(), 
+                enemyManager.getKilledEnemies());
+        }
         /* 
         else if (event instanceof SetStartingCutsceneEvent2 evt) {
             this.setNewStartingCutscene(evt.triggerObject(), evt.cutsceneIndex());
@@ -174,7 +185,7 @@ public class Flying implements Statemethods {
         for (AutomaticTrigger trigger : automaticTriggers) {
             trigger.getHitbox().y -= y;
         }
-        //TODO - enemies
+        // TODO - move enemies
     }
 
     @Override
@@ -184,6 +195,9 @@ public class Flying implements Statemethods {
         }
         else if (pause) {
             pauseOverlay.keyPressed(e);
+        }
+        else if (levelFinished) {
+            levelFinishedOverlay.keyPressed(e);
         }
         else {
             if (e.getKeyCode() == KeyEvent.VK_SPACE) {
@@ -232,6 +246,9 @@ public class Flying implements Statemethods {
                 projectileHandler.update(clYOffset, clXOffset, fgCurSpeed);
             }
             cutsceneManager.update();
+            if (levelFinished) {
+                levelFinishedOverlay.update();
+            }
         }
     }
 
@@ -301,6 +318,9 @@ public class Flying implements Statemethods {
         if (pause) {
             pauseOverlay.draw(g);
         }
+        if (levelFinished) {
+            levelFinishedOverlay.draw(g);
+        }
     }
 
     private void drawMaps(Graphics g) {
@@ -319,6 +339,16 @@ public class Flying implements Statemethods {
     private void drawPickupItems(Graphics g) {
         for (PickupItem p : pickupItems) {
             p.draw(g);
+        }
+    }
+
+    public void exitFinishedLevel() {
+        if (this.level == 0) {
+            Gamestate.state = Gamestate.EXPLORING;
+        }
+        else {
+            Gamestate.state = Gamestate.LEVEL_SELECT;
+            // TODO - resetLevel();
         }
     }
 

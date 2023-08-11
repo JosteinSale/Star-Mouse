@@ -158,6 +158,10 @@ public class HelpMethods {
                 SetGameplayEvent event = new SetGameplayEvent(active);
                 allSequences.get(sequenceIndex).add(event);
             }
+            else if (lineData[0].equals("levelFinished")) {
+                LevelFinishedEvent event = new LevelFinishedEvent();
+                allSequences.get(sequenceIndex).add(event);
+            }
             else if (lineData[0].equals("fadeHeader")) {
                 String inOut = lineData[1];
                 Integer yPos = Integer.parseInt(lineData[2]);
@@ -181,6 +185,11 @@ public class HelpMethods {
             else if (lineData[0].equals("fadeIn")) {
                 Integer speed = Integer.parseInt(lineData[1]);
                 FadeInEvent event = new FadeInEvent(speed);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("fadeOut")) {
+                Integer speed = Integer.parseInt(lineData[1]);
+                FadeOutEvent event = new FadeOutEvent(speed);
                 allSequences.get(sequenceIndex).add(event);
             }
             else if (lineData[0].equals("setPlayerVisible")) {
@@ -272,6 +281,11 @@ public class HelpMethods {
             else if (lineData[0].equals("purchase")) {
                 Integer amount = Integer.parseInt(lineData[1]);
                 PurchaseEvent event = new PurchaseEvent(amount);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("goToFlying")) {
+                Integer lvl = Integer.parseInt(lineData[1]);
+                GoToFlyingEvent event = new GoToFlyingEvent(lvl);
                 allSequences.get(sequenceIndex).add(event);
             }
             else if (lineData[0].equals("endSequence")) {

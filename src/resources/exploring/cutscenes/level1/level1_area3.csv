@@ -56,16 +56,44 @@ endSequence
 infoChoice;Go flying with Oliver?;Yes;No
 endSequence
 
-cutscene;true;automatic;5
-dialogue;Max;happy;1;2;Sure! It'll be fun
+cutscene;false;automatic;5
+dialogue;Max;happy;1;2;Let's do it!
 endSequence
 dialogue;Oliver;happy;1;3;Great, thanks!
 endSequence
 dialogue;Max;normal;0;2;I'll see you in the hangar then
 endSequence
+fadeOut;5
+endSequence
+blackScreen;true
+wait;100
+endSequence
+goToFlying;0
+wait;1
+endSequence
+blackScreen;false
+fadeIn;5
+endSequence
+wait;100;
+endSequence
+dialogue;Oliver;happy;1;2;Thanks for taking the time
+endSequence
+dialogue;Oliver;happy;1;2;I feel a little more prepared now
+endSequence
+dialogue;Max;happy;1;2;No problem
+endSequence
+dialogue;Max;happy;1;2;Good luck!
+endSequence
+wait;1
+setStartCutscene;npc;0;3
+endSequence
 
 cutscene;true;automatic;5
 wait;1
+endSequence
+
+cutscene;true;automatic;5
+dialogue;Oliver;happy;1;2;Thanks for helping me out!
 endSequence
 
 cutscene;true;npc;6
@@ -200,15 +228,39 @@ endSequence
 infoChoice;Go flying with Oliver?;Yes;No
 endSequence
 
-cutscene;true;automatic;10
+cutscene;false;automatic;10
 dialogue;Max;happy;1;2;Sure! It'll be fun
 endSequence
 dialogue;Oliver;happy;1;3;Great, thanks!
 endSequence
 dialogue;Max;normal;0;2;I'll see you in the hangar then
 endSequence
+fadeOut;5
+endSequence
+blackScreen;true
+wait;100
+endSequence
+goToFlying;0
+wait;1
+endSequence
+blackScreen;false
+fadeIn;5
+endSequence
+wait;100;
+endSequence
+dialogue;Oliver;happy;1;2;Thanks for taking the time
+endSequence
+dialogue;Oliver;happy;1;2;I feel a little more prepared now
+endSequence
+dialogue;Max;happy;1;2;No problem
+endSequence
+dialogue;Max;happy;1;2;Good luck!
+endSequence
+wait;1
+setStartCutscene;npc;0;3
+endSequence
 
-cutscene;true;automatic;10
+cutscene;false;automatic;10
 dialogue;Max;happy;1;2;There's no need for that, I'm certain you know the basics in and out!
 endSequence
 dialogue;Oliver;happy;1;2;...Thanks. Yeah you're probably right.
