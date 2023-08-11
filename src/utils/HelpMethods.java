@@ -288,10 +288,14 @@ public class HelpMethods {
                 GoToFlyingEvent event = new GoToFlyingEvent(lvl);
                 allSequences.get(sequenceIndex).add(event);
             }
+            else if (lineData[0].equals("fadeOutSong")) {
+                FadeOutSongEvent event = new FadeOutSongEvent();
+                allSequences.get(sequenceIndex).add(event);
+            }
             else if (lineData[0].equals("endSequence")) {
                 allCutscenes.get(triggerIndex).get(cutsceneIndex).addSequence(allSequences.get(sequenceIndex));
                 sequenceIndex += 1;
-            } 
+            }
             else if (lineData[0].equals("")) {
                 cutsceneIndex += 1;
             }

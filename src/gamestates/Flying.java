@@ -28,6 +28,8 @@ import static utils.Constants.Flying.TypeConstants.POWERUP;
 import static utils.Constants.Flying.TypeConstants.REPAIR;
 import static utils.Constants.Flying.TypeConstants.BOMB;
 
+import static utils.Constants.Audio;
+
 public class Flying implements Statemethods {
     private Game game;
     private PauseFlying pauseOverlay;
@@ -69,7 +71,7 @@ public class Flying implements Statemethods {
         loadEventReactions();
         loadLevelData(level);
         loadCutscenes(level);
-        //startAt(-16000);      // Brukes for testing
+        //startAt(-14000);      // Brukes for testing
     }
 
     private void loadMapImages() {
@@ -87,7 +89,7 @@ public class Flying implements Statemethods {
         Rectangle2D.Float playerHitbox = new Rectangle2D.Float(500f, 400f, 50f, 50f);
         this.player = new PlayerFly(playerHitbox, clImg);
         this.enemyManager = new EnemyManager(player);
-        this.projectileHandler = new ProjectileHandler(player, enemyManager, clImg);
+        this.projectileHandler = new ProjectileHandler(game, player, enemyManager, clImg);
         this.eventHandler = new EventHandler();
         TextboxManager2 textboxManager = new TextboxManager2();
         this.cutsceneManager = new CutsceneManager2(eventHandler, textboxManager);
@@ -169,6 +171,9 @@ public class Flying implements Statemethods {
                 game.getExploring().getCredits(), 
                 enemyManager.getKilledEnemies());
         }
+        else if (event instanceof FadeOutSongEvent evt) {
+            this.game.getAudioPlayer().fadeOutSongLoop();
+        }
         /* 
         else if (event instanceof SetStartingCutsceneEvent2 evt) {
             this.setNewStartingCutscene(evt.triggerObject(), evt.cutsceneIndex());
@@ -190,8 +195,9 @@ public class Flying implements Statemethods {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+        if ((e.getKeyCode() == KeyEvent.VK_ENTER) && !levelFinished) {
             this.flipPause();
+            this.game.getAudioPlayer().startSongLoop(Audio.SPACE_SONG);
         }
         else if (pause) {
             pauseOverlay.keyPressed(e);

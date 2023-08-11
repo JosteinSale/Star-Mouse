@@ -95,6 +95,7 @@ wait;200
 endSequence
 dialogue;Max;happy;1;2;Let's head back to the academy
 wait;200
+fadeOutSong
 endSequence
 
 cutscene;false;automatic;9

@@ -12,6 +12,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 
+import audio.AudioPlayer;
+
 
 public class Game implements Runnable {
     public static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -41,7 +43,7 @@ public class Game implements Runnable {
     private Flying flying;
     private LevelEditor levelEditor;
     //private AudioOptions audioOptions;
-    //private AudioPlayer audioPlayer;
+    private AudioPlayer audioPlayer;
 
     public Game() {
         initClasses();
@@ -60,6 +62,7 @@ public class Game implements Runnable {
         this.exploring = new Exploring(this);
         this.flying = new Flying(this);
         this.levelEditor = new LevelEditor(this);
+        this.audioPlayer = new AudioPlayer();
     }
 
     private void startGameLoop() {
@@ -69,6 +72,7 @@ public class Game implements Runnable {
 
 
     private void update() {
+        audioPlayer.update();
         switch(Gamestate.state) {
             case START_SCREEN:
                 startScreen.update();
@@ -191,6 +195,10 @@ public class Game implements Runnable {
 
     public LevelEditor getLevelEditor() {
         return this.levelEditor;
+    }
+
+    public AudioPlayer getAudioPlayer() {
+        return this.audioPlayer;
     }
 
 /* 

@@ -17,7 +17,10 @@ import static utils.Constants.Flying.TypeConstants.OCTADRONE;
 import static utils.Constants.Flying.TypeConstants.BOMB_PROJECTILE;
 import static utils.HelpMethods.IsSolid;
 
+import static utils.Constants.Audio;
+
 public class ProjectileHandler {
+    private Game game;
     private PlayerFly player;
     private EnemyManager enemyManager;
     private ArrayList<Projectile> allProjectiles;
@@ -49,7 +52,8 @@ public class ProjectileHandler {
 
     private float fgSpeed;
 
-    public ProjectileHandler(PlayerFly player, EnemyManager enemyManager, BufferedImage clImage) {
+    public ProjectileHandler(Game game, PlayerFly player, EnemyManager enemyManager, BufferedImage clImage) {
+        this.game = game;
         this.player = player;
         this.enemyManager = enemyManager;
         loadImgs();
@@ -100,6 +104,7 @@ public class ProjectileHandler {
         if (spaceIsPressed && shootTick == 0) {
             shootTick = shootBuffer;
             this.addPlayerProjectile(player.getHitbox().x, player.getHitbox().y);
+            game.getAudioPlayer().playSFX(Audio.LAZER_SAMPLE_LIGHT);
         }
         if (bIsPressed && bombShootTick == 0) {
             bombShootTick = bombShootBuffer;

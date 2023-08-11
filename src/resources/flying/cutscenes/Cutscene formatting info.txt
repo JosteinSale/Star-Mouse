@@ -70,6 +70,11 @@ FADE IN/OUT HEADER
 [0] = fadeHeader, [1] = in/out (string), [2] = y-pos, [3] = fadeSpeed, [4] = headerText
 
 
+FADE OUT SONG
+--------------------
+[0] = fadeOutSong (String) 
+
+
 END SEQUENCE
 --------------------
 [0] = endSequence

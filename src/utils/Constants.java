@@ -118,10 +118,6 @@ public class Constants {
             public static final int ALL_SPRITES_SIZE = 30;
         }
 
-        public static class Cutscenes {
-            
-        }
-
         // Dette er standard-verdier.
         public static class ActionConstants {
             // Index for raden en animasjon har i spritesheet.
@@ -152,5 +148,15 @@ public class Constants {
                 return 4;
             }
         }
+    }
+
+    public static class Audio {
+        // SFX
+        public static final int LAZER_SAMPLE_LIGHT = 0;
+        public static final int LAZER_SAMPLE_DARK = 1;
+
+        // Songs
+        public static final int SPACE_SONG = 0;
+
     }
 }
