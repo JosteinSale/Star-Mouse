@@ -9,15 +9,56 @@ import javax.sound.sampled.FloatControl;
 
 public class AudioPlayer {
     private String[] SFXfileNames = {
-        "SFX_Lazer1.wav", 
-        "SFX_Lazer2.wav"
+        "SFX - Lazer1.wav",
+        "SFX - Lazer2.wav",
+        "SFX - Lazer3.wav",
+        "SFX - Lazer4.wav",
+        "SFX - Lazer4.5.wav",
+        "SFX - Lazer5.wav",
+        "SFX - Lazer6.wav",
+        "SFX - Lazer6.5.wav",
+        "SFX - BombShoot.wav",
+        "SFX - Teleport.wav",
+        "SFX - ShipCrash1.wav",
+        "SFX - ShipCrash1.5.wav",
+        "SFX - ShipCrash2.wav",
+        "SFX - ShipCrash3.wav",
+        "SFX - ShipCrash3.5.wav",
+        "SFX - SmallExplosion1.wav",
+        "SFX - SmallExplosion2.wav",
+        "SFX - SmallExplosion3.wav",
+        "SFX - SmallExplosion3.5.wav",
+        "SFX - BigExplosion1.wav",
+        "SFX - BigExplosion2.wav",
+        "SFX - BigExplosion3.wav",
+        "SFX - BombPickup.wav",
+        "SFX - Powerup1.wav",
+        "SFX - Powerup2.wav",
+        "SFX - Powerup3.wav",
+        "SFX - Cursor1.wav",
+        "SFX - Cursor2.wav",
+        "SFX - Cursor3.wav",
+        "SFX - Cursor4.wav",
+        "SFX - Select1.wav",
+        "SFX - Select2.wav",
+        "SFX - Select3.wav",
+        "SFX - Select4.wav",
+        "SFX - Select5.wav",
+        "SFX - Select6.wav",
+        "SFX - MenuSound.wav",
+        "SFX - ItemPickup.wav",
+        "SFX - TradeCompleted.wav",
+        "SFX - Success.wav",
     };
     private String[] songFileNames = {
-        "Spacesong.wav"
+        "Song - RocketEngineQuiet.wav",
+        "Song - Tutorial (FINISHED).wav",
+        "Song - Tutorial (FINISHED)2.wav"
     }; 
     private File[] SFX;
     private Clip[] songs;
-    private FloatControl gainControl;
+    private FloatControl songGainControl;
+    private FloatControl ambienceGainControl;
     private int songIndex = 0;
     private float maxSongVolume = 0.9f;
     private float songVolume = maxSongVolume;   // Må være mellom 0 og 1
@@ -28,7 +69,6 @@ public class AudioPlayer {
     
     public AudioPlayer() {
         loadAudio();
-        gainControl = (FloatControl) songs[songIndex].getControl(FloatControl.Type.MASTER_GAIN);
     }
 
     private void loadAudio() {
@@ -69,6 +109,7 @@ public class AudioPlayer {
     public void startSongLoop(int index) {
         this.songVolume = maxSongVolume;   // set to currenSongtVolume later
         this.songIndex = index;
+        songGainControl = (FloatControl) songs[songIndex].getControl(FloatControl.Type.MASTER_GAIN);
         updateSongVolume();
         this.songs[songIndex].loop(Clip.LOOP_CONTINUOUSLY);
     }
@@ -89,25 +130,27 @@ public class AudioPlayer {
     }
 
     public void update() {
-        if (this.fadeOutActive) {
-            this.waitTick++;
-            if (waitTick > tickPerFrame) {
+        if (this.fadeOutActive) {updateFade();}
+    }
+
+    private void updateFade() {
+        this.waitTick++;
+        if (waitTick > tickPerFrame) {
+            waitTick = 0;
+            updateSongVolume();
+            songVolume -= volumeFadeSpeed;
+            if (songVolume < 0) {
+                songs[songIndex].stop();
+                songs[songIndex].setMicrosecondPosition(0);
+                this.fadeOutActive = false;
                 waitTick = 0;
-                updateSongVolume();
-                songVolume -= volumeFadeSpeed;
-                if (songVolume < 0) {
-                    songs[songIndex].stop();
-                    songs[songIndex].setMicrosecondPosition(0);
-                    this.fadeOutActive = false;
-                    waitTick = 0;
-                }
             }
         }
     }
 
     private void updateSongVolume() {
-        float range = gainControl.getMaximum() - gainControl.getMinimum();
-        float gain = (range * songVolume) + gainControl.getMinimum();
-        gainControl.setValue(gain);
+        float range = songGainControl.getMaximum() - songGainControl.getMinimum();
+        float gain = (range * songVolume) + songGainControl.getMinimum();
+        songGainControl.setValue(gain);
     }
 }

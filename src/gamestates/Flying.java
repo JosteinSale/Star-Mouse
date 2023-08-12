@@ -87,7 +87,7 @@ public class Flying implements Statemethods {
 
     private void initClasses() {
         Rectangle2D.Float playerHitbox = new Rectangle2D.Float(500f, 400f, 50f, 50f);
-        this.player = new PlayerFly(playerHitbox, clImg);
+        this.player = new PlayerFly(game, playerHitbox, clImg);
         this.enemyManager = new EnemyManager(player);
         this.projectileHandler = new ProjectileHandler(game, player, enemyManager, clImg);
         this.eventHandler = new EventHandler();
@@ -171,6 +171,9 @@ public class Flying implements Statemethods {
                 game.getExploring().getCredits(), 
                 enemyManager.getKilledEnemies());
         }
+        else if (event instanceof StartSongEvent evt) {
+            this.game.getAudioPlayer().startSongLoop(evt.index());
+        }
         else if (event instanceof FadeOutSongEvent evt) {
             this.game.getAudioPlayer().fadeOutSongLoop();
         }
@@ -197,7 +200,6 @@ public class Flying implements Statemethods {
     public void keyPressed(KeyEvent e) {
         if ((e.getKeyCode() == KeyEvent.VK_ENTER) && !levelFinished) {
             this.flipPause();
-            this.game.getAudioPlayer().startSongLoop(Audio.SPACE_SONG);
         }
         else if (pause) {
             pauseOverlay.keyPressed(e);

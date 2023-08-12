@@ -70,6 +70,12 @@ FADE IN/OUT HEADER
 [0] = fadeHeader, [1] = in/out (string), [2] = y-pos, [3] = fadeSpeed, [4] = headerText
 
 
+START SONG
+--------------------
+[0] = startSong (String), [1] = songIndex (int)
+* This loops the song until it's stopped
+
+
 FADE OUT SONG
 --------------------
 [0] = fadeOutSong (String) 

@@ -104,9 +104,10 @@ public class ProjectileHandler {
         if (spaceIsPressed && shootTick == 0) {
             shootTick = shootBuffer;
             this.addPlayerProjectile(player.getHitbox().x, player.getHitbox().y);
-            game.getAudioPlayer().playSFX(Audio.LAZER_SAMPLE_LIGHT);
+            game.getAudioPlayer().playSFX(Audio.LAZER_SAMPLE);
         }
         if (bIsPressed && bombShootTick == 0) {
+            game.getAudioPlayer().playSFX(Audio.BOMB_SHOOT_SAMPLE);
             bombShootTick = bombShootBuffer;
             this.addBombProjectile(player.getHitbox().x, player.getHitbox().y);
             this.player.setBombs(nrOfBombs);
@@ -221,6 +222,7 @@ public class ProjectileHandler {
                                 p.setActive(false);
                                 enemy.takeDamage(p.getDamage());
                             if (enemy.isDead()) {
+                                game.getAudioPlayer().playSFX(Audio.SMALL_EXPLOSION_SAMPLE);
                                 enemyManager.addExplosion(enemy.getHitbox());
                                 enemyManager.increaseKilledEnemies(enemy.getType());
                             }
@@ -257,6 +259,7 @@ public class ProjectileHandler {
             if (p.getHitbox().intersects(enemy.getHitbox())) {
                 p.setActive(false);
                 addBombExplosion(p.getHitbox());
+                game.getAudioPlayer().playSFX(Audio.BIG_EXPLOSION_SAMPLE);
                 return;
             }
         }
@@ -267,6 +270,7 @@ public class ProjectileHandler {
             if (IsSolid(xPos, yPos, clImg)) {
                 p.setActive(false);
                 addBombExplosion(p.getHitbox());
+                game.getAudioPlayer().playSFX(Audio.BIG_EXPLOSION_SAMPLE);
                 return;
             }
         }
@@ -285,7 +289,7 @@ public class ProjectileHandler {
             }
             else {
                 b.update(fgSpeed);
-                if (b.explosionHappens()) {   
+                if (b.explosionHappens()) {
                     for (Enemy enemy : enemyManager.getActiveEnemiesOnScreen()) {
                         enemy.takeDamage(explosionDamage);
                         if (enemy.isDead()) {

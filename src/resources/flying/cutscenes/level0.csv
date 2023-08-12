@@ -10,6 +10,7 @@ setGameplayActive;true
 blackScreen;false
 fadeIn;10
 fadeHeader;out;350;10;Academy flight range
+startSong;2
 endSequence
 
 cutscene;false;automatic;1

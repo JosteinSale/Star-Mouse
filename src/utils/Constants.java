@@ -152,11 +152,15 @@ public class Constants {
 
     public static class Audio {
         // SFX
-        public static final int LAZER_SAMPLE_LIGHT = 0;
-        public static final int LAZER_SAMPLE_DARK = 1;
+        public static final int LAZER_SAMPLE = 7;
+        public static final int BOMB_SHOOT_SAMPLE = 8;
+        public static final int TELEPORT_SAMPLE = 9;
+        public static final int COLLISION_SAMPLE = 14;
+        public static final int SMALL_EXPLOSION_SAMPLE = 18;
+        public static final int BIG_EXPLOSION_SAMPLE = 20;
 
         // Songs
-        public static final int SPACE_SONG = 0;
+        public static final int TUTORIAL_SONG = 2;
 
     }
 }

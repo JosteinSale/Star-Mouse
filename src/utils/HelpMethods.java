@@ -288,6 +288,11 @@ public class HelpMethods {
                 GoToFlyingEvent event = new GoToFlyingEvent(lvl);
                 allSequences.get(sequenceIndex).add(event);
             }
+            else if (lineData[0].equals("startSong")) {
+                Integer index = Integer.parseInt(lineData[1]);
+                StartSongEvent event = new StartSongEvent(index);
+                allSequences.get(sequenceIndex).add(event);
+            }
             else if (lineData[0].equals("fadeOutSong")) {
                 FadeOutSongEvent event = new FadeOutSongEvent();
                 allSequences.get(sequenceIndex).add(event);

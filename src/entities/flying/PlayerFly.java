@@ -18,8 +18,10 @@ import entities.Entity;
 import main.Game;
 import ui.StatusDisplay;
 import utils.LoadSave;
+import utils.Constants.Audio;
 
 public class PlayerFly extends Entity {
+    private Game game;
     private BufferedImage clImg;
     private Font statusFont;
     private BufferedImage[][] animations;
@@ -53,8 +55,9 @@ public class PlayerFly extends Entity {
     private int teleportBuffer = 0;
     private int teleportCoolDown = 10;
 
-    public PlayerFly(Float hitbox, BufferedImage clImg) {
+    public PlayerFly(Game game, Float hitbox, BufferedImage clImg) {
         super(hitbox);
+        this.game = game;
         this.clImg = clImg;
         this.tpShadowImg = LoadSave.getFlyImageSprite("teleport_shadow.png");
         loadAnimations();
@@ -219,6 +222,7 @@ public class PlayerFly extends Entity {
     private void movePlayer() {
         if ((planeAction == TELEPORTING_RIGHT) || (planeAction == TELEPORTING_LEFT)) {
             adjustPos(teleportDistance * flipX, 0);
+            game.getAudioPlayer().playSFX(Audio.TELEPORT_SAMPLE);
         }
         else {
             adjustPos(xSpeed, ySpeed);
@@ -242,6 +246,7 @@ public class PlayerFly extends Entity {
             }
             if (nrOfCollisions > 0) {
                 takeCollisionDmg();
+                game.getAudioPlayer().playSFX(Audio.COLLISION_SAMPLE);
             }
         }
     }
@@ -252,6 +257,7 @@ public class PlayerFly extends Entity {
             hitbox.x -= (teleportDistance * flipX);
             updateCollisionPixels();
             takeCollisionDmg();
+            game.getAudioPlayer().playSFX(Audio.COLLISION_SAMPLE);
             while (!collidesWithMap(yLevelOffset, xLevelOffset)) {
                 hitbox.x += (teleportDistance/10 * flipX);
             }
@@ -288,6 +294,7 @@ public class PlayerFly extends Entity {
                 Point point = new Point((int) collisionXs[i], (int) collisionYs[i]);
                 if (enemyHitbox.contains(point)) {
                     takeCollisionDmg();
+                    game.getAudioPlayer().playSFX(Audio.COLLISION_SAMPLE);
                     pushInOppositeDirectionOf(i, pushDistance);
                     this.updateCollisionPixels();
                     this.resetControls();
