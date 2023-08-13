@@ -6,11 +6,14 @@ endSequence
 fadeHeader;in;350;10;Academy flight range
 wait;150
 endSequence
+startAmbience;0
+fadeHeader;out;350;10;Academy flight range
+wait;100
+endSequence
 setGameplayActive;true
 blackScreen;false
 fadeIn;10
-fadeHeader;out;350;10;Academy flight range
-startSong;2
+startSong;0
 endSequence
 
 cutscene;false;automatic;1
@@ -96,7 +99,7 @@ wait;200
 endSequence
 dialogue;Max;happy;1;2;Let's head back to the academy
 wait;200
-fadeOutSong
+fadeOutLoops
 endSequence
 
 cutscene;false;automatic;9

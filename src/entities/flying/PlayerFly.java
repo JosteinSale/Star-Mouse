@@ -390,7 +390,7 @@ public class PlayerFly extends Entity {
                 (int) (SHIP_SPRITE_HEIGHT * 3 * Game.SCALE), null);
             
             statusDisplay.draw(g);
-            this.drawHitbox(g, 0, 0);
+            //this.drawHitbox(g, 0, 0);
         }
     }
 

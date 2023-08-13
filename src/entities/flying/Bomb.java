@@ -45,7 +45,7 @@ public class Bomb extends Entity implements PickupItem {
     }
 
     public void draw(Graphics g) {
-        drawHitbox(g, 0, 0);
+        //drawHitbox(g, 0, 0);
         if (active) {
             g.drawImage(
             animations[aniIndex], 

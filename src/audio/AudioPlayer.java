@@ -51,15 +51,18 @@ public class AudioPlayer {
         "SFX - Success.wav",
     };
     private String[] songFileNames = {
-        "Song - RocketEngineQuiet.wav",
-        "Song - Tutorial (FINISHED).wav",
-        "Song - Tutorial (FINISHED)2.wav"
-    }; 
+        "Song - Tutorial (FINISHED)3.wav",
+    };
+    private String[] ambienceFileNames = {
+        "Ambience - RocketEngineQuiet.wav",
+    };
     private File[] SFX;
     private Clip[] songs;
+    private Clip[] ambienceTracks;
     private FloatControl songGainControl;
     private FloatControl ambienceGainControl;
     private int songIndex = 0;
+    private int ambienceIndex = 0;
     private float maxSongVolume = 0.9f;
     private float songVolume = maxSongVolume;   // Må være mellom 0 og 1
     private float volumeFadeSpeed = 0.05f;
@@ -81,6 +84,20 @@ public class AudioPlayer {
                 Clip clip = AudioSystem.getClip();
                 clip.open(audioInputStream);
                 this.songs[i] = clip;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        this.ambienceTracks = new Clip[this.ambienceFileNames.length];
+        for (int i = 0; i < this.ambienceTracks.length; i++) {
+            File file = new File(System.getProperty("user.dir") + 
+            "/src/resources/audio/" + ambienceFileNames[i]);
+            try {
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioInputStream);
+                this.ambienceTracks[i] = clip;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -114,17 +131,29 @@ public class AudioPlayer {
         this.songs[songIndex].loop(Clip.LOOP_CONTINUOUSLY);
     }
 
+    public void startAmbienceLoop(int index) {
+        this.songVolume = maxSongVolume;   // set to currenSongtVolume later
+        this.ambienceIndex = index;
+        ambienceGainControl = (FloatControl) ambienceTracks[ambienceIndex].getControl(FloatControl.Type.MASTER_GAIN);
+        updateAmbienceVolume();
+        this.ambienceTracks[ambienceIndex].loop(Clip.LOOP_CONTINUOUSLY);
+    }
+
     /** Abruptly stops the current song, and resets it */
-    public void stopSongLoop() {
+    public void stopAllLoops() {
         if (songs[songIndex].isActive()) {  
             songs[songIndex].stop();
             songs[songIndex].setMicrosecondPosition(0);
         }
+        if (ambienceTracks[ambienceIndex].isActive()) {  
+            ambienceTracks[ambienceIndex].stop();
+            ambienceTracks[ambienceIndex].setMicrosecondPosition(0);
+        }
     }
 
     /** Fades out the current song, and then stops- and resets it */
-    public void fadeOutSongLoop() {
-        if (songs[songIndex].isActive()) { 
+    public void fadeOutAllLoops() {
+        if ((songs[songIndex].isActive()) || (ambienceTracks[ambienceIndex].isActive())) { 
             this.fadeOutActive = true;
         }
     }
@@ -138,10 +167,13 @@ public class AudioPlayer {
         if (waitTick > tickPerFrame) {
             waitTick = 0;
             updateSongVolume();
+            updateAmbienceVolume();
             songVolume -= volumeFadeSpeed;
             if (songVolume < 0) {
                 songs[songIndex].stop();
                 songs[songIndex].setMicrosecondPosition(0);
+                ambienceTracks[ambienceIndex].stop();
+                ambienceTracks[ambienceIndex].setMicrosecondPosition(0);
                 this.fadeOutActive = false;
                 waitTick = 0;
             }
@@ -152,5 +184,11 @@ public class AudioPlayer {
         float range = songGainControl.getMaximum() - songGainControl.getMinimum();
         float gain = (range * songVolume) + songGainControl.getMinimum();
         songGainControl.setValue(gain);
+    }
+
+    private void updateAmbienceVolume() {
+        float range = ambienceGainControl.getMaximum() -  ambienceGainControl.getMinimum();
+        float gain = (range * songVolume) + ambienceGainControl.getMinimum();
+        ambienceGainControl.setValue(gain);
     }
 }

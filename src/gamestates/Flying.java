@@ -80,7 +80,7 @@ public class Flying implements Statemethods {
         this.clImgWidth = clImg.getWidth() * 3;
         this.clYOffset = Game.GAME_DEFAULT_HEIGHT - clImgHeight + 150;
         this.clXOffset = 150;
-        this.bgImg = LoadSave.getFlyImageBackground("erwerr2.png");
+        this.bgImg = LoadSave.getFlyImageBackground("level0.png");
         this.bgImgHeight = bgImg.getHeight();
         this.bgYOffset = Game.GAME_DEFAULT_HEIGHT - bgImgHeight;
     }
@@ -174,8 +174,11 @@ public class Flying implements Statemethods {
         else if (event instanceof StartSongEvent evt) {
             this.game.getAudioPlayer().startSongLoop(evt.index());
         }
-        else if (event instanceof FadeOutSongEvent evt) {
-            this.game.getAudioPlayer().fadeOutSongLoop();
+        else if (event instanceof StartAmbienceEvent evt) {
+            this.game.getAudioPlayer().startAmbienceLoop(evt.index());
+        }
+        else if (event instanceof FadeOutLoopEvent evt) {
+            this.game.getAudioPlayer().fadeOutAllLoops();
         }
         /* 
         else if (event instanceof SetStartingCutsceneEvent2 evt) {

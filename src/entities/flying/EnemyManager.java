@@ -131,7 +131,7 @@ public class EnemyManager {
     public void draw(Graphics g) {
         for (Enemy enemy : activeEnemiesOnScreen) {
             enemy.draw(g);
-            enemy.drawHitbox(g);
+            //enemy.drawHitbox(g);
         }
         for (Explosion ex : explosions) {
             g.drawImage(

@@ -293,8 +293,13 @@ public class HelpMethods {
                 StartSongEvent event = new StartSongEvent(index);
                 allSequences.get(sequenceIndex).add(event);
             }
-            else if (lineData[0].equals("fadeOutSong")) {
-                FadeOutSongEvent event = new FadeOutSongEvent();
+            else if (lineData[0].equals("startAmbience")) {
+                Integer index = Integer.parseInt(lineData[1]);
+                StartAmbienceEvent event = new StartAmbienceEvent(index);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("fadeOutLoops")) {
+                FadeOutLoopEvent event = new FadeOutLoopEvent();
                 allSequences.get(sequenceIndex).add(event);
             }
             else if (lineData[0].equals("endSequence")) {

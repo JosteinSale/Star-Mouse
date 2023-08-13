@@ -76,9 +76,15 @@ START SONG
 * This loops the song until it's stopped
 
 
-FADE OUT SONG
+START AMBIENCE
 --------------------
-[0] = fadeOutSong (String) 
+[0] = startAmbience (String), [1] = ambienceIndex (int)
+* This loops the ambience track until it's stopped
+
+
+FADE OUT ALL LOOPS
+--------------------
+[0] = fadeOutLoops (String) 
 
 
 END SEQUENCE

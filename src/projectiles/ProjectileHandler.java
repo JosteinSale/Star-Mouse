@@ -324,7 +324,7 @@ public class ProjectileHandler {
         for (Projectile p : allProjectiles) {
             if (p.isActive()) {
                 p.draw(g);
-                p.drawHitbox(g);
+                //p.drawHitbox(g);
             }
         }
         for (ProjectileHit ph : projectileHits) {
