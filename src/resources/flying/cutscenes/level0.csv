@@ -20,11 +20,13 @@ cutscene;false;automatic;1
 dialogue;Max;happy;1;2;Alright, let's do this!
 wait;180
 endSequence
+wait;100
+endSequence
 dialogue;Max;normal;0;2;Use the WASD-keys to move!
 wait;240
 endSequence
-dialogue;Max;thoughtful;5;2;And make sure not to crash into anything
-wait;240
+dialogue;Max;thoughtful;5;2;And don't crash into anything
+wait;200
 endSequence
 dialogue;Oliver;annoyed;5;2;...I know that
 wait;200
@@ -69,6 +71,8 @@ endSequence
 cutscene;false;automatic;5
 dialogue;Max;normal;0;2;Powerups make your shots stronger!
 wait;240
+endSequence
+wait;60
 endSequence
 dialogue;Max;normal;0;2;Repairs can... uh... repair.
 wait;200

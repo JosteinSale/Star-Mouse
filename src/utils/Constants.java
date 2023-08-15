@@ -158,6 +158,10 @@ public class Constants {
         public static final int COLLISION_SAMPLE = 11;
         public static final int SMALL_EXPLOSION_SAMPLE = 18;
         public static final int BIG_EXPLOSION_SAMPLE = 20;
+        public static final int POWERUP_SAMPLE = 25;
+        public static final int REPAIR_SAMPLE = 24;
+        public static final int BOMB_PICKUP_SAMPLE = 22;
+
 
         // Songs
         public static final int TUTORIAL_SONG = 0;

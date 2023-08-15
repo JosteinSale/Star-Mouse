@@ -37,7 +37,7 @@ public class MainMenu extends State implements Statemethods {
         }
         else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             if (selectedIndex == 0) {
-                Gamestate.state = Gamestate.FLYING;
+                Gamestate.state = Gamestate.EXPLORING;
             }
             else if (selectedIndex == 1) {
                 Gamestate.state = Gamestate.LEVEL_EDITOR;

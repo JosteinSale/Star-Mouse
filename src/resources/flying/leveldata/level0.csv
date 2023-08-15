@@ -3,7 +3,7 @@ automaticTrigger;0f;-300f;10f;10f;move+obstacles
 automaticTrigger;0f;-2500f;10f;10f;targets+obstacles
 automaticTrigger;0f;-5400f;10f;10f;teleportation+targets
 automaticTrigger;0f;-9400f;10f;10f;teleport_through_obstacles+targets
-automaticTrigger;0f;-11000f;10f;10f;powerups+targets+repair
+automaticTrigger;0f;-11100f;10f;10f;powerups+targets+repair
 automaticTrigger;0f;-12300f;10f;10f;bombs+targets
 automaticTrigger;0f;-13700f;10f;10f;use_bombs_sparingly
 automaticTrigger;0f;-15600f;10f;10f;done!
@@ -38,10 +38,10 @@ target;680;-10590
 target;780;-10590
 target;880;-10590
 powerup;640;-10980
-target;810;-11200
-target;710;-11280
-target;610;-11360
-repair;230;-11610
+target;810;-11400
+target;710;-11480
+target;610;-11560
+repair;230;-11810
 bomb;440;-12190
 bomb;500;-12250
 bomb;560;-12190

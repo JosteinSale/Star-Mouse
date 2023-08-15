@@ -156,4 +156,11 @@ public class EnemyManager {
     public ArrayList<Integer> getKilledEnemies() {
         return this.killedEnemies;
     }
+
+    /** Is used with the 'startAt()'-method */
+    public void moveAllEnemies(int yOffset) {
+        for (Enemy enemy : allEnemies) {
+            enemy.getHitbox().y -= yOffset;
+        }
+    }
 }

@@ -71,7 +71,7 @@ public class Flying implements Statemethods {
         loadEventReactions();
         loadLevelData(level);
         loadCutscenes(level);
-        //startAt(-14000);      // Brukes for testing
+        //startAt(-12000);      // Brukes for testing
     }
 
     private void loadMapImages() {
@@ -196,7 +196,7 @@ public class Flying implements Statemethods {
         for (AutomaticTrigger trigger : automaticTriggers) {
             trigger.getHitbox().y -= y;
         }
-        // TODO - move enemies
+        enemyManager.moveAllEnemies(y);
     }
 
     @Override
@@ -270,12 +270,15 @@ public class Flying implements Statemethods {
                 p.setActive(false);
                 if (p.getType() == POWERUP) {
                     projectileHandler.setPowerup(true);
+                    game.getAudioPlayer().playSFX(Audio.POWERUP_SAMPLE);
                 }
                 else if (p.getType() == REPAIR) {
                     player.increaseHealth(repairHealth);
+                    game.getAudioPlayer().playSFX(Audio.REPAIR_SAMPLE);
                 }
                 else if (p.getType() == BOMB) {
                     projectileHandler.addBombToInventory();
+                    game.getAudioPlayer().playSFX(Audio.BOMB_PICKUP_SAMPLE);
                 }
             }
         }
