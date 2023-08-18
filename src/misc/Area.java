@@ -214,6 +214,7 @@ public class Area {
         }
         else if (event instanceof GoToFlyingEvent evt) {
             Gamestate.state = Gamestate.FLYING;
+            this.exploring.getGame().getFlying().loadLevel(evt.lvl());
             this.exploring.getGame().getFlying().update();
         }
     }

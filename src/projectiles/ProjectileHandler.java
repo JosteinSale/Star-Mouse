@@ -38,26 +38,22 @@ public class ProjectileHandler {
     private BufferedImage[] bombExplosionAnimation;
 
     private boolean powerUp = false;
-    private boolean explosionsActive = false;
-    private boolean canShootBomb = true;
     private boolean spaceIsPressed;
     private boolean bIsPressed;
-    private int shootTick = 0;
-    private int bombShootTick = 0;
-    private int shootBuffer = 10;
+    private int lazerShootTick = 0;
+    private int lazerShootBuffer = 10;
     private int bombShootBuffer = 30;
-    private int shootDamage = 10;
+    private int bombShootTick = 0;
     private int explosionDamage = 100;
-    private int nrOfBombs = 50;
+    private int nrOfBombs = 3;
 
     private float fgSpeed;
 
-    public ProjectileHandler(Game game, PlayerFly player, EnemyManager enemyManager, BufferedImage clImage) {
+    public ProjectileHandler(Game game, PlayerFly player, EnemyManager enemyManager) {
         this.game = game;
         this.player = player;
         this.enemyManager = enemyManager;
         loadImgs();
-        this.clImg = clImage;
         this.allProjectiles = new ArrayList<>();
         this.projectilesToRemove = new ArrayList<>();
         this.projectileHits = new ArrayList<>();
@@ -101,12 +97,13 @@ public class ProjectileHandler {
 
     private void checkPlayerShoot() {
         // Kan også sjekke skyting av bomber her
-        if (spaceIsPressed && shootTick == 0) {
-            shootTick = shootBuffer;
+        if (spaceIsPressed && lazerShootTick == 0) {
+            lazerShootTick = lazerShootBuffer;
             this.addPlayerProjectile(player.getHitbox().x, player.getHitbox().y);
             game.getAudioPlayer().playSFX(Audio.LAZER_SAMPLE);
         }
-        if (bIsPressed && bombShootTick == 0) {
+        if (bIsPressed && bombShootTick == 0 && nrOfBombs > 0) {
+            nrOfBombs--;
             game.getAudioPlayer().playSFX(Audio.BOMB_SHOOT_SAMPLE);
             bombShootTick = bombShootBuffer;
             this.addBombProjectile(player.getHitbox().x, player.getHitbox().y);
@@ -126,16 +123,12 @@ public class ProjectileHandler {
     }
 
     private void addBombProjectile(float xPos, float yPos) {
-        nrOfBombs--;
-        if (nrOfBombs < 0) {
-            nrOfBombs = 0;
-        }
-        if (nrOfBombs > 0) {
-            Rectangle2D.Float hitbox = new Rectangle2D.Float(
-                xPos + player.getHitbox().width/2 - BOMB_SPRITE_SIZE/2, yPos - 50, 
-                BOMB_SPRITE_SIZE, BOMB_SPRITE_SIZE);
-            this.allProjectiles.add(new BombProjectile(hitbox, bombImg));
-        }
+        Rectangle2D.Float hitbox = new Rectangle2D.Float(
+            xPos + player.getHitbox().width / 2 - BOMB_SPRITE_SIZE / 2, 
+            yPos - 50,
+            BOMB_SPRITE_SIZE, 
+            BOMB_SPRITE_SIZE);
+        this.allProjectiles.add(new BombProjectile(hitbox, bombImg));
     }
 
     private void checkEnemeyShoot() {
@@ -169,9 +162,9 @@ public class ProjectileHandler {
     }
 
     private void updatePlayerShootTick() {
-        shootTick--;
-        if (shootTick < 0) {
-            shootTick = 0;
+        lazerShootTick--;
+        if (lazerShootTick < 0) {
+            lazerShootTick = 0;
         }
         bombShootTick--;
         if (bombShootTick < 0) {
@@ -192,9 +185,6 @@ public class ProjectileHandler {
         for (Projectile p : allProjectiles) {
             if (!p.getHitbox().intersects(screenBox)) {
                 projectilesToRemove.add(index);
-                if (p.getType() == BOMB_PROJECTILE) {
-                    canShootBomb = true;
-                }
             }
             index += 1;
         }
@@ -361,7 +351,7 @@ public class ProjectileHandler {
     }
 
     public void resetShootTick() {
-        this.shootTick = 0;
+        this.lazerShootTick = 0;
     }
 
     public void setPowerup(boolean powerup) {
@@ -371,5 +361,21 @@ public class ProjectileHandler {
     public void addBombToInventory() {
         this.nrOfBombs++;
         this.player.setBombs(nrOfBombs);
+    }
+
+    public void setClImg(BufferedImage clImg) {
+        this.clImg = clImg;
+    }
+
+    public void reset() {
+        allProjectiles.clear();
+        projectilesToRemove.clear();
+        projectileHits.clear();
+        bombExplosions.clear();
+        powerUp = false;
+        spaceIsPressed = false;
+        bIsPressed = false;
+        lazerShootTick = 0;
+        bombShootTick = 0;
     }
 }

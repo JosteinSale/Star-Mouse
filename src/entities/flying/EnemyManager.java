@@ -34,7 +34,6 @@ public class EnemyManager {
         activeEnemiesOnScreen = new ArrayList<>();
         this.explosions = new ArrayList<>();
         this.killedEnemies = new ArrayList<>();
-        loadEnemiesForLvl(0);
     }
 
     private void loadImgs() {
@@ -62,7 +61,10 @@ public class EnemyManager {
         }
     }
 
-    private void loadEnemiesForLvl(int lvl) {
+    public void loadEnemiesForLvl(int lvl) {
+        explosions.clear();
+        killedEnemies.clear();
+
         List<String> enemyData = LoadSave.getFlyLevelData(lvl);
         for (String line : enemyData) {
             String[] lineData = line.split(";");

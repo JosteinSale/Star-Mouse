@@ -42,16 +42,16 @@ public class NumberDisplay {
     }
 
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+        if (e.getKeyCode() == KeyEvent.VK_D) {
             if (digitIndex < 3) {digitIndex += 1;}
         }
-        else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+        else if (e.getKeyCode() == KeyEvent.VK_A) {
             if (digitIndex > 0) {digitIndex -= 1;}
         }
-        else if (e.getKeyCode() == KeyEvent.VK_UP) {
+        else if (e.getKeyCode() == KeyEvent.VK_W) {
             currentCode[digitIndex] = (currentCode[digitIndex] + 1) % 10;
         }
-        else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+        else if (e.getKeyCode() == KeyEvent.VK_S) {
             currentCode[digitIndex] -= 1;
             if (currentCode[digitIndex] < 0) {
                 currentCode[digitIndex] = 9;

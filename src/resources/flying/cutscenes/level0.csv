@@ -1,4 +1,4 @@
-cutscene;false;automatic;0
+cutscene;true;automatic;0
 setGameplayActive;false
 blackScreen;true
 wait;40
@@ -16,7 +16,7 @@ fadeIn;10
 startSong;0
 endSequence
 
-cutscene;false;automatic;1
+cutscene;true;automatic;1
 dialogue;Max;happy;1;2;Alright, let's do this!
 wait;180
 endSequence
@@ -32,7 +32,7 @@ dialogue;Oliver;annoyed;5;2;...I know that
 wait;200
 endSequence
 
-cutscene;false;automatic;2
+cutscene;true;automatic;2
 dialogue;Max;normal;0;2;Use SPACE to shoot.
 wait;200
 endSequence
@@ -40,7 +40,7 @@ dialogue;Max;normal;0;2;Hold it to shoot contineously.
 wait;240
 endSequence
 
-cutscene;false;automatic;3
+cutscene;true;automatic;3
 dialogue;Oliver;normal;0;2;Can we practice teleportation?
 wait;240
 endSequence
@@ -57,7 +57,7 @@ dialogue;Max;happy;1;2;Practice makes perfect!
 wait;200
 endSequence
 
-cutscene;false;automatic;4
+cutscene;true;automatic;4
 dialogue;Max;normal;0;4;Remember
 wait;100
 endSequence
@@ -68,7 +68,7 @@ dialogue;Oliver;surprised;3;2;No way, that's too scary!
 wait;200
 endSequence
 
-cutscene;false;automatic;5
+cutscene;true;automatic;5
 dialogue;Max;normal;0;2;Powerups make your shots stronger!
 wait;240
 endSequence
@@ -78,7 +78,7 @@ dialogue;Max;normal;0;2;Repairs can... uh... repair.
 wait;200
 endSequence
 
-cutscene;false;automatic;6
+cutscene;true;automatic;6
 dialogue;Max;thoughtful;5;2;Bombs can take out many targets at once.
 wait;240
 endSequence
@@ -86,7 +86,7 @@ dialogue;Max;normal;0;2;Shoot them with B
 wait;200
 endSequence
 
-cutscene;false;automatic;7
+cutscene;true;automatic;7
 dialogue;Max;eyes_closed;4;2;But use them sparingly, they're not cheap.
 wait;240
 endSequence
@@ -97,7 +97,7 @@ dialogue;Max;thoughtful;5;3;...good question
 wait;200
 endSequence
 
-cutscene;false;automatic;8
+cutscene;true;automatic;8
 dialogue;Max;laughing;3;2;Nice, looks like you got the hang of it!
 wait;200
 endSequence
@@ -106,7 +106,7 @@ wait;200
 fadeOutLoops
 endSequence
 
-cutscene;false;automatic;9
+cutscene;true;automatic;9
 fadeOut;5
 endSequence
 setGameplayActive;false

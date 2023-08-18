@@ -65,6 +65,7 @@ public class LevelFinishedOverlay implements Statemethods {
 
     public void setLevelStats(int currentCredits, ArrayList<Integer> enemiesKilled) {
         this.currentLetter = 0;
+        this.linesToDraw = 0;
         this.totalCredits = currentCredits;
         this.enemiesKilled = enemiesKilled;
         calcCreditsEarned();
@@ -125,6 +126,7 @@ public class LevelFinishedOverlay implements Statemethods {
                 (int) ((statusY + i* yDiff) * Game.SCALE));
         }
 
+        // Draws 'Continue' with cursor if all text has appeared
         if (currentLetter == (lettersPerLine * 3)) {
             g.setFont(continueFont);
             g.drawString(

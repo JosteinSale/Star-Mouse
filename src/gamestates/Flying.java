@@ -66,15 +66,36 @@ public class Flying implements Statemethods {
         this.game = game;
         this.automaticTriggers = new ArrayList<>();
         this.pickupItems = new ArrayList<>();
-        loadMapImages();
         initClasses();
         loadEventReactions();
-        loadLevelData(level);
-        loadCutscenes(level);
-        //startAt(-12000);      // Brukes for testing
+        //loadLevel(level);     // Only use if not entering from Exploring    
     }
 
-    private void loadMapImages() {
+    public void loadLevel(int level) {
+        loadMapAndOffsets(level);
+        player.setClImg(this.clImg);
+        projectileHandler.setClImg(this.clImg);
+        enemyManager.loadEnemiesForLvl(level);
+        loadPickupItems(level);
+        loadCutscenes(level);
+        player.setKilledEnemies(0);
+        // TODO - player.setBombs
+        //startAt(-15000);  
+    }
+
+    private void initClasses() {
+        Rectangle2D.Float playerHitbox = new Rectangle2D.Float(500f, 400f, 50f, 50f);
+        this.player = new PlayerFly(game, playerHitbox);
+        this.enemyManager = new EnemyManager(player);
+        this.projectileHandler = new ProjectileHandler(game, player, enemyManager);
+        this.eventHandler = new EventHandler();
+        TextboxManager2 textboxManager = new TextboxManager2();
+        this.cutsceneManager = new CutsceneManager2(eventHandler, textboxManager);
+        this.pauseOverlay = new PauseFlying(this);
+        this.levelFinishedOverlay = new LevelFinishedOverlay(this);
+    }
+
+    private void loadMapAndOffsets(int lvl) {
         this.clImg = LoadSave.getFlyImageCollision("BorderTest2.png");
         this.clImgHeight = clImg.getHeight() * 3;
         this.clImgWidth = clImg.getWidth() * 3;
@@ -85,19 +106,7 @@ public class Flying implements Statemethods {
         this.bgYOffset = Game.GAME_DEFAULT_HEIGHT - bgImgHeight;
     }
 
-    private void initClasses() {
-        Rectangle2D.Float playerHitbox = new Rectangle2D.Float(500f, 400f, 50f, 50f);
-        this.player = new PlayerFly(game, playerHitbox, clImg);
-        this.enemyManager = new EnemyManager(player);
-        this.projectileHandler = new ProjectileHandler(game, player, enemyManager, clImg);
-        this.eventHandler = new EventHandler();
-        TextboxManager2 textboxManager = new TextboxManager2();
-        this.cutsceneManager = new CutsceneManager2(eventHandler, textboxManager);
-        this.pauseOverlay = new PauseFlying(this);
-        this.levelFinishedOverlay = new LevelFinishedOverlay(this);
-    }
-
-    private void loadLevelData(Integer level) {
+    private void loadPickupItems(Integer level) {
         List<String> levelData = LoadSave.getFlyLevelData(level);
         for (String line : levelData) {
             String[] lineData = line.split(";");
@@ -187,18 +196,6 @@ public class Flying implements Statemethods {
         */
     }
 
-    private void startAt(int y) {
-        this.clYOffset -= y;
-        this.bgYOffset -= y * (bgCurSpeed / fgCurSpeed);
-        for (PickupItem p : pickupItems) {
-            p.getHitbox().y -= y;
-        }
-        for (AutomaticTrigger trigger : automaticTriggers) {
-            trigger.getHitbox().y -= y;
-        }
-        enemyManager.moveAllEnemies(y);
-    }
-
     @Override
     public void keyPressed(KeyEvent e) {
         if ((e.getKeyCode() == KeyEvent.VK_ENTER) && !levelFinished) {
@@ -248,7 +245,7 @@ public class Flying implements Statemethods {
                 if (!cutsceneManager.isActive()) {
                     checkCutsceneTriggers();
                 }
-                //updateChartingY();
+                updateChartingY();
                 moveMaps();
                 moveCutscenes();
                 player.update(clYOffset, clXOffset);
@@ -286,7 +283,7 @@ public class Flying implements Statemethods {
 
     private void updateChartingY() {
         chartingY -= fgCurSpeed;
-        System.out.println(chartingY);
+        //System.out.println(chartingY);
     }
 
     private void moveCutscenes() {
@@ -301,7 +298,7 @@ public class Flying implements Statemethods {
             if ((trigger.getHitbox().y > 0) && (trigger.getHitbox().y < 10)) {
                 if (!trigger.hasPlayed()) {
                     this.cutsceneManager.startCutscene(index, automaticTriggers.get(index).getStartCutscene());
-                    trigger.setPlayed();
+                    trigger.setPlayed(true);
                 }
             }
             index += 1;
@@ -357,13 +354,38 @@ public class Flying implements Statemethods {
     }
 
     public void exitFinishedLevel() {
+        this.resetFlying();
         if (this.level == 0) {
             Gamestate.state = Gamestate.EXPLORING;
         }
         else {
             Gamestate.state = Gamestate.LEVEL_SELECT;
-            // TODO - resetLevel();
         }
+    }
+
+    private void startAt(int y) {
+        this.clYOffset -= y;
+        this.bgYOffset -= y * (bgCurSpeed / fgCurSpeed);
+        for (PickupItem p : pickupItems) {
+            p.getHitbox().y -= y;
+        }
+        for (AutomaticTrigger trigger : automaticTriggers) {
+            trigger.getHitbox().y -= y;
+        }
+        enemyManager.moveAllEnemies(y);
+    }
+
+    /** Resets all non-level-specific values in flying-mode.
+     * (Level-specific values are set in the 'loadLevel'-method) */
+    private void resetFlying() {
+        pause = false;
+        gamePlayActive = true;
+        levelFinished = false;
+        fgCurSpeed = fgNormalSpeed;
+        bgCurSpeed = bgNormalSpeed;
+        player.resetToStartPos();
+        projectileHandler.reset();
+        cutsceneManager.reset();
     }
 
     /* 

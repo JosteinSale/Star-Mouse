@@ -99,18 +99,18 @@ public class PauseExploring implements Statemethods {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_UP) {
+        if (e.getKeyCode() == KeyEvent.VK_W) {
             moveCursorUp();
             takeIndexUp();
         }
-        else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+        else if (e.getKeyCode() == KeyEvent.VK_S) {
             moveCursorDown();
             takeIndexDown();
         }
-        else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+        else if (e.getKeyCode() == KeyEvent.VK_D) {
             takeIndexRight();
         }
-        else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+        else if (e.getKeyCode() == KeyEvent.VK_A) {
             takeIndexLeft();
         }
         else if (e.getKeyCode() == KeyEvent.VK_SPACE) {

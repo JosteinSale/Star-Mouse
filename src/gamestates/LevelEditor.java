@@ -128,8 +128,8 @@ public class LevelEditor implements Statemethods {
     }
 
     private void addEntityToList(int x, int y, int entity) {
-        int width = 150;
-        int height = 150;
+        int width = 150;    // Hitbox-width
+        int height = 150;   // Hitbox-height
         int xOffset = 0;
         int yOffset = 0;
         if (entity == 0) {

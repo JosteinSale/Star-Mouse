@@ -55,10 +55,9 @@ public class PlayerFly extends Entity {
     private int teleportBuffer = 0;
     private int teleportCoolDown = 10;
 
-    public PlayerFly(Game game, Float hitbox, BufferedImage clImg) {
+    public PlayerFly(Game game, Float hitbox) {
         super(hitbox);
         this.game = game;
-        this.clImg = clImg;
         this.tpShadowImg = LoadSave.getFlyImageSprite("teleport_shadow.png");
         loadAnimations();
         updateCollisionPixels();
@@ -216,6 +215,10 @@ public class PlayerFly extends Entity {
             if ((Math.abs(ySpeed)) < 0.6) {
                 ySpeed = 0;
             }
+        }
+
+        if (teleportBuffer > 3) {
+            xSpeed = 0;
         }
     }
 
@@ -458,4 +461,12 @@ public class PlayerFly extends Entity {
         this.statusDisplay.setKilledEnemies(nr);
     }
     
+    public void setClImg(BufferedImage clImg) {
+        this.clImg = clImg;
+    }
+
+    public void resetToStartPos() {
+        hitbox.x = 500f;
+        hitbox.y = 400f;
+    }
 }

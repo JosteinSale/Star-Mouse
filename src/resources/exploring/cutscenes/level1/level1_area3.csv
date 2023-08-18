@@ -93,7 +93,30 @@ wait;1
 endSequence
 
 cutscene;true;automatic;5
-dialogue;Oliver;happy;1;2;Thanks for helping me out!
+dialogue;Oliver;happy;1;2;Want to go again?
+endSequence
+infoChoice;Go flying with Oliver?;Yes;No
+endSequence
+
+cutscene;true;npc;5
+fadeOut;5
+endSequence
+blackScreen;true
+wait;100
+endSequence
+goToFlying;0
+wait;1
+endSequence
+blackScreen;false
+fadeIn;5
+endSequence
+wait;100;
+endSequence
+dialogue;Oliver;happy;1;2;Just let me know if you want to go again!
+endSequence
+
+cutscene;true;npc;5
+wait;1
 endSequence
 
 cutscene;true;npc;6

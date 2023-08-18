@@ -67,7 +67,7 @@ wait;60
 endSequence
 info;Press SPACE to interact / advance
 endSequence
-info;Arrowkeys to move
+info;WASD-keys to move
 endSequence
 info;ENTER to open menu / inventory
 endSequence

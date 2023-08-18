@@ -253,4 +253,24 @@ public class CutsceneManager2 {
     public void setOverlayActive(boolean active) {
         this.overlayImageActive = active;
     }
+
+    public void reset() {
+        active = false; 
+        canAdvance = true;
+        fadeOutActive = false;
+        fadeInActive = false;
+        dialogueAppearing = false;
+        waitActive = false;
+        blackScreenActive = false;
+        overlayImageActive = false;
+        headerActive = false;
+        screenAlphaFade = 0;
+        headerAlphaFade = 0;
+        screenFadeSpeed = 10;
+        headerFadeSpeed = 10;
+        waitTick = 0;
+        nrOfAutomaticCutscenes = 0;
+        triggerIndex = 0;        
+        cutsceneIndex = 0; 
+    }
 }

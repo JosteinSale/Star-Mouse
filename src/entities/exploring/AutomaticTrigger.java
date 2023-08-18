@@ -31,8 +31,8 @@ public class AutomaticTrigger extends Entity {
         return this.hasPlayed;
     }
 
-    public void setPlayed() {
-        this.hasPlayed = true;
+    public void setPlayed(boolean played) {
+        this.hasPlayed = played;
     }
     
 }

@@ -77,31 +77,31 @@ public class PlayerExp extends Entity {
     }
     
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+        if (e.getKeyCode() == KeyEvent.VK_A) {
             leftIsPressed = true;
         }
-        if (e.getKeyCode() == KeyEvent.VK_UP) {
+        if (e.getKeyCode() == KeyEvent.VK_W) {
             upIsPressed = true;
         }
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+        if (e.getKeyCode() == KeyEvent.VK_D) {
             rightIsPressed = true;
         }
-        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+        if (e.getKeyCode() == KeyEvent.VK_S) {
             downIsPressed = true;
         }
     }
 
     public void KeyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+        if (e.getKeyCode() == KeyEvent.VK_A) {
             leftIsPressed = false;
         }
-        if (e.getKeyCode() == KeyEvent.VK_UP) {
+        if (e.getKeyCode() == KeyEvent.VK_W) {
             upIsPressed = false;
         }
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+        if (e.getKeyCode() == KeyEvent.VK_D) {
             rightIsPressed = false;
         }
-        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+        if (e.getKeyCode() == KeyEvent.VK_S) {
             downIsPressed = false;
         }
     }
@@ -123,7 +123,7 @@ public class PlayerExp extends Entity {
                 hitbox.x += playerSpeed;
             }
         }
-        if (upIsPressed) {
+        if (upIsPressed && !(leftIsPressed && rightIsPressed)) {
             playerAction = WALKING_UP;
             playerDirection = UP;
             hitbox.y -= playerSpeed;
@@ -139,7 +139,7 @@ public class PlayerExp extends Entity {
                 hitbox.x -= playerSpeed;
             }
         }
-        if (downIsPressed) {
+        if (downIsPressed && !(leftIsPressed && rightIsPressed)) {
             playerAction = WALKING_DOWN;
             playerDirection = DOWN;
             hitbox.y += playerSpeed;

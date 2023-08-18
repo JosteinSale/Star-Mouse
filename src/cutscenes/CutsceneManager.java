@@ -141,7 +141,7 @@ public class CutsceneManager {
     public void keyPressed(KeyEvent e) {
         if (canAdvance) {
             if (textboxManager.isChoiceActive()) {
-                if ((e.getKeyCode() == KeyEvent.VK_RIGHT) || (e.getKeyCode() == KeyEvent.VK_LEFT)) {
+                if ((e.getKeyCode() == KeyEvent.VK_D) || (e.getKeyCode() == KeyEvent.VK_A)) {
                     this.textboxManager.toggleOptions();
                 } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
                     int playerChoice = this.textboxManager.getSelectedOption();
