@@ -169,9 +169,9 @@ public class Constants {
 
         // Songs
         public static final int TUTORIAL_SONG = 0;
-
+        
         // Ambience
-        public static final int ROCKET_ENGINE_SOUND = 0;
-
+        public static final int SILENCE = 0;
+        public static final int ROCKET_ENGINE_SOUND = 1;
     }
 }

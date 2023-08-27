@@ -6,7 +6,7 @@ endSequence
 fadeHeader;in;350;10;Academy flight range
 wait;150
 endSequence
-startAmbience;0
+startAmbience;1
 fadeHeader;out;350;10;Academy flight range
 wait;100
 endSequence

@@ -28,6 +28,8 @@ public class Area {
     private Exploring exploring;
     private Integer levelIndex;
     private Integer areaIndex;
+    private Integer songIndex;
+    private Integer ambienceIndex;
     
     private BufferedImage landScapeImg;
     private BufferedImage bgImg;
@@ -104,7 +106,13 @@ public class Area {
     private void loadAreaData(List<String> areaData) {
         for (String line : areaData) {
             String[] lineData = line.split(";");
-            if (lineData[0].equals("player")) {
+            if (lineData[0].equals("ambience")) {
+                this.ambienceIndex = Integer.parseInt(lineData[1]);
+            }
+            else if (lineData[0].equals("song")) {
+                this.songIndex = Integer.parseInt(lineData[1]);
+            }
+            else if (lineData[0].equals("player")) {
                 player = GetPlayer(lineData, clImg);
             }
             else if (lineData[0].equals("object")) {  
@@ -144,6 +152,7 @@ public class Area {
             int newArea = evt.area();
             int reenterDir = doors.get(evt.exitedDoor()).getReenterDir();
 
+            audioPlayer.stopAllLoops();
             player.setDirection(reenterDir);
             player.resetAll(); 
             this.justEntered = true;
@@ -218,8 +227,15 @@ public class Area {
         }
         else if (event instanceof GoToFlyingEvent evt) {
             Gamestate.state = Gamestate.FLYING;
+            audioPlayer.stopAllLoops();
             this.exploring.getGame().getFlying().loadLevel(evt.lvl());
             this.exploring.getGame().getFlying().update();
+        }
+        else if (event instanceof StartSongEvent evt) {
+            this.audioPlayer.startSongLoop(evt.index());
+        }
+        else if (event instanceof StartAmbienceEvent evt) {
+            audioPlayer.startAmbienceLoop(evt.index());
         }
     }
 
@@ -280,8 +296,9 @@ public class Area {
             }
         }
         else if (justEntered) {
+            audioPlayer.startAmbienceLoop(ambienceIndex);
+            audioPlayer.startSongLoop(songIndex);
             cutsceneManager.startFadeIn(10, true);
-            audioPlayer.startAmbienceLoop(1);
             justEntered = false;
             player.resetAll();
         }

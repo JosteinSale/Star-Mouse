@@ -51,6 +51,7 @@ setOverlayImage;overlayBed.png
 setOverlayActive;true
 blackScreen;true
 setPlayerSheet;1
+startAmbience;0
 wait;120
 endSequence
 blackScreen;false

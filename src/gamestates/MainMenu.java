@@ -27,6 +27,7 @@ public class MainMenu extends State implements Statemethods {
         this.audioPlayer = game.getAudioPlayer();
         bgImg = LoadSave.getExpImageBackground(LoadSave.MAIN_MENU_BG);
         cursorImg = LoadSave.getExpImageSprite(LoadSave.CURSOR_SPRITE_BLACK);
+        audioPlayer.startAmbienceLoop(Audio.SILENCE);   // Nescessary because stupid
     }
 
     @Override
@@ -43,6 +44,7 @@ public class MainMenu extends State implements Statemethods {
         }
         else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             if (selectedIndex == 0) {
+                audioPlayer.stopAllLoops();
                 audioPlayer.playSFX(Audio.STARTGAME_SAMPLE);
                 Gamestate.state = Gamestate.EXPLORING;
             }

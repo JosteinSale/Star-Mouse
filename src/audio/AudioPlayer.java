@@ -54,11 +54,12 @@ public class AudioPlayer {
         "SFX - Success.wav",
     };
     private String[] songFileNames = {
-        "Song - Tutorial (FINISHED)3.wav",
+        "Song - Tutorial (FINISHED)3.wav"
     };
     private String[] ambienceFileNames = {
+        "Song - Silence.wav",
         "Ambience - RocketEngineQuiet.wav",
-        "Ambience - Wind"
+        "Ambience - Wind.wav"
     };
     private File[] SFX;
     private Clip[] songs;
@@ -132,7 +133,11 @@ public class AudioPlayer {
         }
     }
 
+    /** Starts a song loop with the specified index.
+     *  Index = 99 means no song.
+     */
     public void startSongLoop(int index) {
+        if (index == 99) {return;}
         this.songVolume = maxSongVolume;   // set to currenSongtVolume later
         this.songIndex = index;
         songGainControl = (FloatControl) songs[songIndex].getControl(FloatControl.Type.MASTER_GAIN);
@@ -140,16 +145,23 @@ public class AudioPlayer {
         this.songs[songIndex].loop(Clip.LOOP_CONTINUOUSLY);
     }
 
+    /** Starts an ambience loop with the specified index.
+     *  Index = 0 means a silence track.
+     *  Index = 99 means no ambience.
+     */
     public void startAmbienceLoop(int index) {
+        if (index == 99) {return;}
         this.songVolume = maxSongVolume;   // set to currenSongtVolume later
         this.ambienceIndex = index;
         ambienceGainControl = (FloatControl) ambienceTracks[ambienceIndex].getControl(FloatControl.Type.MASTER_GAIN);
         updateAmbienceVolume();
         this.ambienceTracks[ambienceIndex].loop(Clip.LOOP_CONTINUOUSLY);
+        System.out.println("ambience started");
     }
 
     /** Abruptly stops the current song, and resets it */
     public void stopAllLoops() {
+        System.out.println("stop");
         if (songs[songIndex].isActive()) {  
             songs[songIndex].stop();
             songs[songIndex].setMicrosecondPosition(0);

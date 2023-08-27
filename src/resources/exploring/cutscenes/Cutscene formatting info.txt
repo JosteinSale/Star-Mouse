@@ -122,6 +122,18 @@ GO TO FLYING
 [0] = goToFlying (String), [1] = level
 
 
+START SONG
+--------------------
+[0] = startSong (String), [1] = songIndex (int)
+* This loops the song until it's stopped
+
+
+START AMBIENCE
+--------------------
+[0] = startAmbience (String), [1] = ambienceIndex (int)
+* This loops the ambience track until it's stopped
+
+
 END SEQUENCE
 --------------------
 [0] = endSequence

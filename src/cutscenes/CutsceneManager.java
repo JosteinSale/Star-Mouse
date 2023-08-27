@@ -236,13 +236,11 @@ public class CutsceneManager {
     }
 
     public void displayInfo(String text) {
-        audioPlayer.playSFX(Audio.CURSOR_SAMPLE);
         this.textboxManager.displayInfo(text);
         this.active = true;
     }
 
     public void displayInfoChoice(String question, String leftChoice, String rightChoice) {
-        audioPlayer.playSFX(Audio.CURSOR_SAMPLE);
         this.textboxManager.displayInfoChoice(question, leftChoice, rightChoice);
         this.active = true;
     }
