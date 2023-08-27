@@ -6,8 +6,11 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import audio.AudioPlayer;
 import main.Game;
 import utils.LoadSave;
+import utils.Constants.Audio;
+
 import static utils.Constants.UI.DIALOGUEBOX_WIDTH;
 import static utils.Constants.UI.DIALOGUEBOX_HEIGHT;
 import static utils.Constants.UI.DIALOGUE_MAX_LETTERS;
@@ -15,6 +18,7 @@ import static utils.Constants.UI.PORTRAIT_SIZE;
 import static utils.HelpMethods.GetCharacterIndex;
 
 public class DialogueBox {
+    Game game;
     private BufferedImage dialogueBoxImg;
     private BufferedImage[][] portraits;
 
@@ -22,10 +26,14 @@ public class DialogueBox {
     private Color nameColor;
     private int characterIndex = 0;
     private int portraitIndex = 0;
+    private int voiceClipIndex;
     private int aniTick;
-    private int tickPerFrame;
-    private int currentLetter = 0;
-    private int totalLetters;
+    private int aniTickPerFrame;
+    private int currentLetter;
+    private int currentLine = 0;
+    private int voiceTick;
+    private int voiceTickPerFrame;
+    private boolean allLettersAppeared = false;
 
     private Font dialogueFont;
     private Font nameFont;
@@ -34,7 +42,8 @@ public class DialogueBox {
     private int X = (int) ((Game.GAME_DEFAULT_WIDTH/2 -  DIALOGUEBOX_WIDTH/2) * Game.SCALE);
     private int Y = (int) (550 * Game.SCALE);
 
-    public DialogueBox() {
+    public DialogueBox(Game game) {
+        this.game = game;
         dialogueBoxImg = LoadSave.getExpImageSprite(LoadSave.DIALOGUE_BOX);
         dialogueFont = LoadSave.getInfoFont();
         nameFont = LoadSave.getNameFont();
@@ -61,17 +70,19 @@ public class DialogueBox {
     }
 
     public void setDialogue(String name, int speed, String text, int portraitIndex) {
-        this.totalLetters = text.length();
+        this.allLettersAppeared = false;
         this.breakPoints.clear();
         this.formattedStrings.clear();
         this.currentLetter = 0;
+        this.currentLine = 0;
         this.aniTick = 0;
         this.name = name;
-        this.tickPerFrame = speed;
+        this.aniTickPerFrame = speed;
         formatStrings(text);
         this.characterIndex = GetCharacterIndex(name);
         this.nameColor = getNameColor(name);
         this.portraitIndex = portraitIndex;
+        this.setVoiceStuff();
     }
 
     // Regarding length limits for sentences:
@@ -93,7 +104,6 @@ public class DialogueBox {
                 breakCount += word.length() + 1;     // Legger til samme ord og mellomrom igjen
 
                 letterCount = word.length();         // 'Nullsettes'
-                totalLetters -= 1;                   // Totalt har vi fjernet et mellomrom fra text
             }
             letterCount += 1;  // +1 for mellomrom
             breakCount += 1;
@@ -122,16 +132,55 @@ public class DialogueBox {
         return color;
     }
 
+    private void setVoiceStuff() {
+        voiceClipIndex = switch(name) {
+            case "Max" -> 28;
+            case "Oliver" -> 28;
+            default -> 28;
+            };
+
+        voiceTick = 0;
+        if (aniTickPerFrame < 5) {
+            voiceTickPerFrame = 5;
+        }
+        else {
+            voiceTickPerFrame = aniTickPerFrame;
+        }  
+    }
+
     public void update() {
+        updateTicks();
+        checkIfDone();
+    }
+
+    private void checkIfDone() {
+        allLettersAppeared = (
+            (formattedStrings.size() == (currentLine + 1)) && 
+            (currentLetter == (formattedStrings.get(currentLine).length()) - 1));
+    }
+
+    private void updateTicks() {
         aniTick ++;
-        if (aniTick >= tickPerFrame) {
+        if (aniTick >= aniTickPerFrame) {
             currentLetter += 1;
             aniTick = 0;
+            if (currentLetter - formattedStrings.get(currentLine).length() == 0) {
+                currentLine += 1;
+                currentLetter = 0;
+            }
         }
+        if (voiceTick % voiceTickPerFrame == 0) {
+            if (!(formattedStrings.get(currentLine).charAt(currentLetter) == ' ')) {
+                game.getAudioPlayer().playSFX(voiceClipIndex);
+            }
+        }
+        voiceTick++;
     }
 
     public void forwardDialogue() {
-        this.currentLetter = totalLetters;
+        this.currentLine = formattedStrings.size() - 1;
+        this.currentLetter = formattedStrings.get(currentLine).length() - 1;
+        this.allLettersAppeared = true;
     }
 
     public void draw(Graphics g) {
@@ -159,31 +208,14 @@ public class DialogueBox {
     }
 
     private void drawText(Graphics g) {
-        int sum1 = formattedStrings.get(0).length();
-        int sum2 = 0; 
-        if (formattedStrings.size() > 1) {
-            sum2 = sum1 + formattedStrings.get(1).length();
-        }
-
-        if (currentLetter <= sum1) {
-            drawPartialSentence(g, formattedStrings.get(0), currentLetter,
-            X + (int) (200 * Game.SCALE), Y + (int) (100 * Game.SCALE));
-        }
-        else if (currentLetter <= sum2) {
-            g.drawString(formattedStrings.get(0), 
-                X + (int) (200 * Game.SCALE), Y + (int) (100 * Game.SCALE));
-            drawPartialSentence(g, formattedStrings.get(1), 
-                currentLetter - sum1,
-                X + (int) (200 * Game.SCALE), Y + (int) (135 * Game.SCALE));
-        }
-        else {
-            g.drawString(formattedStrings.get(0), 
-                X + (int) (200 * Game.SCALE), Y + (int) (100 * Game.SCALE));
-            g.drawString(formattedStrings.get(1), 
-                X + (int) (200 * Game.SCALE), Y + (int) (135 * Game.SCALE));
-            drawPartialSentence(g, formattedStrings.get(2), 
-                currentLetter - sum2,
-                X + (int) (200 * Game.SCALE), Y + (int) (170 * Game.SCALE));
+        for (int i = 0; i < (currentLine + 1); i++) {
+            int endLetter = formattedStrings.get(i).length();
+            if (i == currentLine) {
+                endLetter = currentLetter + 1;
+            }
+            drawPartialSentence(g, formattedStrings.get(i), 
+                endLetter,
+                X + (int) (200 * Game.SCALE), Y + (int) ((i * 35 + 100) * Game.SCALE));
         }
     }
 
@@ -193,6 +225,6 @@ public class DialogueBox {
     }
 
     public boolean allLettersAppeared() {
-        return (currentLetter == totalLetters);
+        return allLettersAppeared;
     }
 }

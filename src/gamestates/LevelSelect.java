@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
+import audio.AudioPlayer;
 import main.Game;
 import utils.LoadSave;
 
@@ -12,10 +13,12 @@ public class LevelSelect extends State implements Statemethods {
     
     private int playThrough = 0;
     private BufferedImage bgImg;
+    private AudioPlayer audioPlayer;
     
 
     public LevelSelect(Game game) {
         super(game);
+        this.audioPlayer = game.getAudioPlayer();
         bgImg = LoadSave.getExpImageBackground(LoadSave.LEVEL_SELECT_BG);
 
     }

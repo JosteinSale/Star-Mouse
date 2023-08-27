@@ -162,6 +162,9 @@ public class Constants {
         public static final int REPAIR_SAMPLE = 24;
         public static final int BOMB_PICKUP_SAMPLE = 22;
 
+        public static final int CURSOR_SAMPLE = 26;
+        public static final int CURSOR_SELECT_SAMPLE = 30;
+        public static final int INVENTORY_PICKUP_SAMPLE = 37;
 
         // Songs
         public static final int TUTORIAL_SONG = 0;

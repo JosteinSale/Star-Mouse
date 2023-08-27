@@ -4,12 +4,15 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
+import audio.AudioPlayer;
 import main.Game;
 import utils.LoadSave;
+import utils.Constants.Audio;
 
 import static utils.Constants.UI.*;
 
 public class MainMenu extends State implements Statemethods {
+    private AudioPlayer audioPlayer;
     private BufferedImage bgImg;
     private BufferedImage cursorImg;
     private int cursorMinY = 490;
@@ -18,26 +21,31 @@ public class MainMenu extends State implements Statemethods {
     private int cursorY = cursorMinY;
     private int cursorYStep = (cursorMaxY - cursorMinY) / 3;
     private int selectedIndex = 0;
+    private boolean cursorMove = false;
 
     public MainMenu(Game game) {
         super(game);
+        this.audioPlayer = game.getAudioPlayer();
         bgImg = LoadSave.getExpImageBackground(LoadSave.MAIN_MENU_BG);
         cursorImg = LoadSave.getExpImageSprite(LoadSave.CURSOR_SPRITE_BLACK);
+        //this.audioPlayer.startSongLoop(0);
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_UP) {
+        if (e.getKeyCode() == KeyEvent.VK_W) {
+            cursorMove = true;
             moveCursorUp();
             reduceIndex();
         }
-        else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+        else if (e.getKeyCode() == KeyEvent.VK_S) {
+            cursorMove = true;
             moveCursorDown();
             increaseIndex();
         }
         else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             if (selectedIndex == 0) {
-                Gamestate.state = Gamestate.EXPLORING;
+                Gamestate.state = Gamestate.FLYING;
             }
             else if (selectedIndex == 1) {
                 Gamestate.state = Gamestate.LEVEL_EDITOR;
@@ -55,7 +63,12 @@ public class MainMenu extends State implements Statemethods {
     public void keyReleased(KeyEvent e) {}
     
     @Override
-    public void update() {}
+    public void update() {
+        if (cursorMove) {
+            audioPlayer.playSFX(Audio.CURSOR_SAMPLE);
+            cursorMove = false;
+        }
+    }
 
     @Override
     public void draw(Graphics g) {

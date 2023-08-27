@@ -1,4 +1,4 @@
 package game_events;
 
-/** An event that is fired in Flying-mode, whenever the game should not update itself */
+/** In Flying: An event that sets the active-status of the updateGameplay-function */
 public record SetGameplayEvent(boolean active) implements GeneralEvent {}

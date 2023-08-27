@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import audio.AudioPlayer;
 import main.Game;
 import misc.Area;
 import ui.InventoryItem;
@@ -12,16 +13,18 @@ import ui.PauseExploring;
 import utils.LoadSave;
 
 public class Exploring extends State implements Statemethods {
+    private AudioPlayer audioPlayer;
     private int currentLevel = 1;
-    private int currentArea = 3;
+    private int currentArea = 1;
     private ArrayList<Area> areas;
     private PauseExploring pauseOverlay;
 
     public Exploring(Game game) {
         super(game);
+        this.audioPlayer = game.getAudioPlayer();
         areas = new ArrayList<>();
         loadLevel(currentLevel);
-        pauseOverlay = new PauseExploring();
+        pauseOverlay = new PauseExploring();  //TODO - add audioPlayer
     }
 
     // Laster inn alle areas for denne levelen
@@ -30,7 +33,7 @@ public class Exploring extends State implements Statemethods {
         ArrayList<List<String>> levelData = LoadSave.getExpLevelData(level);
         ArrayList<List<String>> cutsceneData = LoadSave.getExpCutsceneData(level);
         for (int i = 0; i < levelData.size(); i++) {
-            Area area = new Area(this, level, i + 1, levelData.get(i), cutsceneData.get(i));
+            Area area = new Area(this, audioPlayer, level, i + 1, levelData.get(i), cutsceneData.get(i));
             areas.add(area);
         }
     }

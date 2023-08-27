@@ -2,6 +2,9 @@ package ui;
 
 import java.awt.Graphics;
 
+import audio.AudioPlayer;
+import main.Game;
+
 public class TextboxManager {
     private InfoBox infoBox;
     private InfoChoice infoChoice;
@@ -11,9 +14,9 @@ public class TextboxManager {
     private boolean dialogueActive;
     private boolean infoChoiceActive;
 
-    public TextboxManager() {
+    public TextboxManager(Game game) {
         this.infoBox = new InfoBox();
-        this.dialogueBox = new DialogueBox();
+        this.dialogueBox = new DialogueBox(game);
         this.infoChoice = new InfoChoice();
     }
 

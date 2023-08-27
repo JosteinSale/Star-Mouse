@@ -57,7 +57,7 @@ blackScreen;false
 setPlayerVisible;false
 fadeIn;1
 endSequence
-dialogue;Max;naked_eyes_shut;6;30;...
+dialogue;Max;naked_eyes_shut;6;30;......
 endSequence
 dialogue;Max;naked_eyes_shut;6;2;I should probably get up
 endSequence

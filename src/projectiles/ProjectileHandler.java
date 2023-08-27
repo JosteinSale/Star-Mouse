@@ -5,10 +5,12 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import audio.AudioPlayer;
 import entities.flying.Enemy;
 import entities.flying.EnemyManager;
 import entities.flying.PlayerFly;
 import main.Game;
+import utils.Constants.Audio;
 import utils.LoadSave;
 
 import static utils.Constants.Flying.Sprites.*;
@@ -20,7 +22,7 @@ import static utils.HelpMethods.IsSolid;
 import static utils.Constants.Audio;
 
 public class ProjectileHandler {
-    private Game game;
+    private AudioPlayer audioPlayer;
     private PlayerFly player;
     private EnemyManager enemyManager;
     private ArrayList<Projectile> allProjectiles;
@@ -49,8 +51,8 @@ public class ProjectileHandler {
 
     private float fgSpeed;
 
-    public ProjectileHandler(Game game, PlayerFly player, EnemyManager enemyManager) {
-        this.game = game;
+    public ProjectileHandler(AudioPlayer audioPlayer, PlayerFly player, EnemyManager enemyManager) {
+        this.audioPlayer = audioPlayer;
         this.player = player;
         this.enemyManager = enemyManager;
         loadImgs();
@@ -100,11 +102,11 @@ public class ProjectileHandler {
         if (spaceIsPressed && lazerShootTick == 0) {
             lazerShootTick = lazerShootBuffer;
             this.addPlayerProjectile(player.getHitbox().x, player.getHitbox().y);
-            game.getAudioPlayer().playSFX(Audio.LAZER_SAMPLE);
+            audioPlayer.playSFX(Audio.LAZER_SAMPLE);
         }
         if (bIsPressed && bombShootTick == 0 && nrOfBombs > 0) {
             nrOfBombs--;
-            game.getAudioPlayer().playSFX(Audio.BOMB_SHOOT_SAMPLE);
+            audioPlayer.playSFX(Audio.BOMB_SHOOT_SAMPLE);
             bombShootTick = bombShootBuffer;
             this.addBombProjectile(player.getHitbox().x, player.getHitbox().y);
             this.player.setBombs(nrOfBombs);
@@ -212,7 +214,7 @@ public class ProjectileHandler {
                                 p.setActive(false);
                                 enemy.takeDamage(p.getDamage());
                             if (enemy.isDead()) {
-                                game.getAudioPlayer().playSFX(Audio.SMALL_EXPLOSION_SAMPLE);
+                                audioPlayer.playSFX(Audio.SMALL_EXPLOSION_SAMPLE);
                                 enemyManager.addExplosion(enemy.getHitbox());
                                 enemyManager.increaseKilledEnemies(enemy.getType());
                             }
@@ -249,7 +251,7 @@ public class ProjectileHandler {
             if (p.getHitbox().intersects(enemy.getHitbox())) {
                 p.setActive(false);
                 addBombExplosion(p.getHitbox());
-                game.getAudioPlayer().playSFX(Audio.BIG_EXPLOSION_SAMPLE);
+                audioPlayer.playSFX(Audio.BIG_EXPLOSION_SAMPLE);
                 return;
             }
         }
@@ -260,7 +262,7 @@ public class ProjectileHandler {
             if (IsSolid(xPos, yPos, clImg)) {
                 p.setActive(false);
                 addBombExplosion(p.getHitbox());
-                game.getAudioPlayer().playSFX(Audio.BIG_EXPLOSION_SAMPLE);
+                audioPlayer.playSFX(Audio.BIG_EXPLOSION_SAMPLE);
                 return;
             }
         }

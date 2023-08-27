@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import audio.AudioPlayer;
 import cutscenes.Cutscene;
 import cutscenes.CutsceneManager2;
 import entities.exploring.AutomaticTrigger;
@@ -19,6 +20,7 @@ import projectiles.ProjectileHandler;
 import ui.LevelFinishedOverlay;
 import ui.PauseFlying;
 import ui.TextboxManager2;
+import utils.Constants.Audio;
 import utils.LoadSave;
 import static utils.HelpMethods.GetAutomaticTrigger;
 import static utils.HelpMethods2.GetPickupItem;
@@ -30,8 +32,8 @@ import static utils.Constants.Flying.TypeConstants.BOMB;
 
 import static utils.Constants.Audio;
 
-public class Flying implements Statemethods {
-    private Game game;
+public class Flying extends State implements Statemethods {
+    private AudioPlayer audioPlayer;
     private PauseFlying pauseOverlay;
     private LevelFinishedOverlay levelFinishedOverlay;
     private Integer level = 0;
@@ -63,12 +65,13 @@ public class Flying implements Statemethods {
     private int chartingY = 0;
 
     public Flying(Game game) {
-        this.game = game;
+        super(game);
+        this.audioPlayer = game.getAudioPlayer();
         this.automaticTriggers = new ArrayList<>();
         this.pickupItems = new ArrayList<>();
         initClasses();
         loadEventReactions();
-        //loadLevel(level);     // Only use if not entering from Exploring    
+        loadLevel(level);     // Only use if not entering from Exploring    
     }
 
     public void loadLevel(int level) {
@@ -87,7 +90,7 @@ public class Flying implements Statemethods {
         Rectangle2D.Float playerHitbox = new Rectangle2D.Float(500f, 400f, 50f, 50f);
         this.player = new PlayerFly(game, playerHitbox);
         this.enemyManager = new EnemyManager(player);
-        this.projectileHandler = new ProjectileHandler(game, player, enemyManager);
+        this.projectileHandler = new ProjectileHandler(audioPlayer, player, enemyManager);
         this.eventHandler = new EventHandler();
         TextboxManager2 textboxManager = new TextboxManager2();
         this.cutsceneManager = new CutsceneManager2(eventHandler, textboxManager);
@@ -184,10 +187,10 @@ public class Flying implements Statemethods {
             this.game.getAudioPlayer().startSongLoop(evt.index());
         }
         else if (event instanceof StartAmbienceEvent evt) {
-            this.game.getAudioPlayer().startAmbienceLoop(evt.index());
+            audioPlayer.startAmbienceLoop(evt.index());
         }
         else if (event instanceof FadeOutLoopEvent evt) {
-            this.game.getAudioPlayer().fadeOutAllLoops();
+            audioPlayer.fadeOutAllLoops();
         }
         /* 
         else if (event instanceof SetStartingCutsceneEvent2 evt) {
@@ -267,15 +270,15 @@ public class Flying implements Statemethods {
                 p.setActive(false);
                 if (p.getType() == POWERUP) {
                     projectileHandler.setPowerup(true);
-                    game.getAudioPlayer().playSFX(Audio.POWERUP_SAMPLE);
+                    audioPlayer.playSFX(Audio.POWERUP_SAMPLE);
                 }
                 else if (p.getType() == REPAIR) {
                     player.increaseHealth(repairHealth);
-                    game.getAudioPlayer().playSFX(Audio.REPAIR_SAMPLE);
+                    audioPlayer.playSFX(Audio.REPAIR_SAMPLE);
                 }
                 else if (p.getType() == BOMB) {
                     projectileHandler.addBombToInventory();
-                    game.getAudioPlayer().playSFX(Audio.BOMB_PICKUP_SAMPLE);
+                    audioPlayer.playSFX(Audio.BOMB_PICKUP_SAMPLE);
                 }
             }
         }

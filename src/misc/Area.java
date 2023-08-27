@@ -7,6 +7,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import audio.AudioPlayer;
+
 import static utils.HelpMethods.*;
 import static utils.Constants.Exploring.Cutscenes.*;
 
@@ -22,6 +24,7 @@ import ui.TextboxManager;
 import utils.LoadSave;
 
 public class Area {
+    private AudioPlayer audioPlayer;
     private Exploring exploring;
     private Integer levelIndex;
     private Integer areaIndex;
@@ -56,8 +59,9 @@ public class Area {
     private int maxLvlOffsetY;
 
 
-    public Area(Exploring exploring, int levelIndex, int areaIndex, List<String> areaData, List<String> cutsceneData) {
+    public Area(Exploring exploring, AudioPlayer audioPlayer, int levelIndex, int areaIndex, List<String> areaData, List<String> cutsceneData) {
         this.exploring = exploring;
+        this.audioPlayer = audioPlayer;
         this.levelIndex = levelIndex;
         this.areaIndex = areaIndex;
         loadImgs();
@@ -67,7 +71,7 @@ public class Area {
         doors = new ArrayList<>();
         npcManager = new NpcManager();
         automaticTriggers = new ArrayList<>();
-        TextboxManager textboxManager = new TextboxManager();
+        TextboxManager textboxManager = new TextboxManager(this.exploring.getGame());
         this.eventHandler = new EventHandler();
         loadAreaData(areaData);
         this.cutsceneManager = new CutsceneManager(player, eventHandler, textboxManager);

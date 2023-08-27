@@ -55,14 +55,13 @@ public class Game implements Runnable {
 
     private void initClasses() {
         //this.audioOptions = new AudioOptions(this);
-        //this.audioPlayer = new AudioPlayer();
+        this.audioPlayer = new AudioPlayer(this);
         this.startScreen = new StartScreen(this);
         this.mainMenu = new MainMenu(this);
         this.levelSelect = new LevelSelect(this);
         this.exploring = new Exploring(this);
         this.flying = new Flying(this);
         this.levelEditor = new LevelEditor(this);
-        this.audioPlayer = new AudioPlayer();
     }
 
     private void startGameLoop() {
@@ -199,6 +198,10 @@ public class Game implements Runnable {
 
     public AudioPlayer getAudioPlayer() {
         return this.audioPlayer;
+    }
+
+    public void sleep(long millis) throws InterruptedException {
+        Thread.sleep(millis);
     }
 
 /* 

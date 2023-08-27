@@ -9,6 +9,8 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
 import java.awt.image.BufferedImage;
 
+import audio.AudioPlayer;
+
 import static utils.Constants.Flying.ActionConstants.*;
 import static utils.Constants.Flying.Sprites.SHIP_SPRITE_WIDTH;
 import static utils.Constants.Flying.Sprites.SHIP_SPRITE_HEIGHT;
@@ -21,7 +23,7 @@ import utils.LoadSave;
 import utils.Constants.Audio;
 
 public class PlayerFly extends Entity {
-    private Game game;
+    private AudioPlayer audioPlayer;
     private BufferedImage clImg;
     private Font statusFont;
     private BufferedImage[][] animations;
@@ -57,7 +59,7 @@ public class PlayerFly extends Entity {
 
     public PlayerFly(Game game, Float hitbox) {
         super(hitbox);
-        this.game = game;
+        this.audioPlayer = game.getAudioPlayer();
         this.tpShadowImg = LoadSave.getFlyImageSprite("teleport_shadow.png");
         loadAnimations();
         updateCollisionPixels();
@@ -225,7 +227,7 @@ public class PlayerFly extends Entity {
     private void movePlayer() {
         if ((planeAction == TELEPORTING_RIGHT) || (planeAction == TELEPORTING_LEFT)) {
             adjustPos(teleportDistance * flipX, 0);
-            game.getAudioPlayer().playSFX(Audio.TELEPORT_SAMPLE);
+            audioPlayer.playSFX(Audio.TELEPORT_SAMPLE);
         }
         else {
             adjustPos(xSpeed, ySpeed);
@@ -249,7 +251,7 @@ public class PlayerFly extends Entity {
             }
             if (nrOfCollisions > 0) {
                 takeCollisionDmg();
-                game.getAudioPlayer().playSFX(Audio.COLLISION_SAMPLE);
+                audioPlayer.playSFX(Audio.COLLISION_SAMPLE);
             }
         }
     }
@@ -260,7 +262,7 @@ public class PlayerFly extends Entity {
             hitbox.x -= (teleportDistance * flipX);
             updateCollisionPixels();
             takeCollisionDmg();
-            game.getAudioPlayer().playSFX(Audio.COLLISION_SAMPLE);
+            audioPlayer.playSFX(Audio.COLLISION_SAMPLE);
             while (!collidesWithMap(yLevelOffset, xLevelOffset)) {
                 hitbox.x += (teleportDistance/10 * flipX);
             }
@@ -297,7 +299,7 @@ public class PlayerFly extends Entity {
                 Point point = new Point((int) collisionXs[i], (int) collisionYs[i]);
                 if (enemyHitbox.contains(point)) {
                     takeCollisionDmg();
-                    game.getAudioPlayer().playSFX(Audio.COLLISION_SAMPLE);
+                    audioPlayer.playSFX(Audio.COLLISION_SAMPLE);
                     pushInOppositeDirectionOf(i, pushDistance);
                     this.updateCollisionPixels();
                     this.resetControls();

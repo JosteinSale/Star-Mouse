@@ -7,7 +7,10 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 
+import main.Game;
+
 public class AudioPlayer {
+    private Game game;
     private String[] SFXfileNames = {
         "SFX - Lazer1.wav",
         "SFX - Lazer2.wav",
@@ -70,7 +73,8 @@ public class AudioPlayer {
     private int waitTick = 0;                 // Brukes for å fade i steg.
     private int tickPerFrame = 20;
     
-    public AudioPlayer() {
+    public AudioPlayer(Game game) {
+        this.game = game;
         loadAudio();
     }
 
@@ -111,11 +115,15 @@ public class AudioPlayer {
         }
     }
 
-    /** Lager et nytt Clip-objekt hver gang metoden kalles */
+    /** Lager et nytt Clip-objekt hver gang metoden kalles.
+     * Av en eller annen grunn: hvis det ikke er musikk i bakgrunnen, OG frekvensen
+     * på SFX-avspillingen er lav, kommer det ikke noe lyd fra klippet.
+     * @param index
+     */
     public void playSFX(int index) {
         try {
         AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(SFX[index]);
-        Clip clip = AudioSystem.getClip();
+        Clip clip = AudioSystem.getClip();	
         clip.open(audioInputStream);
         clip.start();
         } catch (Exception e) {
