@@ -163,7 +163,8 @@ public class Constants {
         public static final int BOMB_PICKUP_SAMPLE = 22;
 
         public static final int CURSOR_SAMPLE = 26;
-        public static final int CURSOR_SELECT_SAMPLE = 30;
+        public static final int CURSOR_SELECT_SAMPLE = 36;
+        public static final int STARTGAME_SAMPLE = 31;
         public static final int INVENTORY_PICKUP_SAMPLE = 37;
 
         // Songs

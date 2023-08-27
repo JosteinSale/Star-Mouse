@@ -58,6 +58,7 @@ public class AudioPlayer {
     };
     private String[] ambienceFileNames = {
         "Ambience - RocketEngineQuiet.wav",
+        "Ambience - Wind"
     };
     private File[] SFX;
     private Clip[] songs;

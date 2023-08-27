@@ -74,7 +74,7 @@ public class Area {
         TextboxManager textboxManager = new TextboxManager(this.exploring.getGame());
         this.eventHandler = new EventHandler();
         loadAreaData(areaData);
-        this.cutsceneManager = new CutsceneManager(player, eventHandler, textboxManager);
+        this.cutsceneManager = new CutsceneManager(audioPlayer, player, eventHandler, textboxManager);
         loadEventReactions();
         loadCutscenes(cutsceneData);
     }
@@ -281,6 +281,7 @@ public class Area {
         }
         else if (justEntered) {
             cutsceneManager.startFadeIn(10, true);
+            audioPlayer.startAmbienceLoop(1);
             justEntered = false;
             player.resetAll();
         }

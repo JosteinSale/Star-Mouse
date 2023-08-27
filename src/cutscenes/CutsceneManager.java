@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import audio.AudioPlayer;
 import entities.exploring.PlayerExp;
 import static utils.Constants.Exploring.DirectionConstants.*;
 import game_events.EventHandler;
@@ -14,6 +15,7 @@ import main.Game;
 import ui.NumberDisplay;
 import ui.TextboxManager;
 import utils.LoadSave;
+import utils.Constants.Audio;
 
 import static utils.Constants.Exploring.Cutscenes.*;
 
@@ -46,6 +48,7 @@ import static utils.Constants.Exploring.Cutscenes.*;
  * except when player forwards dialogue.
  */
 public class CutsceneManager {
+    private AudioPlayer audioPlayer;
     private PlayerExp player;
     private EventHandler eventHandler;
     private TextboxManager textboxManager;
@@ -83,7 +86,8 @@ public class CutsceneManager {
     private int cutsceneIndex;            // For each trigger-object
 
 
-    public CutsceneManager(PlayerExp player, EventHandler eventHandler, TextboxManager textboxManager) {
+    public CutsceneManager(AudioPlayer audioPlayer, PlayerExp player, EventHandler eventHandler, TextboxManager textboxManager) {
+        this.audioPlayer = audioPlayer;
         this.player = player;
         this.eventHandler = eventHandler;
         this.textboxManager = textboxManager;
@@ -232,11 +236,13 @@ public class CutsceneManager {
     }
 
     public void displayInfo(String text) {
+        audioPlayer.playSFX(Audio.CURSOR_SAMPLE);
         this.textboxManager.displayInfo(text);
         this.active = true;
     }
 
     public void displayInfoChoice(String question, String leftChoice, String rightChoice) {
+        audioPlayer.playSFX(Audio.CURSOR_SAMPLE);
         this.textboxManager.displayInfoChoice(question, leftChoice, rightChoice);
         this.active = true;
     }

@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import audio.AudioPlayer;
 import main.Game;
 import utils.LoadSave;
+import utils.Constants.Audio;
 
 public class StartScreen extends State implements Statemethods {
     private BufferedImage bgImg;
@@ -22,6 +23,7 @@ public class StartScreen extends State implements Statemethods {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            audioPlayer.playSFX(Audio.CURSOR_SELECT_SAMPLE);
             Gamestate.state = Gamestate.MAIN_MENU;
         }
     }
