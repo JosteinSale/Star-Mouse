@@ -1,5 +1,5 @@
 ambience;0
-song;99
+song;99;false
 player;480f;510f;45f;18f;0
 object;339f;402f;117f;130f;bed
 object;507f;411f;126f;24f;drawer

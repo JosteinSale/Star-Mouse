@@ -303,6 +303,15 @@ public class HelpMethods {
                 FadeOutLoopEvent event = new FadeOutLoopEvent();
                 allSequences.get(sequenceIndex).add(event);
             }
+            else if (lineData[0].equals("stopAllLoops")) {
+                StopLoopsEvent event = new StopLoopsEvent();
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("musicEnabled")) {
+                Boolean enabled = Boolean.parseBoolean(lineData[1]);
+                MusicEnabledEvent event = new MusicEnabledEvent(enabled);
+                allSequences.get(sequenceIndex).add(event);
+            }
             else if (lineData[0].equals("playSFX")) {
                 Integer index = getSFX(lineData[1]);
                 PlaySFXEvent event = new PlaySFXEvent(index);

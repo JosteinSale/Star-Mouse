@@ -179,11 +179,11 @@ public class Constants {
         public static final int VOICECLIP_SHADYPILOT = 5;
         public static final int VOICECLIP_SPEAKER = 6;
 
-        // Songs
+        // Songs (don't change these indexes!)
         public static final int SONG_TUTORIAL = 0;
         public static final int SONG_ACADEMY = 1;
         
-        // Ambience
+        // Ambience (don't change these indexes!)
         public static final int AMBIENCE_SILENCE = 0;
         public static final int AMBIENCE_ROCKET_ENGINE = 1;
         public static final int AMBIENCE_WIND = 1;

@@ -96,6 +96,7 @@ dialogue;Max;happy;1;2;Good luck!
 endSequence
 wait;1
 setStartCutscene;npc;0;3
+startSong;1
 endSequence
 
 cutscene;true;automatic;5
@@ -123,6 +124,7 @@ endSequence
 wait;100;
 endSequence
 dialogue;Oliver;happy;1;2;Just let me know if you want to go again!
+startSong;1
 endSequence
 
 cutscene;true;npc;5
@@ -189,6 +191,8 @@ dialogue;Max;eyes_shut;4;8;So...
 endSequence
 dialogue;Max;happy;1;1;The weather looks really good today, right?
 setDir;player;right
+musicEnabled;true
+startSong;1
 endSequence
 dialogue;Max;happy;1;1;Perfect flying conditions! You're in luck brother!
 endSequence
@@ -213,8 +217,6 @@ setDir;Oliver;up
 wait;60
 endSequence
 dialogue;Max;normal;0;2;You'll do just fine
-endSequence
-dialogue;Max;normal;0;2;In a few hours you'll be a pilot, just like me
 endSequence
 setDir;player;up
 dialogue;Max;eyes_shut;4;3;You'll see
@@ -290,6 +292,7 @@ dialogue;Max;happy;1;2;No problem
 endSequence
 dialogue;Max;happy;1;2;Good luck!
 endSequence
+startSong;1
 wait;1
 setStartCutscene;npc;0;3
 endSequence

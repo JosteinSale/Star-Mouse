@@ -126,12 +126,27 @@ START SONG
 --------------------
 [0] = startSong (String), [1] = songIndex (int)
 * This loops the song until it's stopped
+* If used alone, it needs to be used together with the wait-method
+
+
+STOP ALL LOOPS
+--------------------
+[0] = stopAllLoops (String)
+* If used alone, it needs to be used together with the wait-method
+
+
+MUSIC ENABLED
+--------------------
+[0] = musicEnabled (String), [1] = enabled (boolean)
+* This toggles whether music is started in the JustEntered-method.
 
 
 START AMBIENCE
 --------------------
 [0] = startAmbience (String), [1] = ambienceIndex (int)
 * This loops the ambience track until it's stopped
+* 0 is silence, 1 is rocketEngine
+* If used alone, it needs to be used together with the wait-method
 
 
 PLAY SFX

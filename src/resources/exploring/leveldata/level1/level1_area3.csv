@@ -1,5 +1,5 @@
-ambience;99
-song;1
+ambience;0
+song;1;false
 player;66f;1545f;45f;18f;0
 object;1233f;456f;10f;30f;locker#1
 object;1299f;456f;10f;30f;locker#2

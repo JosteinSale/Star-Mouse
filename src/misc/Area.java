@@ -48,6 +48,7 @@ public class Area {
     private EventHandler eventHandler;
 
     private boolean justEntered = true;
+    private boolean musicEnabled;
     private ArrayList<InteractableObject> objects;
     private ArrayList<Door> doors;
     private ArrayList<AutomaticTrigger> automaticTriggers;
@@ -111,6 +112,7 @@ public class Area {
             }
             else if (lineData[0].equals("song")) {
                 this.songIndex = Integer.parseInt(lineData[1]);
+                this.musicEnabled = Boolean.parseBoolean(lineData[2]);
             }
             else if (lineData[0].equals("player")) {
                 player = GetPlayer(lineData, clImg);
@@ -234,6 +236,12 @@ public class Area {
         else if (event instanceof StartSongEvent evt) {
             this.audioPlayer.startSongLoop(evt.index());
         }
+        else if (event instanceof StopLoopsEvent evt) {
+            this.audioPlayer.stopAllLoops();
+        }
+        else if (event instanceof MusicEnabledEvent evt) {
+            this.musicEnabled = evt.enabled();
+        }
         else if (event instanceof StartAmbienceEvent evt) {
             audioPlayer.startAmbienceLoop(evt.index());
         }
@@ -294,13 +302,16 @@ public class Area {
         if (playerHitsCutsceneTrigger() && !cutsceneManager.isActive()) {
             int startCutscene = automaticTriggers.get(automaticIndex).getStartCutscene();
             if (cutsceneManager.startCutscene(automaticIndex, AUTOMATIC, startCutscene)) {
+                // If cutscene has not been played before:
                 player.resetAll();
                 justEntered = false;
             }
         }
-        else if (justEntered) {
+        if (justEntered) {
             audioPlayer.startAmbienceLoop(ambienceIndex);
-            audioPlayer.startSongLoop(songIndex);
+            if (musicEnabled) {
+                audioPlayer.startSongLoop(songIndex);
+            }
             cutsceneManager.startFadeIn(10, true);
             justEntered = false;
             player.resetAll();

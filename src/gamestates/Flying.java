@@ -71,7 +71,7 @@ public class Flying extends State implements Statemethods {
         this.pickupItems = new ArrayList<>();
         initClasses();
         loadEventReactions();
-        loadLevel(level);     // Only use if not entering from Exploring    
+        //loadLevel(level);     // Only use if not entering from Exploring    
     }
 
     public void loadLevel(int level) {
