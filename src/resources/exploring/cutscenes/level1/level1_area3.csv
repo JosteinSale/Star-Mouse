@@ -1,35 +1,43 @@
 cutscene;true;object;0
 info;You search through locker #1...
+playSFX;infoBox
 endSequence
 info;You found 100 credits!
+playSFX;pickup
 updateInventory;credits;100
 setStartCutscene;object;0;1
 endSequence
 
 cutscene;true;object;0
 info;Nothing more of use here.
+playSFX;infoBox
 endSequence
 
 cutscene;true;object;1
 info;You search through locker #2...
+playSFX;infoBox
 endSequence
 info;It's empty
 setStartCutscene;object;1;1
 endSequence
 
 cutscene;true;object;1
+playSFX;infoBox
 info;It's empty
 endSequence
 
 cutscene;true;object;2
+playSFX;infoBox
 info;You search through locker #3...
 endSequence
 info;You found 200 credits!
+playSFX;pickup
 updateInventory;credits;200
 setStartCutscene;object;2;1
 endSequence
 
 cutscene;true;object;2
+playSFX;infoBox
 info;Nothing more of use here.
 endSequence
 
@@ -43,10 +51,12 @@ endSequence
 
 cutscene;false;door;4
 setRequirementMet;1;0
+playSFX;success
 info;You hear a short beep. The door unlocks itself!
 endSequence
 
 cutscene;true;door;4
+playSFX;infoBox
 info;Nothing happened...
 endSequence
 
@@ -152,6 +162,7 @@ endSequence
 cutscene;true;npc;9
 dialogue;Shady pilot;normal;4;2;Just don't tell anyone where you got it, 'kay?
 endSequence
+playSFX;pickup
 info;You aquired 1 bomb and lost 300 credits!
 updateInventory;bombs;1
 updateInventory;credits;-300

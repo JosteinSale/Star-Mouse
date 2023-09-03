@@ -24,7 +24,7 @@ public class Exploring extends State implements Statemethods {
         this.audioPlayer = game.getAudioPlayer();
         areas = new ArrayList<>();
         loadLevel(currentLevel);
-        pauseOverlay = new PauseExploring();  //TODO - add audioPlayer
+        pauseOverlay = new PauseExploring(audioPlayer);
     }
 
     // Laster inn alle areas for denne levelen

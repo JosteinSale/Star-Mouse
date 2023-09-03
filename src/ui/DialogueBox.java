@@ -18,7 +18,7 @@ import static utils.Constants.UI.PORTRAIT_SIZE;
 import static utils.HelpMethods.GetCharacterIndex;
 
 public class DialogueBox {
-    Game game;
+    private AudioPlayer audioPlayer;
     private BufferedImage dialogueBoxImg;
     private BufferedImage[][] portraits;
 
@@ -43,7 +43,7 @@ public class DialogueBox {
     private int Y = (int) (550 * Game.SCALE);
 
     public DialogueBox(Game game) {
-        this.game = game;
+        this.audioPlayer = game.getAudioPlayer();
         dialogueBoxImg = LoadSave.getExpImageSprite(LoadSave.DIALOGUE_BOX);
         dialogueFont = LoadSave.getInfoFont();
         nameFont = LoadSave.getNameFont();
@@ -134,9 +134,13 @@ public class DialogueBox {
 
     private void setVoiceStuff() {
         voiceClipIndex = switch(name) {
-            case "Max" -> 28;
-            case "Oliver" -> 28;
-            default -> 28;
+            case "Max" -> Audio.VOICECLIP_MAX;
+            case "Oliver" -> Audio.VOICECLIP_OLIVER;
+            case "Lance" -> Audio.VOICECLIP_LANCE;
+            case "Charlotte" -> Audio.VOICECLIP_CHARLOTTE;
+            case "Nina" -> Audio.VOICECLIP_NINA;
+            case "Shady pilot" -> Audio.VOICECLIP_SHADYPILOT;
+            default -> 0;
             };
 
         voiceTick = 0;
@@ -171,7 +175,7 @@ public class DialogueBox {
         }
         if (voiceTick % voiceTickPerFrame == 0) {
             if (!(formattedStrings.get(currentLine).charAt(currentLetter) == ' ')) {
-                game.getAudioPlayer().playSFX(voiceClipIndex);
+                audioPlayer.playVoiceClip(voiceClipIndex);
             }
         }
         voiceTick++;

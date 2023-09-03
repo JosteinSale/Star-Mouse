@@ -102,11 +102,11 @@ public class ProjectileHandler {
         if (spaceIsPressed && lazerShootTick == 0) {
             lazerShootTick = lazerShootBuffer;
             this.addPlayerProjectile(player.getHitbox().x, player.getHitbox().y);
-            audioPlayer.playSFX(Audio.LAZER_SAMPLE);
+            audioPlayer.playSFX(Audio.SFX_LAZER);
         }
         if (bIsPressed && bombShootTick == 0 && nrOfBombs > 0) {
             nrOfBombs--;
-            audioPlayer.playSFX(Audio.BOMB_SHOOT_SAMPLE);
+            audioPlayer.playSFX(Audio.SFX_BOMBSHOOT);
             bombShootTick = bombShootBuffer;
             this.addBombProjectile(player.getHitbox().x, player.getHitbox().y);
             this.player.setBombs(nrOfBombs);
@@ -214,7 +214,7 @@ public class ProjectileHandler {
                                 p.setActive(false);
                                 enemy.takeDamage(p.getDamage());
                             if (enemy.isDead()) {
-                                audioPlayer.playSFX(Audio.SMALL_EXPLOSION_SAMPLE);
+                                audioPlayer.playSFX(Audio.SFX_SMALL_EXPLOSION);
                                 enemyManager.addExplosion(enemy.getHitbox());
                                 enemyManager.increaseKilledEnemies(enemy.getType());
                             }
@@ -251,7 +251,7 @@ public class ProjectileHandler {
             if (p.getHitbox().intersects(enemy.getHitbox())) {
                 p.setActive(false);
                 addBombExplosion(p.getHitbox());
-                audioPlayer.playSFX(Audio.BIG_EXPLOSION_SAMPLE);
+                audioPlayer.playSFX(Audio.SFX_BIG_EXPLOSION);
                 return;
             }
         }
@@ -262,7 +262,7 @@ public class ProjectileHandler {
             if (IsSolid(xPos, yPos, clImg)) {
                 p.setActive(false);
                 addBombExplosion(p.getHitbox());
-                audioPlayer.playSFX(Audio.BIG_EXPLOSION_SAMPLE);
+                audioPlayer.playSFX(Audio.SFX_BIG_EXPLOSION);
                 return;
             }
         }

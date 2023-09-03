@@ -134,6 +134,12 @@ START AMBIENCE
 * This loops the ambience track until it's stopped
 
 
+PLAY SFX
+--------------------
+[0] = playSFX (String), [1] = whichSfx (String)
+* whichSfx = success/pickup/infoBox
+
+
 END SEQUENCE
 --------------------
 [0] = endSequence

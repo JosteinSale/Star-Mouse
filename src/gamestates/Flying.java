@@ -270,15 +270,15 @@ public class Flying extends State implements Statemethods {
                 p.setActive(false);
                 if (p.getType() == POWERUP) {
                     projectileHandler.setPowerup(true);
-                    audioPlayer.playSFX(Audio.POWERUP_SAMPLE);
+                    audioPlayer.playSFX(Audio.SFX_POWERUP);
                 }
                 else if (p.getType() == REPAIR) {
                     player.increaseHealth(repairHealth);
-                    audioPlayer.playSFX(Audio.REPAIR_SAMPLE);
+                    audioPlayer.playSFX(Audio.SFX_REPAIR);
                 }
                 else if (p.getType() == BOMB) {
                     projectileHandler.addBombToInventory();
-                    audioPlayer.playSFX(Audio.BOMB_PICKUP_SAMPLE);
+                    audioPlayer.playSFX(Audio.SFX_BOMB_PICKUP);
                 }
             }
         }

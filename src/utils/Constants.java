@@ -151,27 +151,41 @@ public class Constants {
     }
 
     public static class Audio {
-        // SFX
-        public static final int LAZER_SAMPLE = 7;
-        public static final int BOMB_SHOOT_SAMPLE = 8;
-        public static final int TELEPORT_SAMPLE = 9;
-        public static final int COLLISION_SAMPLE = 11;
-        public static final int SMALL_EXPLOSION_SAMPLE = 18;
-        public static final int BIG_EXPLOSION_SAMPLE = 20;
-        public static final int POWERUP_SAMPLE = 25;
-        public static final int REPAIR_SAMPLE = 24;
-        public static final int BOMB_PICKUP_SAMPLE = 22;
+        // SFX - Flying
+        public static final int SFX_LAZER = 0;
+        public static final int SFX_BOMBSHOOT = 1;
+        public static final int SFX_TELEPORT = 2;
+        public static final int SFX_COLLISION = 3;
+        public static final int SFX_SMALL_EXPLOSION = 4;
+        public static final int SFX_BIG_EXPLOSION = 5;
+        public static final int SFX_BOMB_PICKUP = 6;
+        public static final int SFX_REPAIR = 7;
+        public static final int SFX_POWERUP = 8;
 
-        public static final int CURSOR_SAMPLE = 26;
-        public static final int CURSOR_SELECT_SAMPLE = 36;
-        public static final int STARTGAME_SAMPLE = 31;
-        public static final int INVENTORY_PICKUP_SAMPLE = 37;
+        // SFX - Exploring
+        public static final int SFX_CURSOR = 9;
+        public static final int SFX_CURSOR_SELECT = 11;
+        public static final int SFX_STARTGAME = 10;
+        public static final int SFX_INVENTORY_PICKUP = 12;
+        public static final int SFX_SUCCESS = 13;
+        public static final int SFX_INFOBOX = 14;
+        
+        // VoiceClips
+        public static final int VOICECLIP_MAX = 0;
+        public static final int VOICECLIP_OLIVER = 1;
+        public static final int VOICECLIP_LANCE = 2;
+        public static final int VOICECLIP_CHARLOTTE = 3;
+        public static final int VOICECLIP_NINA = 4;
+        public static final int VOICECLIP_SHADYPILOT = 5;
+        public static final int VOICECLIP_SPEAKER = 6;
 
         // Songs
-        public static final int TUTORIAL_SONG = 0;
+        public static final int SONG_TUTORIAL = 0;
+        public static final int SONG_ACADEMY = 1;
         
         // Ambience
-        public static final int SILENCE = 0;
-        public static final int ROCKET_ENGINE_SOUND = 1;
+        public static final int AMBIENCE_SILENCE = 0;
+        public static final int AMBIENCE_ROCKET_ENGINE = 1;
+        public static final int AMBIENCE_WIND = 1;
     }
 }

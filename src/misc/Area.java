@@ -152,7 +152,7 @@ public class Area {
             int newArea = evt.area();
             int reenterDir = doors.get(evt.exitedDoor()).getReenterDir();
 
-            audioPlayer.stopAllLoops();
+            audioPlayer.stopAllLoops();  // TODO - Check if new area has same song as current.
             player.setDirection(reenterDir);
             player.resetAll(); 
             this.justEntered = true;
@@ -236,6 +236,9 @@ public class Area {
         }
         else if (event instanceof StartAmbienceEvent evt) {
             audioPlayer.startAmbienceLoop(evt.index());
+        }
+        else if (event instanceof PlaySFXEvent evt) {
+            audioPlayer.playSFX(evt.SFXIndex());
         }
     }
 

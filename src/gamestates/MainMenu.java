@@ -27,33 +27,33 @@ public class MainMenu extends State implements Statemethods {
         this.audioPlayer = game.getAudioPlayer();
         bgImg = LoadSave.getExpImageBackground(LoadSave.MAIN_MENU_BG);
         cursorImg = LoadSave.getExpImageSprite(LoadSave.CURSOR_SPRITE_BLACK);
-        audioPlayer.startAmbienceLoop(Audio.SILENCE);   // Nescessary because stupid
+        audioPlayer.startAmbienceLoop(Audio.AMBIENCE_SILENCE);   // Nescessary because stupid
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_W) {
-            audioPlayer.playSFX(Audio.CURSOR_SAMPLE);
+            audioPlayer.playSFX(Audio.SFX_CURSOR);
             moveCursorUp();
             reduceIndex();
         }
         else if (e.getKeyCode() == KeyEvent.VK_S) {
-            audioPlayer.playSFX(Audio.CURSOR_SAMPLE);
+            audioPlayer.playSFX(Audio.SFX_CURSOR);
             moveCursorDown();
             increaseIndex();
         }
         else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             if (selectedIndex == 0) {
                 audioPlayer.stopAllLoops();
-                audioPlayer.playSFX(Audio.STARTGAME_SAMPLE);
+                audioPlayer.playSFX(Audio.SFX_STARTGAME);
                 Gamestate.state = Gamestate.EXPLORING;
             }
             else if (selectedIndex == 1) {
-                audioPlayer.playSFX(Audio.CURSOR_SELECT_SAMPLE);
+                audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
                 Gamestate.state = Gamestate.LEVEL_EDITOR;
             }
             else if (selectedIndex == 2) {
-                audioPlayer.playSFX(Audio.CURSOR_SELECT_SAMPLE);
+                audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
                 //TODO
             }
             else {

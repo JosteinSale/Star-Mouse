@@ -14,6 +14,7 @@ import cutscenes.Cutscene;
 import entities.exploring.*;
 import static utils.Constants.Exploring.Cutscenes.*;
 import game_events.*;
+import utils.Constants.Audio;
 
 
 public class HelpMethods {
@@ -302,6 +303,11 @@ public class HelpMethods {
                 FadeOutLoopEvent event = new FadeOutLoopEvent();
                 allSequences.get(sequenceIndex).add(event);
             }
+            else if (lineData[0].equals("playSFX")) {
+                Integer index = getSFX(lineData[1]);
+                PlaySFXEvent event = new PlaySFXEvent(index);
+                allSequences.get(sequenceIndex).add(event);
+            }
             else if (lineData[0].equals("endSequence")) {
                 allCutscenes.get(triggerIndex).get(cutsceneIndex).addSequence(allSequences.get(sequenceIndex));
                 sequenceIndex += 1;
@@ -311,6 +317,17 @@ public class HelpMethods {
             }
         }
         return allCutscenes;
+    }
+
+    private static Integer getSFX(String string) {
+        Integer index = switch (string) {
+            case "infoBox" -> Audio.SFX_INFOBOX;
+            case "pickup" -> Audio.SFX_INVENTORY_PICKUP;
+            case "success" -> Audio.SFX_SUCCESS;
+            default -> throw new IllegalArgumentException(
+                    "No audio sample available for '" + string + "'");
+        };
+        return index;
     }
 
     public static int GetCharacterIndex(String name) {

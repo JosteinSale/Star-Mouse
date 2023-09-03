@@ -17,12 +17,15 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import audio.AudioPlayer;
 import gamestates.Gamestate;
 import gamestates.Statemethods;
 import main.Game;
 import utils.LoadSave;
+import utils.Constants.Audio;
 
 public class PauseExploring implements Statemethods {
+    private AudioPlayer audioPlayer;
     private Color bgColor = new Color(0, 0, 0, 230);
     private Font headerFont;
     private Font menuFont;
@@ -57,7 +60,8 @@ public class PauseExploring implements Statemethods {
     private int cursorY = cursorMinY;
     private int menuOptionsDiff = (cursorMaxY - cursorMinY) / 2;   
     
-    public PauseExploring() {
+    public PauseExploring(AudioPlayer audioPlayer) {
+        this.audioPlayer = audioPlayer;
         calcDrawValues();
         loadImages();
         loadFonts();
@@ -100,17 +104,21 @@ public class PauseExploring implements Statemethods {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_W) {
+            audioPlayer.playSFX(Audio.SFX_CURSOR);
             moveCursorUp();
             takeIndexUp();
         }
         else if (e.getKeyCode() == KeyEvent.VK_S) {
+            audioPlayer.playSFX(Audio.SFX_CURSOR);
             moveCursorDown();
             takeIndexDown();
         }
         else if (e.getKeyCode() == KeyEvent.VK_D) {
+            audioPlayer.playSFX(Audio.SFX_CURSOR);
             takeIndexRight();
         }
         else if (e.getKeyCode() == KeyEvent.VK_A) {
+            audioPlayer.playSFX(Audio.SFX_CURSOR);
             takeIndexLeft();
         }
         else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
@@ -122,7 +130,7 @@ public class PauseExploring implements Statemethods {
             }
             else if (selectedIndex == 10) {
                 this.flipActive();
-                // TODO: this.exploring.resetCurrentLevel();
+                audioPlayer.stopAllLoops();
                 Gamestate.state = Gamestate.MAIN_MENU;
             }
         }

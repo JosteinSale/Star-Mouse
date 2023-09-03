@@ -227,7 +227,7 @@ public class PlayerFly extends Entity {
     private void movePlayer() {
         if ((planeAction == TELEPORTING_RIGHT) || (planeAction == TELEPORTING_LEFT)) {
             adjustPos(teleportDistance * flipX, 0);
-            audioPlayer.playSFX(Audio.TELEPORT_SAMPLE);
+            audioPlayer.playSFX(Audio.SFX_TELEPORT);
         }
         else {
             adjustPos(xSpeed, ySpeed);
@@ -251,7 +251,7 @@ public class PlayerFly extends Entity {
             }
             if (nrOfCollisions > 0) {
                 takeCollisionDmg();
-                audioPlayer.playSFX(Audio.COLLISION_SAMPLE);
+                audioPlayer.playSFX(Audio.SFX_COLLISION);
             }
         }
     }
@@ -262,7 +262,7 @@ public class PlayerFly extends Entity {
             hitbox.x -= (teleportDistance * flipX);
             updateCollisionPixels();
             takeCollisionDmg();
-            audioPlayer.playSFX(Audio.COLLISION_SAMPLE);
+            audioPlayer.playSFX(Audio.SFX_COLLISION);
             while (!collidesWithMap(yLevelOffset, xLevelOffset)) {
                 hitbox.x += (teleportDistance/10 * flipX);
             }
@@ -299,7 +299,7 @@ public class PlayerFly extends Entity {
                 Point point = new Point((int) collisionXs[i], (int) collisionYs[i]);
                 if (enemyHitbox.contains(point)) {
                     takeCollisionDmg();
-                    audioPlayer.playSFX(Audio.COLLISION_SAMPLE);
+                    audioPlayer.playSFX(Audio.SFX_COLLISION);
                     pushInOppositeDirectionOf(i, pushDistance);
                     this.updateCollisionPixels();
                     this.resetControls();

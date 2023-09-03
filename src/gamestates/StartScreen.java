@@ -23,7 +23,8 @@ public class StartScreen extends State implements Statemethods {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            audioPlayer.playSFX(Audio.CURSOR_SELECT_SAMPLE);
+            // TODO - Start menu song
+            audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
             Gamestate.state = Gamestate.MAIN_MENU;
         }
     }

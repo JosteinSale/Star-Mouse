@@ -8,6 +8,7 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
+import audio.AudioPlayer;
 import gamestates.Flying;
 import gamestates.Gamestate;
 
@@ -22,6 +23,7 @@ import static utils.Constants.UI.PAUSE_FLYING_WIDTH;
 import static utils.Constants.UI.PAUSE_FLYING_HEIGHT;
 
 public class PauseFlying {
+    private AudioPlayer audioPlayer;
     private Flying flying;
     private Color bgColor = new Color(0, 0, 0, 140);
     private Font headerFont;
@@ -43,6 +45,7 @@ public class PauseFlying {
     private int menuOptionsDiff = (cursorMaxY - cursorMinY) / 2;
 
     public PauseFlying(Flying flying) {
+        this.audioPlayer = flying.getGame().getAudioPlayer();
         this.flying = flying;
         calcDrawValues();
         loadImages();
@@ -80,6 +83,7 @@ public class PauseFlying {
                 // TODO - options
             }
             else if (selectedIndex == 2) {
+                audioPlayer.stopAllLoops();
                 Gamestate.state = Gamestate.MAIN_MENU;
             }
         }

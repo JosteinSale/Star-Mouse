@@ -12,56 +12,42 @@ import main.Game;
 public class AudioPlayer {
     private Game game;
     private String[] SFXfileNames = {
-        "SFX - Lazer1.wav",
-        "SFX - Lazer2.wav",
-        "SFX - Lazer3.wav",
-        "SFX - Lazer4.wav",
-        "SFX - Lazer4.5.wav",
-        "SFX - Lazer5.wav",
-        "SFX - Lazer6.wav",
-        "SFX - Lazer6.5.wav",
+        "SFX - Lazer10.wav",
         "SFX - BombShoot.wav",
-        "SFX - Teleport.wav",
-        "SFX - ShipCrash1.wav",
+        "SFX - Teleport.wav",     
         "SFX - ShipCrash1.5.wav",
-        "SFX - ShipCrash2.wav",
-        "SFX - ShipCrash3.wav",
-        "SFX - ShipCrash3.5.wav",
-        "SFX - SmallExplosion1.wav",
-        "SFX - SmallExplosion2.wav",
-        "SFX - SmallExplosion3.wav",
         "SFX - SmallExplosion3.5.wav",
-        "SFX - BigExplosion1.wav",
-        "SFX - BigExplosion2.wav",
-        "SFX - BigExplosion3.wav",
+        "SFX - BigExplosion2.wav",    // 20
         "SFX - BombPickup.wav",
-        "SFX - Powerup1.wav",
         "SFX - Powerup2.wav",
         "SFX - Powerup3.wav",
-        "SFX - Cursor1.wav",
-        "SFX - Cursor2.wav",
-        "SFX - Cursor3.wav",
-        "SFX - Cursor4.wav",
-        "SFX - Select1.wav",
+        "SFX - Cursor1.wav",        
         "SFX - Select2.wav",
-        "SFX - Select3.wav",
-        "SFX - Select4.wav",
-        "SFX - Select5.wav",
-        "SFX - Select6.wav",
         "SFX - MenuSound.wav",
         "SFX - ItemPickup.wav",
-        "SFX - TradeCompleted.wav",
-        "SFX - Success.wav",
+        "SFX - Success.wav",               
+        "SFX - InfoBox2.wav"
     };
     private String[] songFileNames = {
-        "Song - Tutorial (FINISHED)3.wav"
+        "Song - Tutorial (FINISHED)3.wav",
+        "Song - The Academy (FINISHED).wav"
     };
     private String[] ambienceFileNames = {
-        "Song - Silence.wav",
+        "Ambience - Silence.wav",
         "Ambience - RocketEngineQuiet.wav",
         "Ambience - Wind.wav"
     };
+    private String[] voiceClipNames = {
+        "VoiceClip - Max.wav",
+        "VoiceClip - Oliver.wav",
+        "VoiceClip - Lance.wav",
+        "VoiceClip - Charlotte.wav",
+        "VoiceClip - Nina.wav",
+        "VoiceClip - ShadyPilot.wav",
+        "VoiceClip - Speaker.wav"
+    };
     private File[] SFX;
+    private File[] voiceClips;
     private Clip[] songs;
     private Clip[] ambienceTracks;
     private FloatControl songGainControl;
@@ -81,6 +67,7 @@ public class AudioPlayer {
     }
 
     private void loadAudio() {
+        // Songs
         this.songs = new Clip[this.songFileNames.length];
         for (int i = 0; i < this.songs.length; i++) {
             File file = new File(System.getProperty("user.dir") + 
@@ -94,7 +81,7 @@ public class AudioPlayer {
                 e.printStackTrace();
             }
         }
-
+        // Ambience
         this.ambienceTracks = new Clip[this.ambienceFileNames.length];
         for (int i = 0; i < this.ambienceTracks.length; i++) {
             File file = new File(System.getProperty("user.dir") + 
@@ -108,12 +95,19 @@ public class AudioPlayer {
                 e.printStackTrace();
             }
         }
-        
+        // SFX
         this.SFX = new File[this.SFXfileNames.length];
         for (int i = 0; i < this.SFX.length; i++) {
             File sample = new File(System.getProperty("user.dir") + 
             "/src/resources/audio/" + SFXfileNames[i]);
             this.SFX[i] = sample;
+        }
+        // VoiceClips
+        this.voiceClips = new File[this.voiceClipNames.length];
+        for (int i = 0; i < this.voiceClips.length; i++) {
+            File sample = new File(System.getProperty("user.dir") + 
+            "/src/resources/audio/" + voiceClipNames[i]);
+            this.voiceClips[i] = sample;
         }
     }
 
@@ -125,6 +119,22 @@ public class AudioPlayer {
     public void playSFX(int index) {
         try {
         AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(SFX[index]);
+        Clip clip = AudioSystem.getClip();	
+        clip.open(audioInputStream);
+        clip.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /** Lager et nytt Clip-objekt hver gang metoden kalles.
+     * Av en eller annen grunn: hvis det ikke er musikk i bakgrunnen, OG frekvensen
+     * på SFX-avspillingen er lav, kommer det ikke noe lyd fra klippet.
+     * @param index
+     */
+    public void playVoiceClip(int index) {
+        try {
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(voiceClips[index]);
         Clip clip = AudioSystem.getClip();	
         clip.open(audioInputStream);
         clip.start();
@@ -156,12 +166,10 @@ public class AudioPlayer {
         ambienceGainControl = (FloatControl) ambienceTracks[ambienceIndex].getControl(FloatControl.Type.MASTER_GAIN);
         updateAmbienceVolume();
         this.ambienceTracks[ambienceIndex].loop(Clip.LOOP_CONTINUOUSLY);
-        System.out.println("ambience started");
     }
 
     /** Abruptly stops the current song, and resets it */
     public void stopAllLoops() {
-        System.out.println("stop");
         if (songs[songIndex].isActive()) {  
             songs[songIndex].stop();
             songs[songIndex].setMicrosecondPosition(0);
