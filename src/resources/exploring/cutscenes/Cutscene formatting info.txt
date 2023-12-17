@@ -175,7 +175,7 @@ GENERAL STUFF:
  (That's why we include the elementNr in the cutscene-header, so that we know which element
   the cutscene belongs to).
   .The setStartCutscene-event can be used to change between which cutscenes are started 
-  whenever an element is first interacted with.
+  whenever an element is interacted with.
   .This could be in response to certain requirements being met, or a certain infoChoice-option
    being taken.
 

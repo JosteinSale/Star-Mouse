@@ -1,11 +1,15 @@
+*OBS: the entries in the csv-files must be ordered like below!
+*Or else, the indexes will be messed up.
+
 AMBIENCE TRACK:
 [0] = ambience (String), ambienceIndex (int)
-* If there's supposed to NO song and NO ambience, use ambienceIndex = 0 (silent track).
+* If there's supposed to be NO song and NO ambience, use ambienceIndex = 0 (silent track).
 * If there IS a song and NO ambience, you can set ambienceIndex = 99 (nothing).
 
 SONG:
-[0] = song (String), songIndex (int)
+[0] = song (String), [1] = songIndex (int), [2] = musicEnabled
 * If there's supposed to be no song, use songIndex = 99 (nothing).
+* If musicEnabled is set to true, the song starts upon entering the area. 
 
 PLAYER:
 [0] = player (String), [1] = hitbox-x, [2] = hitbox-y, [3] = hitbox-width, 
@@ -32,9 +36,6 @@ NPC (regular):
 AUTOMATIC TRIGGER:
 [0] = automaticTrigger, [1] = hitbox-x, [2] = hitbox-y, [3] = hitbox-width, 
 [4] = hitbox-height, [5] = name (String)
-
-*OBS: the entries in the csv-files must be ordered like above!
-*Or else, the indexes will be messed up.
 
 (directions):
 	right = 0,  left = 1, down = 2, up = 3

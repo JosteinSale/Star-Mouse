@@ -87,7 +87,7 @@ public class DialogueBox {
 
     // Regarding length limits for sentences:
     // There's a limit of 32 characters per sentence.
-    // Though, a sentence may not end perfectly at 32 words, causing us to 'loose'
+    // Though, a sentence may not end perfectly at 32 chars, causing us to 'loose'
     // those unused letters at the end of the sentence. Thus the limit is usually a bit lower.
     // At most you can do 3 single words of length 32.
     // But if you approach 90, calculate how many letters you've lost before running.
@@ -223,6 +223,7 @@ public class DialogueBox {
         }
     }
 
+    // Vi kunne forbedret kjøretiden ved å bruke stringBuilder.
     private void drawPartialSentence(Graphics g, String s, int currentLetter, int x, int y) {
         g.drawString(
             s.substring(0, currentLetter), x, y);

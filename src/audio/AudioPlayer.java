@@ -147,7 +147,7 @@ public class AudioPlayer {
      *  Index = 99 means no song.
      */
     public void startSongLoop(int index) {
-        if (index == 99) {return;}
+        if (index == 99) {return;}         
         this.songVolume = maxSongVolume;   // set to currenSongVolume later
         this.songIndex = index;
         songGainControl = (FloatControl) songs[songIndex].getControl(FloatControl.Type.MASTER_GAIN);
