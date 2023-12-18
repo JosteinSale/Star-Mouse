@@ -111,7 +111,8 @@ public class CutsceneManager {
     }
 
     /** This method is always called when a cutscene is initiated 
-     * (except standard fades) */
+     * (except standard fades). Returns false if the cutscene has been played before, and
+     * is not resettable. */
     public boolean startCutscene(int elementNr, int type, int startCutscene) {
         this.cutsceneIndex = startCutscene;
         adjustTriggerIndex(elementNr, type);

@@ -22,7 +22,7 @@ import static utils.Constants.UI.FONT_SIZE_HEADER;
 
 
 public class LoadSave {
-    // Menu's
+    // Menus
     public static final String START_SCREEN_BG = "start_screen.png";
     public static final String MAIN_MENU_BG = "main_menu.png";
     public static final String LEVEL_SELECT_BG = "level_select.png";

@@ -186,6 +186,6 @@ public class Constants {
         // Ambience (don't change these indexes!)
         public static final int AMBIENCE_SILENCE = 0;
         public static final int AMBIENCE_ROCKET_ENGINE = 1;
-        public static final int AMBIENCE_WIND = 1;
+        public static final int AMBIENCE_WIND = 2;
     }
 }

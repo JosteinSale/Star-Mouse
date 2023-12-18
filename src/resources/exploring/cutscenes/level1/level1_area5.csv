@@ -1,0 +1,15 @@
+cutscene;true;object;0
+infoChoice;Leave area?;No;Yes
+playSFX;infoBox
+endSequence
+
+cutscene;true;object;0
+wait;1
+endSequence
+
+cutscene;true;object;0
+wait;60
+endSequence
+playSFX;15;bigExplosion
+wait;1
+endSequence

@@ -333,8 +333,7 @@ public class HelpMethods {
             case "infoBox" -> Audio.SFX_INFOBOX;
             case "pickup" -> Audio.SFX_INVENTORY_PICKUP;
             case "success" -> Audio.SFX_SUCCESS;
-            default -> throw new IllegalArgumentException(
-                    "No audio sample available for '" + string + "'");
+            default -> Integer.parseInt(string);
         };
         return index;
     }

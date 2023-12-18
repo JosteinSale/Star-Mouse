@@ -1,0 +1,5 @@
+1. Add background, foreground, landscape and collision image.
+2. Add levelData
+3. Add cutsceneData
+4. For some reason, the program might not recognize that new images have been added.
+   In such case, just copy those images, delete the old ones, and rename the copies properly.

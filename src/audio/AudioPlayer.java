@@ -9,15 +9,16 @@ import javax.sound.sampled.FloatControl;
 
 import main.Game;
 
+// Only the soundfiles included in the game.
 public class AudioPlayer {
     private Game game;
-    private String[] SFXfileNames = {
+    private String[] SFXfileNames = {    
         "SFX - Lazer10.wav",
         "SFX - BombShoot.wav",
         "SFX - Teleport.wav",     
         "SFX - ShipCrash1.5.wav",
         "SFX - SmallExplosion3.5.wav",
-        "SFX - BigExplosion2.wav",    // 20
+        "SFX - BigExplosion2.wav",    
         "SFX - BombPickup.wav",
         "SFX - Powerup2.wav",
         "SFX - Powerup3.wav",
@@ -26,7 +27,8 @@ public class AudioPlayer {
         "SFX - MenuSound.wav",
         "SFX - ItemPickup.wav",
         "SFX - Success.wav",               
-        "SFX - InfoBox2.wav"
+        "SFX - InfoBox2.wav",
+        "SFX - BigExplosion3.wav"
     };
     private String[] songFileNames = {
         "Song - Tutorial (FINISHED)3.wav",
