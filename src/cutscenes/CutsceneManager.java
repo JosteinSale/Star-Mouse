@@ -12,6 +12,7 @@ import static utils.Constants.Exploring.DirectionConstants.*;
 import game_events.EventHandler;
 import game_events.GeneralEvent;
 import main.Game;
+import misc.Area;
 import ui.NumberDisplay;
 import ui.TextboxManager;
 import utils.LoadSave;
@@ -22,7 +23,7 @@ import static utils.Constants.Exploring.Cutscenes.*;
 /**
  * Is responsible for controlling all cutscenes in an area.
  * Cutscenes can be triggerd by the player interacting with an object, door, 
- * npc, or a specific triggerbox. There is no inherent correlation between the 
+ * npc, or an automatic triggerbox. There is no inherent correlation between the 
  * way the cutscene was triggered and the contents of the cutscene.
  * I.o.w: any element can trigger any kind of cutscene.
  * 
@@ -48,6 +49,7 @@ import static utils.Constants.Exploring.Cutscenes.*;
  * except when player forwards dialogue.
  */
 public class CutsceneManager {
+    private Area area;
     private AudioPlayer audioPlayer;
     private PlayerExp player;
     private EventHandler eventHandler;
@@ -67,6 +69,8 @@ public class CutsceneManager {
     private boolean blackScreenActive;
     private boolean overlayImageActive;
     private BufferedImage overlayImage;
+    public boolean shakeActive;
+    public boolean redLightActive;
 
     private boolean standardFade;
     private int alphaFade = 0;
@@ -76,6 +80,13 @@ public class CutsceneManager {
     private float walkSpeedX;
     private float walkSpeedY;
     private int walkFramesDuration;
+    private int shakeDuration;
+    private int xLevelOffset;
+    private int ylevelOffset;
+    private int shakeOffset = 10;
+    private int shakeDirection = 1;  // 1 = høyre/opp, -1 = venstre/ned
+    private int redLightLvl = 0;
+    private int redLightDir = 1;    // 1 = opp, -1 = ned
 
     // OBS: Veldig viktig at vi bruker denne rekkefølgen i hele programmet
     private int nrOfObjects = 0;
@@ -86,7 +97,9 @@ public class CutsceneManager {
     private int cutsceneIndex;            // For each trigger-object
 
 
-    public CutsceneManager(AudioPlayer audioPlayer, PlayerExp player, EventHandler eventHandler, TextboxManager textboxManager) {
+    public CutsceneManager(
+        Area area, AudioPlayer audioPlayer, PlayerExp player, EventHandler eventHandler, TextboxManager textboxManager) {
+        this.area = area;
         this.audioPlayer = audioPlayer;
         this.player = player;
         this.eventHandler = eventHandler;
@@ -269,12 +282,47 @@ public class CutsceneManager {
         this.cutsceneJump = true;
     }
 
+    /** ScreenShake should only be used in scenes where the background is 
+     * larger than the screen. Or else the white edges of the screen will be visible
+     * during the shake. */
+    public void startScreenShake(int duration) {
+        this.shakeActive = true;
+        this.canAdvance = false;
+        this.shakeDuration = duration;
+        this.xLevelOffset = area.xLevelOffset;
+        this.ylevelOffset = area.yLevelOffset;
+        if (xLevelOffset < shakeOffset) {
+            xLevelOffset += shakeOffset;
+        }
+        if (ylevelOffset < shakeOffset) {
+            ylevelOffset += shakeOffset;
+        }
+        else if ((xLevelOffset + shakeOffset ) > area.maxLvlOffsetX) {
+            xLevelOffset -= shakeOffset;
+        }
+        else if ((ylevelOffset + shakeOffset ) > area.maxLvlOffsetY) {
+            ylevelOffset -= shakeOffset;
+        }
+    }
+
+    public void setRedLight(boolean active) {
+        if (active == true) {
+            this.redLightActive = true;
+        }
+        else {
+            this.redLightActive = false;
+            this.redLightLvl = 0;
+        }
+    }
+
     public void update() {
         if (waitActive) {updateWait();}
-        else if (fadeInActive) {updateFadeIn();}
-        else if (fadeOutActive) {updateFadeOut();}
-        else if (dialogueAppearing) {updateDialogue();}
+        if (redLightActive) {updateRedLight();}
+        if (fadeInActive) {updateFadeIn();}
+        if (fadeOutActive) {updateFadeOut();}
+        else if (dialogueAppearing) {updateDialogue();}  // Might change all these to 'if'
         else if (playerWalkActive) {updatePlayerWalk();}
+        else if (shakeActive) {updateScreenShake();}
         else if (cutsceneJump) {
             startCutscene(triggerIndex, CHOICE, cutsceneIndex);
             this.cutsceneJump = false;}
@@ -347,12 +395,43 @@ public class CutsceneManager {
         }
     }
 
+    private void updateScreenShake() {
+        this.shakeDuration--;
+        if (this.shakeDuration == 0) {
+            this.shakeActive = false;
+            this.canAdvance = true;
+            this.advance();
+        }
+        else {
+            if (shakeDuration % 6 > 2) {
+                this.area.xLevelOffset = xLevelOffset + (shakeOffset * shakeDirection); 
+            }
+            else {
+                this.area.yLevelOffset = ylevelOffset + (shakeOffset * shakeDirection);
+                this.shakeDirection *= -1;
+            }
+        }
+    }
+
+    private void updateRedLight() {
+        redLightLvl += (2 * redLightDir);
+        if (redLightLvl < 0) {
+            redLightLvl = 0;
+            redLightDir *= -1;
+        }
+        else if (redLightLvl > 100) {
+            redLightLvl = 100;
+            redLightDir *= -1;
+        }
+    }
+
     public void draw(Graphics g) {
         // Only needed for overlay-effects.
         if (blackScreenActive) {drawBlackScreen(g);}
         else if (overlayImageActive) {drawOverlayImage(g);}
         if (fadeOutActive || fadeInActive) {drawFade(g);}
         else if (numberDisplay.isActive()) {numberDisplay.draw(g);}
+        if (redLightActive) {drawRedLight(g);}
         textboxManager.draw(g);
     }
 
@@ -370,6 +449,11 @@ public class CutsceneManager {
 
     private void drawBlackScreen(Graphics g) {
         g.setColor(Color.BLACK);
+        g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
+    }
+
+    private void drawRedLight(Graphics g) {
+        g.setColor(new Color(250, 0, 0, redLightLvl));
         g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
     }
 
@@ -391,6 +475,5 @@ public class CutsceneManager {
 
     public void setOverlayActive(boolean active) {
         this.overlayImageActive = active;
-
     }
 }

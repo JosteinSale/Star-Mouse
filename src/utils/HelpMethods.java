@@ -317,6 +317,24 @@ public class HelpMethods {
                 PlaySFXEvent event = new PlaySFXEvent(index);
                 allSequences.get(sequenceIndex).add(event);
             }
+            else if (lineData[0].equals("setSprite")) {
+                String entity = lineData[1];
+                Boolean poseActive = Boolean.parseBoolean(lineData[2]);
+                Integer colIndex = Integer.parseInt(lineData[3]);
+                Integer rowIndex = Integer.parseInt(lineData[4]);
+                SetSpriteEvent event = new SetSpriteEvent(entity, poseActive, colIndex, rowIndex);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("screenShake")) {
+                Integer duration = Integer.parseInt(lineData[1]);
+                ScreenShakeEvent event = new ScreenShakeEvent(duration);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("setRedLight")) {
+                Boolean active = Boolean.parseBoolean(lineData[1]);
+                SetRedLightEvent event = new SetRedLightEvent(active);
+                allSequences.get(sequenceIndex).add(event);
+            }
             else if (lineData[0].equals("endSequence")) {
                 allCutscenes.get(triggerIndex).get(cutsceneIndex).addSequence(allSequences.get(sequenceIndex));
                 sequenceIndex += 1;
@@ -346,6 +364,7 @@ public class HelpMethods {
             case "Charlotte" -> 2;
             case "Nina" -> 2;
             case "Shady pilot" -> 2;
+            case "Speaker" -> 2;
             default -> throw new IllegalArgumentException(
                     "No characterIndex available for '" + name + "'");
         };

@@ -37,7 +37,8 @@ public class AudioPlayer {
     private String[] ambienceFileNames = {
         "Ambience - Silence.wav",
         "Ambience - RocketEngineQuiet.wav",
-        "Ambience - Wind.wav"
+        "Ambience - Wind.wav",
+        "Ambience - Alarm.wav"
     };
     private String[] voiceClipNames = {
         "VoiceClip - Max.wav",
@@ -57,7 +58,7 @@ public class AudioPlayer {
     private int songIndex = 0;
     private int ambienceIndex = 0;
     private float maxSongVolume = 0.9f;
-    private float songVolume = maxSongVolume;   // Må være mellom 0 og 1
+    private float songVolume = maxSongVolume;   // Må være mellom 0 og 1. For både ambience og song
     private float volumeFadeSpeed = 0.05f;
     private boolean fadeOutActive = false;
     private int waitTick = 0;                 // Brukes for å fade i steg.
@@ -157,13 +158,16 @@ public class AudioPlayer {
         this.songs[songIndex].loop(Clip.LOOP_CONTINUOUSLY);
     }
 
-    /** Starts an ambience loop with the specified index.
+    /** Stops the current ambience loop, and then starts a new
+     *  ambience loop with the specified index.
      *  Index = 0 means a silence track.
      *  Index = 99 means no ambience.
      */
     public void startAmbienceLoop(int index) {
         if (index == 99) {return;}
         this.songVolume = maxSongVolume;   // set to currenSongtVolume later
+        ambienceTracks[ambienceIndex].stop();
+        ambienceTracks[ambienceIndex].setMicrosecondPosition(0);
         this.ambienceIndex = index;
         ambienceGainControl = (FloatControl) ambienceTracks[ambienceIndex].getControl(FloatControl.Type.MASTER_GAIN);
         updateAmbienceVolume();

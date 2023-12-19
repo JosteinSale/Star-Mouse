@@ -151,8 +151,27 @@ START AMBIENCE
 
 PLAY SFX
 --------------------
-[0] = playSFX (String), [1] = whichSfx (String)
+[0] = playSFX (String), [1] = whichSfx (String / int)
 * whichSfx = success/pickup/infoBox
+
+
+SET SPRITE
+--------------------
+[0] = setSprite (String), [1] = entity (e.g. player / Oliver), [2] = poseActive (boolean)
+[3] = colIndex, [4] = rowIndex, [5] = description
+* Has to be used in combination with an action that freezes player movement, like wait.
+* After the posing is done, poseActive has to be set to false.
+
+
+SCREEN SHAKE
+--------------------
+[0] = screenShake (String), [1] = duration (int)
+
+
+SET RED LIGHT
+--------------------
+[0] = setRedLight (String), [1] = active (boolean)
+* Needs to be turned off in a cutscene
 
 
 END SEQUENCE

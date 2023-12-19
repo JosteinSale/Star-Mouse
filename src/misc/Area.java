@@ -54,12 +54,12 @@ public class Area {
     private ArrayList<AutomaticTrigger> automaticTriggers;
     private int automaticIndex;
 
-    private int xLevelOffset;
-    private int yLevelOffset;
+    public int xLevelOffset;
+    public int yLevelOffset;
     private int xBorder = (int) (0.5 * Game.GAME_DEFAULT_WIDTH);
     private int yBorder = (int) (0.5 * Game.GAME_DEFAULT_HEIGHT) + 50;
-    private int maxLvlOffsetX;
-    private int maxLvlOffsetY;
+    public int maxLvlOffsetX;
+    public int maxLvlOffsetY;
 
 
     public Area(Exploring exploring, AudioPlayer audioPlayer, int levelIndex, int areaIndex, List<String> areaData, List<String> cutsceneData) {
@@ -77,7 +77,7 @@ public class Area {
         TextboxManager textboxManager = new TextboxManager(this.exploring.getGame());
         this.eventHandler = new EventHandler();
         loadAreaData(areaData);
-        this.cutsceneManager = new CutsceneManager(audioPlayer, player, eventHandler, textboxManager);
+        this.cutsceneManager = new CutsceneManager(this, audioPlayer, player, eventHandler, textboxManager);
         loadEventReactions();
         loadCutscenes(cutsceneData);
     }
@@ -248,6 +248,21 @@ public class Area {
         else if (event instanceof PlaySFXEvent evt) {
             audioPlayer.playSFX(evt.SFXIndex());
         }
+        else if (event instanceof SetSpriteEvent evt) {
+            if (evt.entity().equals("player")) {
+                this.player.setSprite(evt.poseActive(), evt.colIndex(), evt.rowIndex());
+            }
+            else {
+                // TODO - this.npcManager.setNpcSprite(
+                //    evt.entity(), evt.poseActive(), evt.colIndex(), evt.rowIndex());
+            }
+        }
+        else if (event instanceof ScreenShakeEvent evt) {
+            this.cutsceneManager.startScreenShake(evt.duration());
+        }
+        else if (event instanceof SetRedLightEvent evt) {
+            this.cutsceneManager.setRedLight(evt.active());
+        }
     }
 
     public void keyPressed(KeyEvent e) {
@@ -316,7 +331,7 @@ public class Area {
             justEntered = false;
             player.resetAll();
         }
-        cutsceneManager.update(); 
+        cutsceneManager.update();
         player.update(npcManager.getHitboxes(), cutsceneManager.isActive());
         adjustOffsets();
         npcManager.update();   // Hvis npc's skal ha oppførsel some er uavhengig av cutscenes.
@@ -333,8 +348,10 @@ public class Area {
     }
 
     private void adjustOffsets() {
-        xLevelOffset = getOffset((int)player.getHitbox().x, xLevelOffset, xBorder, maxLvlOffsetX);
-        yLevelOffset = getOffset((int) player.getHitbox().y, yLevelOffset, yBorder, maxLvlOffsetY);
+        if (!cutsceneManager.shakeActive) {
+            xLevelOffset = getOffset((int)player.getHitbox().x, xLevelOffset, xBorder, maxLvlOffsetX);
+            yLevelOffset = getOffset((int) player.getHitbox().y, yLevelOffset, yBorder, maxLvlOffsetY);
+        }
     } 
 
     private int getOffset(int playerXY, int XYOffset, int border, int maxOffset) {

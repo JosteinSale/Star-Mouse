@@ -25,6 +25,7 @@ public class PlayerExp extends Entity {
     private int playerSpriteHeight;
 
     private boolean leftIsPressed, upIsPressed, rightIsPressed, downIsPressed;
+    private boolean poseActive = false;
     private int playerAction;
     private int playerDirection = LEFT;
     private int spriteSheet = 0;
@@ -47,7 +48,7 @@ public class PlayerExp extends Entity {
 
     private void loadSprites() {
         BufferedImage image = LoadSave.getExpImageSprite(LoadSave.PLAYER_EXP_SPRITES);
-        BufferedImage[][] normalSprites = new BufferedImage[5][4];
+        BufferedImage[][] normalSprites = new BufferedImage[6][4];
         for (int j = 0; j < normalSprites.length; j++) {
             for (int i = 0; i < normalSprites[j].length; i++) {
                 normalSprites[j][i] = image.getSubimage(
@@ -160,6 +161,7 @@ public class PlayerExp extends Entity {
     }
 
     private void updateAniTick() {
+        if (poseActive) {return;}
         aniTick++;
         if (aniTick >= aniTickPerFrame) {
             aniIndex ++;
@@ -226,5 +228,18 @@ public class PlayerExp extends Entity {
 
     public void setAction(int action) {
         this.playerAction = action;
+    }
+
+    public void setSprite(boolean pose, int colIndex, int rowIndex) {
+        if (pose == true) {
+            this.poseActive = true;
+            this.playerAction = rowIndex;
+            this.aniIndex = colIndex;
+        }
+        else {  // Stop posing
+            this.poseActive = false;
+            this.playerAction = STANDING;
+            this.aniIndex = 0;
+        }
     }
 }

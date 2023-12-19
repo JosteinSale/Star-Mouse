@@ -10,6 +10,30 @@ endSequence
 cutscene;true;object;0
 wait;60
 endSequence
+wait;65
 playSFX;15;bigExplosion
+endSequence
+setSprite;player;true;0;5;shocked
+screenShake;60
+endSequence
+wait;60
+endSequence
+dialogue;Max;shocked;10;4;Wh... What was that!?
+endSequence
+setSprite;player;true;2;5;alert
+wait;60
+endSequence
+startAmbience;3;alarm
+setRedLight;true
+wait;120
+endSequence
+dialogue;Speaker;--;5;4;ATTENTION ALL PERSONELL
+endSequence;
+dialogue;Speaker;--;5;4;THE BASE IS UNDER ATTACK
+endSequence;
+dialogue;Speaker;--;5;4;ALL PILOTS REPORT TO THEIR STATIONS IMMEDIATELY
+endSequence
+dialogue;Max;angry;8;2;No... An attack!
+setSprite;player;false;0;0;---
 wait;1
 endSequence
