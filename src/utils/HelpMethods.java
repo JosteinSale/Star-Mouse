@@ -245,10 +245,20 @@ public class HelpMethods {
                 allSequences.get(sequenceIndex).add(event);
             }
             else if (lineData[0].equals("playerWalk")) {
-                Float targetX = Float.parseFloat(lineData[1]);
-                Float targetY = Float.parseFloat(lineData[2]);
-                Integer framesDuration = Integer.parseInt(lineData[3]);
-                PlayerWalkEvent event = new PlayerWalkEvent(targetX, targetY, framesDuration);
+                Integer sheetRowIndex = GetDirection(lineData[1]) + 1; 
+                Float targetX = Float.parseFloat(lineData[2]);
+                Float targetY = Float.parseFloat(lineData[3]);
+                Integer framesDuration = Integer.parseInt(lineData[4]);
+                PlayerWalkEvent event = new PlayerWalkEvent(sheetRowIndex, targetX, targetY, framesDuration);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("npcWalk")) {
+                Integer npcIndex = Integer.parseInt(lineData[2]);
+                Integer sheetRowIndex = GetDirection(lineData[3]) + 1; 
+                Float targetX = Float.parseFloat(lineData[4]);
+                Float targetY = Float.parseFloat(lineData[5]);
+                Integer framesDuration = Integer.parseInt(lineData[6]);
+                NPCWalkEvent event = new NPCWalkEvent(npcIndex, sheetRowIndex, targetX, targetY, framesDuration);
                 allSequences.get(sequenceIndex).add(event);
             }
             else if (lineData[0].equals("setDir")) {

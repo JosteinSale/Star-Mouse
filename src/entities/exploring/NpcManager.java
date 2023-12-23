@@ -61,6 +61,15 @@ public class NpcManager {
         }
     }
 
+    public void adjustNpcPos(String name, float deltaX, float deltaY) {
+        for (NPC npc : allNpcs) {
+            if (npc.getName().equals(name)) {
+                npc.adjustPos(deltaX, deltaY);
+                return;
+            }
+        }
+    }
+
     /** Returns the amount of NPC's */
     public int getAmount() {
         return this.allNpcs.size();

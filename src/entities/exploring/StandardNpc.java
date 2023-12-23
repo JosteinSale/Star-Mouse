@@ -92,6 +92,16 @@ public class StandardNpc extends Entity implements NPC {
         // Do nothing
     }
 
+    @Override
+    public void setAction(int action) {
+        // Do nothing
+    }
+
+    @Override
+    public void adjustPos(float deltaX, float deltaY) {
+        // Do nothing
+    }
+
     public boolean inForeground() {
         return this.inForeground;
     }

@@ -87,7 +87,15 @@ SET PLAYER SPRITESHEET
 
 PLAYER WALK
 --------------------
-[0] = playerWalk, [1] = targetX, [2] = targetY, [3] = framesDuration
+[0] = playerWalk (string), [1] = direction (string), [2] = targetX, 
+[3] = targetY, [4] = framesDuration
+
+
+NPC WALK
+--------------------
+[0] = npcWalk (string), [1] = npcName (not used), [2] = npcIndex, 
+[3] = direction (string), [4] = targetX, [5] = targetY, [6] = framesDuration
+* npcIndex = e.g. npc #0
 
 
 SET DIRECTION

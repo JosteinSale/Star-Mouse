@@ -23,6 +23,7 @@ public class Oliver extends Entity implements NPC {
     private boolean inForeground;
 
     private int oliverAction = STANDING;
+    private boolean poseActive = false;
     private int oliverDirection;
     private float oliverSpeed = 5f;
     
@@ -45,38 +46,9 @@ public class Oliver extends Entity implements NPC {
             hitbox.x - 8, hitbox.y, hitbox.width + 16, hitbox.height + 8);
     }
 
-    @Override
-    public void update() {
-        updateAniTick();
-    }
-
-    private void updateAniTick() {
-        /* 
-        if (oliverAction == NO_ANIM) {
-            return;
-            // Kan ha f.ex to rader i spritesheet som er OTHER.
-            // Her kan hvert bilde være forskjellig, f.ex et gråtende, et sittende, etc..
-            // Kan ha en egen metode som setter riktig verdi i oliverAction og aniIndex
-            // slik at riktig bilde vises. Når oliverAction settes tilbake til WALKING/STANDING
-            // etc fortsetter updateAniTick som vanlig.
-        }
-        */
-        aniTick++;
-        if (aniTick >= aniTickPerFrame) {
-            aniIndex ++;
-            aniTick = 0;
-        }
-        if (aniIndex >= GetSpriteAmount(oliverAction)) {
-            aniIndex = 0;
-        }
-        if (oliverAction == STANDING) {
-            aniIndex = oliverDirection;
-        }
-    }
-
     private void loadSprites() {
         BufferedImage img = LoadSave.getExpImageSprite(LoadSave.OLIVER_SPRITES);
-        oliverSprites = new BufferedImage[1][4];
+        oliverSprites = new BufferedImage[5][4];
         for (int j = 0; j < oliverSprites.length; j++) {
             for (int i = 0; i < oliverSprites[j].length; i++) {
                 oliverSprites[j][i] = img.getSubimage(
@@ -93,6 +65,33 @@ public class Oliver extends Entity implements NPC {
     }
 
     @Override
+    public void update() {
+        updateAniTick();
+    }
+
+    private void updateAniTick() {
+        if (poseActive) {return;}
+        aniTick++;
+        if (aniTick >= aniTickPerFrame) {
+            aniIndex ++;
+            aniTick = 0;
+        }
+        if (aniIndex >= GetSpriteAmount(oliverAction)) {
+            aniIndex = 0;
+        }
+        if (oliverAction == STANDING) {
+            aniIndex = oliverDirection;
+        }
+    }
+    
+    public void adjustPos(float deltaX, float deltaY) {
+        this.hitbox.x += deltaX;
+        this.hitbox.y += deltaY;
+        this.triggerBox.x += deltaX;
+        this.triggerBox.y += deltaY;
+    }
+
+    @Override
     public void draw(Graphics g, int xLevelOffset, int yLevelOffset) {
         g.drawImage(
             oliverSprites[oliverAction][aniIndex],
@@ -101,7 +100,7 @@ public class Oliver extends Entity implements NPC {
             spriteWidth, spriteHeight, 
             null);
         
-        // Triggerbox
+        // Triggerbox 
         /* 
         g.setColor(Color.CYAN);
         g.drawRect(
@@ -109,7 +108,7 @@ public class Oliver extends Entity implements NPC {
             (int) ((triggerBox.y - yLevelOffset) * Game.SCALE),
             (int) (triggerBox.width * Game.SCALE),
             (int) (triggerBox.height * Game.SCALE));
-            */
+        */
     }
 
 
@@ -145,6 +144,10 @@ public class Oliver extends Entity implements NPC {
     @Override
     public boolean inForeground() {
         return this.inForeground;
+    }
+
+    public void setAction(int action) {
+        this.oliverAction = action;
     }
     
 }

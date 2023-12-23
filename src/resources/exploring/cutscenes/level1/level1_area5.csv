@@ -7,7 +7,7 @@ cutscene;true;object;0
 wait;1
 endSequence
 
-cutscene;true;object;0
+cutscene;false;object;0
 wait;60
 endSequence
 wait;65
@@ -33,7 +33,67 @@ dialogue;Speaker;--;5;4;THE BASE IS UNDER ATTACK
 endSequence;
 dialogue;Speaker;--;5;4;ALL PILOTS REPORT TO THEIR STATIONS IMMEDIATELY
 endSequence
-dialogue;Max;angry;8;2;No... An attack!
-setSprite;player;false;0;0;---
+wait;20
+endSequence
+dialogue;Max;angry;8;5;...An attack!
+endSequence
+npcWalk;Oliver;0;right;660f;520f;30
+endSequence
+dialogue;Oliver;shocked;6;4;Max!
+endSequence
+setDir;player;left
+setSprite;player;true;3;5;alert
+npcWalk;Oliver;0;right;1370f;558f;120
+endSequence
+dialogue;Oliver;shocked;6;4;What's going on? Who's attacking us?
+endSequence
+dialogue;Max;nervous;9;3;I don't know. The attack came out of nowhere.
+endSequence
+dialogue;Max;serious;8;2;I've got to go out there.
+endSequence
+dialogue;Oliver;afraid;7;4;I'm coming too!
+endSequence
+dialogue;Max;serious;8;3;No!
+endSequence
+dialogue;Oliver;afraid;7;2;But...
+endSequence
+dialogue;Max;serious;8;2;You're not a pilot yet.
+endSequence
+dialogue;Oliver;afraid;7;2;That's not what you said this morning!
+endSequence
+dialogue;Max;serious;8;2;This is different from then!
+endSequence
+dialogue;Max;nervous;9;30;...
+endSequence
+dialogue;Max;serious;8;3;Oliver, I want you to lead the other cadets out of the city.
+endSequence
+dialogue;Max;serious;8;3;Take your ships and get as far away as you can!
+endSequence
+dialogue;Oliver;determined;8;10;...
+endSequence
+dialogue;Max;serious;8;3;We'll meet up at the outpost on Vyke, got it?
+endSequence
+dialogue;Oliver;determined;8;3;Alright!
+endSequence
+dialogue;Max;serious;8;2;Now go! We don't have time!
+endSequence
+wait;30;
+endSequence
+setDir;Oliver;left
+npcWalk;Oliver;0;left;660f;520f;120
+endSequence
+dialogue;Max;nervous;9;2;...Be careful.
+endSequence
+fadeOut;3
+endSequence
+setRedLight;false
+blackScreen;true
+wait;100
+endSequence
+goToFlying;0
 wait;1
+endSequence
+
+cutscene;true;npc;1
+info;That's Oliver lol
 endSequence

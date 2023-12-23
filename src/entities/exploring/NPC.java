@@ -23,5 +23,9 @@ public interface NPC {
 
     public void setDir(int dir);
 
+    public void setAction(int action);
+
+    public void adjustPos(float deltaX, float deltaY);
+
     public boolean inForeground();
 }

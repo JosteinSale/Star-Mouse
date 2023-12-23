@@ -131,7 +131,7 @@ public class EnemyManager {
     }
 
     public void draw(Graphics g) {
-        for (Enemy enemy : activeEnemiesOnScreen) {
+        for (Enemy enemy : activeEnemiesOnScreen) {  // concurrentModificationException sometimes
             enemy.draw(g);
             //enemy.drawHitbox(g);
         }

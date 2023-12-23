@@ -69,10 +69,10 @@ public class PauseFlying {
     }
 
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+        if (e.getKeyCode() == KeyEvent.VK_S) {
             goDown();
         }
-        else if (e.getKeyCode() == KeyEvent.VK_UP) {
+        else if (e.getKeyCode() == KeyEvent.VK_W) {
             goUp();
         }
         else if (e.getKeyCode() == KeyEvent.VK_SPACE) {

@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import audio.AudioPlayer;
+import entities.exploring.NpcManager;
 import entities.exploring.PlayerExp;
 import static utils.Constants.Exploring.DirectionConstants.*;
 import game_events.EventHandler;
@@ -50,6 +51,7 @@ import static utils.Constants.Exploring.Cutscenes.*;
  */
 public class CutsceneManager {
     private Area area;
+    private NpcManager npcManager;
     private AudioPlayer audioPlayer;
     private PlayerExp player;
     private EventHandler eventHandler;
@@ -66,6 +68,7 @@ public class CutsceneManager {
     private boolean dialogueAppearing;
     private boolean waitActive;
     private boolean playerWalkActive;
+    private boolean npcWalkActive;
     private boolean blackScreenActive;
     private boolean overlayImageActive;
     private BufferedImage overlayImage;
@@ -77,6 +80,7 @@ public class CutsceneManager {
     private int fadeSpeed = 10;
     private int waitTick = 0;
     private int waitDone;
+    private int npcIndex;  // Used in animation-events
     private float walkSpeedX;
     private float walkSpeedY;
     private int walkFramesDuration;
@@ -98,8 +102,10 @@ public class CutsceneManager {
 
 
     public CutsceneManager(
-        Area area, AudioPlayer audioPlayer, PlayerExp player, EventHandler eventHandler, TextboxManager textboxManager) {
+        Area area, NpcManager npcManager, AudioPlayer audioPlayer, 
+        PlayerExp player, EventHandler eventHandler, TextboxManager textboxManager) {
         this.area = area;
+        this.npcManager = npcManager;
         this.audioPlayer = audioPlayer;
         this.player = player;
         this.eventHandler = eventHandler;
@@ -237,14 +243,28 @@ public class CutsceneManager {
         waitActive = true;
     }
 
-    public void playerWalk(float targetX, float targetY, int framesDuration) {
+    public void playerWalk(int sheetRowIndex, float targetX, float targetY, int framesDuration) {
         this.playerWalkActive = true;
         this.canAdvance = false;
         this.walkFramesDuration = framesDuration;
-        this.player.setAction(WALKING_UP);
+        this.player.setAction(sheetRowIndex); 
 
         float xDistance = targetX - this.player.getHitbox().x;
         float yDistance = targetY - this.player.getHitbox().y;
+        this.walkSpeedX = xDistance / framesDuration;
+        this.walkSpeedY = yDistance / framesDuration;
+    }
+
+    public void npcWalk(
+        int npcIndex, int sheetRowIndex, float targetX, float targetY, int framesDuration) {
+        this.npcIndex = npcIndex;
+        this.npcWalkActive = true;
+        this.canAdvance = false;
+        this.walkFramesDuration = framesDuration;
+        this.npcManager.getNpc(npcIndex).setAction(sheetRowIndex); 
+
+        float xDistance = targetX - this.npcManager.getNpc(npcIndex).getHitbox().x;
+        float yDistance = targetY - this.npcManager.getNpc(npcIndex).getHitbox().y;
         this.walkSpeedX = xDistance / framesDuration;
         this.walkSpeedY = yDistance / framesDuration;
     }
@@ -322,6 +342,7 @@ public class CutsceneManager {
         if (fadeOutActive) {updateFadeOut();}
         else if (dialogueAppearing) {updateDialogue();}  // Might change all these to 'if'
         else if (playerWalkActive) {updatePlayerWalk();}
+        else if (npcWalkActive) {updateNpcWalk();}
         else if (shakeActive) {updateScreenShake();}
         else if (cutsceneJump) {
             startCutscene(triggerIndex, CHOICE, cutsceneIndex);
@@ -335,6 +356,17 @@ public class CutsceneManager {
             this.playerWalkActive = false;
             this.canAdvance = true;
             this.player.resetAll();
+            this.advance();
+        }
+    }
+
+    private void updateNpcWalk() {
+        this.npcManager.getNpc(npcIndex).adjustPos(walkSpeedX, walkSpeedY);
+        this.walkFramesDuration --;
+        if (walkFramesDuration == 0) {
+            this.npcWalkActive = false;
+            this.canAdvance = true;
+            this.npcManager.getNpc(npcIndex).setAction(STANDING);
             this.advance();
         }
     }
@@ -429,9 +461,9 @@ public class CutsceneManager {
         // Only needed for overlay-effects.
         if (blackScreenActive) {drawBlackScreen(g);}
         else if (overlayImageActive) {drawOverlayImage(g);}
+        if (redLightActive) {drawRedLight(g);}
         if (fadeOutActive || fadeInActive) {drawFade(g);}
         else if (numberDisplay.isActive()) {numberDisplay.draw(g);}
-        if (redLightActive) {drawRedLight(g);}
         textboxManager.draw(g);
     }
 

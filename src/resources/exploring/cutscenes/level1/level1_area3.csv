@@ -175,9 +175,10 @@ dialogue;Shady pilot;normal;4;2;You ain't got the credits pal
 endSequence
 
 cutscene;false;automatic;10
+setDir;player;up
 wait;60
 endSequence
-playerWalk;741f;470f;120
+playerWalk;up;741f;470f;120
 endSequence
 wait;90
 endSequence

@@ -77,7 +77,7 @@ public class Area {
         TextboxManager textboxManager = new TextboxManager(this.exploring.getGame());
         this.eventHandler = new EventHandler();
         loadAreaData(areaData);
-        this.cutsceneManager = new CutsceneManager(this, audioPlayer, player, eventHandler, textboxManager);
+        this.cutsceneManager = new CutsceneManager(this, npcManager, audioPlayer, player, eventHandler, textboxManager);
         loadEventReactions();
         loadCutscenes(cutsceneData);
     }
@@ -200,7 +200,13 @@ public class Area {
             this.player.setSpriteSheet(evt.sheetIndex());
         }
         else if (event instanceof PlayerWalkEvent evt) {
-            this.cutsceneManager.playerWalk(evt.targetX(), evt.targetY(), evt.framesDuration());
+            this.cutsceneManager.playerWalk(
+                evt.sheetRowIndex(), evt.targetX(), evt.targetY(), evt.framesDuration());
+        }
+        else if (event instanceof NPCWalkEvent evt) {
+            this.cutsceneManager.npcWalk(
+                evt.npcIndex(), evt.sheetRowIndex(), 
+                evt.targetX(), evt.targetY(), evt.framesDuration());
         }
         else if (event instanceof SetDirEvent evt) {
             if (evt.entityName().equals("player")) {

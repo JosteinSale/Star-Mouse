@@ -25,12 +25,6 @@ endSequence
 dialogue;Max;normal;0;2;Use the WASD-keys to move!
 wait;240
 endSequence
-dialogue;Max;thoughtful;5;2;And don't crash into anything
-wait;200
-endSequence
-dialogue;Oliver;annoyed;5;2;...I know that
-wait;200
-endSequence
 
 cutscene;true;automatic;2
 dialogue;Max;normal;0;2;Use SPACE to shoot.
@@ -50,12 +44,6 @@ endSequence
 dialogue;Max;normal;0;2;...then tap left/right.
 wait;240
 endSequence
-dialogue;Oliver;nervous;2;2;It's kinda hard to control
-wait;240
-endSequence
-dialogue;Max;happy;1;2;Practice makes perfect!
-wait;200
-endSequence
 
 cutscene;true;automatic;4
 dialogue;Max;normal;0;4;Remember
@@ -63,9 +51,6 @@ wait;100
 endSequence
 dialogue;Max;thoughtful;5;2;You can teleport through obstacles.
 wait;240
-endSequence
-dialogue;Oliver;surprised;3;2;No way, that's too scary!
-wait;200
 endSequence
 
 cutscene;true;automatic;5
@@ -89,12 +74,6 @@ endSequence
 cutscene;true;automatic;7
 dialogue;Max;eyes_closed;4;2;But use them sparingly, they're not cheap.
 wait;240
-endSequence
-dialogue;Oliver;normal;0;2;Doesn't the military pay for them?
-wait;240
-endSequence
-dialogue;Max;thoughtful;5;3;...good question
-wait;200
 endSequence
 
 cutscene;true;automatic;8
