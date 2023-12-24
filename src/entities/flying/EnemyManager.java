@@ -6,6 +6,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
+
 import main.Game;
 import projectiles.Explosion;
 import utils.LoadSave;
@@ -131,7 +133,8 @@ public class EnemyManager {
     }
 
     public void draw(Graphics g) {
-        for (Enemy enemy : activeEnemiesOnScreen) {  // concurrentModificationException sometimes
+        ArrayList<Enemy> copy = new ArrayList<>(activeEnemiesOnScreen); // to avoid concurrentModification
+        for (Enemy enemy : copy) {  
             enemy.draw(g);
             //enemy.drawHitbox(g);
         }

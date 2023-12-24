@@ -165,8 +165,8 @@ public class CutsceneManager2 {
     private void updateFadeIn() {
         this.screenAlphaFade -= screenFadeSpeed;
         if (this.screenAlphaFade < 0) {
-            this.advance();
             screenAlphaFade = 0;
+            this.advance();
             fadeInActive = false;
         }
     }
@@ -174,8 +174,8 @@ public class CutsceneManager2 {
     private void updateFadeOut() {
         this.screenAlphaFade += screenFadeSpeed;
         if (this.screenAlphaFade > 255) {
-            this.advance();
             screenAlphaFade = 255;
+            this.advance();
             fadeOutActive = false;   // Removing this line is a workaround for the blip-bug.
         }
     }

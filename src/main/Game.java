@@ -151,15 +151,15 @@ public class Game implements Runnable {
             previousTime = currentTime;
 
             if (deltaU >= 1) {
-                update();
                 updates++;
                 deltaU--;
+                update();
             }
 
             if (deltaF >= 1) {
-                gamePanel.repaint();
                 frames++;
                 deltaF--;
+                gamePanel.repaint();
             }
 
             // Printer hvor mange frames som faktisk passerer i sekundet

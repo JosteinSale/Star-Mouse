@@ -44,10 +44,10 @@ public class ProjectileHandler {
     private boolean bIsPressed;
     private int lazerShootTick = 0;
     private int lazerShootBuffer = 10;
-    private int bombShootBuffer = 30;
+    private int bombShootBuffer = 30;   
     private int bombShootTick = 0;
     private int explosionDamage = 100;
-    private int nrOfBombs = 3;
+    private int nrOfBombs = 10000;
 
     private float fgSpeed;
 
@@ -339,7 +339,8 @@ public class ProjectileHandler {
                 null);
             }
         }
-        for (BombExplosion b : bombExplosions) {
+        ArrayList<BombExplosion> copy = new ArrayList<>(bombExplosions); // to avoid concurrent modification
+        for (BombExplosion b : copy) {
             b.draw(g);
         }
     }
