@@ -44,10 +44,10 @@ public class ProjectileHandler {
     private boolean bIsPressed;
     private int lazerShootTick = 0;
     private int lazerShootBuffer = 10;
-    private int bombShootBuffer = 30;   
+    private int bombShootBuffer = 3;   
     private int bombShootTick = 0;
     private int explosionDamage = 100;
-    private int nrOfBombs = 10000;
+    private int nrOfBombs = 1000;
 
     private float fgSpeed;
 
@@ -339,9 +339,13 @@ public class ProjectileHandler {
                 null);
             }
         }
-        ArrayList<BombExplosion> copy = new ArrayList<>(bombExplosions); // to avoid concurrent modification
-        for (BombExplosion b : copy) {
-            b.draw(g);
+        try {
+            for (BombExplosion b : bombExplosions) {
+                b.draw(g);
+            }
+        } catch (java.util.ConcurrentModificationException e) {
+            // Ignore evil exceptions and happily continue
+            // Making a copy of the list reduces the exception by 99%
         }
     }
 
@@ -364,6 +368,11 @@ public class ProjectileHandler {
     public void addBombToInventory() {
         this.nrOfBombs++;
         this.player.setBombs(nrOfBombs);
+    }
+
+    public void setBombs(int bombs) {
+        this.nrOfBombs = bombs;
+        this.player.setBombs(bombs);
     }
 
     public void setClImg(BufferedImage clImg) {

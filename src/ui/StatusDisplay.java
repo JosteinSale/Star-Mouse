@@ -15,9 +15,9 @@ public class StatusDisplay {
     private Font font;
     private Color HPbgColor = new Color(97, 0, 15, 180);
 
-    private int HP = 50;
+    private int HP;
     private int maxHP = 100;
-    private int bombs = 50;
+    private int bombs;
     private int killedEnemies = 0;
 
     private int statusX = Game.GAME_DEFAULT_WIDTH - 150;

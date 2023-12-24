@@ -363,4 +363,8 @@ public class PauseExploring implements Statemethods {
     public int getCredits() {
         return this.statusValues[0];
     }
+
+    public int getBombs() {
+        return this.statusValues[1];
+    }
 }

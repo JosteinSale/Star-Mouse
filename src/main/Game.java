@@ -29,6 +29,7 @@ public class Game implements Runnable {
     public static final int GAME_HEIGHT = (int) (GAME_DEFAULT_HEIGHT * SCALE);
 
     public static final boolean fullScreen = false;
+    public boolean isUpdating = true;
 
     private GameWindow gameWindow;
     private GamePanel gamePanel;
@@ -130,7 +131,7 @@ public class Game implements Runnable {
     }
 
 
-    @Override
+    // @Override
     public void run() {
         double timePerFrame = 1000000000.0 / FPS_SET;  // 1 milliard nanosekunder / FPS_SET
         double timePerUpdate = 1000000000.0 / UPS_SET;  // 1 milliard nanosekunder / UPS_SET
@@ -142,7 +143,7 @@ public class Game implements Runnable {
         double deltaF = 0;     // delta FPS
 
 
-        // Kaller repaint hvis riktig tidsintervall har passert
+        // Kaller repaint og update hvis riktig tidsintervall har passert
         while (true) {
             long currentTime = System.nanoTime();
 
@@ -153,13 +154,15 @@ public class Game implements Runnable {
             if (deltaU >= 1) {
                 updates++;
                 deltaU--;
-                update();
+                isUpdating = true;
+                update(); // SÅ her modifiseres listen
+                isUpdating = false;
             }
 
             if (deltaF >= 1) {
                 frames++;
                 deltaF--;
-                gamePanel.repaint();
+                if (!isUpdating) {gamePanel.repaint();}
             }
 
             // Printer hvor mange frames som faktisk passerer i sekundet

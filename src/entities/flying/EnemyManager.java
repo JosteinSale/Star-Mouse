@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.SwingUtilities;
 
 import main.Game;
+import projectiles.BombExplosion;
 import projectiles.Explosion;
 import utils.LoadSave;
 import static utils.HelpMethods2.GetEnemy;
@@ -133,10 +134,14 @@ public class EnemyManager {
     }
 
     public void draw(Graphics g) {
-        ArrayList<Enemy> copy = new ArrayList<>(activeEnemiesOnScreen); // to avoid concurrentModification
-        for (Enemy enemy : copy) {  
-            enemy.draw(g);
-            //enemy.drawHitbox(g);
+        try {
+            for (Enemy enemy : activeEnemiesOnScreen) {  
+                enemy.draw(g);
+                //enemy.drawHitbox(g);
+            }
+        } catch (java.util.ConcurrentModificationException e) {
+            // Ignore evil exceptions and happily continue
+            // Making a copy of the list reduces the exception by 99%
         }
         for (Explosion ex : explosions) {
             g.drawImage(
