@@ -134,14 +134,10 @@ public class EnemyManager {
     }
 
     public void draw(Graphics g) {
-        try {
-            for (Enemy enemy : activeEnemiesOnScreen) {  
-                enemy.draw(g);
-                //enemy.drawHitbox(g);
-            }
-        } catch (java.util.ConcurrentModificationException e) {
-            // Ignore evil exceptions and happily continue
-            // Making a copy of the list reduces the exception by 99%
+        ArrayList<Enemy> copy = new ArrayList<>(activeEnemiesOnScreen);
+        for (Enemy enemy : copy) {  
+            enemy.draw(g);
+            //enemy.drawHitbox(g);
         }
         for (Explosion ex : explosions) {
             g.drawImage(

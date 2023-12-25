@@ -29,7 +29,6 @@ public class Game implements Runnable {
     public static final int GAME_HEIGHT = (int) (GAME_DEFAULT_HEIGHT * SCALE);
 
     public static final boolean fullScreen = false;
-    public boolean isUpdating = true;
 
     private GameWindow gameWindow;
     private GamePanel gamePanel;
@@ -154,21 +153,19 @@ public class Game implements Runnable {
             if (deltaU >= 1) {
                 updates++;
                 deltaU--;
-                isUpdating = true;
-                update(); // SÅ her modifiseres listen
-                isUpdating = false;
+                update(); 
             }
 
             if (deltaF >= 1) {
                 frames++;
                 deltaF--;
-                if (!isUpdating) {gamePanel.repaint();}
+                gamePanel.repaint();
             }
 
             // Printer hvor mange frames som faktisk passerer i sekundet
             if (System.currentTimeMillis() - lastCheck >= 1000) {
                 lastCheck = System.currentTimeMillis();
-                System.out.println("FPS: " + frames + " | UPS: " + updates);
+                //System.out.println("FPS: " + frames + " | UPS: " + updates);
                 frames = 0;
                 updates = 0;
             }

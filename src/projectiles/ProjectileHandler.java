@@ -1,6 +1,7 @@
 package projectiles;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -9,9 +10,11 @@ import audio.AudioPlayer;
 import entities.flying.Enemy;
 import entities.flying.EnemyManager;
 import entities.flying.PlayerFly;
+import gamestates.Gamestate;
 import main.Game;
 import utils.Constants.Audio;
 import utils.LoadSave;
+import java.util.Iterator;
 
 import static utils.Constants.Flying.Sprites.*;
 import static utils.Constants.Flying.TypeConstants.DRONE;
@@ -98,7 +101,6 @@ public class ProjectileHandler {
     }
 
     private void checkPlayerShoot() {
-        // Kan også sjekke skyting av bomber her
         if (spaceIsPressed && lazerShootTick == 0) {
             lazerShootTick = lazerShootBuffer;
             this.addPlayerProjectile(player.getHitbox().x, player.getHitbox().y);
@@ -313,7 +315,8 @@ public class ProjectileHandler {
     }
 
     public void draw(Graphics g) {
-        for (Projectile p : allProjectiles) {
+        ArrayList<Projectile> copy = new ArrayList<>(allProjectiles);
+        for (Projectile p : copy) {
             if (p.isActive()) {
                 p.draw(g);
                 //p.drawHitbox(g);
@@ -339,13 +342,9 @@ public class ProjectileHandler {
                 null);
             }
         }
-        try {
-            for (BombExplosion b : bombExplosions) {
-                b.draw(g);
-            }
-        } catch (java.util.ConcurrentModificationException e) {
-            // Ignore evil exceptions and happily continue
-            // Making a copy of the list reduces the exception by 99%
+        ArrayList<BombExplosion> copy2 = new ArrayList<>(bombExplosions);
+        for (BombExplosion b : copy2) {
+            b.draw(g);
         }
     }
 
