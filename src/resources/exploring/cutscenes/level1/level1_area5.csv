@@ -45,6 +45,9 @@ setDir;player;left
 setSprite;player;true;3;5;alert
 npcWalk;Oliver;0;right;1370f;558f;120
 endSequence
+setSprite;Oliver;true;0;5;alert
+wait;30
+endSequence
 dialogue;Oliver;shocked;6;4;What's going on? Who's attacking us?
 endSequence
 dialogue;Max;nervous;9;3;I don't know. The attack came out of nowhere.
@@ -79,6 +82,7 @@ dialogue;Max;serious;8;2;Now go! We don't have time!
 endSequence
 wait;30;
 endSequence
+setSprite;Oliver;false;0;0
 setDir;Oliver;left
 npcWalk;Oliver;0;left;660f;520f;120
 endSequence

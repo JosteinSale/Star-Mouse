@@ -61,6 +61,15 @@ public class NpcManager {
         }
     }
 
+    public void setSprite(String name, boolean poseActive, int colIndex, int rowIndex) {
+        for (NPC npc : allNpcs) {
+            if (npc.getName().equals(name)) {
+                npc.setSprite(poseActive, colIndex, rowIndex);
+                return;
+            }
+        }
+    }
+
     public void adjustNpcPos(String name, float deltaX, float deltaY) {
         for (NPC npc : allNpcs) {
             if (npc.getName().equals(name)) {

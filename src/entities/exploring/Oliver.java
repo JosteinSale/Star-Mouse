@@ -48,7 +48,7 @@ public class Oliver extends Entity implements NPC {
 
     private void loadSprites() {
         BufferedImage img = LoadSave.getExpImageSprite(LoadSave.OLIVER_SPRITES);
-        oliverSprites = new BufferedImage[5][4];
+        oliverSprites = new BufferedImage[6][4];
         for (int j = 0; j < oliverSprites.length; j++) {
             for (int i = 0; i < oliverSprites[j].length; i++) {
                 oliverSprites[j][i] = img.getSubimage(
@@ -139,6 +139,20 @@ public class Oliver extends Entity implements NPC {
     @Override
     public void setDir(int dir) {
         this.oliverDirection = dir;
+    }
+
+    @Override
+    public void setSprite(boolean poseActive, int colIndex, int rowIndex) {
+        if (poseActive == true) {
+            this.poseActive = true;
+            this.oliverAction = rowIndex;
+            this.aniIndex = colIndex;
+        }
+        else {
+            this.poseActive = false;
+            this.aniIndex = 0;
+            this.aniTick = 0;
+        }
     }
 
     @Override

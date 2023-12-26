@@ -23,6 +23,8 @@ public interface NPC {
 
     public void setDir(int dir);
 
+    public void setSprite(boolean poseActive, int colIndex, int rowIndex);
+
     public void setAction(int action);
 
     public void adjustPos(float deltaX, float deltaY);

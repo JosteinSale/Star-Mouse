@@ -93,6 +93,11 @@ public class StandardNpc extends Entity implements NPC {
     }
 
     @Override
+    public void setSprite(boolean poseActive, int colIndex, int rowIndex) {
+        // Do nothing
+    }
+
+    @Override
     public void setAction(int action) {
         // Do nothing
     }
@@ -105,5 +110,4 @@ public class StandardNpc extends Entity implements NPC {
     public boolean inForeground() {
         return this.inForeground;
     }
-    
 }

@@ -259,8 +259,8 @@ public class Area {
                 this.player.setSprite(evt.poseActive(), evt.colIndex(), evt.rowIndex());
             }
             else {
-                // TODO - this.npcManager.setNpcSprite(
-                //    evt.entity(), evt.poseActive(), evt.colIndex(), evt.rowIndex());
+                this.npcManager.setSprite(
+                    evt.entity(), evt.poseActive(), evt.colIndex(), evt.rowIndex());
             }
         }
         else if (event instanceof ScreenShakeEvent evt) {
