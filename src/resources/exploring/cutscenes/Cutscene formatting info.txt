@@ -167,7 +167,7 @@ SET SPRITE
 --------------------
 [0] = setSprite (String), [1] = entity (e.g. player / Oliver), [2] = poseActive (boolean)
 [3] = colIndex, [4] = rowIndex, [5] = description
-* Has to be used in combination with an action that freezes player movement, like wait.
+* Has to be used in combination with an action that calls advance(), like wait.
 * After the posing is done, poseActive has to be set to false.
 
 
@@ -190,10 +190,6 @@ END SEQUENCE
 END CUTSCENE;
 --------------------
 empty line
-
-
-END SHEET;
-X
 
 
 

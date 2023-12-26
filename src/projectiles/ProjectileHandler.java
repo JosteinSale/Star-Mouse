@@ -47,10 +47,10 @@ public class ProjectileHandler {
     private boolean bIsPressed;
     private int lazerShootTick = 0;
     private int lazerShootBuffer = 10;
-    private int bombShootBuffer = 3;   
+    private int bombShootBuffer = 30;  
     private int bombShootTick = 0;
     private int explosionDamage = 100;
-    private int nrOfBombs = 1000;
+    private int nrOfBombs = 10;
 
     private float fgSpeed;
 

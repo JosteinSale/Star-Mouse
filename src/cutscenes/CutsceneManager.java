@@ -386,6 +386,9 @@ public class CutsceneManager {
     private void updateFadeIn() {
         this.alphaFade -= fadeSpeed;
         if (this.alphaFade < 0) {
+            alphaFade = 0;
+            fadeInActive = false;
+            canAdvance = true;
             if (standardFade) {
                 active = false;   
                 standardFade = false; 
@@ -393,15 +396,14 @@ public class CutsceneManager {
             else {
                 this.advance();
             }
-            alphaFade = 0;
-            fadeInActive = false;
-            canAdvance = true;
         }
     }
 
     private void updateFadeOut() {
         this.alphaFade += fadeSpeed;
         if (this.alphaFade > 255) {
+            alphaFade = 255;
+            canAdvance = true;
             if (standardFade) {
                 active = false;   
                 standardFade = false; 
@@ -412,8 +414,6 @@ public class CutsceneManager {
             else {
                 this.advance();
             }
-            canAdvance = true;
-            alphaFade = 255;
         }
     }
 
