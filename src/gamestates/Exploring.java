@@ -15,7 +15,7 @@ import utils.LoadSave;
 public class Exploring extends State implements Statemethods {
     private AudioPlayer audioPlayer;
     private int currentLevel = 1;
-    private int currentArea = 3;
+    private int currentArea = 5;
     private ArrayList<Area> areas;
     private PauseExploring pauseOverlay;
 

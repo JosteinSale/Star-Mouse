@@ -14,7 +14,7 @@ import static utils.Constants.Flying.Sprites.ALL_SPRITES_SIZE;
 
 public class LevelEditor implements Statemethods {
     private Game game;
-    private Integer level = 0;
+    private Integer level = 1;
     private BufferedImage clImg;
     private BufferedImage[] entityImgs;                    // Standardiserte bilder
     private ArrayList<BufferedImage> outPlacedImgs;
@@ -72,7 +72,8 @@ public class LevelEditor implements Statemethods {
                     case "repair" -> 1;
                     case "bomb" -> 2;
                     case "target" -> 3;
-                    default -> 99;
+                    case "drone" -> 4;
+                    default -> 99;    // For entities currently not handled in addEntityToList()
                 };
                 if (entity < 99) {
                     addEntityToList(Integer.parseInt(lineData[1]), Integer.parseInt(lineData[2]), entity);
@@ -81,6 +82,15 @@ public class LevelEditor implements Statemethods {
     }
 
     @Override
+    /**
+     * Controls:
+     * ---------------------------------------------
+     * W / S                         Change screen 
+     * X                             Change entity
+     * UP / DOWN / LEFT / RIGHT      Change cursor position
+     * SPACE                         Add / delete entity
+     * P                             Print levelData in console
+     */
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_W) {
             this.changeScreen(UP);
@@ -133,35 +143,42 @@ public class LevelEditor implements Statemethods {
         int xOffset = 0;
         int yOffset = 0;
         if (entity == 0) {
-            levelData.add("powerup;" + Integer.toString(cursorX) + ";" + Integer.toString(y));
+            levelData.add("powerup;" + Integer.toString(x) + ";" + Integer.toString(y));
             width = 30;
             height = 50;
             xOffset = 30;
             yOffset = 20;
         }
         else if (entity == 1) {
-            levelData.add("repair;" + Integer.toString(cursorX) + ";" + Integer.toString(y));
+            levelData.add("repair;" + Integer.toString(x) + ";" + Integer.toString(y));
             width = 60;
             height = 60;
             xOffset = 15;
             yOffset = 15;
         }
         else if (entity == 2) {
-            levelData.add("bomb;" + Integer.toString(cursorX) + ";" + Integer.toString(y));
+            levelData.add("bomb;" + Integer.toString(x) + ";" + Integer.toString(y));
             width = 45;
             height = 45;
             xOffset = 15;
             yOffset = 18;
         }
         else if (entity == 3) {
-            levelData.add("target;" + Integer.toString(cursorX) + ";" + Integer.toString(y));
+            levelData.add("target;" + Integer.toString(x) + ";" + Integer.toString(y));
             width = 60;
             height = 60;
             xOffset = 0;
             yOffset = 0;
         }
+        else if (entity == 4) {
+            levelData.add("drone;" + Integer.toString(x) + ";" + Integer.toString(y));
+            width = 80;
+            height = 80;
+            xOffset = 5;
+            yOffset = 5;
+        }
         else if (entity == 7) {       // delete
-            Rectangle hitbox = new Rectangle(cursorX, y, 90, 90);
+            Rectangle hitbox = new Rectangle(x, y, 90, 90);
             int indexToRemove = -1;
             for (int i = 0; i < hitboxes.size(); i++) {
                 if (hitbox.intersects(hitboxes.get(i))) {

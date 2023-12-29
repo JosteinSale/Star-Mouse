@@ -30,6 +30,7 @@ public class PlayerFly extends Entity {
     private BufferedImage tpShadowImg;
     private ShipFlame flame;
     private StatusDisplay statusDisplay;
+    private Rectangle2D.Float teleportHitbox;
 
     private boolean leftIsPressed, upIsPressed, rightIsPressed, downIsPressed, mIsPressed;
     private int planeAction;
@@ -43,6 +44,8 @@ public class PlayerFly extends Entity {
     private int edgeDist = 20;
     private int pushDistance = 40;
     private int teleportDistance = 250;
+    private int teleportKillWidth = 100;
+    private int teleportKillOffset;
     private int maxHP = 100;
     private int HP = maxHP;
     private int collisionDmg = 10;
@@ -65,6 +68,9 @@ public class PlayerFly extends Entity {
         updateCollisionPixels();
         this.statusFont = LoadSave.getInfoFont();
         this.flame = new ShipFlame();
+        this.teleportHitbox = new Rectangle2D.Float(
+            hitbox.x, hitbox.y, teleportKillWidth, hitbox.height);
+        this.teleportKillOffset = (int) (teleportDistance - hitbox.width - teleportKillWidth) / 2;
         this.statusDisplay = new StatusDisplay();
         this.statusDisplay.setMaxHP(maxHP);
         this.statusDisplay.setHP(maxHP);
@@ -143,7 +149,7 @@ public class PlayerFly extends Entity {
     public void update(float yLevelOffset, float xLevelOffset) {
         int prevAction = planeAction;
         adjustSpeedAndAction();
-        movePlayer();
+        movePlayer();    
         checkMapCollision(yLevelOffset, xLevelOffset);
         if (planeAction != prevAction) {aniIndex = 0;}
         updateAniTick();
@@ -227,6 +233,7 @@ public class PlayerFly extends Entity {
     private void movePlayer() {
         if ((planeAction == TELEPORTING_RIGHT) || (planeAction == TELEPORTING_LEFT)) {
             adjustPos(teleportDistance * flipX, 0);
+            adjustTeleportHitbox();
             audioPlayer.playSFX(Audio.SFX_TELEPORT);
         }
         else {
@@ -234,6 +241,17 @@ public class PlayerFly extends Entity {
         }
     }
 
+    // Remember, this is called AFTER player has teleported. Thus the hitbox should be 
+    // positioned where the player WAS, just before they teleported.
+    private void adjustTeleportHitbox() {
+        teleportHitbox.y = hitbox.y;
+        if (flipX == 1) {
+            teleportHitbox.x = hitbox.x - teleportKillOffset - teleportKillWidth;
+        }
+        else if (flipX == -1) {
+            teleportHitbox.x = hitbox.x + hitbox.width + teleportKillOffset;
+        }
+    }
 
     private void checkMapCollision(float yLevelOffset, float xLevelOffset) {
         if ((planeAction == TELEPORTING_RIGHT) || (planeAction == TELEPORTING_LEFT)) {
@@ -305,6 +323,15 @@ public class PlayerFly extends Entity {
                     this.resetControls();
                     return true;
                 }
+            }
+        }
+        return false;
+    }
+
+    public boolean teleportCollidesWithEnemy(Rectangle2D.Float enemyHitbox) {
+        if (planeAction == TELEPORTING_RIGHT || planeAction == TELEPORTING_LEFT) {
+            if (teleportHitbox.intersects(enemyHitbox)) {
+                return true;
             }
         }
         return false;
@@ -396,6 +423,14 @@ public class PlayerFly extends Entity {
             
             statusDisplay.draw(g);
             //this.drawHitbox(g, 0, 0);
+            
+            // Teleport hitbox
+            g.setColor(Color.RED);
+            g.drawRect(
+                (int) (teleportHitbox.x * Game.SCALE), 
+                (int) (teleportHitbox.y * Game.SCALE), 
+                (int) (teleportHitbox.width * Game.SCALE), 
+                (int) (teleportHitbox.height * Game.SCALE));
         }
     }
 

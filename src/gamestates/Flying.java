@@ -36,7 +36,7 @@ public class Flying extends State implements Statemethods {
     private AudioPlayer audioPlayer;
     private PauseFlying pauseOverlay;
     private LevelFinishedOverlay levelFinishedOverlay;
-    private Integer level = 0;
+    private Integer level;
     private EnemyManager enemyManager;
     private ProjectileHandler projectileHandler;
     private PlayerFly player;
@@ -71,8 +71,8 @@ public class Flying extends State implements Statemethods {
         this.pickupItems = new ArrayList<>();
         initClasses();
         loadEventReactions();
-        loadLevel(0);     // Only use if not entering from Exploring
-        //projectileHandler.setBombs(game.getExploring().getBombs());
+        projectileHandler.setBombs(game.getExploring().getBombs());   // Comment out to start with more bombs
+        loadLevel(1);     // Only use if not entering from Exploring
     }
 
     public void loadLevel(int level) {
@@ -84,7 +84,7 @@ public class Flying extends State implements Statemethods {
         loadPickupItems(level);
         loadCutscenes(level);
         player.setKilledEnemies(0);
-        //startAt(-13500);  
+        //startAt(-12500);  
     }
 
     private void initClasses() {
