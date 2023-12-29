@@ -46,8 +46,8 @@ public class MainMenu extends State implements Statemethods {
             if (selectedIndex == 0) {
                 audioPlayer.stopAllLoops();
                 audioPlayer.playSFX(Audio.SFX_STARTGAME);
-                this.game.getExploring().update();
-                Gamestate.state = Gamestate.EXPLORING;
+                //this.game.getExploring().update();  // uncomment
+                Gamestate.state = Gamestate.FLYING;
             }
             else if (selectedIndex == 1) {
                 audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);

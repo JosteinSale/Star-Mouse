@@ -28,6 +28,7 @@ public class EnemyManager {
     private BufferedImage[] explosionAnimation;
     private ArrayList<Explosion> explosions;
     private int collisionDmg = 10;
+    private int teleportDmg = 100;
     private ArrayList<Integer> killedEnemies;           // Contains the enemyTypes
 
     public EnemyManager(PlayerFly player) {
@@ -103,14 +104,23 @@ public class EnemyManager {
             enemy.update(levelYSpeed);
             if (enemy.isOnScreen() && !enemy.isDead()) {
                 activeEnemiesOnScreen.add(enemy);
-                if (player.collidesWithEnemy(enemy.getHitbox())) {   // Also pushes player in opposite direction
+                if (player.teleportCollidesWithEnemy(enemy.getHitbox())) {
+                    enemy.takeDamage(teleportDmg);
+                    checkIfDead(enemy);
+                }
+                else if (player.collidesWithEnemy(enemy.getHitbox())) {   // Also pushes player in opposite direction
                     enemy.takeDamage(collisionDmg);
-                    if (enemy.isDead()) {
-                        this.addExplosion(enemy.getHitbox());
-                        increaseKilledEnemies(enemy.getType());
-                    }
+                    checkIfDead(enemy);
                 }
             }
+        }
+    }
+
+    private void checkIfDead(Enemy enemy) {
+        if (enemy.isDead()) {
+            // TODO - audioPlayer.playExplosion
+            this.addExplosion(enemy.getHitbox());
+            increaseKilledEnemies(enemy.getType());
         }
     }
 
