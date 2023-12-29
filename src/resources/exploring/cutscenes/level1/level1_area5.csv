@@ -94,7 +94,7 @@ setRedLight;false
 blackScreen;true
 wait;100
 endSequence
-goToFlying;0
+goToFlying;1
 wait;1
 endSequence
 

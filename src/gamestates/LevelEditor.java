@@ -37,7 +37,7 @@ public class LevelEditor implements Statemethods {
 
     public LevelEditor(Game game) {
         this.game = game;
-        loadMapImages();
+        loadMapImages(level);
         loadEntityImages();
         this.outPlacedImgs = new ArrayList<>();
         this.entityCor = new ArrayList<>();
@@ -46,8 +46,8 @@ public class LevelEditor implements Statemethods {
         loadLevelData(level);
     }
 
-    private void loadMapImages() {
-        this.clImg = LoadSave.getFlyImageCollision("BorderTest2.png");
+    private void loadMapImages(int lvl) {
+        this.clImg = LoadSave.getFlyImageCollision("level" + Integer.toString(lvl) + "_cl.png");
         this.clImgHeight = clImg.getHeight() * 3;
         this.clImgWidth = clImg.getWidth() * 3;
         this.clYOffset = Game.GAME_DEFAULT_HEIGHT - clImgHeight + 150;

@@ -187,7 +187,7 @@ END SEQUENCE
 [0] = endSequence
 
 
-END CUTSCENE;
+END CUTSCENE
 --------------------
 empty line
 

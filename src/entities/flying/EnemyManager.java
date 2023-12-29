@@ -65,6 +65,8 @@ public class EnemyManager {
     }
 
     public void loadEnemiesForLvl(int lvl) {
+        allEnemies.clear();
+        activeEnemiesOnScreen.clear();
         explosions.clear();
         killedEnemies.clear();
 

@@ -254,6 +254,8 @@ public class CutsceneManager2 {
         this.overlayImageActive = active;
     }
 
+    /** Resets all non-level-specific variables. 
+     * (Level-specific variables are loaded in the flying :: loadLevel()-method). */
     public void reset() {
         active = false; 
         canAdvance = true;
@@ -272,5 +274,9 @@ public class CutsceneManager2 {
         nrOfAutomaticCutscenes = 0;
         triggerIndex = 0;        
         cutsceneIndex = 0; 
+    }
+
+    public void clear() {
+        this.cutscenes.clear();
     }
 }

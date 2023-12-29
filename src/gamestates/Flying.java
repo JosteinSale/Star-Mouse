@@ -71,11 +71,12 @@ public class Flying extends State implements Statemethods {
         this.pickupItems = new ArrayList<>();
         initClasses();
         loadEventReactions();
-        loadLevel(level);     // Only use if not entering from Exploring
+        loadLevel(0);     // Only use if not entering from Exploring
         //projectileHandler.setBombs(game.getExploring().getBombs());
     }
 
     public void loadLevel(int level) {
+        this.level = level;
         loadMapAndOffsets(level);
         player.setClImg(this.clImg);
         projectileHandler.setClImg(this.clImg);
@@ -99,17 +100,19 @@ public class Flying extends State implements Statemethods {
     }
 
     private void loadMapAndOffsets(int lvl) {
-        this.clImg = LoadSave.getFlyImageCollision("BorderTest2.png");
+        this.clImg = LoadSave.getFlyImageCollision("level" + Integer.toString(lvl) + "_cl.png");
         this.clImgHeight = clImg.getHeight() * 3;
         this.clImgWidth = clImg.getWidth() * 3;
         this.clYOffset = Game.GAME_DEFAULT_HEIGHT - clImgHeight + 150;
         this.clXOffset = 150;
-        this.bgImg = LoadSave.getFlyImageBackground("level0.png");
+        this.bgImg = LoadSave.getFlyImageBackground("level" + Integer.toString(lvl) + "_bg.png");
         this.bgImgHeight = bgImg.getHeight();
         this.bgYOffset = Game.GAME_DEFAULT_HEIGHT - bgImgHeight;
     }
 
     private void loadPickupItems(Integer level) {
+        pickupItems.clear();
+        automaticTriggers.clear();
         List<String> levelData = LoadSave.getFlyLevelData(level);
         for (String line : levelData) {
             String[] lineData = line.split(";");
@@ -135,6 +138,7 @@ public class Flying extends State implements Statemethods {
     }
 
     private void loadCutscenes(Integer level) {
+        this.cutsceneManager.clear();
         List<String> cutsceneData = LoadSave.getFlyCutsceneData(level);
         ArrayList<ArrayList<Cutscene>> cutscenes = GetCutscenes(cutsceneData);
         for (ArrayList<Cutscene> cutscenesForTrigger : cutscenes) {
