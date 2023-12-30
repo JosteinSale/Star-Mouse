@@ -14,7 +14,7 @@ import static utils.Constants.Flying.Sprites.ALL_SPRITES_SIZE;
 
 public class LevelEditor implements Statemethods {
     private Game game;
-    private Integer level = 1;
+    private Integer level = 0;
     private BufferedImage clImg;
     private BufferedImage[] entityImgs;                    // Standardiserte bilder
     private ArrayList<BufferedImage> outPlacedImgs;

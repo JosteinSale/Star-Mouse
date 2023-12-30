@@ -84,7 +84,7 @@ public class Flying extends State implements Statemethods {
         loadPickupItems(level);
         loadCutscenes(level);
         player.setKilledEnemies(0);
-        //startAt(-12500);  
+        //startAt(-11000);  
     }
 
     private void initClasses() {
@@ -253,6 +253,7 @@ public class Flying extends State implements Statemethods {
                     checkCutsceneTriggers();
                 }
                 updateChartingY();
+                System.out.println(chartingY);
                 moveMaps();
                 moveCutscenes();
                 player.update(clYOffset, clXOffset);

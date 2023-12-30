@@ -54,6 +54,14 @@ wait;240
 endSequence
 
 cutscene;true;automatic;5
+dialogue;Max;normal;0;2;Try to teleport through a target!
+wait;240
+endSequence
+dialogue;Max;normal;0;2;It can be a powerful attack.
+wait;240
+endSequence
+
+cutscene;true;automatic;6
 dialogue;Max;normal;0;2;Powerups make your shots stronger!
 wait;240
 endSequence
@@ -63,7 +71,7 @@ dialogue;Max;normal;0;2;Repairs can... uh... repair.
 wait;200
 endSequence
 
-cutscene;true;automatic;6
+cutscene;true;automatic;7
 dialogue;Max;thoughtful;5;2;Bombs can take out many targets at once.
 wait;240
 endSequence
@@ -71,12 +79,12 @@ dialogue;Max;normal;0;2;Shoot them with B
 wait;200
 endSequence
 
-cutscene;true;automatic;7
+cutscene;true;automatic;8
 dialogue;Max;eyes_closed;4;2;But use them sparingly, they're not cheap.
 wait;240
 endSequence
 
-cutscene;true;automatic;8
+cutscene;true;automatic;9
 dialogue;Max;laughing;3;2;Nice, looks like you got the hang of it!
 wait;200
 endSequence
@@ -85,7 +93,7 @@ wait;200
 fadeOutLoops
 endSequence
 
-cutscene;true;automatic;9
+cutscene;true;automatic;10
 fadeOut;5
 endSequence
 setGameplayActive;false
