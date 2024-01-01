@@ -1,10 +1,17 @@
-0. Make new enemy Object. Can use an existing enemy as template.
-1. Add sprite into images-folder
-2. Add new entry in lvl_formatting_info.txt
+0. Add sprite into images-folder
+1. Add sprite into allSprites-image
+2. Add enemyNr to Constants.Flying.TypeConstants
 3. Add sprite size to Constants.Flying.Sprites
-4. Add enemyNr to Constants.Flying.TypeConstants
-5. Add sprite name to LoadSave
-6. Update HelpMethods2 :: GetEnemy
-7. Update EnemyManager : animationsArray, loadImgs, loadEnemiesForLvl. Any unique behavior.
-8. Add sprite into allSprites-image
+4. Add sprite name to LoadSave
+5. Make new enemy Object. Can use an existing enemy as template.
+6. Add new entry in lvl_formatting_info.txt
+7. Update HelpMethods2 :: GetEnemy
+8. Update EnemyManager : animationsArray, loadImgs, loadEnemiesForLvl. Any unique behavior.
 9. Update levelEditor :: loadEntityImages, loadLevelData, addEntityToList
+
+* Hitbox width/height is set in
+   -EnemyManager
+   -LevelEditor
+* Drawing x / y -offset is set in
+   -Object
+   -LevelEditor

@@ -49,7 +49,7 @@ public class Powerup extends Entity implements PickupItem {
         if (active) {
             g.drawImage(
             animations[aniIndex], 
-            (int) ((hitbox.x - 30) * Game.SCALE), 
+            (int) ((hitbox.x - 28) * Game.SCALE), 
             (int) ((hitbox.y - 20) * Game.SCALE), 
             (int) (POWERUP_SPRITE_SIZE * 3 * Game.SCALE),
             (int) (POWERUP_SPRITE_SIZE * 3 * Game.SCALE), null);

@@ -12,9 +12,14 @@ import main.Game;
 import utils.LoadSave;
 import static utils.Constants.Flying.Sprites.ALL_SPRITES_SIZE;
 
+
+/*
+ * In this object, enemyNr's are independent from the ones defined in the Constant-class.
+ * They're only determined by the index in the allSprites-image.
+ */
 public class LevelEditor implements Statemethods {
     private Game game;
-    private Integer level = 0;
+    private Integer level = 1;
     private BufferedImage clImg;
     private BufferedImage[] entityImgs;                    // Standardiserte bilder
     private ArrayList<BufferedImage> outPlacedImgs;
@@ -60,7 +65,8 @@ public class LevelEditor implements Statemethods {
         for (int i = 0; i < entityImgs.length; i++) {
             entityImgs[i] = img.getSubimage(
                 i * ALL_SPRITES_SIZE, 0, ALL_SPRITES_SIZE, ALL_SPRITES_SIZE);
-        } // We can have bigger sprites, maybe in a separate file. Add them to the same array
+        } 
+        // We can have bigger sprites, maybe in a separate file. Add them to the same array indepentendly.
     }
 
     private void loadLevelData(Integer level) {
@@ -68,12 +74,15 @@ public class LevelEditor implements Statemethods {
         for (String line : levelData) {
             String[] lineData = line.split(";");
                 int entity = switch(lineData[0]) {   // index in array
-                    case "powerup" -> 0;
-                    case "repair" -> 1;
-                    case "bomb" -> 2;
-                    case "target" -> 3;
-                    case "drone" -> 4;
+                    case "powerup" -> 1;
+                    case "repair" -> 2;
+                    case "bomb" -> 3;
+                    case "target" -> 4;
+                    case "drone" -> 5;
+                    case "smallShip" -> 6;
+                    case "octaDrone" -> 7;
                     case "tankDrone" -> 8;
+                    case "blasterDrone" -> 9;
                     default -> 99;    // For entities currently not handled in addEntityToList()
                 };
                 if (entity < 99) {
@@ -139,46 +148,12 @@ public class LevelEditor implements Statemethods {
     }
 
     private void addEntityToList(int x, int y, int entity) {
-        int width = 150;    // Hitbox-width
-        int height = 150;   // Hitbox-height
+        int width = 150;    // Hitbox-size if no entities match
+        int height = 150;   
         int xOffset = 0;
         int yOffset = 0;
-        if (entity == 0) {
-            levelData.add("powerup;" + Integer.toString(x) + ";" + Integer.toString(y));
-            width = 30;
-            height = 50;
-            xOffset = 30;
-            yOffset = 20;
-        }
-        else if (entity == 1) {
-            levelData.add("repair;" + Integer.toString(x) + ";" + Integer.toString(y));
-            width = 60;
-            height = 60;
-            xOffset = 15;
-            yOffset = 15;
-        }
-        else if (entity == 2) {
-            levelData.add("bomb;" + Integer.toString(x) + ";" + Integer.toString(y));
-            width = 45;
-            height = 45;
-            xOffset = 15;
-            yOffset = 18;
-        }
-        else if (entity == 3) {
-            levelData.add("target;" + Integer.toString(x) + ";" + Integer.toString(y));
-            width = 60;
-            height = 60;
-            xOffset = 0;
-            yOffset = 0;
-        }
-        else if (entity == 4) {
-            levelData.add("drone;" + Integer.toString(x) + ";" + Integer.toString(y));
-            width = 80;
-            height = 80;
-            xOffset = 5;
-            yOffset = 5;
-        }
-        else if (entity == 7) {       // delete. TODO - let's place it at index 0
+
+        if (entity == 0) {      // Delete
             Rectangle hitbox = new Rectangle(x, y, 90, 90);
             int indexToRemove = -1;
             for (int i = 0; i < hitboxes.size(); i++) {
@@ -193,21 +168,77 @@ public class LevelEditor implements Statemethods {
                 entityCor.remove(indexToRemove);
                 levelData.remove(indexToRemove);
             }
+            return;
         }
-        else if (entity == 8) {
-            levelData.add("tankDrone;" + Integer.toString(x) + ";" + Integer.toString(y));
-            width = 90;
-            height = 90;
+        else if (entity == 1) {
+            levelData.add("powerup;" + Integer.toString(x) + ";" + Integer.toString(y));
+            width = 30;
+            height = 50;
+            xOffset = 28;
+            yOffset = 20;
+        }
+        else if (entity == 2) {
+            levelData.add("repair;" + Integer.toString(x) + ";" + Integer.toString(y));
+            width = 60;
+            height = 60;
+            xOffset = 15;
+            yOffset = 15;
+        }
+        else if (entity == 3) {
+            levelData.add("bomb;" + Integer.toString(x) + ";" + Integer.toString(y));
+            width = 45;
+            height = 45;
+            xOffset = 15;
+            yOffset = 18;
+        }
+        else if (entity == 4) {
+            levelData.add("target;" + Integer.toString(x) + ";" + Integer.toString(y));
+            width = 60;
+            height = 60;
             xOffset = 0;
             yOffset = 0;
         }
-        if (entity != 7) {        
-            int[] cor = {x, y};
-            entityCor.add(cor);
-            outPlacedImgs.add(entityImgs[entity]);
-            Rectangle hitbox = new Rectangle(cor[0] + xOffset, cor[1] + yOffset, width, height);
-            hitboxes.add(hitbox);
+        else if (entity == 5) {
+            levelData.add("drone;" + Integer.toString(x) + ";" + Integer.toString(y));
+            width = 78;
+            height = 66;
+            xOffset = 4;
+            yOffset = 10;
         }
+        else if (entity == 6) {   
+            levelData.add("smallShip;" + Integer.toString(x) + ";" + Integer.toString(y));
+            width = 60;   
+            height = 30;
+            xOffset = 16;
+            yOffset = 30;
+        }
+        else if (entity == 7) {   
+            levelData.add("octaDrone;" + Integer.toString(x) + ";" + Integer.toString(y));
+            width = 80;  
+            height = 80;
+            xOffset = 5;
+            yOffset = 5;
+        }
+        else if (entity == 8) {
+            levelData.add("tankDrone;" + Integer.toString(x) + ";" + Integer.toString(y));
+            width = 80;
+            height = 90;
+            xOffset = 5;
+            yOffset = 0;
+        }
+        else if (entity == 9) {
+            levelData.add("blasterDrone;" + Integer.toString(x) + ";" + Integer.toString(y));
+            width = 60;   
+            height = 90;
+            xOffset = 15;
+            yOffset = 0;
+        }
+
+        int[] cor = {x, y};
+        entityCor.add(cor);
+        outPlacedImgs.add(entityImgs[entity]);
+        Rectangle hitbox = new Rectangle(cor[0] + xOffset, cor[1] + yOffset, width, height);
+        hitboxes.add(hitbox);
     }
 
     @Override

@@ -1,2 +1,15 @@
 automaticTrigger;0f;2f;10f;10f;openingCutscene
-tankDrone;280;-500
+powerup;500;-350
+repair;300;-510
+bomb;740;-510
+blasterDrone;290;-910
+target;580;-910
+drone;440;-1190
+drone;660;-1350
+smallShip;250;-1790;right
+smallShip;130;-1890;right
+octaDrone;640;-2090;60
+tankDrone;290;-2530
+tankDrone;660;-2530
+blasterDrone;480;-2870
+blasterDrone;230;-3310

@@ -30,6 +30,7 @@ public class EnemyManager {
     private BufferedImage[][] smallShipAnimations;
     private BufferedImage[][] octadroneAnimations;
     private BufferedImage[][] tankdroneAnimations;
+    private BufferedImage[][] blasterdroneAnimations;
     private BufferedImage[] explosionAnimation;
     private ArrayList<Explosion> explosions;
     private int collisionDmg = 10;
@@ -66,6 +67,10 @@ public class EnemyManager {
         BufferedImage tankdroneImg = LoadSave.getFlyImageSprite(LoadSave.TANKDRONE_SPRITE);
         this.tankdroneAnimations = GetEnemyAnimations(
             tankdroneImg, TANKDRONE_SPRITE_SIZE, TANKDRONE_SPRITE_SIZE, 2, 4);
+        
+        BufferedImage blasterdroneImg = LoadSave.getFlyImageSprite(LoadSave.BLASTERDRONE_SPRITE);
+        this.blasterdroneAnimations = GetEnemyAnimations(
+            blasterdroneImg, BLASTERDRONE_SPRITE_SIZE, BLASTERDRONE_SPRITE_SIZE, 2, 4);
 
         this.explosionAnimation = new BufferedImage[5];
         BufferedImage explosionImg = LoadSave.getFlyImageSprite(LoadSave.EXPLOSION);
@@ -96,18 +101,23 @@ public class EnemyManager {
             }
             else if (lineData[0].equals("smallShip")) {
                 int width = 60;
-                int height = 30;
+                int height = 30; // TODO - Direction ..........................
                 allEnemies.add(GetEnemy(SMALL_SHIP, lineData, width, height, smallShipAnimations));
             }
             else if (lineData[0].equals("octaDrone")) {
-                int width = 90;
-                int height = 90;
+                int width = 80;
+                int height = 80;
                 allEnemies.add(GetEnemy(OCTADRONE, lineData, width, height, octadroneAnimations));
             }
             else if (lineData[0].equals("tankDrone")) {
-                int width = 90;
+                int width = 80;
                 int height = 90;
                 allEnemies.add(GetEnemy(TANKDRONE, lineData, width, height, tankdroneAnimations));
+            }
+            else if (lineData[0].equals("blasterDrone")) {
+                int width = 60;
+                int height = 90;
+                allEnemies.add(GetEnemy(BLASTERDRONE, lineData, width, height, blasterdroneAnimations));
             }
         }
     }

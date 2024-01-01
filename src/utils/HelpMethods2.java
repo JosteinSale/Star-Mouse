@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 
 import entities.Entity;
 import entities.exploring.AutomaticTrigger;
+import entities.flying.BlasterDrone;
 import entities.flying.Bomb;
 import entities.flying.Drone;
 import entities.flying.Enemy;
@@ -48,6 +49,10 @@ public class HelpMethods2 {
         else if (type == TANKDRONE) {
             TankDrone tankDrone = new TankDrone(hitbox, animations);
             return tankDrone;
+        }
+        else if (type == BLASTERDRONE) {
+            BlasterDrone blasterDrone = new BlasterDrone(hitbox, animations);
+            return blasterDrone;
         }
         return null;
     }

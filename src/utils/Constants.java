@@ -88,6 +88,7 @@ public class Constants {
             public static final int SMALL_SHIP = 2;
             public static final int OCTADRONE = 3;
             public static final int TANKDRONE = 4;
+            public static final int BLASTERDRONE = 5;
 
             // Pickup items
             public static final int POWERUP = 0;
@@ -114,6 +115,7 @@ public class Constants {
             public static final int SMALLSHIP_SPRITE_SIZE = 30;
             public static final int OCTADRONE_SPRITE_SIZE = 30;
             public static final int TANKDRONE_SPRITE_SIZE = 30;
+            public static final int BLASTERDRONE_SPRITE_SIZE = 30;
             public static final int EXPLOSION_SPRITE_SIZE = 40;
             public static final int BOMBEXPLOSION_SPRITE_WIDTH = 300;
             public static final int BOMBEXPLOSION_SPRITE_HEIGHT = 250;

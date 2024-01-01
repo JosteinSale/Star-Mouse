@@ -21,6 +21,7 @@ SMALL SHIP
 OCTADRONE:
 [0] = octaDrone (String), [1] = xPos (int), [2] = yPos (int), [3] = shootTimer (int)
 * shootTimer: 60 = 1 second. An enemy is onScreen for 6.25 seconds.
+   -This must currently be set manually in levelData (TODO - add feature in levelEditor)
 * The octaDrone only shoots once.
 
 TANKDRONE

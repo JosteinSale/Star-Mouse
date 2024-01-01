@@ -19,6 +19,7 @@ import java.util.Iterator;
 import static utils.Constants.Flying.Sprites.*;
 import static utils.Constants.Flying.TypeConstants.DRONE;
 import static utils.Constants.Flying.TypeConstants.OCTADRONE;
+import static utils.Constants.Flying.TypeConstants.BLASTERDRONE;
 import static utils.Constants.Flying.TypeConstants.BOMB_PROJECTILE;
 import static utils.HelpMethods.IsSolid;
 
@@ -142,12 +143,17 @@ public class ProjectileHandler {
                 enemy.resetShootTick();
             }
         }
-    }
+    } 
 
     private void addEnemeyProjectile(int type, Rectangle2D.Float hitbox) {
         if (type == DRONE) {
             Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
                 hitbox.x + 25, hitbox.y + 66, 32, 33);
+            this.allProjectiles.add(new DroneProjectile(prjctHitbox, dronePrjctImg));
+        }
+        else if (type == BLASTERDRONE) {
+            Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
+                hitbox.x + 15, hitbox.y + 90, 32, 33);
             this.allProjectiles.add(new DroneProjectile(prjctHitbox, dronePrjctImg));
         }
         else if (type == OCTADRONE) {
