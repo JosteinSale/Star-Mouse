@@ -1,7 +1,7 @@
 ambience;4
 song;99;false
 player;70f;615f;45f;18f;0
-object;1239f;567f;231f;90f;Saber
+object;1239f;567f;231f;120f;Saber
 object;1536f;639f;72f;24f;ladder
 door;0;564;24f;192f;0;exitDoor;3;1
 oliver;-200f;520;110f;150f;0;false

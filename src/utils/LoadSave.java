@@ -63,6 +63,7 @@ public class LoadSave {
     public static final String DRONE_SPRITE = "sprites_drone.png";
     public static final String SMALLSHIP_SPRITE = "sprites_smallShip.png";
     public static final String OCTADRONE_SPRITE = "sprites_octaDrone.png";
+    public static final String TANKDRONE_SPRITE = "sprites_tankDrone.png";
 
     public static final String ALL_ENTITY_SPRITES = "sprites_all.png";
 

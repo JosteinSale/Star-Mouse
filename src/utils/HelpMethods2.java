@@ -13,6 +13,7 @@ import entities.flying.PickupItem;
 import entities.flying.Powerup;
 import entities.flying.Repair;
 import entities.flying.SmallShip;
+import entities.flying.TankDrone;
 import entities.flying.Target;
 import static utils.Constants.Flying.TypeConstants.*;
 import static utils.HelpMethods.CreateHitbox;
@@ -43,6 +44,10 @@ public class HelpMethods2 {
             int shootTimer = Integer.parseInt(lineData[3]);
             OctaDrone octaDrone = new OctaDrone(hitbox, animations, shootTimer);
             return octaDrone;
+        }
+        else if (type == TANKDRONE) {
+            TankDrone tankDrone = new TankDrone(hitbox, animations);
+            return tankDrone;
         }
         return null;
     }

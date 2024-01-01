@@ -90,7 +90,7 @@ public class Flying extends State implements Statemethods {
     private void initClasses() {
         Rectangle2D.Float playerHitbox = new Rectangle2D.Float(500f, 400f, 50f, 50f);
         this.player = new PlayerFly(game, playerHitbox);
-        this.enemyManager = new EnemyManager(player);
+        this.enemyManager = new EnemyManager(player, audioPlayer);
         this.projectileHandler = new ProjectileHandler(audioPlayer, player, enemyManager);
         this.eventHandler = new EventHandler();
         TextboxManager2 textboxManager = new TextboxManager2();

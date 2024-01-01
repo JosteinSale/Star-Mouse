@@ -55,24 +55,25 @@ public class LevelEditor implements Statemethods {
     }
 
     private void loadEntityImages() {
-        this.entityImgs = new BufferedImage[8];
+        this.entityImgs = new BufferedImage[10];
         BufferedImage img = LoadSave.getFlyImageSprite(LoadSave.ALL_ENTITY_SPRITES);
         for (int i = 0; i < entityImgs.length; i++) {
             entityImgs[i] = img.getSubimage(
                 i * ALL_SPRITES_SIZE, 0, ALL_SPRITES_SIZE, ALL_SPRITES_SIZE);
-        }
+        } // We can have bigger sprites, maybe in a separate file. Add them to the same array
     }
 
     private void loadLevelData(Integer level) {
         List<String> levelData = LoadSave.getFlyLevelData(level);
         for (String line : levelData) {
             String[] lineData = line.split(";");
-                int entity = switch(lineData[0]) {
+                int entity = switch(lineData[0]) {   // index in array
                     case "powerup" -> 0;
                     case "repair" -> 1;
                     case "bomb" -> 2;
                     case "target" -> 3;
                     case "drone" -> 4;
+                    case "tankDrone" -> 8;
                     default -> 99;    // For entities currently not handled in addEntityToList()
                 };
                 if (entity < 99) {
@@ -177,7 +178,7 @@ public class LevelEditor implements Statemethods {
             xOffset = 5;
             yOffset = 5;
         }
-        else if (entity == 7) {       // delete
+        else if (entity == 7) {       // delete. TODO - let's place it at index 0
             Rectangle hitbox = new Rectangle(x, y, 90, 90);
             int indexToRemove = -1;
             for (int i = 0; i < hitboxes.size(); i++) {
@@ -193,7 +194,14 @@ public class LevelEditor implements Statemethods {
                 levelData.remove(indexToRemove);
             }
         }
-        if (entity < 7) {        
+        else if (entity == 8) {
+            levelData.add("tankDrone;" + Integer.toString(x) + ";" + Integer.toString(y));
+            width = 90;
+            height = 90;
+            xOffset = 0;
+            yOffset = 0;
+        }
+        if (entity != 7) {        
             int[] cor = {x, y};
             entityCor.add(cor);
             outPlacedImgs.add(entityImgs[entity]);

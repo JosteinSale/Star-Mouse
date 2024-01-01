@@ -1,0 +1,10 @@
+0. Make new enemy Object. Can use an existing enemy as template.
+1. Add sprite into images-folder
+2. Add new entry in lvl_formatting_info.txt
+3. Add sprite size to Constants.Flying.Sprites
+4. Add enemyNr to Constants.Flying.TypeConstants
+5. Add sprite name to LoadSave
+6. Update HelpMethods2 :: GetEnemy
+7. Update EnemyManager : animationsArray, loadImgs, loadEnemiesForLvl. Any unique behavior.
+8. Add sprite into allSprites-image
+9. Update levelEditor :: loadEntityImages, loadLevelData, addEntityToList

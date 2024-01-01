@@ -1,5 +1,6 @@
 cutscene;true;object;0
-info;Your trusty Saber fighting jet.
+info;Your trusty Saber
+playSFX;infoBox
 endSequence
 
 cutscene;true;object;1

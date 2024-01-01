@@ -21,3 +21,10 @@ SMALL SHIP
 OCTADRONE:
 [0] = octaDrone (String), [1] = xPos (int), [2] = yPos (int), [3] = shootTimer (int)
 * shootTimer: 60 = 1 second. An enemy is onScreen for 6.25 seconds.
+* The octaDrone only shoots once.
+
+TANKDRONE
+[0] = tankDrone (String), [1] = xPos (int), [2] = yPos (int)
+
+BLASTERDRONE
+[0] = blasterDrone (String), [1] = xPos (int), [2] = yPos (int)
