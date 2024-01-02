@@ -46,6 +46,7 @@ public class LoadSave {
     public static final String NPC_PORTRAITS1 = "portraits_npc1.png";
 
     public static final String SHIP_SPRITES = "sprites_ship.png";
+    public static final String FELLOWSHIP_SPRITES = "sprite_fellowShip.png";
     public static final String SHIP_FLAME_SPRITES = "sprites_shipFlame.png";
     public static final String POWERUP_SPRITE = "sprite_powerup.png";
     public static final String REPAIR_SPRITE = "sprite_repair.png";
@@ -63,6 +64,8 @@ public class LoadSave {
     public static final String DRONE_SPRITE = "sprites_drone.png";
     public static final String SMALLSHIP_SPRITE = "sprites_smallShip.png";
     public static final String OCTADRONE_SPRITE = "sprites_octaDrone.png";
+    public static final String TANKDRONE_SPRITE = "sprites_tankDrone.png";
+    public static final String BLASTERDRONE_SPRITE = "sprites_blasterDrone.png";
 
     public static final String ALL_ENTITY_SPRITES = "sprites_all.png";
 

@@ -8,10 +8,13 @@ import java.util.List;
 
 import javax.swing.SwingUtilities;
 
+import audio.AudioPlayer;
 import main.Game;
 import projectiles.BombExplosion;
 import projectiles.Explosion;
 import utils.LoadSave;
+import utils.Constants.Audio;
+
 import static utils.HelpMethods2.GetEnemy;
 import static utils.HelpMethods2.GetEnemyAnimations;
 import static utils.Constants.Flying.TypeConstants.*;
@@ -19,20 +22,24 @@ import static utils.Constants.Flying.Sprites.*;
 
 public class EnemyManager {
     PlayerFly player;
+    private AudioPlayer audioPlayer;
     private ArrayList<Enemy> allEnemies;
     private ArrayList<Enemy> activeEnemiesOnScreen;
     private BufferedImage[][] targetAnimations;
     private BufferedImage[][] droneAnimations;
     private BufferedImage[][] smallShipAnimations;
     private BufferedImage[][] octadroneAnimations;
+    private BufferedImage[][] tankdroneAnimations;
+    private BufferedImage[][] blasterdroneAnimations;
     private BufferedImage[] explosionAnimation;
     private ArrayList<Explosion> explosions;
     private int collisionDmg = 10;
     private int teleportDmg = 100;
     private ArrayList<Integer> killedEnemies;           // Contains the enemyTypes
 
-    public EnemyManager(PlayerFly player) {
+    public EnemyManager(PlayerFly player, AudioPlayer audioPlayer) {
         this.player = player;
+        this.audioPlayer = audioPlayer;
         loadImgs();
         allEnemies = new ArrayList<>();
         activeEnemiesOnScreen = new ArrayList<>();
@@ -56,6 +63,14 @@ public class EnemyManager {
         BufferedImage octadroneImg = LoadSave.getFlyImageSprite(LoadSave.OCTADRONE_SPRITE);
         this.octadroneAnimations = GetEnemyAnimations(
             octadroneImg, OCTADRONE_SPRITE_SIZE, OCTADRONE_SPRITE_SIZE, 2, 4);
+        
+        BufferedImage tankdroneImg = LoadSave.getFlyImageSprite(LoadSave.TANKDRONE_SPRITE);
+        this.tankdroneAnimations = GetEnemyAnimations(
+            tankdroneImg, TANKDRONE_SPRITE_SIZE, TANKDRONE_SPRITE_SIZE, 2, 4);
+        
+        BufferedImage blasterdroneImg = LoadSave.getFlyImageSprite(LoadSave.BLASTERDRONE_SPRITE);
+        this.blasterdroneAnimations = GetEnemyAnimations(
+            blasterdroneImg, BLASTERDRONE_SPRITE_SIZE, BLASTERDRONE_SPRITE_SIZE, 2, 4);
 
         this.explosionAnimation = new BufferedImage[5];
         BufferedImage explosionImg = LoadSave.getFlyImageSprite(LoadSave.EXPLOSION);
@@ -86,13 +101,23 @@ public class EnemyManager {
             }
             else if (lineData[0].equals("smallShip")) {
                 int width = 60;
-                int height = 30;
+                int height = 30; 
                 allEnemies.add(GetEnemy(SMALL_SHIP, lineData, width, height, smallShipAnimations));
             }
             else if (lineData[0].equals("octaDrone")) {
-                int width = 90;
-                int height = 90;
+                int width = 80;
+                int height = 80;
                 allEnemies.add(GetEnemy(OCTADRONE, lineData, width, height, octadroneAnimations));
+            }
+            else if (lineData[0].equals("tankDrone")) {
+                int width = 80;
+                int height = 90;
+                allEnemies.add(GetEnemy(TANKDRONE, lineData, width, height, tankdroneAnimations));
+            }
+            else if (lineData[0].equals("blasterDrone")) {
+                int width = 60;
+                int height = 90;
+                allEnemies.add(GetEnemy(BLASTERDRONE, lineData, width, height, blasterdroneAnimations));
             }
         }
     }
@@ -118,7 +143,7 @@ public class EnemyManager {
 
     private void checkIfDead(Enemy enemy) {
         if (enemy.isDead()) {
-            // TODO - audioPlayer.playExplosion
+            audioPlayer.playSFX(Audio.SFX_SMALL_EXPLOSION);
             this.addExplosion(enemy.getHitbox());
             increaseKilledEnemies(enemy.getType());
         }

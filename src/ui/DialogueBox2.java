@@ -4,18 +4,13 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 import main.Game;
 import utils.LoadSave;
-import static utils.Constants.UI.DIALOGUEBOX_WIDTH;
-import static utils.Constants.UI.DIALOGUEBOX_HEIGHT;
-import static utils.Constants.UI.DIALOGUE_MAX_LETTERS;
 import static utils.Constants.UI.PORTRAIT_SIZE;
 import static utils.HelpMethods.GetCharacterIndex;
 
 public class DialogueBox2 {
-    private BufferedImage dialogueBoxImg;
     private BufferedImage[][] portraits;
 
     private String name;
@@ -34,7 +29,6 @@ public class DialogueBox2 {
     private int Y = (int) (600 * Game.SCALE);
 
     public DialogueBox2() {
-        dialogueBoxImg = LoadSave.getExpImageSprite(LoadSave.DIALOGUE_BOX);
         dialogueFont = LoadSave.getInfoFont();
         nameFont = LoadSave.getNameFont();
         loadAllPortraits();
@@ -45,7 +39,7 @@ public class DialogueBox2 {
         portraits = new BufferedImage[3][8];
         portraits[0] = getPortraits(LoadSave.MAX_PORTRAITS, 8);
         portraits[1] = getPortraits(LoadSave.OLIVER_PORTRAITS, 6);
-        portraits[2] = getPortraits(LoadSave.NPC_PORTRAITS1, 5);
+        portraits[2] = getPortraits(LoadSave.NPC_PORTRAITS1, 10);
     }
 
     private BufferedImage[] getPortraits(String portraitName, int length) {
@@ -79,6 +73,10 @@ public class DialogueBox2 {
             case "Charlotte" -> Color.GREEN.darker();
             case "Nina" -> Color.PINK;
             case "Shady pilot" -> Color.ORANGE;
+            case "Lt.Red" -> Color.RED;
+            case "Pilot #1" -> Color.BLUE;
+            case "Pilot #2" -> Color.PINK;
+            case "Pilot #3" -> Color.GREEN;
             default -> throw new IllegalArgumentException(
                 "No nameColor available for '" + name + "'");
         };
@@ -100,8 +98,6 @@ public class DialogueBox2 {
     public void draw(Graphics g) {
         g.setColor(new Color(0, 0, 0, 100));
         g.fillRect(X, Y, (int)(850 * Game.SCALE), (int) (120 * Game.SCALE));
-        //g.setColor(Color.BLACK);
-        //g.drawRect(X, Y, (int)(800 * Game.SCALE), (int) (100 * Game.SCALE));
         
         g.drawImage(
             portraits[characterIndex][portraitIndex], 

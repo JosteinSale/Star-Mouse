@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 
 import entities.Entity;
 import entities.exploring.AutomaticTrigger;
+import entities.flying.BlasterDrone;
 import entities.flying.Bomb;
 import entities.flying.Drone;
 import entities.flying.Enemy;
@@ -13,6 +14,7 @@ import entities.flying.PickupItem;
 import entities.flying.Powerup;
 import entities.flying.Repair;
 import entities.flying.SmallShip;
+import entities.flying.TankDrone;
 import entities.flying.Target;
 import static utils.Constants.Flying.TypeConstants.*;
 import static utils.HelpMethods.CreateHitbox;
@@ -32,17 +34,22 @@ public class HelpMethods2 {
             return drone;
         }
         else if (type == SMALL_SHIP) {
-            int direction = 1;
-            if (lineData[3].equals("left")) {
-                direction = -1;
-            }
-            SmallShip ship = new SmallShip(hitbox, animations, direction);
+            int dir = Integer.parseInt(lineData[3]);
+            SmallShip ship = new SmallShip(hitbox, animations, dir);
             return ship;
         }
         else if (type == OCTADRONE) {
-            int shootTimer = Integer.parseInt(lineData[3]);
+            int shootTimer = Integer.parseInt(lineData[4]);
             OctaDrone octaDrone = new OctaDrone(hitbox, animations, shootTimer);
             return octaDrone;
+        }
+        else if (type == TANKDRONE) {
+            TankDrone tankDrone = new TankDrone(hitbox, animations);
+            return tankDrone;
+        }
+        else if (type == BLASTERDRONE) {
+            BlasterDrone blasterDrone = new BlasterDrone(hitbox, animations);
+            return blasterDrone;
         }
         return null;
     }

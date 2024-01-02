@@ -84,13 +84,13 @@ public class Flying extends State implements Statemethods {
         loadPickupItems(level);
         loadCutscenes(level);
         player.setKilledEnemies(0);
-        //startAt(-12500);  
+        //startAt(-11000);  
     }
 
     private void initClasses() {
         Rectangle2D.Float playerHitbox = new Rectangle2D.Float(500f, 400f, 50f, 50f);
         this.player = new PlayerFly(game, playerHitbox);
-        this.enemyManager = new EnemyManager(player);
+        this.enemyManager = new EnemyManager(player, audioPlayer);
         this.projectileHandler = new ProjectileHandler(audioPlayer, player, enemyManager);
         this.eventHandler = new EventHandler();
         TextboxManager2 textboxManager = new TextboxManager2();
@@ -196,6 +196,9 @@ public class Flying extends State implements Statemethods {
         else if (event instanceof FadeOutLoopEvent evt) {
             audioPlayer.fadeOutAllLoops();
         }
+        else if (event instanceof FellowShipEvent evt) {
+            cutsceneManager.startFellowShips(evt.xPos(), evt.yPos(), evt.takeOffTimer());
+        }
         /* 
         else if (event instanceof SetStartingCutsceneEvent2 evt) {
             this.setNewStartingCutscene(evt.triggerObject(), evt.cutsceneIndex());
@@ -232,12 +235,11 @@ public class Flying extends State implements Statemethods {
     @Override
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            projectileHandler.setSpacePressed(false);
-            projectileHandler.resetShootTick();
+            projectileHandler.setSpacePressed(false);  
+            //projectileHandler.resetShootTick();  // uncomment to enable fast shooting
         }
         else if (e.getKeyCode() == KeyEvent.VK_B) {
             projectileHandler.setBPressed(false);
-            projectileHandler.resetShootTick();
         }
         this.player.KeyReleased(e);
     }
@@ -253,6 +255,7 @@ public class Flying extends State implements Statemethods {
                     checkCutsceneTriggers();
                 }
                 updateChartingY();
+                System.out.println(chartingY);
                 moveMaps();
                 moveCutscenes();
                 player.update(clYOffset, clXOffset);

@@ -345,6 +345,21 @@ public class HelpMethods {
                 SetRedLightEvent event = new SetRedLightEvent(active);
                 allSequences.get(sequenceIndex).add(event);
             }
+            else if (lineData[0].equals("fellowShips")) {
+                int nrOfShips = (lineData.length - 1) / 3;
+                int[] xPos = new int[nrOfShips];
+                int[] yPos = new int[nrOfShips];
+                int[] takeOffTimer = new int[nrOfShips];
+                int index = 0;
+                for (int i = 1; i < lineData.length; i += 3) {
+                    xPos[index] = Integer.parseInt(lineData[i]);
+                    yPos[index] = Integer.parseInt(lineData[i+1]);
+                    takeOffTimer[index] = Integer.parseInt(lineData[i+2]);
+                    index ++;
+                }
+                FellowShipEvent event = new FellowShipEvent(xPos, yPos, takeOffTimer);
+                allSequences.get(sequenceIndex).add(event);
+            }
             else if (lineData[0].equals("endSequence")) {
                 allCutscenes.get(triggerIndex).get(cutsceneIndex).addSequence(allSequences.get(sequenceIndex));
                 sequenceIndex += 1;
@@ -366,6 +381,7 @@ public class HelpMethods {
         return index;
     }
 
+    /** Get the rowIndex in the 2D-BufferedImage for the character */
     public static int GetCharacterIndex(String name) {
         int index = switch (name) {
             case "Max" -> 0;
@@ -375,6 +391,10 @@ public class HelpMethods {
             case "Nina" -> 2;
             case "Shady pilot" -> 2;
             case "Speaker" -> 2;
+            case "Lt.Red" -> 2;
+            case "Pilot #1" -> 2;
+            case "Pilot #2" -> 2;
+            case "Pilot #3" -> 2;
             default -> throw new IllegalArgumentException(
                     "No characterIndex available for '" + name + "'");
         };

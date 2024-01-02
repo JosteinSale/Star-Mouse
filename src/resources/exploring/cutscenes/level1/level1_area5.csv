@@ -1,13 +1,18 @@
 cutscene;true;object;0
+info;Your trusty Saber
+playSFX;infoBox
+endSequence
+
+cutscene;true;object;1
 infoChoice;Leave area?;No;Yes
 playSFX;infoBox
 endSequence
 
-cutscene;true;object;0
+cutscene;true;object;1
 wait;1
 endSequence
 
-cutscene;false;object;0
+cutscene;false;object;1
 wait;60
 endSequence
 wait;65
@@ -98,6 +103,6 @@ goToFlying;1
 wait;1
 endSequence
 
-cutscene;true;npc;1
+cutscene;true;npc;2
 info;That's Oliver lol
 endSequence

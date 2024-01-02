@@ -425,12 +425,14 @@ public class PlayerFly extends Entity {
             //this.drawHitbox(g, 0, 0);
             
             // Teleport hitbox
+            /* 
             g.setColor(Color.RED);
             g.drawRect(
                 (int) (teleportHitbox.x * Game.SCALE), 
                 (int) (teleportHitbox.y * Game.SCALE), 
                 (int) (teleportHitbox.width * Game.SCALE), 
                 (int) (teleportHitbox.height * Game.SCALE));
+                */
         }
     }
 

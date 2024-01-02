@@ -117,8 +117,8 @@ public class OctaDrone extends Entity implements Enemy {
     public void draw(Graphics g) {
         g.drawImage(
             animations[action][aniIndex], 
-            (int) (hitbox.x * Game.SCALE), 
-            (int) (hitbox.y * Game.SCALE), 
+            (int) ((hitbox.x - 5) * Game.SCALE), 
+            (int) ((hitbox.y - 5) * Game.SCALE), 
             (int) (OCTADRONE_SPRITE_SIZE * 3 * Game.SCALE), 
             (int) (OCTADRONE_SPRITE_SIZE * 3 * Game.SCALE), null);
     }

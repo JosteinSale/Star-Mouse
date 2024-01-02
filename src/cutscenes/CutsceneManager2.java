@@ -21,10 +21,12 @@ public class CutsceneManager2 {
     private EventHandler eventHandler;
     private TextboxManager2 textboxManager;
     private ArrayList<ArrayList<Cutscene>> cutscenes;
+    private ArrayList<FellowShip> fellowShips;
     private boolean active = false; 
     private boolean canAdvance = true;
 
     // Actions
+    private boolean fellowShipsActive;
     private boolean fadeOutActive;
     private boolean fadeInActive;
     private boolean dialogueAppearing;
@@ -33,6 +35,7 @@ public class CutsceneManager2 {
     private boolean overlayImageActive;
     private boolean headerActive;
     private BufferedImage overlayImage;
+    private BufferedImage shipImg;
     private String headerText;
     private Font headerFont;
     private Rectangle headerBox;
@@ -53,6 +56,8 @@ public class CutsceneManager2 {
         this.eventHandler = eventHandler;
         this.textboxManager = textboxManager;
         this.cutscenes = new ArrayList<>();
+        this.fellowShips = new ArrayList<>();
+        this.shipImg = LoadSave.getFlyImageSprite(LoadSave.FELLOWSHIP_SPRITES);
         this.headerFont = LoadSave.getHeaderFont();
     }
 
@@ -146,12 +151,21 @@ public class CutsceneManager2 {
         }
     }
 
+    public void startFellowShips(int[] xPos, int[] yPos, int[] takeOffTimer) {
+        for (int i = 0; i < xPos.length; i++) {
+            FellowShip ship = new FellowShip(xPos[i], yPos[i], takeOffTimer[i], shipImg);
+            fellowShips.add(ship);
+        }
+        this.fellowShipsActive = true;
+    }
+
     public void update() {
         if (waitActive) {updateWait();}
         if (headerActive) {updateHeader();}
         if (fadeInActive) {updateFadeIn();}
         if (fadeOutActive) {updateFadeOut();}
-        else if (dialogueAppearing) {updateDialogue();}
+        if (fellowShipsActive) {updateFellowSHips();}
+        if (dialogueAppearing) {updateDialogue();}
     }
 
     private void updateDialogue() {
@@ -176,7 +190,7 @@ public class CutsceneManager2 {
         if (this.screenAlphaFade > 255) {
             screenAlphaFade = 255;
             this.advance();
-            fadeOutActive = false;   // Removing this line is a workaround for the blip-bug.
+            //fadeOutActive = false;   // Removing this line is a workaround for the blip-bug.
         }
     }
 
@@ -203,13 +217,35 @@ public class CutsceneManager2 {
         }
     }
 
+    private void updateFellowSHips() {
+        boolean allShipsDone = true;
+        for (FellowShip ship : fellowShips) {
+            ship.update();
+            if (ship.isOnScreen()) {
+                allShipsDone = false;
+            }
+        }
+        if (allShipsDone) {
+            fellowShipsActive = false;
+        }
+    }
+
     public void draw(Graphics g) {
         // Only needed for overlay-effects.
+        if (fellowShipsActive) {drawFellowShips(g);}
         if (blackScreenActive) {drawBlackScreen(g);}
         else if (overlayImageActive) {drawOverlayImage(g);}
         if (fadeOutActive || fadeInActive) {drawFade(g);}
         if (headerActive) {drawHeader(g);}
         textboxManager.draw(g);
+    }
+
+    private void drawFellowShips(Graphics g) {
+        for (FellowShip ship : fellowShips) {
+            if (ship.isOnScreen()) {
+                ship.draw(g);
+            }
+        }
     }
 
     private void drawOverlayImage(Graphics g) {
@@ -278,5 +314,6 @@ public class CutsceneManager2 {
 
     public void clear() {
         this.cutscenes.clear();
+        this.fellowShips.clear();
     }
 }

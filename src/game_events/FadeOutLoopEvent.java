@@ -4,4 +4,4 @@ package game_events;
  * and then stops and resets them */
 public record FadeOutLoopEvent() implements GeneralEvent {}
 
-// TODO - Implement in Exploring
+// TODO - Implement in Exploring?

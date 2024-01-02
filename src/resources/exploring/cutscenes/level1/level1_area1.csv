@@ -1,5 +1,5 @@
 cutscene;true;object;0
-info;My bed. Semi-comfortable.
+info;Your bed. Semi-comfortable.
 playSFX;infoBox
 endSequence
 
@@ -30,7 +30,7 @@ endSequence
 
 cutscene;true;object;2
 playSFX;infoBox
-info;I don't have time for that now.
+info;Duties first, gaming later.
 endSequence
 
 cutscene;false;object;3

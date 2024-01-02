@@ -19,6 +19,7 @@ import java.util.Iterator;
 import static utils.Constants.Flying.Sprites.*;
 import static utils.Constants.Flying.TypeConstants.DRONE;
 import static utils.Constants.Flying.TypeConstants.OCTADRONE;
+import static utils.Constants.Flying.TypeConstants.BLASTERDRONE;
 import static utils.Constants.Flying.TypeConstants.BOMB_PROJECTILE;
 import static utils.HelpMethods.IsSolid;
 
@@ -49,7 +50,7 @@ public class ProjectileHandler {
     private int lazerShootBuffer = 10;
     private int bombShootBuffer = 30;  
     private int bombShootTick = 0;
-    private int explosionDamage = 100;
+    private int explosionDamage = 300;
     private int nrOfBombs = 10;
 
     private float fgSpeed;
@@ -142,12 +143,17 @@ public class ProjectileHandler {
                 enemy.resetShootTick();
             }
         }
-    }
+    } 
 
     private void addEnemeyProjectile(int type, Rectangle2D.Float hitbox) {
         if (type == DRONE) {
             Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
                 hitbox.x + 25, hitbox.y + 66, 32, 33);
+            this.allProjectiles.add(new DroneProjectile(prjctHitbox, dronePrjctImg));
+        }
+        else if (type == BLASTERDRONE) {
+            Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
+                hitbox.x + 15, hitbox.y + 90, 32, 33);
             this.allProjectiles.add(new DroneProjectile(prjctHitbox, dronePrjctImg));
         }
         else if (type == OCTADRONE) {
@@ -196,7 +202,7 @@ public class ProjectileHandler {
             int indexAdjustment = 0;
             for (int i : projectilesToRemove) {
                 i -= indexAdjustment;    // Trengs siden indeksene forskyves
-                allProjectiles.remove(i);  
+                allProjectiles.remove(i);    // Tregt
                 indexAdjustment += 1;
             }
         }

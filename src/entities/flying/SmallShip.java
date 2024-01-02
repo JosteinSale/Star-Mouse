@@ -106,7 +106,7 @@ public class SmallShip extends Entity implements Enemy{
     public void draw(Graphics g) {
         g.drawImage(
             animations[action][aniIndex], 
-            (int) ((hitbox.x - 12 + getFlipX()) * Game.SCALE), 
+            (int) ((hitbox.x - 16 + getFlipX()) * Game.SCALE), 
             (int) ((hitbox.y - 30)* Game.SCALE), 
             (int) (SMALLSHIP_SPRITE_SIZE * 3 * direction * Game.SCALE), 
             (int) (SMALLSHIP_SPRITE_SIZE * 3 * Game.SCALE), null);
@@ -117,7 +117,7 @@ public class SmallShip extends Entity implements Enemy{
             return 0;
         }
         else {
-            return (hitbox.width + 24);
+            return (hitbox.width + 28);
         }
     }
 
