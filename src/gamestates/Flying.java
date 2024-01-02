@@ -255,7 +255,7 @@ public class Flying extends State implements Statemethods {
                     checkCutsceneTriggers();
                 }
                 updateChartingY();
-                System.out.println(chartingY);
+                //System.out.println(chartingY);
                 moveMaps();
                 moveCutscenes();
                 player.update(clYOffset, clXOffset);
