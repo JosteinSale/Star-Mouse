@@ -101,7 +101,7 @@ public class EnemyManager {
             }
             else if (lineData[0].equals("smallShip")) {
                 int width = 60;
-                int height = 30; // TODO - Direction ..........................
+                int height = 30; 
                 allEnemies.add(GetEnemy(SMALL_SHIP, lineData, width, height, smallShipAnimations));
             }
             else if (lineData[0].equals("octaDrone")) {

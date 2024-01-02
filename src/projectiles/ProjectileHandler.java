@@ -50,7 +50,7 @@ public class ProjectileHandler {
     private int lazerShootBuffer = 10;
     private int bombShootBuffer = 30;  
     private int bombShootTick = 0;
-    private int explosionDamage = 100;
+    private int explosionDamage = 300;
     private int nrOfBombs = 10;
 
     private float fgSpeed;
@@ -202,7 +202,7 @@ public class ProjectileHandler {
             int indexAdjustment = 0;
             for (int i : projectilesToRemove) {
                 i -= indexAdjustment;    // Trengs siden indeksene forskyves
-                allProjectiles.remove(i);  
+                allProjectiles.remove(i);    // Tregt
                 indexAdjustment += 1;
             }
         }

@@ -34,15 +34,12 @@ public class HelpMethods2 {
             return drone;
         }
         else if (type == SMALL_SHIP) {
-            int direction = 1;
-            if (lineData[3].equals("left")) {
-                direction = -1;
-            }
-            SmallShip ship = new SmallShip(hitbox, animations, direction);
+            int dir = Integer.parseInt(lineData[3]);
+            SmallShip ship = new SmallShip(hitbox, animations, dir);
             return ship;
         }
         else if (type == OCTADRONE) {
-            int shootTimer = Integer.parseInt(lineData[3]);
+            int shootTimer = Integer.parseInt(lineData[4]);
             OctaDrone octaDrone = new OctaDrone(hitbox, animations, shootTimer);
             return octaDrone;
         }

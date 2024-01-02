@@ -117,7 +117,7 @@ public class SmallShip extends Entity implements Enemy{
             return 0;
         }
         else {
-            return (hitbox.width + 24);
+            return (hitbox.width + 28);
         }
     }
 

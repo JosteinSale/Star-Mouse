@@ -8,11 +8,17 @@ wait;150
 endSequence
 startAmbience;1
 fadeHeader;out;350;10;Skies over Alopis
+fellowShips;100;400;440;300;400;500;700;400;560;900;400;620
 wait;100
 endSequence
 setGameplayActive;true
 blackScreen;false
 fadeIn;10
+endSequence
+
+cutscene;true;automatic;1
+dialogue;Max;happy;1;2;Alright, let's do this!
+wait;240
 endSequence
 
 X
