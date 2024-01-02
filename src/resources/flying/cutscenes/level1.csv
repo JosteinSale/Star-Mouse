@@ -17,8 +17,11 @@ fadeIn;10
 endSequence
 
 cutscene;true;automatic;1
-dialogue;Max;happy;1;2;Alright, let's do this!
+dialogue;Lt.Red;serious;6;2;All ships enter attack positions.
 wait;240
+endSequence
+dialogue;Lt.Red;serious;6;2;Prepare to engage the enemy!
+wait;180
 endSequence
 
 X

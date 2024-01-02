@@ -381,6 +381,7 @@ public class HelpMethods {
         return index;
     }
 
+    /** Get the rowIndex in the 2D-BufferedImage for the character */
     public static int GetCharacterIndex(String name) {
         int index = switch (name) {
             case "Max" -> 0;
@@ -390,6 +391,10 @@ public class HelpMethods {
             case "Nina" -> 2;
             case "Shady pilot" -> 2;
             case "Speaker" -> 2;
+            case "Lt.Red" -> 2;
+            case "Pilot #1" -> 2;
+            case "Pilot #2" -> 2;
+            case "Pilot #3" -> 2;
             default -> throw new IllegalArgumentException(
                     "No characterIndex available for '" + name + "'");
         };
