@@ -1,5 +1,6 @@
 automaticTrigger;0f;2f;10f;10f;openingCutscene
 automaticTrigger;0f;-250f;10f;10f;attack_formation!
+automaticTrigger;0f;-2750f;10f;10f;entering_the_city
 smallShip;910;-1870;-1
 smallShip;770;-2010;-1
 smallShip;910;-2130;-1

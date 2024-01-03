@@ -34,7 +34,7 @@ public class FellowShip {
       } 
       else {
          yPos -= speed;
-         if ((yPos + shipHeight) < 0) {
+         if ((yPos + shipHeight) < -45) {
             onScreen = false;
          }
       }
