@@ -1,12 +1,14 @@
 package gamestates;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import main.Game;
 import utils.LoadSave;
@@ -39,18 +41,20 @@ public class LevelEditor implements Statemethods {
     private ArrayList<String> levelData;
     private ArrayList<Integer> entityDirections;             // For entities with directions
     private ArrayList<Integer> entityTypes;
+    private ArrayList<Integer> shootTimers;                  // For entities with shootTimers
 
-    private int curDirection = 1;      // 1 = right, -1 = left
     private static final int UP = 1;
     private static final int DOWN = -1;
     private int clImgHeight;
     private int clImgWidth;
-    private float clYOffset;
+    private int clYOffset;
     private float clXOffset;
     private int entityYOffset = 0;
     private int selectedEntity = 0;
     
-
+    private int curDirection = 1;      // 1 = right, -1 = left
+    private int shootTimer = 100;   // Drones : 100 - 140, Octadrones : 60 - 180
+    private Font font = LoadSave.getInfoFont();
     private int cursorX = 500;
     private int cursorY = 400;
     private int cursorSpeed = 10;
@@ -64,7 +68,8 @@ public class LevelEditor implements Statemethods {
         this.hitboxes = new ArrayList<>();
         this.levelData = new ArrayList<>();
         this.entityDirections = new ArrayList<>();
-        this.entityTypes = new ArrayList<>();    
+        this.entityTypes = new ArrayList<>();   
+        this.shootTimers = new ArrayList<>(); 
         loadLevelData(level);
     }
 
@@ -107,7 +112,8 @@ public class LevelEditor implements Statemethods {
                 int xCor = Integer.parseInt(lineData[1]);
                 int yCor = Integer.parseInt(lineData[2]);
                 int dir = Integer.parseInt(lineData[3]);
-                addEntityToList(entity, xCor, yCor, dir);
+                int shootTimer = Integer.parseInt(lineData[4]);
+                addEntityToList(entity, xCor, yCor, dir, shootTimer);
             }
         }
     }
@@ -120,6 +126,7 @@ public class LevelEditor implements Statemethods {
      * X                             Change entity
      * UP / DOWN / LEFT / RIGHT      Change cursor position
      * D                             Change direction
+     * A / D                         Change shootTimer
      * SPACE                         Add / delete entity
      * P                             Print levelData in console
      */
@@ -129,6 +136,12 @@ public class LevelEditor implements Statemethods {
         }
         else if (e.getKeyCode() == KeyEvent.VK_S) {
             this.changeScreen(DOWN);
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_A) {
+            this.shootTimer -= 10;
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_D) {
+            this.shootTimer += 10;
         }
         else if (e.getKeyCode() == KeyEvent.VK_X) {
             this.selectedEntity = (selectedEntity + 1) % entityImgs.length;
@@ -150,7 +163,7 @@ public class LevelEditor implements Statemethods {
         }
         else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             int adjustedY = cursorY + entityYOffset;
-            addEntityToList(selectedEntity, cursorX, adjustedY, curDirection);
+            addEntityToList(selectedEntity, cursorX, adjustedY, curDirection, shootTimer);
         }
         else if (e.getKeyCode() == KeyEvent.VK_P) {
             printLevelData();
@@ -174,9 +187,9 @@ public class LevelEditor implements Statemethods {
 
     /** Is used to 
      *      1) load the data from levelData-file
-     *      2) insert new data from levelEditor
+     *      2) make new levelData from levelEditor
     */
-    private void addEntityToList(int entity, int x, int y, int direction) { // TODO - add shootTimer
+    private void addEntityToList(int entity, int x, int y, int direction, int shootTimer) { // TODO - add shootTimer?
         int width = 150;    // Hitbox-size if no entities match
         int height = 150;   
         int xOffset = 0;
@@ -203,7 +216,7 @@ public class LevelEditor implements Statemethods {
         }
         else if (entity == 1) {
             levelData.add("powerup;" + Integer.toString(x) + ";" + 
-                Integer.toString(y) + ";" + Integer.toString(direction));
+                Integer.toString(y) + ";" + Integer.toString(direction) + ";0");
             width = 30;
             height = 50;
             xOffset = 28;
@@ -211,7 +224,7 @@ public class LevelEditor implements Statemethods {
         }
         else if (entity == 2) {
             levelData.add("repair;" + Integer.toString(x) + ";" 
-                + Integer.toString(y) + ";" + Integer.toString(direction));
+                + Integer.toString(y) + ";" + Integer.toString(direction) + ";0");
             width = 60;
             height = 60;
             xOffset = 15;
@@ -219,7 +232,7 @@ public class LevelEditor implements Statemethods {
         }
         else if (entity == 3) {
             levelData.add("bomb;" + Integer.toString(x) + ";" 
-                + Integer.toString(y)+ ";" + Integer.toString(direction));
+                + Integer.toString(y)+ ";" + Integer.toString(direction) + ";0");
             width = 45;
             height = 45;
             xOffset = 15;
@@ -227,15 +240,15 @@ public class LevelEditor implements Statemethods {
         }
         else if (entity == 4) {
             levelData.add("target;" + Integer.toString(x) + ";" 
-                + Integer.toString(y) + ";" + Integer.toString(direction));
+                + Integer.toString(y) + ";" + Integer.toString(direction) + ";0");
             width = 60;
             height = 60;
             xOffset = 0;
             yOffset = 0;
         }
         else if (entity == 5) {
-            levelData.add("drone;" + Integer.toString(x) + ";"
-                 + Integer.toString(y) + ";" + Integer.toString(direction));
+            levelData.add("drone;" + Integer.toString(x) + ";" + Integer.toString(y) 
+                + ";" + Integer.toString(direction) + ";" + Integer.toString(shootTimer));
             width = 78;
             height = 66;
             xOffset = 4;
@@ -243,15 +256,15 @@ public class LevelEditor implements Statemethods {
         }
         else if (entity == 6) {   
             levelData.add("smallShip;" + Integer.toString(x) + ";"
-                 + Integer.toString(y) + ";" + Integer.toString(direction));
+                 + Integer.toString(y) + ";" + Integer.toString(direction) + ";0");
             width = 60;   
             height = 30;
             xOffset = 16;
             yOffset = 30;
         }
         else if (entity == 7) {   
-            levelData.add("octaDrone;" + Integer.toString(x) + ";"
-                 + Integer.toString(y) + ";" + Integer.toString(direction));
+            levelData.add("octaDrone;" + Integer.toString(x) + ";" + Integer.toString(y) + ";" 
+                + Integer.toString(direction) + ";" + Integer.toString(shootTimer));
             width = 80;  
             height = 80;
             xOffset = 5;
@@ -259,7 +272,7 @@ public class LevelEditor implements Statemethods {
         }
         else if (entity == 8) {
             levelData.add("tankDrone;" + Integer.toString(x) + ";"
-                 + Integer.toString(y)+ ";" + Integer.toString(direction));
+                 + Integer.toString(y)+ ";" + Integer.toString(direction) + ";0");
             width = 80;
             height = 90;
             xOffset = 5;
@@ -267,7 +280,7 @@ public class LevelEditor implements Statemethods {
         }
         else if (entity == 9) {
             levelData.add("blasterDrone;" + Integer.toString(x) + ";"
-                 + Integer.toString(y) + ";" + Integer.toString(direction));
+                 + Integer.toString(y) + ";" + Integer.toString(direction) + ";30");
             width = 60;   
             height = 90;
             xOffset = 15;
@@ -276,6 +289,11 @@ public class LevelEditor implements Statemethods {
 
         entityTypes.add(entity);
         entityDirections.add(direction);
+        if ((entity == 5) || (entity == 7)) {
+            shootTimers.add(shootTimer);
+        } else {
+            shootTimers.add(0);
+        }
         int[] cor = {x, y};
         entityCor.add(cor);
         outPlacedImgs.add(entityImgs[entity]);
@@ -300,9 +318,19 @@ public class LevelEditor implements Statemethods {
             (int) (clImgWidth * Game.SCALE), 
             (int) (clImgHeight * Game.SCALE), null);
         
+        // Text
+        g.setColor(Color.BLACK);
+        g.setFont(font);
+        g.drawString("direction : " + Integer.toString(curDirection), 20, 20);
+        g.drawString("shootTimer : " + Integer.toString(shootTimer), 20, 50);
+        g.drawString("y :" + Integer.toString(entityYOffset), 700, 20);
+        
         // Outplaced images
         for (int i = 0; i < outPlacedImgs.size(); i++) {
-            g.setColor(Color.BLACK);
+            g.drawString(
+                Integer.toString(shootTimers.get(i)), 
+                (int)(hitboxes.get(i).x * Game.SCALE),
+                (int)((hitboxes.get(i).y - entityYOffset - 20) * Game.SCALE));
             g.fillRect(
                 (int)(hitboxes.get(i).x * Game.SCALE),
                 (int)((hitboxes.get(i).y - entityYOffset) * Game.SCALE),

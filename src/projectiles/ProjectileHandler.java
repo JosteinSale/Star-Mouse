@@ -328,7 +328,7 @@ public class ProjectileHandler {
                 //p.drawHitbox(g);
             }
         }
-        for (ProjectileHit ph : projectileHits) {
+        for (ProjectileHit ph : projectileHits) {   // concurrentModificationException
             if (ph.getType() == 0) {         // Hitting the map
                 g.drawImage(
                 hitAnimation[ph.getAniIndex()],

@@ -74,7 +74,7 @@ public class DialogueBox2 {
             case "Nina" -> Color.PINK;
             case "Shady pilot" -> Color.ORANGE;
             case "Lt.Red" -> Color.RED;
-            case "Pilot #1" -> Color.BLUE;
+            case "Pilot #1" -> new Color(149, 222, 255);
             case "Pilot #2" -> Color.PINK;
             case "Pilot #3" -> Color.GREEN;
             default -> throw new IllegalArgumentException(

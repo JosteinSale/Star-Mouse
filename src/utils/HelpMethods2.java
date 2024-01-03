@@ -30,7 +30,8 @@ public class HelpMethods2 {
             return target;
         }
         else if (type == DRONE) {
-            Drone drone = new Drone(hitbox, animations);
+            int shootTimer = Integer.parseInt(lineData[4]);
+            Drone drone = new Drone(hitbox, animations, shootTimer);
             return drone;
         }
         else if (type == SMALL_SHIP) {

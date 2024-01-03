@@ -27,11 +27,12 @@ public class Drone extends Entity implements Enemy {
     private int damageTick = 0;
 
     private int shootTick = 0;
-    private int shootInterval = (int) (100 + Math.random() * 40);
+    private int shootInterval; // (int) (100 + Math.random() * 40);
 
-    public Drone(Rectangle2D.Float hitbox, BufferedImage[][] animations) {
+    public Drone(Rectangle2D.Float hitbox, BufferedImage[][] animations, int shootInterval) {
         super(hitbox);
         this.animations = animations;
+        this.shootInterval = shootInterval;
     }
 
     @Override
