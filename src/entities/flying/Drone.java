@@ -15,7 +15,7 @@ public class Drone extends Entity implements Enemy {
     private static final int TAKING_DAMAGE = 0;
 
     BufferedImage[][] animations;
-    private int HP = 40;
+    private int HP = 80;
     private boolean onScreen = false;   
     private boolean dead = false;
 
@@ -38,10 +38,10 @@ public class Drone extends Entity implements Enemy {
     @Override
     public void update(float levelYSpeed) {
         hitbox.y += levelYSpeed;
-        updateShootTick();
         onScreen = (((hitbox.y + hitbox.height) > 0) && (hitbox.y < Game.GAME_DEFAULT_HEIGHT));
         if (onScreen) {
             updateAniTick();
+            updateShootTick();
         }
     }
 

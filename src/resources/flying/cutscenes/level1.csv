@@ -31,7 +31,7 @@ wait;240
 endSequence
 
 cutscene;true;automatic;3
-dialogue;Pilot #2;serious;8;2;Return fire!
+dialogue;Pilot #2;serious;8;2;Nooo!
 wait;200
 endSequence
 

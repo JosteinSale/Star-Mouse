@@ -1,7 +1,7 @@
 automaticTrigger;0f;2f;10f;10f;openingCutscene
 automaticTrigger;0f;-250f;10f;10f;attack_formation!
 automaticTrigger;0f;-2750f;10f;10f;entering_the_city
-automaticTrigger;0f;-4200f;10f;10f;return_fire!
+automaticTrigger;0f;-3800f;10f;10f;no!
 automaticTrigger;0f;-5000f;10f;10f;HELP!
 drone;130;-4140;1;150
 drone;250;-4060;1;160
@@ -17,3 +17,17 @@ smallShip;70;-2560;1;0
 smallShip;70;-2710;1;0
 drone;210;-3270;1;120
 drone;680;-3110;1;110
+smallShip;80;-4720;1;0
+smallShip;80;-4840;1;0
+smallShip;80;-4950;1;0
+smallShip;830;-4790;-1;0
+smallShip;830;-4890;-1;0
+octaDrone;320;-5180;1;100
+octaDrone;600;-5090;1;80
+repair;340;-5940;1;0
+drone;500;-4060;1;120
+drone;190;-5660;1;100
+drone;750;-5660;1;100
+drone;470;-5660;1;150
+drone;130;-5510;1;130
+drone;810;-5520;1;130

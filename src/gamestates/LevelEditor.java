@@ -53,7 +53,7 @@ public class LevelEditor implements Statemethods {
     private int selectedEntity = 0;
     
     private int curDirection = 1;      // 1 = right, -1 = left
-    private int shootTimer = 100;   // Drones : 100 - 140, Octadrones : 60 - 180
+    private int shootTimer = 100;   // Drones : 100 - 160, Octadrones : 60 - 180
     private Font font = LoadSave.getInfoFont();
     private int cursorX = 500;
     private int cursorY = 400;
@@ -125,7 +125,7 @@ public class LevelEditor implements Statemethods {
      * W / S                         Change screen 
      * X                             Change entity
      * UP / DOWN / LEFT / RIGHT      Change cursor position
-     * D                             Change direction
+     * F                             Change direction
      * A / D                         Change shootTimer
      * SPACE                         Add / delete entity
      * P                             Print levelData in console
@@ -158,12 +158,12 @@ public class LevelEditor implements Statemethods {
         else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             this.cursorX += cursorSpeed;
         }
-        else if (e.getKeyCode() == KeyEvent.VK_D) {
+        else if (e.getKeyCode() == KeyEvent.VK_F) {
             curDirection *= -1;
         }
         else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             int adjustedY = cursorY + entityYOffset;
-            addEntityToList(selectedEntity, cursorX, adjustedY, curDirection, shootTimer);
+            addEntityToList(selectedEntity, cursorX, adjustedY, curDirection, this.shootTimer);
         }
         else if (e.getKeyCode() == KeyEvent.VK_P) {
             printLevelData();
@@ -189,7 +189,7 @@ public class LevelEditor implements Statemethods {
      *      1) load the data from levelData-file
      *      2) make new levelData from levelEditor
     */
-    private void addEntityToList(int entity, int x, int y, int direction, int shootTimer) { // TODO - add shootTimer?
+    private void addEntityToList(int entity, int x, int y, int direction, int shootTimer) {
         int width = 150;    // Hitbox-size if no entities match
         int height = 150;   
         int xOffset = 0;
@@ -211,6 +211,7 @@ public class LevelEditor implements Statemethods {
                 levelData.remove(indexToRemove);
                 entityTypes.remove(indexToRemove);
                 entityDirections.remove(indexToRemove);
+                shootTimers.remove(indexToRemove);
             }
             return;
         }
@@ -271,7 +272,7 @@ public class LevelEditor implements Statemethods {
             yOffset = 5;
         }
         else if (entity == 8) {
-            levelData.add("tankDrone;" + Integer.toString(x) + ";"
+            levelData.add("tankDrone;" + Integer.toString(x) + ";"  
                  + Integer.toString(y)+ ";" + Integer.toString(direction) + ";0");
             width = 80;
             height = 90;
