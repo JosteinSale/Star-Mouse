@@ -25,4 +25,19 @@ dialogue;Lt.Red;serious;6;2;Prepare to engage the enemy!
 wait;180
 endSequence
 
+cutscene;true;automatic;2
+dialogue;Pilot #1;serious;7;2;We're approaching the city.
+wait;240
+endSequence
+
+cutscene;true;automatic;3
+dialogue;Pilot #2;serious;8;2;Nooo!
+wait;200
+endSequence
+
+cutscene;true;automatic;4
+dialogue;Pilot #3;serious;9;2;HELP!
+wait;200
+endSequence
+
 X

@@ -15,7 +15,7 @@ public class Drone extends Entity implements Enemy {
     private static final int TAKING_DAMAGE = 0;
 
     BufferedImage[][] animations;
-    private int HP = 40;
+    private int HP = 80;
     private boolean onScreen = false;   
     private boolean dead = false;
 
@@ -27,20 +27,21 @@ public class Drone extends Entity implements Enemy {
     private int damageTick = 0;
 
     private int shootTick = 0;
-    private int shootInterval = (int) (100 + Math.random() * 40);
+    private int shootInterval; // (int) (100 + Math.random() * 40);
 
-    public Drone(Rectangle2D.Float hitbox, BufferedImage[][] animations) {
+    public Drone(Rectangle2D.Float hitbox, BufferedImage[][] animations, int shootInterval) {
         super(hitbox);
         this.animations = animations;
+        this.shootInterval = shootInterval;
     }
 
     @Override
     public void update(float levelYSpeed) {
         hitbox.y += levelYSpeed;
-        updateShootTick();
         onScreen = (((hitbox.y + hitbox.height) > 0) && (hitbox.y < Game.GAME_DEFAULT_HEIGHT));
         if (onScreen) {
             updateAniTick();
+            updateShootTick();
         }
     }
 

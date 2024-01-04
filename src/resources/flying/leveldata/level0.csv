@@ -3,7 +3,7 @@ automaticTrigger;0f;-300f;10f;10f;move+obstacles
 automaticTrigger;0f;-2500f;10f;10f;targets+obstacles
 automaticTrigger;0f;-5400f;10f;10f;teleportation+targets
 automaticTrigger;0f;-9400f;10f;10f;teleport_through_obstacles
-automaticTrigger;0f;-11000f;10f;10f;teleport_through_targets
+automaticTrigger;0f;-11400f;10f;10f;teleport_through_targets
 automaticTrigger;0f;-12600f;10f;10f;powerups+targets+repair
 automaticTrigger;0f;-13800f;10f;10f;bombs+targets
 automaticTrigger;0f;-15200f;10f;10f;use_bombs_sparingly

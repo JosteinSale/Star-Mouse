@@ -82,9 +82,9 @@ public class Flying extends State implements Statemethods {
         projectileHandler.setClImg(this.clImg);
         enemyManager.loadEnemiesForLvl(level);
         loadPickupItems(level);
-        loadCutscenes(level);
+        loadCutscenes(level);  
         player.setKilledEnemies(0);
-        //startAt(-11000);  
+        //startAt(-9000);  
     }
 
     private void initClasses() {

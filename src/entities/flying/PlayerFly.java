@@ -316,7 +316,9 @@ public class PlayerFly extends Entity {
             for (int i = 0; i < 9; i++) {
                 Point point = new Point((int) collisionXs[i], (int) collisionYs[i]);
                 if (enemyHitbox.contains(point)) {
-                    takeCollisionDmg();
+                    if (planeAction != TAKING_COLLISION_DAMAGE) {
+                        takeCollisionDmg();
+                    }
                     audioPlayer.playSFX(Audio.SFX_COLLISION);
                     pushInOppositeDirectionOf(i, pushDistance);
                     this.updateCollisionPixels();
