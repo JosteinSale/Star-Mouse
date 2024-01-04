@@ -11,7 +11,7 @@ import main.Game;
 
 public class PlayerProjectile extends Entity implements Projectile {
     BufferedImage img;
-    private int damage = 10;
+    private int damage = 7;
     private int xSpeed = 0;
     private int ySpeed = -10;
     private int[][] collisionPixels = new int[2][2];

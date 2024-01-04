@@ -12,14 +12,13 @@ import static utils.Constants.Flying.TypeConstants.TARGET;
 import static utils.Constants.Flying.Sprites.TARGET_SPRITE_SIZE;
 
 
-// Kan muligens flytte en del av target's funksjoner inn i en egen enemy-entity senere.
 public class Target extends Entity implements Enemy {
     // Actions
     private static final int IDLE = 1;
     private static final int TAKING_DAMAGE = 0;
 
     BufferedImage[][] animations;
-    private int HP = 40;
+    private int HP = 25;
     private boolean onScreen = false;   
     private boolean dead = false;
 

@@ -15,7 +15,7 @@ public class OctaDrone extends Entity implements Enemy {
     private static final int TAKING_DAMAGE = 0;
 
     BufferedImage[][] animations;
-    private int HP = 80;
+    private int HP = 120;
     private boolean onScreen = false;   
     private boolean dead = false;
 
