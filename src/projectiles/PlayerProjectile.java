@@ -32,7 +32,7 @@ public class PlayerProjectile extends Entity implements Projectile {
     @Override
     public int getDamage() {
         if (powerUp) {
-            return (int) (damage * 1.5);
+            return (int) (damage * 2);
         }
         else {
             return damage;
