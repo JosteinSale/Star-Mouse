@@ -3,6 +3,7 @@ automaticTrigger;0f;-250f;10f;10f;attack_formation!
 automaticTrigger;0f;-2750f;10f;10f;entering_the_city
 automaticTrigger;0f;-3800f;10f;10f;no!
 automaticTrigger;0f;-5000f;10f;10f;HELP!
+automaticTrigger;0f;-25000f;10f;10f;everyone_retreat
 drone;250;-4060;1;160
 drone;380;-4140;1;140
 drone;620;-4140;1;140
@@ -125,3 +126,13 @@ drone;910;-21740;1;1200
 drone;910;-21900;1;1200
 drone;780;-21900;1;1200
 drone;190;-21940;1;130
+smallShip;470;-22610;1;0
+smallShip;470;-22680;1;0
+smallShip;470;-22760;1;0
+smallShip;470;-22850;-1;0
+smallShip;470;-22920;-1;0
+smallShip;470;-23000;-1;0
+drone;710;-23190;1;110
+drone;460;-23190;1;110
+drone;360;-23420;1;130
+drone;160;-23420;1;140
