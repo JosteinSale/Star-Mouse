@@ -3,7 +3,7 @@ automaticTrigger;0f;-250f;10f;10f;attack_formation!
 automaticTrigger;0f;-2750f;10f;10f;entering_the_city
 automaticTrigger;0f;-3800f;10f;10f;no!
 automaticTrigger;0f;-5000f;10f;10f;HELP!
-automaticTrigger;0f;-25000f;10f;10f;everyone_retreat
+automaticTrigger;0f;-25000f;10f;10f;everyone_retreat  // end level approx right after second moon appears
 drone;250;-4060;1;160
 drone;380;-4140;1;140
 drone;620;-4140;1;140
@@ -118,7 +118,6 @@ smallShip;430;-20790;1;0
 smallShip;430;-20720;1;0
 blasterDrone;270;-21480;1;30
 blasterDrone;140;-21600;1;30
-powerup;200;-21180;1;0
 drone;780;-21580;1;1200
 drone;910;-21580;1;1200
 drone;780;-21740;1;1200
@@ -136,3 +135,9 @@ drone;710;-23190;1;110
 drone;460;-23190;1;110
 drone;360;-23420;1;130
 drone;160;-23420;1;140
+smallShip;360;-23690;1;0
+smallShip;540;-23690;1;0
+smallShip;360;-23820;1;0
+smallShip;540;-23820;1;0
+octaDrone;220;-24170;1;60
+octaDrone;730;-24170;1;60
