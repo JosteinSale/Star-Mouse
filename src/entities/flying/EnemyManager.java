@@ -176,7 +176,7 @@ public class EnemyManager {
             enemy.draw(g);
             //enemy.drawHitbox(g);
         }
-        for (Explosion ex : explosions) {
+        for (Explosion ex : explosions) {   // ConcurrentModificationException
             g.drawImage(
                 explosionAnimation[ex.getAniIndex()],
                 (int) (ex.getX() * Game.SCALE),

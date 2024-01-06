@@ -40,4 +40,15 @@ dialogue;Pilot #3;serious;9;2;HELP!
 wait;200
 endSequence
 
+cutscene;true;automatic;5;      // TODO - Make this cutscene depend on amount of ships destroyed
+dialogue;Lt.Red;serious;6;2;The city is lost!
+wait;180
+endSequence
+dialogue;Lt.Red;serious;6;2;All remaining personell, retreat!
+wait;240
+endSequence
+dialogue;Lt.Red;serious;6;2;We'll regroup on Vyke.
+wait;180
+endSequence
+
 X
