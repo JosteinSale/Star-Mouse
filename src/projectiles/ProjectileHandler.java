@@ -29,7 +29,7 @@ public class ProjectileHandler {
     private AudioPlayer audioPlayer;
     private PlayerFly player;
     private EnemyManager enemyManager;
-    private ArrayList<Projectile> allProjectiles;
+    private ArrayList<Projectile> allProjectiles;   // projectiles on screen
     private ArrayList<Integer> projectilesToRemove;
     private ArrayList<ProjectileHit> projectileHits;
     private ArrayList<BombExplosion> bombExplosions;         
@@ -211,7 +211,7 @@ public class ProjectileHandler {
     /** If a projectile collides with the map or with an enemy/player,
      *  it's set to inactive. */
     private void checkProjectileCollisions(float yLevelOffset, float xLevelOffset) {
-        for (Projectile p : allProjectiles) {
+        for (Projectile p : allProjectiles) {  
             if (p.isActive()) {
                 if (p.getType() == BOMB_PROJECTILE) {
                     checkBombCollision(p, yLevelOffset, xLevelOffset);
