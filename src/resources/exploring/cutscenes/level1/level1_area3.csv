@@ -238,7 +238,7 @@ endSequence
 setDir;player;right
 dialogue;Max;teasing;2;1;Maybe even Charlotte, eh?
 endSequence
-dialogue;Oliver;blushing;4;2;wah..? I don't... I'm not into... How'd you...?
+dialogue;Oliver;blushing;4;2;wah..?
 endSequence
 dialogue;Max;laughing;3;3;Hahaha!
 endSequence
