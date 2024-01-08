@@ -52,14 +52,47 @@ public class OptionsMenu {
    private int cursorMaxY = 550; 
    private int cursorY = cursorMinY;
    private int menuOptionsDiff = (cursorMaxY - cursorMinY) / 3;
-   private int volumeSliderX = 750;
-   private int sfxSliderX = 750;
+   private int sliderBarWidth = 300;
+   private int musicSliderX;
+   private int sfxSliderX;
+   private int sliderMinX = 570;
+   private int sliderMaxX = 830;
+   private int musicPercent;
+   private int sfxPercent;
 
    public OptionsMenu(AudioPlayer audioPlayer) {
       this.audioPlayer = audioPlayer;
+      musicPercent = fromGainToPercent(audioPlayer.getMusicVolume());
+      sfxPercent = fromGainToPercent(audioPlayer.getSfxVolume()); 
+      calcVolumeXs();
       calcDrawValues();
       loadImages();
       loadFonts();
+   }
+
+   private void calcVolumeXs() {
+      musicSliderX = (int) (sliderMinX + ((sliderBarWidth - 16) * (musicPercent / 100f))) - 25;
+      sfxSliderX = (int) (sliderMinX + ((sliderBarWidth - 16) * (sfxPercent / 100f))) - 25;
+   }
+
+   /** Takes the actual song / sfx-gain, and converts it to percent.
+    * Since volume gain seems to be working logarithmically, this method
+    * converts the gain to percent exponentially.
+    * @param gain
+    * @return
+    */
+   private int fromGainToPercent(float gain) {
+      return (int) Math.pow(10, gain) * 10;
+   }
+
+   /** Takes the volume percent and converts it to actual volume gain.
+    * Since volume gain seems to be working logarithmically, this method
+    * converts percent to gain logarithmically.
+    * @param gain
+    * @return
+    */
+   private float fromPercentToGain(int percent) {
+      return (float) Math.log10(percent/10);
    }
 
    private void calcDrawValues() {
@@ -83,13 +116,16 @@ public class OptionsMenu {
       if (e.getKeyCode() == KeyEvent.VK_S) {
          goDown();
          audioPlayer.playSFX(Audio.SFX_CURSOR);
-      } else if (e.getKeyCode() == KeyEvent.VK_W) {
+      } 
+      else if (e.getKeyCode() == KeyEvent.VK_W) {
          goUp();
          audioPlayer.playSFX(Audio.SFX_CURSOR);
-      } else if (e.getKeyCode() == KeyEvent.VK_D) {   // right
+      } 
+      else if (e.getKeyCode() == KeyEvent.VK_D) {   // right
          changeVolume(selectedIndex, UP);
          audioPlayer.playSFX(Audio.SFX_CURSOR);
-      } else if (e.getKeyCode() == KeyEvent.VK_A) {   // left
+      } 
+      else if (e.getKeyCode() == KeyEvent.VK_A) {   // left
          changeVolume(selectedIndex, DOWN);
          audioPlayer.playSFX(Audio.SFX_CURSOR);
       }
@@ -104,11 +140,28 @@ public class OptionsMenu {
 
    private void changeVolume(int selected, int change) {
       if (selected == MUSIC_VOLUME) {
-         this.volumeSliderX += (change  * 20);
+         musicPercent += 10 * change;
+         if (musicPercent > 100) {
+            musicPercent = 100;
+         }
+         else if (musicPercent <= 0) {
+            musicPercent = 0;
+         }
+         float newVolume = fromPercentToGain(musicPercent);
+         audioPlayer.setSongVolume(newVolume);
       }
       else if (selected == SFX_VOLUME) {
-         this.sfxSliderX += (change * 20);
+         sfxPercent += 10 * change;
+         if (sfxPercent > 100) {
+            sfxPercent = 100;
+         }
+         else if (sfxPercent <= 0) {
+            sfxPercent = 0;
+         }
+         float newVolume = fromPercentToGain(sfxPercent);
+         audioPlayer.setSfxVolume(newVolume);
       }
+      calcVolumeXs();
    }
 
    private void goDown() {
@@ -157,12 +210,12 @@ public class OptionsMenu {
       // Sliders
       g.fillRect(
          (int) (550 * Game.SCALE), (int) (318 * Game.SCALE), 
-         (int) (300 * Game.SCALE), (int) (5 * Game.SCALE));
+         (int) (sliderBarWidth * Game.SCALE), (int) (5 * Game.SCALE));
       g.fillRect(
          (int) (550 * Game.SCALE), (int) (390 * Game.SCALE), 
-         (int) (300 * Game.SCALE), (int) (5 * Game.SCALE));
+         (int) (sliderBarWidth * Game.SCALE), (int) (5 * Game.SCALE));
       g.drawImage(sliderImg, 
-         (int) (volumeSliderX * Game.SCALE), (int) (295 * Game.SCALE),
+         (int) (musicSliderX * Game.SCALE), (int) (295 * Game.SCALE),
          (int) (SLIDER_WIDTH * Game.SCALE), (int) (SLIDER_HEIGHT * Game.SCALE), null);
       g.drawImage(sliderImg, 
          (int) (sfxSliderX * Game.SCALE), (int) (370 * Game.SCALE),
