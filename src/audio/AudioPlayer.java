@@ -32,7 +32,7 @@ public class AudioPlayer {
     };
     private String[] songFileNames = {
         "Song - Tutorial (FINISHED)3.wav",
-        "Song - The Academy (FINISHED).wav",
+        "Song - The Academy ver2 (FINISHED).wav",
         "Song - Skies Over Apolis.wav"
     };
     private String[] ambienceFileNames = {

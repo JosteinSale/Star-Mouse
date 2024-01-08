@@ -34,7 +34,7 @@ wait;120
 endSequence
 dialogue;Speaker;--;5;4;ATTENTION ALL PERSONELL
 endSequence;
-dialogue;Speaker;--;5;4;THE BASE IS UNDER ATTACK
+dialogue;Speaker;--;5;4;THE CITY IS UNDER ATTACK
 endSequence;
 dialogue;Speaker;--;5;4;ALL PILOTS REPORT TO THEIR STATIONS IMMEDIATELY
 endSequence
@@ -55,7 +55,7 @@ wait;30
 endSequence
 dialogue;Oliver;shocked;6;4;What's going on? Who's attacking us?
 endSequence
-dialogue;Max;nervous;9;3;I don't know. The attack came out of nowhere.
+dialogue;Max;nervous;9;3;I don't know. It came out of nowhere.
 endSequence
 dialogue;Max;serious;8;2;I've got to go out there.
 endSequence
