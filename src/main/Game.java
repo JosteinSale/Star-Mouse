@@ -7,6 +7,7 @@ import gamestates.LevelEditor;
 import gamestates.LevelSelect;
 import gamestates.MainMenu;
 import gamestates.StartScreen;
+import ui.OptionsMenu;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -42,7 +43,7 @@ public class Game implements Runnable {
     private Exploring exploring;
     private Flying flying;
     private LevelEditor levelEditor;
-    //private AudioOptions audioOptions;
+    private OptionsMenu optionsMenu;
     private AudioPlayer audioPlayer;
 
     public Game() {
@@ -54,10 +55,10 @@ public class Game implements Runnable {
     }
 
     private void initClasses() {
-        //this.audioOptions = new AudioOptions(this);
         this.audioPlayer = new AudioPlayer(this);
+        this.optionsMenu = new OptionsMenu(audioPlayer);
         this.startScreen = new StartScreen(this);
-        this.mainMenu = new MainMenu(this);
+        this.mainMenu = new MainMenu(this, optionsMenu);
         this.levelSelect = new LevelSelect(this);
         this.exploring = new Exploring(this);
         this.flying = new Flying(this);

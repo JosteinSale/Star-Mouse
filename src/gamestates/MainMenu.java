@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 
 import audio.AudioPlayer;
 import main.Game;
+import ui.OptionsMenu;
 import utils.LoadSave;
 import utils.Constants.Audio;
 
@@ -15,6 +16,7 @@ public class MainMenu extends State implements Statemethods {
     private AudioPlayer audioPlayer;
     private BufferedImage bgImg;
     private BufferedImage cursorImg;
+    private OptionsMenu optionsMenu;
     private int cursorMinY = 490;
     private int cursorMaxY = 670;
     private int cursorX = 280;
@@ -22,16 +24,22 @@ public class MainMenu extends State implements Statemethods {
     private int cursorYStep = (cursorMaxY - cursorMinY) / 3;
     private int selectedIndex = 0;
 
-    public MainMenu(Game game) {
+    public MainMenu(Game game, OptionsMenu optionsMenu) {
         super(game);
+        this.optionsMenu = optionsMenu;
         this.audioPlayer = game.getAudioPlayer();
         bgImg = LoadSave.getExpImageBackground(LoadSave.MAIN_MENU_BG);
         cursorImg = LoadSave.getExpImageSprite(LoadSave.CURSOR_SPRITE_BLACK);
-        audioPlayer.startAmbienceLoop(Audio.AMBIENCE_SILENCE);   // Nescessary because stupid
+        //audioPlayer.startAmbienceLoop(Audio.AMBIENCE_SILENCE);   // Nescessary because stupid
+        audioPlayer.startSongLoop(Audio.SONG_ACADEMY);
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if (optionsMenu.isActive()) {
+            optionsMenu.keyPressed(e);
+            return;
+        }
         if (e.getKeyCode() == KeyEvent.VK_W) {
             audioPlayer.playSFX(Audio.SFX_CURSOR);
             moveCursorUp();
@@ -47,7 +55,7 @@ public class MainMenu extends State implements Statemethods {
                 audioPlayer.stopAllLoops();
                 audioPlayer.playSFX(Audio.SFX_STARTGAME);
                 //this.game.getExploring().update();  // uncomment
-                Gamestate.state = Gamestate.FLYING;
+                Gamestate.state = Gamestate.EXPLORING;
             }
             else if (selectedIndex == 1) {
                 audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
@@ -55,7 +63,7 @@ public class MainMenu extends State implements Statemethods {
             }
             else if (selectedIndex == 2) {
                 audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
-                //TODO
+                optionsMenu.setActive(true);
             }
             else {
                 Gamestate.state = Gamestate.QUIT;
@@ -67,7 +75,8 @@ public class MainMenu extends State implements Statemethods {
     public void keyReleased(KeyEvent e) {}
     
     @Override
-    public void update() {}
+    public void update() {
+    }
 
     @Override
     public void draw(Graphics g) {
@@ -79,6 +88,9 @@ public class MainMenu extends State implements Statemethods {
             (int) (CURSOR_WIDTH * Game.SCALE), 
             (int) (CURSOR_HEIGHT * Game.SCALE),
             null);
+        if (optionsMenu.isActive()) {
+            optionsMenu.draw(g);
+        }
     }
 
     private void increaseIndex() {

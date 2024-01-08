@@ -16,6 +16,7 @@ import javax.imageio.ImageIO;
 
 import main.Game;
 import static utils.Constants.UI.FONT_SIZE_ITEM;
+import static utils.Constants.UI.FONT_SIZE_MENU;
 import static utils.Constants.UI.FONT_SIZE_INFO;
 import static utils.Constants.UI.FONT_SIZE_NAME;
 import static utils.Constants.UI.FONT_SIZE_HEADER;
@@ -30,6 +31,7 @@ public class LoadSave {
     // Sprites
     public static final String CURSOR_SPRITE_BLACK = "pointer_black.png";
     public static final String CURSOR_SPRITE_WHITE = "pointer_white.png";
+    public static final String SLIDER_SPRITE = "slider.png";
     public static final String INFO_BOX = "infobox.png";
     public static final String DIALOGUE_BOX = "dialogue_box.png";
     public static final String ITEM_BOX = "itembox.png";
@@ -135,6 +137,12 @@ public class LoadSave {
     public static Font getItemFont() {
         String fileName = "/resources/exploring/fonts/" + MAIN_FONT;
         float size = FONT_SIZE_ITEM * Game.SCALE;
+        return getFont(fileName, size);
+    }
+
+    public static Font getMenuFont() {
+        String fileName = "/resources/exploring/fonts/" + MAIN_FONT;
+        float size = FONT_SIZE_MENU * Game.SCALE;
         return getFont(fileName, size);
     }
 

@@ -4,10 +4,14 @@ public class Constants {
     public static class UI {
         public static final int CURSOR_WIDTH = 20 * 3;
         public static final int CURSOR_HEIGHT = 11 * 3;
+        public static final int SLIDER_WIDTH = 8 * 3;
+        public static final int SLIDER_HEIGHT = 15 * 3;
         public static final int INFOBOX_WIDTH = 600;
         public static final int INFOBOX_HEIGHT = 150;
         public static final int DIALOGUEBOX_WIDTH = 269 * 3;
         public static final int DIALOGUEBOX_HEIGHT = 63 * 3;
+        public static final int OPTIONS_WIDTH = 800;
+        public static final int OPTIONS_HEIGHT = 600;
         public static final int PAUSE_EXPLORING_WIDTH = 800;
         public static final int PAUSE_EXPLORING_HEIGHT = 600;
         public static final int PAUSE_FLYING_WIDTH = 600;
@@ -23,6 +27,7 @@ public class Constants {
         public static final int ITEM_MAX_LETTERS = 24;
         public static final float FONT_SIZE_ITEM = 20f;
         public static final float FONT_SIZE_INFO = 28f;
+        public static final float FONT_SIZE_MENU = 37f;
         public static final float FONT_SIZE_NAME = 40f;
         public static final float FONT_SIZE_HEADER = 50f;
         public static final int PORTRAIT_SIZE = 55;
