@@ -25,6 +25,7 @@ import utils.LoadSave;
 import utils.Constants.Audio;
 
 public class PauseExploring implements Statemethods {
+    private Game game;
     private AudioPlayer audioPlayer;
     private Color bgColor = new Color(0, 0, 0, 230);
     private Font headerFont;
@@ -60,7 +61,8 @@ public class PauseExploring implements Statemethods {
     private int cursorY = cursorMinY;
     private int menuOptionsDiff = (cursorMaxY - cursorMinY) / 2;   
     
-    public PauseExploring(AudioPlayer audioPlayer) {
+    public PauseExploring(Game game, AudioPlayer audioPlayer) {
+        this.game = game;
         this.audioPlayer = audioPlayer;
         calcDrawValues();
         loadImages();
@@ -102,26 +104,41 @@ public class PauseExploring implements Statemethods {
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_W) {
+    public void keyPressed(KeyEvent e) {}
+
+    @Override
+    public void keyReleased(KeyEvent e) {}
+
+    @Override
+    public void update() {
+        handleKeyBoardInputs();
+    }
+
+    private void handleKeyBoardInputs() {
+        if (game.upIsPressed) {
+            game.upIsPressed = false;
             audioPlayer.playSFX(Audio.SFX_CURSOR);
             moveCursorUp();
             takeIndexUp();
         }
-        else if (e.getKeyCode() == KeyEvent.VK_S) {
+        else if (game.downIsPressed) {
+            game.downIsPressed = false;
             audioPlayer.playSFX(Audio.SFX_CURSOR);
             moveCursorDown();
             takeIndexDown();
         }
-        else if (e.getKeyCode() == KeyEvent.VK_D) {
+        else if (game.rightIsPressed) {
+            game.rightIsPressed = false;
             audioPlayer.playSFX(Audio.SFX_CURSOR);
             takeIndexRight();
         }
-        else if (e.getKeyCode() == KeyEvent.VK_A) {
+        else if (game.leftIsPressed) {
+            game.leftIsPressed = false;
             audioPlayer.playSFX(Audio.SFX_CURSOR);
             takeIndexLeft();
         }
-        else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+        else if (game.spaceIsPressed) {
+            game.spaceIsPressed = false;
             if (selectedIndex == 8) {
                 this.flipActive();
             }
@@ -217,17 +234,6 @@ public class PauseExploring implements Statemethods {
                 cursorY = cursorMaxY;
             }
         }
-    }
-
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        
-    }
-
-    @Override
-    public void update() {
-
     }
 
     @Override

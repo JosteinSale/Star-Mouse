@@ -21,19 +21,23 @@ public class StartScreen extends State implements Statemethods {
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            // TODO - Start menu song
-            audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
-            Gamestate.state = Gamestate.MAIN_MENU;
-        }
-    }
+    public void keyPressed(KeyEvent e) {}
 
     @Override
     public void keyReleased(KeyEvent e) {}
 
     @Override
-    public void update() {}
+    public void update() {
+        handleKeyBoardInputs();
+    }
+
+    private void handleKeyBoardInputs() {
+        if (game.spaceIsPressed) {
+            game.spaceIsPressed = false;
+            audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
+            Gamestate.state = Gamestate.MAIN_MENU;
+        }
+    }
 
     @Override
     public void draw(Graphics g) {

@@ -16,6 +16,32 @@ public class KeyboardInputs implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_W) {
+            game.upIsPressed = true;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_S) {
+            game.downIsPressed = true;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_D) {
+            game.rightIsPressed = true;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_A) {
+            game.leftIsPressed = true;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            game.spaceIsPressed = true;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_M) {
+            game.mIsPressed = true;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_B) {
+            game.bIsPressed = true;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            game.enterIsPressed = true;
+        }
+
+
         switch(Gamestate.state) {
             case START_SCREEN:
                 game.getStartScreen().keyPressed(e);
@@ -42,6 +68,31 @@ public class KeyboardInputs implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_W) {
+            game.upIsPressed = false;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_S) {
+            game.downIsPressed = false;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_D) {
+            game.rightIsPressed = false;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_A) {
+            game.leftIsPressed = false;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            game.spaceIsPressed = false;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_M) {
+            game.mIsPressed = false;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_B) {
+            game.bIsPressed = false;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            game.enterIsPressed = false;
+        }
+
         switch(Gamestate.state) {
             case START_SCREEN:
                 game.getStartScreen().keyReleased(e);

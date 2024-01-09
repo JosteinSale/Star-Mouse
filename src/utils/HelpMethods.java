@@ -14,6 +14,7 @@ import cutscenes.Cutscene;
 import entities.exploring.*;
 import static utils.Constants.Exploring.Cutscenes.*;
 import game_events.*;
+import main.Game;
 import utils.Constants.Audio;
 
 
@@ -65,10 +66,10 @@ public class HelpMethods {
         return hitbox;
     }
 
-    public static PlayerExp GetPlayer(String[] lineData, BufferedImage clImg) {
+    public static PlayerExp GetPlayer(Game game, String[] lineData, BufferedImage clImg) {
         Rectangle2D.Float hitbox = CreateHitbox(lineData);
         Integer direction = Integer.parseInt(lineData[5]);
-        PlayerExp player = new PlayerExp(hitbox, direction, clImg);
+        PlayerExp player = new PlayerExp(game, hitbox, direction, clImg);
         return player;
     }
 

@@ -46,6 +46,15 @@ public class Game implements Runnable {
     private OptionsMenu optionsMenu;
     private AudioPlayer audioPlayer;
 
+    public boolean upIsPressed = false;
+    public boolean downIsPressed = false;
+    public boolean rightIsPressed = false;
+    public boolean leftIsPressed = false;
+    public boolean spaceIsPressed = false;
+    public boolean mIsPressed = false;
+    public boolean bIsPressed = false;
+    public boolean enterIsPressed = false;
+
     public Game() {
         initClasses();
         this.gamePanel = new GamePanel(this);
@@ -56,7 +65,7 @@ public class Game implements Runnable {
 
     private void initClasses() {
         this.audioPlayer = new AudioPlayer();
-        this.optionsMenu = new OptionsMenu(audioPlayer);
+        this.optionsMenu = new OptionsMenu(this, audioPlayer);
         this.startScreen = new StartScreen(this);
         this.mainMenu = new MainMenu(this, optionsMenu);
         this.levelSelect = new LevelSelect(this);

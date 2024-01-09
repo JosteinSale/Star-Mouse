@@ -40,27 +40,25 @@ public class MainMenu extends State implements Statemethods {
         audioPlayer.startSongLoop(Audio.SONG_ACADEMY);
     }
 
-    @Override
-    public void keyPressed(KeyEvent e) {
-        if (optionsMenu.isActive()) {
-            optionsMenu.keyPressed(e);
-            return;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_W) {
+    private void handleKeyBoardInputs() {
+        if (game.upIsPressed) {
+            game.upIsPressed = false;
             audioPlayer.playSFX(Audio.SFX_CURSOR);
             moveCursorUp();
             reduceIndex();
         }
-        else if (e.getKeyCode() == KeyEvent.VK_S) {
+        else if (game.downIsPressed) {
+            game.downIsPressed = false;
             audioPlayer.playSFX(Audio.SFX_CURSOR);
             moveCursorDown();
             increaseIndex();
         }
-        else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+        else if (game.spaceIsPressed) {
+            game.spaceIsPressed = false;
             if (selectedIndex == NEW_GAME) {
                 audioPlayer.stopAllLoops();
                 audioPlayer.playSFX(Audio.SFX_STARTGAME);
-                //this.game.getExploring().update();  // uncomment later
+                this.game.getExploring().update();  // uncomment later
                 Gamestate.state = Gamestate.EXPLORING;
             }
             else if (selectedIndex == LEVEL_EDITOR) {
@@ -79,10 +77,19 @@ public class MainMenu extends State implements Statemethods {
     }
 
     @Override
+    public void keyPressed(KeyEvent e) {}
+
+    @Override
     public void keyReleased(KeyEvent e) {}
     
     @Override
     public void update() {
+        if (optionsMenu.isActive()) {
+            optionsMenu.update();
+        } 
+        else {
+            handleKeyBoardInputs();
+        }
     }
 
     @Override

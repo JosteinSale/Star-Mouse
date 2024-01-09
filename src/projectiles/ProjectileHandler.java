@@ -1,7 +1,6 @@
 package projectiles;
 
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -10,11 +9,8 @@ import audio.AudioPlayer;
 import entities.flying.Enemy;
 import entities.flying.EnemyManager;
 import entities.flying.PlayerFly;
-import gamestates.Gamestate;
 import main.Game;
-import utils.Constants.Audio;
 import utils.LoadSave;
-import java.util.Iterator;
 
 import static utils.Constants.Flying.Sprites.*;
 import static utils.Constants.Flying.TypeConstants.DRONE;

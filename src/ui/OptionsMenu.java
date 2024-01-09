@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 import audio.AudioPlayer;
@@ -22,6 +20,7 @@ import static utils.Constants.UI.SLIDER_WIDTH;
 import static utils.Constants.UI.OPTIONS_HEIGHT;
 
 public class OptionsMenu {
+   private Game game;
    private AudioPlayer audioPlayer;
    private Color bgColor = new Color(0, 0, 0, 230);
    private Font headerFont;
@@ -59,7 +58,8 @@ public class OptionsMenu {
    private int musicPercent;
    private int sfxPercent;
 
-   public OptionsMenu(AudioPlayer audioPlayer) {
+   public OptionsMenu(Game game, AudioPlayer audioPlayer) {
+      this.game = game;
       this.audioPlayer = audioPlayer;
       musicPercent = fromGainToPercent(audioPlayer.getMusicVolume());
       sfxPercent = fromGainToPercent(audioPlayer.getSfxVolume()); 
@@ -111,24 +111,33 @@ public class OptionsMenu {
       this.menuFont = LoadSave.getMenuFont();
    }
 
-   public void keyPressed(KeyEvent e) {
-      if (e.getKeyCode() == KeyEvent.VK_S) {
+   public void update() {
+      handleKeyBoardInputs();
+   }
+
+   private void handleKeyBoardInputs() {
+      if (game.downIsPressed) {
+         game.downIsPressed = false;
          goDown();
          audioPlayer.playSFX(Audio.SFX_CURSOR);
       } 
-      else if (e.getKeyCode() == KeyEvent.VK_W) {
+      else if (game.upIsPressed) {
+         game.upIsPressed = false;
          goUp();
          audioPlayer.playSFX(Audio.SFX_CURSOR);
       } 
-      else if (e.getKeyCode() == KeyEvent.VK_D) {   // right
+      else if (game.rightIsPressed) {
+         game.rightIsPressed = false;
          changeVolume(selectedIndex, UP);
          audioPlayer.playSFX(Audio.SFX_CURSOR);
       } 
-      else if (e.getKeyCode() == KeyEvent.VK_A) {   // left
+      else if (game.leftIsPressed) { 
+         game.leftIsPressed = false;
          changeVolume(selectedIndex, DOWN);
          audioPlayer.playSFX(Audio.SFX_CURSOR);
       }
-      else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+      else if (game.spaceIsPressed) {
+         game.spaceIsPressed = false;
          if (selectedIndex == RETURN) {
             this.active = false;
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);

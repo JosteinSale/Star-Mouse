@@ -18,13 +18,13 @@ import static utils.HelpMethods.CollidesWithMap;
 import static utils.HelpMethods.CollidesWithNpc;
 
 public class PlayerExp extends Entity {
+    Game game;
     ArrayList<BufferedImage[][]> playerSprites;
     BufferedImage collisionImg;
     private Color shadowColor = new Color(0, 0, 0, 50);
     private int playerSpriteWidth;
     private int playerSpriteHeight;
 
-    private boolean leftIsPressed, upIsPressed, rightIsPressed, downIsPressed;
     private boolean poseActive = false;
     private int playerAction;
     private int playerDirection = LEFT;
@@ -36,8 +36,9 @@ public class PlayerExp extends Entity {
     private int aniTickPerFrame = 8;          // Antall ticks per gang animasjonen oppdateres
     private int aniIndex = 0;
 
-    public PlayerExp(Float hitbox, int direction, BufferedImage collisionImg) {
+    public PlayerExp(Game game, Float hitbox, int direction, BufferedImage collisionImg) {
         super(hitbox);
+        this.game = game;
         this.playerDirection = direction;
         playerAction = STANDING;
         this.collisionImg = collisionImg;
@@ -77,46 +78,20 @@ public class PlayerExp extends Entity {
         playerSpriteHeight = (int) (STANDARD_SPRITE_HEIGHT * Game.SCALE * 3);
     }
     
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_A) {
-            leftIsPressed = true;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_W) {
-            upIsPressed = true;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_D) {
-            rightIsPressed = true;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_S) {
-            downIsPressed = true;
-        }
-    }
+    public void keyPressed(KeyEvent e) {}
 
-    public void KeyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_A) {
-            leftIsPressed = false;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_W) {
-            upIsPressed = false;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_D) {
-            rightIsPressed = false;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_S) {
-            downIsPressed = false;
-        }
-    }
+    public void KeyReleased(KeyEvent e) {}
 
     public void update(ArrayList<Rectangle2D.Float> npcHitboxes, boolean cutsceneActive) {
         if (!cutsceneActive) {
-            movePlayer(npcHitboxes);
+            handleKeyboardInputs(npcHitboxes);
             updatePlayerAction();
         }
         updateAniTick();
     }
 
-    private void movePlayer(ArrayList<Rectangle2D.Float> npcHitboxes) {
-        if (leftIsPressed) {
+    private void handleKeyboardInputs(ArrayList<Rectangle2D.Float> npcHitboxes) {
+        if (game.leftIsPressed) {
             playerAction = WALKING_LEFT;
             playerDirection = LEFT;
             hitbox.x -= playerSpeed;
@@ -124,7 +99,7 @@ public class PlayerExp extends Entity {
                 hitbox.x += playerSpeed;
             }
         }
-        if (upIsPressed && !(leftIsPressed && rightIsPressed)) {
+        if (game.upIsPressed && !(game.leftIsPressed && game.rightIsPressed)) {
             playerAction = WALKING_UP;
             playerDirection = UP;
             hitbox.y -= playerSpeed;
@@ -132,7 +107,7 @@ public class PlayerExp extends Entity {
                 hitbox.y += playerSpeed;
             }
         }
-        if (rightIsPressed) {
+        if (game.rightIsPressed) {
             playerAction = WALKING_RIGHT;
             playerDirection = RIGHT;
             hitbox.x += playerSpeed;
@@ -140,7 +115,7 @@ public class PlayerExp extends Entity {
                 hitbox.x -= playerSpeed;
             }
         }
-        if (downIsPressed && !(leftIsPressed && rightIsPressed)) {
+        if (game.downIsPressed && !(game.leftIsPressed && game.rightIsPressed)) {
             playerAction = WALKING_DOWN;
             playerDirection = DOWN;
             hitbox.y += playerSpeed;
@@ -151,11 +126,11 @@ public class PlayerExp extends Entity {
     }
 
     private void updatePlayerAction() {
-        if (!upIsPressed && !downIsPressed && !leftIsPressed && !rightIsPressed) {
+        if (!game.upIsPressed && !game.downIsPressed && !game.leftIsPressed && !game.rightIsPressed) {
             playerAction = STANDING;
             return;
         }
-        if ((upIsPressed && downIsPressed) || (leftIsPressed && rightIsPressed)) {
+        if ((game.upIsPressed && game.downIsPressed) || (game.leftIsPressed && game.rightIsPressed)) {
             playerAction = STANDING;
         }
     }
@@ -176,10 +151,10 @@ public class PlayerExp extends Entity {
     }
 
     public void resetAll() {
-        this.downIsPressed = false;
-        this.rightIsPressed = false;
-        this.leftIsPressed = false;
-        this.upIsPressed = false;
+        game.downIsPressed = false;
+        game.rightIsPressed = false;
+        game.leftIsPressed = false;
+        game.upIsPressed = false;
         this.playerAction = STANDING;
         this.aniTick = 0;
         this.aniIndex = 0;

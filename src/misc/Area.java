@@ -24,6 +24,7 @@ import ui.TextboxManager;
 import utils.LoadSave;
 
 public class Area {
+    private Game game;
     private AudioPlayer audioPlayer;
     private Exploring exploring;
     private Integer levelIndex;
@@ -62,7 +63,8 @@ public class Area {
     public int maxLvlOffsetY;
 
 
-    public Area(Exploring exploring, AudioPlayer audioPlayer, int levelIndex, int areaIndex, List<String> areaData, List<String> cutsceneData) {
+    public Area(Game game, Exploring exploring, AudioPlayer audioPlayer, int levelIndex, int areaIndex, List<String> areaData, List<String> cutsceneData) {
+        this.game = game;
         this.exploring = exploring;
         this.audioPlayer = audioPlayer;
         this.levelIndex = levelIndex;
@@ -77,7 +79,7 @@ public class Area {
         TextboxManager textboxManager = new TextboxManager(this.exploring.getGame());
         this.eventHandler = new EventHandler();
         loadAreaData(areaData);
-        this.cutsceneManager = new CutsceneManager(this, npcManager, audioPlayer, player, eventHandler, textboxManager);
+        this.cutsceneManager = new CutsceneManager(game, this, npcManager, audioPlayer, player, eventHandler, textboxManager);
         loadEventReactions();
         loadCutscenes(cutsceneData);
     }
@@ -115,7 +117,7 @@ public class Area {
                 this.musicEnabled = Boolean.parseBoolean(lineData[2]);
             }
             else if (lineData[0].equals("player")) {
-                player = GetPlayer(lineData, clImg);
+                player = GetPlayer(game, lineData, clImg);
             }
             else if (lineData[0].equals("object")) {  
                 InteractableObject object = GetInteractableObject(lineData);
@@ -271,23 +273,16 @@ public class Area {
         }
     }
 
-    public void keyPressed(KeyEvent e) {
-        if (cutsceneManager.isActive()) {
-            cutsceneManager.keyPressed(e);
-        } 
-        else {
-            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                checkHitboxes();
-            }
-            else {
-                player.keyPressed(e);
-            }
+    public void keyPressed(KeyEvent e) {}
+
+
+    public void keyReleased(KeyEvent e) {}
+
+    private void handleKeyBoardInputs() {
+        if (!cutsceneManager.isActive() && game.spaceIsPressed) {
+            game.spaceIsPressed = false;
+            checkHitboxes();
         }
-    }
-
-
-    public void keyReleased(KeyEvent e) {
-        player.KeyReleased(e);
     }
 
     /** Is used when the player presses SPACEBAR */
@@ -320,6 +315,7 @@ public class Area {
     }
 
     public void update() {
+        handleKeyBoardInputs();
         if (playerHitsCutsceneTrigger() && !cutsceneManager.isActive()) {
             int startCutscene = automaticTriggers.get(automaticIndex).getStartCutscene();
             if (cutsceneManager.startCutscene(automaticIndex, AUTOMATIC, startCutscene)) {

@@ -24,7 +24,7 @@ public class Exploring extends State implements Statemethods {
         this.audioPlayer = game.getAudioPlayer();
         areas = new ArrayList<>();
         loadLevel(currentLevel);
-        pauseOverlay = new PauseExploring(audioPlayer);
+        pauseOverlay = new PauseExploring(game, audioPlayer);
     }
 
     // Laster inn alle areas for denne levelen
@@ -33,33 +33,29 @@ public class Exploring extends State implements Statemethods {
         ArrayList<List<String>> levelData = LoadSave.getExpLevelData(level);
         ArrayList<List<String>> cutsceneData = LoadSave.getExpCutsceneData(level);
         for (int i = 0; i < levelData.size(); i++) {
-            Area area = new Area(this, audioPlayer, level, i + 1, levelData.get(i), cutsceneData.get(i));
+            Area area = new Area(game, this, audioPlayer, level, i + 1, levelData.get(i), cutsceneData.get(i));
             areas.add(area);
         }
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            this.pauseOverlay.flipActive();
-        }
-        else if (pauseOverlay.isActive()) {
-            pauseOverlay.keyPressed(e);
-        }
-        else {
-            areas.get(currentArea - 1).keyPressed(e);  
-        }
-    }
+    public void keyPressed(KeyEvent e) {}
 
 
     @Override
-    public void keyReleased(KeyEvent e) {
-        areas.get(currentArea - 1).keyReleased(e);  
+    public void keyReleased(KeyEvent e) {}
+
+    private void handleKeyBoardInputs() {
+        if (game.enterIsPressed) {
+            game.enterIsPressed = false;
+            this.pauseOverlay.flipActive();
+        }
     }
 
 
     @Override
     public void update() {
+        handleKeyBoardInputs();
         if (pauseOverlay.isActive()) {
             pauseOverlay.update();
         }
@@ -67,6 +63,7 @@ public class Exploring extends State implements Statemethods {
             areas.get(currentArea - 1).update();  
         }   
     }
+
 
     public void goToArea(int area) {
         this.currentArea = area;

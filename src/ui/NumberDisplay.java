@@ -14,6 +14,7 @@ import static utils.Constants.UI.NUMBER_SELECT_HEIGHT;
 import static utils.Constants.UI.NUMBER_SELECT_WIDTH;
 
 public class NumberDisplay {
+    private Game game;
     private BufferedImage bgImg;
     private BufferedImage selectedNrImg;
     private Color fadeColor;
@@ -26,7 +27,8 @@ public class NumberDisplay {
     private Rectangle bgRect;            
     private Rectangle nrSelectRect;
 
-    public NumberDisplay() {
+    public NumberDisplay(Game game) {
+        this.game = game;
         this.bgImg = LoadSave.getExpImageSprite(LoadSave.NUMBER_DISPLAY);
         this.selectedNrImg = LoadSave.getExpImageSprite(LoadSave.NUMBER_SELECT);
         calcDrawValues();
@@ -41,17 +43,25 @@ public class NumberDisplay {
             NUMBER_DISPLAY_WIDTH, NUMBER_DISPLAY_HEIGHT);
     }
 
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_D) {
+    public void update() {
+        handleKeyboardInputs();
+    }
+
+    private void handleKeyboardInputs() {
+        if (game.rightIsPressed) {
+            game.rightIsPressed = false;
             if (digitIndex < 3) {digitIndex += 1;}
         }
-        else if (e.getKeyCode() == KeyEvent.VK_A) {
+        else if (game.leftIsPressed) {
+            game.leftIsPressed = false;
             if (digitIndex > 0) {digitIndex -= 1;}
         }
-        else if (e.getKeyCode() == KeyEvent.VK_W) {
+        else if (game.upIsPressed) {
+            game.upIsPressed = false;
             currentCode[digitIndex] = (currentCode[digitIndex] + 1) % 10;
         }
-        else if (e.getKeyCode() == KeyEvent.VK_S) {
+        else if (game.downIsPressed) {
+            game.downIsPressed = false;
             currentCode[digitIndex] -= 1;
             if (currentCode[digitIndex] < 0) {
                 currentCode[digitIndex] = 9;
