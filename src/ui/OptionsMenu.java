@@ -9,7 +9,6 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 import audio.AudioPlayer;
-import static utils.HelpMethods.DrawCenteredString;
 
 import main.Game;
 import utils.LoadSave;

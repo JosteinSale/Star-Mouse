@@ -24,13 +24,19 @@ public class MainMenu extends State implements Statemethods {
     private int cursorYStep = (cursorMaxY - cursorMinY) / 3;
     private int selectedIndex = 0;
 
+    private static final int NEW_GAME = 0;
+    private static final int LEVEL_EDITOR = 1;
+    private static final int OPTIONS = 2;
+    private static final int QUIT = 3;
+
+
     public MainMenu(Game game, OptionsMenu optionsMenu) {
         super(game);
         this.optionsMenu = optionsMenu;
         this.audioPlayer = game.getAudioPlayer();
         bgImg = LoadSave.getExpImageBackground(LoadSave.MAIN_MENU_BG);
         cursorImg = LoadSave.getExpImageSprite(LoadSave.CURSOR_SPRITE_BLACK);
-        //audioPlayer.startAmbienceLoop(Audio.AMBIENCE_SILENCE);   // Nescessary because stupid
+        audioPlayer.startAmbienceLoop(Audio.AMBIENCE_SILENCE);  
         audioPlayer.startSongLoop(Audio.SONG_ACADEMY);
     }
 
@@ -51,17 +57,18 @@ public class MainMenu extends State implements Statemethods {
             increaseIndex();
         }
         else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            if (selectedIndex == 0) {
+            if (selectedIndex == NEW_GAME) {
                 audioPlayer.stopAllLoops();
                 audioPlayer.playSFX(Audio.SFX_STARTGAME);
-                //this.game.getExploring().update();  // uncomment
+                //this.game.getExploring().update();  // uncomment later
                 Gamestate.state = Gamestate.EXPLORING;
             }
-            else if (selectedIndex == 1) {
+            else if (selectedIndex == LEVEL_EDITOR) {
                 audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
+                audioPlayer.stopAllLoops();
                 Gamestate.state = Gamestate.LEVEL_EDITOR;
             }
-            else if (selectedIndex == 2) {
+            else if (selectedIndex == OPTIONS) {
                 audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
                 optionsMenu.setActive(true);
             }

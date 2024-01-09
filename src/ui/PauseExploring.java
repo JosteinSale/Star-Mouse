@@ -132,6 +132,7 @@ public class PauseExploring implements Statemethods {
                 this.flipActive();
                 audioPlayer.stopAllLoops();
                 Gamestate.state = Gamestate.MAIN_MENU;
+                audioPlayer.startSongLoop(Audio.SONG_ACADEMY);
             }
         }
     }

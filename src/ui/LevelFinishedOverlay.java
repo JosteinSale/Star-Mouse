@@ -11,6 +11,7 @@ import gamestates.Flying;
 import gamestates.Statemethods;
 import main.Game;
 import utils.LoadSave;
+import utils.Constants.Audio;
 
 import static utils.Constants.Flying.TypeConstants.TARGET;
 import static utils.Constants.UI.CURSOR_HEIGHT;
@@ -45,6 +46,7 @@ public class LevelFinishedOverlay implements Statemethods {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            this.flying.audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
             this.flying.exitFinishedLevel();
         }
     }

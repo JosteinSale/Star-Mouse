@@ -155,6 +155,7 @@ START AMBIENCE
 * This loops the ambience track until it's stopped
 * 0 is silence, 1 is rocketEngine
 * If used alone, it needs to be used together with the wait-method
+* OBS: always call stopAllLoops first, to avoid silent track continuing to play in the background
 
 
 PLAY SFX

@@ -7,15 +7,12 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 
-import main.Game;
-
 /**
  * Current suboptimal implementation of the following:
- *  -Song restarting
- *  -Volume adjustment (is done every time a sfx / voiceclip is played)
+ *  -Volume adjustment (is done every time a new clip is played)
+ *  -Potential memory leak if silent track isn't stopped upon playing a new ambience.
  */
 public class AudioPlayer {
-    private Game game;
     private String[] SFXfileNames = {    // Only the soundfiles included in the game.
         "SFX - Lazer10.wav",
         "SFX - BombShoot.wav",
@@ -57,57 +54,44 @@ public class AudioPlayer {
     };
     private File[] SFX;
     private File[] voiceClips;
-    private Clip[] songs;
-    private Clip[] ambienceTracks;
-    private FloatControl songGainControl;
-    private FloatControl sfxGainControl;
-    private int songIndex = 0;
-    private int ambienceIndex = 0;
+    private File[] songs;
+    private File[] ambienceTracks;
+    private Clip curSong;
+    private Clip curAmbience;
+    private FloatControl songGainControl;      // Is initially set in the MainMenu
+    private FloatControl sfxGainControl;       // Is initially set in the MainMenu
+    private FloatControl ambienceGainControl;  // Is initially set in the MainMenu
 
-    private float maxVolume = 1f;         // Volume must be between 0 and 1
     private float setSongVolume = 0.9f;   // The player's selected volume
-    private float setSfxVolume = 0.9f;    // Goes for both ambience and SFX
+    private float setSfxVolume = 0.9f;    
+    private float setAmbienceVolume = 0.9f;
     private float curSongVolume = 0.9f;   // Used for fading
     private float curSfxVolume = 0.9f;
+    private float curAmbienceVolume = 0.9f;
 
     private float volumeFadeSpeed = 0.05f;
     private boolean fadeOutActive = false;
-    private int waitTick = 0;                 // Brukes for å fade i steg.
+    private int waitTick = 0;                 // Used for fade
     private int tickPerFrame = 20;
     
-    public AudioPlayer(Game game) {
-        this.game = game;
+    public AudioPlayer() {
         loadAudio();
     }
 
     private void loadAudio() {
         // Songs
-        this.songs = new Clip[this.songFileNames.length];
+        this.songs = new File[this.songFileNames.length];
         for (int i = 0; i < this.songs.length; i++) {
             File file = new File(System.getProperty("user.dir") + 
             "/src/resources/audio/" + songFileNames[i]);
-            try {
-                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
-                Clip clip = AudioSystem.getClip();
-                clip.open(audioInputStream);
-                this.songs[i] = clip;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            this.songs[i] = file;
         }
         // Ambience
-        this.ambienceTracks = new Clip[this.ambienceFileNames.length];
+        this.ambienceTracks = new File[this.ambienceFileNames.length];
         for (int i = 0; i < this.ambienceTracks.length; i++) {
             File file = new File(System.getProperty("user.dir") + 
             "/src/resources/audio/" + ambienceFileNames[i]);
-            try {
-                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
-                Clip clip = AudioSystem.getClip();
-                clip.open(audioInputStream);
-                this.ambienceTracks[i] = clip;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            this.ambienceTracks[i] = file;
         }
         // SFX
         this.SFX = new File[this.SFXfileNames.length];
@@ -134,12 +118,12 @@ public class AudioPlayer {
      */
     public void playSFX(int index) {
         try {
-        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(SFX[index]);
-        Clip clip = AudioSystem.getClip();
-        clip.open(audioInputStream);
-        sfxGainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        updateSfxVolume();
-        clip.start();
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(SFX[index]);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            sfxGainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            updateSfxVolume();
+            clip.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -154,12 +138,12 @@ public class AudioPlayer {
      */
     public void playVoiceClip(int index) {
         try {
-        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(voiceClips[index]);
-        Clip clip = AudioSystem.getClip();	
-        clip.open(audioInputStream);
-        sfxGainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        updateSfxVolume();
-        clip.start();
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(voiceClips[index]);
+            Clip clip = AudioSystem.getClip();	
+            clip.open(audioInputStream);
+            sfxGainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            updateSfxVolume();
+            clip.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -169,12 +153,18 @@ public class AudioPlayer {
      *  Index = 99 means no song.
      */
     public void startSongLoop(int index) {
-        if (index == 99) {return;}         
-        this.curSongVolume = setSongVolume;   // set to currenSongVolume later
-        this.songIndex = index;
-        songGainControl = (FloatControl) songs[songIndex].getControl(FloatControl.Type.MASTER_GAIN);
-        updateSongVolume();
-        this.songs[songIndex].loop(Clip.LOOP_CONTINUOUSLY);
+        if (index == 99) {return;}
+        this.curSongVolume = setSongVolume;
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(songs[index]);
+            curSong = AudioSystem.getClip();
+            curSong.open(audioInputStream);
+            songGainControl = (FloatControl) curSong.getControl(FloatControl.Type.MASTER_GAIN);
+            updateSongVolume();
+            curSong.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /** Stops the current ambience loop, and then starts a new
@@ -184,30 +174,32 @@ public class AudioPlayer {
      */
     public void startAmbienceLoop(int index) {
         if (index == 99) {return;}
-        this.curSongVolume = setSfxVolume;   
-        ambienceTracks[ambienceIndex].stop();
-        ambienceTracks[ambienceIndex].setMicrosecondPosition(0);
-        this.ambienceIndex = index;
-        sfxGainControl = (FloatControl) ambienceTracks[ambienceIndex].getControl(FloatControl.Type.MASTER_GAIN);
-        updateSfxVolume();
-        this.ambienceTracks[ambienceIndex].loop(Clip.LOOP_CONTINUOUSLY);
+        this.curAmbienceVolume = setAmbienceVolume;
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(ambienceTracks[index]);
+            curAmbience = AudioSystem.getClip();
+            curAmbience.open(audioInputStream);
+            ambienceGainControl = (FloatControl) curAmbience.getControl(FloatControl.Type.MASTER_GAIN);
+            updateAmbienceVolume();
+            curAmbience.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /** Abruptly stops the current song, and resets it */
     public void stopAllLoops() {
-        if (songs[songIndex].isActive()) {  
-            songs[songIndex].stop();
-            songs[songIndex].setMicrosecondPosition(0);
+        if (curSong.isActive()) {  
+            curSong.stop();
         }
-        if (ambienceTracks[ambienceIndex].isActive()) {  
-            ambienceTracks[ambienceIndex].stop();
-            ambienceTracks[ambienceIndex].setMicrosecondPosition(0);
+        if (curAmbience.isActive()) {  
+            curAmbience.stop();
         }
     }
 
-    /** Fades out the current song, and then stops- and resets it */
+    /** Fades out all current audio, and then stops- and resets loops */
     public void fadeOutAllLoops() {
-        if ((songs[songIndex].isActive()) || (ambienceTracks[ambienceIndex].isActive())) { 
+        if ((curSong.isActive()) || (curAmbience.isActive())) { 
             this.fadeOutActive = true;
         }
     }
@@ -221,32 +213,39 @@ public class AudioPlayer {
         if (waitTick > tickPerFrame) {
             waitTick = 0;
             updateSongVolume();
-            updateSfxVolume();
+            updateAmbienceVolume();
             curSongVolume -= volumeFadeSpeed;
-            curSfxVolume -= volumeFadeSpeed;
+            curAmbienceVolume -= volumeFadeSpeed;
             if (curSongVolume < 0) {
-                songs[songIndex].stop();
-                songs[songIndex].setMicrosecondPosition(0);
-                ambienceTracks[ambienceIndex].stop();
-                ambienceTracks[ambienceIndex].setMicrosecondPosition(0);
+                curSong.stop();
+                curAmbience.stop();
+                curSongVolume = setSongVolume;
+                curAmbienceVolume = setAmbienceVolume;
                 this.fadeOutActive = false;
                 waitTick = 0;
             }
         }
     }
 
-    /** Adjusts current music volume */
+    /** Adjusts songGainControl according to curSongVolume */
     private void updateSongVolume() {
         float range = songGainControl.getMaximum() - songGainControl.getMinimum();
         float gain = (range * curSongVolume) + songGainControl.getMinimum();
         songGainControl.setValue(gain);
     }
 
-    /** Adjusts current sfx- and ambience volume */
+    /** Adjusts sfxGainControl according to curSfxVolume */
     private void updateSfxVolume() {
         float range = sfxGainControl.getMaximum() -  sfxGainControl.getMinimum();
         float gain = (range * curSfxVolume) + sfxGainControl.getMinimum();
         sfxGainControl.setValue(gain);
+    }
+
+    /** Adjusts ambienceGainControl according to curAmbienceVolume */
+    private void updateAmbienceVolume() {
+        float range = ambienceGainControl.getMaximum() - ambienceGainControl.getMinimum();
+        float gain = (range * curAmbienceVolume) + ambienceGainControl.getMinimum();
+        ambienceGainControl.setValue(gain);
     }
 
     /** Returns the volume set by player (not currentVolume) */
@@ -254,7 +253,7 @@ public class AudioPlayer {
         return this.setSongVolume;
     }
 
-    /** Returns the volume set by player (not currentVolume) */
+    /** Returns the sfx / ambience volume set by player (not currentVolume) */
     public float getSfxVolume() {
         return this.setSfxVolume;
     }
@@ -265,9 +264,13 @@ public class AudioPlayer {
         updateSongVolume();
     }
 
+    /** Goes for both ambience and sfx */
     public void setSfxVolume(float volume) {
         this.setSfxVolume = volume;
         this.curSfxVolume = volume;
         updateSfxVolume();
+        this.setAmbienceVolume = volume;
+        this.curAmbienceVolume = volume;
+        updateAmbienceVolume();
     }
 }

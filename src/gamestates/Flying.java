@@ -33,7 +33,7 @@ import static utils.Constants.Flying.TypeConstants.BOMB;
 import static utils.Constants.Audio;
 
 public class Flying extends State implements Statemethods {
-    private AudioPlayer audioPlayer;
+    public AudioPlayer audioPlayer;
     private PauseFlying pauseOverlay;
     private LevelFinishedOverlay levelFinishedOverlay;
     private Integer level;
@@ -72,7 +72,7 @@ public class Flying extends State implements Statemethods {
         initClasses();
         loadEventReactions();
         projectileHandler.setBombs(game.getExploring().getBombs());   // Comment out to start with more bombs
-        //loadLevel(1);     // Only use if not entering from Exploring
+        //loadLevel(0);     // Only use if not entering from Exploring
     }
 
     public void loadLevel(int level) {
@@ -84,7 +84,7 @@ public class Flying extends State implements Statemethods {
         loadPickupItems(level);
         loadCutscenes(level);  
         player.setKilledEnemies(0);
-        //startAt(-16500);  
+        //startAt(-16500);
     }
 
     private void initClasses() {
