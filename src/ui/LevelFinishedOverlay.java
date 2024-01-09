@@ -44,24 +44,21 @@ public class LevelFinishedOverlay implements Statemethods {
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            this.flying.audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
-            this.flying.exitFinishedLevel();
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-    }
-
-    @Override
     public void update() {
+        handleKeyboardInputs();
         if (currentLetter < (lettersPerLine * 3)) {
             if (currentLetter % lettersPerLine == 0) {
                 this.linesToDraw += 1;
             }
             currentLetter ++;
+        }
+    }
+
+    private void handleKeyboardInputs() {
+        if (flying.getGame().spaceIsPressed) {
+            flying.getGame().spaceIsPressed = false;
+            this.flying.audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
+            this.flying.exitFinishedLevel();
         }
     }
 

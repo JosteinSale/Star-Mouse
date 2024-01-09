@@ -23,6 +23,7 @@ import utils.LoadSave;
 import utils.Constants.Audio;
 
 public class PlayerFly extends Entity {
+    private Game game;
     private AudioPlayer audioPlayer;
     private BufferedImage clImg;
     private Font statusFont;
@@ -32,7 +33,6 @@ public class PlayerFly extends Entity {
     private StatusDisplay statusDisplay;
     private Rectangle2D.Float teleportHitbox;
 
-    private boolean leftIsPressed, upIsPressed, rightIsPressed, downIsPressed, mIsPressed;
     private int planeAction;
     private float xSpeed = 0;
     private float ySpeed = 0;
@@ -62,6 +62,7 @@ public class PlayerFly extends Entity {
 
     public PlayerFly(Game game, Float hitbox) {
         super(hitbox);
+        this.game = game;
         this.audioPlayer = game.getAudioPlayer();
         this.tpShadowImg = LoadSave.getFlyImageSprite("teleport_shadow.png");
         loadAnimations();
@@ -110,50 +111,22 @@ public class PlayerFly extends Entity {
         collisionYs[8] = hitbox.y + hitbox.height;
     }
 
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_A) {
-            leftIsPressed = true;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_W) {
-            upIsPressed = true;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_D) {
-            rightIsPressed = true;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_S) {
-            downIsPressed = true;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_M) {
-            mIsPressed = true;
-        }
-    }
+    public void keyPressed(KeyEvent e) {}
 
-    public void KeyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_A) {
-            leftIsPressed = false;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_W) {
-            upIsPressed = false;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_D) {
-            rightIsPressed = false;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_S) {
-            downIsPressed = false;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_M) {
-            mIsPressed = false;
-        }
-    }
+    public void KeyReleased(KeyEvent e) {}
 
     public void update(float yLevelOffset, float xLevelOffset) {
         int prevAction = planeAction;
+        handleKeyboardInputs();
         adjustSpeedAndAction();
         movePlayer();    
         checkMapCollision(yLevelOffset, xLevelOffset);
         if (planeAction != prevAction) {aniIndex = 0;}
         updateAniTick();
         flame.update();
+    }
+
+    private void handleKeyboardInputs() {
     }
 
     private void adjustSpeedAndAction() {
@@ -165,39 +138,39 @@ public class PlayerFly extends Entity {
             }
         } 
         else {
-            if (rightIsPressed && mIsPressed && (teleportBuffer == 0)) {
+            if (game.rightIsPressed && game.mIsPressed && (teleportBuffer == 0)) {
                 planeAction = TELEPORTING_RIGHT;
                 teleportBuffer = teleportCoolDown;
                 flipX = 1;
                 return;
             }
-            else if (leftIsPressed && mIsPressed && (teleportBuffer == 0)) {
+            else if (game.leftIsPressed && game.mIsPressed && (teleportBuffer == 0)) {
                 planeAction = TELEPORTING_LEFT;
                 teleportBuffer = teleportCoolDown;
                 flipX = -1;
                 return;
             }
-            if (upIsPressed) {
+            if (game.upIsPressed) {
                 planeAction = IDLE;
                 ySpeed -= acceleration;
                 if (ySpeed < -playerMaxSpeed) {
                     ySpeed = -playerMaxSpeed;
                 }
-            } else if (downIsPressed) {
+            } else if (game.downIsPressed) {
                 planeAction = IDLE;
                 ySpeed += acceleration;
                 if (ySpeed > playerMaxSpeed) {
                     ySpeed = playerMaxSpeed;
                 }
             }
-            if (leftIsPressed) {
+            if (game.leftIsPressed) {
                 planeAction = FLYING_LEFT;
                 xSpeed -= acceleration;
                 if (xSpeed < -playerMaxSpeed) {
                     xSpeed = -playerMaxSpeed;
                 }
             }
-            if (rightIsPressed) {
+            if (game.rightIsPressed) {
                 planeAction = FLYING_RIGHT;
                 xSpeed += acceleration;
                 if (xSpeed > playerMaxSpeed) {
@@ -207,7 +180,7 @@ public class PlayerFly extends Entity {
         }
 
 
-        if (!(leftIsPressed || rightIsPressed)) {
+        if (!(game.leftIsPressed || game.rightIsPressed)) {
             if (xSpeed < 0) {xSpeed += acceleration/2;} 
             else if (xSpeed > 0) {xSpeed -= acceleration/2;}
             if ((Math.abs(xSpeed)) < 0.6) {           // OBS
@@ -217,7 +190,7 @@ public class PlayerFly extends Entity {
                 planeAction = IDLE;
             }
         }
-        if (!(upIsPressed || downIsPressed)) {
+        if (!(game.upIsPressed || game.downIsPressed)) {
             if (ySpeed < 0) {ySpeed += acceleration/2;} 
             else if (ySpeed > 0) {ySpeed -= acceleration/2;}
             if ((Math.abs(ySpeed)) < 0.6) {
@@ -322,7 +295,7 @@ public class PlayerFly extends Entity {
                     audioPlayer.playSFX(Audio.SFX_COLLISION);
                     pushInOppositeDirectionOf(i, pushDistance);
                     this.updateCollisionPixels();
-                    this.resetControls();
+                    this.resetSpeed();
                     return true;
                 }
             }
@@ -399,14 +372,14 @@ public class PlayerFly extends Entity {
     public void draw(Graphics g) {
         if (visible) {
             // Teleport shadows
-            if (mIsPressed) {
+            if (game.mIsPressed) {
                 g.setColor(Color.LIGHT_GRAY);
                 drawShadow(g, teleportDistance);
                 drawShadow(g, -teleportDistance);
             }
 
             // Flame
-            if (!downIsPressed) {
+            if (!game.downIsPressed) {
                 flame.draw(g, hitbox.x + 2.5f, hitbox.y + hitbox.height);
             }
 
@@ -447,12 +420,7 @@ public class PlayerFly extends Entity {
                 (int) (SHIP_SPRITE_HEIGHT * 3 * Game.SCALE), null);
     }
 
-    public void resetControls() {
-        this.downIsPressed = false;
-        this.rightIsPressed = false;
-        this.leftIsPressed = false;
-        this.upIsPressed = false;
-        this.mIsPressed = false;
+    public void resetSpeed() {
         this.xSpeed = 0;
         this.ySpeed = 0;
     }
@@ -473,7 +441,7 @@ public class PlayerFly extends Entity {
         HP -= collisionDmg;
         this.aniTick = 0;
         this.aniIndex = 0;
-        this.resetControls();
+        this.resetSpeed();
         this.planeAction = TAKING_COLLISION_DAMAGE;
         this.statusDisplay.setHP(HP);
     }

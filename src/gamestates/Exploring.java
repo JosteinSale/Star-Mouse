@@ -38,13 +38,6 @@ public class Exploring extends State implements Statemethods {
         }
     }
 
-    @Override
-    public void keyPressed(KeyEvent e) {}
-
-
-    @Override
-    public void keyReleased(KeyEvent e) {}
-
     private void handleKeyBoardInputs() {
         if (game.enterIsPressed) {
             game.enterIsPressed = false;

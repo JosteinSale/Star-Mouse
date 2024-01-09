@@ -22,6 +22,7 @@ import static utils.HelpMethods.IsSolid;
 import static utils.Constants.Audio;
 
 public class ProjectileHandler {
+    private Game game;
     private AudioPlayer audioPlayer;
     private PlayerFly player;
     private EnemyManager enemyManager;
@@ -40,8 +41,6 @@ public class ProjectileHandler {
     private BufferedImage[] bombExplosionAnimation;
 
     private boolean powerUp = false;
-    private boolean spaceIsPressed;
-    private boolean bIsPressed;
     private int lazerShootTick = 0;
     private int lazerShootBuffer = 10;
     private int bombShootBuffer = 30;  
@@ -51,7 +50,8 @@ public class ProjectileHandler {
 
     private float fgSpeed;
 
-    public ProjectileHandler(AudioPlayer audioPlayer, PlayerFly player, EnemyManager enemyManager) {
+    public ProjectileHandler(Game game, AudioPlayer audioPlayer, PlayerFly player, EnemyManager enemyManager) {
+        this.game = game;
         this.audioPlayer = audioPlayer;
         this.player = player;
         this.enemyManager = enemyManager;
@@ -98,12 +98,12 @@ public class ProjectileHandler {
     }
 
     private void checkPlayerShoot() {
-        if (spaceIsPressed && lazerShootTick == 0) {
+        if (game.spaceIsPressed && lazerShootTick == 0) {
             lazerShootTick = lazerShootBuffer;
             this.addPlayerProjectile(player.getHitbox().x, player.getHitbox().y);
             audioPlayer.playSFX(Audio.SFX_LAZER);
         }
-        if (bIsPressed && bombShootTick == 0 && nrOfBombs > 0) {
+        if (game.bIsPressed && bombShootTick == 0 && nrOfBombs > 0) {
             nrOfBombs--;
             audioPlayer.playSFX(Audio.SFX_BOMBSHOOT);
             bombShootTick = bombShootBuffer;
@@ -350,14 +350,6 @@ public class ProjectileHandler {
         }
     }
 
-    public void setSpacePressed(boolean pressed) {
-        this.spaceIsPressed = pressed;
-    }
-
-    public void setBPressed(boolean pressed) {
-        this.bIsPressed = pressed;
-    }
-
     public void resetShootTick() {
         this.lazerShootTick = 0;
     }
@@ -386,8 +378,6 @@ public class ProjectileHandler {
         projectileHits.clear();
         bombExplosions.clear();
         powerUp = false;
-        spaceIsPressed = false;
-        bIsPressed = false;
         lazerShootTick = 0;
         bombShootTick = 0;
     }

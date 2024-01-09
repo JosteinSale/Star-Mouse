@@ -40,29 +40,8 @@ public class KeyboardInputs implements KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             game.enterIsPressed = true;
         }
-
-
-        switch(Gamestate.state) {
-            case START_SCREEN:
-                game.getStartScreen().keyPressed(e);
-                break;
-            case MAIN_MENU:
-                game.getMainMenu().keyPressed(e);
-                break;
-            case LEVEL_SELECT:
-                game.getLevelSelect().keyPressed(e);
-                break;
-            case EXPLORING:
-                game.getExploring().keyPressed(e);
-                break;
-            case FLYING:
-                game.getFlying().keyPressed(e);
-                break;
-            case LEVEL_EDITOR:
-                game.getLevelEditor().keyPressed(e);
-                break;
-            default:
-                break;
+        if (Gamestate.state == Gamestate.LEVEL_EDITOR) {
+            game.getLevelEditor().handleKeyboardInputs(e);
         }
     }
 
@@ -91,32 +70,9 @@ public class KeyboardInputs implements KeyListener {
         }
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             game.enterIsPressed = false;
+            }
         }
-
-        switch(Gamestate.state) {
-            case START_SCREEN:
-                game.getStartScreen().keyReleased(e);
-                break;
-            case MAIN_MENU:
-                game.getMainMenu().keyReleased(e);
-                break;
-            case LEVEL_SELECT:
-                game.getLevelSelect().keyReleased(e);
-                break;
-            case EXPLORING:
-                game.getExploring().keyReleased(e);
-                break;
-            case FLYING:
-                game.getFlying().keyReleased(e);
-                break;
-            case LEVEL_EDITOR:
-                game.getLevelEditor().keyReleased(e);
-                break;
-            default:
-                break;
-        }
-    }
     
     @Override
-    public void keyTyped(KeyEvent e) {}
+    public void keyTyped(KeyEvent e) {}   // Could use this later to set custom keybindings :)
 }

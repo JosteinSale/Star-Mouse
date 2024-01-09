@@ -91,7 +91,7 @@ public class Flying extends State implements Statemethods {
         Rectangle2D.Float playerHitbox = new Rectangle2D.Float(500f, 400f, 50f, 50f);
         this.player = new PlayerFly(game, playerHitbox);
         this.enemyManager = new EnemyManager(player, audioPlayer);
-        this.projectileHandler = new ProjectileHandler(audioPlayer, player, enemyManager);
+        this.projectileHandler = new ProjectileHandler(game, audioPlayer, player, enemyManager);
         this.eventHandler = new EventHandler();
         TextboxManager2 textboxManager = new TextboxManager2();
         this.cutsceneManager = new CutsceneManager2(eventHandler, textboxManager);
@@ -206,48 +206,15 @@ public class Flying extends State implements Statemethods {
         */
     }
 
-    @Override
-    public void keyPressed(KeyEvent e) {
-        if ((e.getKeyCode() == KeyEvent.VK_ENTER) && !levelFinished) {
-            this.flipPause();
-        }
-        else if (pause) {
-            pauseOverlay.keyPressed(e);
-        }
-        else if (levelFinished) {
-            levelFinishedOverlay.keyPressed(e);
-        }
-        else {
-            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            projectileHandler.setSpacePressed(true);
-            }
-            else if (e.getKeyCode() == KeyEvent.VK_B) {
-            projectileHandler.setBPressed(true);
-            }
-            this.player.keyPressed(e);
-        }
-    }
-
     public void flipPause() {
         this.pause = !pause;
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            projectileHandler.setSpacePressed(false);  
-            //projectileHandler.resetShootTick();  // uncomment to enable fast shooting
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_B) {
-            projectileHandler.setBPressed(false);
-        }
-        this.player.KeyReleased(e);
-    }
-
-    @Override
     public void update() {
+        handleKeyboardInputs();
         if (pause) {
-            //pauseOverlay.update()
+            pauseOverlay.update();
         }
         else {
             if (gamePlayActive) {
@@ -267,6 +234,13 @@ public class Flying extends State implements Statemethods {
             if (levelFinished) {
                 levelFinishedOverlay.update();
             }
+        }
+    }
+
+    private void handleKeyboardInputs() {
+        if ((game.enterIsPressed) && !levelFinished) {
+            game.enterIsPressed = false;
+            this.flipPause();
         }
     }
 
