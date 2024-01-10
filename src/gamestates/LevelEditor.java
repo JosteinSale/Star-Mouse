@@ -118,6 +118,67 @@ public class LevelEditor implements Statemethods {
         }
     }
 
+    @Override
+    public void update() {}
+
+    /**
+     * Controls:
+     * ---------------------------------------------
+     * W / S                         Change screen 
+     * X                             Change entity
+     * UP / DOWN / LEFT / RIGHT      Change cursor position
+     * F                             Change direction
+     * A / D                         Change shootTimer
+     * SPACE                         Add / delete entity
+     * P                             Print levelData in console
+     */
+    public void handleKeyboardInputs(KeyEvent e) {
+        if (game.upIsPressed) {
+            game.upIsPressed = false;
+            this.changeScreen(UP);
+        }
+        else if (game.downIsPressed) {
+            game.downIsPressed = false;
+            this.changeScreen(DOWN);
+        }
+        else if (game.leftIsPressed) {
+            game.leftIsPressed = false;
+            this.shootTimer -= 10;
+        }
+        else if (game.rightIsPressed) {
+            game.rightIsPressed = false;
+            this.shootTimer += 10;
+        }
+        else if (game.spaceIsPressed) {
+            game.spaceIsPressed = false;
+            int adjustedY = cursorY + entityYOffset;
+            addEntityToList(selectedEntity, cursorX, adjustedY, curDirection, this.shootTimer);
+        }
+        // Here we use som KeyEvents, but if it leads to trouble we can add booleans in game-object.
+        else if (e.getKeyCode() == KeyEvent.VK_UP) {
+            this.cursorY -= cursorSpeed;
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+            this.cursorY += cursorSpeed;
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            this.cursorX -= cursorSpeed;
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            this.cursorX += cursorSpeed;
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_X) {
+            selectedEntity = (selectedEntity + 1) % entityImgs.length;
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_F) {
+            game.bIsPressed = false;
+            curDirection *= -1;
+        }
+        else if (e.getKeyCode() == KeyEvent.VK_P) {
+            printLevelData();
+        }
+    }
+
     private void printLevelData() {
         for (String line : levelData) {
             System.out.println(line);
@@ -244,67 +305,6 @@ public class LevelEditor implements Statemethods {
         outPlacedImgs.add(entityImgs[entity]);
         Rectangle hitbox = new Rectangle(cor[0] + xOffset, cor[1] + yOffset, width, height);
         hitboxes.add(hitbox);
-    }
-
-    @Override
-    public void update() {}
-
-    /**
-     * Controls:
-     * ---------------------------------------------
-     * W / S                         Change screen 
-     * X                             Change entity
-     * UP / DOWN / LEFT / RIGHT      Change cursor position
-     * F                             Change direction
-     * A / D                         Change shootTimer
-     * SPACE                         Add / delete entity
-     * P                             Print levelData in console
-     */
-    public void handleKeyboardInputs(KeyEvent e) {
-        if (game.upIsPressed) {
-            game.upIsPressed = false;
-            this.changeScreen(UP);
-        }
-        else if (game.downIsPressed) {
-            game.downIsPressed = false;
-            this.changeScreen(DOWN);
-        }
-        else if (game.leftIsPressed) {
-            game.leftIsPressed = false;
-            this.shootTimer -= 10;
-        }
-        else if (game.rightIsPressed) {
-            game.rightIsPressed = false;
-            this.shootTimer += 10;
-        }
-        else if (game.spaceIsPressed) {
-            game.spaceIsPressed = false;
-            int adjustedY = cursorY + entityYOffset;
-            addEntityToList(selectedEntity, cursorX, adjustedY, curDirection, this.shootTimer);
-        }
-        // Here we use som KeyEvents, but if it leads to trouble we can add booleans in game-object.
-        else if (e.getKeyCode() == KeyEvent.VK_UP) {
-            this.cursorY -= cursorSpeed;
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            this.cursorY += cursorSpeed;
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            this.cursorX -= cursorSpeed;
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            this.cursorX += cursorSpeed;
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_X) {
-            selectedEntity = (selectedEntity + 1) % entityImgs.length;
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_F) {
-            game.bIsPressed = false;
-            curDirection *= -1;
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_P) {
-            printLevelData();
-        }
     }
 
     @Override

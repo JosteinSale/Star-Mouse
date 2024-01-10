@@ -22,6 +22,7 @@ import static utils.Constants.UI.OPTIONS_HEIGHT;
 public class OptionsMenu {
    private Game game;
    private AudioPlayer audioPlayer;
+   private ControlsMenu controlsMenu;
    private Color bgColor = new Color(0, 0, 0, 230);
    private Font headerFont;
    private Font menuFont;
@@ -61,6 +62,7 @@ public class OptionsMenu {
    public OptionsMenu(Game game, AudioPlayer audioPlayer) {
       this.game = game;
       this.audioPlayer = audioPlayer;
+      this.controlsMenu = new ControlsMenu(game, audioPlayer);
       musicPercent = fromGainToPercent(audioPlayer.getMusicVolume());
       sfxPercent = fromGainToPercent(audioPlayer.getSfxVolume()); 
       calcVolumeXs();
@@ -112,7 +114,12 @@ public class OptionsMenu {
    }
 
    public void update() {
-      handleKeyBoardInputs();
+      if (!controlsMenu.isActive()) {
+         handleKeyBoardInputs();
+      }
+      else {
+         controlsMenu.update();
+      }
    }
 
    private void handleKeyBoardInputs() {
@@ -141,6 +148,10 @@ public class OptionsMenu {
          if (selectedIndex == RETURN) {
             this.active = false;
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
+         }
+         else if (selectedIndex == CONTROLS) {
+            audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
+            controlsMenu.setActive(true);
          }
       }
 
@@ -191,6 +202,10 @@ public class OptionsMenu {
    }
 
    public void draw(Graphics g) {
+      if (controlsMenu.isActive()) {
+         controlsMenu.draw(g);
+         return;
+      }
       Graphics2D g2 = (Graphics2D) g;
       // Background
       g.setColor(bgColor);

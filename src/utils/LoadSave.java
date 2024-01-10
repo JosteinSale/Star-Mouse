@@ -24,10 +24,11 @@ import static utils.Constants.UI.FONT_SIZE_HEADER;
 
 public class LoadSave {
     // Menus
-    public static final String START_SCREEN_BG = "start_screen.png";
+    public static final String BASIC_MOUSE = "BasicMouse.png";
     public static final String MAIN_MENU_BG = "main_menu.png";
+    public static final String MAIN_MENU_TITLE = "main_menu_title.png";
     public static final String LEVEL_SELECT_BG = "level_select.png";
-
+    
     // Sprites
     public static final String CURSOR_SPRITE_BLACK = "pointer_black.png";
     public static final String CURSOR_SPRITE_WHITE = "pointer_white.png";

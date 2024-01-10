@@ -1,8 +1,12 @@
 package gamestates;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import audio.AudioPlayer;
 import main.Game;
@@ -11,14 +15,19 @@ import utils.LoadSave;
 import utils.Constants.Audio;
 
 import static utils.Constants.UI.*;
+import static utils.HelpMethods.DrawCenteredString;
 
 public class MainMenu extends State implements Statemethods {
     private AudioPlayer audioPlayer;
     private BufferedImage bgImg;
+    private BufferedImage titleImg;
     private BufferedImage cursorImg;
+    private Font menuFont;
     private OptionsMenu optionsMenu;
-    private int cursorMinY = 490;
-    private int cursorMaxY = 670;
+    private String[] alternatives = {"New Game", "Level Editor", "Options", "Quit"};
+    private ArrayList<Rectangle> menuRectangles;
+    private int cursorMinY = 480;
+    private int cursorMaxY = 630;
     private int cursorX = 280;
     private int cursorY = cursorMinY;
     private int cursorYStep = (cursorMaxY - cursorMinY) / 3;
@@ -35,9 +44,22 @@ public class MainMenu extends State implements Statemethods {
         this.optionsMenu = optionsMenu;
         this.audioPlayer = game.getAudioPlayer();
         bgImg = LoadSave.getExpImageBackground(LoadSave.MAIN_MENU_BG);
-        cursorImg = LoadSave.getExpImageSprite(LoadSave.CURSOR_SPRITE_BLACK);
+        cursorImg = LoadSave.getExpImageSprite(LoadSave.CURSOR_SPRITE_WHITE);
+        titleImg = LoadSave.getExpImageBackground(LoadSave.MAIN_MENU_TITLE);
+        menuFont = LoadSave.getNameFont();
         audioPlayer.startAmbienceLoop(Audio.AMBIENCE_SILENCE);  
         audioPlayer.startSongLoop(Audio.SONG_ACADEMY);
+        makeMenuRectangles();
+    }
+
+    private void makeMenuRectangles() {
+        this.menuRectangles = new ArrayList<>();
+        for (int i = 0; i < alternatives.length; i++) {
+            Rectangle rect = new Rectangle(
+                (int) (425 * Game.SCALE), (int) ((450 + i * cursorYStep) * Game.SCALE),
+                (int) (200 * Game.SCALE), (int) (50 * Game.SCALE));
+            menuRectangles.add(rect);
+        }
     }
 
     private void handleKeyBoardInputs() {
@@ -88,7 +110,29 @@ public class MainMenu extends State implements Statemethods {
 
     @Override
     public void draw(Graphics g) {
-        g.drawImage(bgImg, 0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
+        Graphics2D g2 = (Graphics2D) g;
+
+        // Background
+        //g.setColor(Color.BLACK);
+        //g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
+        g.drawImage(bgImg, 
+            0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
+
+        // Text
+        g.setColor(Color.WHITE);
+        g.setFont(menuFont);
+        for (int i = 0; i < alternatives.length; i++) {
+            DrawCenteredString(g2, alternatives[i], menuRectangles.get(i), menuFont);
+        }
+        g.drawImage(
+            titleImg, 
+            (int) (280 * Game.SCALE), 
+            (int) (100 * Game.SCALE), 
+            (int) (500 * Game.SCALE), 
+            (int) (200 * Game.SCALE),
+            null);
+
+        // Cursor
         g.drawImage(
             cursorImg, 
             (int) (cursorX * Game.SCALE), 

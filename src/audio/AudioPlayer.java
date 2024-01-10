@@ -62,12 +62,12 @@ public class AudioPlayer {
     private FloatControl sfxGainControl;       // Is initially set in the MainMenu
     private FloatControl ambienceGainControl;  // Is initially set in the MainMenu
 
-    private float setSongVolume = 0.9f;   // The player's selected volume
-    private float setSfxVolume = 0.9f;    
-    private float setAmbienceVolume = 0.9f;
-    private float curSongVolume = 0.9f;   // Used for fading
-    private float curSfxVolume = 0.9f;
-    private float curAmbienceVolume = 0.9f;
+    private float setSongVolume = 0.91f;   // The player's selected volume
+    private float setSfxVolume = 0.91f;    
+    private float setAmbienceVolume = 0.91f;
+    private float curSongVolume = 0.91f;   // Used for fading
+    private float curSfxVolume = 0.91f;
+    private float curAmbienceVolume = 0.91f;
 
     private float volumeFadeSpeed = 0.05f;
     private boolean fadeOutActive = false;
