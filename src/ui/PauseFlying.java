@@ -68,14 +68,21 @@ public class PauseFlying {
         this.menuFont = LoadSave.getNameFont();
     }
 
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_S) {
+    public void update() {
+        handleKeyboardInputs();
+    }
+
+    private void handleKeyboardInputs() {
+        if (flying.getGame().downIsPressed) {
+            flying.getGame().downIsPressed = false;
             goDown();
         }
-        else if (e.getKeyCode() == KeyEvent.VK_W) {
+        else if (flying.getGame().upIsPressed) {
+            flying.getGame().upIsPressed = false;
             goUp();
         }
-        else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+        else if (flying.getGame().spaceIsPressed) {
+            flying.getGame().spaceIsPressed = false;
             if (selectedIndex == 0) {
                 this.flying.flipPause();
             }
@@ -89,7 +96,6 @@ public class PauseFlying {
                 Gamestate.state = Gamestate.MAIN_MENU;
             }
         }
-
     }
 
     private void goDown() {

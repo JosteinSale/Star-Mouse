@@ -24,14 +24,6 @@ public class LevelSelect extends State implements Statemethods {
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        Gamestate.state = Gamestate.EXPLORING;
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {}
-
-    @Override
     public void update() {
 
     }

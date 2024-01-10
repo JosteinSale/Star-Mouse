@@ -21,12 +21,6 @@ public class StartScreen extends State implements Statemethods {
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {}
-
-    @Override
-    public void keyReleased(KeyEvent e) {}
-
-    @Override
     public void update() {
         handleKeyBoardInputs();
     }
