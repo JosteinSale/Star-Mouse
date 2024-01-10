@@ -236,7 +236,6 @@ public class Flying extends State implements Statemethods {
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             projectileHandler.setSpacePressed(false);  
-            //projectileHandler.resetShootTick();  // uncomment to enable fast shooting
         }
         else if (e.getKeyCode() == KeyEvent.VK_B) {
             projectileHandler.setBPressed(false);

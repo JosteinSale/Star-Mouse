@@ -165,6 +165,58 @@ public class CutsceneManager {
 
     public void keyPressed(KeyEvent e) {}
 
+    public void update() {
+        if (active) {
+            handleKeyBoardInputs();
+        }
+        if (numberDisplay.isActive()) {
+            numberDisplay.update();
+        }
+        if (waitActive) {updateWait();}
+        if (redLightActive) {updateRedLight();}
+        if (fadeInActive) {updateFadeIn();}
+        if (fadeOutActive) {updateFadeOut();}
+        else if (dialogueAppearing) {updateDialogue();}  // Might change all these to 'if'
+        else if (playerWalkActive) {updatePlayerWalk();}
+        else if (npcWalkActive) {updateNpcWalk();}
+        else if (shakeActive) {updateScreenShake();}
+        else if (cutsceneJump) {
+            startCutscene(triggerIndex, CHOICE, cutsceneIndex);
+            this.cutsceneJump = false;}
+    }
+
+    private void handleKeyBoardInputs() {
+        if (canAdvance) {
+            if (textboxManager.isChoiceActive()) {
+                if ((game.leftIsPressed) || (game.rightIsPressed)) {
+                    game.leftIsPressed = false;
+                    game.rightIsPressed = false;
+                    this.textboxManager.toggleOptions();
+                } else if (game.spaceIsPressed) {
+                    game.spaceIsPressed = false;
+                    int playerChoice = this.textboxManager.getSelectedOption();
+                    this.advance(); // Her brukes nåværende index
+                    this.cutsceneIndex = cutsceneIndex + playerChoice;
+                    this.startCutscene(triggerIndex, CHOICE, cutsceneIndex);
+                }
+            } else if (numberDisplay.isActive()) {
+                if (game.spaceIsPressed) {
+                    game.spaceIsPressed = false;
+                    int answerGiven = 2;     // 1 = right, 2 = wrong
+                    if (numberDisplay.isCodeCorrect()) {
+                        answerGiven = 1;
+                    }
+                    this.advance(); // Her brukes nåværende index
+                    this.cutsceneIndex = cutsceneIndex + answerGiven;
+                    this.startCutscene(triggerIndex, CHOICE, cutsceneIndex);
+                }
+            } else if (game.spaceIsPressed) {
+                game.spaceIsPressed = false;
+                this.advance();
+            }
+        }
+    }
+
     public void advance() {
         if (dialogueAppearing) {
             textboxManager.getDialogueBox().forwardDialogue();
@@ -305,58 +357,6 @@ public class CutsceneManager {
         else {
             this.redLightActive = false;
             this.redLightLvl = 0;
-        }
-    }
-
-    public void update() {
-        if (active) {
-            handleKeyBoardInputs();
-        }
-        if (numberDisplay.isActive()) {
-            numberDisplay.update();
-        }
-        if (waitActive) {updateWait();}
-        if (redLightActive) {updateRedLight();}
-        if (fadeInActive) {updateFadeIn();}
-        if (fadeOutActive) {updateFadeOut();}
-        else if (dialogueAppearing) {updateDialogue();}  // Might change all these to 'if'
-        else if (playerWalkActive) {updatePlayerWalk();}
-        else if (npcWalkActive) {updateNpcWalk();}
-        else if (shakeActive) {updateScreenShake();}
-        else if (cutsceneJump) {
-            startCutscene(triggerIndex, CHOICE, cutsceneIndex);
-            this.cutsceneJump = false;}
-    }
-
-    private void handleKeyBoardInputs() {
-        if (canAdvance) {
-            if (textboxManager.isChoiceActive()) {
-                if ((game.leftIsPressed) || (game.rightIsPressed)) {
-                    game.leftIsPressed = false;
-                    game.rightIsPressed = false;
-                    this.textboxManager.toggleOptions();
-                } else if (game.spaceIsPressed) {
-                    game.spaceIsPressed = false;
-                    int playerChoice = this.textboxManager.getSelectedOption();
-                    this.advance(); // Her brukes nåværende index
-                    this.cutsceneIndex = cutsceneIndex + playerChoice;
-                    this.startCutscene(triggerIndex, CHOICE, cutsceneIndex);
-                }
-            } else if (numberDisplay.isActive()) {
-                if (game.spaceIsPressed) {
-                    game.spaceIsPressed = false;
-                    int answerGiven = 2;     // 1 = right, 2 = wrong
-                    if (numberDisplay.isCodeCorrect()) {
-                        answerGiven = 1;
-                    }
-                    this.advance(); // Her brukes nåværende index
-                    this.cutsceneIndex = cutsceneIndex + answerGiven;
-                    this.startCutscene(triggerIndex, CHOICE, cutsceneIndex);
-                }
-            } else if (game.spaceIsPressed) {
-                game.spaceIsPressed = false;
-                this.advance();
-            }
         }
     }
 
