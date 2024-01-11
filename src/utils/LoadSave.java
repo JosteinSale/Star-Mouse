@@ -40,6 +40,7 @@ public class LoadSave {
     public static final String PRESENT_IMAGE = "item_present.png";
     public static final String NUMBER_DISPLAY = "number_display2.png";
     public static final String NUMBER_SELECT = "number_selected.png";
+    public static final String KEY_SELECT = "key_selected.png";
 
     public static final String PLAYER_EXP_SPRITES = "sprites_max.png";
     public static final String PLAYER_EXP_SPRITES_NAKED = "sprites_max_naked.png";

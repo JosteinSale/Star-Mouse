@@ -15,7 +15,7 @@ import utils.LoadSave;
 public class Exploring extends State implements Statemethods {
     private AudioPlayer audioPlayer;
     private int currentLevel = 1;
-    private int currentArea = 3;
+    private int currentArea = 1;
     private ArrayList<Area> areas;
     private PauseExploring pauseOverlay;
 
@@ -24,7 +24,7 @@ public class Exploring extends State implements Statemethods {
         this.audioPlayer = game.getAudioPlayer();
         areas = new ArrayList<>();
         loadLevel(currentLevel);
-        pauseOverlay = new PauseExploring(game, audioPlayer);
+        pauseOverlay = new PauseExploring(game, audioPlayer, game.getOptionsMenu());
     }
 
     // Laster inn alle areas for denne levelen
@@ -39,8 +39,8 @@ public class Exploring extends State implements Statemethods {
     }
 
     private void handleKeyBoardInputs() {
-        if (game.enterIsPressed) {
-            game.enterIsPressed = false;
+        if (game.pauseIsPressed) {
+            game.pauseIsPressed = false;
             this.pauseOverlay.flipActive();
         }
     }

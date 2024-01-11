@@ -18,6 +18,7 @@ import game_events.*;
 import main.Game;
 import projectiles.ProjectileHandler;
 import ui.LevelFinishedOverlay;
+import ui.OptionsMenu;
 import ui.PauseFlying;
 import ui.TextboxManager2;
 import utils.Constants.Audio;
@@ -69,10 +70,10 @@ public class Flying extends State implements Statemethods {
         this.audioPlayer = game.getAudioPlayer();
         this.automaticTriggers = new ArrayList<>();
         this.pickupItems = new ArrayList<>();
-        initClasses();
+        initClasses(game.getOptionsMenu());
         loadEventReactions();
         projectileHandler.setBombs(game.getExploring().getBombs());   // Comment out to start with more bombs
-        //loadLevel(0);     // Only use if not entering from Exploring
+        loadLevel(1);     // Only use if not entering from Exploring
     }
 
     public void loadLevel(int level) {
@@ -87,7 +88,7 @@ public class Flying extends State implements Statemethods {
         //startAt(-16500);
     }
 
-    private void initClasses() {
+    private void initClasses(OptionsMenu optionsMenu) {
         Rectangle2D.Float playerHitbox = new Rectangle2D.Float(500f, 400f, 50f, 50f);
         this.player = new PlayerFly(game, playerHitbox);
         this.enemyManager = new EnemyManager(player, audioPlayer);
@@ -95,7 +96,7 @@ public class Flying extends State implements Statemethods {
         this.eventHandler = new EventHandler();
         TextboxManager2 textboxManager = new TextboxManager2();
         this.cutsceneManager = new CutsceneManager2(eventHandler, textboxManager);
-        this.pauseOverlay = new PauseFlying(this);
+        this.pauseOverlay = new PauseFlying(this, optionsMenu);
         this.levelFinishedOverlay = new LevelFinishedOverlay(this);
     }
 
@@ -238,8 +239,8 @@ public class Flying extends State implements Statemethods {
     }
 
     private void handleKeyboardInputs() {
-        if ((game.enterIsPressed) && !levelFinished) {
-            game.enterIsPressed = false;
+        if ((game.pauseIsPressed) && !levelFinished) {
+            game.pauseIsPressed = false;
             this.flipPause();
         }
     }

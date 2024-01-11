@@ -55,8 +55,8 @@ public class LevelFinishedOverlay implements Statemethods {
     }
 
     private void handleKeyboardInputs() {
-        if (flying.getGame().spaceIsPressed) {
-            flying.getGame().spaceIsPressed = false;
+        if (flying.getGame().interactIsPressed) {
+            flying.getGame().interactIsPressed = false;
             this.flying.audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
             this.flying.exitFinishedLevel();
         }

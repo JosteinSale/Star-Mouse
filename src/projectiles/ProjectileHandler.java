@@ -98,12 +98,12 @@ public class ProjectileHandler {
     }
 
     private void checkPlayerShoot() {
-        if (game.spaceIsPressed && lazerShootTick == 0) {
+        if (game.interactIsPressed && lazerShootTick == 0) {
             lazerShootTick = lazerShootBuffer;
             this.addPlayerProjectile(player.getHitbox().x, player.getHitbox().y);
             audioPlayer.playSFX(Audio.SFX_LAZER);
         }
-        if (game.bIsPressed && bombShootTick == 0 && nrOfBombs > 0) {
+        if (game.bombIsPressed && bombShootTick == 0 && nrOfBombs > 0) {
             nrOfBombs--;
             audioPlayer.playSFX(Audio.SFX_BOMBSHOOT);
             bombShootTick = bombShootBuffer;

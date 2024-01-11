@@ -192,16 +192,16 @@ public class CutsceneManager {
                     game.leftIsPressed = false;
                     game.rightIsPressed = false;
                     this.textboxManager.toggleOptions();
-                } else if (game.spaceIsPressed) {
-                    game.spaceIsPressed = false;
+                } else if (game.interactIsPressed) {
+                    game.interactIsPressed = false;
                     int playerChoice = this.textboxManager.getSelectedOption();
                     this.advance(); // Her brukes nåværende index
                     this.cutsceneIndex = cutsceneIndex + playerChoice;
                     this.startCutscene(triggerIndex, CHOICE, cutsceneIndex);
                 }
             } else if (numberDisplay.isActive()) {
-                if (game.spaceIsPressed) {
-                    game.spaceIsPressed = false;
+                if (game.interactIsPressed) {
+                    game.interactIsPressed = false;
                     int answerGiven = 2;     // 1 = right, 2 = wrong
                     if (numberDisplay.isCodeCorrect()) {
                         answerGiven = 1;
@@ -210,8 +210,8 @@ public class CutsceneManager {
                     this.cutsceneIndex = cutsceneIndex + answerGiven;
                     this.startCutscene(triggerIndex, CHOICE, cutsceneIndex);
                 }
-            } else if (game.spaceIsPressed) {
-                game.spaceIsPressed = false;
+            } else if (game.interactIsPressed) {
+                game.interactIsPressed = false;
                 this.advance();
             }
         }

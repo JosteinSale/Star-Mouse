@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import audio.AudioPlayer;
-
+import inputs.KeyboardInputs;
 import main.Game;
 import utils.LoadSave;
 import utils.Constants.Audio;
@@ -15,28 +15,27 @@ import utils.Constants.Audio;
 import static utils.Constants.UI.CURSOR_HEIGHT;
 import static utils.Constants.UI.CURSOR_WIDTH;
 import static utils.Constants.UI.OPTIONS_WIDTH;
-import static utils.Constants.UI.SLIDER_HEIGHT;
-import static utils.Constants.UI.SLIDER_WIDTH;
 import static utils.Constants.UI.OPTIONS_HEIGHT;
 
 public class ControlsMenu {
    private Game game;
    private AudioPlayer audioPlayer;
+   private KeyboardInputs keyboardInputs;
    private Color bgColor = new Color(0, 0, 0, 230);
    private Font headerFont;
    private Font menuFont;
    private boolean active = false;
+   private boolean settingKey = false;
 
-   private String[] keyFunctions = { "Up", "Right", "Down", "Left", "Interact / Shoot lazer", "Shoot bombs", "Teleport", "Pause / Unpause", "Return"};
-   private String[] keyBindings = { "W", "D", "S", "A", "SPACE", "B", "M", "ENTER"};
+   private String[] keyFunctions = { "Up", "Down", "Right", "Left", "Interact / Shoot lazer", "Shoot bombs", "Teleport", "Pause / Unpause", "Return"};
+   private String[] keyBindings;
    private BufferedImage pointerImg;
+   private BufferedImage selectImg;
    private int selectedIndex = 8;
 
-   private static final int UP = 1;
-   private static final int DOWN = -1;
    private static final int OPTION_UP = 0;
-   private static final int OPTION_RIGHT = 1;
-   private static final int OPTION_DOWN = 2;
+   private static final int OPTION_DOWN = 1;
+   private static final int OPTION_RIGHT = 2;
    private static final int OPTION_LEFT = 3;
    private static final int OPTION_INTERACT = 4;
    private static final int OPTION_BOMBS = 5;
@@ -65,6 +64,10 @@ public class ControlsMenu {
       loadFonts();
    }
 
+   public void setKeyboardInputs(KeyboardInputs keyboardInputs) {
+      this.keyboardInputs = keyboardInputs;
+      this.keyBindings = keyboardInputs.getKeyBindings();
+   }
 
    private void calcDrawValues() {
       bgW = OPTIONS_WIDTH;
@@ -75,6 +78,7 @@ public class ControlsMenu {
 
    private void loadImages() {
       this.pointerImg = LoadSave.getExpImageSprite(LoadSave.CURSOR_SPRITE_WHITE);
+      this.selectImg = LoadSave.getExpImageSprite(LoadSave.KEY_SELECT);
    }
 
    private void loadFonts() {
@@ -83,11 +87,24 @@ public class ControlsMenu {
    }
 
    public void update() {
+      if (settingKey) {       // We're waiting for player input
+         this.showNewTypedKey(selectedIndex);
+      }
       handleKeyBoardInputs();
    }
 
    private void handleKeyBoardInputs() {
-      if (game.downIsPressed) {
+      if (settingKey && game.interactIsPressed) {
+         setKeyBinding(selectedIndex);
+         game.interactIsPressed = false;
+         settingKey = false;
+         audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
+         return;
+      }
+      else if (settingKey) {  // We're waiting for player-input.
+         return;
+      }
+      else if (game.downIsPressed) {
          game.downIsPressed = false;
          goDown();
          audioPlayer.playSFX(Audio.SFX_CURSOR);
@@ -97,14 +114,27 @@ public class ControlsMenu {
          goUp();
          audioPlayer.playSFX(Audio.SFX_CURSOR);
       } 
-      else if (game.spaceIsPressed) {
-         game.spaceIsPressed = false;
+      else if (game.interactIsPressed) {
+         game.interactIsPressed = false;
          if (selectedIndex == RETURN) {
             this.active = false;
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
          }
+         else {
+            settingKey = true;
+            audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
+         }
       }
+   }
 
+   /** Sets the new keybindings in both controls-menu and keyboard-inputs */
+   private void setKeyBinding(int keyIndex) {
+      this.keyBindings[keyIndex] = keyboardInputs.updateKeybindings(keyIndex);
+   }
+
+   /** Updates the controls-display to show the last typed key */
+   private void showNewTypedKey(int index) {
+      this.keyBindings[index] = keyboardInputs.updateLatestKey(index);
    }
 
    private void goDown() {
@@ -142,8 +172,10 @@ public class ControlsMenu {
       g.setFont(headerFont);
       g.setColor(Color.WHITE);
       g.drawString("CONTROLS", (int) (420 * Game.SCALE), (int) (150 * Game.SCALE));
-
       g.setFont(menuFont);
+      g.drawString("(To change, select it and type a new key)", 
+         (int) (200 * Game.SCALE), (int) (210 * Game.SCALE));
+
       for (int i = 0; i < keyFunctions.length; i++) {
          g.drawString(
             keyFunctions[i], 
@@ -160,6 +192,14 @@ public class ControlsMenu {
          pointerImg,
          (int) (cursorX * Game.SCALE), (int) ((cursorY - 30) * Game.SCALE),
          (int) (CURSOR_WIDTH * Game.SCALE), (int) (CURSOR_HEIGHT * Game.SCALE), null);
+      
+      if (settingKey) {
+         g2.drawImage(
+         selectImg,
+         (int) (240 * Game.SCALE), 
+         (int) ((cursorY - 32) * Game.SCALE),
+         (int) (620 * Game.SCALE), (int) (40 * Game.SCALE), null);
+      }
    }
 
    public boolean isActive() {

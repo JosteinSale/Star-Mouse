@@ -138,13 +138,13 @@ public class PlayerFly extends Entity {
             }
         } 
         else {
-            if (game.rightIsPressed && game.mIsPressed && (teleportBuffer == 0)) {
+            if (game.rightIsPressed && game.teleportIsPressed && (teleportBuffer == 0)) {
                 planeAction = TELEPORTING_RIGHT;
                 teleportBuffer = teleportCoolDown;
                 flipX = 1;
                 return;
             }
-            else if (game.leftIsPressed && game.mIsPressed && (teleportBuffer == 0)) {
+            else if (game.leftIsPressed && game.teleportIsPressed && (teleportBuffer == 0)) {
                 planeAction = TELEPORTING_LEFT;
                 teleportBuffer = teleportCoolDown;
                 flipX = -1;
@@ -372,7 +372,7 @@ public class PlayerFly extends Entity {
     public void draw(Graphics g) {
         if (visible) {
             // Teleport shadows
-            if (game.mIsPressed) {
+            if (game.teleportIsPressed) {
                 g.setColor(Color.LIGHT_GRAY);
                 drawShadow(g, teleportDistance);
                 drawShadow(g, -teleportDistance);

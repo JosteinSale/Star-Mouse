@@ -13,7 +13,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -27,6 +26,7 @@ import utils.Constants.Audio;
 public class PauseExploring implements Statemethods {
     private Game game;
     private AudioPlayer audioPlayer;
+    private OptionsMenu optionsMenu;
     private Color bgColor = new Color(0, 0, 0, 230);
     private Font headerFont;
     private Font menuFont;
@@ -61,9 +61,10 @@ public class PauseExploring implements Statemethods {
     private int cursorY = cursorMinY;
     private int menuOptionsDiff = (cursorMaxY - cursorMinY) / 2;   
     
-    public PauseExploring(Game game, AudioPlayer audioPlayer) {
+    public PauseExploring(Game game, AudioPlayer audioPlayer, OptionsMenu optionsMenu) {
         this.game = game;
         this.audioPlayer = audioPlayer;
+        this.optionsMenu = optionsMenu;
         calcDrawValues();
         loadImages();
         loadFonts();
@@ -105,7 +106,12 @@ public class PauseExploring implements Statemethods {
 
     @Override
     public void update() {
-        handleKeyBoardInputs();
+        if (optionsMenu.isActive()) {
+            optionsMenu.update();
+        } 
+        else {
+            handleKeyBoardInputs();
+        }
     }
 
     private void handleKeyBoardInputs() {
@@ -131,13 +137,14 @@ public class PauseExploring implements Statemethods {
             audioPlayer.playSFX(Audio.SFX_CURSOR);
             takeIndexLeft();
         }
-        else if (game.spaceIsPressed) {
-            game.spaceIsPressed = false;
+        else if (game.interactIsPressed) {
+            game.interactIsPressed = false;
             if (selectedIndex == 8) {
                 this.flipActive();
             }
             else if (selectedIndex == 9) {
-                // TODO: Enter options menu
+                audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
+                optionsMenu.setActive(true);
             }
             else if (selectedIndex == 10) {
                 this.flipActive();
@@ -232,12 +239,17 @@ public class PauseExploring implements Statemethods {
 
     @Override
     public void draw(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
-        drawBackground(g2);
-        drawItems(g2);
-        drawText(g2);
-        drawStatusValues(g2);
-        drawPointer(g2);
+        if (optionsMenu.isActive()) {
+            optionsMenu.draw(g);
+        } 
+        else {
+            Graphics2D g2 = (Graphics2D) g;
+            drawBackground(g2);
+            drawItems(g2);
+            drawText(g2);
+            drawStatusValues(g2);
+            drawPointer(g2);
+        }
     }
 
     private void drawStatusValues(Graphics2D g2) {

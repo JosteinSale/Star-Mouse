@@ -32,6 +32,9 @@ public class MainMenu extends State implements Statemethods {
     private int cursorY = cursorMinY;
     private int cursorYStep = (cursorMaxY - cursorMinY) / 3;
     private int selectedIndex = 0;
+    private int alphaFade = 255;
+    private boolean fadeActive = true;
+
 
     private static final int NEW_GAME = 0;
     private static final int LEVEL_EDITOR = 1;
@@ -47,8 +50,6 @@ public class MainMenu extends State implements Statemethods {
         cursorImg = LoadSave.getExpImageSprite(LoadSave.CURSOR_SPRITE_WHITE);
         titleImg = LoadSave.getExpImageBackground(LoadSave.MAIN_MENU_TITLE);
         menuFont = LoadSave.getNameFont();
-        audioPlayer.startAmbienceLoop(Audio.AMBIENCE_SILENCE);  
-        audioPlayer.startSongLoop(Audio.SONG_ACADEMY);
         makeMenuRectangles();
     }
 
@@ -75,13 +76,14 @@ public class MainMenu extends State implements Statemethods {
             moveCursorDown();
             increaseIndex();
         }
-        else if (game.spaceIsPressed) {
-            game.spaceIsPressed = false;
+        else if (game.interactIsPressed) {
+            game.interactIsPressed = false;
             if (selectedIndex == NEW_GAME) {
+                fadeActive = true;
                 audioPlayer.stopAllLoops();
                 audioPlayer.playSFX(Audio.SFX_STARTGAME);
-                this.game.getExploring().update(); 
-                Gamestate.state = Gamestate.EXPLORING;
+                this.game.getExploring().update();
+                Gamestate.state = Gamestate.FLYING;
             }
             else if (selectedIndex == LEVEL_EDITOR) {
                 audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
@@ -100,11 +102,22 @@ public class MainMenu extends State implements Statemethods {
     
     @Override
     public void update() {
-        if (optionsMenu.isActive()) {
+        if (fadeActive) {
+            updateFade();
+        }
+        else if (optionsMenu.isActive()) {
             optionsMenu.update();
         } 
         else {
             handleKeyBoardInputs();
+        }
+    }
+
+    private void updateFade() {
+        this.alphaFade -= 5;
+        if (alphaFade < 0) {
+            alphaFade = 0;
+            fadeActive = false;
         }
     }
 
@@ -113,8 +126,6 @@ public class MainMenu extends State implements Statemethods {
         Graphics2D g2 = (Graphics2D) g;
 
         // Background
-        //g.setColor(Color.BLACK);
-        //g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
         g.drawImage(bgImg, 
             0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
 
@@ -140,6 +151,13 @@ public class MainMenu extends State implements Statemethods {
             (int) (CURSOR_WIDTH * Game.SCALE), 
             (int) (CURSOR_HEIGHT * Game.SCALE),
             null);
+        
+        // Fade
+        if (fadeActive) {
+            g.setColor(new Color(0, 0, 0, alphaFade));
+            g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
+        }
+        // Options
         if (optionsMenu.isActive()) {
             optionsMenu.draw(g);
         }

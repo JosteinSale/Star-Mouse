@@ -50,16 +50,17 @@ public class Game implements Runnable {
     public boolean downIsPressed = false;
     public boolean rightIsPressed = false;
     public boolean leftIsPressed = false;
-    public boolean spaceIsPressed = false;
-    public boolean mIsPressed = false;
-    public boolean bIsPressed = false;
-    public boolean enterIsPressed = false;
+    public boolean interactIsPressed = false;
+    public boolean teleportIsPressed = false;
+    public boolean bombIsPressed = false;
+    public boolean pauseIsPressed = false;
 
     public Game() {
         initClasses();
         this.gamePanel = new GamePanel(this);
         this.gameWindow = new GameWindow(this.gamePanel, SCREEN_WIDTH, SCREEN_HEIGHT);
         gamePanel.requestFocus(true);
+        optionsMenu.setKeyboardInputs(gamePanel.getKeyboardInputs());
         startGameLoop();
     }
 
@@ -208,6 +209,10 @@ public class Game implements Runnable {
 
     public AudioPlayer getAudioPlayer() {
         return this.audioPlayer;
+    }
+
+    public OptionsMenu getOptionsMenu() {
+        return this.optionsMenu;
     }
 
     public void sleep(long millis) throws InterruptedException {

@@ -12,10 +12,12 @@ import static main.Game.GAME_HEIGHT;
 // Det faktiske bildet. Lytter også etter keyboardInputs.
 public class GamePanel extends JPanel {  
     private Game game;
+    private KeyboardInputs keyboardInputs;
 
     public GamePanel(Game game) {
         this.game = game;
-        addKeyListener(new KeyboardInputs(this, game));
+        this.keyboardInputs = new KeyboardInputs(this, game);
+        addKeyListener(keyboardInputs);
         setPanelSize(GAME_WIDTH, GAME_HEIGHT);
         this.setFocusable(true);   // Denne linjen bør være i denne klassen
     }
@@ -34,6 +36,10 @@ public class GamePanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         game.render(g);
+    }
+
+    public KeyboardInputs getKeyboardInputs() {
+        return this.keyboardInputs;
     }
 
 }

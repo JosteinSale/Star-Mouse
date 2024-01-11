@@ -149,8 +149,8 @@ public class LevelEditor implements Statemethods {
             game.rightIsPressed = false;
             this.shootTimer += 10;
         }
-        else if (game.spaceIsPressed) {
-            game.spaceIsPressed = false;
+        else if (game.interactIsPressed) {
+            game.interactIsPressed = false;
             int adjustedY = cursorY + entityYOffset;
             addEntityToList(selectedEntity, cursorX, adjustedY, curDirection, this.shootTimer);
         }
@@ -171,7 +171,7 @@ public class LevelEditor implements Statemethods {
             selectedEntity = (selectedEntity + 1) % entityImgs.length;
         }
         else if (e.getKeyCode() == KeyEvent.VK_F) {
-            game.bIsPressed = false;
+            game.bombIsPressed = false;
             curDirection *= -1;
         }
         else if (e.getKeyCode() == KeyEvent.VK_P) {

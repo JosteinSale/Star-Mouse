@@ -10,13 +10,13 @@ import main.Game;
 import utils.LoadSave;
 import utils.Constants.Audio;
 
-import static utils.Constants.Exploring.Sprites.STANDARD_SPRITE_HEIGHT;
-import static utils.Constants.Exploring.Sprites.STANDARD_SPRITE_WIDTH;
-
 public class StartScreen extends State implements Statemethods {
     private BufferedImage mouseImg;
     private int mouseImgW;
     private int mouseImgH;
+    private int alphaFade = 0;
+    private boolean fadeActive = false;
+
     private AudioPlayer audioPlayer;
     private Font font;
 
@@ -31,14 +31,29 @@ public class StartScreen extends State implements Statemethods {
 
     @Override
     public void update() {
-        handleKeyBoardInputs();
+        if (fadeActive) {
+            updateFade();
+        } else {
+            handleKeyBoardInputs();
+        }
+    }
+
+    private void updateFade() {
+        this.alphaFade += 5;
+        if (alphaFade > 255) {
+            alphaFade = 255;
+            //fadeActive = false;  Doesn't need to be reset, since we never return to start screen.
+            Gamestate.state = Gamestate.MAIN_MENU;
+            audioPlayer.startAmbienceLoop(Audio.AMBIENCE_SILENCE);  
+            audioPlayer.startSongLoop(Audio.SONG_ACADEMY);
+        }
     }
 
     private void handleKeyBoardInputs() {
-        if (game.spaceIsPressed) {
-            game.spaceIsPressed = false;
+        if (game.interactIsPressed) {
+            game.interactIsPressed = false;
+            fadeActive = true;
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
-            Gamestate.state = Gamestate.MAIN_MENU;
         }
     }
 
@@ -61,6 +76,12 @@ public class StartScreen extends State implements Statemethods {
         g.drawString(
             "Press SPACE", 
             (int) (430 * Game.SCALE), (int) (600 * Game.SCALE));
+        
+        // Fade
+        if (fadeActive) {
+            g.setColor(new Color(0, 0, 0, alphaFade));
+            g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
+        }
     }
  
 }

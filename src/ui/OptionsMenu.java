@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import audio.AudioPlayer;
-
+import inputs.KeyboardInputs;
 import main.Game;
 import utils.LoadSave;
 import utils.Constants.Audio;
@@ -69,6 +69,10 @@ public class OptionsMenu {
       calcDrawValues();
       loadImages();
       loadFonts();
+   }
+
+   public void setKeyboardInputs(KeyboardInputs keyboardInputs) {
+      controlsMenu.setKeyboardInputs(keyboardInputs);
    }
 
    private void calcVolumeXs() {
@@ -143,8 +147,8 @@ public class OptionsMenu {
          changeVolume(selectedIndex, DOWN);
          audioPlayer.playSFX(Audio.SFX_CURSOR);
       }
-      else if (game.spaceIsPressed) {
-         game.spaceIsPressed = false;
+      else if (game.interactIsPressed) {
+         game.interactIsPressed = false;
          if (selectedIndex == RETURN) {
             this.active = false;
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
