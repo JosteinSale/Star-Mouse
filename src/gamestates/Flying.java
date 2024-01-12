@@ -107,7 +107,7 @@ public class Flying extends State implements Statemethods {
         this.clYOffset = Game.GAME_DEFAULT_HEIGHT - clImgHeight + 150;
         this.clXOffset = 150;
         this.bgImg = LoadSave.getFlyImageBackground("level" + Integer.toString(lvl) + "_bg.png");
-        this.bgImgHeight = bgImg.getHeight();
+        this.bgImgHeight = bgImg.getHeight() * 3;  // TODO - make constant
         this.bgYOffset = Game.GAME_DEFAULT_HEIGHT - bgImgHeight;
     }
 
