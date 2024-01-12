@@ -1,7 +1,6 @@
 package gamestates;
 
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -21,7 +20,6 @@ import ui.LevelFinishedOverlay;
 import ui.OptionsMenu;
 import ui.PauseFlying;
 import ui.TextboxManager2;
-import utils.Constants.Audio;
 import utils.LoadSave;
 import static utils.HelpMethods.GetAutomaticTrigger;
 import static utils.HelpMethods2.GetPickupItem;
