@@ -50,6 +50,7 @@ public class Flying extends State implements Statemethods {
     private boolean gamePlayActive = true;
     private boolean levelFinished = false;
 
+    private int[] bgImgHeights = {7600, 10740};
     private BufferedImage clImg;
     private BufferedImage bgImg;
     private int clImgHeight;
@@ -107,7 +108,7 @@ public class Flying extends State implements Statemethods {
         this.clYOffset = Game.GAME_DEFAULT_HEIGHT - clImgHeight + 150;
         this.clXOffset = 150;
         this.bgImg = LoadSave.getFlyImageBackground("level" + Integer.toString(lvl) + "_bg.png");
-        this.bgImgHeight = bgImg.getHeight() * 3;  // TODO - make constant
+        this.bgImgHeight = bgImgHeights[lvl];
         this.bgYOffset = Game.GAME_DEFAULT_HEIGHT - bgImgHeight;
     }
 
