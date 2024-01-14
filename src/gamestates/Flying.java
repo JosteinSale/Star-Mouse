@@ -2,7 +2,9 @@ package gamestates;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -118,7 +120,29 @@ public class Flying extends State implements Statemethods {
         this.scaledBgImg =  bgImg.getScaledInstance(
             (Game.GAME_WIDTH), 
             (int) (bgImgHeight * Game.SCALE), Image.SCALE_SMOOTH);
+        /* 
+        this.scaledBgImg = scaleNearest(bgImg, 3 * Game.SCALE);
+        this.scaledClImg = scaleNearest(clImg, 3 * Game.SCALE);
+        */
     }
+
+    public static BufferedImage scaleNearest(BufferedImage before, double scale) {
+        final int interpolation = AffineTransformOp.TYPE_NEAREST_NEIGHBOR;
+        return scale(before, scale, interpolation);
+    }
+
+    private static BufferedImage scale(
+            final BufferedImage before, final double scale, final int type) {
+        int w = before.getWidth();
+        int h = before.getHeight();
+        int w2 = (int) (w * scale);
+        int h2 = (int) (h * scale);
+        BufferedImage after = new BufferedImage(w2, h2, before.getType());
+        AffineTransform scaleInstance = AffineTransform.getScaleInstance(scale, scale);
+        AffineTransformOp scaleOp = new AffineTransformOp(scaleInstance, type);
+        scaleOp.filter(before, after);
+        return after;
+}
 
     private void loadPickupItems(Integer level) {
         pickupItems.clear();
@@ -336,6 +360,7 @@ public class Flying extends State implements Statemethods {
             scaledClImg, 
             (int) (-150 * Game.SCALE), 
             (int) (clYOffset * Game.SCALE), null);
+            
     }
 
     private void drawPickupItems(Graphics g) {

@@ -82,7 +82,7 @@ public class MainMenu extends State implements Statemethods {
                 fadeActive = true;
                 audioPlayer.stopAllLoops();
                 audioPlayer.playSFX(Audio.SFX_STARTGAME);
-                this.game.getExploring().update();
+                //this.game.getExploring().update();   uncomment 
                 Gamestate.state = Gamestate.FLYING;
             }
             else if (selectedIndex == LEVEL_EDITOR) {
