@@ -129,7 +129,7 @@ public class EnemyManager {
             enemy.update(levelYSpeed);
             if (enemy.isOnScreen() && !enemy.isDead()) {
                 activeEnemiesOnScreen.add(enemy);
-                if (player.teleportCollidesWithEnemy(enemy.getHitbox())) {
+                if (player.teleportDamagesEnemy(enemy.getHitbox())) {
                     enemy.takeDamage(teleportDmg);
                     checkIfDead(enemy);
                 }

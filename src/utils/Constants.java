@@ -170,6 +170,7 @@ public class Constants {
         public static final int SFX_BOMB_PICKUP = 6;
         public static final int SFX_REPAIR = 7;
         public static final int SFX_POWERUP = 8;
+        public static final int SFX_HURT = 16;
 
         // SFX - Exploring
         public static final int SFX_CURSOR = 9;

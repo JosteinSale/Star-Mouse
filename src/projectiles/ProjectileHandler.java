@@ -229,6 +229,7 @@ public class ProjectileHandler {
                     if (p.getHitbox().intersects(player.getHitbox())) {
                         p.setActive(false);
                         player.takeShootDamage(p.getDamage());
+                        audioPlayer.playSFX(Audio.SFX_HURT);
                         projectileHits.add(new ProjectileHit(
                                 (int) (player.getHitbox().x - 10),
                                 (int) (player.getHitbox().y),
