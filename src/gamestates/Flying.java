@@ -1,6 +1,7 @@
 package gamestates;
 
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import ui.LevelFinishedOverlay;
 import ui.OptionsMenu;
 import ui.PauseFlying;
 import ui.TextboxManager2;
+import utils.Constants.Audio;
 import utils.LoadSave;
 import static utils.HelpMethods.GetAutomaticTrigger;
 import static utils.HelpMethods2.GetPickupItem;
@@ -51,6 +53,8 @@ public class Flying extends State implements Statemethods {
     private int[] bgImgHeights = {7600, 10740};
     private BufferedImage clImg;
     private BufferedImage bgImg;
+    private Image scaledClImg;
+    private Image scaledBgImg;
     private int clImgHeight;
     private int clImgWidth;
     private int bgImgHeight;
@@ -84,7 +88,7 @@ public class Flying extends State implements Statemethods {
         loadPickupItems(level);
         loadCutscenes(level);  
         player.setKilledEnemies(0);
-        startAt(-9000);
+        //startAt(-9000);
     }
 
     private void initClasses(OptionsMenu optionsMenu) {
@@ -108,6 +112,12 @@ public class Flying extends State implements Statemethods {
         this.bgImg = LoadSave.getFlyImageBackground("level" + Integer.toString(lvl) + "_bg.png");
         this.bgImgHeight = bgImgHeights[lvl];
         this.bgYOffset = Game.GAME_DEFAULT_HEIGHT - bgImgHeight;
+        this.scaledClImg =  clImg.getScaledInstance(
+            (int) (clImgWidth * Game.SCALE), 
+            (int) (clImgHeight * Game.SCALE), Image.SCALE_SMOOTH);
+        this.scaledBgImg =  bgImg.getScaledInstance(
+            (Game.GAME_WIDTH), 
+            (int) (bgImgHeight * Game.SCALE), Image.SCALE_SMOOTH);
     }
 
     private void loadPickupItems(Integer level) {
@@ -320,15 +330,12 @@ public class Flying extends State implements Statemethods {
 
     private void drawMaps(Graphics g) {
         g.drawImage(
-            bgImg, 
-            0, (int) (bgYOffset * Game.SCALE), 
-            Game.GAME_WIDTH, (int) (bgImgHeight * Game.SCALE), null);
+            scaledBgImg, 
+            0, (int) (bgYOffset * Game.SCALE), null);
         g.drawImage(
-            clImg, 
+            scaledClImg, 
             (int) (-150 * Game.SCALE), 
-            (int) (clYOffset * Game.SCALE), 
-            (int) (clImgWidth * Game.SCALE), 
-            (int) (clImgHeight * Game.SCALE), null);
+            (int) (clYOffset * Game.SCALE), null);
     }
 
     private void drawPickupItems(Graphics g) {
