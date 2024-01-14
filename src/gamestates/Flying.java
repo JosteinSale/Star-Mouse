@@ -2,9 +2,7 @@ package gamestates;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +21,6 @@ import ui.LevelFinishedOverlay;
 import ui.OptionsMenu;
 import ui.PauseFlying;
 import ui.TextboxManager2;
-import utils.Constants.Audio;
 import utils.LoadSave;
 import static utils.HelpMethods.GetAutomaticTrigger;
 import static utils.HelpMethods2.GetPickupItem;
@@ -54,7 +51,6 @@ public class Flying extends State implements Statemethods {
 
     private int[] bgImgHeights = {7600, 10740};
     private BufferedImage clImg;
-    private BufferedImage bgImg;
     private Image scaledClImg;
     private Image scaledBgImg;
     private int clImgHeight;
@@ -111,38 +107,16 @@ public class Flying extends State implements Statemethods {
         this.clImgWidth = clImg.getWidth() * 3;
         this.clYOffset = Game.GAME_DEFAULT_HEIGHT - clImgHeight + 150;
         this.clXOffset = 150;
-        this.bgImg = LoadSave.getFlyImageBackground("level" + Integer.toString(lvl) + "_bg.png");
+        BufferedImage bgImg = LoadSave.getFlyImageBackground("level" + Integer.toString(lvl) + "_bg.png");
         this.bgImgHeight = bgImgHeights[lvl];
         this.bgYOffset = Game.GAME_DEFAULT_HEIGHT - bgImgHeight;
-        this.scaledClImg =  clImg.getScaledInstance(
+        scaledClImg =  clImg.getScaledInstance(
             (int) (clImgWidth * Game.SCALE), 
             (int) (clImgHeight * Game.SCALE), Image.SCALE_SMOOTH);
-        this.scaledBgImg =  bgImg.getScaledInstance(
+        scaledBgImg =  bgImg.getScaledInstance(
             (Game.GAME_WIDTH), 
             (int) (bgImgHeight * Game.SCALE), Image.SCALE_SMOOTH);
-        /* 
-        this.scaledBgImg = scaleNearest(bgImg, 3 * Game.SCALE);
-        this.scaledClImg = scaleNearest(clImg, 3 * Game.SCALE);
-        */
     }
-
-    public static BufferedImage scaleNearest(BufferedImage before, double scale) {
-        final int interpolation = AffineTransformOp.TYPE_NEAREST_NEIGHBOR;
-        return scale(before, scale, interpolation);
-    }
-
-    private static BufferedImage scale(
-            final BufferedImage before, final double scale, final int type) {
-        int w = before.getWidth();
-        int h = before.getHeight();
-        int w2 = (int) (w * scale);
-        int h2 = (int) (h * scale);
-        BufferedImage after = new BufferedImage(w2, h2, before.getType());
-        AffineTransform scaleInstance = AffineTransform.getScaleInstance(scale, scale);
-        AffineTransformOp scaleOp = new AffineTransformOp(scaleInstance, type);
-        scaleOp.filter(before, after);
-        return after;
-}
 
     private void loadPickupItems(Integer level) {
         pickupItems.clear();

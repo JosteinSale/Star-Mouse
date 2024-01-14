@@ -25,7 +25,6 @@ public class LevelSelect extends State implements Statemethods {
 
     @Override
     public void update() {
-
     }
 
     @Override
