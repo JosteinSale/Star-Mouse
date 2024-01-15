@@ -116,7 +116,6 @@ smallShip;310;-20860;1;0
 smallShip;430;-20860;1;0
 smallShip;430;-20790;1;0
 smallShip;430;-20720;1;0
-blasterDrone;270;-21480;1;30
 blasterDrone;140;-21600;1;30
 drone;780;-21580;1;1200
 drone;910;-21580;1;1200
@@ -141,3 +140,4 @@ smallShip;360;-23820;1;0
 smallShip;540;-23820;1;0
 octaDrone;220;-24170;1;60
 octaDrone;730;-24170;1;60
+blasterDrone;250;-21480;1;30

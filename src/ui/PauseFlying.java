@@ -19,8 +19,6 @@ import utils.LoadSave;
 
 import static utils.Constants.UI.CURSOR_HEIGHT;
 import static utils.Constants.UI.CURSOR_WIDTH;
-import static utils.Constants.UI.PAUSE_FLYING_WIDTH;
-import static utils.Constants.UI.PAUSE_FLYING_HEIGHT;
 
 public class PauseFlying {
     private AudioPlayer audioPlayer;
@@ -34,11 +32,6 @@ public class PauseFlying {
     private BufferedImage pointerImg;
     private int selectedIndex = 0;
 
-    private int bgW;
-    private int bgH;
-    private int bgX;
-    private int bgY;
-
     private int cursorX = 320;
     private int cursorMinY = 490;
     private int cursorMaxY = 620;
@@ -49,16 +42,8 @@ public class PauseFlying {
         this.audioPlayer = flying.getGame().getAudioPlayer();
         this.flying = flying;
         this.optionsMenu = optionsMenu;
-        calcDrawValues();
         loadImages();
         loadFonts();
-    }
-
-    private void calcDrawValues() {
-        bgW = PAUSE_FLYING_WIDTH;
-        bgH = PAUSE_FLYING_HEIGHT;
-        bgX = (int) ((Game.GAME_DEFAULT_WIDTH / 2) - (bgW / 2));
-        bgY = (int) ((Game.GAME_DEFAULT_HEIGHT / 2) - (bgH / 2));
     }
 
     private void loadImages() {

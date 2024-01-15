@@ -1,10 +1,8 @@
 package entities.flying;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
 import java.awt.image.BufferedImage;
@@ -26,7 +24,6 @@ public class PlayerFly extends Entity {
     private Game game;
     private AudioPlayer audioPlayer;
     private BufferedImage clImg;
-    private Font statusFont;
     private BufferedImage[][] animations;
     private BufferedImage tpShadowImg;
     private ShipFlame flame;
@@ -67,7 +64,6 @@ public class PlayerFly extends Entity {
         this.tpShadowImg = LoadSave.getFlyImageSprite("teleport_shadow.png");
         loadAnimations();
         updateCollisionPixels();
-        this.statusFont = LoadSave.getInfoFont();
         this.flame = new ShipFlame();
         this.teleportHitbox = new Rectangle2D.Float(
             hitbox.x, hitbox.y, teleportKillWidth, hitbox.height);
@@ -111,27 +107,23 @@ public class PlayerFly extends Entity {
         collisionYs[8] = hitbox.y + hitbox.height;
     }
 
-    public void keyPressed(KeyEvent e) {}
-
-    public void KeyReleased(KeyEvent e) {}
-
     public void update(float yLevelOffset, float xLevelOffset) {
         int prevAction = planeAction;
         handleKeyboardInputs();
-        adjustSpeedAndAction();
         movePlayer();    
         checkMapCollision(yLevelOffset, xLevelOffset);
         if (planeAction != prevAction) {aniIndex = 0;}
         updateAniTick();
         flame.update();
+        statusDisplay.update();
     }
 
+    /** Handles keyboardInputs */
     private void handleKeyboardInputs() {
-    }
 
-    private void adjustSpeedAndAction() {
-        if ((planeAction == TAKING_COLLISION_DAMAGE)) {
-            iFrameCount += 1;
+        // First: handles behaviour based on whether keys are pressed
+        if ((planeAction == TAKING_COLLISION_DAMAGE)) {   // Player can't control the plane while 
+            iFrameCount += 1;                             // taking collision damage.
             if (iFrameCount > iFrames) {
                 planeAction = IDLE;
                 iFrameCount = 0;
@@ -179,7 +171,7 @@ public class PlayerFly extends Entity {
             }
         }
 
-
+        // Second: handles behaviour based on whether keys are NOT pressed
         if (!(game.leftIsPressed || game.rightIsPressed)) {
             if (xSpeed < 0) {xSpeed += acceleration/2;} 
             else if (xSpeed > 0) {xSpeed -= acceleration/2;}
@@ -214,8 +206,30 @@ public class PlayerFly extends Entity {
         }
     }
 
+    /** Moves the player hitbox, and prevents it from going off screen */
+    private void adjustPos(float deltaX, float deltaY) {
+        hitbox.x += deltaX;
+        hitbox.y += deltaY;
+        if (hitbox.x < edgeDist) {
+            hitbox.x = edgeDist;
+            xSpeed = 0;
+        }
+        if ((hitbox.x + hitbox.width + edgeDist) > Game.GAME_DEFAULT_WIDTH) {
+            hitbox.x = Game.GAME_DEFAULT_WIDTH - hitbox.width - edgeDist;
+            xSpeed = 0;
+        }
+        if (hitbox.y < edgeDist) {
+            hitbox.y = edgeDist;
+            ySpeed = 0;
+        }
+        if ((hitbox.y + hitbox.height + edgeDist) > Game.GAME_DEFAULT_HEIGHT) {
+            hitbox.y = Game.GAME_DEFAULT_HEIGHT - hitbox.height - edgeDist;
+            ySpeed = 0;
+        }
+    }
+
     // Remember, this is called AFTER player has teleported. Thus the hitbox should be 
-    // positioned where the player WAS, just before they teleported.
+    // positioned in relation to where the player WAS, just before they teleported.
     private void adjustTeleportHitbox() {
         teleportHitbox.y = hitbox.y;
         if (flipX == 1) {
@@ -279,9 +293,14 @@ public class PlayerFly extends Entity {
     }
 
     /** Checks if the enemy is close to player.
-     * Possibly we could have that distance as a custom value stored within each enemy?
-     * If enemy is close to player, it checks collisionpixels.
-     * If a collision has occured, player takes damage and is pushed in opposite direction */
+     * If enemy is close to player, it checks collisionpixels (an extensive operation).
+     * If a collision has occured, player takes damage and is pushed in opposite direction.
+     * 
+     * (This method could be improved: instead of making 9 new points for each enemy, 
+     * make 9 points once, and then check each enemyhitbox that is close enough.
+     * Make this method in enemyManager, call getPlayerPixels(), 
+     * check those pixels for each enemy). 
+     */
     public boolean collidesWithEnemy(Rectangle2D.Float enemyHitbox) {
         double dist = Math.pow(
             Math.pow((hitbox.x - enemyHitbox.x), 2) + Math.pow((hitbox.y - enemyHitbox.y), 2), 0.5f);
@@ -303,7 +322,7 @@ public class PlayerFly extends Entity {
         return false;
     }
 
-    public boolean teleportCollidesWithEnemy(Rectangle2D.Float enemyHitbox) {
+    public boolean teleportDamagesEnemy(Rectangle2D.Float enemyHitbox) {
         if (planeAction == TELEPORTING_RIGHT || planeAction == TELEPORTING_LEFT) {
             if (teleportHitbox.intersects(enemyHitbox)) {
                 return true;
@@ -312,6 +331,12 @@ public class PlayerFly extends Entity {
         return false;
     }
 
+    /*
+     * The pixels of the player hitbox are enumerated as such:
+     * 4 - 0 - 5
+     * 1 - 6 - 2
+     * 7 - 3 - 8
+     */
     private void pushInOppositeDirectionOf(int i, float pushDistance) {
         switch (i) {
             case 0 -> adjustPos(0, pushDistance * 1.5f);
@@ -338,27 +363,6 @@ public class PlayerFly extends Entity {
             if (aniIndex == GetPlayerSpriteAmount(planeAction)) {
                 aniIndex = GetPlayerSpriteAmount(planeAction) - 1;
             }
-        }
-    }
-
-    private void adjustPos(float deltaX, float deltaY) {
-        hitbox.x += deltaX;
-        hitbox.y += deltaY;
-        if (hitbox.x < edgeDist) {
-            hitbox.x = edgeDist;
-            xSpeed = 0;
-        }
-        if ((hitbox.x + hitbox.width + edgeDist) > Game.GAME_DEFAULT_WIDTH) {
-            hitbox.x = Game.GAME_DEFAULT_WIDTH - hitbox.width - edgeDist;
-            xSpeed = 0;
-        }
-        if (hitbox.y < edgeDist) {
-            hitbox.y = edgeDist;
-            ySpeed = 0;
-        }
-        if ((hitbox.y + hitbox.height + edgeDist) > Game.GAME_DEFAULT_HEIGHT) {
-            hitbox.y = Game.GAME_DEFAULT_HEIGHT - hitbox.height - edgeDist;
-            ySpeed = 0;
         }
     }
 
@@ -435,6 +439,7 @@ public class PlayerFly extends Entity {
         this.aniIndex = 0;
         this.planeAction = TAKING_SHOOT_DAMAGE;
         this.statusDisplay.setHP(this.HP);
+        this.statusDisplay.setBlinking();
     }
 
     private void takeCollisionDmg() {
@@ -444,6 +449,7 @@ public class PlayerFly extends Entity {
         this.resetSpeed();
         this.planeAction = TAKING_COLLISION_DAMAGE;
         this.statusDisplay.setHP(HP);
+        this.statusDisplay.setBlinking();
     }
 
     public Rectangle2D.Float getHitbox() {

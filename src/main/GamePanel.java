@@ -20,6 +20,7 @@ public class GamePanel extends JPanel {
         addKeyListener(keyboardInputs);
         setPanelSize(GAME_WIDTH, GAME_HEIGHT);
         this.setFocusable(true);   // Denne linjen bør være i denne klassen
+        this.setDoubleBuffered(true);
     }
 
     private void setPanelSize(int screen_width, int screen_height) {              // Notat 1

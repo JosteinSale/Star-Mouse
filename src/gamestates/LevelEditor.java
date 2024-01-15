@@ -13,7 +13,6 @@ import java.util.Scanner;
 import main.Game;
 import utils.LoadSave;
 import static utils.Constants.Flying.Sprites.ALL_SPRITES_SIZE;
-import static utils.Constants.Flying.TypeConstants.SMALL_SHIP;
 
 
 /**
@@ -315,7 +314,7 @@ public class LevelEditor implements Statemethods {
     private void drawMaps(Graphics g) {
         g.drawImage(
             clImg, 
-            (int) (-150 * Game.SCALE), 
+            (int) (-clXOffset * Game.SCALE), 
             (int) (clYOffset * Game.SCALE), 
             (int) (clImgWidth * Game.SCALE), 
             (int) (clImgHeight * Game.SCALE), null);

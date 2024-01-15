@@ -82,10 +82,6 @@ public class CutsceneManager2 {
         eventHandler.triggerEvents();
     }
 
-    public void keyPressed(KeyEvent e) {
-        
-    }
-
     public void advance() {
         textboxManager.resetBooleans();
         Cutscene cutscene = cutscenes.get(triggerIndex).get(cutsceneIndex);

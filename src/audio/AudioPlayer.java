@@ -29,7 +29,8 @@ public class AudioPlayer {
         "SFX - ItemPickup.wav",
         "SFX - Success.wav",               
         "SFX - InfoBox2.wav",
-        "SFX - BigExplosion3.wav"
+        "SFX - BigExplosion3.wav",
+        "SFX - Hurt2.wav"
     };
     private String[] songFileNames = {
         "Song - Tutorial (FINISHED)3.wav",
@@ -187,7 +188,7 @@ public class AudioPlayer {
         }
     }
 
-    /** Abruptly stops the current song, and resets it */
+    /** Abruptly stops the current song + ambience */
     public void stopAllLoops() {
         if (curSong.isActive()) {  
             curSong.stop();
@@ -197,7 +198,7 @@ public class AudioPlayer {
         }
     }
 
-    /** Fades out all current audio, and then stops- and resets loops */
+    /** Fades out the current song + ambience, and then stops them. */
     public void fadeOutAllLoops() {
         if ((curSong.isActive()) || (curAmbience.isActive())) { 
             this.fadeOutActive = true;
