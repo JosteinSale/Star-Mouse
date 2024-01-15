@@ -6,11 +6,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.SwingUtilities;
-
 import audio.AudioPlayer;
 import main.Game;
-import projectiles.BombExplosion;
 import projectiles.Explosion;
 import utils.LoadSave;
 import utils.Constants.Audio;

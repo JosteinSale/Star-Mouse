@@ -83,9 +83,9 @@ public class PauseFlying {
             } 
             else if (selectedIndex == 2) {
                 audioPlayer.stopAllLoops();
-                // TODO - call flying.exitFlying() - This resets all non-level-specific
-                // variables.
-                // Level-specific objects are reset and loaded in the load-methods.
+                flying.resetFlying();
+                // TODO - make fadeOut. Make public reset-method that resets fade-boolean
+                flying.getGame().resetMainMenu();
                 Gamestate.state = Gamestate.MAIN_MENU;
             }
         }

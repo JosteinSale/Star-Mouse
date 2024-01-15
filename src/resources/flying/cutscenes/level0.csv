@@ -1,7 +1,7 @@
 cutscene;true;automatic;0
 setGameplayActive;false
 blackScreen;true
-wait;40
+wait;120
 endSequence
 fadeHeader;in;350;10;Academy flight range
 wait;150

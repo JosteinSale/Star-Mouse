@@ -145,10 +145,7 @@ public class Game implements Runnable {
     public void run() {
         double timePerFrame = 1000000000.0 / FPS_SET;  // 1 milliard nanosekunder / FPS_SET
         double timePerUpdate = 1000000000.0 / UPS_SET;  // 1 milliard nanosekunder / UPS_SET
-        int frames = 0;               // Hvor mange frames som har passert siden sist sjekk
-        long lastCheck = System.currentTimeMillis();
         long previousTime = System.nanoTime();
-        int updates = 0;
         double deltaU = 0;     // delta UPS
         double deltaF = 0;     // delta FPS
 
@@ -162,24 +159,15 @@ public class Game implements Runnable {
             previousTime = currentTime;
 
             if (deltaU >= 1) {
-                updates++;
                 deltaU--;
                 update(); 
             }
 
             if (deltaF >= 1) {
-                frames++;
                 deltaF--;
                 gamePanel.repaint();
             }
 
-            // Printer hvor mange frames som faktisk passerer i sekundet
-            if (System.currentTimeMillis() - lastCheck >= 1000) {
-                lastCheck = System.currentTimeMillis();
-                //System.out.println("FPS: " + frames + " | UPS: " + updates);
-                frames = 0;
-                updates = 0;
-            }
         }
     }
 
@@ -217,6 +205,10 @@ public class Game implements Runnable {
 
     public void sleep(long millis) throws InterruptedException {
         Thread.sleep(millis);
+    }
+
+    public void resetMainMenu() {
+        this.mainMenu.reset();
     }
 
 /* 

@@ -149,8 +149,10 @@ public class PauseExploring implements Statemethods {
             else if (selectedIndex == 10) {
                 this.flipActive();
                 audioPlayer.stopAllLoops();
+                game.resetMainMenu();
+                // TODO - make resetMethod for Exploring.
+                // TODO - make fadeOut. Make public reset-method that resets fade-boolean
                 Gamestate.state = Gamestate.MAIN_MENU;
-                audioPlayer.startSongLoop(Audio.SONG_ACADEMY);
             }
         }
     }
