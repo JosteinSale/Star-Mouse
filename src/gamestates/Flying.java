@@ -33,6 +33,7 @@ import static utils.Constants.Flying.TypeConstants.BOMB;
 import static utils.Constants.Audio;
 
 public class Flying extends State implements Statemethods {
+    
     public AudioPlayer audioPlayer;
     private PauseFlying pauseOverlay;
     private LevelFinishedOverlay levelFinishedOverlay;
