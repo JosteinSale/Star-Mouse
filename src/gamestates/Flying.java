@@ -17,6 +17,7 @@ import entities.flying.PlayerFly;
 import game_events.*;
 import main.Game;
 import projectiles.ProjectileHandler;
+import ui.GameoverOverlay;
 import ui.LevelFinishedOverlay;
 import ui.OptionsMenu;
 import ui.PauseFlying;
@@ -37,6 +38,7 @@ public class Flying extends State implements Statemethods {
     public AudioPlayer audioPlayer;
     private PauseFlying pauseOverlay;
     private LevelFinishedOverlay levelFinishedOverlay;
+    private GameoverOverlay gameoverOverlay;
     private Integer level;
     private EnemyManager enemyManager;
     private ProjectileHandler projectileHandler;
@@ -49,6 +51,7 @@ public class Flying extends State implements Statemethods {
     private boolean pause = false;
     private boolean gamePlayActive = true;
     private boolean levelFinished = false;
+    private boolean gameOver = false;
 
     private int[] bgImgHeights = {7600, 10740};
     private BufferedImage clImg;
@@ -65,8 +68,6 @@ public class Flying extends State implements Statemethods {
     private float fgCurSpeed = fgNormalSpeed;
     private float bgCurSpeed = bgNormalSpeed;
 
-    private int chartingY = 0;
-
     public Flying(Game game) {
         super(game);
         this.audioPlayer = game.getAudioPlayer();
@@ -75,7 +76,7 @@ public class Flying extends State implements Statemethods {
         initClasses(game.getOptionsMenu());
         loadEventReactions();
         projectileHandler.setBombs(game.getExploring().getBombs());   // Comment out to start with more bombs
-        loadLevel(1);     // Only use if not entering from Exploring
+        loadLevel(0);     // Only use if not entering from Exploring
     }
 
     public void loadLevel(int level) {
@@ -87,7 +88,7 @@ public class Flying extends State implements Statemethods {
         loadPickupItems(level);
         loadCutscenes(level);  
         player.setKilledEnemies(0);
-        //startAt(-9000);
+        //startAt(-16000);
     }
 
     private void initClasses(OptionsMenu optionsMenu) {
@@ -100,6 +101,7 @@ public class Flying extends State implements Statemethods {
         this.cutsceneManager = new CutsceneManager2(eventHandler, textboxManager);
         this.pauseOverlay = new PauseFlying(this, optionsMenu);
         this.levelFinishedOverlay = new LevelFinishedOverlay(this);
+        this.gameoverOverlay = new GameoverOverlay(this);
     }
 
     private void loadMapAndOffsets(int lvl) {
@@ -220,7 +222,7 @@ public class Flying extends State implements Statemethods {
     }
 
     @Override
-    public void update() {
+    public void update() {  // Should probably write this better.
         handleKeyboardInputs();
         if (pause) {
             pauseOverlay.update();
@@ -230,8 +232,6 @@ public class Flying extends State implements Statemethods {
                 if (!cutsceneManager.isActive()) {
                     checkCutsceneTriggers();
                 }
-                updateChartingY();
-                //System.out.println(chartingY);
                 moveMaps();
                 moveCutscenes();
                 player.update(clYOffset, clXOffset);
@@ -247,7 +247,7 @@ public class Flying extends State implements Statemethods {
     }
 
     private void handleKeyboardInputs() {
-        if ((game.pauseIsPressed) && !levelFinished) {
+        if ((game.pauseIsPressed) && !levelFinished && !gameOver) {
             game.pauseIsPressed = false;
             this.flipPause();
         }
@@ -256,7 +256,7 @@ public class Flying extends State implements Statemethods {
     private void updatePickupItems() {
         for (PickupItem p : pickupItems) {
             p.update(fgCurSpeed);
-            if ((p.getHitbox().intersects(player.getHitbox())) && p.isActive()) {
+            if (p.isActive() && (p.getHitbox().intersects(player.getHitbox()))) {
                 p.setActive(false);
                 if (p.getType() == POWERUP) {
                     projectileHandler.setPowerup(true);
@@ -272,11 +272,6 @@ public class Flying extends State implements Statemethods {
                 }
             }
         }
-    }
-
-    private void updateChartingY() {
-        chartingY -= fgCurSpeed;
-        //System.out.println(chartingY);
     }
 
     private void moveCutscenes() {
@@ -379,9 +374,10 @@ public class Flying extends State implements Statemethods {
         cutsceneManager.reset();
     }
 
-    /* 
-    private void setNewStartingCutscene(int triggerIndex, int cutsceneIndex) {
-        this.automaticTriggers.get(triggerIndex).setStartCutscene(cutsceneIndex);
+    public void killPlayer() {
+        gameOver = true;
+        gamePlayActive = false;
+        gameoverOverlay.setPlayerPos(player.getHitbox().x, player.getHitbox().y);
+        System.out.println("player dieddd");
     }
-    */
 }
