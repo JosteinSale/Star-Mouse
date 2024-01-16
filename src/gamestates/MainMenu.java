@@ -33,7 +33,8 @@ public class MainMenu extends State implements Statemethods {
     private int cursorYStep = (cursorMaxY - cursorMinY) / 3;
     private int selectedIndex = 0;
     private int alphaFade = 255;
-    private boolean fadeActive = true;
+    private boolean fadeInActive = true;
+    private boolean fadeOutActive = false;
 
 
     private static final int NEW_GAME = 0;
@@ -79,11 +80,10 @@ public class MainMenu extends State implements Statemethods {
         else if (game.interactIsPressed) {
             game.interactIsPressed = false;
             if (selectedIndex == NEW_GAME) {
-                fadeActive = true;
+                fadeOutActive = true;
                 audioPlayer.stopAllLoops();
                 audioPlayer.playSFX(Audio.SFX_STARTGAME);
-                this.game.getFlying().update(); 
-                Gamestate.state = Gamestate.FLYING;
+                // Transition to new gamestate is handled in updateFadeOut-method.
             }
             else if (selectedIndex == LEVEL_EDITOR) {
                 audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
@@ -102,8 +102,11 @@ public class MainMenu extends State implements Statemethods {
     
     @Override
     public void update() {
-        if (fadeActive) {
-            updateFade();
+        if (fadeInActive) {
+            updateFadeIn();
+        }
+        else if (fadeOutActive) {
+            updateFadeOut();
         }
         else if (optionsMenu.isActive()) {
             optionsMenu.update();
@@ -113,11 +116,22 @@ public class MainMenu extends State implements Statemethods {
         }
     }
 
-    private void updateFade() {
+    private void updateFadeIn() {
         this.alphaFade -= 5;
         if (alphaFade < 0) {
             alphaFade = 0;
-            fadeActive = false;
+            fadeInActive = false;
+        }
+    }
+
+    /** Also handles transition to new state */
+    private void updateFadeOut() {
+        this.alphaFade += 5;
+        if (alphaFade > 255) {
+            alphaFade = 255;
+            //fadeOutActive = false;   should be reset upon reentering MainMenu
+            this.game.getExploring().update(); 
+            Gamestate.state = Gamestate.EXPLORING;
         }
     }
 
@@ -153,7 +167,7 @@ public class MainMenu extends State implements Statemethods {
             null);
         
         // Fade
-        if (fadeActive) {
+        if (fadeInActive || fadeOutActive) {
             g.setColor(new Color(0, 0, 0, alphaFade));
             g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
         }
@@ -186,5 +200,13 @@ public class MainMenu extends State implements Statemethods {
         if (cursorY > cursorMaxY) {
             cursorY = cursorMinY;
         }
-    }    
+    }
+
+    /** Should be called whenever the player returns to the main menu */
+    public void reset() {
+        this.fadeInActive = true;
+        this.fadeOutActive = false;
+        this.alphaFade = 255;
+        audioPlayer.startSongLoop(Audio.SONG_ACADEMY);
+    }
 }

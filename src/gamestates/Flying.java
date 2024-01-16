@@ -368,7 +368,7 @@ public class Flying extends State implements Statemethods {
 
     /** Resets all non-level-specific values in flying-mode.
      * (Level-specific values are set in the 'loadLevel'-method) */
-    private void resetFlying() {
+    public void resetFlying() {
         pause = false;
         gamePlayActive = true;
         levelFinished = false;
