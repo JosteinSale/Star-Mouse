@@ -22,6 +22,7 @@ import ui.LevelFinishedOverlay;
 import ui.OptionsMenu;
 import ui.PauseFlying;
 import ui.TextboxManager2;
+import utils.Constants.Audio;
 import utils.LoadSave;
 import static utils.HelpMethods.GetAutomaticTrigger;
 import static utils.HelpMethods2.GetPickupItem;
@@ -75,7 +76,7 @@ public class Flying extends State implements Statemethods {
         initClasses(game.getOptionsMenu());
         loadEventReactions();
         projectileHandler.setBombs(game.getExploring().getBombs());   // Comment out to start with more bombs
-        loadLevel(0);     // Only use if not entering from Exploring
+        loadLevel(1);     // Only use if not entering from Exploring
     }
 
     public void loadLevel(int level) {
@@ -87,7 +88,7 @@ public class Flying extends State implements Statemethods {
         loadPickupItems(level);
         loadCutscenes(level);  
         player.setKilledEnemies(0);
-        //startAt(-16000);
+        startAt(-2500);
     }
 
     private void initClasses(OptionsMenu optionsMenu) {
@@ -221,16 +222,20 @@ public class Flying extends State implements Statemethods {
     }
 
     @Override
-    public void update() {  // Should probably write this better.
-        handleKeyboardInputs();
-        if (pause) {
+    public void update() {
+        if (gameOver) {
+            gameoverOverlay.update();
+        }
+        else if (pause) {
+            checkPause();
             pauseOverlay.update();
         }
-        else {
+        else {   // Gameplay, cutscenes and levelFinished
             if (gamePlayActive) {
                 if (!cutsceneManager.isActive()) {
                     checkCutsceneTriggers();
                 }
+                checkPause();
                 moveMaps();
                 moveCutscenes();
                 player.update(clYOffset, clXOffset);
@@ -238,15 +243,15 @@ public class Flying extends State implements Statemethods {
                 enemyManager.update(fgCurSpeed);
                 projectileHandler.update(clYOffset, clXOffset, fgCurSpeed);
             }
-            cutsceneManager.update();
-            if (levelFinished) {
+            else if (levelFinished) {
                 levelFinishedOverlay.update();
             }
+            cutsceneManager.update();
         }
     }
 
-    private void handleKeyboardInputs() {
-        if ((game.pauseIsPressed) && !levelFinished && !gameOver) {
+    private void checkPause() {
+        if (game.pauseIsPressed) {
             game.pauseIsPressed = false;
             this.flipPause();
         }
@@ -307,16 +312,23 @@ public class Flying extends State implements Statemethods {
 
     @Override
     public void draw(Graphics g) {
-        drawMaps(g);
-        drawPickupItems(g);
-        this.player.draw(g);
-        this.enemyManager.draw(g);
-        this.projectileHandler.draw(g);
-        this.cutsceneManager.draw(g);
-        if (pause) {
+        if (!levelFinished) {
+            drawMaps(g);
+            drawPickupItems(g);
+            this.player.draw(g);
+            this.enemyManager.draw(g);
+            this.projectileHandler.draw(g);
+        }
+        if (!gameOver) {
+            this.cutsceneManager.draw(g);
+        }
+        if (gameOver) {
+            gameoverOverlay.draw(g);
+        }
+        else if (pause) {
             pauseOverlay.draw(g);
         }
-        if (levelFinished) {
+        else if (levelFinished) {
             levelFinishedOverlay.draw(g);
         }
     }
@@ -366,9 +378,11 @@ public class Flying extends State implements Statemethods {
         pause = false;
         gamePlayActive = true;
         levelFinished = false;
+        gameOver = false;
         fgCurSpeed = fgNormalSpeed;
         bgCurSpeed = bgNormalSpeed;
-        player.resetToStartPos();
+        player.reset();
+        gameoverOverlay.reset();
         projectileHandler.reset();
         cutsceneManager.reset();
     }
@@ -376,7 +390,20 @@ public class Flying extends State implements Statemethods {
     public void killPlayer() {
         gameOver = true;
         gamePlayActive = false;
+        player.setVisible(false);
         gameoverOverlay.setPlayerPos(player.getHitbox().x, player.getHitbox().y);
-        System.out.println("player dieddd");
+        audioPlayer.stopAllLoops();
+        audioPlayer.startAmbienceLoop(Audio.AMBIENCE_SILENCE);
+        audioPlayer.playSFX(Audio.SFX_DEATH);
+    }
+
+    /** Not to be confused with the resetFlying()-method. This method should be called
+     * when the player has died, and resets the level. It should reset all level-specific 
+     * variables, like enemies, pickup-items and map-offsets.
+     * For enemies and pickup-items, we could possibly make a copy of those lists at 
+     * initial Loading. Then upon resetting, we copy those lists again.
+     */
+    public void resetLevel() {
+        // TODO - Include possibility to revert to checkpoint? Can rename to 'revertTo(int checkPoint)'
     }
 }

@@ -113,8 +113,13 @@ public class StatusDisplay {
         this.killedEnemies = killedEnemies;
     }
 
-    public void setBlinking() {
-        this.blinkTimer = blinkFrames;
+    public void setBlinking(boolean active) {
+        if (active) {
+            this.blinkTimer = blinkFrames;
+        }
+        else {
+            this.blinkTimer = 0;  // reset
+        }
     }
 
 }

@@ -18,8 +18,6 @@ import utils.LoadSave;
 
 import static utils.Constants.UI.CURSOR_HEIGHT;
 import static utils.Constants.UI.CURSOR_WIDTH;
-import static utils.Constants.Flying.Sprites.SHIP_SPRITE_WIDTH;
-import static utils.Constants.Flying.Sprites.SHIP_SPRITE_HEIGHT;
 
 /** Should be updated and drawn when the player dies. It does the following:
  *  1) play death animation at the player's last position,
@@ -42,16 +40,16 @@ public class GameoverOverlay {
 
    private float playerX;
    private float playerY;
-   private int cursorX = 320;
+   private int cursorX = 280;
    private int cursorMinY = 490;
-   private int cursorMaxY = 620;
+   private int cursorMaxY = 560;
    private int cursorY = cursorMinY;
-   private int menuOptionsDiff = (cursorMaxY - cursorMinY) / 2;
+   private int menuOptionsDiff = cursorMaxY - cursorMinY;
 
    private boolean deathAnimationActive = true;
    private int aniTick = 0;
    private int aniIndex = 0;
-   private int aniTickPerFrame = 5;
+   private int aniTickPerFrame = 4;
 
    public GameoverOverlay(Flying flying) {
       this.flying = flying;
@@ -64,7 +62,7 @@ public class GameoverOverlay {
       this.pointerImg = LoadSave.getExpImageSprite(LoadSave.CURSOR_SPRITE_WHITE);
 
       BufferedImage deathImg = LoadSave.getFlyImageSprite(LoadSave.SHIP_DEATH_SPRITES);
-      this.deathAnimation = new BufferedImage[17];
+      this.deathAnimation = new BufferedImage[26];
       for (int i = 0; i < deathAnimation.length; i++) {
          deathAnimation[i] = deathImg.getSubimage(
             i * 40, 0, 40, 40);
@@ -77,8 +75,8 @@ public class GameoverOverlay {
    }
 
    public void setPlayerPos(float x, float y) {
-      this.playerX = x;
-      this.playerY = y;
+      this.playerX = x - 35; // animation offset
+      this.playerY = y - 35;
    }
 
    public void update() {
@@ -94,7 +92,7 @@ public class GameoverOverlay {
       if (aniTick == aniTickPerFrame) {
          aniTick = 0;
          aniIndex++;
-         if (aniIndex == 24) {  // 17 images + 7 cycles of wait-time.
+         if (aniIndex == 30) {  // 26 images + 4 cycles of wait-time.
             this.deathAnimationActive = false;
          }
       }
@@ -115,8 +113,10 @@ public class GameoverOverlay {
          flying.getGame().interactIsPressed = false;
          audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
          if (selectedIndex == RESTART_LEVEL) {
-            // TODO - flying.reset(), this.active = false;
-         } else if (selectedIndex == MAIN_MENU) {
+            flying.resetFlying();
+            flying.resetLevel();
+         } 
+         else if (selectedIndex == MAIN_MENU) {
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
             // TODO - a bunch of shit
          } 
@@ -148,16 +148,15 @@ public class GameoverOverlay {
       else {
          drawMenu(g);
       }
-      
    }
 
    private void drawDeathAnimation(Graphics g) {
-      if (aniIndex < deathAnimation.length) {   // Will draw nothing at index 17 - 24
+      if (aniIndex < deathAnimation.length) {   // Will draw nothing at index 26 - 30
          g.drawImage(
             deathAnimation[aniIndex], 
             (int) (playerX * Game.SCALE), (int) (playerY * Game.SCALE),
-            (int) (35 * 3 * Game.SCALE),
-            (int) (35 * 3 * Game.SCALE), null);
+            (int) (120 * Game.SCALE),
+            (int) (120 * Game.SCALE), null);
       }
    }
 
@@ -171,7 +170,7 @@ public class GameoverOverlay {
       // Text
       g.setFont(headerFont);
       g.setColor(Color.WHITE);
-      g.drawString("GAME OVER", (int) (420 * Game.SCALE), (int) (350 * Game.SCALE));
+      g.drawString("GAME OVER", (int) (390 * Game.SCALE), (int) (350 * Game.SCALE));
 
       for (int i = 0; i < menuOptions.length; i++) {
          Rectangle rect = new Rectangle(
@@ -185,5 +184,12 @@ public class GameoverOverlay {
             pointerImg,
             (int) (cursorX * Game.SCALE), (int) ((cursorY - 30) * Game.SCALE),
             (int) (CURSOR_WIDTH * Game.SCALE), (int) (CURSOR_HEIGHT * Game.SCALE), null);
+   }
+
+   public void reset() {
+      deathAnimationActive = true;
+      aniTick = 0;
+      aniIndex = 0;
+      selectedIndex = 0;
    }
 }

@@ -118,7 +118,6 @@ public class PlayerFly extends Entity {
         statusDisplay.update();
     }
 
-    /** Handles keyboardInputs */
     private void handleKeyboardInputs() {
 
         // First: handles behaviour based on whether keys are pressed
@@ -248,9 +247,9 @@ public class PlayerFly extends Entity {
             int nrOfCollisions = 0;
             while (collidesWithMap(yLevelOffset, xLevelOffset)) {
                 nrOfCollisions += 1;
-                if (nrOfCollisions > 2) {
-                    System.out.println("failSafe, player dies");
-                    resetPlayer();
+                if (nrOfCollisions > 2) {  // failsafe
+                    this.HP = 0;
+                    takeCollisionDmg();
                     return;
                 }
             }
@@ -366,13 +365,6 @@ public class PlayerFly extends Entity {
         }
     }
 
-    private void resetPlayer() {
-        hitbox.x = 500;
-        hitbox.y = 350;
-        HP = maxHP;
-        updateCollisionPixels();
-    }
-
     public void draw(Graphics g) {
         if (visible) {
             // Teleport shadows
@@ -439,7 +431,7 @@ public class PlayerFly extends Entity {
         this.aniIndex = 0;
         this.planeAction = TAKING_SHOOT_DAMAGE;
         this.statusDisplay.setHP(this.HP);
-        this.statusDisplay.setBlinking();
+        this.statusDisplay.setBlinking(true);
         if (HP <= 0) {
             game.getFlying().killPlayer();
         }
@@ -452,7 +444,7 @@ public class PlayerFly extends Entity {
         this.resetSpeed();
         this.planeAction = TAKING_COLLISION_DAMAGE;
         this.statusDisplay.setHP(HP);
-        this.statusDisplay.setBlinking();
+        this.statusDisplay.setBlinking(true);
         if (HP <= 0) {
             game.getFlying().killPlayer();
         }
@@ -486,8 +478,14 @@ public class PlayerFly extends Entity {
         this.clImg = clImg;
     }
 
-    public void resetToStartPos() {
+    public void reset() {
+        this.visible = true;
+        HP = maxHP;
+        statusDisplay.setHP(this.HP);
+        statusDisplay.setBlinking(false);
         hitbox.x = 500f;
         hitbox.y = 400f;
+        updateCollisionPixels();
+        planeAction = IDLE;
     }
 }
