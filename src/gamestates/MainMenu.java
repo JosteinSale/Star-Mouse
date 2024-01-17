@@ -129,9 +129,8 @@ public class MainMenu extends State implements Statemethods {
         this.alphaFade += 5;
         if (alphaFade > 255) {
             alphaFade = 255;
-            //fadeOutActive = false;   should be reset upon reentering MainMenu
-            this.game.getExploring().update(); 
-            Gamestate.state = Gamestate.EXPLORING;
+            this.game.getFlying().update(); 
+            Gamestate.state = Gamestate.FLYING;
         }
     }
 
