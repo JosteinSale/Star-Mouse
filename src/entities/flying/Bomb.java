@@ -13,6 +13,7 @@ import static utils.Constants.Flying.TypeConstants.BOMB;
 
 public class Bomb extends Entity implements PickupItem {
     private BufferedImage[] animations;
+    private float startY;
     private int aniIndex;
     private int aniTick;
     private int aniTickPerFrame = 3;
@@ -20,6 +21,7 @@ public class Bomb extends Entity implements PickupItem {
 
     public Bomb(Rectangle2D.Float hitbox) {
         super(hitbox);
+        startY = hitbox.y;
         loadAnimations();
     }
 
@@ -70,5 +72,11 @@ public class Bomb extends Entity implements PickupItem {
 
     public int getType() {
         return BOMB;
+    }
+
+    @Override
+    public void resetTo(float y) {
+        this.active = true;
+        hitbox.y = startY + y;
     }
 }

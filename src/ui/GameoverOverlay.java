@@ -170,7 +170,7 @@ public class GameoverOverlay {
       // Text
       g.setFont(headerFont);
       g.setColor(Color.WHITE);
-      g.drawString("GAME OVER", (int) (390 * Game.SCALE), (int) (350 * Game.SCALE));
+      g.drawString("YOU DIED", (int) (400 * Game.SCALE), (int) (350 * Game.SCALE));
 
       for (int i = 0; i < menuOptions.length; i++) {
          Rectangle rect = new Rectangle(

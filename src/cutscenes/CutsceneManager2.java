@@ -298,6 +298,7 @@ public class CutsceneManager2 {
         blackScreenActive = false;
         overlayImageActive = false;
         headerActive = false;
+        textboxManager.resetBooleans();
         screenAlphaFade = 0;
         headerAlphaFade = 0;
         screenFadeSpeed = 10;

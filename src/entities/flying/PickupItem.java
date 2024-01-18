@@ -19,4 +19,6 @@ public interface PickupItem {
     public Rectangle2D.Float getHitbox();
 
     public int getType();
+
+    public void resetTo(float startY);
 }

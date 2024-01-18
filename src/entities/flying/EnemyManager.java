@@ -203,4 +203,10 @@ public class EnemyManager {
             enemy.getHitbox().y -= yOffset;
         }
     }
+
+    public void resetTo(float y) {
+        for (Enemy enemy : allEnemies) {
+            enemy.resetTo(y);
+        }
+    }
 }

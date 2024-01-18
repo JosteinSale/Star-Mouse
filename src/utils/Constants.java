@@ -199,5 +199,13 @@ public class Constants {
         public static final int AMBIENCE_SILENCE = 0;
         public static final int AMBIENCE_ROCKET_ENGINE = 1;
         public static final int AMBIENCE_WIND = 2;
+
+        public static int GetFlyLevelSong(int level) {
+            switch (level) {
+                case 0 : return 0;
+                case 1 : return 2;
+                default : throw new IllegalArgumentException("No song available for: level " + level);
+            }
+        }
     }
 }

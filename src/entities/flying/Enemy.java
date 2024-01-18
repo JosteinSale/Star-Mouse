@@ -33,4 +33,7 @@ public interface Enemy {
 
     /** If the enemy is onscreen and !dead, it's drawn */
     public void draw(Graphics g);
+
+    /** Resets the enemy position, active-status, aniIndex, HP and shootTimer */
+    public void resetTo(float y);
 }

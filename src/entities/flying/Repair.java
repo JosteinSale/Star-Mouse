@@ -14,6 +14,7 @@ import static utils.Constants.Flying.TypeConstants.REPAIR;
 
 public class Repair extends Entity implements PickupItem {
     private BufferedImage[] animations;
+    private float startY;
     private int aniIndex;
     private int aniTick;
     private int aniTickPerFrame = 7;
@@ -22,6 +23,7 @@ public class Repair extends Entity implements PickupItem {
 
     public Repair(Float hitbox) {
         super(hitbox);
+        startY = hitbox.y;
         loadAnimations();
     }
 
@@ -76,6 +78,12 @@ public class Repair extends Entity implements PickupItem {
 
     public int getType() {
         return REPAIR;
+    }
+
+    @Override
+    public void resetTo(float y) {
+        this.active = true;
+        hitbox.y = startY + y;
     }
     
 }

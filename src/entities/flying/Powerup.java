@@ -13,6 +13,7 @@ import static utils.Constants.Flying.TypeConstants.POWERUP;
 
 public class Powerup extends Entity implements PickupItem {
     private BufferedImage[] animations;
+    private float startY;
     private int aniIndex;
     private int aniTick;
     private int aniTickPerFrame = 5;
@@ -20,6 +21,7 @@ public class Powerup extends Entity implements PickupItem {
 
     public Powerup(Float hitbox) {
         super(hitbox);
+        startY = hitbox.y;
         loadAnimations();
     }
 
@@ -70,5 +72,11 @@ public class Powerup extends Entity implements PickupItem {
 
     public int getType() {
         return POWERUP;
+    }
+
+    @Override
+    public void resetTo(float y) {
+        this.active = true;
+        hitbox.y = startY + y;
     }
 }

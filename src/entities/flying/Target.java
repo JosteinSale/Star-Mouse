@@ -18,7 +18,9 @@ public class Target extends Entity implements Enemy {
     private static final int TAKING_DAMAGE = 0;
 
     BufferedImage[][] animations;
-    private int HP = 25;
+    private float startY;
+    private int maxHP = 25;
+    private int HP = maxHP;
     private boolean onScreen = false;   
     private boolean dead = false;
 
@@ -123,4 +125,16 @@ public class Target extends Entity implements Enemy {
 
     @Override
     public void resetShootTick() {}
+
+    @Override
+   public void resetTo(float y) {
+      hitbox.y = startY + y;
+      action = IDLE;
+      HP = maxHP;
+      onScreen = false;
+      dead = false;
+      aniTick = 0;
+      aniIndex = 0;
+      damageTick = 0;
+   }
 }

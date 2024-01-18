@@ -15,7 +15,9 @@ public class OctaDrone extends Entity implements Enemy {
     private static final int TAKING_DAMAGE = 0;
 
     BufferedImage[][] animations;
-    private int HP = 120;
+    private float startY;
+    private int maxHP = 120;
+    private int HP = maxHP;
     private boolean onScreen = false;   
     private boolean dead = false;
 
@@ -31,6 +33,7 @@ public class OctaDrone extends Entity implements Enemy {
 
     public OctaDrone(Rectangle2D.Float hitbox, BufferedImage[][] animations, int shootTimer) {
         super(hitbox);
+        startY = hitbox.y;
         this.animations = animations;
         this.shootTimer = shootTimer;
     }
@@ -132,4 +135,17 @@ public class OctaDrone extends Entity implements Enemy {
                 return 1;
         }
     }
+
+    @Override
+   public void resetTo(float y) {
+      hitbox.y = startY + y;
+      action = IDLE;
+      HP = maxHP;
+      onScreen = false;
+      dead = false;
+      aniTick = 0;
+      aniIndex = 0;
+      damageTick = 0;
+      shootTick = 0;
+   }
 }

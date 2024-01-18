@@ -22,7 +22,6 @@ import ui.LevelFinishedOverlay;
 import ui.OptionsMenu;
 import ui.PauseFlying;
 import ui.TextboxManager2;
-import utils.Constants.Audio;
 import utils.LoadSave;
 import static utils.HelpMethods.GetAutomaticTrigger;
 import static utils.HelpMethods2.GetPickupItem;
@@ -48,10 +47,12 @@ public class Flying extends State implements Statemethods {
     private ArrayList<AutomaticTrigger> automaticTriggers;
     private ArrayList<PickupItem> pickupItems;
     private int repairHealth = 100;
+    private int song;
     private boolean pause = false;
     private boolean gamePlayActive = true;
     private boolean levelFinished = false;
     private boolean gameOver = false;
+    private float resetYPos;
 
     private int[] bgImgHeights = {7600, 10740};
     private BufferedImage clImg;
@@ -81,6 +82,8 @@ public class Flying extends State implements Statemethods {
 
     public void loadLevel(int level) {
         this.level = level;
+        this.song = Audio.GetFlyLevelSong(level);
+        this.resetYPos = getResetPoint(level);
         loadMapAndOffsets(level);
         player.setClImg(this.clImg);
         projectileHandler.setClImg(this.clImg);
@@ -88,7 +91,7 @@ public class Flying extends State implements Statemethods {
         loadPickupItems(level);
         loadCutscenes(level);  
         player.setKilledEnemies(0);
-        startAt(-2500);
+        startAt(-2500);     // For testing purposes
     }
 
     private void initClasses(OptionsMenu optionsMenu) {
@@ -382,6 +385,7 @@ public class Flying extends State implements Statemethods {
         fgCurSpeed = fgNormalSpeed;
         bgCurSpeed = bgNormalSpeed;
         player.reset();
+        // TODO - set killedEnemies in enemeyManager
         gameoverOverlay.reset();
         projectileHandler.reset();
         cutsceneManager.reset();
@@ -398,12 +402,30 @@ public class Flying extends State implements Statemethods {
     }
 
     /** Not to be confused with the resetFlying()-method. This method should be called
-     * when the player has died, and resets the level. It should reset all level-specific 
-     * variables, like enemies, pickup-items and map-offsets.
-     * For enemies and pickup-items, we could possibly make a copy of those lists at 
-     * initial Loading. Then upon resetting, we copy those lists again.
+     * when the player has died, and resets the level. 
+     * It should reset (not reload) all level-specific variables, 
+     * like enemies, pickup-items and map-offsets.
      */
     public void resetLevel() {
-        // TODO - Include possibility to revert to checkpoint? Can rename to 'revertTo(int checkPoint)'
+        this.clYOffset = Game.GAME_DEFAULT_HEIGHT - clImgHeight + 150 + resetYPos;
+        this.bgYOffset = Game.GAME_DEFAULT_HEIGHT - bgImgHeight + (resetYPos / 3);
+        for (PickupItem p : pickupItems) {
+            p.resetTo(resetYPos);
+        }
+        for (AutomaticTrigger trigger : automaticTriggers) {
+            trigger.resetTo(resetYPos);
+        }
+        enemyManager.resetTo(resetYPos);
+        audioPlayer.startSongLoop(song);
+        audioPlayer.startAmbienceLoop(Audio.AMBIENCE_ROCKET_ENGINE);
+    }
+
+    private float getResetPoint(int level) {
+        float resetY = switch (level) {
+            case 0 -> 20f;
+            case 1 -> 1300f;
+            default -> throw new IllegalArgumentException("No resetpoint available for : level " + level);
+        };
+        return resetY;
     }
 }

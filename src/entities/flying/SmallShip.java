@@ -18,7 +18,10 @@ public class SmallShip extends Entity implements Enemy{
     private int xSpeed = 2;
 
     BufferedImage[][] animations;
-    private int HP = 20;
+    private float startY;
+    private float startX;
+    private int maxHP = 20;
+    private int HP = maxHP;
     private boolean onScreen = false;   
     private boolean dead = false;
 
@@ -32,6 +35,8 @@ public class SmallShip extends Entity implements Enemy{
 
     public SmallShip(Rectangle2D.Float hitbox, BufferedImage[][] animations, int direction) {
         super(hitbox);
+        startX = hitbox.x;
+        startY = hitbox.y;
         this.animations = animations;
         this.direction = direction;
     }
@@ -133,5 +138,18 @@ public class SmallShip extends Entity implements Enemy{
 
     @Override
     public void resetShootTick() {}
+
+    @Override
+   public void resetTo(float y) {
+      hitbox.y = startY + y;
+      hitbox.x = startX;
+      action = IDLE;
+      HP = maxHP;
+      onScreen = false;
+      dead = false;
+      aniTick = 0;
+      aniIndex = 0;
+      damageTick = 0;
+   }
     
 }

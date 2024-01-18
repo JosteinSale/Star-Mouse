@@ -15,7 +15,9 @@ public class TankDrone extends Entity implements Enemy {
    private static final int TAKING_DAMAGE = 0;
 
    BufferedImage[][] animations;
-   private int HP = 300;
+   private float startY;
+   private int maxHP = 300;
+   private int HP = maxHP;
    private boolean onScreen = false;
    private boolean dead = false;
 
@@ -28,6 +30,7 @@ public class TankDrone extends Entity implements Enemy {
 
    public TankDrone(Rectangle2D.Float hitbox, BufferedImage[][] animations) {
       super(hitbox);
+      startY = hitbox.y;
       this.animations = animations;
    }
 
@@ -116,5 +119,17 @@ public class TankDrone extends Entity implements Enemy {
          default:
             return 1;
       }
+   }
+
+   @Override
+   public void resetTo(float y) {
+      hitbox.y = startY + y;
+      action = IDLE;
+      HP = maxHP;
+      onScreen = false;
+      dead = false;
+      aniTick = 0;
+      aniIndex = 0;
+      damageTick = 0;
    }
 }

@@ -7,11 +7,13 @@ import entities.Entity;
 
 public class AutomaticTrigger extends Entity {
     private String name;
+    private float startY;   // for use in Flying
     private int startCutscene = 0;
     private boolean hasPlayed = false;
 
     public AutomaticTrigger(Float hitbox, String name) {
         super(hitbox);
+        startY = hitbox.y;
         this.name = name;
     }
 
@@ -33,6 +35,13 @@ public class AutomaticTrigger extends Entity {
 
     public void setPlayed(boolean played) {
         this.hasPlayed = played;
+    }
+
+    /** For use in Flying */
+    public void resetTo(float y) {
+        startCutscene = 0;
+        hasPlayed = false;
+        hitbox.y = startY + y;
     }
     
 }

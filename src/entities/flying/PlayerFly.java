@@ -483,6 +483,7 @@ public class PlayerFly extends Entity {
         HP = maxHP;
         statusDisplay.setHP(this.HP);
         statusDisplay.setBlinking(false);
+        statusDisplay.setKilledEnemies(0);
         hitbox.x = 500f;
         hitbox.y = 400f;
         updateCollisionPixels();
