@@ -385,7 +385,7 @@ public class Flying extends State implements Statemethods {
         fgCurSpeed = fgNormalSpeed;
         bgCurSpeed = bgNormalSpeed;
         player.reset();
-        // TODO - set killedEnemies in enemeyManager
+        // TODO - set killedEnemies in enemeyManager and clear explosions.
         gameoverOverlay.reset();
         projectileHandler.reset();
         cutsceneManager.reset();
