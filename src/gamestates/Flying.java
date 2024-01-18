@@ -77,7 +77,7 @@ public class Flying extends State implements Statemethods {
         initClasses(game.getOptionsMenu());
         loadEventReactions();
         projectileHandler.setBombs(game.getExploring().getBombs());   // Comment out to start with more bombs
-        loadLevel(1);     // Only use if not entering from Exploring
+        loadLevel(0);     // Only use if not entering from Exploring
     }
 
     public void loadLevel(int level) {
@@ -91,7 +91,7 @@ public class Flying extends State implements Statemethods {
         loadPickupItems(level);
         loadCutscenes(level);  
         player.setKilledEnemies(0);
-        startAt(-2500);     // For testing purposes
+        //startAt(-2500);     // For testing purposes
     }
 
     private void initClasses(OptionsMenu optionsMenu) {
@@ -233,24 +233,22 @@ public class Flying extends State implements Statemethods {
             checkPause();
             pauseOverlay.update();
         }
-        else {   // Gameplay, cutscenes and levelFinished
-            if (gamePlayActive) {
-                if (!cutsceneManager.isActive()) {
-                    checkCutsceneTriggers();
-                }
-                checkPause();
-                moveMaps();
-                moveCutscenes();
-                player.update(clYOffset, clXOffset);
-                updatePickupItems();
-                enemyManager.update(fgCurSpeed);
-                projectileHandler.update(clYOffset, clXOffset, fgCurSpeed);
-            }
-            else if (levelFinished) {
-                levelFinishedOverlay.update();
-            }
-            cutsceneManager.update();
+        else if (levelFinished) {
+            levelFinishedOverlay.update();
         }
+        else if (gamePlayActive) {   
+            if (!cutsceneManager.isActive()) {
+                checkCutsceneTriggers();
+            }
+            checkPause();
+            moveMaps();
+            moveCutscenes();
+            player.update(clYOffset, clXOffset);
+            updatePickupItems();
+            enemyManager.update(fgCurSpeed);
+            projectileHandler.update(clYOffset, clXOffset, fgCurSpeed);
+        }
+        cutsceneManager.update();
     }
 
     private void checkPause() {

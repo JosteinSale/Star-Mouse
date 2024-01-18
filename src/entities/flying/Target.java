@@ -33,6 +33,7 @@ public class Target extends Entity implements Enemy {
 
     public Target(Rectangle2D.Float hitbox, BufferedImage[][] animations) {
         super(hitbox);
+        startY = hitbox.y;
         this.animations = animations;
     }
 
