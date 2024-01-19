@@ -273,11 +273,6 @@ public class Area {
         }
     }
 
-    public void keyPressed(KeyEvent e) {}
-
-
-    public void keyReleased(KeyEvent e) {}
-
     private void handleKeyBoardInputs() {
         if (!cutsceneManager.isActive() && game.interactIsPressed) {
             game.interactIsPressed = false;

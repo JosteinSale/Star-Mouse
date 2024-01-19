@@ -189,6 +189,7 @@ public class Constants {
         public static final int VOICECLIP_NINA = 4;
         public static final int VOICECLIP_SHADYPILOT = 5;
         public static final int VOICECLIP_SPEAKER = 6;
+        public static final int VOICECLIP_SIGN = 7;
 
         // Songs (don't change these indexes!)
         public static final int SONG_TUTORIAL = 0;

@@ -129,8 +129,8 @@ public class MainMenu extends State implements Statemethods {
         this.alphaFade += 5;
         if (alphaFade > 255) {
             alphaFade = 255;
-            this.game.getFlying().update(); 
-            Gamestate.state = Gamestate.FLYING;
+            this.game.getExploring().update(); 
+            Gamestate.state = Gamestate.EXPLORING;
         }
     }
 

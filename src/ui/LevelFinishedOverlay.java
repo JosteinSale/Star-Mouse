@@ -3,7 +3,6 @@ package ui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -13,7 +12,7 @@ import main.Game;
 import utils.LoadSave;
 import utils.Constants.Audio;
 
-import static utils.Constants.Flying.TypeConstants.TARGET;
+import static utils.Constants.Flying.TypeConstants.*;
 import static utils.Constants.UI.CURSOR_HEIGHT;
 import static utils.Constants.UI.CURSOR_WIDTH;
 
@@ -77,6 +76,10 @@ public class LevelFinishedOverlay implements Statemethods {
         for (Integer i : enemiesKilled) {
             totalEarned += switch(i) {
                 case TARGET -> 0;
+                case DRONE -> 20;
+                case SMALL_SHIP -> 10;
+                case OCTADRONE -> 40;
+                case BLASTERDRONE -> 40;
                 default -> throw new IllegalArgumentException(
                     "'" + i + "' is not a valid argument");
             };

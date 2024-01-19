@@ -34,7 +34,7 @@ import static utils.Constants.Flying.TypeConstants.BOMB;
 import static utils.Constants.Audio;
 
 public class Flying extends State implements Statemethods {
-    
+
     public AudioPlayer audioPlayer;
     private PauseFlying pauseOverlay;
     private LevelFinishedOverlay levelFinishedOverlay;
@@ -78,7 +78,7 @@ public class Flying extends State implements Statemethods {
         initClasses(game.getOptionsMenu());
         loadEventReactions();
         projectileHandler.setBombs(game.getExploring().getBombs());   // Comment out to start with more bombs
-        loadLevel(0);     // Only use if not entering from Exploring
+        loadLevel(1);     // Only use if not entering from Exploring
     }
 
     public void loadLevel(int level) {
@@ -92,7 +92,7 @@ public class Flying extends State implements Statemethods {
         loadPickupItems(level);
         loadCutscenes(level);  
         player.setKilledEnemies(0);
-        //startAt(-2500);     // For testing purposes
+        startAt(-24500);     // For testing purposes
     }
 
     private void initClasses(OptionsMenu optionsMenu) {
@@ -358,7 +358,7 @@ public class Flying extends State implements Statemethods {
             Gamestate.state = Gamestate.EXPLORING;
         }
         else {
-            Gamestate.state = Gamestate.LEVEL_SELECT;
+            Gamestate.state = Gamestate.EXPLORING;  // TODO - enter levelSelect instead
         }
     }
 
@@ -375,7 +375,8 @@ public class Flying extends State implements Statemethods {
     }
 
     /** Resets all non-level-specific values in flying-mode.
-     * (Level-specific values are set in the 'loadLevel'-method) */
+     * Should be called both when loading a new level, and when resetting the current level.
+     * (Level-specific values are set in the 'loadLevel'-method and 'resetLevel'-method) */
     public void resetFlying() {
         pause = false;
         gamePlayActive = true;
@@ -384,7 +385,6 @@ public class Flying extends State implements Statemethods {
         fgCurSpeed = fgNormalSpeed;
         bgCurSpeed = bgNormalSpeed;
         player.reset();
-        // TODO - set killedEnemies in enemeyManager and clear explosions.
         gameoverOverlay.reset();
         projectileHandler.reset();
         cutsceneManager.reset();
@@ -414,7 +414,7 @@ public class Flying extends State implements Statemethods {
         for (AutomaticTrigger trigger : automaticTriggers) {
             trigger.resetTo(resetYPos);
         }
-        enemyManager.resetTo(resetYPos);
+        enemyManager.resetEnemiesTo(resetYPos);
         audioPlayer.startSongLoop(song);
         audioPlayer.startAmbienceLoop(Audio.AMBIENCE_ROCKET_ENGINE);
     }

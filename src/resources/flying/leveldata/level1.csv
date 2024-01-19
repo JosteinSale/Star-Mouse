@@ -3,7 +3,8 @@ automaticTrigger;0f;-250f;10f;10f;attack_formation!
 automaticTrigger;0f;-2750f;10f;10f;entering_the_city
 automaticTrigger;0f;-3800f;10f;10f;no!
 automaticTrigger;0f;-5000f;10f;10f;HELP!
-automaticTrigger;0f;-25000f;10f;10f;everyone_retreat  // end level approx right after second moon appears
+automaticTrigger;0f;-25000f;10f;10f;everyone_retreat
+automaticTrigger;0f;-28000f;10f;10f;level_finished
 drone;250;-4060;1;160
 drone;380;-4140;1;140
 drone;620;-4140;1;140

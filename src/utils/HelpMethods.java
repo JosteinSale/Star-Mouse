@@ -396,6 +396,7 @@ public class HelpMethods {
             case "Pilot #1" -> 2;
             case "Pilot #2" -> 2;
             case "Pilot #3" -> 2;
+            case "Sign" -> 2;
             default -> throw new IllegalArgumentException(
                     "No characterIndex available for '" + name + "'");
         };
