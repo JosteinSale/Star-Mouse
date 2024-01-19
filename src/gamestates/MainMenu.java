@@ -206,6 +206,6 @@ public class MainMenu extends State implements Statemethods {
         this.fadeInActive = true;
         this.fadeOutActive = false;
         this.alphaFade = 255;
-        audioPlayer.startSongLoop(Audio.SONG_ACADEMY);
+        audioPlayer.startSongLoop(Audio.SONG_MAIN_MENU);
     }
 }
