@@ -53,7 +53,8 @@ public class AudioPlayer {
         "VoiceClip - Charlotte.wav",
         "VoiceClip - Nina.wav",
         "VoiceClip - ShadyPilot.wav",
-        "VoiceClip - Speaker.wav"
+        "VoiceClip - Speaker.wav",
+        "VoiceClip - Sign.wav"
     };
     private File[] SFX;
     private File[] voiceClips;
@@ -272,6 +273,7 @@ public class AudioPlayer {
         this.setSfxVolume = volume;
         this.curSfxVolume = volume;
         updateSfxVolume();
+        
         this.setAmbienceVolume = volume;
         this.curAmbienceVolume = volume;
         updateAmbienceVolume();

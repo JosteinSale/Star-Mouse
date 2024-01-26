@@ -2,7 +2,6 @@ package ui;
 
 import java.awt.Graphics;
 
-import audio.AudioPlayer;
 import main.Game;
 
 public class TextboxManager {

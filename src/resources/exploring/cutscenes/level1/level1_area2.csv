@@ -1,0 +1,20 @@
+cutscene;true;object;0
+playSFX;infoBox
+info;The sign says "Information for visitors".
+endSequence
+infoChoice;Read info?;Yes;No
+endSequence
+
+cutscene;true;object;0
+dialogue;Sign;---;10;2;"Welcome to the Apolis Flight Academy!"
+endSequence
+dialogue;Sign;---;10;2;"Situated in the outskirts of the capital Apolis..."
+endSequence
+dialogue;Sign;---;10;2;"...it specializes in the education of high-quality pilots for the Apo Global Space Force."
+endSequence
+dialogue;Sign;---;10;2;"NOTE: Visitors should be deterred from stealing snacks from the Academy kitchens."
+endSequence
+
+cutscene;true;object;0
+wait;1
+endSequence

@@ -204,9 +204,11 @@ public class EnemyManager {
         }
     }
 
-    public void resetTo(float y) {
+    public void resetEnemiesTo(float y) {
         for (Enemy enemy : allEnemies) {
             enemy.resetTo(y);
         }
+        this.killedEnemies.clear();
+        this.explosions.clear();
     }
 }
