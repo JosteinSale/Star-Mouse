@@ -78,7 +78,7 @@ public class Flying extends State implements Statemethods {
         initClasses(game.getOptionsMenu());
         loadEventReactions();
         projectileHandler.setBombs(game.getExploring().getBombs());   // Comment out to start with more bombs
-        loadLevel(1);     // Only use if not entering from Exploring
+        //loadLevel(1);     // Only use if not entering from Exploring
     }
 
     public void loadLevel(int level) {
@@ -92,7 +92,8 @@ public class Flying extends State implements Statemethods {
         loadPickupItems(level);
         loadCutscenes(level);  
         player.setKilledEnemies(0);
-        startAt(-24500);     // For testing purposes
+        //startAt(-24500);     // For testing purposes
+        
     }
 
     private void initClasses(OptionsMenu optionsMenu) {

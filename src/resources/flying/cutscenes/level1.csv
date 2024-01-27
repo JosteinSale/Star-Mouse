@@ -52,6 +52,11 @@ wait;180
 endSequence
 
 cutscene;true;automatic;6
+fadeOutLoops
+wait;1
+endSequence
+
+cutscene;true;automatic;7
 fadeOut;5
 endSequence
 setGameplayActive;false

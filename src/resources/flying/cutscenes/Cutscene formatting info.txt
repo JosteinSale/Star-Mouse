@@ -85,6 +85,7 @@ START AMBIENCE
 FADE OUT ALL LOOPS
 --------------------
 [0] = fadeOutLoops (String) 
+* Must be used in combination with a method that calls advance(), like wait();
 
 
 FELLOW SHIPS

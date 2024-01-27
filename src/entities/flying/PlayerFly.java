@@ -44,7 +44,7 @@ public class PlayerFly extends Entity {
     private int teleportKillWidth = 100;
     private int teleportKillOffset;
     private int maxHP = 100;
-    private int HP = 10;
+    private int HP = 100;
     private int collisionDmg = 10;
     private int flipX = 1;      // 1 = høyre, -1 = venstre. Brukes i checkTeleportCollision
 
