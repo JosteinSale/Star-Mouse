@@ -1,0 +1,11 @@
+cutscene;true;npc;0
+dialogue;Mechanic;normal;11;4;Hi, I'm the mechanic. Nice to meet ya'.
+endSequence
+dialogue;Mechanic;normal;11;2;I can upgrade your ship and weapons, for a price. 
+endSequence
+dialogue;Mechanic;normal;11;2;No credits, no service. And no refunds.
+endSequence
+playSFX;infoBox
+mechanicDisplay
+wait;1
+endSequence

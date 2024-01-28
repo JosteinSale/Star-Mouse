@@ -10,24 +10,28 @@ import main.Game;
 import misc.Area;
 import misc.ProgressValues;
 import ui.InventoryItem;
+import ui.MechanicOverlay;
 import ui.PauseExploring;
 import utils.LoadSave;
 
 public class Exploring extends State implements Statemethods {
     private AudioPlayer audioPlayer;
-    private int currentLevel = 1;
-    private int currentArea = 3;
+    private int currentLevel = 2;
+    private int currentArea = 1;
     private ArrayList<Area> areas;
     private PauseExploring pauseOverlay;
     private ProgressValues progValues;
+    private MechanicOverlay mechanicOverlay;
+    private boolean mechanicActive = false;
 
     public Exploring(Game game) {
         super(game);
         this.audioPlayer = game.getAudioPlayer();
         areas = new ArrayList<>();
         loadLevel(currentLevel);
-        this.progValues = new ProgressValues();
+        progValues = new ProgressValues();
         pauseOverlay = new PauseExploring(game, progValues, audioPlayer, game.getOptionsMenu());
+        mechanicOverlay = new MechanicOverlay(game, progValues);
     }
 
     // Laster inn alle areas for denne levelen
@@ -41,7 +45,7 @@ public class Exploring extends State implements Statemethods {
         }
     }
 
-    private void handleKeyBoardInputs() {
+    private void checkPause() {
         if (game.pauseIsPressed) {
             game.pauseIsPressed = false;
             this.pauseOverlay.flipActive();
@@ -51,11 +55,15 @@ public class Exploring extends State implements Statemethods {
 
     @Override
     public void update() {
-        handleKeyBoardInputs();
         if (pauseOverlay.isActive()) {
+            checkPause();
             pauseOverlay.update();
         }
+        else if (mechanicActive) {
+            mechanicOverlay.update();
+        }
         else {
+            checkPause();
             areas.get(currentArea - 1).update();  
         }   
     }
@@ -73,6 +81,9 @@ public class Exploring extends State implements Statemethods {
         areas.get(currentArea - 1).draw(g);
         if (pauseOverlay.isActive()) {
             pauseOverlay.draw(g);
+        }
+        else if (mechanicActive) {
+            mechanicOverlay.draw(g);
         }
     }
 
@@ -97,5 +108,9 @@ public class Exploring extends State implements Statemethods {
 
     public void updatePauseInventory() {
         this.pauseOverlay.updateProgressValues();
+    }
+
+    public void setMechanicActive(boolean active) {
+        this.mechanicActive = active;
     }
 }

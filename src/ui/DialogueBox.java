@@ -53,10 +53,10 @@ public class DialogueBox {
     }
 
     private void loadAllPortraits() {
-        portraits = new BufferedImage[3][8];
+        portraits = new BufferedImage[3][12];
         portraits[0] = getPortraits(LoadSave.MAX_PORTRAITS, 11);
         portraits[1] = getPortraits(LoadSave.OLIVER_PORTRAITS, 9);
-        portraits[2] = getPortraits(LoadSave.NPC_PORTRAITS1, 11);
+        portraits[2] = getPortraits(LoadSave.NPC_PORTRAITS1, 12);
     }
 
     private BufferedImage[] getPortraits(String portraitName, int length) {
@@ -128,6 +128,7 @@ public class DialogueBox {
             case "Shady pilot" -> Color.ORANGE;
             case "Speaker" -> Color.RED;
             case "Sign" -> Color.WHITE;
+            case "Mechanic" -> Color.BLUE.brighter();
             default -> throw new IllegalArgumentException(
                 "No nameColor available for '" + name + "'");
         };
@@ -141,7 +142,7 @@ public class DialogueBox {
             case "Lance" -> Audio.VOICECLIP_LANCE;
             case "Charlotte" -> Audio.VOICECLIP_CHARLOTTE;
             case "Nina" -> Audio.VOICECLIP_NINA;
-            case "Shady pilot" -> Audio.VOICECLIP_SHADYPILOT;
+            case "Shady pilot", "Mechanic" -> Audio.VOICECLIP_SHADYPILOT;
             case "Speaker" -> Audio.VOICECLIP_SPEAKER;
             case "Sign" -> Audio.VOICECLIP_SIGN;
             default -> 0;

@@ -38,6 +38,7 @@ public class LoadSave {
     public static final String ITEM_BOX = "itembox.png";
     public static final String ITEM_SELECTED = "item_selected.png";
     public static final String PRESENT_IMAGE = "item_present.png";
+    public static final String MECHANIC_DISPLAY = "mechanic_background.png";
     public static final String NUMBER_DISPLAY = "number_display2.png";
     public static final String NUMBER_SELECT = "number_selected.png";
     public static final String KEY_SELECT = "key_selected.png";

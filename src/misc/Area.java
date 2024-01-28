@@ -279,6 +279,9 @@ public class Area {
         else if (event instanceof SetRedLightEvent evt) {
             this.cutsceneManager.setRedLight(evt.active());
         }
+        else if (event instanceof MechanicDisplayEvent evt) {
+            this.exploring.setMechanicActive(true);
+        }
     }
 
     private void handleKeyBoardInputs() {

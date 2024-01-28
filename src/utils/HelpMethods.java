@@ -361,6 +361,10 @@ public class HelpMethods {
                 FellowShipEvent event = new FellowShipEvent(xPos, yPos, takeOffTimer);
                 allSequences.get(sequenceIndex).add(event);
             }
+            else if (lineData[0].equals("mechanicDisplay")) {
+                MechanicDisplayEvent event = new MechanicDisplayEvent();
+                allSequences.get(sequenceIndex).add(event);
+            }
             else if (lineData[0].equals("endSequence")) {
                 allCutscenes.get(triggerIndex).get(cutsceneIndex).addSequence(allSequences.get(sequenceIndex));
                 sequenceIndex += 1;
@@ -387,6 +391,7 @@ public class HelpMethods {
         int index = switch (name) {
             case "Max" -> 0;
             case "Oliver" -> 1;
+            case "Mechanic" -> 2;
             case "Lance" -> 2;
             case "Charlotte" -> 2;
             case "Nina" -> 2;
