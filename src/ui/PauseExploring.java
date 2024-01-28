@@ -20,11 +20,13 @@ import audio.AudioPlayer;
 import gamestates.Gamestate;
 import gamestates.Statemethods;
 import main.Game;
+import misc.ProgressValues;
 import utils.LoadSave;
 import utils.Constants.Audio;
 
 public class PauseExploring implements Statemethods {
     private Game game;
+    private ProgressValues progValues;
     private AudioPlayer audioPlayer;
     private OptionsMenu optionsMenu;
     private Color bgColor = new Color(0, 0, 0, 230);
@@ -37,12 +39,11 @@ public class PauseExploring implements Statemethods {
     private String[] menuOptions = {"Continue", "Options", "Main Menu"};
     private BufferedImage pointerImg;
     private Rectangle itemInfoBox;     //  Alle Rectangle's er justert ift game.Scale
-    private Rectangle shipHealth;
     private boolean active;
     private int selectedIndex = 8;     // Items = 0-7, menuOptions = 8-10
     
-    private String[] valueNames = {"Credits: x", "Bombs: x", "Ship health: %"};
-    private int[] statusValues = {0, 0, 100};
+    private String[] valueNames = {"Credits: x", "Bombs: x"};
+    private int[] statusValues = {0, 0};
     private ArrayList<InventoryItem> items;
 
     private int bgW;
@@ -61,14 +62,21 @@ public class PauseExploring implements Statemethods {
     private int cursorY = cursorMinY;
     private int menuOptionsDiff = (cursorMaxY - cursorMinY) / 2;   
     
-    public PauseExploring(Game game, AudioPlayer audioPlayer, OptionsMenu optionsMenu) {
+    public PauseExploring(Game game, ProgressValues progValues, AudioPlayer audioPlayer, OptionsMenu optionsMenu) {
         this.game = game;
+        this.progValues = progValues;
+        updateProgressValues();
         this.audioPlayer = audioPlayer;
         this.optionsMenu = optionsMenu;
         calcDrawValues();
         loadImages();
         loadFonts();
         this.items = new ArrayList<>();
+    }
+
+    public void updateProgressValues() {
+        this.statusValues[0] = progValues.getCredits();
+        this.statusValues[1] = progValues.getBombs();
     }
 
     private void calcDrawValues() {
@@ -85,10 +93,6 @@ public class PauseExploring implements Statemethods {
         this.itemInfoBox = new Rectangle(
             (int) (170 * Game.SCALE), (int) (itemBoxY * Game.SCALE), 
             (int) (300 * Game.SCALE), (int) (itemBoxH * Game.SCALE));
-        
-        this.shipHealth = new Rectangle(
-            (int) (170 * Game.SCALE), (int) (600 * Game.SCALE),
-            (int) (290 * Game.SCALE), (int) (15 * Game.SCALE));
     }
 
     private void loadImages() {
@@ -262,8 +266,6 @@ public class PauseExploring implements Statemethods {
             valueNames[i] + Integer.toString(statusValues[i]), 
             (int) (170 * Game.SCALE), (int) ((480 + (i * 50)) * Game.SCALE));
         }
-        g2.setColor(Color.RED);
-        g2.fill(shipHealth);
     }
 
     private void drawPointer(Graphics2D g2) {
@@ -362,24 +364,5 @@ public class PauseExploring implements Statemethods {
 
     public void addItem(InventoryItem item) {
         this.items.add(item);
-    }
-
-    public void updateValues(String type, int amount) {
-        int index = switch(type) {
-            case "credits" -> 0;
-            case "bombs" -> 1;
-            case "health" -> 2;
-            default -> throw new IllegalArgumentException(
-                "No inventory value available for '" + type + "'");
-        };
-        this.statusValues[index] += amount;
-    }
-
-    public int getCredits() {
-        return this.statusValues[0];
-    }
-
-    public int getBombs() {
-        return this.statusValues[1];
     }
 }

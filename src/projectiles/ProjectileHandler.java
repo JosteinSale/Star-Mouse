@@ -10,6 +10,7 @@ import entities.flying.Enemy;
 import entities.flying.EnemyManager;
 import entities.flying.PlayerFly;
 import main.Game;
+import misc.ProgressValues;
 import utils.LoadSave;
 
 import static utils.Constants.Flying.Sprites.*;
@@ -23,6 +24,7 @@ import static utils.Constants.Audio;
 
 public class ProjectileHandler {
     private Game game;
+    private ProgressValues progValues;
     private AudioPlayer audioPlayer;
     private PlayerFly player;
     private EnemyManager enemyManager;
@@ -46,12 +48,14 @@ public class ProjectileHandler {
     private int bombShootBuffer = 30;  
     private int bombShootTick = 0;
     private int explosionDamage = 300;
-    private int nrOfBombs = 10;
+    private int nrOfBombs;
 
     private float fgSpeed;
 
     public ProjectileHandler(Game game, AudioPlayer audioPlayer, PlayerFly player, EnemyManager enemyManager) {
         this.game = game;
+        this.progValues = game.getExploring().getProgressValues();
+        this.nrOfBombs = progValues.getBombs();
         this.audioPlayer = audioPlayer;
         this.player = player;
         this.enemyManager = enemyManager;
@@ -113,14 +117,18 @@ public class ProjectileHandler {
     }
 
     private void addPlayerProjectile(float xPos, float yPos) {
-        Rectangle2D.Float hitbox1 = new Rectangle2D.Float(xPos - 8, yPos - 30, PLAYER_PRJT_SPRITE_W, PLAYER_PRJT_SPRITE_H);
-        Rectangle2D.Float hitbox2 = new Rectangle2D.Float(xPos + 43, yPos - 30, PLAYER_PRJT_SPRITE_W, PLAYER_PRJT_SPRITE_H);
+        Rectangle2D.Float hitbox1 = new Rectangle2D.Float(
+            xPos - 8, yPos - 30, PLAYER_PRJT_SPRITE_W, PLAYER_PRJT_SPRITE_H);
+        Rectangle2D.Float hitbox2 = new Rectangle2D.Float(
+            xPos + 43, yPos - 30, PLAYER_PRJT_SPRITE_W, PLAYER_PRJT_SPRITE_H);
         int imgSelection = 0;
         if (powerUp) {
             imgSelection = 1;
         }
-        this.allProjectiles.add(new PlayerProjectile(hitbox1, powerUp, plPrjctImgs[imgSelection]));
-        this.allProjectiles.add(new PlayerProjectile(hitbox2, powerUp, plPrjctImgs[imgSelection]));
+        this.allProjectiles.add(
+            new PlayerProjectile(hitbox1, powerUp, progValues.getLazerDmg(), plPrjctImgs[imgSelection]));
+        this.allProjectiles.add(
+            new PlayerProjectile(hitbox2, powerUp, progValues.getLazerDmg(), plPrjctImgs[imgSelection]));
     }
 
     private void addBombProjectile(float xPos, float yPos) {
@@ -364,9 +372,13 @@ public class ProjectileHandler {
         this.player.setBombs(nrOfBombs);
     }
 
-    public void setBombs(int bombs) {
-        this.nrOfBombs = bombs;
-        this.player.setBombs(bombs);
+    public int getBombsAtEndOfLevel() {
+        return this.nrOfBombs;
+    }
+
+    public void setBombs(int amount) {
+        nrOfBombs = amount;
+        player.setBombs(amount);
     }
 
     public void setClImg(BufferedImage clImg) {

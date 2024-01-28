@@ -76,7 +76,7 @@ public class Area {
         doors = new ArrayList<>();
         npcManager = new NpcManager();
         automaticTriggers = new ArrayList<>();
-        TextboxManager textboxManager = new TextboxManager(this.exploring.getGame());
+        TextboxManager textboxManager = new TextboxManager(game);
         this.eventHandler = new EventHandler();
         loadAreaData(areaData);
         this.cutsceneManager = new CutsceneManager(game, this, npcManager, audioPlayer, player, eventHandler, textboxManager);
@@ -226,7 +226,15 @@ public class Area {
             this.cutsceneManager.showNumberDisplay(evt.passCode());
         }
         else if (event instanceof UpdateInventoryEvent evt) {
-            this.exploring.updateInventory(evt.type(), evt.amount());
+            if (evt.type().equals("bombs")) {
+                int prevAmount = exploring.getProgressValues().getBombs();
+                exploring.getProgressValues().setBombs(prevAmount + evt.amount());
+            }
+            else {   // credits
+                int prevAmount = exploring.getProgressValues().getCredits();
+                exploring.getProgressValues().setCredits(prevAmount + evt.amount());
+            }
+            exploring.updatePauseInventory();
         }
         else if (event instanceof PurchaseEvent evt) {
             int opt = 2;
@@ -238,8 +246,8 @@ public class Area {
         else if (event instanceof GoToFlyingEvent evt) {
             Gamestate.state = Gamestate.FLYING;
             audioPlayer.stopAllLoops();
-            this.exploring.getGame().getFlying().loadLevel(evt.lvl());
-            this.exploring.getGame().getFlying().update();
+            game.getFlying().loadLevel(evt.lvl());
+            game.getFlying().update();
         }
         else if (event instanceof StartSongEvent evt) {
             this.audioPlayer.startSongLoop(evt.index());

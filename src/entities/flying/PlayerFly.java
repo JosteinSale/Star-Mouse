@@ -43,7 +43,7 @@ public class PlayerFly extends Entity {
     private int teleportDistance = 250;
     private int teleportKillWidth = 100;
     private int teleportKillOffset;
-    private int maxHP = 100;
+    private int maxHP;
     private int HP = 100;
     private int collisionDmg = 10;
     private int flipX = 1;      // 1 = høyre, -1 = venstre. Brukes i checkTeleportCollision
@@ -60,6 +60,7 @@ public class PlayerFly extends Entity {
     public PlayerFly(Game game, Float hitbox) {
         super(hitbox);
         this.game = game;
+        this.maxHP = game.getExploring().getProgressValues().getMaxHP();
         this.audioPlayer = game.getAudioPlayer();
         this.tpShadowImg = LoadSave.getFlyImageSprite("teleport_shadow.png");
         loadAnimations();

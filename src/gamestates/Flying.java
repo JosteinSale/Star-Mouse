@@ -22,6 +22,7 @@ import ui.LevelFinishedOverlay;
 import ui.OptionsMenu;
 import ui.PauseFlying;
 import ui.TextboxManager2;
+import utils.Constants.Audio;
 import utils.LoadSave;
 import static utils.HelpMethods.GetAutomaticTrigger;
 import static utils.HelpMethods2.GetPickupItem;
@@ -77,8 +78,8 @@ public class Flying extends State implements Statemethods {
         this.pickupItems = new ArrayList<>();
         initClasses(game.getOptionsMenu());
         loadEventReactions();
-        projectileHandler.setBombs(game.getExploring().getBombs());   // Comment out to start with more bombs
-        //loadLevel(1);     // Only use if not entering from Exploring
+        projectileHandler.setBombs(game.getExploring().getProgressValues().getBombs());   // Comment out to start with more bombs
+        //loadLevel(0);     // Only use if not entering from Exploring
     }
 
     public void loadLevel(int level) {
@@ -88,11 +89,12 @@ public class Flying extends State implements Statemethods {
         loadMapAndOffsets(level);
         player.setClImg(this.clImg);
         projectileHandler.setClImg(this.clImg);
+        projectileHandler.setBombs(game.getExploring().getProgressValues().getBombs());
         enemyManager.loadEnemiesForLvl(level);
         loadPickupItems(level);
         loadCutscenes(level);  
         player.setKilledEnemies(0);
-        //startAt(-24500);     // For testing purposes
+        startAt(-15000);     // For testing purposes
         
     }
 
@@ -200,7 +202,7 @@ public class Flying extends State implements Statemethods {
         else if (event instanceof LevelFinishedEvent evt) {
             this.levelFinished = true;
             this.levelFinishedOverlay.setLevelStats(
-                game.getExploring().getCredits(), 
+                game.getExploring().getProgressValues().getCredits(), 
                 enemyManager.getKilledEnemies());
         }
         else if (event instanceof StartSongEvent evt) {
@@ -354,7 +356,9 @@ public class Flying extends State implements Statemethods {
     }
 
     public void exitFinishedLevel() {
+        game.getExploring().getProgressValues().setBombs(projectileHandler.getBombsAtEndOfLevel());
         this.resetFlying();
+        game.getExploring().updatePauseInventory();
         if (this.level == 0) {
             Gamestate.state = Gamestate.EXPLORING;
         }
@@ -363,6 +367,7 @@ public class Flying extends State implements Statemethods {
         }
     }
 
+    /** Used only for testing porposes */
     private void startAt(int y) {
         this.clYOffset -= y;
         this.bgYOffset -= y * (bgCurSpeed / fgCurSpeed);
@@ -396,6 +401,7 @@ public class Flying extends State implements Statemethods {
         gamePlayActive = false;
         player.setVisible(false);
         gameoverOverlay.setPlayerPos(player.getHitbox().x, player.getHitbox().y);
+        projectileHandler.setBombs(game.getExploring().getProgressValues().getBombs());
         audioPlayer.stopAllLoops();
         audioPlayer.startAmbienceLoop(Audio.AMBIENCE_SILENCE);
         audioPlayer.playSFX(Audio.SFX_DEATH);

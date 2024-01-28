@@ -8,6 +8,7 @@ import java.util.List;
 import audio.AudioPlayer;
 import main.Game;
 import misc.Area;
+import misc.ProgressValues;
 import ui.InventoryItem;
 import ui.PauseExploring;
 import utils.LoadSave;
@@ -15,16 +16,18 @@ import utils.LoadSave;
 public class Exploring extends State implements Statemethods {
     private AudioPlayer audioPlayer;
     private int currentLevel = 1;
-    private int currentArea = 1;
+    private int currentArea = 3;
     private ArrayList<Area> areas;
     private PauseExploring pauseOverlay;
+    private ProgressValues progValues;
 
     public Exploring(Game game) {
         super(game);
         this.audioPlayer = game.getAudioPlayer();
         areas = new ArrayList<>();
         loadLevel(currentLevel);
-        pauseOverlay = new PauseExploring(game, audioPlayer, game.getOptionsMenu());
+        this.progValues = new ProgressValues();
+        pauseOverlay = new PauseExploring(game, progValues, audioPlayer, game.getOptionsMenu());
     }
 
     // Laster inn alle areas for denne levelen
@@ -81,23 +84,18 @@ public class Exploring extends State implements Statemethods {
         this.pauseOverlay.addItem(item);
     }
 
-    public void updateInventory(String type, int amount) {
-        this.pauseOverlay.updateValues(type, amount);
-    }
-
     public boolean playerHasEnoughCredits(int amount) {
-        if (amount <= this.pauseOverlay.getCredits()) {
+        if (amount <= this.progValues.getCredits()) {
             return true;
         }
         return false;
     }
 
-    /** Returns the number of credits in the player's inventory */
-    public int getCredits() {
-        return this.pauseOverlay.getCredits();
+    public ProgressValues getProgressValues() {
+        return this.progValues;
     }
 
-    public int getBombs() {
-        return this.pauseOverlay.getBombs();
+    public void updatePauseInventory() {
+        this.pauseOverlay.updateProgressValues();
     }
 }

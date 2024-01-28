@@ -11,16 +11,17 @@ import main.Game;
 
 public class PlayerProjectile extends Entity implements Projectile {
     BufferedImage img;
-    private int damage = 7;
+    private int damage;
     private int xSpeed = 0;
     private int ySpeed = -10;
     private int[][] collisionPixels = new int[2][2];
     private boolean powerUp;
     private boolean active = true;
 
-    public PlayerProjectile(Rectangle2D.Float hitbox, boolean powerUp, BufferedImage img) {
+    public PlayerProjectile(Rectangle2D.Float hitbox, boolean powerUp, int dmg, BufferedImage img) {
         super(hitbox);
         this.powerUp = powerUp;
+        this.damage = dmg;
         this.img = img;
     }
 
