@@ -38,9 +38,9 @@ public class MechanicOverlay {
 
    private String[] optionNames = {"Lazer", "Shield", "Bomb", ""};
    private String[][] optionInfo = {
-      {"   (+2 damage)", "Current: x/y", "$ xxxx"}, 
-      {"   (+10 shield)", "Current: x/y", "$ xxxx"}, 
-      {"   (+1 bomb)", "Current: x", "$ xxxx"}, 
+      {"(+1 dmg each ray)", "Current: x/y", "$ xxxx"}, 
+      {"(+10 shield)", "Current: x/y", "$ xxxx"}, 
+      {"(+1 bomb)", "Current: x", "$ xxxx"}, 
       {"", "", ""}
    };
    private int selectedIndex = 3;
@@ -61,9 +61,9 @@ public class MechanicOverlay {
    private int bgImgH = MECHANIC_DISPLAY_HEIGHT;
 
    private int inventoryX = bgImgX;  
-   private int inventoryY = 560;   
+   private int inventoryY = 580;   
    private int inventoryW = bgImgW;   
-   private int inventoryH = 170;     
+   private int inventoryH = 150;     
 
    private int cursorX = 200;
    private int cursorMinY = 190;
@@ -249,15 +249,15 @@ public class MechanicOverlay {
 
       g.setFont(menuFont);
       g.setColor(Color.WHITE);
-      g.drawString("Inventory", (int) (410 * Game.SCALE), (int) (610 * Game.SCALE));
+      g.drawString("Inventory", (int) (410 * Game.SCALE), (int) (630 * Game.SCALE));
 
       g.setFont(infoFont);
       g.drawString(
          "Credits: x" + Integer.toString(progValues.getCredits()), 
-         (int) (250 * Game.SCALE), (int) (670 * Game.SCALE));
+         (int) (250 * Game.SCALE), (int) (690 * Game.SCALE));
       g.drawString(
          "Bombs: x" + Integer.toString(progValues.getBombs()), 
-         (int) (620 * Game.SCALE), (int) (670 * Game.SCALE));
+         (int) (620 * Game.SCALE), (int) (690 * Game.SCALE));
       
       // Display-text
       g.setColor(displayColor);
