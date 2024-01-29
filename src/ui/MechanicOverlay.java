@@ -22,6 +22,8 @@ public class MechanicOverlay {
    private ProgressValues progValues;
    private BufferedImage bgImg;
    private BufferedImage pointerImg;
+   private InfoBox infoBox;
+   private InfoChoice infoChoice;
    private Color inventoryColor = new Color(0, 0, 0, 230);
    private Color lazerBarColor = Color.CYAN;
    private Color hpBarColor = Color.ORANGE;
@@ -29,24 +31,29 @@ public class MechanicOverlay {
    private Font menuFont;
    private Font itemFont;
    private Font infoFont;
-   private final int highestMaxHP = 200;
+   private final int highestMaxHP = 300;
    private final int highestLazerDmg = 15;
+   private boolean infoBoxActive = false;
+   private boolean infoChoiceActive = false;
 
    private String[] optionNames = {"Lazer", "Shield", "Bomb", ""};
    private String[][] optionInfo = {
-      {"Upgrade lazer", "   (+2 damage)", "Current: x/y", "Price: xxxx"}, 
-      {"Upgrade shield", "   (+100 shield)", "Current: x/y", "Price: xxxx"}, 
-      {"Buy a bomb", "   (+1 bomb)", "", "Price: xxxx"}, 
-      {"", "", "", ""}
+      {"   (+2 damage)", "Current: x/y", "$ xxxx"}, 
+      {"   (+10 shield)", "Current: x/y", "$ xxxx"}, 
+      {"   (+1 bomb)", "Current: x", "$ xxxx"}, 
+      {"", "", ""}
    };
-   private int lazerPrice = 1000;
-   private int shieldPrice = 1000;
-   private int bombPrice = 1000;
+   private int selectedIndex = 3;
    private static int UPGRADE_LAZER = 0;
    private static int UPGRADE_SHIP = 1;
    private static int BUY_BOMB = 2;
    private static int EXIT = 3;
-   private int selectedIndex = 3;
+   private int lazerPrice = 1000;
+   private int shieldPrice = 800;
+   private int bombPrice = 500;
+   private int[] prices = {lazerPrice, shieldPrice, bombPrice};
+   private String[] buyNames = {"a lazer upgrade", "a shield upgrade", "1 bomb"};
+   
 
    private int bgImgX = Game.GAME_DEFAULT_WIDTH / 2 - (MECHANIC_DISPLAY_WIDTH / 2);
    private int bgImgY = 20; 
@@ -74,6 +81,8 @@ public class MechanicOverlay {
       this.game = game;
       this.audioPlayer = game.getAudioPlayer();
       this.progValues = progressValues;
+      this.infoBox = new InfoBox();
+      this.infoChoice = new InfoChoice();
       updateBarWidths();
       updateTextInfo();
       loadImages();
@@ -84,18 +93,16 @@ public class MechanicOverlay {
       // Lazer
       optionInfo[0][1] = "Current: " + 
          Integer.toString(progValues.getLazerDmg()) + "/" + Integer.toString(highestLazerDmg);
-      optionInfo[0][2] = "Price: " + 
-         Integer.toString(lazerPrice) + " (+2 damage)";
+      optionInfo[0][2] = "$" + Integer.toString(lazerPrice);
       
       // HP
       optionInfo[1][1] = "Current: " + 
          Integer.toString(progValues.getMaxHP()) + "/" + Integer.toString(highestMaxHP);
-      optionInfo[1][2] = "Price: " + 
-         Integer.toString(shieldPrice) + " (+100 shield)";
+      optionInfo[1][2] = "$" + Integer.toString(shieldPrice);
       
       // Bombs
-      optionInfo[2][2] = "Price: " + 
-         Integer.toString(bombPrice) + " (+1 bomb)";
+      optionInfo[2][1] = "Current: x" + Integer.toString(progValues.getBombs());
+      optionInfo[2][2] = "$" + Integer.toString(bombPrice);
    }
 
    private void updateBarWidths() {
@@ -121,6 +128,17 @@ public class MechanicOverlay {
    }
 
    private void handleKeyBoardInputs() {
+      if (infoChoiceActive) {
+         handleInfoChoice();
+         return;
+      }
+      else if (infoBoxActive) {
+         if (game.interactIsPressed) {
+            game.interactIsPressed = false;
+            this.infoBoxActive = false;
+            return;
+         }
+      }
       if (game.downIsPressed) {
          game.downIsPressed = false;
          goDown();
@@ -137,6 +155,36 @@ public class MechanicOverlay {
          if (selectedIndex == EXIT) {
             game.getExploring().setMechanicActive(false);
          }
+         else {
+            askIfWantToBuy();
+         }
+      }
+   }
+
+   private void askIfWantToBuy() {
+      audioPlayer.playSFX(Audio.SFX_INFOBOX);
+      infoChoiceActive = true;
+      infoChoice.setText(
+         "Buy " + buyNames[selectedIndex] + "?", "Yes", "No");
+   }
+
+   private void handleInfoChoice() {
+      if (game.interactIsPressed) {
+         game.interactIsPressed = false;
+         infoChoiceActive = false;
+         if (infoChoice.getSelectedOption() == 1) {  // "Yes"
+            audioPlayer.playSFX(Audio.SFX_INVENTORY_PICKUP);
+            infoBoxActive = true;
+            infoBox.setText(
+               "You bought " + buyNames[selectedIndex] + 
+               " and lost " + Integer.toString(prices[selectedIndex]) + " credits!");
+         }
+      }
+      else if (game.leftIsPressed || game.rightIsPressed) {
+         audioPlayer.playSFX(Audio.SFX_CURSOR);
+         game.leftIsPressed = false;
+         game.rightIsPressed = false;
+         infoChoice.toggle();
       }
    }
 
@@ -211,17 +259,28 @@ public class MechanicOverlay {
          "Bombs: x" + Integer.toString(progValues.getBombs()), 
          (int) (620 * Game.SCALE), (int) (670 * Game.SCALE));
       
-      // Display text
+      // Display-text
       g.setColor(displayColor);
       g.setFont(menuFont);
       g.drawString(
          optionNames[selectedIndex], 
          (int) (560 * Game.SCALE), (int) (200 * Game.SCALE));
       g.setFont(itemFont);
-      for (int i = 0; i < 4; i++) {
+      for (int i = 0; i < 2; i++) {  // Item-info
          g.drawString(
             optionInfo[selectedIndex][i], 
             (int) (560 * Game.SCALE), (int) ((250 + i * 50) * Game.SCALE));
+      }
+      g.setFont(menuFont);  // Item-price
+      g.drawString(
+         optionInfo[selectedIndex][2], 
+         (int) (560 * Game.SCALE), (int) (400 * Game.SCALE));
+
+      if (infoBoxActive) {
+         infoBox.draw(g);
+      }
+      else if (infoChoiceActive) {
+         infoChoice.draw(g);
       }
    }
 

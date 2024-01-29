@@ -73,6 +73,7 @@ public class InfoChoice {
         g.drawImage(cursor, cursorX, cursorY, cursorW, cursorH, null);
     }
 
+    /** Selected option is an int that is 1 (left choice) or 2 (right choice) */
     public int getSelectedOption() {
         return this.selectedOption;
     }
