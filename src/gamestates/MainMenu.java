@@ -18,6 +18,7 @@ import static utils.Constants.UI.*;
 import static utils.HelpMethods.DrawCenteredString;
 
 public class MainMenu extends State implements Statemethods {
+    
     private AudioPlayer audioPlayer;
     private BufferedImage bgImg;
     private BufferedImage titleImg;
