@@ -52,25 +52,22 @@ public class MechanicOverlay {
    private int shieldPrice = 800;
    private int bombPrice = 500;
    private int[] prices = {lazerPrice, shieldPrice, bombPrice};
+   private int[] upgradeValues = {1, 10, 1};
    private String[] buyNames = {"a lazer upgrade", "a shield upgrade", "1 bomb"};
-   
 
    private int bgImgX = Game.GAME_DEFAULT_WIDTH / 2 - (MECHANIC_DISPLAY_WIDTH / 2);
    private int bgImgY = 20; 
    private int bgImgW = MECHANIC_DISPLAY_WIDTH;
    private int bgImgH = MECHANIC_DISPLAY_HEIGHT;
-
    private int inventoryX = bgImgX;  
    private int inventoryY = 580;   
    private int inventoryW = bgImgW;   
    private int inventoryH = 150;     
-
    private int cursorX = 200;
    private int cursorMinY = 190;
    private int cursorMaxY = 420;
    private int cursorY = cursorMaxY;
    private int menuOptionsDiff = (cursorMaxY - cursorMinY) / 3;
-
    private int lazerBarW;
    private int hpBarW;
    private int barH = 21;
@@ -156,35 +153,17 @@ public class MechanicOverlay {
             game.getExploring().setMechanicActive(false);
          }
          else {
-            askIfWantToBuy();
+            if (maxedOut()) {
+               System.out.println("Maxed out!");
+            }
+            else if (hasEnoughCredits()) {
+               askIfWantToBuy();
+            }
+            else {
+               System.out.println("You don't have enough credits!");
+            }
+            
          }
-      }
-   }
-
-   private void askIfWantToBuy() {
-      audioPlayer.playSFX(Audio.SFX_INFOBOX);
-      infoChoiceActive = true;
-      infoChoice.setText(
-         "Buy " + buyNames[selectedIndex] + "?", "Yes", "No");
-   }
-
-   private void handleInfoChoice() {
-      if (game.interactIsPressed) {
-         game.interactIsPressed = false;
-         infoChoiceActive = false;
-         if (infoChoice.getSelectedOption() == 1) {  // "Yes"
-            audioPlayer.playSFX(Audio.SFX_INVENTORY_PICKUP);
-            infoBoxActive = true;
-            infoBox.setText(
-               "You bought " + buyNames[selectedIndex] + 
-               " and lost " + Integer.toString(prices[selectedIndex]) + " credits!");
-         }
-      }
-      else if (game.leftIsPressed || game.rightIsPressed) {
-         audioPlayer.playSFX(Audio.SFX_CURSOR);
-         game.leftIsPressed = false;
-         game.rightIsPressed = false;
-         infoChoice.toggle();
       }
    }
 
@@ -203,6 +182,67 @@ public class MechanicOverlay {
       if (selectedIndex < 0) {
          selectedIndex = 3;
          cursorY = cursorMaxY;
+      }
+   }
+
+   private boolean hasEnoughCredits() {
+      return (progValues.getCredits() >= prices[selectedIndex]);
+   }
+
+   private boolean maxedOut() {
+      if (selectedIndex == UPGRADE_LAZER) {
+         return (progValues.getLazerDmg() == highestLazerDmg);
+      }
+      else if (selectedIndex == UPGRADE_SHIP) {
+         return (progValues.getMaxHP() == highestMaxHP);
+      }
+      return false;
+   }
+
+   private void askIfWantToBuy() {
+      audioPlayer.playSFX(Audio.SFX_INFOBOX);
+      infoChoiceActive = true;
+      infoChoice.setText(
+         "Buy " + buyNames[selectedIndex] + "?", "Yes", "No");
+   }
+
+   private void handleInfoChoice() {
+      if (game.interactIsPressed) {
+         game.interactIsPressed = false;
+         infoChoiceActive = false;
+         if (infoChoice.getSelectedOption() == 1) {    // Player answered 'yes'
+            audioPlayer.playSFX(Audio.SFX_INVENTORY_PICKUP);
+            removeCredits();
+            increaseProgValues();
+            updateTextInfo();
+            updateBarWidths();
+            infoBoxActive = true;
+            infoBox.setText(
+               "You bought " + buyNames[selectedIndex] + 
+               " and lost " + Integer.toString(prices[selectedIndex]) + " credits!");
+         }
+      }
+      else if (game.leftIsPressed || game.rightIsPressed) {  // Toggle options
+         audioPlayer.playSFX(Audio.SFX_CURSOR);
+         game.leftIsPressed = false;
+         game.rightIsPressed = false;
+         infoChoice.toggle();
+      }
+   }
+
+   private void removeCredits() {
+      progValues.setCredits(progValues.getCredits() - prices[selectedIndex]);
+   }
+
+   private void increaseProgValues() {
+      if (selectedIndex == UPGRADE_LAZER) {
+         progValues.setLazerDmg(progValues.getLazerDmg() + upgradeValues[selectedIndex]);
+      }
+      else if (selectedIndex == UPGRADE_SHIP) {
+         progValues.setMaxHP(progValues.getMaxHP() + upgradeValues[selectedIndex]);
+      }
+      else {
+         progValues.setBombs(progValues.getBombs() + upgradeValues[selectedIndex]);
       }
    }
 
@@ -283,7 +323,4 @@ public class MechanicOverlay {
          infoChoice.draw(g);
       }
    }
-
-   
-   
 }

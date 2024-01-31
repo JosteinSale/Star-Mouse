@@ -6,7 +6,7 @@ package misc;
 public class ProgressValues {
    private int maxHP = 100;
    private int lazerDmg = 7;
-   private int credits = 0;
+   private int credits = 10000;
    private int bombs = 5;
 
    // Setters
