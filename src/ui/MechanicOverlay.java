@@ -54,6 +54,7 @@ public class MechanicOverlay {
    private int[] prices = {lazerPrice, shieldPrice, bombPrice};
    private int[] upgradeValues = {1, 10, 1};
    private String[] buyNames = {"a lazer upgrade", "a shield upgrade", "1 bomb"};
+   private boolean[] maxedOut = {false, false, false};
 
    private int bgImgX = Game.GAME_DEFAULT_WIDTH / 2 - (MECHANIC_DISPLAY_WIDTH / 2);
    private int bgImgY = 20; 
@@ -153,16 +154,15 @@ public class MechanicOverlay {
             game.getExploring().setMechanicActive(false);
          }
          else {
-            if (maxedOut()) {
-               System.out.println("Maxed out!");
+            if (maxedOut[selectedIndex]) {
+               audioPlayer.playSFX(Audio.SFX_HURT);
             }
             else if (hasEnoughCredits()) {
                askIfWantToBuy();
             }
             else {
-               System.out.println("You don't have enough credits!");
+               audioPlayer.playSFX(Audio.SFX_HURT);
             }
-            
          }
       }
    }
@@ -189,16 +189,6 @@ public class MechanicOverlay {
       return (progValues.getCredits() >= prices[selectedIndex]);
    }
 
-   private boolean maxedOut() {
-      if (selectedIndex == UPGRADE_LAZER) {
-         return (progValues.getLazerDmg() == highestLazerDmg);
-      }
-      else if (selectedIndex == UPGRADE_SHIP) {
-         return (progValues.getMaxHP() == highestMaxHP);
-      }
-      return false;
-   }
-
    private void askIfWantToBuy() {
       audioPlayer.playSFX(Audio.SFX_INFOBOX);
       infoChoiceActive = true;
@@ -216,6 +206,7 @@ public class MechanicOverlay {
             increaseProgValues();
             updateTextInfo();
             updateBarWidths();
+            checkMaxedOut(selectedIndex);
             infoBoxActive = true;
             infoBox.setText(
                "You bought " + buyNames[selectedIndex] + 
@@ -228,6 +219,22 @@ public class MechanicOverlay {
          game.rightIsPressed = false;
          infoChoice.toggle();
       }
+   }
+
+   private boolean checkMaxedOut(int selIndex) {
+      if (selIndex == UPGRADE_LAZER) {
+         if (progValues.getLazerDmg() == highestLazerDmg) {
+            maxedOut[selIndex] = true;
+            return true;
+         }
+      }
+      else if (selIndex == UPGRADE_SHIP) {
+         if (progValues.getMaxHP() == highestMaxHP) {
+            maxedOut[selIndex] = true;
+            return true;
+         }
+      }
+      return false;
    }
 
    private void removeCredits() {
@@ -247,19 +254,30 @@ public class MechanicOverlay {
    }
 
    public void draw(Graphics g) {
-      // Display
-      g.drawImage(
-         bgImg, 
-         (int) (bgImgX * Game.SCALE), (int) (bgImgY * Game.SCALE), 
-         (int) (bgImgW * Game.SCALE), (int) (bgImgH * Game.SCALE), null);
-      
-      // Cursor
-      g.drawImage(
-         pointerImg,
-         (int) (cursorX * Game.SCALE), (int) ((cursorY - 30) * Game.SCALE),
-         (int) (CURSOR_WIDTH * Game.SCALE), (int) (CURSOR_HEIGHT * Game.SCALE), null);
+      drawDisplay(g);
+      drawInventory(g);
+      drawText(g);
+      drawMaxedOut(g);
+   }
 
-      // Inventory
+   private void drawMaxedOut(Graphics g) {
+      g.setFont(menuFont);
+      for (int i = 0; i < 3; i++) {
+         if (maxedOut[i]) {
+            g.setColor(new Color(0,0,0,190));
+            g.fillRect(
+               (int) (277 * Game.SCALE), (int) ((138 + 75*i) * Game.SCALE), 
+               (int) (263 * Game.SCALE),
+               (int) (70 * Game.SCALE));
+            g.setColor(Color.RED);
+            g.drawString(
+               "(max)", 
+               (int) (350 * Game.SCALE), (int) ((185 + 75*i) * Game.SCALE));
+         }
+      }
+   }
+
+   private void drawInventory(Graphics g) {
       g.setColor(inventoryColor);
       g.fillRect(
          (int) (inventoryX * Game.SCALE), (int) (inventoryY * Game.SCALE), 
@@ -269,24 +287,15 @@ public class MechanicOverlay {
       g.drawRect(
          (int) ((inventoryX + 10) * Game.SCALE), (int) ((inventoryY + 10) * Game.SCALE), 
          (int) ((inventoryW - 20) * Game.SCALE), (int) ((inventoryH - 20) * Game.SCALE));
+   }
 
-      // Bars
-      g.setColor(lazerBarColor);
-      g.fillRect(
-         (int) (370 * Game.SCALE), (int) (167 * Game.SCALE), 
-         (int) (lazerBarW * Game.SCALE),
-         (int) (barH * Game.SCALE));
-      g.setColor(hpBarColor);
-      g.fillRect(
-         (int) (370 * Game.SCALE), (int) (240 * Game.SCALE), 
-         (int) (hpBarW * Game.SCALE),
-         (int) (barH * Game.SCALE));
-
-      // Menu text
+   private void drawText(Graphics g) {
+      // EXIT
       g.setFont(menuFont);
       g.setColor(Color.GRAY.darker());
       g.drawString("EXIT", (int) (360 * Game.SCALE), (int) (410 * Game.SCALE));
 
+      // Inventory
       g.setFont(menuFont);
       g.setColor(Color.WHITE);
       g.drawString("Inventory", (int) (410 * Game.SCALE), (int) (630 * Game.SCALE));
@@ -322,5 +331,31 @@ public class MechanicOverlay {
       else if (infoChoiceActive) {
          infoChoice.draw(g);
       }
+   }
+
+   private void drawDisplay(Graphics g) {
+      // Background
+      g.drawImage(
+         bgImg, 
+         (int) (bgImgX * Game.SCALE), (int) (bgImgY * Game.SCALE), 
+         (int) (bgImgW * Game.SCALE), (int) (bgImgH * Game.SCALE), null);
+      
+      // Bars
+      g.setColor(lazerBarColor);
+      g.fillRect(
+         (int) (370 * Game.SCALE), (int) (167 * Game.SCALE), 
+         (int) (lazerBarW * Game.SCALE),
+         (int) (barH * Game.SCALE));
+      g.setColor(hpBarColor);
+      g.fillRect(
+         (int) (370 * Game.SCALE), (int) (240 * Game.SCALE), 
+         (int) (hpBarW * Game.SCALE),
+         (int) (barH * Game.SCALE));
+      
+      // Cursor
+      g.drawImage(
+         pointerImg,
+         (int) (cursorX * Game.SCALE), (int) ((cursorY - 30) * Game.SCALE),
+         (int) (CURSOR_WIDTH * Game.SCALE), (int) (CURSOR_HEIGHT * Game.SCALE), null);
    }
 }
