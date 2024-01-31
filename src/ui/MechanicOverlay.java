@@ -134,8 +134,8 @@ public class MechanicOverlay {
          if (game.interactIsPressed) {
             game.interactIsPressed = false;
             this.infoBoxActive = false;
-            return;
          }
+         return;
       }
       if (game.downIsPressed) {
          game.downIsPressed = false;
