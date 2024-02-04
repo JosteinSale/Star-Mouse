@@ -251,6 +251,7 @@ public class MechanicOverlay {
       else {
          progValues.setBombs(progValues.getBombs() + upgradeValues[selectedIndex]);
       }
+      game.getExploring().updatePauseInventory();
    }
 
    public void draw(Graphics g) {
