@@ -1,6 +1,6 @@
 1. Add background, foreground, landscape and collision image.
-   .Note that the size of the background- and collision image must be at least 350x250
+   .Note that the size of the background- and collision image must be the same, and at least 350x250
 2. Add levelData
 3. Add cutsceneData
 4. For some reason, the program might not recognize that new images have been added.
-   In such case, just copy those images, delete the old ones, and rename the copies properly.
+   In such case, just copy those images, delete the old ones, and rename the copies like before.
