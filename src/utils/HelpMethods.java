@@ -391,21 +391,41 @@ public class HelpMethods {
         int index = switch (name) {
             case "Max" -> 0;
             case "Oliver" -> 1;
-            case "Mechanic" -> 2;
-            case "Lance" -> 2;
-            case "Charlotte" -> 2;
-            case "Nina" -> 2;
-            case "Shady pilot" -> 2;
-            case "Speaker" -> 2;
-            case "Lt.Red" -> 2;
-            case "Pilot #1" -> 2;
-            case "Pilot #2" -> 2;
-            case "Pilot #3" -> 2;
             case "Sign" -> 2;
+            case "Lance" -> 3;
+            case "Charlotte" -> 4;
+            case "Nina" -> 5;
+            case "Shady pilot" -> 6;
+            case "Speaker" -> 7;
+            case "Lt.Red" -> 8;
+            case "Russel" -> 9;
+            case "Emma" -> 10;
+            case "Po" -> 11;
             default -> throw new IllegalArgumentException(
                     "No characterIndex available for '" + name + "'");
         };
         return index;
+    }
+    
+    public static Color GetNameColor(String name) {
+        Color color = switch(name) {
+            case "Max" -> Color.LIGHT_GRAY;
+            case "Oliver" -> new Color(206, 191, 132);
+            case "Lance" -> Color.LIGHT_GRAY;
+            case "Charlotte" -> Color.GREEN.darker();
+            case "Nina" -> Color.PINK;
+            case "Shady pilot" -> Color.ORANGE;
+            case "Speaker" -> Color.RED;
+            case "Sign" -> Color.WHITE;
+            case "Mechanic" -> Color.BLUE.brighter();
+            case "Lt.Red" -> Color.RED;
+            case "Russel" -> Color.CYAN;
+            case "Emma" -> Color.PINK;
+            case "Po" -> Color.GREEN;
+            default -> throw new IllegalArgumentException(
+                "No nameColor available for '" + name + "'");
+        };
+        return color;
     }
 
     /**For use by the exploring-cutsceneManager */

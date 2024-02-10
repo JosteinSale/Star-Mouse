@@ -1,11 +1,19 @@
 cutscene;true;npc;0
-dialogue;Mechanic;normal;11;4;Hi, I'm the mechanic. Nice to meet ya'.
+dialogue;Lt.Red;normal;0;2;Good to see you made it, Max.
 endSequence
-dialogue;Mechanic;normal;11;2;I can upgrade your ship and weapons, for a price. 
+dialogue;Max;normal;0;2;Lieutenant, has any of the cadets made it back yet?
 endSequence
-dialogue;Mechanic;normal;11;2;No credits, no service. And no refunds.
+dialogue;Lt.Red;sad;1;10;...
 endSequence
-playSFX;infoBox
-mechanicDisplay
-wait;1
+dialogue;Lt.Red;normal;0;2;I'm afraid not. There has been no sign of them since they left the Academy.
+endSequence
+dialogue;Max;scared;11;2;!!!
+endSequence
+dialogue;Max;worried;9;2;(Oliver... please be okay!)
+endSequence
+dialogue;Lt.Red;sad;1;2;We'll be on the lookout for them, of course.
+endSequence
+dialogue;Lt.Red;normal;0;2;For now, we have to focus on regrouping and planning our next move
+endSequence
+dialogue;Max;normal;0;2;...Yes Lieutenant.
 endSequence

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import audio.AudioPlayer;
 import main.Game;
+import utils.HelpMethods;
 import utils.LoadSave;
 import utils.Constants.Audio;
 
@@ -53,18 +54,22 @@ public class DialogueBox {
     }
 
     private void loadAllPortraits() {
-        portraits = new BufferedImage[3][12];
-        portraits[0] = getPortraits(LoadSave.MAX_PORTRAITS, 11);
-        portraits[1] = getPortraits(LoadSave.OLIVER_PORTRAITS, 9);
-        portraits[2] = getPortraits(LoadSave.NPC_PORTRAITS1, 12);
+        portraits = new BufferedImage[12][12];
+        portraits[0] = getPortraits(LoadSave.MAX_PORTRAITS, 12, 0);
+        portraits[1] = getPortraits(LoadSave.OLIVER_PORTRAITS, 9, 0);
+        for (int i = 2; i < 12; i++) {
+            portraits[i] = getPortraits(LoadSave.NPC_PORTRAITS, 4, i-2);
+        }
+        
     }
 
-    private BufferedImage[] getPortraits(String portraitName, int length) {
+    private BufferedImage[] getPortraits(String portraitName, int length, int rowIndex) {
         BufferedImage img = LoadSave.getExpImageSprite(portraitName);
         BufferedImage[] portraits = new BufferedImage[length];
         for (int i = 0; i < portraits.length; i++) { 
             portraits[i] = img.getSubimage(
-                i * PORTRAIT_SIZE, 0, PORTRAIT_SIZE, PORTRAIT_SIZE);
+                i * PORTRAIT_SIZE, rowIndex * PORTRAIT_SIZE, 
+                PORTRAIT_SIZE, PORTRAIT_SIZE);
         }
         return portraits;
     }
@@ -80,7 +85,7 @@ public class DialogueBox {
         this.aniTickPerFrame = speed;
         formatStrings(text);
         this.characterIndex = GetCharacterIndex(name);
-        this.nameColor = getNameColor(name);
+        this.nameColor = HelpMethods.GetNameColor(name);
         this.portraitIndex = portraitIndex;
         this.setVoiceStuff();
     }
@@ -118,22 +123,6 @@ public class DialogueBox {
         }
     }
 
-    private Color getNameColor(String name) {
-        Color color = switch(name) {
-            case "Max" -> Color.LIGHT_GRAY;
-            case "Oliver" -> new Color(206, 191, 132);
-            case "Lance" -> Color.LIGHT_GRAY;
-            case "Charlotte" -> Color.GREEN.darker();
-            case "Nina" -> Color.PINK;
-            case "Shady pilot" -> Color.ORANGE;
-            case "Speaker" -> Color.RED;
-            case "Sign" -> Color.WHITE;
-            case "Mechanic" -> Color.BLUE.brighter();
-            default -> throw new IllegalArgumentException(
-                "No nameColor available for '" + name + "'");
-        };
-        return color;
-    }
 
     private void setVoiceStuff() {
         voiceClipIndex = switch(name) {

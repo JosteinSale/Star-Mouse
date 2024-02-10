@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import main.Game;
+import utils.HelpMethods;
 import utils.LoadSave;
 import static utils.Constants.UI.PORTRAIT_SIZE;
 import static utils.HelpMethods.GetCharacterIndex;
@@ -34,20 +35,22 @@ public class DialogueBox2 {
         loadAllPortraits();
     }
 
-    /** We can change this to pilote-portraits later */
     private void loadAllPortraits() {
-        portraits = new BufferedImage[3][8];
-        portraits[0] = getPortraits(LoadSave.MAX_PORTRAITS, 8);
-        portraits[1] = getPortraits(LoadSave.OLIVER_PORTRAITS, 6);
-        portraits[2] = getPortraits(LoadSave.NPC_PORTRAITS1, 10);
+        portraits = new BufferedImage[12][12];
+        portraits[0] = getPortraits(LoadSave.MAX_PORTRAITS, 12, 0);
+        portraits[1] = getPortraits(LoadSave.OLIVER_PORTRAITS, 9, 0);
+        for (int i = 2; i < 12; i++) {
+            portraits[i] = getPortraits(LoadSave.NPC_PORTRAITS, 4, i-2);
+        }
     }
 
-    private BufferedImage[] getPortraits(String portraitName, int length) {
+    private BufferedImage[] getPortraits(String portraitName, int length, int rowIndex) {
         BufferedImage img = LoadSave.getExpImageSprite(portraitName);
         BufferedImage[] portraits = new BufferedImage[length];
         for (int i = 0; i < portraits.length; i++) { 
             portraits[i] = img.getSubimage(
-                i * PORTRAIT_SIZE, 0, PORTRAIT_SIZE, PORTRAIT_SIZE);
+                i * PORTRAIT_SIZE, rowIndex * PORTRAIT_SIZE, 
+                PORTRAIT_SIZE, PORTRAIT_SIZE);
         }
         return portraits;
     }
@@ -60,27 +63,8 @@ public class DialogueBox2 {
         this.name = name;
         this.tickPerFrame = speed;
         this.characterIndex = GetCharacterIndex(name);
-        this.nameColor = getNameColor(name);
+        this.nameColor = HelpMethods.GetNameColor(name);
         this.portraitIndex = portraitIndex;
-    }
-
-
-    private Color getNameColor(String name) {
-        Color color = switch(name) {
-            case "Max" -> Color.LIGHT_GRAY;
-            case "Oliver" -> new Color(206, 191, 132);
-            case "Lance" -> Color.LIGHT_GRAY;
-            case "Charlotte" -> Color.GREEN.darker();
-            case "Nina" -> Color.PINK;
-            case "Shady pilot" -> Color.ORANGE;
-            case "Lt.Red" -> Color.RED;
-            case "Pilot #1" -> new Color(149, 222, 255);
-            case "Pilot #2" -> Color.PINK;
-            case "Pilot #3" -> Color.GREEN;
-            default -> throw new IllegalArgumentException(
-                "No nameColor available for '" + name + "'");
-        };
-        return color;
     }
 
     public void update() {

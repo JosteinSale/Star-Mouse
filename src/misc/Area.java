@@ -408,7 +408,7 @@ public class Area {
             fgImgWidth, fgImgHeight, null);
         
         // Hitboxes
-        //drawHitboxes(g, xLevelOffset, yLevelOffset);
+        drawHitboxes(g, xLevelOffset, yLevelOffset);
 
         // Cutscenes
         cutsceneManager.draw(g);    // Alt som ikke allerede er tegnet, f.ex overlay-effekter.

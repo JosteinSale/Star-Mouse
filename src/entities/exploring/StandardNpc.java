@@ -46,15 +46,13 @@ public class StandardNpc extends Entity implements NPC {
             spriteWidth, spriteHeight, 
             null);
         
-        // Triggerbox
-        /* 
+        // TriggerBox  (hitboxes can be drawn from Area :: draw() )
         g.setColor(Color.CYAN);
         g.drawRect(
             (int) ((triggerBox.x - xLevelOffset) * Game.SCALE),
             (int) ((triggerBox.y - yLevelOffset) * Game.SCALE),
             (int) (triggerBox.width * Game.SCALE),
             (int) (triggerBox.height * Game.SCALE));
-            */
     }
 
     private void makeTriggerBox() {

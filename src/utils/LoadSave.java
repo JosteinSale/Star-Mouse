@@ -48,7 +48,7 @@ public class LoadSave {
     public static final String OLIVER_SPRITES = "sprites_oliver_cadette.png";
     public static final String MAX_PORTRAITS = "portraits_max.png";
     public static final String OLIVER_PORTRAITS = "portraits_oliver_cadette.png";
-    public static final String NPC_PORTRAITS1 = "portraits_npc1.png";
+    public static final String NPC_PORTRAITS = "portraits_npc.png";
 
     public static final String SHIP_SPRITES = "sprites_ship.png";
     public static final String FELLOWSHIP_SPRITES = "sprite_fellowShip.png";

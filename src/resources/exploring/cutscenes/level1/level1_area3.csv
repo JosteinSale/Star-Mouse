@@ -138,23 +138,23 @@ dialogue;Lance;nervous;1;2;Oh, and uh... stay away from my locker Max
 endSequence
 
 cutscene;true;npc;7
-dialogue;Charlotte;normal;2;1;Hi Max! 
+dialogue;Charlotte;normal;0;1;Hi Max! 
 endSequence
 
 cutscene;true;npc;8
-dialogue;Nina;normal;3;1;Wish us good luck at the exam today!
+dialogue;Nina;normal;0;1;Wish us good luck at the exam today!
 endSequence
 
 cutscene;true;npc;9
-dialogue;Shady pilot;normal;4;2;Hey buddy. I can sell you a bomb for 300 credits if you're interested.
+dialogue;Shady pilot;normal;0;2;Hey buddy. I can sell you a bomb for 300 credits if you're interested.
 endSequence
-dialogue;Shady pilot;normal;4;2;So whadda' you say?
+dialogue;Shady pilot;normal;0;2;So whadda' you say?
 endSequence
 infoChoice;Buy 1 bomb for 300 credits?;No;Yes
 endSequence
 
 cutscene;true;npc;9
-dialogue;Shady pilot;normal;4;2;Suit yourself
+dialogue;Shady pilot;normal;0;2;Suit yourself
 endSequence
 
 cutscene;true;npc;9
@@ -162,7 +162,7 @@ purchase;300
 endSequence
 
 cutscene;true;npc;9
-dialogue;Shady pilot;normal;4;2;Just don't tell anyone where you got it, 'kay?
+dialogue;Shady pilot;normal;0;2;Just don't tell anyone where you got it, 'kay?
 endSequence
 playSFX;pickup
 info;You aquired 1 bomb and lost 300 credits!
@@ -171,7 +171,7 @@ updateInventory;credits;-300
 endSequence
 
 cutscene;true;npc;9
-dialogue;Shady pilot;normal;4;2;You ain't got the credits pal
+dialogue;Shady pilot;normal;0;2;You ain't got the credits pal
 endSequence
 
 cutscene;false;automatic;10

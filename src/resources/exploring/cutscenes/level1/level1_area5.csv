@@ -33,11 +33,11 @@ startAmbience;3;alarm
 setRedLight;true
 wait;120
 endSequence
-dialogue;Speaker;--;5;4;ATTENTION ALL PERSONELL
+dialogue;Speaker;--;0;4;ATTENTION ALL PERSONELL
 endSequence;
-dialogue;Speaker;--;5;4;THE CITY IS UNDER ATTACK
+dialogue;Speaker;--;0;4;THE CITY IS UNDER ATTACK
 endSequence;
-dialogue;Speaker;--;5;4;ALL PILOTS REPORT TO THEIR STATIONS IMMEDIATELY
+dialogue;Speaker;--;0;4;ALL PILOTS REPORT TO THEIR STATIONS IMMEDIATELY
 endSequence
 wait;20
 endSequence
