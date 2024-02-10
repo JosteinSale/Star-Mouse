@@ -2,4 +2,4 @@ ambience;0
 song;99;false
 player;450;750;45f;18f;0
 door;1467f;657f;69f;87f;0;entrance;2;1
-npc;1221f;577f;100f;100f;Lt.Red;sprite_npc_ltRed.png;80;60;false
+npc;1221f;590f;100f;100f;Lt.Red;sprite_npc_ltRed.png;80;80;false

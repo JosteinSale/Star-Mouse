@@ -1,7 +1,7 @@
 ambience;0
 song;99;false
 player;174;662;45f;18f;0
-door;135f;552f;30f;111f;0;exit;1;0
+door;135f;580f;30f;111f;0;exit;1;0
 npc;210f;440f;120f;100f;Russel;sprite_npc_russel.png;70;80;false
 npc;400f;400f;120f;100f;Emma;sprite_npc_emma.png;80;80;false
 npc;360f;685f;90f;100f;Nathan;sprite_npc_nathan.png;80;80;true
