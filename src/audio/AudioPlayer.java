@@ -54,7 +54,16 @@ public class AudioPlayer {
         "VoiceClip - Nina.wav",
         "VoiceClip - ShadyPilot.wav",
         "VoiceClip - Speaker.wav",
-        "VoiceClip - Sign.wav"
+        "VoiceClip - Sign.wav",
+        "VoiceClip - Lt.Red.wav",
+        "VoiceClip - Russel.wav",
+        "VoiceClip - Emma.wav",
+        "VoiceClip - Nathan.wav",
+        "VoiceClip - Frida.wav",
+        "VoiceClip - Skye.wav",
+        "VoiceClip - Zack.wav",
+        "VoiceClip - Gard.wav",
+        "VoiceClip - Feno.wav"
     };
     private File[] SFX;
     private File[] voiceClips;

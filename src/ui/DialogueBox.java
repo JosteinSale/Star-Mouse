@@ -134,7 +134,16 @@ public class DialogueBox {
             case "Shady pilot", "Mechanic" -> Audio.VOICECLIP_SHADYPILOT;
             case "Speaker" -> Audio.VOICECLIP_SPEAKER;
             case "Sign" -> Audio.VOICECLIP_SIGN;
-            default -> 0;
+            case "Lt.Red" -> Audio.VOICECLIP_LTRED;
+            case "Russel" -> Audio.VOICECLIP_RUSSEL;
+            case "Emma" -> Audio.VOICECLIP_EMMA;
+            case "Nathan" -> Audio.VOICECLIP_NATHAN;
+            case "Frida" -> Audio.VOICECLIP_FRIDA;
+            case "Skye" -> Audio.VOICECLIP_SKYE;
+            case "Zack" -> Audio.VOICECLIP_ZACK;
+            case "Gard" -> Audio.VOICECLIP_GARD;
+            case "Feno" -> Audio.VOICECLIP_FENO;
+            default -> Audio.VOICECLIP_SIGN;
             };
 
         voiceTick = 0;

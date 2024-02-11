@@ -192,6 +192,15 @@ public class Constants {
         public static final int VOICECLIP_SHADYPILOT = 5;
         public static final int VOICECLIP_SPEAKER = 6;
         public static final int VOICECLIP_SIGN = 7;
+        public static final int VOICECLIP_LTRED = 8;
+        public static final int VOICECLIP_RUSSEL = 9;
+        public static final int VOICECLIP_EMMA = 10;
+        public static final int VOICECLIP_NATHAN = 11;
+        public static final int VOICECLIP_FRIDA = 12;
+        public static final int VOICECLIP_SKYE = 13;
+        public static final int VOICECLIP_ZACK = 14;
+        public static final int VOICECLIP_GARD = 15;
+        public static final int VOICECLIP_FENO = 16;
 
         // Songs (don't change these indexes!)
         public static final int SONG_TUTORIAL = 0;
