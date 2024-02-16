@@ -1,4 +1,5 @@
 cutscene;true;object;0
+playSFX;infoBox
 infoChoice;Leave area?;No;Yes
 endSequence
 

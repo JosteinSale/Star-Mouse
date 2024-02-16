@@ -427,14 +427,14 @@ public class HelpMethods {
             case "Mechanic" -> Color.BLUE.brighter();
             case "Lt.Red" -> Color.RED;
             case "Russel" -> Color.CYAN;
-            case "Emma" -> Color.PINK;
+            case "Emma" -> Color.MAGENTA;
             case "Po" -> Color.GREEN;
             case "Nathan" -> new Color(78, 160, 130);
             case "Frida" -> Color.YELLOW;
             case "Zack" -> new Color(216, 214, 211);
             case "Gard" -> new Color(138, 119, 99);
             case "Feno" -> Color.ORANGE;
-            case "Skye" -> Color.MAGENTA;
+            case "Skye" -> Color.PINK;
             default -> throw new IllegalArgumentException(
                 "No nameColor available for '" + name + "'");
         };

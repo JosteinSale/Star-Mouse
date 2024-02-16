@@ -220,8 +220,8 @@ public class CutsceneManager {
     }
 
     public void advance() {
-        advanceCalled++;
-        System.out.println("called " + Integer.toString(advanceCalled));
+        //advanceCalled++;
+        //System.out.println("called " + Integer.toString(advanceCalled));
         if (dialogueAppearing) {
             textboxManager.getDialogueBox().forwardDialogue();
             }

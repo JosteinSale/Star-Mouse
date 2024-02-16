@@ -13,7 +13,7 @@ dialogue;Russel;depressed;1;2;They just attacked.
 endSequence
 
 cutscene;true;npc;1
-dialogue;Emma;sad;0;5;Po didn't make it...
+dialogue;Emma;sad;0;4;Po didn't make it...
 endSequence
 
 cutscene;true;npc;2
