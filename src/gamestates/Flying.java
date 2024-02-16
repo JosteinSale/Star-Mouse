@@ -230,6 +230,7 @@ public class Flying extends State implements Statemethods {
 
     @Override
     public void update() {
+        // TODO - do not update cutsceneManager if pause
         if (gameOver) {
             gameoverOverlay.update();
         }

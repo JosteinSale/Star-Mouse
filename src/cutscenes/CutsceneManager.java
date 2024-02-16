@@ -61,6 +61,9 @@ public class CutsceneManager {
     private boolean active = false; 
     private boolean canAdvance = true;
 
+
+    private int advanceCalled = 0;
+
     // Actions
     private boolean cutsceneJump;
     private boolean fadeOutActive;
@@ -175,7 +178,7 @@ public class CutsceneManager {
         if (redLightActive) {updateRedLight();}
         if (fadeInActive) {updateFadeIn();}
         if (fadeOutActive) {updateFadeOut();}
-        else if (dialogueAppearing) {updateDialogue();}  // Might change all these to 'if'
+        if (dialogueAppearing) {updateDialogue();}  // Might change all these to 'if'
         else if (playerWalkActive) {updatePlayerWalk();}
         else if (npcWalkActive) {updateNpcWalk();}
         else if (shakeActive) {updateScreenShake();}
@@ -217,6 +220,8 @@ public class CutsceneManager {
     }
 
     public void advance() {
+        advanceCalled++;
+        System.out.println("called " + Integer.toString(advanceCalled));
         if (dialogueAppearing) {
             textboxManager.getDialogueBox().forwardDialogue();
             }
@@ -422,6 +427,7 @@ public class CutsceneManager {
                 // It's done in the startFadeIn-method. This because of concurrency issues
             }
             else {
+                this.fadeOutActive = false;
                 this.advance();
             }
         }

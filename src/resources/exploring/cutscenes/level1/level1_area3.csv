@@ -275,7 +275,7 @@ endSequence
 fadeOut;5
 endSequence
 blackScreen;true
-wait;100
+wait;1
 endSequence
 goToFlying;0
 wait;1
@@ -283,7 +283,7 @@ endSequence
 blackScreen;false
 fadeIn;5
 endSequence
-wait;100;
+wait;50
 endSequence
 dialogue;Oliver;happy;1;2;Thanks for taking the time
 endSequence
