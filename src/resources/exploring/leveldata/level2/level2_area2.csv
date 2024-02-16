@@ -1,5 +1,5 @@
-ambience;0
-song;99;false
+ambience;99
+song;4;true
 player;174;662;45f;18f;0
 door;135f;580f;30f;111f;0;exit;1;0
 npc;210f;440f;120f;100f;Russel;sprite_npc_russel.png;70;80;false

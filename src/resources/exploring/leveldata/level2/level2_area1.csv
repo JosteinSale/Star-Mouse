@@ -1,5 +1,5 @@
-ambience;0
-song;99;false
+ambience;99
+song;4;true
 player;450;750;45f;18f;0
 object;378f;723;57f;18f;exitSaber
 door;1467f;657f;69f;87f;0;entrance;2;1

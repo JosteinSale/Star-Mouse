@@ -37,7 +37,8 @@ public class AudioPlayer {
         "Song - Tutorial (FINISHED)3.wav",
         "Song - The Academy ver2 (FINISHED).wav",
         "Song - Skies Over Apolis.wav",
-        "Song - Main Menu.wav"
+        "Song - Main Menu.wav",
+        "Song - Vyke.wav"
     };
     private String[] ambienceFileNames = {
         "Ambience - Silence.wav",
@@ -75,10 +76,10 @@ public class AudioPlayer {
     private FloatControl sfxGainControl;       // Is initially set in the MainMenu
     private FloatControl ambienceGainControl;  // Is initially set in the MainMenu
 
-    private float setSongVolume = 0.91f;   // The player's selected volume
+    private float setSongVolume = 0.85f;   // The player's selected volume
     private float setSfxVolume = 0.91f;    
     private float setAmbienceVolume = 0.91f;
-    private float curSongVolume = 0.91f;   // Used for fading
+    private float curSongVolume = 0.85f;   // Used for fading
     private float curSfxVolume = 0.91f;
     private float curAmbienceVolume = 0.91f;
 
