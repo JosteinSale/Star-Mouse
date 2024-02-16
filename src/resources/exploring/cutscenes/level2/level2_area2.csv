@@ -1,11 +1,64 @@
 cutscene;true;npc;0
-dialogue;Mechanic;normal;11;4;Hi, I'm the mechanic. Nice to meet ya'.
+dialogue;Russel;depressed;1;2;I can't believe it...
 endSequence
-dialogue;Mechanic;normal;11;2;I can upgrade your ship and weapons, for a price. 
+dialogue;Russel;depressed;1;2;We we're crushed back there.
 endSequence
-dialogue;Mechanic;normal;11;2;No credits, no service. And no refunds.
+dialogue;Max;normal;0;2;Any idea who the attackers are yet?
 endSequence
+dialogue;Russel;determined;2;2;No
+endSequence
+dialogue;Russel;determined;2;2;As far as I know, there was no forewarning, no attempt at negotiations...
+endSequence
+dialogue;Russel;depressed;1;2;They just attacked.
+endSequence
+
+cutscene;true;npc;1
+dialogue;Emma;sad;0;5;Po didn't make it...
+endSequence
+
+cutscene;true;npc;2
+dialogue;Nathan;edgy;0;2;Those bastards... Just wait until I get back in my Saber!
+endSequence
+
+cutscene;true;npc;3
+dialogue;Frida;normal;0;2;We've got to stay calm and listen to the lieutenant!
+endSequence
+
+cutscene;false;npc;4
+dialogue;Mechanic;normal;0;2;Hi, I'm the mechanic. Nice to meet ya'.
+endSequence
+dialogue;Mechanic;normal;0;2;I can upgrade your ship and weapons, for a price. 
+endSequence
+dialogue;Mechanic;normal;0;2;No credits, no service. And no refunds.
+endSequence
+setStartCutscene;npc;4;1
 playSFX;infoBox
 mechanicDisplay
 wait;1
+endSequence
+
+cutscene;true;npc;4
+playSFX;infoBox
+mechanicDisplay
+wait;1
+endSequence
+
+cutscene;true;npc;5
+dialogue;Skye;normal;0;2;Brave defenders of the planet... That's what they call us pilots.
+endSequence
+dialogue;Skye;normal;0;2;Are we worthy of such praise?
+endSequence
+
+cutscene;true;npc;6
+dialogue;Zack;normal;0;2;There's been talk about a counterattack.
+endSequence
+dialogue;Zack;thoughtful;1;2;If you ask me, that's a bit premature.
+endSequence
+
+cutscene;true;npc;7
+dialogue;Gard;normal;0;2;We have to stay vigilant!
+endSequence
+
+cutscene;true;npc;8
+dialogue;Feno;sad;0;30;...
 endSequence

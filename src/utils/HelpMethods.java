@@ -401,6 +401,13 @@ public class HelpMethods {
             case "Russel" -> 9;
             case "Emma" -> 10;
             case "Po" -> 11;
+            case "Nathan" -> 12;
+            case "Frida" -> 13;
+            case "Mechanic" -> 14;
+            case "Skye" -> 15;
+            case "Zack" -> 16;
+            case "Gard" -> 17;
+            case "Feno" -> 18;
             default -> throw new IllegalArgumentException(
                     "No characterIndex available for '" + name + "'");
         };
@@ -422,6 +429,12 @@ public class HelpMethods {
             case "Russel" -> Color.CYAN;
             case "Emma" -> Color.PINK;
             case "Po" -> Color.GREEN;
+            case "Nathan" -> new Color(78, 160, 130);
+            case "Frida" -> Color.YELLOW;
+            case "Zack" -> new Color(216, 214, 211);
+            case "Gard" -> new Color(138, 119, 99);
+            case "Feno" -> Color.ORANGE;
+            case "Skye" -> Color.MAGENTA;
             default -> throw new IllegalArgumentException(
                 "No nameColor available for '" + name + "'");
         };

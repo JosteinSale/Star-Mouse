@@ -54,10 +54,11 @@ public class DialogueBox {
     }
 
     private void loadAllPortraits() {
-        portraits = new BufferedImage[12][12];
+        int nrOfCharacters = 2 + 17;  // special characters + npcs
+        portraits = new BufferedImage[nrOfCharacters][12];
         portraits[0] = getPortraits(LoadSave.MAX_PORTRAITS, 12, 0);
         portraits[1] = getPortraits(LoadSave.OLIVER_PORTRAITS, 9, 0);
-        for (int i = 2; i < 12; i++) {
+        for (int i = 2; i < nrOfCharacters; i++) {
             portraits[i] = getPortraits(LoadSave.NPC_PORTRAITS, 4, i-2);
         }
         
