@@ -48,7 +48,7 @@ public class MainMenu extends State implements Statemethods {
         super(game);
         this.optionsMenu = optionsMenu;
         this.audioPlayer = game.getAudioPlayer();
-        bgImg = LoadSave.getExpImageBackground(LoadSave.MAIN_MENU_BG);
+        bgImg = LoadSave.getExpImageBackground(LoadSave.LEVEL_SELECT_BG);
         cursorImg = LoadSave.getExpImageSprite(LoadSave.CURSOR_SPRITE_WHITE);
         titleImg = LoadSave.getExpImageBackground(LoadSave.MAIN_MENU_TITLE);
         menuFont = LoadSave.getNameFont();
