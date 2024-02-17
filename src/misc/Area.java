@@ -29,7 +29,7 @@ public class Area {
     private Exploring exploring;
     private Integer levelIndex;
     private Integer areaIndex;
-    private Integer songIndex;
+    private Integer song;
     private Integer ambienceIndex;
     
     private BufferedImage landScapeImg;
@@ -113,7 +113,7 @@ public class Area {
                 this.ambienceIndex = Integer.parseInt(lineData[1]);
             }
             else if (lineData[0].equals("song")) {
-                this.songIndex = Integer.parseInt(lineData[1]);
+                this.song = Integer.parseInt(lineData[1]);
                 this.musicEnabled = Boolean.parseBoolean(lineData[2]);
             }
             else if (lineData[0].equals("player")) {
@@ -155,8 +155,14 @@ public class Area {
         if (event instanceof GoToAreaEvent evt) {
             int newArea = evt.area();
             int reenterDir = doors.get(evt.exitedDoor()).getReenterDir();
+            int newSong = this.exploring.getSongForArea(newArea);
 
-            audioPlayer.stopAllLoops();  // TODO - Check if new area has same song as current.
+            if (this.song != newSong) {
+                audioPlayer.stopAllLoops();
+            } else {
+                audioPlayer.stopAmbience();
+                this.exploring.getArea(newArea).setMusicEnabled(false);
+            }
             player.setDirection(reenterDir);
             player.resetAll(); 
             this.justEntered = true;
@@ -333,7 +339,7 @@ public class Area {
         if (justEntered) {
             audioPlayer.startAmbienceLoop(ambienceIndex);
             if (musicEnabled) {
-                audioPlayer.startSongLoop(songIndex);
+                audioPlayer.startSongLoop(song);
             }
             cutsceneManager.startFadeIn(10, true);
             justEntered = false;
@@ -446,5 +452,13 @@ public class Area {
 
     public PlayerExp getPlayer() {
         return this.player;
+    }
+
+    public int getSong() {
+        return this.song;
+    }
+
+    public void setMusicEnabled(boolean enabled) {
+        this.musicEnabled = enabled;
     }
 }

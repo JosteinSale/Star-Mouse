@@ -15,8 +15,8 @@ import utils.LoadSave;
 
 public class Exploring extends State implements Statemethods {
     private AudioPlayer audioPlayer;
-    private int currentLevel = 2;
-    private int currentArea = 2;
+    private int currentLevel = 1;
+    private int currentArea = 1;
     private ArrayList<Area> areas;
     private PauseExploring pauseOverlay;
     private ProgressValues progValues;
@@ -51,22 +51,18 @@ public class Exploring extends State implements Statemethods {
         }
     }
 
-
     @Override
     public void update() {
         if (pauseOverlay.isActive()) {
             checkPause();
             pauseOverlay.update();
-        }
-        else if (mechanicActive) {
+        } else if (mechanicActive) {
             mechanicOverlay.update();
-        }
-        else {
+        } else {
             checkPause();
-            areas.get(currentArea - 1).update();  
-        }   
+            areas.get(currentArea - 1).update();
+        }
     }
-
 
     public void goToArea(int area) {
         this.currentArea = area;
@@ -74,14 +70,12 @@ public class Exploring extends State implements Statemethods {
         // Den nye arean må få oppdatert seg før vi tegner den.
     }
 
-
     @Override
     public void draw(Graphics g) {
         areas.get(currentArea - 1).draw(g);
         if (pauseOverlay.isActive()) {
             pauseOverlay.draw(g);
-        }
-        else if (mechanicActive) {
+        } else if (mechanicActive) {
             mechanicOverlay.draw(g);
         }
     }
@@ -111,5 +105,13 @@ public class Exploring extends State implements Statemethods {
 
     public void setMechanicActive(boolean active) {
         this.mechanicActive = active;
+    }
+
+    public int getSongForArea(int newArea) {
+        return this.areas.get(newArea - 1).getSong();
+    }
+
+    public Area getArea(int area) {
+        return areas.get(area - 1);
     }
 }

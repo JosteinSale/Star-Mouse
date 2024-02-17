@@ -288,4 +288,10 @@ public class AudioPlayer {
         this.curAmbienceVolume = volume;
         updateAmbienceVolume();
     }
+
+    public void stopAmbience() {
+        if (curAmbience.isActive()) {
+            curAmbience.stop();
+        }
+    }
 }
