@@ -9,6 +9,12 @@ public class ProgressValues {
    private int credits = 30000;
    private int bombs = 5;
 
+   public boolean hasEnding1 = false;
+   public boolean hasEnding2 = false;
+   public boolean hasEnding3 = false;
+   public boolean firstPlayThrough = true;
+   public boolean path3Visited = false;
+
    // Setters
    public void setMaxHP(int maxHP) {
       this.maxHP = maxHP;

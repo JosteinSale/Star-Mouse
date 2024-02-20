@@ -4,9 +4,9 @@ import gamestates.Exploring;
 import gamestates.Flying;
 import gamestates.Gamestate;
 import gamestates.LevelEditor;
-import gamestates.LevelSelect;
 import gamestates.MainMenu;
 import gamestates.StartScreen;
+import gamestates.level_select.LevelSelect;
 import ui.OptionsMenu;
 
 import java.awt.Dimension;
@@ -69,8 +69,8 @@ public class Game implements Runnable {
         this.optionsMenu = new OptionsMenu(this, audioPlayer);
         this.startScreen = new StartScreen(this);
         this.mainMenu = new MainMenu(this, optionsMenu);
-        this.levelSelect = new LevelSelect(this);
         this.exploring = new Exploring(this);
+        this.levelSelect = new LevelSelect(this);
         this.flying = new Flying(this);
         this.levelEditor = new LevelEditor(this);
     }
