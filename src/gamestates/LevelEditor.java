@@ -126,7 +126,7 @@ public class LevelEditor implements Statemethods {
      * W / S                         Change screen 
      * X                             Change entity
      * UP / DOWN / LEFT / RIGHT      Change cursor position
-     * F                             Change direction
+     * F                             Change entity direction
      * A / D                         Change shootTimer
      * SPACE                         Add / delete entity
      * P                             Print levelData in console

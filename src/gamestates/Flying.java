@@ -79,7 +79,7 @@ public class Flying extends State implements Statemethods {
         initClasses(game.getOptionsMenu());
         loadEventReactions();
         projectileHandler.setBombs(game.getExploring().getProgressValues().getBombs());   // Comment out to start with more bombs
-        //loadLevel(0);     // Only use if not entering from Exploring
+        loadLevel(1);     // Only use if not entering from Exploring
     }
 
     public void loadLevel(int level) {

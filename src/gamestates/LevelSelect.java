@@ -1,7 +1,6 @@
 package gamestates;
 
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 import audio.AudioPlayer;
@@ -9,9 +8,8 @@ import main.Game;
 import utils.LoadSave;
 
 public class LevelSelect extends State implements Statemethods {
-    // Later: make 3 different levelSelect-objects, and access them based on playThrough.
-    
-    private int playThrough = 0;
+    // TODO - change background and behavior based on which playthrough we're at.
+    private int playThrough = 1;
     private BufferedImage bgImg;
     private AudioPlayer audioPlayer;
     

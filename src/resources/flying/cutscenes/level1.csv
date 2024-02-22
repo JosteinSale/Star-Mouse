@@ -31,7 +31,7 @@ wait;240
 endSequence
 
 cutscene;true;automatic;3
-dialogue;Emma;serious;0;2;Nooo!
+dialogue;Nathan;angry;1;2;Nooo!
 wait;200
 endSequence
 

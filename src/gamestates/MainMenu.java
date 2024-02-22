@@ -27,6 +27,8 @@ public class MainMenu extends State implements Statemethods {
     private OptionsMenu optionsMenu;
     private String[] alternatives = {"New Game", "Level Editor", "Options", "Quit"};
     private ArrayList<Rectangle> menuRectangles;
+    private float bgX = -50;
+    private int bgSlideDir = 1;
     private int cursorMinY = 480;
     private int cursorMaxY = 630;
     private int cursorX = 280;
@@ -103,6 +105,8 @@ public class MainMenu extends State implements Statemethods {
     
     @Override
     public void update() {
+        moveBackGround();
+
         if (fadeInActive) {
             updateFadeIn();
         }
@@ -115,6 +119,12 @@ public class MainMenu extends State implements Statemethods {
         else {
             handleKeyBoardInputs();
         }
+    }
+
+    private void moveBackGround() {
+        this.bgX += 0.05f * bgSlideDir;
+        if (this.bgX > 0) {bgSlideDir *= -1;}
+        else if (this.bgX < -50) {bgSlideDir *= -1;}
     }
 
     private void updateFadeIn() {
@@ -131,7 +141,7 @@ public class MainMenu extends State implements Statemethods {
         if (alphaFade > 255) {
             alphaFade = 255;
             this.game.getExploring().update(); 
-            Gamestate.state = Gamestate.EXPLORING;
+            Gamestate.state = Gamestate.FLYING;
         }
     }
 
@@ -141,7 +151,7 @@ public class MainMenu extends State implements Statemethods {
 
         // Background
         g.drawImage(bgImg, 
-            0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
+            (int) bgX, 0, Game.GAME_WIDTH + 50, Game.GAME_HEIGHT + 50, null);
 
         // Text
         g.setColor(Color.WHITE);
