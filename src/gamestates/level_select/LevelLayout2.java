@@ -2,15 +2,12 @@ package gamestates.level_select;
 
 import java.awt.Graphics;
 
-import gamestates.State;
-import gamestates.Statemethods;
 import main.Game;
 
-public class LevelLayout2 extends State implements Statemethods {
+public class LevelLayout2 implements ILevelLayout {
     // Not much here yet
 
     public LevelLayout2(Game game) {
-        super(game);
     }
 
     @Override
@@ -19,6 +16,10 @@ public class LevelLayout2 extends State implements Statemethods {
 
     @Override
     public void draw(Graphics g) {
+    }
+
+    @Override
+    public void setUnlocked(int level) {
     }
     
 }

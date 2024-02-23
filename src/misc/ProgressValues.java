@@ -13,7 +13,7 @@ public class ProgressValues {
    public boolean hasEnding2 = false;
    public boolean hasEnding3 = false;
    public boolean firstPlayThrough = true;
-   public boolean path3Visited = false;
+   public boolean path3Unlocked = false;
 
    // Setters
    public void setMaxHP(int maxHP) {
