@@ -72,3 +72,12 @@ dialogue;Lt.Red;normal;0;2;For now, we have to focus on regrouping and planning 
 endSequence
 dialogue;Max;normal;0;2;...Yes Lieutenant.
 endSequence
+
+cutscene;false;automatic;2
+blackScreen;true
+wait;60
+endSequence
+blackScreen;false
+fadeIn;2
+startSong;4
+endSequence

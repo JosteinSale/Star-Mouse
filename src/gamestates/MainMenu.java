@@ -141,15 +141,15 @@ public class MainMenu extends State implements Statemethods {
         if (alphaFade > 255) {
             alphaFade = 255;
             // LEVEL-SELECT - Uncomment to test entire game
-            game.getLevelSelect().reset();
-            Gamestate.state = Gamestate.LEVEL_SELECT;
+            //game.getLevelSelect().reset();
+            //Gamestate.state = Gamestate.LEVEL_SELECT;
 
-            // EXPLORING - Uncomment to only test exploring. 
-            //game.getExploring().loadLevel(2);  // Area is currently specified in that method.
-            //game.getExploring().update();
-            //Gamestate.state = Gamestate.EXPLORING;
+            // EXPLORING - Uncomment to only test one level in exploring. 
+            game.getExploring().loadLevel(2);  // Area is currently specified in that method.
+            game.getExploring().update();
+            Gamestate.state = Gamestate.EXPLORING;
 
-            // FLYING - Uncomment to only test flying. 
+            // FLYING - Uncomment to only test one level in flying. 
             //game.getFlying().loadLevel(1); 
             //game.getFlying().update();
             //Gamestate.state = Gamestate.FLYING;
