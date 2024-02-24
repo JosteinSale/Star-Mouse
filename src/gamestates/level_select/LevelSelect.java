@@ -1,13 +1,18 @@
 package gamestates.level_select;
 
+import static utils.Constants.UI.LEVEL_ICON_SIZE;
+
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import gamestates.Gamestate;
 import gamestates.State;
 import gamestates.Statemethods;
 import main.Game;
 import misc.ProgressValues;
+import utils.Constants.Audio;
 import utils.LoadSave;
 
 /** OBS: we should probably wait with implementing more logic until we have more paths. 
@@ -20,18 +25,23 @@ public class LevelSelect extends State implements Statemethods {
     private ProgressValues progValues;
     private BufferedImage bgImg;
     private ArrayList<ILevelLayout> levelLayouts;
-    private ArrayList<BufferedImage> levelIcons;
+    private BufferedImage[] levelIcons;
+    private int selectedLevel = 1;    // This is altered from the current layout.
 
     private ArrayList<LevelInfo> levelInfo;
     private int currentLayout = 1;
-
+    public final int firstLevelBigThreshold = 130;
     private boolean[] unlockedLevels = {   // For now this is a 1D-array, but we might make it a 2D-array.
         true, false, false, false, false,  // Path 1
              false, false, false, false,   // Path 2
              false, false, false, false    // Path 3
         };
     
-    public final int firstLevelBigThreshold = 130;
+    private float bgX = -50;
+    private int bgSlideDir = 1;
+    private int alphaFade = 255;
+    private boolean fadeInActive = true;
+    private boolean fadeOutActive = false;
 
     public LevelSelect(Game game) {
         super(game);
@@ -40,7 +50,7 @@ public class LevelSelect extends State implements Statemethods {
         this.levelIcons = loadLevelIcons();
         this.levelInfo = new ArrayList<>(); 
         loadLevelInfo();
-        levelLayouts.add(new LevelLayout1(game, levelIcons, levelInfo, unlockedLevels));
+        levelLayouts.add(new LevelLayout1(game, levelIcons, levelInfo));
         bgImg = LoadSave.getExpImageBackground(LoadSave.LEVEL_SELECT_BG);
     }
 
@@ -50,24 +60,34 @@ public class LevelSelect extends State implements Statemethods {
         // etc
     }
 
-    private ArrayList<BufferedImage> loadLevelIcons() {
-        return new ArrayList<>(); // TODO - add images
+    private BufferedImage[] loadLevelIcons() {
+        BufferedImage[] images = new BufferedImage[13];
+        BufferedImage img = LoadSave.getExpImageSprite(LoadSave.LEVEL_ICONS);
+        for (int i = 0; i < 2; i++) {
+            images[i] = img.getSubimage(
+                    i * LEVEL_ICON_SIZE, 0, 
+                    LEVEL_ICON_SIZE, LEVEL_ICON_SIZE);
+            }
+        return images;
     }
 
     @Override
     public void update() {
-        levelLayouts.get(currentLayout - 1).update();
-    }
-
-    @Override
-    public void draw(Graphics g) {
-        g.drawImage(bgImg, 0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
-        levelLayouts.get(currentLayout - 1).draw(g);
+        moveBackGround();
+        if (fadeInActive) {
+            updateFadeIn();
+        }
+        else if (fadeOutActive) {
+            updateFadeOut();
+        }
+        else {
+            levelLayouts.get(currentLayout - 1).update();
+        }
     }
 
     /** Can be called from Flying upon exitFinishedLevel(). It does the following:
      * 1. update globalBooleans
-     * 2. update nextUnlockedLevel
+     * 2. unlockNextLevel
      * 3. set levelLayout
      * 4. update current levelLayout with new unlocked level, if needed.
      * @param finishedLevel
@@ -138,7 +158,47 @@ public class LevelSelect extends State implements Statemethods {
     }
 
     public void goToLevel(int level) {
-        // trigger fadeOut.
-        // exploring.goToLevel(level)
+        this.fadeOutActive = true;
+        this.selectedLevel = level;
+    }
+
+    private void moveBackGround() {
+        this.bgX += 0.05f * bgSlideDir;
+        if (this.bgX > 0) {bgSlideDir *= -1;}
+        else if (this.bgX < -50) {bgSlideDir *= -1;}
+    }
+
+    private void updateFadeIn() {
+        this.alphaFade -= 5;
+        if (alphaFade < 0) {
+            alphaFade = 0;
+            fadeInActive = false;
+        }
+    }
+
+    /** Also handles transition to Exploring */
+    private void updateFadeOut() {
+        this.alphaFade += 5;
+        if (alphaFade > 255) {
+            alphaFade = 255;
+            this.game.getExploring().loadLevel(selectedLevel);
+            this.game.getExploring().update(); 
+            Gamestate.state = Gamestate.EXPLORING;
+        }
+    }
+
+    /** Should be called whenever the player returns to LevelSelect */
+    public void reset() {
+        this.fadeOutActive = false;
+        this.fadeInActive = true;
+    }
+
+    @Override
+    public void draw(Graphics g) {
+        g.drawImage(bgImg, (int) bgX, 0, Game.GAME_WIDTH + 50, Game.GAME_HEIGHT + 50, null);
+        levelLayouts.get(currentLayout - 1).draw(g);
+
+        g.setColor(new Color(0, 0, 0, alphaFade));
+        g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
     }
 }

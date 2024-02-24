@@ -313,4 +313,18 @@ public class CutsceneManager2 {
         this.cutscenes.clear();
         this.fellowShips.clear();
     }
+
+    /** If a cutscene is playing, it skips to the end, and inactivates the cutsceneManager. */
+    public void skipCutscene() {
+        if (this.isActive()) {
+            Cutscene cutscene = cutscenes.get(triggerIndex).get(cutsceneIndex);
+            while (cutscene.hasMoreSequences()) {
+                cutscene.getNextSequence();
+            }
+            cutscene.setPlayed();
+            this.canAdvance = true;
+            this.active = false;
+            textboxManager.resetBooleans();
+        }
+    }
 }

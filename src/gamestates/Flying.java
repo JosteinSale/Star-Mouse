@@ -16,13 +16,13 @@ import entities.flying.PickupItem;
 import entities.flying.PlayerFly;
 import game_events.*;
 import main.Game;
+import misc.ProgressValues;
 import projectiles.ProjectileHandler;
 import ui.GameoverOverlay;
 import ui.LevelFinishedOverlay;
 import ui.OptionsMenu;
 import ui.PauseFlying;
 import ui.TextboxManager2;
-import utils.Constants.Audio;
 import utils.LoadSave;
 import static utils.HelpMethods.GetAutomaticTrigger;
 import static utils.HelpMethods2.GetPickupItem;
@@ -31,7 +31,7 @@ import static utils.HelpMethods.GetCutscenes;
 import static utils.Constants.Flying.TypeConstants.POWERUP;
 import static utils.Constants.Flying.TypeConstants.REPAIR;
 import static utils.Constants.Flying.TypeConstants.BOMB;
-
+import static utils.Constants.Flying.TypeConstants.DRONE;
 import static utils.Constants.Audio;
 
 public class Flying extends State implements Statemethods {
@@ -55,8 +55,11 @@ public class Flying extends State implements Statemethods {
     private boolean levelFinished = false;
     private boolean gameOver = false;
     private float resetYPos;
+    private float skipYPos;
 
     private int[] bgImgHeights = {7600, 10740};
+    private float[] resetPoints = {20f, 1300f};
+    private float[] skipPoints = {17000f, 27500f};
     private BufferedImage clImg;
     private Image scaledClImg;
     private Image scaledBgImg;
@@ -76,16 +79,16 @@ public class Flying extends State implements Statemethods {
         this.audioPlayer = game.getAudioPlayer();
         this.automaticTriggers = new ArrayList<>();
         this.pickupItems = new ArrayList<>();
-        initClasses(game.getOptionsMenu());
+        initClasses(game.getOptionsMenu(), game.getExploring().getProgressValues());
         loadEventReactions();
-        projectileHandler.setBombs(game.getExploring().getProgressValues().getBombs());   // Comment out to start with more bombs
-        loadLevel(1);     // Only use if not entering from Exploring
+        projectileHandler.setBombs(game.getExploring().getProgressValues().getBombs());
     }
 
     public void loadLevel(int level) {
         this.level = level;
         this.song = Audio.GetFlyLevelSong(level);
-        this.resetYPos = getResetPoint(level);
+        this.resetYPos = resetPoints[level];
+        this.skipYPos = skipPoints[level];
         loadMapAndOffsets(level);
         player.setClImg(this.clImg);
         projectileHandler.setClImg(this.clImg);
@@ -94,11 +97,11 @@ public class Flying extends State implements Statemethods {
         loadPickupItems(level);
         loadCutscenes(level);  
         player.setKilledEnemies(0);
-        //startAt(-2500);     // For testing purposes
+        //startAt(-13000);     // For testing purposes
         
     }
 
-    private void initClasses(OptionsMenu optionsMenu) {
+    private void initClasses(OptionsMenu optionsMenu, ProgressValues progValues) {
         Rectangle2D.Float playerHitbox = new Rectangle2D.Float(500f, 400f, 50f, 50f);
         this.player = new PlayerFly(game, playerHitbox);
         this.enemyManager = new EnemyManager(player, audioPlayer);
@@ -107,7 +110,7 @@ public class Flying extends State implements Statemethods {
         TextboxManager2 textboxManager = new TextboxManager2();
         this.cutsceneManager = new CutsceneManager2(eventHandler, textboxManager);
         this.pauseOverlay = new PauseFlying(this, optionsMenu);
-        this.levelFinishedOverlay = new LevelFinishedOverlay(this);
+        this.levelFinishedOverlay = new LevelFinishedOverlay(this, progValues);
         this.gameoverOverlay = new GameoverOverlay(this);
     }
 
@@ -201,9 +204,7 @@ public class Flying extends State implements Statemethods {
         }
         else if (event instanceof LevelFinishedEvent evt) {
             this.levelFinished = true;
-            this.levelFinishedOverlay.setLevelStats(
-                game.getExploring().getProgressValues().getCredits(), 
-                enemyManager.getKilledEnemies());
+            this.levelFinishedOverlay.setLevelStats(enemyManager.getKilledEnemies());
         }
         else if (event instanceof StartSongEvent evt) {
             this.game.getAudioPlayer().startSongLoop(evt.index());
@@ -224,13 +225,13 @@ public class Flying extends State implements Statemethods {
         */
     }
 
+    /** Flips the pause boolean */
     public void flipPause() {
         this.pause = !pause;
     }
 
     @Override
     public void update() {
-        // TODO - do not update cutsceneManager if pause
         if (gameOver) {
             gameoverOverlay.update();
         }
@@ -253,13 +254,14 @@ public class Flying extends State implements Statemethods {
             enemyManager.update(fgCurSpeed);
             projectileHandler.update(clYOffset, clXOffset, fgCurSpeed);
         }
-        cutsceneManager.update();
+        if (!pause) {cutsceneManager.update();}
     }
 
     private void checkPause() {
         if (game.pauseIsPressed) {
             game.pauseIsPressed = false;
             this.flipPause();
+            audioPlayer.flipSongActive();
         }
     }
 
@@ -357,14 +359,17 @@ public class Flying extends State implements Statemethods {
     }
 
     public void exitFinishedLevel() {
+        // Credits are updated in LevelFinishedOverlay.
         game.getExploring().getProgressValues().setBombs(projectileHandler.getBombsAtEndOfLevel());
-        this.resetFlying();
         game.getExploring().updatePauseInventory();
+        this.resetFlying();
         if (this.level == 0) {
             Gamestate.state = Gamestate.EXPLORING;
         }
         else {
-            Gamestate.state = Gamestate.EXPLORING;  // TODO - enter levelSelect instead
+            game.getLevelSelect().reset();
+            game.getLevelSelect().updateUnlockedLevels(level, enemyManager.getKilledEnemies().size());
+            Gamestate.state = Gamestate.LEVEL_SELECT;
         }
     }
 
@@ -427,12 +432,33 @@ public class Flying extends State implements Statemethods {
         audioPlayer.startAmbienceLoop(Audio.AMBIENCE_ROCKET_ENGINE);
     }
 
-    private float getResetPoint(int level) {
-        float resetY = switch (level) {
-            case 0 -> 20f;
-            case 1 -> 1300f;
-            default -> throw new IllegalArgumentException("No resetpoint available for : level " + level);
-        };
-        return resetY;
+
+    /** Changes the levelOffset to the end of the level, and moves the automatic triggers accorgingly. 
+     * Doesn't move enemies or pickup-items. */
+    public void skipLevel() {
+    this.cutsceneManager.skipCutscene();
+    this.clYOffset = Game.GAME_DEFAULT_HEIGHT - clImgHeight + 150 + skipYPos;
+    this.bgYOffset = Game.GAME_DEFAULT_HEIGHT - bgImgHeight + (skipYPos * (bgCurSpeed / fgCurSpeed));
+    for (AutomaticTrigger trigger : automaticTriggers) {
+        trigger.resetTo(skipYPos);
+        }
     }
+
+    /** Can be used to artificially increase the number of killed enemies by 10.
+     * Use for testing purposes.
+     */
+    public void plus10KilledEnemies() {
+        for (int i = 0; i < 10; i++) {
+            this.enemyManager.increaseKilledEnemies(DRONE); 
+        }
+    } 
+
+    /** Can be used to artificially decrease the number of killed enemies by 10.
+     * Use for testing purposes.
+     */
+    public void minus10KilledEnemies() {
+        for (int i = 0; i < 10; i++) {
+            this.enemyManager.decreaseKilledEnemies(DRONE); 
+        }
+    } 
 }

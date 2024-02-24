@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import gamestates.Flying;
 import gamestates.Statemethods;
 import main.Game;
+import misc.ProgressValues;
 import utils.LoadSave;
 import utils.Constants.Audio;
 
@@ -18,6 +19,7 @@ import static utils.Constants.UI.CURSOR_WIDTH;
 
 public class LevelFinishedOverlay implements Statemethods {
     private Flying flying;
+    private ProgressValues progValues;
     private Font infoFont;
     private Font continueFont;
     private BufferedImage cursorImg;
@@ -34,8 +36,9 @@ public class LevelFinishedOverlay implements Statemethods {
     private int currentLetter = 0;
     private int linesToDraw = 0;
 
-    public LevelFinishedOverlay(Flying flying) {
+    public LevelFinishedOverlay(Flying flying, ProgressValues progValues) {
         this.flying = flying;
+        this.progValues = progValues;
         this.enemiesKilled = new ArrayList<>();
         this.infoFont = LoadSave.getInfoFont();
         this.continueFont = LoadSave.getNameFont();
@@ -61,10 +64,10 @@ public class LevelFinishedOverlay implements Statemethods {
         }
     }
 
-    public void setLevelStats(int currentCredits, ArrayList<Integer> enemiesKilled) {
+    public void setLevelStats(ArrayList<Integer> enemiesKilled) {
         this.currentLetter = 0;
         this.linesToDraw = 0;
-        this.totalCredits = currentCredits;
+        this.totalCredits = progValues.getCredits();
         this.enemiesKilled = enemiesKilled;
         calcCreditsEarned();
         updateStatusValues();
@@ -91,6 +94,7 @@ public class LevelFinishedOverlay implements Statemethods {
         this.statusValues[0] = enemiesKilled.size();
         this.statusValues[1] = creditsEarned;
         this.statusValues[2] = creditsEarned + totalCredits;
+        progValues.setCredits(statusValues[2]);
     }
 
     private void updateStatusText() {

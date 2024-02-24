@@ -33,6 +33,9 @@ public class Constants {
         public static final float FONT_SIZE_NAME = 40f;
         public static final float FONT_SIZE_HEADER = 50f;
         public static final int PORTRAIT_SIZE = 55;
+        public static final int LEVEL_ICON_SIZE = 50;
+        public static final int LEVEL_ICON_DRAW_SIZE = 100;
+        public static final int LEVEL_SELECT_BOX_SIZE = 130;
 
     }
 

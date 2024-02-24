@@ -193,6 +193,13 @@ public class EnemyManager {
         this.player.setKilledEnemies(killedEnemies.size());
     }
 
+    public void decreaseKilledEnemies(int enemyType) {
+        if (killedEnemies.size() > 0) {
+            this.killedEnemies.remove(killedEnemies.size() - 1);
+        }
+        this.player.setKilledEnemies(killedEnemies.size());
+     }
+
     public ArrayList<Integer> getKilledEnemies() {
         return this.killedEnemies;
     }

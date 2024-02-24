@@ -6,8 +6,8 @@ package misc;
 public class ProgressValues {
    private int maxHP = 100;
    private int lazerDmg = 7;
-   private int credits = 30000;
-   private int bombs = 5;
+   private int credits = 0;
+   private int bombs = 0;
 
    public boolean hasEnding1 = false;
    public boolean hasEnding2 = false;

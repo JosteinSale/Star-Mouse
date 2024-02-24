@@ -28,15 +28,21 @@ public class PauseFlying {
     private Font headerFont;
     private Font menuFont;
 
-    private String[] menuOptions = { "Continue", "Options", "Main Menu" };
+    private final int CONTINUE = 0;
+    private final int OPTIONS = 1;
+    private final int MAIN_MENU = 2;
+    private final int SKIP_LEVEL = 3;
+    private final int PLUS10_ENEMIES = 4;
+    private final int MINUS10_ENEMIES = 5;
+    private String[] menuOptions = { "Continue", "Options", "Main Menu", "Skip Level", "+10 Enemies", "-10 Enemies"};
     private BufferedImage pointerImg;
     private int selectedIndex = 0;
 
     private int cursorX = 320;
-    private int cursorMinY = 490;
+    private int cursorMinY = 290;
     private int cursorMaxY = 620;
     private int cursorY = cursorMinY;
-    private int menuOptionsDiff = (cursorMaxY - cursorMinY) / 2;
+    private int menuOptionsDiff = (cursorMaxY - cursorMinY) / 5;
 
     public PauseFlying(Flying flying, OptionsMenu optionsMenu) {
         this.audioPlayer = flying.getGame().getAudioPlayer();
@@ -66,27 +72,44 @@ public class PauseFlying {
     private void handleKeyboardInputs() {
         if (flying.getGame().downIsPressed) {
             flying.getGame().downIsPressed = false;
+            audioPlayer.playSFX(Audio.SFX_CURSOR);
             goDown();
         } 
         else if (flying.getGame().upIsPressed) {
             flying.getGame().upIsPressed = false;
+            audioPlayer.playSFX(Audio.SFX_CURSOR);
             goUp();
         } 
         else if (flying.getGame().interactIsPressed) {
             flying.getGame().interactIsPressed = false;
-            if (selectedIndex == 0) {
+
+            if (selectedIndex == CONTINUE) {
                 this.flying.flipPause();
+                this.audioPlayer.flipSongActive();
             } 
-            else if (selectedIndex == 1) {
+            else if (selectedIndex == OPTIONS) {
                 audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
                 optionsMenu.setActive(true);
             } 
-            else if (selectedIndex == 2) {
+            else if (selectedIndex == MAIN_MENU) {
                 audioPlayer.stopAllLoops();
                 flying.resetFlying();
                 // TODO - make fadeOut. Make public reset-method that resets fade-boolean
                 flying.getGame().resetMainMenu();
                 Gamestate.state = Gamestate.MAIN_MENU;
+            }
+            else if (selectedIndex == SKIP_LEVEL) {
+                this.flying.flipPause();
+                this.audioPlayer.flipSongActive();
+                this.flying.skipLevel();
+            }
+            else if (selectedIndex == PLUS10_ENEMIES) {
+                audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
+                this.flying.plus10KilledEnemies();
+            }
+            else if (selectedIndex == MINUS10_ENEMIES) {
+                audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
+                this.flying.minus10KilledEnemies();
             }
         }
     }
@@ -94,7 +117,7 @@ public class PauseFlying {
     private void goDown() {
         this.cursorY += menuOptionsDiff;
         this.selectedIndex++;
-        if (selectedIndex > 2) {
+        if (selectedIndex > 5) {
             selectedIndex = 0;
             cursorY = cursorMinY;
         }
@@ -104,7 +127,7 @@ public class PauseFlying {
         this.cursorY -= menuOptionsDiff;
         this.selectedIndex--;
         if (selectedIndex < 0) {
-            selectedIndex = 2;
+            selectedIndex = 5;
             cursorY = cursorMaxY;
         }
     }
@@ -122,11 +145,11 @@ public class PauseFlying {
             // Text
             g.setFont(headerFont);
             g.setColor(Color.WHITE);
-            g.drawString("PAUSE", (int) (450 * Game.SCALE), (int) (350 * Game.SCALE));
+            g.drawString("PAUSE", (int) (450 * Game.SCALE), (int) (200 * Game.SCALE));
 
             for (int i = 0; i < menuOptions.length; i++) {
                 Rectangle rect = new Rectangle(
-                        (int) (425 * Game.SCALE), (int) ((450 + i * menuOptionsDiff) * Game.SCALE),
+                        (int) (425 * Game.SCALE), (int) ((cursorMinY - 40 + i * menuOptionsDiff) * Game.SCALE),
                         (int) (200 * Game.SCALE), (int) (50 * Game.SCALE));
                 DrawCenteredString(g2, menuOptions[i], rect, menuFont);
             }

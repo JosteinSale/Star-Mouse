@@ -25,9 +25,11 @@ import static utils.Constants.UI.FONT_SIZE_HEADER;
 public class LoadSave {
     // Menus
     public static final String BASIC_MOUSE = "BasicMouse.png";
-    public static final String MAIN_MENU_BG = "main_menu.png";
     public static final String MAIN_MENU_TITLE = "main_menu_title.png";
     public static final String LEVEL_SELECT_BG = "level_select.png";
+    public static final String LEVEL_SELECT_LAYOUT1 = "levelSel_layout1.png";
+    public static final String LEVEL_SELECT_LAYOUT2 = "levelSel_layout2.png";
+    public static final String LEVEL_SELECT_LAYOUT3 = "levelSel_layout3.png";
     
     // Sprites
     public static final String CURSOR_SPRITE_BLACK = "pointer_black.png";
@@ -42,6 +44,8 @@ public class LoadSave {
     public static final String NUMBER_DISPLAY = "number_display2.png";
     public static final String NUMBER_SELECT = "number_selected.png";
     public static final String KEY_SELECT = "key_selected.png";
+    public static final String LEVEL_ICONS = "level_icons.png";
+    public static final String LEVEL_SELECT_BOX = "level_select_box.png";
 
     public static final String PLAYER_EXP_SPRITES = "sprites_max.png";
     public static final String PLAYER_EXP_SPRITES_NAKED = "sprites_max_naked.png";

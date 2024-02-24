@@ -15,8 +15,8 @@ import utils.LoadSave;
 
 public class Exploring extends State implements Statemethods {
     private AudioPlayer audioPlayer;
-    private int currentLevel = 2;
-    private int currentArea = 1;
+    private int currentLevel;
+    private int currentArea;    // Is set in the loadLevel-method. Can be altered for testing purposes.
     private ArrayList<Area> areas;
     private PauseExploring pauseOverlay;
     private ProgressValues progValues;
@@ -27,15 +27,17 @@ public class Exploring extends State implements Statemethods {
         super(game);
         this.audioPlayer = game.getAudioPlayer();
         areas = new ArrayList<>();
-        loadLevel(currentLevel);
         progValues = new ProgressValues();
         pauseOverlay = new PauseExploring(game, progValues, audioPlayer, game.getOptionsMenu());
         mechanicOverlay = new MechanicOverlay(game, progValues);
     }
 
-    // Laster inn alle areas for denne levelen
-    // Kan kalles fra andre deler av programmet senere
+    /** Loads all areas for the given level. 
+     * Is normally only called from LevelSelect, but can also be called from the MainMenu if needed.*/
     public void loadLevel(int level) {
+        this.currentLevel = level;
+        this.currentArea = 1;
+        this.areas = new ArrayList<>();
         ArrayList<List<String>> levelData = LoadSave.getExpLevelData(level);
         ArrayList<List<String>> cutsceneData = LoadSave.getExpCutsceneData(level);
         for (int i = 0; i < levelData.size(); i++) {
@@ -67,7 +69,7 @@ public class Exploring extends State implements Statemethods {
     public void goToArea(int area) {
         this.currentArea = area;
         areas.get(currentArea - 1).update();
-        // Den nye arean må få oppdatert seg før vi tegner den.
+        // The new area needs to be updated before we can draw it.
     }
 
     @Override

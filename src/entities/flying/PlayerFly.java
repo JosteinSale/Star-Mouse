@@ -481,6 +481,7 @@ public class PlayerFly extends Entity {
 
     public void reset() {
         this.visible = true;
+        this.aniIndex = 0;
         HP = maxHP;
         statusDisplay.setHP(this.HP);
         statusDisplay.setBlinking(false);

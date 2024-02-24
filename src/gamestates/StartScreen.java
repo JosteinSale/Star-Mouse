@@ -27,6 +27,7 @@ public class StartScreen extends State implements Statemethods {
         mouseImgW = 100 * 3;
         mouseImgH = 100 * 3;
         font = LoadSave.getInfoFont();
+        audioPlayer.startAmbienceLoop(Audio.AMBIENCE_SILENCE);
     }
 
     @Override
@@ -44,7 +45,7 @@ public class StartScreen extends State implements Statemethods {
             alphaFade = 255;
             //fadeActive = false;  Doesn't need to be reset, since we never return to start screen.
             Gamestate.state = Gamestate.MAIN_MENU;
-            audioPlayer.startAmbienceLoop(Audio.AMBIENCE_SILENCE);  
+            audioPlayer.stopAmbience();
             audioPlayer.startSongLoop(Audio.SONG_MAIN_MENU);
         }
     }

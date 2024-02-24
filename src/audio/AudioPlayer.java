@@ -218,6 +218,17 @@ public class AudioPlayer {
         }
     }
 
+    /** For some reason, if we stop + restart the ambience, it bugs out and stops. Volume is normal.
+     *  No stop-methods are called. But somehow curAmbience.isActive = false.
+     */
+    public void flipSongActive() {
+        if (this.curSong.isActive()) {
+            this.curSong.stop();
+        } else {
+            this.curSong.start();
+        }
+    }
+
     public void update() {
         if (this.fadeOutActive) {updateFade();}
     }
