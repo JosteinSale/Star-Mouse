@@ -225,12 +225,7 @@ public class ProjectileHandler {
                             if (p.getHitbox().intersects(enemy.getHitbox())) {
                                 p.setActive(false);
                                 enemy.takeDamage(p.getDamage());
-                            if (enemy.isDead()) {
-                                audioPlayer.playSFX(Audio.SFX_SMALL_EXPLOSION);
-                                enemyManager.addExplosion(enemy.getHitbox());
-                                enemyManager.increaseKilledEnemies(enemy.getType());
-                            }
-                            break;
+                                enemyManager.checkIfDead(enemy);
                             }
                         }
                     }
@@ -298,7 +293,7 @@ public class ProjectileHandler {
                     for (Enemy enemy : enemyManager.getActiveEnemiesOnScreen()) {
                         enemy.takeDamage(explosionDamage);
                         if (enemy.isDead()) {
-                            enemyManager.addExplosion(enemy.getHitbox());
+                            enemyManager.addSmallExplosion(enemy.getHitbox());
                             enemyManager.increaseKilledEnemies(enemy.getType());
                         }
                     }

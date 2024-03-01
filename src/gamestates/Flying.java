@@ -11,6 +11,7 @@ import audio.AudioPlayer;
 import cutscenes.Cutscene;
 import cutscenes.CutsceneManager2;
 import entities.exploring.AutomaticTrigger;
+import entities.flying.Enemy;
 import entities.flying.EnemyManager;
 import entities.flying.PickupItem;
 import entities.flying.PlayerFly;
@@ -57,9 +58,9 @@ public class Flying extends State implements Statemethods {
     private float resetYPos;
     private float skipYPos;
 
-    private int[] bgImgHeights = {7600, 10740};
-    private float[] resetPoints = {20f, 1300f};
-    private float[] skipPoints = {17000f, 27500f};
+    private int[] bgImgHeights = {7600, 10740, 10};
+    private float[] resetPoints = {20f, 1300f, 0f};
+    private float[] skipPoints = {17000f, 27500f, 0f};
     private BufferedImage clImg;
     private Image scaledClImg;
     private Image scaledBgImg;
@@ -460,5 +461,10 @@ public class Flying extends State implements Statemethods {
         for (int i = 0; i < 10; i++) {
             this.enemyManager.decreaseKilledEnemies(DRONE); 
         }
+    }
+
+    /** Is called from Player. Is needed to check teleport collision with big enemies. */
+    public ArrayList<Enemy> getBigEnemies() {
+        return this.enemyManager.getBigEnemies();
     } 
 }

@@ -125,6 +125,11 @@ public class Target extends Entity implements Enemy {
     }
 
     @Override
+    public boolean isSmall() {
+      return true;
+    }
+
+    @Override
     public void resetShootTick() {}
 
     @Override

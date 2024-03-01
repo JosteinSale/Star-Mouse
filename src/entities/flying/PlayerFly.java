@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import audio.AudioPlayer;
 
@@ -262,16 +263,38 @@ public class PlayerFly extends Entity {
     }
 
     private void checkTeleportCollision(float yLevelOffset, float xLevelOffset) {
+        // Checks map
         if (collidesWithMap(yLevelOffset, xLevelOffset)) {
-            this.planeAction = TAKING_COLLISION_DAMAGE;
-            hitbox.x -= (teleportDistance * flipX);
-            updateCollisionPixels();
-            takeCollisionDmg();
-            audioPlayer.playSFX(Audio.SFX_COLLISION);
+            undoTeleportAndTakeDamage();
             while (!collidesWithMap(yLevelOffset, xLevelOffset)) {
                 hitbox.x += (teleportDistance/10 * flipX);
             }
         }
+        // Checks big enemies
+        else {
+            // This list will usually have 0, at most 2-3 enemies.
+            ArrayList<Enemy> bigEnemies = game.getFlying().getBigEnemies();
+            for (Enemy e : bigEnemies) {  
+                if (hitbox.intersects(e.getHitbox())) {
+                    undoTeleportAndTakeDamage();
+                    e.takeDamage(10);
+                    while (!hitbox.intersects(e.getHitbox())) {
+                        hitbox.x += (teleportDistance/10 * flipX);
+                    }
+                    hitbox.x -= (teleportDistance/10 * flipX);  
+                    // We need to move player a bit more, because we don't use the collidesWithMap-
+                    // method as a condition for the loop, and this method moves player if true.
+                }
+            }
+        }
+    }
+
+    private void undoTeleportAndTakeDamage() {
+        this.planeAction = TAKING_COLLISION_DAMAGE;
+        hitbox.x -= (teleportDistance * flipX);
+        updateCollisionPixels();
+        takeCollisionDmg();
+        audioPlayer.playSFX(Audio.SFX_COLLISION);
     }
 
     private boolean collidesWithMap(float yLevelOffset, float xLevelOffset) {
@@ -292,8 +315,9 @@ public class PlayerFly extends Entity {
         return false;
     }
 
-    /** Checks if the enemy is close to player.
-     * If enemy is close to player, it checks collisionpixels (an extensive operation).
+    /** Is called from EnemyManager 
+     * Checks if the enemy overlaps the player.
+     * If so, it checks collisionpixels (an extensive operation).
      * If a collision has occured, player takes damage and is pushed in opposite direction.
      * 
      * (This method could be improved: instead of making 9 new points for each enemy, 
@@ -302,15 +326,11 @@ public class PlayerFly extends Entity {
      * check those pixels for each enemy). 
      */
     public boolean collidesWithEnemy(Rectangle2D.Float enemyHitbox) {
-        double dist = Math.pow(
-            Math.pow((hitbox.x - enemyHitbox.x), 2) + Math.pow((hitbox.y - enemyHitbox.y), 2), 0.5f);
-        if (dist < 100) {
+        if (hitbox.intersects(enemyHitbox)) {
             for (int i = 0; i < 9; i++) {
                 Point point = new Point((int) collisionXs[i], (int) collisionYs[i]);
                 if (enemyHitbox.contains(point)) {
-                    if (planeAction != TAKING_COLLISION_DAMAGE) {
-                        takeCollisionDmg();
-                    }
+                    takeCollisionDmg();
                     audioPlayer.playSFX(Audio.SFX_COLLISION);
                     pushInOppositeDirectionOf(i, pushDistance);
                     this.updateCollisionPixels();

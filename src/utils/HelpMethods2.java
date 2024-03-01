@@ -12,6 +12,7 @@ import entities.flying.Enemy;
 import entities.flying.OctaDrone;
 import entities.flying.PickupItem;
 import entities.flying.Powerup;
+import entities.flying.ReaperDrone;
 import entities.flying.Repair;
 import entities.flying.SmallShip;
 import entities.flying.TankDrone;
@@ -51,6 +52,11 @@ public class HelpMethods2 {
         else if (type == BLASTERDRONE) {
             BlasterDrone blasterDrone = new BlasterDrone(hitbox, animations);
             return blasterDrone;
+        }
+        else if (type == REAPERDRONE) {
+            int shootTimer = Integer.parseInt(lineData[4]);
+            ReaperDrone reaperDrone = new ReaperDrone(hitbox, animations, shootTimer);
+            return reaperDrone;
         }
         return null;
     }

@@ -2,6 +2,7 @@ package entities.flying;
 
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Float;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ public class EnemyManager {
     private BufferedImage[][] octadroneAnimations;
     private BufferedImage[][] tankdroneAnimations;
     private BufferedImage[][] blasterdroneAnimations;
+    private BufferedImage[][] reaperdroneAnimations;
     private BufferedImage[] explosionAnimation;
     private ArrayList<Explosion> explosions;
     private int collisionDmg = 10;
@@ -68,6 +70,10 @@ public class EnemyManager {
         BufferedImage blasterdroneImg = LoadSave.getFlyImageSprite(LoadSave.BLASTERDRONE_SPRITE);
         this.blasterdroneAnimations = GetEnemyAnimations(
             blasterdroneImg, BLASTERDRONE_SPRITE_SIZE, BLASTERDRONE_SPRITE_SIZE, 2, 4);
+        
+        BufferedImage reaperdroneImg = LoadSave.getFlyImageSprite(LoadSave.REAPERDRONE_SPRITE);
+        this.reaperdroneAnimations = GetEnemyAnimations(
+            reaperdroneImg, REAPERDRONE_SPRITE_WIDTH, REAPERDRONE_SPRITE_HEIGHT, 2, 4);
 
         this.explosionAnimation = new BufferedImage[5];
         BufferedImage explosionImg = LoadSave.getFlyImageSprite(LoadSave.EXPLOSION);
@@ -116,6 +122,11 @@ public class EnemyManager {
                 int height = 90;
                 allEnemies.add(GetEnemy(BLASTERDRONE, lineData, width, height, blasterdroneAnimations));
             }
+            else if (lineData[0].equals("reaperDrone")) {
+                int width = 510;
+                int height = 150;
+                allEnemies.add(GetEnemy(REAPERDRONE, lineData, width, height, reaperdroneAnimations));
+            }
         }
     }
 
@@ -126,7 +137,7 @@ public class EnemyManager {
             enemy.update(levelYSpeed);
             if (enemy.isOnScreen() && !enemy.isDead()) {
                 activeEnemiesOnScreen.add(enemy);
-                if (player.teleportDamagesEnemy(enemy.getHitbox())) {
+                if (enemy.isSmall() && player.teleportDamagesEnemy(enemy.getHitbox())) {
                     enemy.takeDamage(teleportDmg);
                     checkIfDead(enemy);
                 }
@@ -138,11 +149,17 @@ public class EnemyManager {
         }
     }
 
-    private void checkIfDead(Enemy enemy) {
+    /** Can be called from this object, and the ProjectileHandler */
+    public void checkIfDead(Enemy enemy) {
         if (enemy.isDead()) {
             audioPlayer.playSFX(Audio.SFX_SMALL_EXPLOSION);
-            this.addExplosion(enemy.getHitbox());
             increaseKilledEnemies(enemy.getType());
+            if (enemy.isSmall()) {
+                this.addSmallExplosion(enemy.getHitbox());
+            }
+            else {
+                this.addBigExplosion(enemy.getHitbox());
+            }
         }
     }
 
@@ -161,10 +178,17 @@ public class EnemyManager {
     }
 
     /** Makes an explosion centered in the enemy's hitbox */
-    public void addExplosion(Rectangle2D.Float hb) {
+    public void addSmallExplosion(Rectangle2D.Float hb) {
         float x = (hb.x + hb.width/2) - ((EXPLOSION_SPRITE_SIZE * 3) / 2);
         float y = (hb.y + hb.height/2) - ((EXPLOSION_SPRITE_SIZE * 3) / 2);
-        explosions.add(new Explosion((int) x, (int) y));
+        explosions.add(new Explosion((int) x, (int) y, true));
+    }
+
+    /** Makes a big explosion centered in the enemy's hitbox */
+    private void addBigExplosion(Float hb) {
+        float x = (hb.x + hb.width/2) - ((EXPLOSION_SPRITE_SIZE * 8) / 2);
+        float y = (hb.y + hb.height/2) - ((EXPLOSION_SPRITE_SIZE * 8) / 2);
+        explosions.add(new Explosion((int) x, (int) y, false));
     }
 
     public void draw(Graphics g) {
@@ -174,13 +198,24 @@ public class EnemyManager {
             //enemy.drawHitbox(g);
         }
         for (Explosion ex : explosions) {   // ConcurrentModificationException
-            g.drawImage(
+            if (ex.isSmall()) {
+                g.drawImage(
                 explosionAnimation[ex.getAniIndex()],
                 (int) (ex.getX() * Game.SCALE),
                 (int) (ex.getY() * Game.SCALE),
                 (int) (EXPLOSION_SPRITE_SIZE * 3 * Game.SCALE),
                 (int) (EXPLOSION_SPRITE_SIZE * 3 * Game.SCALE),
                 null);
+            } else {
+                g.drawImage(
+                explosionAnimation[ex.getAniIndex()],
+                (int) (ex.getX() * Game.SCALE),
+                (int) (ex.getY() * Game.SCALE),
+                (int) (EXPLOSION_SPRITE_SIZE * 8 * Game.SCALE),
+                (int) (EXPLOSION_SPRITE_SIZE * 8 * Game.SCALE),
+                null);
+            }
+            
         }
     }
 
@@ -217,5 +252,16 @@ public class EnemyManager {
         }
         this.killedEnemies.clear();
         this.explosions.clear();
+    }
+
+    /** Is needed in the player-object, to check teleport collision with big enemies */
+    public ArrayList<Enemy> getBigEnemies() {
+        ArrayList<Enemy> bigEnemies = new ArrayList<>();
+        for (Enemy e : activeEnemiesOnScreen) {
+            if (!e.isSmall()) {
+                bigEnemies.add(e);
+            }
+        }
+        return bigEnemies;
     }
 }

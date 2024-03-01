@@ -7,10 +7,12 @@ public class Explosion {
     private int aniIndex = 0;
     private int aniTickPerFrame = 5;
     boolean done = false;
+    boolean isSmall;
 
-    public Explosion(int x, int y) {
+    public Explosion(int x, int y, boolean isSmall) {
         this.x = x;
         this.y = y;
+        this.isSmall = isSmall;
     }
 
     public void update(float fgCurSpeed) {
@@ -40,5 +42,9 @@ public class Explosion {
 
     public boolean isDone() {
         return this.done;
+    }
+
+    public boolean isSmall() {
+        return this.isSmall;
     }
 }

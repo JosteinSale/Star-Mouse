@@ -99,6 +99,7 @@ public class Constants {
             public static final int OCTADRONE = 3;
             public static final int TANKDRONE = 4;
             public static final int BLASTERDRONE = 5;
+            public static final int REAPERDRONE = 6;
 
             // Pickup items
             public static final int POWERUP = 0;
@@ -125,6 +126,8 @@ public class Constants {
             public static final int SMALLSHIP_SPRITE_SIZE = 30;
             public static final int OCTADRONE_SPRITE_SIZE = 30;
             public static final int TANKDRONE_SPRITE_SIZE = 30;
+            public static final int REAPERDRONE_SPRITE_WIDTH = 210;
+            public static final int REAPERDRONE_SPRITE_HEIGHT = 80;
             public static final int BLASTERDRONE_SPRITE_SIZE = 30;
             public static final int EXPLOSION_SPRITE_SIZE = 40;
             public static final int BOMBEXPLOSION_SPRITE_WIDTH = 300;
@@ -221,6 +224,7 @@ public class Constants {
             switch (level) {
                 case 0 : return 0;
                 case 1 : return 2;
+                case 2 : return 99;
                 default : throw new IllegalArgumentException("No song available for: level " + level);
             }
         }

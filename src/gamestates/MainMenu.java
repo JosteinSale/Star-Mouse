@@ -67,6 +67,23 @@ public class MainMenu extends State implements Statemethods {
         }
     }
 
+    /** Is called when player selects 'New Game', after fadeOut is completed */
+    private void doTransition() {
+        // LEVEL-SELECT - Uncomment to test entire game
+        // game.getLevelSelect().reset();
+        // Gamestate.state = Gamestate.LEVEL_SELECT;
+
+        // EXPLORING - Uncomment to only test one level in exploring.
+        //game.getExploring().loadLevel(2); // Area is currently specified in that method.
+        //game.getExploring().update();
+        //Gamestate.state = Gamestate.EXPLORING;
+
+        // FLYING - Uncomment to only test one level in flying.
+        game.getFlying().loadLevel(2);
+        game.getFlying().update();
+        Gamestate.state = Gamestate.FLYING;
+    }
+
     private void handleKeyBoardInputs() {
         if (game.upIsPressed) {
             game.upIsPressed = false;
@@ -86,7 +103,6 @@ public class MainMenu extends State implements Statemethods {
                 fadeOutActive = true;
                 audioPlayer.stopAllLoops();
                 audioPlayer.playSFX(Audio.SFX_STARTGAME);
-                // Transition to new gamestate is handled in updateFadeOut-method.
             }
             else if (selectedIndex == LEVEL_EDITOR) {
                 audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
@@ -140,22 +156,10 @@ public class MainMenu extends State implements Statemethods {
         this.alphaFade += 5;
         if (alphaFade > 255) {
             alphaFade = 255;
-            // LEVEL-SELECT - Uncomment to test entire game
-            //game.getLevelSelect().reset();
-            //Gamestate.state = Gamestate.LEVEL_SELECT;
-
-            // EXPLORING - Uncomment to only test one level in exploring. 
-            game.getExploring().loadLevel(2);  // Area is currently specified in that method.
-            game.getExploring().update();
-            Gamestate.state = Gamestate.EXPLORING;
-
-            // FLYING - Uncomment to only test one level in flying. 
-            //game.getFlying().loadLevel(1); 
-            //game.getFlying().update();
-            //Gamestate.state = Gamestate.FLYING;
-
+            doTransition();
         }
     }
+
 
     @Override
     public void draw(Graphics g) {

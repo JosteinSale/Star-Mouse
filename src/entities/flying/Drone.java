@@ -109,6 +109,11 @@ public class Drone extends Entity implements Enemy {
         return onScreen;
     }
 
+    @Override
+    public boolean isSmall() {
+      return true;
+    }
+
     public void resetShootTick() {
         this.shootTick = 0;
     }

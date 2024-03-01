@@ -6,21 +6,18 @@ import java.awt.image.BufferedImage;
 
 import entities.Entity;
 import main.Game;
-import static utils.Constants.Flying.TypeConstants.SMALL_SHIP;
-import static utils.Constants.Flying.Sprites.SMALLSHIP_SPRITE_SIZE;
+import static utils.Constants.Flying.TypeConstants.REAPERDRONE;
+import static utils.Constants.Flying.Sprites.REAPERDRONE_SPRITE_WIDTH;
+import static utils.Constants.Flying.Sprites.REAPERDRONE_SPRITE_HEIGHT;
 
-public class SmallShip extends Entity implements Enemy{
+public class ReaperDrone extends Entity implements Enemy {
     // Actions
     private static final int IDLE = 1;
     private static final int TAKING_DAMAGE = 0;
 
-    private int direction;            // 1 = right, -1 = left
-    private int xSpeed = 2;
-
     BufferedImage[][] animations;
     private float startY;
-    private float startX;
-    private int maxHP = 20;
+    private int maxHP = 80;
     private int HP = maxHP;
     private boolean onScreen = false;   
     private boolean dead = false;
@@ -32,22 +29,23 @@ public class SmallShip extends Entity implements Enemy{
     private int damageFrames = 10;
     private int damageTick = 0;
 
+    private int shootTick = 0;
+    private int shootInterval;
 
-    public SmallShip(Rectangle2D.Float hitbox, BufferedImage[][] animations, int direction) {
+    public ReaperDrone(Rectangle2D.Float hitbox, BufferedImage[][] animations, int shootInterval) {
         super(hitbox);
-        startX = hitbox.x;
         startY = hitbox.y;
         this.animations = animations;
-        this.direction = direction;
+        this.shootInterval = shootInterval;
     }
 
     @Override
     public void update(float levelYSpeed) {
         hitbox.y += levelYSpeed;
-        onScreen = (((hitbox.y + hitbox.height) > 0) && (hitbox.y < Game.GAME_DEFAULT_HEIGHT));
+        onScreen = (((hitbox.y + hitbox.height + 50) > 0) && ((hitbox.y - 50) < Game.GAME_DEFAULT_HEIGHT));
         if (onScreen) {
             updateAniTick();
-            this.hitbox.x += xSpeed * direction;
+            updateShootTick();
         }
     }
 
@@ -56,7 +54,7 @@ public class SmallShip extends Entity implements Enemy{
         if (aniTick >= aniTickPerFrame) {
             aniTick = 0;
             aniIndex ++;
-            if (aniIndex >= getSmallShipSpriteAmount()) {
+            if (aniIndex >= getDroneSpriteAmount()) {
                 aniIndex = 0;
             }
         }
@@ -68,8 +66,18 @@ public class SmallShip extends Entity implements Enemy{
         }
     }
 
+    /** Later: we might want to customize shootInterval so that each enemy
+     * has a specific shootinterval, and the tick starts when enemy is onScreen.
+     */
+    private void updateShootTick() {
+        shootTick ++;
+        if (shootTick > shootInterval) {
+            shootTick = 0;
+        }
+    }
+
     public boolean canShoot() {
-        return false;
+        return shootTick == shootInterval;
     }
 
     @Override
@@ -79,7 +87,7 @@ public class SmallShip extends Entity implements Enemy{
 
     @Override
     public int getType() {
-        return SMALL_SHIP;
+        return REAPERDRONE;
     }
 
     @Override
@@ -104,7 +112,11 @@ public class SmallShip extends Entity implements Enemy{
 
     @Override
     public boolean isSmall() {
-      return true;
+        return false;
+    }
+
+    public void resetShootTick() {
+        this.shootTick = 0;
     }
 
     @Override
@@ -116,25 +128,16 @@ public class SmallShip extends Entity implements Enemy{
     public void draw(Graphics g) {
         g.drawImage(
             animations[action][aniIndex], 
-            (int) ((hitbox.x - 16 + getFlipX()) * Game.SCALE), 
-            (int) ((hitbox.y - 30)* Game.SCALE), 
-            (int) (SMALLSHIP_SPRITE_SIZE * 3 * direction * Game.SCALE), 
-            (int) (SMALLSHIP_SPRITE_SIZE * 3 * Game.SCALE), null);
+            (int) ((hitbox.x - 60) * Game.SCALE), 
+            (int) ((hitbox.y - 45)* Game.SCALE), 
+            (int) (REAPERDRONE_SPRITE_WIDTH * 3 * Game.SCALE), 
+            (int) (REAPERDRONE_SPRITE_HEIGHT* 3 * Game.SCALE), null);
     }
 
-    private float getFlipX() {
-        if (direction == 1) {
-            return 0;
-        }
-        else {
-            return (hitbox.width + 28);
-        }
-    }
-
-    private int getSmallShipSpriteAmount() {
+    private int getDroneSpriteAmount() {
         switch (action) {
             case TAKING_DAMAGE:     
-                return 4;     
+                return 3;     
             case IDLE:
             default:
                 return 1;
@@ -142,12 +145,8 @@ public class SmallShip extends Entity implements Enemy{
     }
 
     @Override
-    public void resetShootTick() {}
-
-    @Override
    public void resetTo(float y) {
       hitbox.y = startY + y;
-      hitbox.x = startX;
       action = IDLE;
       HP = maxHP;
       onScreen = false;
@@ -155,6 +154,6 @@ public class SmallShip extends Entity implements Enemy{
       aniTick = 0;
       aniIndex = 0;
       damageTick = 0;
+      shootTick = 0;
    }
-    
 }

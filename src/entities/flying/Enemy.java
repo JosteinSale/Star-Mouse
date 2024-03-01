@@ -5,7 +5,14 @@ import java.awt.geom.Rectangle2D;
 
 public interface Enemy {
 
-    /**
+    /** If the enemy is small, the player can teleport through it and kill it.
+     * Big enemies can not be teleported through, and if the player attempts it, 
+     * he will collide just like he would with the map.
+     * @return
+     */
+    public boolean isSmall();
+
+   /**
      * Updates y-pos with levelYSpeed.
      * Also if the enemy is onScreen and !isDead: updates individual movement, aniTick and shootTick.
     */

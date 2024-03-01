@@ -94,6 +94,11 @@ public class TankDrone extends Entity implements Enemy {
       return onScreen;
    }
 
+   @Override
+   public boolean isSmall() {
+      return true;
+   }
+
    public void resetShootTick() {}
 
    @Override

@@ -5,27 +5,15 @@ AUTOMATIC TRIGGER:
 [4] = hitbox.height, [5] = cutsceneName
 
 
-POWERUP:
-[0] = powerup (String), [1] = hitbox.x, [2] = hitbox.y
+ALL ENTITIES:
+[0] = name (String), [1] = hitbox.x, [2] = hitbox.y, [3] = direction (int), [4] = shootTimer
 
-TARGET:
-[0] = target (String), [1] = xPos (int), [2] = yPos (int)
-
-DRONE:
-[0] = drone (String), [1] = xPos (int), [2] = yPos (int)
-* ShootInterval : 100 - 140
-
-SMALL SHIP
-[0] = smallShip (String), [1] = xPos (int), [2] = yPos (int), [3] = direction (String)
-* direction is 'right' or 'left'
-
-OCTADRONE:
-[0] = octaDrone (String), [1] = xPos (int), [2] = yPos (int), [3] = shootTimer (int)
-* shootTimer: 60 - 180
-* The octaDrone only shoots once.
-
-TANKDRONE
-[0] = tankDrone (String), [1] = xPos (int), [2] = yPos (int)
-
-BLASTERDRONE
-[0] = blasterDrone (String), [1] = xPos (int), [2] = yPos (int)
+NAMES:
+POWERUP : powerup
+TARGET: target 
+DRONE: drone (ShootInterval : 100 - 140)
+SMALL SHIP: smallShip
+OCTADRONE: octaDrone (shootTimer: 60 - 180. The octaDrone only shoots once)
+TANKDRONE: tankDrone
+BLASTERDRONE: blasterDrone
+REAPERDRONE: reaperDrone
