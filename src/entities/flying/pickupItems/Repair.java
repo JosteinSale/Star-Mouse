@@ -1,4 +1,4 @@
-package entities.flying;
+package entities.flying.pickupItems;
 
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
@@ -8,29 +8,31 @@ import java.awt.image.BufferedImage;
 import entities.Entity;
 import main.Game;
 import utils.LoadSave;
-import static utils.Constants.Flying.Sprites.POWERUP_SPRITE_SIZE;
-import static utils.Constants.Flying.TypeConstants.POWERUP;
 
-public class Powerup extends Entity implements PickupItem {
+import static utils.Constants.Flying.Sprites.REPAIR_SPRITE_SIZE;
+import static utils.Constants.Flying.TypeConstants.REPAIR;
+
+public class Repair extends Entity implements PickupItem {
     private BufferedImage[] animations;
     private float startY;
     private int aniIndex;
     private int aniTick;
-    private int aniTickPerFrame = 5;
+    private int aniTickPerFrame = 7;
     private boolean active = true;
+    private int healthIncrease = 100;
 
-    public Powerup(Float hitbox) {
+    public Repair(Float hitbox) {
         super(hitbox);
         startY = hitbox.y;
         loadAnimations();
     }
 
     private void loadAnimations() {
-        BufferedImage img = LoadSave.getFlyImageSprite(LoadSave.POWERUP_SPRITE);
-        this.animations = new BufferedImage[7];
+        BufferedImage img = LoadSave.getFlyImageSprite(LoadSave.REPAIR_SPRITE);
+        this.animations = new BufferedImage[4];
         for (int i = 0; i < animations.length; i++) {
             animations[i] = img.getSubimage(
-                i * POWERUP_SPRITE_SIZE, 0, POWERUP_SPRITE_SIZE, POWERUP_SPRITE_SIZE);
+                i * REPAIR_SPRITE_SIZE, 0, REPAIR_SPRITE_SIZE, REPAIR_SPRITE_SIZE);
         }
     }
 
@@ -40,7 +42,7 @@ public class Powerup extends Entity implements PickupItem {
         if (aniTick == aniTickPerFrame) {
             aniIndex++;
             aniTick = 0;
-            if (aniIndex > 6) {
+            if (aniIndex > 3) {
                 aniIndex = 0;
             }
         }
@@ -51,10 +53,10 @@ public class Powerup extends Entity implements PickupItem {
         if (active) {
             g.drawImage(
             animations[aniIndex], 
-            (int) ((hitbox.x - 28) * Game.SCALE), 
-            (int) ((hitbox.y - 20) * Game.SCALE), 
-            (int) (POWERUP_SPRITE_SIZE * 3 * Game.SCALE),
-            (int) (POWERUP_SPRITE_SIZE * 3 * Game.SCALE), null);
+            (int) ((hitbox.x - 15) * Game.SCALE), 
+            (int) ((hitbox.y - 15) * Game.SCALE), 
+            (int) (REPAIR_SPRITE_SIZE * 3 * Game.SCALE),
+            (int) (REPAIR_SPRITE_SIZE * 3 * Game.SCALE), null);
         }
     }
 
@@ -70,8 +72,12 @@ public class Powerup extends Entity implements PickupItem {
         return this.hitbox;
     }
 
+    public int getHealth() {
+        return this.healthIncrease;
+    }
+
     public int getType() {
-        return POWERUP;
+        return REPAIR;
     }
 
     @Override
@@ -79,4 +85,5 @@ public class Powerup extends Entity implements PickupItem {
         this.active = true;
         hitbox.y = startY + y;
     }
+    
 }

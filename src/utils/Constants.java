@@ -91,6 +91,8 @@ public class Constants {
             public static final int DRONE_PROJECTILE = 1;
             public static final int OCTA_PROJECTILE = 2;
             public static final int BOMB_PROJECTILE = 3;
+            public static final int REAPER_PROJECTILE = 4;
+            public static final int FLAME_PROJECTILE = 4;
 
             // Enemey types
             public static final int TARGET = 0;
@@ -100,6 +102,7 @@ public class Constants {
             public static final int TANKDRONE = 4;
             public static final int BLASTERDRONE = 5;
             public static final int REAPERDRONE = 6;
+            public static final int FLAMEDRONE = 7;
 
             // Pickup items
             public static final int POWERUP = 0;
@@ -121,11 +124,17 @@ public class Constants {
             public static final int PLAYER_PRJT_SPRITE_H = 25;
             public static final int DRONE_PRJT_SPRITE_SIZE = 37;
             public static final int OCTADRONE_PRJT_SPRITE_SIZE = 28;
+            public static final int REAPERDRONE_PRJT_SPRITE_W = 114;
+            public static final int REAPERDRONE_PRJT_SPRITE_H = 17;
+            public static final int FLAME_PRJT_SPRITE_W = 150;
+            public static final int FLAME_PRJT_SPRITE_H = 80;
             public static final int TARGET_SPRITE_SIZE = 20;
             public static final int DRONE_SPRITE_SIZE = 30;
             public static final int SMALLSHIP_SPRITE_SIZE = 30;
             public static final int OCTADRONE_SPRITE_SIZE = 30;
             public static final int TANKDRONE_SPRITE_SIZE = 30;
+            public static final int FLAMEDRONE_SPRITE_WIDTH = 132;
+            public static final int FLAMEDRONE_SPRITE_HEIGHT = 128;
             public static final int REAPERDRONE_SPRITE_WIDTH = 210;
             public static final int REAPERDRONE_SPRITE_HEIGHT = 80;
             public static final int BLASTERDRONE_SPRITE_SIZE = 30;

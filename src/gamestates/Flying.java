@@ -11,10 +11,10 @@ import audio.AudioPlayer;
 import cutscenes.Cutscene;
 import cutscenes.CutsceneManager2;
 import entities.exploring.AutomaticTrigger;
-import entities.flying.Enemy;
-import entities.flying.EnemyManager;
-import entities.flying.PickupItem;
 import entities.flying.PlayerFly;
+import entities.flying.enemies.Enemy;
+import entities.flying.enemies.EnemyManager;
+import entities.flying.pickupItems.PickupItem;
 import game_events.*;
 import main.Game;
 import misc.ProgressValues;
@@ -466,5 +466,10 @@ public class Flying extends State implements Statemethods {
     /** Is called from Player. Is needed to check teleport collision with big enemies. */
     public ArrayList<Enemy> getBigEnemies() {
         return this.enemyManager.getBigEnemies();
-    } 
+    }
+
+    /** Is called from Player. Is needed for big enemies */
+    public void checkIfDead(Enemy enemy) {
+        this.enemyManager.checkIfDead(enemy);
+    }
 }

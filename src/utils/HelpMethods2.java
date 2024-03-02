@@ -5,18 +5,20 @@ import java.awt.image.BufferedImage;
 
 import entities.Entity;
 import entities.exploring.AutomaticTrigger;
-import entities.flying.BlasterDrone;
-import entities.flying.Bomb;
-import entities.flying.Drone;
-import entities.flying.Enemy;
-import entities.flying.OctaDrone;
-import entities.flying.PickupItem;
-import entities.flying.Powerup;
-import entities.flying.ReaperDrone;
-import entities.flying.Repair;
-import entities.flying.SmallShip;
-import entities.flying.TankDrone;
-import entities.flying.Target;
+import entities.flying.enemies.BlasterDrone;
+import entities.flying.enemies.Drone;
+import entities.flying.enemies.Enemy;
+import entities.flying.enemies.FlameDrone;
+import entities.flying.enemies.OctaDrone;
+import entities.flying.enemies.ReaperDrone;
+import entities.flying.enemies.SmallShip;
+import entities.flying.enemies.TankDrone;
+import entities.flying.enemies.Target;
+import entities.flying.pickupItems.Bomb;
+import entities.flying.pickupItems.PickupItem;
+import entities.flying.pickupItems.Powerup;
+import entities.flying.pickupItems.Repair;
+
 import static utils.Constants.Flying.TypeConstants.*;
 import static utils.HelpMethods.CreateHitbox;
 
@@ -57,6 +59,10 @@ public class HelpMethods2 {
             int shootTimer = Integer.parseInt(lineData[4]);
             ReaperDrone reaperDrone = new ReaperDrone(hitbox, animations, shootTimer);
             return reaperDrone;
+        }
+        else if (type == FLAMEDRONE) {
+            FlameDrone flameDrone = new FlameDrone(hitbox, animations);
+            return flameDrone;
         }
         return null;
     }

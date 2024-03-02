@@ -1,4 +1,4 @@
-package entities.flying;
+package entities.flying.enemies;
 
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import audio.AudioPlayer;
+import entities.flying.PlayerFly;
 import main.Game;
 import projectiles.Explosion;
 import utils.LoadSave;
@@ -30,6 +31,7 @@ public class EnemyManager {
     private BufferedImage[][] tankdroneAnimations;
     private BufferedImage[][] blasterdroneAnimations;
     private BufferedImage[][] reaperdroneAnimations;
+    private BufferedImage[][] flamedroneAnimations;
     private BufferedImage[] explosionAnimation;
     private ArrayList<Explosion> explosions;
     private int collisionDmg = 10;
@@ -74,6 +76,10 @@ public class EnemyManager {
         BufferedImage reaperdroneImg = LoadSave.getFlyImageSprite(LoadSave.REAPERDRONE_SPRITE);
         this.reaperdroneAnimations = GetEnemyAnimations(
             reaperdroneImg, REAPERDRONE_SPRITE_WIDTH, REAPERDRONE_SPRITE_HEIGHT, 2, 4);
+        
+        BufferedImage flamedroneImg = LoadSave.getFlyImageSprite(LoadSave.FLAMEDRONE_SPRITE);
+        this.flamedroneAnimations = GetEnemyAnimations(
+            flamedroneImg, FLAMEDRONE_SPRITE_WIDTH, FLAMEDRONE_SPRITE_HEIGHT, 3, 6);
 
         this.explosionAnimation = new BufferedImage[5];
         BufferedImage explosionImg = LoadSave.getFlyImageSprite(LoadSave.EXPLOSION);
@@ -127,6 +133,11 @@ public class EnemyManager {
                 int height = 150;
                 allEnemies.add(GetEnemy(REAPERDRONE, lineData, width, height, reaperdroneAnimations));
             }
+            else if (lineData[0].equals("flameDrone")) {
+                int width = 120;
+                int height = 120;
+                allEnemies.add(GetEnemy(FLAMEDRONE, lineData, width, height, flamedroneAnimations));
+            }
         }
     }
 
@@ -149,7 +160,11 @@ public class EnemyManager {
         }
     }
 
-    /** Can be called from this object, and the ProjectileHandler */
+    /** Can be called from this object, and the ProjectileHandler.
+     * Checks if the enemy is dead, and if so, plays SFX, increases killed enemies 
+     * and adds explosion.
+     * @param enemy
+    */
     public void checkIfDead(Enemy enemy) {
         if (enemy.isDead()) {
             audioPlayer.playSFX(Audio.SFX_SMALL_EXPLOSION);
@@ -179,16 +194,18 @@ public class EnemyManager {
 
     /** Makes an explosion centered in the enemy's hitbox */
     public void addSmallExplosion(Rectangle2D.Float hb) {
-        float x = (hb.x + hb.width/2) - ((EXPLOSION_SPRITE_SIZE * 3) / 2);
-        float y = (hb.y + hb.height/2) - ((EXPLOSION_SPRITE_SIZE * 3) / 2);
-        explosions.add(new Explosion((int) x, (int) y, true));
+        int size = EXPLOSION_SPRITE_SIZE * 3;
+        float x = (hb.x + hb.width/2) - (size / 2);
+        float y = (hb.y + hb.height/2) - (size / 2);
+        explosions.add(new Explosion((int) x, (int) y, size));
     }
 
     /** Makes a big explosion centered in the enemy's hitbox */
     private void addBigExplosion(Float hb) {
-        float x = (hb.x + hb.width/2) - ((EXPLOSION_SPRITE_SIZE * 8) / 2);
-        float y = (hb.y + hb.height/2) - ((EXPLOSION_SPRITE_SIZE * 8) / 2);
-        explosions.add(new Explosion((int) x, (int) y, false));
+        int size = EXPLOSION_SPRITE_SIZE * 8;
+        float x = (hb.x + hb.width/2) - (size / 2);
+        float y = (hb.y + hb.height/2) - (size / 2);
+        explosions.add(new Explosion((int) x, (int) y, size));
     }
 
     public void draw(Graphics g) {
@@ -198,23 +215,13 @@ public class EnemyManager {
             //enemy.drawHitbox(g);
         }
         for (Explosion ex : explosions) {   // ConcurrentModificationException
-            if (ex.isSmall()) {
-                g.drawImage(
-                explosionAnimation[ex.getAniIndex()],
-                (int) (ex.getX() * Game.SCALE),
-                (int) (ex.getY() * Game.SCALE),
-                (int) (EXPLOSION_SPRITE_SIZE * 3 * Game.SCALE),
-                (int) (EXPLOSION_SPRITE_SIZE * 3 * Game.SCALE),
-                null);
-            } else {
-                g.drawImage(
-                explosionAnimation[ex.getAniIndex()],
-                (int) (ex.getX() * Game.SCALE),
-                (int) (ex.getY() * Game.SCALE),
-                (int) (EXPLOSION_SPRITE_SIZE * 8 * Game.SCALE),
-                (int) (EXPLOSION_SPRITE_SIZE * 8 * Game.SCALE),
-                null);
-            }
+            g.drawImage(
+            explosionAnimation[ex.getAniIndex()],
+            (int) (ex.getX() * Game.SCALE),
+            (int) (ex.getY() * Game.SCALE),
+            (int) (ex.getSize() * Game.SCALE),
+            (int) (ex.getSize() * Game.SCALE),
+            null);
             
         }
     }

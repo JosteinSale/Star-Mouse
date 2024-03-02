@@ -1,4 +1,8 @@
-package entities.flying;
+package entities.flying.enemies;
+
+import static utils.Constants.Flying.Sprites.FLAMEDRONE_SPRITE_HEIGHT;
+import static utils.Constants.Flying.Sprites.FLAMEDRONE_SPRITE_WIDTH;
+import static utils.Constants.Flying.TypeConstants.FLAMEDRONE;
 
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
@@ -6,17 +10,16 @@ import java.awt.image.BufferedImage;
 
 import entities.Entity;
 import main.Game;
-import static utils.Constants.Flying.TypeConstants.TANKDRONE;
-import static utils.Constants.Flying.Sprites.DRONE_SPRITE_SIZE;
 
-public class TankDrone extends Entity implements Enemy {
+public class FlameDrone extends Entity implements Enemy {
    // Actions
+   private static final int PREPARING_TO_SHOOT = 2;
    private static final int IDLE = 1;
    private static final int TAKING_DAMAGE = 0;
 
    BufferedImage[][] animations;
    private float startY;
-   private int maxHP = 300;
+   private int maxHP = 120;
    private int HP = maxHP;
    private boolean onScreen = false;
    private boolean dead = false;
@@ -24,11 +27,14 @@ public class TankDrone extends Entity implements Enemy {
    private int action = IDLE;
    private int aniIndex = 0;
    private int aniTick;
-   private int aniTickPerFrame = 3;
+   private int aniTickPerFrame = 3;   // This is set to 10 during PREPARE
    private int damageFrames = 10;
    private int damageTick = 0;
 
-   public TankDrone(Rectangle2D.Float hitbox, BufferedImage[][] animations) {
+   private int shootTick = 0;
+   private int shootInterval = 30;  // First it goes to 30, then it it takes 60 frames to PREPARE
+
+   public FlameDrone(Rectangle2D.Float hitbox, BufferedImage[][] animations) {
       super(hitbox);
       startY = hitbox.y;
       this.animations = animations;
@@ -37,9 +43,10 @@ public class TankDrone extends Entity implements Enemy {
    @Override
    public void update(float levelYSpeed) {
       hitbox.y += levelYSpeed;
-      onScreen = (((hitbox.y + hitbox.height) > 0) && (hitbox.y < Game.GAME_DEFAULT_HEIGHT));
+      onScreen = (((hitbox.y + hitbox.height + 15) > 0) && ((hitbox.y - 20) < Game.GAME_DEFAULT_HEIGHT));
       if (onScreen) {
          updateAniTick();
+         updateShootTick();
       }
    }
 
@@ -60,7 +67,22 @@ public class TankDrone extends Entity implements Enemy {
       }
    }
 
+   private void updateShootTick() {
+      shootTick++;
+      if (shootTick == 30) {
+         action = PREPARING_TO_SHOOT;
+         aniTickPerFrame = 5;
+         aniTick = 0;
+         aniIndex = 0;
+      }
+   }
+
    public boolean canShoot() {
+      if (shootTick == 60) {
+         aniTickPerFrame = 3;
+         action = IDLE;
+         return true;
+      }
       return false;
    }
 
@@ -71,13 +93,15 @@ public class TankDrone extends Entity implements Enemy {
 
    @Override
    public int getType() {
-      return TANKDRONE;
+      return FLAMEDRONE;
    }
 
    @Override
    public void takeDamage(int damage) {
       this.HP -= damage;
-      this.action = TAKING_DAMAGE;
+      if (this.action != PREPARING_TO_SHOOT) {
+         this.action = TAKING_DAMAGE;
+      }
       this.damageTick = damageFrames;
       if (HP <= 0) {
          dead = true;
@@ -99,7 +123,9 @@ public class TankDrone extends Entity implements Enemy {
       return true;
    }
 
-   public void resetShootTick() {}
+   public void resetShootTick() {
+      // Do nothing
+   }
 
    @Override
    public void drawHitbox(Graphics g) {
@@ -108,18 +134,21 @@ public class TankDrone extends Entity implements Enemy {
 
    @Override
    public void draw(Graphics g) {
+      drawHitbox(g);
       g.drawImage(
             animations[action][aniIndex],
-            (int) ((hitbox.x - 5) * Game.SCALE),
-            (int) (hitbox.y * Game.SCALE),
-            (int) (DRONE_SPRITE_SIZE * 3 * Game.SCALE),
-            (int) (DRONE_SPRITE_SIZE * 3 * Game.SCALE), null);
+            (int) ((hitbox.x - 138) * Game.SCALE),
+            (int) ((hitbox.y - 30) * Game.SCALE),
+            (int) (FLAMEDRONE_SPRITE_WIDTH * 3 * Game.SCALE),
+            (int) (FLAMEDRONE_SPRITE_HEIGHT * 3 * Game.SCALE), null);
    }
 
    private int getDroneSpriteAmount() {
       switch (action) {
          case TAKING_DAMAGE:
             return 3;
+         case PREPARING_TO_SHOOT:
+            return 6;
          case IDLE:
          default:
             return 1;
@@ -136,5 +165,6 @@ public class TankDrone extends Entity implements Enemy {
       aniTick = 0;
       aniIndex = 0;
       damageTick = 0;
+      shootTick = 0;
    }
 }

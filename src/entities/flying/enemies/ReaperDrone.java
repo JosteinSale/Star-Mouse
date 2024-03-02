@@ -1,48 +1,54 @@
-package entities.flying;
+package entities.flying.enemies;
 
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Float;
 import java.awt.image.BufferedImage;
 
 import entities.Entity;
 import main.Game;
+import static utils.Constants.Flying.TypeConstants.REAPERDRONE;
+import static utils.Constants.Flying.Sprites.REAPERDRONE_SPRITE_WIDTH;
+import static utils.Constants.Flying.Sprites.REAPERDRONE_SPRITE_HEIGHT;
 
-import static utils.Constants.Flying.TypeConstants.TARGET;
-import static utils.Constants.Flying.Sprites.TARGET_SPRITE_SIZE;
-
-
-public class Target extends Entity implements Enemy {
+/** The ReaperDrone shoots 3 wide, fast projectiles in fast succession.
+ * They are not hard to dodge or kill, but has an imposing effect.
+ */
+public class ReaperDrone extends Entity implements Enemy {
     // Actions
     private static final int IDLE = 1;
     private static final int TAKING_DAMAGE = 0;
 
     BufferedImage[][] animations;
     private float startY;
-    private int maxHP = 25;
+    private int maxHP = 120;
     private int HP = maxHP;
     private boolean onScreen = false;   
     private boolean dead = false;
 
     private int action = IDLE;
-    private int aniIndex;
+    private int aniIndex = 0;
     private int aniTick;
     private int aniTickPerFrame = 3;
     private int damageFrames = 10;
     private int damageTick = 0;
 
-    public Target(Rectangle2D.Float hitbox, BufferedImage[][] animations) {
+    private int shootTick = 0;
+    private int shootInterval;
+
+    public ReaperDrone(Rectangle2D.Float hitbox, BufferedImage[][] animations, int shootInterval) {
         super(hitbox);
         startY = hitbox.y;
         this.animations = animations;
+        this.shootInterval = shootInterval;
     }
 
     @Override
     public void update(float levelYSpeed) {
         hitbox.y += levelYSpeed;
-        onScreen = (((hitbox.y + hitbox.height) > 0) && (hitbox.y < Game.GAME_DEFAULT_HEIGHT));
+        onScreen = (((hitbox.y + hitbox.height + 50) > 0) && ((hitbox.y - 50) < Game.GAME_DEFAULT_HEIGHT));
         if (onScreen) {
             updateAniTick();
+            updateShootTick();
         }
     }
 
@@ -51,7 +57,7 @@ public class Target extends Entity implements Enemy {
         if (aniTick >= aniTickPerFrame) {
             aniTick = 0;
             aniIndex ++;
-            if (aniIndex >= getTargetSpriteAmount()) {
+            if (aniIndex >= getDroneSpriteAmount()) {
                 aniIndex = 0;
             }
         }
@@ -61,17 +67,28 @@ public class Target extends Entity implements Enemy {
                 action = IDLE;
             }
         }
-        
+    }
+
+    private void updateShootTick() {
+        shootTick ++;
+    }
+
+    public boolean canShoot() {
+        return (
+            shootTick == shootInterval || 
+            shootTick == (shootInterval + 20) || 
+            shootTick == (shootInterval + 40)
+            );
     }
 
     @Override
-    public Float getHitbox() {
+    public Rectangle2D.Float getHitbox() {
         return this.hitbox;
     }
 
     @Override
     public int getType() {
-        return TARGET;
+        return REAPERDRONE;
     }
 
     @Override
@@ -95,6 +112,15 @@ public class Target extends Entity implements Enemy {
     }
 
     @Override
+    public boolean isSmall() {
+        return false;
+    }
+
+    public void resetShootTick() {
+        // Do nothing
+    }
+
+    @Override
     public void drawHitbox(Graphics g) {
         this.drawHitbox(g, 0, 0);
     }
@@ -103,34 +129,21 @@ public class Target extends Entity implements Enemy {
     public void draw(Graphics g) {
         g.drawImage(
             animations[action][aniIndex], 
-            (int) (hitbox.x * Game.SCALE), 
-            (int) (hitbox.y * Game.SCALE), 
-            (int) (TARGET_SPRITE_SIZE * 3 * Game.SCALE), 
-            (int) (TARGET_SPRITE_SIZE * 3 * Game.SCALE), null);
+            (int) ((hitbox.x - 60) * Game.SCALE), 
+            (int) ((hitbox.y - 45)* Game.SCALE), 
+            (int) (REAPERDRONE_SPRITE_WIDTH * 3 * Game.SCALE), 
+            (int) (REAPERDRONE_SPRITE_HEIGHT* 3 * Game.SCALE), null);
     }
 
-    private int getTargetSpriteAmount() {
+    private int getDroneSpriteAmount() {
         switch (action) {
-            case TAKING_DAMAGE:          
-                return 4;
+            case TAKING_DAMAGE:     
+                return 3;     
             case IDLE:
             default:
                 return 1;
         }
     }
-
-    @Override
-    public boolean canShoot() {
-        return false;
-    }
-
-    @Override
-    public boolean isSmall() {
-      return true;
-    }
-
-    @Override
-    public void resetShootTick() {}
 
     @Override
    public void resetTo(float y) {
@@ -142,5 +155,6 @@ public class Target extends Entity implements Enemy {
       aniTick = 0;
       aniIndex = 0;
       damageTick = 0;
+      shootTick = 0;
    }
 }

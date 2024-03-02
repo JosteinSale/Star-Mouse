@@ -48,7 +48,6 @@ public class OctaProjectile extends Entity implements Projectile {
     public void updateCollisionPixels() {
         collisionPixels[0][0] = (int) (hitbox.x + hitbox.width/2) / 3;    // x - i midten
         collisionPixels[0][1] = (int) (hitbox.y + hitbox.height/2) / 3;    // y - i midten
-
     }
 
     @Override

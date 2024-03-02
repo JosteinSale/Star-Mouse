@@ -6,16 +6,18 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import audio.AudioPlayer;
-import entities.flying.Enemy;
-import entities.flying.EnemyManager;
 import entities.flying.PlayerFly;
+import entities.flying.enemies.Enemy;
+import entities.flying.enemies.EnemyManager;
 import main.Game;
 import misc.ProgressValues;
 import utils.LoadSave;
 
 import static utils.Constants.Flying.Sprites.*;
 import static utils.Constants.Flying.TypeConstants.DRONE;
+import static utils.Constants.Flying.TypeConstants.FLAMEDRONE;
 import static utils.Constants.Flying.TypeConstants.OCTADRONE;
+import static utils.Constants.Flying.TypeConstants.REAPERDRONE;
 import static utils.Constants.Flying.TypeConstants.BLASTERDRONE;
 import static utils.Constants.Flying.TypeConstants.BOMB_PROJECTILE;
 import static utils.HelpMethods.IsSolid;
@@ -39,6 +41,8 @@ public class ProjectileHandler {
     private BufferedImage bombImg;
     private BufferedImage dronePrjctImg;
     private BufferedImage octadronePrjctImg;
+    private BufferedImage reaperdronePrjctImg;
+    private BufferedImage flamedronePrjctImg;
     private BufferedImage[] hitAnimation;
     private BufferedImage[] bombExplosionAnimation;
 
@@ -74,6 +78,8 @@ public class ProjectileHandler {
         this.bombImg = LoadSave.getFlyImageSprite(LoadSave.BOMB_SPRITE);
         this.dronePrjctImg = LoadSave.getFlyImageSprite(LoadSave.DRONE_PROJECTILE);
         this.octadronePrjctImg = LoadSave.getFlyImageSprite(LoadSave.OCTADRONE_PROJECTILE);
+        this.reaperdronePrjctImg = LoadSave.getFlyImageSprite(LoadSave.REAPERDRONE_PROJECTILE);
+        this.flamedronePrjctImg = LoadSave.getFlyImageSprite(LoadSave.FLAME_PROJECTILE);
 
         this.hitAnimation = new BufferedImage[4];
         BufferedImage hitImg = LoadSave.getFlyImageSprite(LoadSave.PROJECTILE_HIT);
@@ -153,12 +159,12 @@ public class ProjectileHandler {
         if (type == DRONE) {
             Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
                 hitbox.x + 25, hitbox.y + 66, 32, 33);
-            this.allProjectiles.add(new DroneProjectile(prjctHitbox, dronePrjctImg));
+            this.allProjectiles.add(new FlameProjectile(prjctHitbox, dronePrjctImg));
         }
         else if (type == BLASTERDRONE) {
             Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
                 hitbox.x + 15, hitbox.y + 90, 32, 33);
-            this.allProjectiles.add(new DroneProjectile(prjctHitbox, dronePrjctImg));
+            this.allProjectiles.add(new FlameProjectile(prjctHitbox, dronePrjctImg));
         }
         else if (type == OCTADRONE) {
             double radius = hitbox.getWidth();
@@ -172,6 +178,16 @@ public class ProjectileHandler {
                 (float) x, (float) y, OCTADRONE_PRJT_SPRITE_SIZE - 3, OCTADRONE_PRJT_SPRITE_SIZE - 3);
                 this.allProjectiles.add(new OctaProjectile(prjctHitbox, octadronePrjctImg, xSpeed, ySpeed));
             }
+        }
+        else if (type == REAPERDRONE) {
+            Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
+                hitbox.x + 85, hitbox.y + 160, 300, 24);
+            this.allProjectiles.add(new ReaperProjectile(prjctHitbox, reaperdronePrjctImg));
+        }
+        else if (type == FLAMEDRONE) {
+            Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
+                (hitbox.x - 130), (hitbox.y + 160), 378,195);
+            this.allProjectiles.add(new FlameProjectile(prjctHitbox, flamedronePrjctImg));
         }
     }
 

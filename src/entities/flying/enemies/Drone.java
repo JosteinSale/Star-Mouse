@@ -1,4 +1,4 @@
-package entities.flying;
+package entities.flying.enemies;
 
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;

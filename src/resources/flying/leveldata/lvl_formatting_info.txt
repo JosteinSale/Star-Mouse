@@ -13,7 +13,8 @@ POWERUP : powerup
 TARGET: target 
 DRONE: drone (ShootInterval : 100 - 140)
 SMALL SHIP: smallShip
-OCTADRONE: octaDrone (shootTimer: 60 - 180. The octaDrone only shoots once)
+OCTADRONE: octaDrone (shootTimer: 60 - 180. It only shoots once)
 TANKDRONE: tankDrone
 BLASTERDRONE: blasterDrone
 REAPERDRONE: reaperDrone
+FLAMEDRONE: flameDrone (shootTimer is set at 30. It only shoots once)

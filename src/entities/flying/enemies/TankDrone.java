@@ -1,4 +1,4 @@
-package entities.flying;
+package entities.flying.enemies;
 
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
@@ -6,17 +6,17 @@ import java.awt.image.BufferedImage;
 
 import entities.Entity;
 import main.Game;
-import static utils.Constants.Flying.TypeConstants.BLASTERDRONE;
+import static utils.Constants.Flying.TypeConstants.TANKDRONE;
 import static utils.Constants.Flying.Sprites.DRONE_SPRITE_SIZE;
 
-public class BlasterDrone extends Entity implements Enemy {
+public class TankDrone extends Entity implements Enemy {
    // Actions
    private static final int IDLE = 1;
    private static final int TAKING_DAMAGE = 0;
 
    BufferedImage[][] animations;
    private float startY;
-   private int maxHP = 80;
+   private int maxHP = 300;
    private int HP = maxHP;
    private boolean onScreen = false;
    private boolean dead = false;
@@ -28,10 +28,7 @@ public class BlasterDrone extends Entity implements Enemy {
    private int damageFrames = 10;
    private int damageTick = 0;
 
-   private int shootTick = 0;
-   private int shootInterval = 60;
-
-   public BlasterDrone(Rectangle2D.Float hitbox, BufferedImage[][] animations) {
+   public TankDrone(Rectangle2D.Float hitbox, BufferedImage[][] animations) {
       super(hitbox);
       startY = hitbox.y;
       this.animations = animations;
@@ -40,7 +37,6 @@ public class BlasterDrone extends Entity implements Enemy {
    @Override
    public void update(float levelYSpeed) {
       hitbox.y += levelYSpeed;
-      updateShootTick();
       onScreen = (((hitbox.y + hitbox.height) > 0) && (hitbox.y < Game.GAME_DEFAULT_HEIGHT));
       if (onScreen) {
          updateAniTick();
@@ -64,19 +60,8 @@ public class BlasterDrone extends Entity implements Enemy {
       }
    }
 
-   /**
-    * Later: we might want to customize shootInterval so that each enemy
-    * has a specific shootinterval, and the tick starts when enemy is onScreen.
-    */
-   private void updateShootTick() {
-      shootTick++;
-      if (shootTick > shootInterval) {
-         shootTick = 0;
-      }
-   }
-
    public boolean canShoot() {
-      return shootTick == shootInterval;
+      return false;
    }
 
    @Override
@@ -86,7 +71,7 @@ public class BlasterDrone extends Entity implements Enemy {
 
    @Override
    public int getType() {
-      return BLASTERDRONE;
+      return TANKDRONE;
    }
 
    @Override
@@ -114,9 +99,7 @@ public class BlasterDrone extends Entity implements Enemy {
       return true;
    }
 
-   public void resetShootTick() {
-      this.shootTick = 0;
-   }
+   public void resetShootTick() {}
 
    @Override
    public void drawHitbox(Graphics g) {
@@ -127,7 +110,7 @@ public class BlasterDrone extends Entity implements Enemy {
    public void draw(Graphics g) {
       g.drawImage(
             animations[action][aniIndex],
-            (int) ((hitbox.x - 15) * Game.SCALE),
+            (int) ((hitbox.x - 5) * Game.SCALE),
             (int) (hitbox.y * Game.SCALE),
             (int) (DRONE_SPRITE_SIZE * 3 * Game.SCALE),
             (int) (DRONE_SPRITE_SIZE * 3 * Game.SCALE), null);
@@ -153,6 +136,5 @@ public class BlasterDrone extends Entity implements Enemy {
       aniTick = 0;
       aniIndex = 0;
       damageTick = 0;
-      shootTick = 0;
    }
 }

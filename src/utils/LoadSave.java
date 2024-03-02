@@ -68,6 +68,7 @@ public class LoadSave {
     public static final String PLAYER_PROJECTILE_GREEN = "player_prjct2.png";
     public static final String DRONE_PROJECTILE = "drone_projectile.png";
     public static final String OCTADRONE_PROJECTILE = "octaDrone_projectile.png";
+    public static final String REAPERDRONE_PROJECTILE = "reaper_projectile.png";
     public static final String PROJECTILE_HIT = "sprites_projectileHit.png";
     public static final String EXPLOSION = "sprites_explosion.png";
     public static final String TARGET_SPRITE = "sprites_target.png";
@@ -77,6 +78,8 @@ public class LoadSave {
     public static final String TANKDRONE_SPRITE = "sprites_tankDrone.png";
     public static final String BLASTERDRONE_SPRITE = "sprites_blasterDrone.png";
     public static final String REAPERDRONE_SPRITE = "sprites_reaperDrone.png";
+    public static final String FLAMEDRONE_SPRITE = "sprites_flameDrone.png";
+    public static final String FLAME_PROJECTILE = "sprites_droneFlame.png";
 
     public static final String ALL_ENTITY_SPRITES = "sprites_all.png";
 

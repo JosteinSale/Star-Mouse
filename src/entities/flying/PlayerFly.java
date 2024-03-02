@@ -16,6 +16,7 @@ import static utils.Constants.Flying.Sprites.SHIP_SPRITE_HEIGHT;
 import static utils.HelpMethods.IsSolid;
 
 import entities.Entity;
+import entities.flying.enemies.Enemy;
 import main.Game;
 import ui.StatusDisplay;
 import utils.LoadSave;
@@ -278,6 +279,7 @@ public class PlayerFly extends Entity {
                 if (hitbox.intersects(e.getHitbox())) {
                     undoTeleportAndTakeDamage();
                     e.takeDamage(10);
+                    game.getFlying().checkIfDead(e);
                     while (!hitbox.intersects(e.getHitbox())) {
                         hitbox.x += (teleportDistance/10 * flipX);
                     }

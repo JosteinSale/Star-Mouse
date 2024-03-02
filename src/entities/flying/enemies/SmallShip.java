@@ -1,4 +1,4 @@
-package entities.flying;
+package entities.flying.enemies;
 
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
@@ -6,17 +6,21 @@ import java.awt.image.BufferedImage;
 
 import entities.Entity;
 import main.Game;
-import static utils.Constants.Flying.Sprites.OCTADRONE_SPRITE_SIZE;
-import static utils.Constants.Flying.TypeConstants.OCTADRONE;
+import static utils.Constants.Flying.TypeConstants.SMALL_SHIP;
+import static utils.Constants.Flying.Sprites.SMALLSHIP_SPRITE_SIZE;
 
-public class OctaDrone extends Entity implements Enemy {
+public class SmallShip extends Entity implements Enemy{
     // Actions
     private static final int IDLE = 1;
     private static final int TAKING_DAMAGE = 0;
 
+    private int direction;            // 1 = right, -1 = left
+    private int xSpeed = 2;
+
     BufferedImage[][] animations;
     private float startY;
-    private int maxHP = 120;
+    private float startX;
+    private int maxHP = 20;
     private int HP = maxHP;
     private boolean onScreen = false;   
     private boolean dead = false;
@@ -28,14 +32,13 @@ public class OctaDrone extends Entity implements Enemy {
     private int damageFrames = 10;
     private int damageTick = 0;
 
-    private int shootTick = 0;
-    private int shootTimer;
 
-    public OctaDrone(Rectangle2D.Float hitbox, BufferedImage[][] animations, int shootTimer) {
+    public SmallShip(Rectangle2D.Float hitbox, BufferedImage[][] animations, int direction) {
         super(hitbox);
+        startX = hitbox.x;
         startY = hitbox.y;
         this.animations = animations;
-        this.shootTimer = shootTimer;
+        this.direction = direction;
     }
 
     @Override
@@ -44,7 +47,7 @@ public class OctaDrone extends Entity implements Enemy {
         onScreen = (((hitbox.y + hitbox.height) > 0) && (hitbox.y < Game.GAME_DEFAULT_HEIGHT));
         if (onScreen) {
             updateAniTick();
-            updateShootTick();
+            this.hitbox.x += xSpeed * direction;
         }
     }
 
@@ -53,7 +56,7 @@ public class OctaDrone extends Entity implements Enemy {
         if (aniTick >= aniTickPerFrame) {
             aniTick = 0;
             aniIndex ++;
-            if (aniIndex >= getDroneSpriteAmount()) {
+            if (aniIndex >= getSmallShipSpriteAmount()) {
                 aniIndex = 0;
             }
         }
@@ -65,18 +68,8 @@ public class OctaDrone extends Entity implements Enemy {
         }
     }
 
-    /** 
-     * This enemy can only shoot once in its lifetime
-     */
-    private void updateShootTick() {
-        shootTick ++;
-    }
-
-    /** 
-     * This enemy can only shoot once in its lifetime
-     */
     public boolean canShoot() {
-        return shootTick == shootTimer;
+        return false;
     }
 
     @Override
@@ -86,7 +79,7 @@ public class OctaDrone extends Entity implements Enemy {
 
     @Override
     public int getType() {
-        return OCTADRONE;
+        return SMALL_SHIP;
     }
 
     @Override
@@ -114,8 +107,6 @@ public class OctaDrone extends Entity implements Enemy {
       return true;
     }
 
-    public void resetShootTick() {}
-
     @Override
     public void drawHitbox(Graphics g) {
         this.drawHitbox(g, 0, 0);
@@ -125,13 +116,22 @@ public class OctaDrone extends Entity implements Enemy {
     public void draw(Graphics g) {
         g.drawImage(
             animations[action][aniIndex], 
-            (int) ((hitbox.x - 5) * Game.SCALE), 
-            (int) ((hitbox.y - 5) * Game.SCALE), 
-            (int) (OCTADRONE_SPRITE_SIZE * 3 * Game.SCALE), 
-            (int) (OCTADRONE_SPRITE_SIZE * 3 * Game.SCALE), null);
+            (int) ((hitbox.x - 16 + getFlipX()) * Game.SCALE), 
+            (int) ((hitbox.y - 30)* Game.SCALE), 
+            (int) (SMALLSHIP_SPRITE_SIZE * 3 * direction * Game.SCALE), 
+            (int) (SMALLSHIP_SPRITE_SIZE * 3 * Game.SCALE), null);
     }
 
-    private int getDroneSpriteAmount() {
+    private float getFlipX() {
+        if (direction == 1) {
+            return 0;
+        }
+        else {
+            return (hitbox.width + 28);
+        }
+    }
+
+    private int getSmallShipSpriteAmount() {
         switch (action) {
             case TAKING_DAMAGE:     
                 return 4;     
@@ -142,8 +142,12 @@ public class OctaDrone extends Entity implements Enemy {
     }
 
     @Override
+    public void resetShootTick() {}
+
+    @Override
    public void resetTo(float y) {
       hitbox.y = startY + y;
+      hitbox.x = startX;
       action = IDLE;
       HP = maxHP;
       onScreen = false;
@@ -151,6 +155,6 @@ public class OctaDrone extends Entity implements Enemy {
       aniTick = 0;
       aniIndex = 0;
       damageTick = 0;
-      shootTick = 0;
    }
+    
 }
