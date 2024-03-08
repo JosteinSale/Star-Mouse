@@ -116,6 +116,11 @@ public class ReaperDrone extends Entity implements Enemy {
         return false;
     }
 
+    @Override
+    public int getDir() {
+        return 0; // No dir
+    }
+
     public void resetShootTick() {
         // Do nothing
     }

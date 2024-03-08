@@ -18,6 +18,7 @@ import static utils.Constants.Flying.TypeConstants.DRONE;
 import static utils.Constants.Flying.TypeConstants.FLAMEDRONE;
 import static utils.Constants.Flying.TypeConstants.OCTADRONE;
 import static utils.Constants.Flying.TypeConstants.REAPERDRONE;
+import static utils.Constants.Flying.TypeConstants.WASPDRONE;
 import static utils.Constants.Flying.TypeConstants.BLASTERDRONE;
 import static utils.Constants.Flying.TypeConstants.BOMB_PROJECTILE;
 import static utils.HelpMethods.IsSolid;
@@ -149,22 +150,22 @@ public class ProjectileHandler {
     private void checkEnemeyShoot() {
         for (Enemy enemy : enemyManager.getActiveEnemiesOnScreen()) {
             if (enemy.canShoot()) {
-                addEnemeyProjectile(enemy.getType(), enemy.getHitbox());
+                addEnemeyProjectile(enemy.getType(), enemy.getHitbox(), enemy.getDir());
                 enemy.resetShootTick();
             }
         }
     } 
 
-    private void addEnemeyProjectile(int type, Rectangle2D.Float hitbox) {
+    private void addEnemeyProjectile(int type, Rectangle2D.Float hitbox, int dir) {
         if (type == DRONE) {
             Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
                 hitbox.x + 25, hitbox.y + 66, 32, 33);
-            this.allProjectiles.add(new FlameProjectile(prjctHitbox, dronePrjctImg));
+            this.allProjectiles.add(new DroneProjectile(prjctHitbox, dronePrjctImg));
         }
         else if (type == BLASTERDRONE) {
             Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
                 hitbox.x + 15, hitbox.y + 90, 32, 33);
-            this.allProjectiles.add(new FlameProjectile(prjctHitbox, dronePrjctImg));
+            this.allProjectiles.add(new DroneProjectile(prjctHitbox, dronePrjctImg));
         }
         else if (type == OCTADRONE) {
             double radius = hitbox.getWidth();
@@ -188,6 +189,22 @@ public class ProjectileHandler {
             Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
                 (hitbox.x - 130), (hitbox.y + 160), 378,195);
             this.allProjectiles.add(new FlameProjectile(prjctHitbox, flamedronePrjctImg));
+        }
+        else if (type == WASPDRONE) {
+            if (dir == 1) {  // Facing right
+                int xSpeed = 3;
+                int ySpeed = 4;
+                Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
+                    hitbox.x + 75, hitbox.y + 95, 28, 28);
+                this.allProjectiles.add(new OctaProjectile(prjctHitbox, octadronePrjctImg, xSpeed, ySpeed));
+            }
+            else {  // Facing left
+                int xSpeed = -3;
+                int ySpeed = 4;
+                Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
+                    hitbox.x + 5, hitbox.y + 95, 28, 28);
+                this.allProjectiles.add(new OctaProjectile(prjctHitbox, octadronePrjctImg, xSpeed, ySpeed));
+            }
         }
     }
 

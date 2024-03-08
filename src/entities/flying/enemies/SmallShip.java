@@ -103,6 +103,11 @@ public class SmallShip extends Entity implements Enemy{
     }
 
     @Override
+    public int getDir() {
+        return this.direction;
+    }
+
+    @Override
     public boolean isSmall() {
       return true;
     }

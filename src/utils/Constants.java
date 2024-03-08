@@ -103,6 +103,8 @@ public class Constants {
             public static final int BLASTERDRONE = 5;
             public static final int REAPERDRONE = 6;
             public static final int FLAMEDRONE = 7;
+            public static final int WASPDRONE = 8;
+            public static final int KAMIKAZEDRONE = 9;
 
             // Pickup items
             public static final int POWERUP = 0;
@@ -138,6 +140,8 @@ public class Constants {
             public static final int REAPERDRONE_SPRITE_WIDTH = 210;
             public static final int REAPERDRONE_SPRITE_HEIGHT = 80;
             public static final int BLASTERDRONE_SPRITE_SIZE = 30;
+            public static final int WASPDRONE_SPRITE_SIZE = 40;
+            public static final int KAMIKAZEDRONE_SPRITE_SIZE = 30;
             public static final int EXPLOSION_SPRITE_SIZE = 40;
             public static final int BOMBEXPLOSION_SPRITE_WIDTH = 300;
             public static final int BOMBEXPLOSION_SPRITE_HEIGHT = 250;

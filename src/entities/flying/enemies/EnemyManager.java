@@ -32,6 +32,8 @@ public class EnemyManager {
     private BufferedImage[][] blasterdroneAnimations;
     private BufferedImage[][] reaperdroneAnimations;
     private BufferedImage[][] flamedroneAnimations;
+    private BufferedImage[][] waspdroneAnimations;
+    private BufferedImage[][] kamikazedroneAnimations;
     private BufferedImage[] explosionAnimation;
     private ArrayList<Explosion> explosions;
     private int collisionDmg = 10;
@@ -80,6 +82,14 @@ public class EnemyManager {
         BufferedImage flamedroneImg = LoadSave.getFlyImageSprite(LoadSave.FLAMEDRONE_SPRITE);
         this.flamedroneAnimations = GetEnemyAnimations(
             flamedroneImg, FLAMEDRONE_SPRITE_WIDTH, FLAMEDRONE_SPRITE_HEIGHT, 3, 6);
+        
+        BufferedImage waspdroneImg = LoadSave.getFlyImageSprite(LoadSave.WASPDRONE_SPRITE);
+        this.waspdroneAnimations = GetEnemyAnimations(
+            waspdroneImg, WASPDRONE_SPRITE_SIZE, WASPDRONE_SPRITE_SIZE, 2, 4);
+        
+        BufferedImage kamikazeImg = LoadSave.getFlyImageSprite(LoadSave.KAMIKAZEDRONE_SPRITE);
+        this.kamikazedroneAnimations = GetEnemyAnimations(
+            kamikazeImg, KAMIKAZEDRONE_SPRITE_SIZE, KAMIKAZEDRONE_SPRITE_SIZE, 2, 4);
 
         this.explosionAnimation = new BufferedImage[5];
         BufferedImage explosionImg = LoadSave.getFlyImageSprite(LoadSave.EXPLOSION);
@@ -137,6 +147,18 @@ public class EnemyManager {
                 int width = 120;
                 int height = 120;
                 allEnemies.add(GetEnemy(FLAMEDRONE, lineData, width, height, flamedroneAnimations));
+            }
+            else if (lineData[0].equals("waspDrone")) {
+                int width = 90;
+                int height = 90;
+                allEnemies.add(GetEnemy(WASPDRONE, lineData, width, height, waspdroneAnimations));
+            }
+            else if (lineData[0].equals("kamikazeDrone")) {
+                int width = 75;
+                int height = 75;
+                KamikazeDrone kamikazeDrone = (KamikazeDrone) GetEnemy(KAMIKAZEDRONE, lineData, width, height, kamikazedroneAnimations);
+                kamikazeDrone.setPlayer(this.player);
+                allEnemies.add(kamikazeDrone);
             }
         }
     }

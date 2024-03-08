@@ -43,4 +43,7 @@ public interface Enemy {
 
     /** Resets the enemy position, active-status, aniIndex, HP and shootTimer */
     public void resetTo(float y);
+
+    /** Needed for projectileHandler. 1 = facing right, -1 = facing left. */
+    public int getDir();
 }

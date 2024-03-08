@@ -110,6 +110,11 @@ public class BlasterDrone extends Entity implements Enemy {
    }
 
    @Override
+   public int getDir() {
+      return 0;  // No dir
+   }
+
+   @Override
    public boolean isSmall() {
       return true;
    }

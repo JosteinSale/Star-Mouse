@@ -105,6 +105,11 @@ public class Drone extends Entity implements Enemy {
     }
 
     @Override
+    public int getDir() {
+        return 0; // No dir
+    }
+
+    @Override
     public boolean isOnScreen() {
         return onScreen;
     }

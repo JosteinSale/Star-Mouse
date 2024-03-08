@@ -1,22 +1,26 @@
 package entities.flying.enemies;
 
+import static utils.Constants.Flying.Sprites.KAMIKAZEDRONE_SPRITE_SIZE;
+import static utils.Constants.Flying.TypeConstants.KAMIKAZEDRONE;
+
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import entities.Entity;
+import entities.flying.PlayerFly;
 import main.Game;
-import static utils.Constants.Flying.TypeConstants.TANKDRONE;
-import static utils.Constants.Flying.Sprites.DRONE_SPRITE_SIZE;
 
-public class TankDrone extends Entity implements Enemy {
+public class KamikazeDrone extends Entity implements Enemy {
    // Actions
    private static final int IDLE = 1;
    private static final int TAKING_DAMAGE = 0;
 
+   PlayerFly player;
    BufferedImage[][] animations;
    private float startY;
-   private int maxHP = 300;
+   private float xSpeed = 3;
+   private int maxHP = 60;
    private int HP = maxHP;
    private boolean onScreen = false;
    private boolean dead = false;
@@ -28,18 +32,48 @@ public class TankDrone extends Entity implements Enemy {
    private int damageFrames = 10;
    private int damageTick = 0;
 
-   public TankDrone(Rectangle2D.Float hitbox, BufferedImage[][] animations) {
+   private int playerCollisions = 0;    // When the drone has collided 3 times, it explodes
+
+   public KamikazeDrone(Rectangle2D.Float hitbox, BufferedImage[][] animations) {
       super(hitbox);
       startY = hitbox.y;
       this.animations = animations;
    }
 
+   /** The kamikazedrone follows the player's position, so it needs access to the player */
+   public void setPlayer(PlayerFly player) {
+      this.player = player;
+   }
+
    @Override
    public void update(float levelYSpeed) {
-      hitbox.y += levelYSpeed;
+      hitbox.y += levelYSpeed * 2;
       onScreen = (((hitbox.y + hitbox.height) > 0) && (hitbox.y < Game.GAME_DEFAULT_HEIGHT));
       if (onScreen) {
          updateAniTick();
+         moveTowardsPlayer();
+         checkPlayerOverlap();
+      }
+   }
+
+   private void checkPlayerOverlap() {
+      if (playerCollisions == 2) {
+         this.HP = 0;  // The drone will explode next time the takeDamage-method is called.
+      }
+      if (player.getHitbox().intersects(hitbox)) {
+         this.playerCollisions++;
+      }
+   }
+
+   private void moveTowardsPlayer() {
+      if (Math.abs(player.getHitbox().x - hitbox.x) < 5) {  // To avoid jittering
+         return;
+      }
+      if (player.getHitbox().x > hitbox.x) {  // Player is to the right of the drone
+         this.hitbox.x += xSpeed;
+      }
+      else {
+         this.hitbox.x -= xSpeed;   // Player is to the left of the drone
       }
    }
 
@@ -48,7 +82,7 @@ public class TankDrone extends Entity implements Enemy {
       if (aniTick >= aniTickPerFrame) {
          aniTick = 0;
          aniIndex++;
-         if (aniIndex >= getDroneSpriteAmount()) {
+         if (aniIndex >= getSpriteAmount()) {
             aniIndex = 0;
          }
       }
@@ -71,7 +105,7 @@ public class TankDrone extends Entity implements Enemy {
 
    @Override
    public int getType() {
-      return TANKDRONE;
+      return KAMIKAZEDRONE;
    }
 
    @Override
@@ -99,12 +133,14 @@ public class TankDrone extends Entity implements Enemy {
       return true;
    }
 
+   public void resetShootTick() {
+      // Do nothing
+   }
+
    @Override
    public int getDir() {
       return 0;  // No dir
    }
-
-   public void resetShootTick() {}
 
    @Override
    public void drawHitbox(Graphics g) {
@@ -113,21 +149,22 @@ public class TankDrone extends Entity implements Enemy {
 
    @Override
    public void draw(Graphics g) {
+      drawHitbox(g);
       g.drawImage(
             animations[action][aniIndex],
-            (int) ((hitbox.x - 5) * Game.SCALE),
-            (int) (hitbox.y * Game.SCALE),
-            (int) (DRONE_SPRITE_SIZE * 3 * Game.SCALE),
-            (int) (DRONE_SPRITE_SIZE * 3 * Game.SCALE), null);
+            (int) ((hitbox.x - 8) * Game.SCALE),
+            (int) ((hitbox.y - 8) * Game.SCALE),
+            (int) (KAMIKAZEDRONE_SPRITE_SIZE * 3 * Game.SCALE),
+            (int) (KAMIKAZEDRONE_SPRITE_SIZE * 3 * Game.SCALE), null);
    }
 
-   private int getDroneSpriteAmount() {
+   private int getSpriteAmount() {
       switch (action) {
          case TAKING_DAMAGE:
             return 3;
          case IDLE:
          default:
-            return 1;
+            return 2;
       }
    }
 
@@ -141,5 +178,6 @@ public class TankDrone extends Entity implements Enemy {
       aniTick = 0;
       aniIndex = 0;
       damageTick = 0;
+      this.playerCollisions = 0;
    }
 }

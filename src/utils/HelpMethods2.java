@@ -9,11 +9,13 @@ import entities.flying.enemies.BlasterDrone;
 import entities.flying.enemies.Drone;
 import entities.flying.enemies.Enemy;
 import entities.flying.enemies.FlameDrone;
+import entities.flying.enemies.KamikazeDrone;
 import entities.flying.enemies.OctaDrone;
 import entities.flying.enemies.ReaperDrone;
 import entities.flying.enemies.SmallShip;
 import entities.flying.enemies.TankDrone;
 import entities.flying.enemies.Target;
+import entities.flying.enemies.WaspDrone;
 import entities.flying.pickupItems.Bomb;
 import entities.flying.pickupItems.PickupItem;
 import entities.flying.pickupItems.Powerup;
@@ -63,6 +65,16 @@ public class HelpMethods2 {
         else if (type == FLAMEDRONE) {
             FlameDrone flameDrone = new FlameDrone(hitbox, animations);
             return flameDrone;
+        }
+        else if (type == WASPDRONE) {
+            int dir = Integer.parseInt(lineData[3]);
+            int shootTimer = Integer.parseInt(lineData[4]);
+            WaspDrone waspDrone = new WaspDrone(hitbox, animations, dir, shootTimer);
+            return waspDrone;
+        }
+        else if (type == KAMIKAZEDRONE) {
+            KamikazeDrone kamikazeDrone = new KamikazeDrone(hitbox, animations);
+            return kamikazeDrone;
         }
         return null;
     }

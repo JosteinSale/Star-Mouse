@@ -1,22 +1,26 @@
 package entities.flying.enemies;
 
+import static utils.Constants.Flying.Sprites.WASPDRONE_SPRITE_SIZE;
+import static utils.Constants.Flying.TypeConstants.WASPDRONE;
+
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import entities.Entity;
 import main.Game;
-import static utils.Constants.Flying.TypeConstants.TANKDRONE;
-import static utils.Constants.Flying.Sprites.DRONE_SPRITE_SIZE;
 
-public class TankDrone extends Entity implements Enemy {
+public class WaspDrone extends Entity implements Enemy {
    // Actions
    private static final int IDLE = 1;
    private static final int TAKING_DAMAGE = 0;
 
+   private int direction; // 1 = right, -1 = left
+
    BufferedImage[][] animations;
    private float startY;
-   private int maxHP = 300;
+   private float startX;
+   private int maxHP = 80;
    private int HP = maxHP;
    private boolean onScreen = false;
    private boolean dead = false;
@@ -27,11 +31,16 @@ public class TankDrone extends Entity implements Enemy {
    private int aniTickPerFrame = 3;
    private int damageFrames = 10;
    private int damageTick = 0;
+   private int shootTick = 0;
+   private int shootTimer;
 
-   public TankDrone(Rectangle2D.Float hitbox, BufferedImage[][] animations) {
+   public WaspDrone(Rectangle2D.Float hitbox, BufferedImage[][] animations, int direction, int shootTimer) {
       super(hitbox);
+      startX = hitbox.x;
       startY = hitbox.y;
       this.animations = animations;
+      this.direction = direction;
+      this.shootTimer = shootTimer;
    }
 
    @Override
@@ -40,6 +49,7 @@ public class TankDrone extends Entity implements Enemy {
       onScreen = (((hitbox.y + hitbox.height) > 0) && (hitbox.y < Game.GAME_DEFAULT_HEIGHT));
       if (onScreen) {
          updateAniTick();
+         updateShootTick();
       }
    }
 
@@ -48,7 +58,7 @@ public class TankDrone extends Entity implements Enemy {
       if (aniTick >= aniTickPerFrame) {
          aniTick = 0;
          aniIndex++;
-         if (aniIndex >= getDroneSpriteAmount()) {
+         if (aniIndex >= getSpriteAmount()) {
             aniIndex = 0;
          }
       }
@@ -60,8 +70,12 @@ public class TankDrone extends Entity implements Enemy {
       }
    }
 
+   private void updateShootTick() {
+      this.shootTick++;
+   }
+
    public boolean canShoot() {
-      return false;
+      return this.shootTick == shootTimer;
    }
 
    @Override
@@ -71,7 +85,7 @@ public class TankDrone extends Entity implements Enemy {
 
    @Override
    public int getType() {
-      return TANKDRONE;
+      return WASPDRONE;
    }
 
    @Override
@@ -101,10 +115,8 @@ public class TankDrone extends Entity implements Enemy {
 
    @Override
    public int getDir() {
-      return 0;  // No dir
+      return this.direction;
    }
-
-   public void resetShootTick() {}
 
    @Override
    public void drawHitbox(Graphics g) {
@@ -113,18 +125,27 @@ public class TankDrone extends Entity implements Enemy {
 
    @Override
    public void draw(Graphics g) {
+      drawHitbox(g);
       g.drawImage(
             animations[action][aniIndex],
-            (int) ((hitbox.x - 5) * Game.SCALE),
-            (int) (hitbox.y * Game.SCALE),
-            (int) (DRONE_SPRITE_SIZE * 3 * Game.SCALE),
-            (int) (DRONE_SPRITE_SIZE * 3 * Game.SCALE), null);
+            (int) ((hitbox.x - 15 + getFlipX()) * Game.SCALE),
+            (int) ((hitbox.y - 15) * Game.SCALE),
+            (int) (WASPDRONE_SPRITE_SIZE * 3 * direction * Game.SCALE),
+            (int) (WASPDRONE_SPRITE_SIZE * 3 * Game.SCALE), null);
    }
 
-   private int getDroneSpriteAmount() {
+   private float getFlipX() {
+      if (direction == 1) {
+         return 0;
+      } else {
+         return (hitbox.width + 33);
+      }
+   }
+
+   private int getSpriteAmount() {
       switch (action) {
          case TAKING_DAMAGE:
-            return 3;
+            return 4;
          case IDLE:
          default:
             return 1;
@@ -132,8 +153,14 @@ public class TankDrone extends Entity implements Enemy {
    }
 
    @Override
+   public void resetShootTick() {
+      this.shootTick = 0;
+   }
+
+   @Override
    public void resetTo(float y) {
       hitbox.y = startY + y;
+      hitbox.x = startX;
       action = IDLE;
       HP = maxHP;
       onScreen = false;
@@ -141,5 +168,7 @@ public class TankDrone extends Entity implements Enemy {
       aniTick = 0;
       aniIndex = 0;
       damageTick = 0;
+      shootTick = 0;
    }
+
 }

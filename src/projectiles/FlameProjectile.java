@@ -84,7 +84,6 @@ public class FlameProjectile extends Entity implements Projectile {
 
    @Override
    public void draw(Graphics g) {
-      drawHitbox(g);
       g.drawImage(
          img,
          (int) ((hitbox.x - 36) * Game.SCALE),

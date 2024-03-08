@@ -114,6 +114,11 @@ public class OctaDrone extends Entity implements Enemy {
       return true;
     }
 
+    @Override
+    public int getDir() {
+        return 0; // No dir
+    }
+
     public void resetShootTick() {}
 
     @Override

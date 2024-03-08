@@ -31,8 +31,7 @@ public class FlameDrone extends Entity implements Enemy {
    private int damageFrames = 10;
    private int damageTick = 0;
 
-   private int shootTick = 0;
-   private int shootInterval = 30;  // First it goes to 30, then it it takes 60 frames to PREPARE
+   private int shootTick = 0;  // See implementation of upodateShootTick and canShoot
 
    public FlameDrone(Rectangle2D.Float hitbox, BufferedImage[][] animations) {
       super(hitbox);
@@ -69,7 +68,7 @@ public class FlameDrone extends Entity implements Enemy {
 
    private void updateShootTick() {
       shootTick++;
-      if (shootTick == 30) {
+      if (shootTick == 90) {
          action = PREPARING_TO_SHOOT;
          aniTickPerFrame = 5;
          aniTick = 0;
@@ -78,7 +77,7 @@ public class FlameDrone extends Entity implements Enemy {
    }
 
    public boolean canShoot() {
-      if (shootTick == 60) {
+      if (shootTick == 120) {
          aniTickPerFrame = 3;
          action = IDLE;
          return true;
@@ -123,6 +122,11 @@ public class FlameDrone extends Entity implements Enemy {
       return true;
    }
 
+   @Override
+   public int getDir() {
+      return 0;  // No dir
+   }
+
    public void resetShootTick() {
       // Do nothing
    }
@@ -134,7 +138,6 @@ public class FlameDrone extends Entity implements Enemy {
 
    @Override
    public void draw(Graphics g) {
-      drawHitbox(g);
       g.drawImage(
             animations[action][aniIndex],
             (int) ((hitbox.x - 138) * Game.SCALE),

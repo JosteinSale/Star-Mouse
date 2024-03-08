@@ -130,6 +130,11 @@ public class Target extends Entity implements Enemy {
     }
 
     @Override
+    public int getDir() {
+        return 0; // No dir
+    }
+
+    @Override
     public void resetShootTick() {}
 
     @Override
