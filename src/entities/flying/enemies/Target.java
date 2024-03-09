@@ -9,7 +9,7 @@ import entities.Entity;
 import main.Game;
 
 import static utils.Constants.Flying.TypeConstants.TARGET;
-import static utils.Constants.Flying.Sprites.TARGET_SPRITE_SIZE;
+import static utils.Constants.Flying.SpriteSizes.TARGET_SPRITE_SIZE;
 
 
 public class Target extends Entity implements Enemy {

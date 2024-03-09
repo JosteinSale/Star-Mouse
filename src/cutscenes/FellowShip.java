@@ -6,8 +6,8 @@ import java.awt.image.BufferedImage;
 import entities.flying.ShipFlame;
 import main.Game;
 
-import static utils.Constants.Flying.Sprites.SHIP_SPRITE_WIDTH;
-import static utils.Constants.Flying.Sprites.SHIP_SPRITE_HEIGHT;
+import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_WIDTH;
+import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_HEIGHT;
 
 public class FellowShip {
    private BufferedImage shipImg;

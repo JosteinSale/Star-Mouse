@@ -17,7 +17,8 @@ import utils.Constants.Audio;
 import static utils.HelpMethods2.GetEnemy;
 import static utils.HelpMethods2.GetEnemyAnimations;
 import static utils.Constants.Flying.TypeConstants.*;
-import static utils.Constants.Flying.Sprites.*;
+import static utils.Constants.Flying.SpriteSizes.*;
+import static utils.Constants.Flying.HitboxConstants.*;
 
 public class EnemyManager {
     PlayerFly player;
@@ -110,52 +111,52 @@ public class EnemyManager {
             String[] lineData = line.split(";");
 
             if (lineData[0].equals("target")) {
-                int size = TARGET_SPRITE_SIZE * 3;
+                int size = TARGET_HITBOX_SIZE;
                 allEnemies.add(GetEnemy(TARGET, lineData, size, size, targetAnimations));
             }
             else if (lineData[0].equals("drone")) {
-                int width = 78;
-                int height = 66;
+                int width = DRONE_HITBOX_W;
+                int height = DRONE_HITBOX_H;
                 allEnemies.add(GetEnemy(DRONE, lineData, width, height, droneAnimations));
             }
             else if (lineData[0].equals("smallShip")) {
-                int width = 60;
-                int height = 30; 
-                allEnemies.add(GetEnemy(SMALL_SHIP, lineData, width, height, smallShipAnimations));
+                int width = SMALLSHIP_HITBOX_W;
+                int height = SMALLSHIP_HITBOX_H; 
+                allEnemies.add(GetEnemy(SMALLSHIP, lineData, width, height, smallShipAnimations));
             }
             else if (lineData[0].equals("octaDrone")) {
-                int width = 80;
-                int height = 80;
+                int width = OCTADRONE_HITBOX_SIZE;
+                int height = OCTADRONE_HITBOX_SIZE;
                 allEnemies.add(GetEnemy(OCTADRONE, lineData, width, height, octadroneAnimations));
             }
             else if (lineData[0].equals("tankDrone")) {
-                int width = 80;
-                int height = 90;
+                int width = TANKDRONE_HITBOX_W;
+                int height = TANKDRONE_HITBOX_H;
                 allEnemies.add(GetEnemy(TANKDRONE, lineData, width, height, tankdroneAnimations));
             }
             else if (lineData[0].equals("blasterDrone")) {
-                int width = 60;
-                int height = 90;
+                int width = BLASTERDRONE_HITBOX_W;
+                int height = BLASTERDRONE_HITBOX_H;
                 allEnemies.add(GetEnemy(BLASTERDRONE, lineData, width, height, blasterdroneAnimations));
             }
             else if (lineData[0].equals("reaperDrone")) {
-                int width = 510;
-                int height = 150;
+                int width = REAPERDRONE_HITBOX_W;
+                int height = REAPERDRONE_HITBOX_H;
                 allEnemies.add(GetEnemy(REAPERDRONE, lineData, width, height, reaperdroneAnimations));
             }
             else if (lineData[0].equals("flameDrone")) {
-                int width = 120;
-                int height = 120;
+                int width = FLAMEDRONE_HITBOX_SIZE;
+                int height = FLAMEDRONE_HITBOX_SIZE;
                 allEnemies.add(GetEnemy(FLAMEDRONE, lineData, width, height, flamedroneAnimations));
             }
             else if (lineData[0].equals("waspDrone")) {
-                int width = 90;
-                int height = 90;
+                int width = WASPDRONE_HITBOX_SIZE;
+                int height = WASPDRONE_HITBOX_SIZE;
                 allEnemies.add(GetEnemy(WASPDRONE, lineData, width, height, waspdroneAnimations));
             }
             else if (lineData[0].equals("kamikazeDrone")) {
-                int width = 75;
-                int height = 75;
+                int width = KAMIKAZEDRONE_HITBOX_SIZE;
+                int height = KAMIKAZEDRONE_HITBOX_SIZE;
                 KamikazeDrone kamikazeDrone = (KamikazeDrone) GetEnemy(KAMIKAZEDRONE, lineData, width, height, kamikazedroneAnimations);
                 kamikazeDrone.setPlayer(this.player);
                 allEnemies.add(kamikazeDrone);

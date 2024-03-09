@@ -9,8 +9,9 @@ import entities.Entity;
 import main.Game;
 import utils.LoadSave;
 
-import static utils.Constants.Flying.Sprites.REPAIR_SPRITE_SIZE;
+import static utils.Constants.Flying.SpriteSizes.REPAIR_SPRITE_SIZE;
 import static utils.Constants.Flying.TypeConstants.REPAIR;
+import static utils.Constants.Flying.DrawOffsetConstants.REPAIR_OFFSET;
 
 public class Repair extends Entity implements PickupItem {
     private BufferedImage[] animations;
@@ -53,8 +54,8 @@ public class Repair extends Entity implements PickupItem {
         if (active) {
             g.drawImage(
             animations[aniIndex], 
-            (int) ((hitbox.x - 15) * Game.SCALE), 
-            (int) ((hitbox.y - 15) * Game.SCALE), 
+            (int) ((hitbox.x - REPAIR_OFFSET) * Game.SCALE), 
+            (int) ((hitbox.y - REPAIR_OFFSET) * Game.SCALE), 
             (int) (REPAIR_SPRITE_SIZE * 3 * Game.SCALE),
             (int) (REPAIR_SPRITE_SIZE * 3 * Game.SCALE), null);
         }

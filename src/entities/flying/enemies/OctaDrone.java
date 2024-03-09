@@ -6,8 +6,9 @@ import java.awt.image.BufferedImage;
 
 import entities.Entity;
 import main.Game;
-import static utils.Constants.Flying.Sprites.OCTADRONE_SPRITE_SIZE;
+import static utils.Constants.Flying.SpriteSizes.OCTADRONE_SPRITE_SIZE;
 import static utils.Constants.Flying.TypeConstants.OCTADRONE;
+import static utils.Constants.Flying.DrawOffsetConstants.OCTADRONE_OFFSET;
 
 public class OctaDrone extends Entity implements Enemy {
     // Actions
@@ -130,8 +131,8 @@ public class OctaDrone extends Entity implements Enemy {
     public void draw(Graphics g) {
         g.drawImage(
             animations[action][aniIndex], 
-            (int) ((hitbox.x - 5) * Game.SCALE), 
-            (int) ((hitbox.y - 5) * Game.SCALE), 
+            (int) ((hitbox.x - OCTADRONE_OFFSET) * Game.SCALE), 
+            (int) ((hitbox.y - OCTADRONE_OFFSET) * Game.SCALE), 
             (int) (OCTADRONE_SPRITE_SIZE * 3 * Game.SCALE), 
             (int) (OCTADRONE_SPRITE_SIZE * 3 * Game.SCALE), null);
     }

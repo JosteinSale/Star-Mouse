@@ -80,7 +80,7 @@ public class LevelFinishedOverlay implements Statemethods {
             totalEarned += switch(i) {
                 case TARGET -> 0;
                 case DRONE -> 20;
-                case SMALL_SHIP -> 10;
+                case SMALLSHIP -> 10;
                 case OCTADRONE -> 40;
                 case BLASTERDRONE -> 40;
                 default -> throw new IllegalArgumentException(

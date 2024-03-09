@@ -94,26 +94,26 @@ public class Constants {
             public static final int REAPER_PROJECTILE = 4;
             public static final int FLAME_PROJECTILE = 4;
 
-            // Enemey types
-            public static final int TARGET = 0;
-            public static final int DRONE = 1;
-            public static final int SMALL_SHIP = 2;
-            public static final int OCTADRONE = 3;
-            public static final int TANKDRONE = 4;
-            public static final int BLASTERDRONE = 5;
-            public static final int REAPERDRONE = 6;
-            public static final int FLAMEDRONE = 7;
-            public static final int WASPDRONE = 8;
-            public static final int KAMIKAZEDRONE = 9;
-
-            // Pickup items
-            public static final int POWERUP = 0;
-            public static final int REPAIR = 1;
-            public static final int BOMB = 2;
+            // Entities
+            public static final int DELETE = 0;
+            public static final int POWERUP = 1;
+            public static final int REPAIR = 2;
+            public static final int BOMB = 3;
+            public static final int TARGET = 4;
+            public static final int DRONE = 5;
+            public static final int SMALLSHIP = 6;
+            public static final int OCTADRONE = 7;
+            public static final int TANKDRONE = 8;
+            public static final int BLASTERDRONE = 9;
+            public static final int REAPERDRONE = 10;
+            public static final int FLAMEDRONE = 11;
+            public static final int WASPDRONE = 12;
+            public static final int KAMIKAZEDRONE = 13;
+            
         }
         
 
-        public static class Sprites {
+        public static class SpriteSizes {
             public static final int SHIP_SPRITE_WIDTH = 30;
             public static final int SHIP_SPRITE_HEIGHT = 30;
             public static final int SHIP_FLAMESPRITE_WIDTH = 15;
@@ -145,7 +145,53 @@ public class Constants {
             public static final int EXPLOSION_SPRITE_SIZE = 40;
             public static final int BOMBEXPLOSION_SPRITE_WIDTH = 300;
             public static final int BOMBEXPLOSION_SPRITE_HEIGHT = 250;
-            public static final int ALL_SPRITES_SIZE = 30;
+            public static final int SMALL_SPRITES_SIZE = 30;
+        }
+
+        public static class HitboxConstants {
+            public static final int POWERUP_HITBOX_W = 30;
+            public static final int POWERUP_HITBOX_H = 50;
+            public static final int REPAIR_HITBOX_SIZE = 60;
+            public static final int BOMB_HITBOX_SIZE = 45;
+            public static final int TARGET_HITBOX_SIZE = 60;
+            public static final int DRONE_HITBOX_W = 78;
+            public static final int DRONE_HITBOX_H = 66;
+            public static final int SMALLSHIP_HITBOX_W = 60;
+            public static final int SMALLSHIP_HITBOX_H = 30;
+            public static final int OCTADRONE_HITBOX_SIZE = 80;
+            public static final int TANKDRONE_HITBOX_W = 80;
+            public static final int TANKDRONE_HITBOX_H = 90;
+            public static final int BLASTERDRONE_HITBOX_W = 60;
+            public static final int BLASTERDRONE_HITBOX_H = 90;
+            public static final int REAPERDRONE_HITBOX_W = 510;
+            public static final int REAPERDRONE_HITBOX_H = 150;
+            public static final int FLAMEDRONE_HITBOX_SIZE = 120;
+            public static final int WASPDRONE_HITBOX_SIZE = 90;
+            public static final int KAMIKAZEDRONE_HITBOX_SIZE = 75;
+        }
+
+        public static class DrawOffsetConstants {
+            public static final int POWERUP_OFFSET_X = 28;
+            public static final int POWERUP_OFFSET_Y = 20;
+            public static final int REPAIR_OFFSET = 15;
+            public static final int BOMB_OFFSET_X = 15;
+            public static final int BOMB_OFFSET_Y = 18;
+            public static final int TARGET_OFFSET = 0;
+            public static final int DRONE_OFFSET_X = 4;
+            public static final int DRONE_OFFSET_Y = 10;
+            public static final int SMALLSHIP_OFFSET_X = 16;
+            public static final int SMALLSHIP_OFFSET_Y = 30;
+            public static final int OCTADRONE_OFFSET = 5;
+            public static final int TANKDRONE_OFFSET_X = 5;
+            public static final int TANKDRONE_OFFSET_Y = 0;
+            public static final int BLASTERDRONE_OFFSET_X = 15;
+            public static final int BLASTERDRONE_OFFSET_Y = 0;
+            public static final int REAPERDRONE_OFFSET_X = 60;
+            public static final int REAPERDRONE_OFFSET_Y = 45;
+            public static final int FLAMEDRONE_OFFSET_X = 138;
+            public static final int FLAMEDRONE_OFFSET_Y = 30;
+            public static final int WASPDRONE_OFFSET = 15;
+            public static final int KAMIKAZEDRONE_OFFSET = 8;
         }
 
         // Dette er standard-verdier.
@@ -222,11 +268,12 @@ public class Constants {
         public static final int VOICECLIP_FENO = 16;
 
         // Songs (don't change these indexes!)
-        public static final int SONG_TUTORIAL = 0;
+        public static final int SONG_LEVEL0 = 0;
         public static final int SONG_ACADEMY = 1;
         public static final int SONG_LEVEL1 = 2;
         public static final int SONG_MAIN_MENU = 3;
         public static final int SONG_VYKE = 4;
+        public static final int SONG_LEVEL2 = 5;
         
         // Ambience (don't change these indexes!)
         public static final int AMBIENCE_SILENCE = 0;
@@ -235,9 +282,9 @@ public class Constants {
 
         public static int GetFlyLevelSong(int level) {
             switch (level) {
-                case 0 : return 0;
-                case 1 : return 2;
-                case 2 : return 99;
+                case 0 : return SONG_LEVEL0;
+                case 1 : return SONG_LEVEL1;
+                case 2 : return SONG_LEVEL2;
                 default : throw new IllegalArgumentException("No song available for: level " + level);
             }
         }

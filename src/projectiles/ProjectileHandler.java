@@ -13,7 +13,7 @@ import main.Game;
 import misc.ProgressValues;
 import utils.LoadSave;
 
-import static utils.Constants.Flying.Sprites.*;
+import static utils.Constants.Flying.SpriteSizes.*;
 import static utils.Constants.Flying.TypeConstants.DRONE;
 import static utils.Constants.Flying.TypeConstants.FLAMEDRONE;
 import static utils.Constants.Flying.TypeConstants.OCTADRONE;

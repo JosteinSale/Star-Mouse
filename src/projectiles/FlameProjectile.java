@@ -1,7 +1,7 @@
 package projectiles;
 
-import static utils.Constants.Flying.Sprites.FLAME_PRJT_SPRITE_H;
-import static utils.Constants.Flying.Sprites.FLAME_PRJT_SPRITE_W;
+import static utils.Constants.Flying.SpriteSizes.FLAME_PRJT_SPRITE_H;
+import static utils.Constants.Flying.SpriteSizes.FLAME_PRJT_SPRITE_W;
 import static utils.Constants.Flying.TypeConstants.FLAME_PROJECTILE;
 
 import java.awt.Graphics;

@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import entities.Entity;
 import main.Game;
 import static utils.Constants.Flying.TypeConstants.BOMB_PROJECTILE;
-import static utils.Constants.Flying.Sprites.BOMB_SPRITE_SIZE;
+import static utils.Constants.Flying.SpriteSizes.BOMB_SPRITE_SIZE;
 
 public class BombProjectile extends Entity implements Projectile {
     BufferedImage img;

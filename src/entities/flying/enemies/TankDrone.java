@@ -7,7 +7,9 @@ import java.awt.image.BufferedImage;
 import entities.Entity;
 import main.Game;
 import static utils.Constants.Flying.TypeConstants.TANKDRONE;
-import static utils.Constants.Flying.Sprites.DRONE_SPRITE_SIZE;
+import static utils.Constants.Flying.SpriteSizes.DRONE_SPRITE_SIZE;
+import static utils.Constants.Flying.DrawOffsetConstants.TANKDRONE_OFFSET_X;
+import static utils.Constants.Flying.DrawOffsetConstants.TANKDRONE_OFFSET_Y;
 
 public class TankDrone extends Entity implements Enemy {
    // Actions
@@ -115,7 +117,7 @@ public class TankDrone extends Entity implements Enemy {
    public void draw(Graphics g) {
       g.drawImage(
             animations[action][aniIndex],
-            (int) ((hitbox.x - 5) * Game.SCALE),
+            (int) ((hitbox.x - TANKDRONE_OFFSET_X) * Game.SCALE),
             (int) (hitbox.y * Game.SCALE),
             (int) (DRONE_SPRITE_SIZE * 3 * Game.SCALE),
             (int) (DRONE_SPRITE_SIZE * 3 * Game.SCALE), null);

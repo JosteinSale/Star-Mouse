@@ -10,13 +10,13 @@ ALL ENTITIES:
 
 NAMES:
 POWERUP : powerup
-TARGET: target 
-DRONE: drone (ShootInterval : 100 - 140)
-SMALLSHIP: smallShip
+TARGET: target (does nothing)
+DRONE: drone
+SMALLSHIP: smallShip (doesn't shoot)
 OCTADRONE: octaDrone (shootTimer: 60 - 180. It only shoots once)
-TANKDRONE: tankDrone
-BLASTERDRONE: blasterDrone
-REAPERDRONE: reaperDrone
-FLAMEDRONE: flameDrone (shootTimer is set at 120. It only shoots once)
+TANKDRONE: tankDrone (does nothing)
+BLASTERDRONE: blasterDrone (shootTimer is set at 30)
+REAPERDRONE: reaperDrone (only shoots once)
+FLAMEDRONE: flameDrone (shootTimer is set at 120. Only shoots once)
 WASPDRONE: waspDrone
-KAMIKAZEDRONE: kamikazeDrone
+KAMIKAZEDRONE: kamikazeDrone (doesn't shoot)

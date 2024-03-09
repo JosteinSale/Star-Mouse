@@ -21,7 +21,10 @@ import entities.flying.pickupItems.PickupItem;
 import entities.flying.pickupItems.Powerup;
 import entities.flying.pickupItems.Repair;
 
+import static utils.Constants.Flying.SpriteSizes.*;
 import static utils.Constants.Flying.TypeConstants.*;
+import static utils.Constants.Flying.DrawOffsetConstants.*;
+import static utils.Constants.Flying.HitboxConstants.*;
 import static utils.HelpMethods.CreateHitbox;
 
 public class HelpMethods2 {
@@ -39,7 +42,7 @@ public class HelpMethods2 {
             Drone drone = new Drone(hitbox, animations, shootTimer);
             return drone;
         }
-        else if (type == SMALL_SHIP) {
+        else if (type == SMALLSHIP) {
             int dir = Integer.parseInt(lineData[3]);
             SmallShip ship = new SmallShip(hitbox, animations, dir);
             return ship;
@@ -109,5 +112,104 @@ public class HelpMethods2 {
         }
     }
 
+    public static int[][] GetEntitySpriteSizes() {
+        int width = 0;
+        int height = 1;
+        int[][] entitySpriteSizes = new int[14][2];
+
+        entitySpriteSizes[DELETE][width] = SMALL_SPRITES_SIZE;
+        entitySpriteSizes[DELETE][height] = SMALL_SPRITES_SIZE;
+
+        entitySpriteSizes[POWERUP][width] = SMALL_SPRITES_SIZE;
+        entitySpriteSizes[POWERUP][height] = SMALL_SPRITES_SIZE;
+
+        entitySpriteSizes[REPAIR][width] = SMALL_SPRITES_SIZE;
+        entitySpriteSizes[REPAIR][height] = SMALL_SPRITES_SIZE;
+
+        entitySpriteSizes[BOMB][width] = SMALL_SPRITES_SIZE;
+        entitySpriteSizes[BOMB][height] = SMALL_SPRITES_SIZE;
+
+        entitySpriteSizes[TARGET][width] = SMALL_SPRITES_SIZE;
+        entitySpriteSizes[TARGET][height] = SMALL_SPRITES_SIZE;
+
+        entitySpriteSizes[DRONE][width] = SMALL_SPRITES_SIZE;
+        entitySpriteSizes[DRONE][height] = SMALL_SPRITES_SIZE;
+
+        entitySpriteSizes[SMALLSHIP][width] = SMALL_SPRITES_SIZE;
+        entitySpriteSizes[SMALLSHIP][height] = SMALL_SPRITES_SIZE;
+
+        entitySpriteSizes[OCTADRONE][width] = SMALL_SPRITES_SIZE;
+        entitySpriteSizes[OCTADRONE][height] = SMALL_SPRITES_SIZE;
+
+        entitySpriteSizes[TANKDRONE][width] = SMALL_SPRITES_SIZE;
+        entitySpriteSizes[TANKDRONE][height] = SMALL_SPRITES_SIZE;
+
+        entitySpriteSizes[BLASTERDRONE][width] = SMALL_SPRITES_SIZE;
+        entitySpriteSizes[BLASTERDRONE][height] = SMALL_SPRITES_SIZE;
+
+        entitySpriteSizes[REAPERDRONE][width] = REAPERDRONE_SPRITE_WIDTH;
+        entitySpriteSizes[REAPERDRONE][height] = REAPERDRONE_SPRITE_HEIGHT;
+
+        entitySpriteSizes[FLAMEDRONE][width] = FLAMEDRONE_SPRITE_WIDTH;
+        entitySpriteSizes[FLAMEDRONE][height] = FLAMEDRONE_SPRITE_HEIGHT;
+
+        entitySpriteSizes[WASPDRONE][width] = WASPDRONE_SPRITE_SIZE;
+        entitySpriteSizes[WASPDRONE][height] = WASPDRONE_SPRITE_SIZE;
+
+        entitySpriteSizes[KAMIKAZEDRONE][width] = SMALL_SPRITES_SIZE;
+        entitySpriteSizes[KAMIKAZEDRONE][height] = SMALL_SPRITES_SIZE;
+
+        return entitySpriteSizes;
+    }
+
+    public static int[][] GetEntityDrawOffsets() {
+        int X = 0;
+        int Y = 1;
+        int[][] entityDrawOffsets = new int[14][2];
+
+        entityDrawOffsets[DELETE][X] = 0;
+        entityDrawOffsets[DELETE][Y] = 0;
+
+        entityDrawOffsets[POWERUP][X] = POWERUP_OFFSET_X;
+        entityDrawOffsets[POWERUP][Y] = POWERUP_OFFSET_Y;
+
+        entityDrawOffsets[REPAIR][X] = REPAIR_OFFSET;
+        entityDrawOffsets[REPAIR][Y] = REPAIR_OFFSET;
+
+        entityDrawOffsets[BOMB][X] = BOMB_OFFSET_X;
+        entityDrawOffsets[BOMB][Y] = BOMB_OFFSET_Y;
+
+        entityDrawOffsets[TARGET][X] = TARGET_OFFSET;
+        entityDrawOffsets[TARGET][Y] = TARGET_OFFSET;
+
+        entityDrawOffsets[DRONE][X] = DRONE_OFFSET_X;
+        entityDrawOffsets[DRONE][Y] = DRONE_OFFSET_Y;
+
+        entityDrawOffsets[SMALLSHIP][X] = SMALLSHIP_OFFSET_X;
+        entityDrawOffsets[SMALLSHIP][Y] = SMALLSHIP_OFFSET_Y;
+
+        entityDrawOffsets[OCTADRONE][X] = OCTADRONE_OFFSET;
+        entityDrawOffsets[OCTADRONE][Y] = OCTADRONE_OFFSET;
+
+        entityDrawOffsets[BLASTERDRONE][X] = BLASTERDRONE_OFFSET_X;
+        entityDrawOffsets[BLASTERDRONE][Y] = BLASTERDRONE_OFFSET_Y;
+
+        entityDrawOffsets[TANKDRONE][X] = TANKDRONE_OFFSET_X;
+        entityDrawOffsets[TANKDRONE][Y] = TANKDRONE_OFFSET_Y;
+
+        entityDrawOffsets[REAPERDRONE][X] = REAPERDRONE_OFFSET_X;
+        entityDrawOffsets[REAPERDRONE][Y] = REAPERDRONE_OFFSET_X;
+
+        entityDrawOffsets[FLAMEDRONE][X] = FLAMEDRONE_OFFSET_X;
+        entityDrawOffsets[FLAMEDRONE][Y] = FLAMEDRONE_OFFSET_Y;
+
+        entityDrawOffsets[WASPDRONE][X] = WASPDRONE_OFFSET;
+        entityDrawOffsets[WASPDRONE][Y] = WASPDRONE_OFFSET;
+
+        entityDrawOffsets[KAMIKAZEDRONE][X] = KAMIKAZEDRONE_OFFSET;
+        entityDrawOffsets[KAMIKAZEDRONE][Y] = KAMIKAZEDRONE_OFFSET;
+
+        return entityDrawOffsets;
+    }
     
 }

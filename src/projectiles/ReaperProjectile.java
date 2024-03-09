@@ -7,8 +7,8 @@ import java.awt.image.BufferedImage;
 import entities.Entity;
 import main.Game;
 
-import static utils.Constants.Flying.Sprites.REAPERDRONE_PRJT_SPRITE_H;
-import static utils.Constants.Flying.Sprites.REAPERDRONE_PRJT_SPRITE_W;
+import static utils.Constants.Flying.SpriteSizes.REAPERDRONE_PRJT_SPRITE_H;
+import static utils.Constants.Flying.SpriteSizes.REAPERDRONE_PRJT_SPRITE_W;
 import static utils.Constants.Flying.TypeConstants.REAPER_PROJECTILE;
 
 public class ReaperProjectile extends Entity implements Projectile {

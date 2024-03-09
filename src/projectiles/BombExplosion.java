@@ -6,8 +6,8 @@ import java.awt.image.BufferedImage;
 import main.Game;
 import utils.LoadSave;
 
-import static utils.Constants.Flying.Sprites.BOMBEXPLOSION_SPRITE_WIDTH;
-import static utils.Constants.Flying.Sprites.BOMBEXPLOSION_SPRITE_HEIGHT;
+import static utils.Constants.Flying.SpriteSizes.BOMBEXPLOSION_SPRITE_WIDTH;
+import static utils.Constants.Flying.SpriteSizes.BOMBEXPLOSION_SPRITE_HEIGHT;
 
 public class BombExplosion {
     BufferedImage[] animation;

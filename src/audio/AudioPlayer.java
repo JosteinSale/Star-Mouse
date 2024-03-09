@@ -38,7 +38,8 @@ public class AudioPlayer {
         "Song - The Academy ver2 (FINISHED).wav",
         "Song - Skies Over Apolis.wav",
         "Song - Main Menu.wav",
-        "Song - Vyke.wav"
+        "Song - Vyke.wav",
+        "Song - Vyke Ambush.wav"
     };
     private String[] ambienceFileNames = {
         "Ambience - Silence.wav",
@@ -225,7 +226,7 @@ public class AudioPlayer {
         if (this.curSong.isActive()) {
             this.curSong.stop();
         } else {
-            this.curSong.start();
+            this.curSong.loop(Clip.LOOP_CONTINUOUSLY);
         }
     }
 

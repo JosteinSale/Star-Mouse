@@ -8,8 +8,10 @@ import java.awt.image.BufferedImage;
 import entities.Entity;
 import main.Game;
 import utils.LoadSave;
-import static utils.Constants.Flying.Sprites.POWERUP_SPRITE_SIZE;
+import static utils.Constants.Flying.SpriteSizes.POWERUP_SPRITE_SIZE;
 import static utils.Constants.Flying.TypeConstants.POWERUP;
+import static utils.Constants.Flying.DrawOffsetConstants.POWERUP_OFFSET_X;
+import static utils.Constants.Flying.DrawOffsetConstants.POWERUP_OFFSET_Y;
 
 public class Powerup extends Entity implements PickupItem {
     private BufferedImage[] animations;
@@ -51,8 +53,8 @@ public class Powerup extends Entity implements PickupItem {
         if (active) {
             g.drawImage(
             animations[aniIndex], 
-            (int) ((hitbox.x - 28) * Game.SCALE), 
-            (int) ((hitbox.y - 20) * Game.SCALE), 
+            (int) ((hitbox.x - POWERUP_OFFSET_X) * Game.SCALE), 
+            (int) ((hitbox.y - POWERUP_OFFSET_Y) * Game.SCALE), 
             (int) (POWERUP_SPRITE_SIZE * 3 * Game.SCALE),
             (int) (POWERUP_SPRITE_SIZE * 3 * Game.SCALE), null);
         }

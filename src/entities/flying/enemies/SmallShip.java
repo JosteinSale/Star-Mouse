@@ -6,8 +6,10 @@ import java.awt.image.BufferedImage;
 
 import entities.Entity;
 import main.Game;
-import static utils.Constants.Flying.TypeConstants.SMALL_SHIP;
-import static utils.Constants.Flying.Sprites.SMALLSHIP_SPRITE_SIZE;
+import static utils.Constants.Flying.TypeConstants.SMALLSHIP;
+import static utils.Constants.Flying.SpriteSizes.SMALLSHIP_SPRITE_SIZE;
+import static utils.Constants.Flying.DrawOffsetConstants.SMALLSHIP_OFFSET_X;
+import static utils.Constants.Flying.DrawOffsetConstants.SMALLSHIP_OFFSET_Y;
 
 public class SmallShip extends Entity implements Enemy{
     // Actions
@@ -79,7 +81,7 @@ public class SmallShip extends Entity implements Enemy{
 
     @Override
     public int getType() {
-        return SMALL_SHIP;
+        return SMALLSHIP;
     }
 
     @Override
@@ -121,8 +123,8 @@ public class SmallShip extends Entity implements Enemy{
     public void draw(Graphics g) {
         g.drawImage(
             animations[action][aniIndex], 
-            (int) ((hitbox.x - 16 + getFlipX()) * Game.SCALE), 
-            (int) ((hitbox.y - 30)* Game.SCALE), 
+            (int) ((hitbox.x - SMALLSHIP_OFFSET_X + getFlipX()) * Game.SCALE), 
+            (int) ((hitbox.y - SMALLSHIP_OFFSET_Y)* Game.SCALE), 
             (int) (SMALLSHIP_SPRITE_SIZE * 3 * direction * Game.SCALE), 
             (int) (SMALLSHIP_SPRITE_SIZE * 3 * Game.SCALE), null);
     }

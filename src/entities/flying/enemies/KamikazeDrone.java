@@ -1,7 +1,8 @@
 package entities.flying.enemies;
 
-import static utils.Constants.Flying.Sprites.KAMIKAZEDRONE_SPRITE_SIZE;
+import static utils.Constants.Flying.SpriteSizes.KAMIKAZEDRONE_SPRITE_SIZE;
 import static utils.Constants.Flying.TypeConstants.KAMIKAZEDRONE;
+import static utils.Constants.Flying.DrawOffsetConstants.KAMIKAZEDRONE_OFFSET;
 
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
@@ -47,9 +48,10 @@ public class KamikazeDrone extends Entity implements Enemy {
 
    @Override
    public void update(float levelYSpeed) {
-      hitbox.y += levelYSpeed * 2;
+      hitbox.y += levelYSpeed;
       onScreen = (((hitbox.y + hitbox.height) > 0) && (hitbox.y < Game.GAME_DEFAULT_HEIGHT));
       if (onScreen) {
+         hitbox.y += levelYSpeed;
          updateAniTick();
          moveTowardsPlayer();
          checkPlayerOverlap();
@@ -152,8 +154,8 @@ public class KamikazeDrone extends Entity implements Enemy {
       drawHitbox(g);
       g.drawImage(
             animations[action][aniIndex],
-            (int) ((hitbox.x - 8) * Game.SCALE),
-            (int) ((hitbox.y - 8) * Game.SCALE),
+            (int) ((hitbox.x - KAMIKAZEDRONE_OFFSET) * Game.SCALE),
+            (int) ((hitbox.y - KAMIKAZEDRONE_OFFSET) * Game.SCALE),
             (int) (KAMIKAZEDRONE_SPRITE_SIZE * 3 * Game.SCALE),
             (int) (KAMIKAZEDRONE_SPRITE_SIZE * 3 * Game.SCALE), null);
    }

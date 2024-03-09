@@ -1,0 +1,31 @@
+cutscene;true;automatic;0
+setGameplayActive;false
+blackScreen;true
+wait;120
+endSequence
+fadeHeader;in;350;10;Take off from Vyke
+wait;150
+endSequence
+startAmbience;1
+fadeHeader;out;350;10;Take off from Vyke
+fellowShips;100;400;140;300;400;200;700;400;260;900;400;320
+wait;100
+endSequence
+setGameplayActive;true
+blackScreen;false
+fadeIn;10
+startSong;5
+endSequence
+
+cutscene;true;automatic;1
+dialogue;Lt.Red;serious;0;2;We're heading out!
+wait;200
+endSequence
+
+cutscene;true;automatic;2
+dialogue;Lt.Red;serious;0;2;Wait, something's wrong...
+wait;140
+endSequence
+dialogue;Lt.Red;serious;0;2;It's the enemy! IT'S AN AMBUSH!
+wait;200
+endSequence

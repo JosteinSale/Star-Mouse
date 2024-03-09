@@ -12,7 +12,18 @@ import java.util.Scanner;
 
 import main.Game;
 import utils.LoadSave;
-import static utils.Constants.Flying.Sprites.ALL_SPRITES_SIZE;
+
+import static utils.Constants.Flying.SpriteSizes.FLAMEDRONE_SPRITE_HEIGHT;
+import static utils.Constants.Flying.SpriteSizes.FLAMEDRONE_SPRITE_WIDTH;
+import static utils.Constants.Flying.SpriteSizes.KAMIKAZEDRONE_SPRITE_SIZE;
+import static utils.Constants.Flying.SpriteSizes.REAPERDRONE_SPRITE_HEIGHT;
+import static utils.Constants.Flying.SpriteSizes.REAPERDRONE_SPRITE_WIDTH;
+import static utils.Constants.Flying.SpriteSizes.SMALL_SPRITES_SIZE;
+import static utils.Constants.Flying.SpriteSizes.WASPDRONE_SPRITE_SIZE;
+import static utils.Constants.Flying.HitboxConstants.*;
+import static utils.Constants.Flying.TypeConstants.*;
+import static utils.HelpMethods2.GetEntityDrawOffsets;
+import static utils.HelpMethods2.GetEntitySpriteSizes;
 
 
 /**
@@ -24,19 +35,19 @@ import static utils.Constants.Flying.Sprites.ALL_SPRITES_SIZE;
  * 
  * See comments in keyPressed-method for controls.
  * When you're satisfied with the placement of enemies, you can print the data to
- * the console, and copy-paste it into the levelData-file (overwriting the enemy entries).
+ * the console, and copy-paste it into the levelData-file (overwriting the entity entries).
  * 
- * NOTE: In this object, enemyNr's are independent from the ones defined in the Constant-class.
- * They're only determined by the index in the allSprites-image.
+ * OBS: for almost all list-indexing in this object, we use Constants.Flying.TypeConstants.
  */
 public class LevelEditor implements Statemethods {
     private Game game;
     private Integer level = 1;
     private BufferedImage clImg;
-    private BufferedImage[] entityImgs;                    // Standardiserte bilder
-    private ArrayList<BufferedImage> outPlacedImgs;
+    private BufferedImage[] entityImgs;                  
     private ArrayList<Rectangle> hitboxes;
     private ArrayList<int[]> entityCor;
+    private int[][] entitySpriteSizes;   // For each inner list: 0 = spritewidth, 1 = spriteheight.
+    private int[][] entityDrawOffsets;
     private ArrayList<String> levelData;
     private ArrayList<Integer> entityDirections;             // For entities with directions
     private ArrayList<Integer> entityTypes;
@@ -48,7 +59,7 @@ public class LevelEditor implements Statemethods {
     private int clImgWidth;
     private int clYOffset;
     private float clXOffset;
-    private int entityYOffset = 0;
+    private int mapYOffset = 0;
     private int selectedEntity = 0;
     
     private int curDirection = 1;      // 1 = right, -1 = left
@@ -62,15 +73,18 @@ public class LevelEditor implements Statemethods {
         this.game = game;
         loadMapImages(level);
         loadEntityImages();
-        this.outPlacedImgs = new ArrayList<>();
         this.entityCor = new ArrayList<>();
         this.hitboxes = new ArrayList<>();
         this.levelData = new ArrayList<>();
         this.entityDirections = new ArrayList<>();
         this.entityTypes = new ArrayList<>();   
-        this.shootTimers = new ArrayList<>(); 
+        this.shootTimers = new ArrayList<>();
+        entitySpriteSizes = GetEntitySpriteSizes();
+        entityDrawOffsets = GetEntityDrawOffsets();
         loadLevelData(level);
     }
+
+    
 
     private void loadMapImages(int lvl) {
         this.clImg = LoadSave.getFlyImageCollision("level" + Integer.toString(lvl) + "_cl.png");
@@ -81,13 +95,28 @@ public class LevelEditor implements Statemethods {
     }
 
     private void loadEntityImages() {
-        this.entityImgs = new BufferedImage[10];
-        BufferedImage img = LoadSave.getFlyImageSprite(LoadSave.ALL_ENTITY_SPRITES);
-        for (int i = 0; i < entityImgs.length; i++) {
+        this.entityImgs = new BufferedImage[14];
+        BufferedImage img = LoadSave.getFlyImageSprite(LoadSave.SMALL_ENTITY_SPRITES);
+        for (int i = 0; i < 10; i++) {
             entityImgs[i] = img.getSubimage(
-                i * ALL_SPRITES_SIZE, 0, ALL_SPRITES_SIZE, ALL_SPRITES_SIZE);
-        } 
-        // We can have bigger sprites, maybe in a separate file. Add them to the same array indepentendly.
+                i * SMALL_SPRITES_SIZE, 0, SMALL_SPRITES_SIZE, SMALL_SPRITES_SIZE);
+        }
+        entityImgs[REAPERDRONE] = 
+            LoadSave.getFlyImageSprite(LoadSave.REAPERDRONE_SPRITE).getSubimage(
+                0, REAPERDRONE_SPRITE_HEIGHT, REAPERDRONE_SPRITE_WIDTH, REAPERDRONE_SPRITE_HEIGHT);
+
+        entityImgs[FLAMEDRONE] = 
+            LoadSave.getFlyImageSprite(LoadSave.FLAMEDRONE_SPRITE).getSubimage(
+                0, FLAMEDRONE_SPRITE_HEIGHT, FLAMEDRONE_SPRITE_WIDTH, FLAMEDRONE_SPRITE_HEIGHT);
+            
+        entityImgs[WASPDRONE] = 
+            LoadSave.getFlyImageSprite(LoadSave.WASPDRONE_SPRITE).getSubimage(
+                0, WASPDRONE_SPRITE_SIZE, WASPDRONE_SPRITE_SIZE, WASPDRONE_SPRITE_SIZE);
+            
+        entityImgs[KAMIKAZEDRONE] = 
+            LoadSave.getFlyImageSprite(LoadSave.KAMIKAZEDRONE_SPRITE).getSubimage(
+                0, KAMIKAZEDRONE_SPRITE_SIZE, KAMIKAZEDRONE_SPRITE_SIZE, KAMIKAZEDRONE_SPRITE_SIZE);
+        
     }
 
     private void loadLevelData(Integer level) {
@@ -95,15 +124,19 @@ public class LevelEditor implements Statemethods {
         for (String line : levelData) {
             String[] lineData = line.split(";");
                 int entity = switch(lineData[0]) {   // index in entityImgs-array
-                    case "powerup" -> 1;
-                    case "repair" -> 2;
-                    case "bomb" -> 3;
-                    case "target" -> 4;
-                    case "drone" -> 5;
-                    case "smallShip" -> 6;
-                    case "octaDrone" -> 7;
-                    case "tankDrone" -> 8;
-                    case "blasterDrone" -> 9;
+                    case "powerup" -> POWERUP;
+                    case "repair" -> REPAIR;
+                    case "bomb" -> BOMB;
+                    case "target" -> TARGET;
+                    case "drone" -> DRONE;
+                    case "smallShip" -> SMALLSHIP;
+                    case "octaDrone" -> OCTADRONE;
+                    case "tankDrone" -> TANKDRONE;
+                    case "blasterDrone" -> BLASTERDRONE;
+                    case "reaperDrone" -> REAPERDRONE;
+                    case "flameDrone" -> FLAMEDRONE;
+                    case "waspDrone" -> WASPDRONE;
+                    case "kamikazeDrone" -> KAMIKAZEDRONE;
                     default -> 99;    // For entities currently not handled in addEntityToList()
                 };
                 
@@ -123,13 +156,13 @@ public class LevelEditor implements Statemethods {
     /**
      * Controls:
      * ---------------------------------------------
-     * W / S                         Change screen 
-     * X                             Change entity
+     * w / s                         Change screen 
+     * x                             Change entity
      * UP / DOWN / LEFT / RIGHT      Change cursor position
-     * F                             Change entity direction
-     * A / D                         Change shootTimer
+     * f                             Change entity direction
+     * a / d                         Change shootTimer
      * SPACE                         Add / delete entity
-     * P                             Print levelData in console
+     * p                             Print levelData in console
      */
     public void handleKeyboardInputs(KeyEvent e) {
         if (game.upIsPressed) {
@@ -150,7 +183,7 @@ public class LevelEditor implements Statemethods {
         }
         else if (game.interactIsPressed) {
             game.interactIsPressed = false;
-            int adjustedY = cursorY + entityYOffset;
+            int adjustedY = cursorY + mapYOffset;
             addEntityToList(selectedEntity, cursorX, adjustedY, curDirection, this.shootTimer);
         }
         // Here we use som KeyEvents, but if it leads to trouble we can add booleans in game-object.
@@ -186,7 +219,7 @@ public class LevelEditor implements Statemethods {
 
     private void changeScreen(int upDown) {   // up = 1, down = -1
         this.clYOffset += Game.GAME_DEFAULT_HEIGHT * upDown;
-        this.entityYOffset -= Game.GAME_DEFAULT_HEIGHT * upDown;
+        this.mapYOffset -= Game.GAME_DEFAULT_HEIGHT * upDown;
     }
 
     /** Is used to 
@@ -195,11 +228,11 @@ public class LevelEditor implements Statemethods {
     */
     private void addEntityToList(int entity, int x, int y, int direction, int shootTimer) {
         int width = 150;    // Hitbox-size if no entities match
-        int height = 150;   
-        int xOffset = 0;
-        int yOffset = 0;
+        int height = 150;
+        x += entityDrawOffsets[entity][0];
+        y += entityDrawOffsets[entity][1];
 
-        if (entity == 0) {      // Delete
+        if (entity == DELETE) {    
             Rectangle hitbox = new Rectangle(x, y, 90, 90);
             int indexToRemove = -1;
             for (int i = 0; i < hitboxes.size(); i++) {
@@ -210,7 +243,6 @@ public class LevelEditor implements Statemethods {
             }
             if (indexToRemove > -1) {
                 hitboxes.remove(indexToRemove);
-                outPlacedImgs.remove(indexToRemove);
                 entityCor.remove(indexToRemove);
                 levelData.remove(indexToRemove);
                 entityTypes.remove(indexToRemove);
@@ -219,90 +251,95 @@ public class LevelEditor implements Statemethods {
             }
             return;
         }
-        else if (entity == 1) {
+        else if (entity == POWERUP) {
             levelData.add("powerup;" + Integer.toString(x) + ";" + 
                 Integer.toString(y) + ";" + Integer.toString(direction) + ";0");
-            width = 30;
-            height = 50;
-            xOffset = 28;
-            yOffset = 20;
+            width = POWERUP_HITBOX_W;
+            height = POWERUP_HITBOX_H;
         }
-        else if (entity == 2) {
+        else if (entity == REPAIR) {
             levelData.add("repair;" + Integer.toString(x) + ";" 
                 + Integer.toString(y) + ";" + Integer.toString(direction) + ";0");
-            width = 60;
-            height = 60;
-            xOffset = 15;
-            yOffset = 15;
+            width = REPAIR_HITBOX_SIZE;
+            height = REPAIR_HITBOX_SIZE;
         }
-        else if (entity == 3) {
+        else if (entity == BOMB) {
             levelData.add("bomb;" + Integer.toString(x) + ";" 
                 + Integer.toString(y)+ ";" + Integer.toString(direction) + ";0");
-            width = 45;
-            height = 45;
-            xOffset = 15;
-            yOffset = 18;
+            width = BOMB_HITBOX_SIZE;
+            height = BOMB_HITBOX_SIZE;
         }
-        else if (entity == 4) {
+        else if (entity == TARGET) {
             levelData.add("target;" + Integer.toString(x) + ";" 
                 + Integer.toString(y) + ";" + Integer.toString(direction) + ";0");
-            width = 60;
-            height = 60;
-            xOffset = 0;
-            yOffset = 0;
+            width = TARGET_HITBOX_SIZE;
+            height = TARGET_HITBOX_SIZE;
         }
-        else if (entity == 5) {
+        else if (entity == DRONE) {
             levelData.add("drone;" + Integer.toString(x) + ";" + Integer.toString(y) 
                 + ";" + Integer.toString(direction) + ";" + Integer.toString(shootTimer));
-            width = 78;
-            height = 66;
-            xOffset = 4;
-            yOffset = 10;
+            width = DRONE_HITBOX_W;
+            height = DRONE_HITBOX_H;
         }
-        else if (entity == 6) {   
+        else if (entity == SMALLSHIP) {   
             levelData.add("smallShip;" + Integer.toString(x) + ";"
                  + Integer.toString(y) + ";" + Integer.toString(direction) + ";0");
-            width = 60;   
-            height = 30;
-            xOffset = 16;
-            yOffset = 30;
+            width = SMALLSHIP_HITBOX_W;   
+            height = SMALLSHIP_HITBOX_H;
         }
-        else if (entity == 7) {   
+        else if (entity == OCTADRONE) {   
             levelData.add("octaDrone;" + Integer.toString(x) + ";" + Integer.toString(y) + ";" 
                 + Integer.toString(direction) + ";" + Integer.toString(shootTimer));
-            width = 80;  
-            height = 80;
-            xOffset = 5;
-            yOffset = 5;
+            width = OCTADRONE_HITBOX_SIZE;  
+            height = OCTADRONE_HITBOX_SIZE;
         }
-        else if (entity == 8) {
+        else if (entity == TANKDRONE) {
             levelData.add("tankDrone;" + Integer.toString(x) + ";"  
                  + Integer.toString(y)+ ";" + Integer.toString(direction) + ";0");
-            width = 80;
-            height = 90;
-            xOffset = 5;
-            yOffset = 0;
+            width = TANKDRONE_HITBOX_W;
+            height = TANKDRONE_HITBOX_H;
         }
-        else if (entity == 9) {
+        else if (entity == BLASTERDRONE) {
             levelData.add("blasterDrone;" + Integer.toString(x) + ";"
                  + Integer.toString(y) + ";" + Integer.toString(direction) + ";30");
-            width = 60;   
-            height = 90;
-            xOffset = 15;
-            yOffset = 0;
+            width = BLASTERDRONE_HITBOX_W;   
+            height = BLASTERDRONE_HITBOX_H;
+        }
+        else if (entity == REAPERDRONE) {
+            levelData.add("reaperDrone;" + Integer.toString(x) + ";"
+                 + Integer.toString(y) + ";1;"  + Integer.toString(shootTimer));
+            width = REAPERDRONE_HITBOX_W;   
+            height = REAPERDRONE_HITBOX_H;
+        }
+        else if (entity == FLAMEDRONE) {
+            levelData.add("flameDrone;" + Integer.toString(x) + ";"
+                 + Integer.toString(y) + ";1;120");
+            width = FLAMEDRONE_HITBOX_SIZE;   
+            height = FLAMEDRONE_HITBOX_SIZE;
+        }
+        else if (entity == WASPDRONE) {
+            levelData.add("waspDrone;" + Integer.toString(x) + ";" + Integer.toString(y) 
+                + ";" + Integer.toString(direction) + ";" + Integer.toString(shootTimer));
+            width = WASPDRONE_HITBOX_SIZE;   
+            height = WASPDRONE_HITBOX_SIZE;
+        }
+        else if (entity == KAMIKAZEDRONE) {
+            levelData.add("kamikazeDrone;" + Integer.toString(x) + ";" + Integer.toString(y) + ";1;0");
+            width = KAMIKAZEDRONE_HITBOX_SIZE;   
+            height = KAMIKAZEDRONE_HITBOX_SIZE;
         }
 
         entityTypes.add(entity);
         entityDirections.add(direction);
-        if ((entity == 5) || (entity == 7)) {
+        if ((entity == DRONE) || (entity == OCTADRONE) || 
+            (entity == WASPDRONE) || (entity == REAPERDRONE)) {
             shootTimers.add(shootTimer);
         } else {
             shootTimers.add(0);
         }
         int[] cor = {x, y};
         entityCor.add(cor);
-        outPlacedImgs.add(entityImgs[entity]);
-        Rectangle hitbox = new Rectangle(cor[0] + xOffset, cor[1] + yOffset, width, height);
+        Rectangle hitbox = new Rectangle(cor[0], cor[1], width, height);
         hitboxes.add(hitbox);
     }
 
@@ -319,54 +356,53 @@ public class LevelEditor implements Statemethods {
             (int) (clImgWidth * Game.SCALE), 
             (int) (clImgHeight * Game.SCALE), null);
         
-        // Text
+        // Top text
         g.setColor(Color.BLACK);
         g.setFont(font);
         g.drawString("direction : " + Integer.toString(curDirection), 20, 20);
         g.drawString("shootTimer : " + Integer.toString(shootTimer), 20, 50);
-        g.drawString("y :" + Integer.toString(entityYOffset), 700, 20);
+        g.drawString("y :" + Integer.toString(mapYOffset), 700, 20);
         
         // Outplaced images
-        for (int i = 0; i < outPlacedImgs.size(); i++) {
+        for (int i = 0; i < entityTypes.size(); i++) {
+            int entityType = entityTypes.get(i);
+            // Text
             g.drawString(
                 Integer.toString(shootTimers.get(i)), 
                 (int)(hitboxes.get(i).x * Game.SCALE),
-                (int)((hitboxes.get(i).y - entityYOffset - 20) * Game.SCALE));
+                (int)((hitboxes.get(i).y - mapYOffset - 20) * Game.SCALE));
+            
+            // Hitbox
             g.fillRect(
                 (int)(hitboxes.get(i).x * Game.SCALE),
-                (int)((hitboxes.get(i).y - entityYOffset) * Game.SCALE),
+                (int)((hitboxes.get(i).y - mapYOffset) * Game.SCALE),
                 (int)(hitboxes.get(i).width * Game.SCALE),
                 (int)(hitboxes.get(i).height * Game.SCALE)
             );
-            if (entityTypes.get(i) == 6) {    // smallShip
-                int dir = entityDirections.get(i);
-                int xOffset = 0;
-                if (dir == -1) {
-                    xOffset = 88;
-                }
-                g.drawImage(
-                    outPlacedImgs.get(i),
-                    (int) ((entityCor.get(i)[0] + xOffset) * Game.SCALE),
-                    (int) ((entityCor.get(i)[1] - entityYOffset) * Game.SCALE),
-                    (int) (ALL_SPRITES_SIZE * 3 * dir * Game.SCALE),
-                    (int) (ALL_SPRITES_SIZE * 3 * Game.SCALE), null);
-                }
-            else {
-                g.drawImage(
-                    outPlacedImgs.get(i),
-                    (int) (entityCor.get(i)[0] * Game.SCALE),
-                    (int) ((entityCor.get(i)[1] - entityYOffset) * Game.SCALE),
-                    (int) (ALL_SPRITES_SIZE * 3 * Game.SCALE),
-                    (int) (ALL_SPRITES_SIZE * 3 * Game.SCALE), null);
-                }
+            // Image
+            int dir = entityDirections.get(i);
+            int x = entityCor.get(i)[0];
+            int y = entityCor.get(i)[1];
+            int xOffset = entityDrawOffsets[entityType][0];
+            int yOffset = entityDrawOffsets[entityType][1];
+            int spriteW = entitySpriteSizes[entityType][0];
+            int spriteH = entitySpriteSizes[entityType][1];
+            if (dir == -1) {
+                xOffset -= 3 * spriteW;
+            }
+            g.drawImage(
+                entityImgs[entityType],
+                (int) ((x - xOffset) * Game.SCALE),
+                (int) ((y - yOffset - mapYOffset) * Game.SCALE),
+                (int) (spriteW * 3 * dir * Game.SCALE),
+                (int) (spriteH * 3 * Game.SCALE), null);   
         }
-
         // Cursor
         g.drawImage(
             entityImgs[selectedEntity], 
             (int) (cursorX * Game.SCALE), 
             (int) (cursorY * Game.SCALE), 
-            (int) (ALL_SPRITES_SIZE * 3 * Game.SCALE), 
-            (int) (ALL_SPRITES_SIZE * 3 * Game.SCALE), null);
+            (int) (entitySpriteSizes[selectedEntity][0] * 3 * Game.SCALE), 
+            (int) (entitySpriteSizes[selectedEntity][1] * 3 * Game.SCALE), null);
     }
 }

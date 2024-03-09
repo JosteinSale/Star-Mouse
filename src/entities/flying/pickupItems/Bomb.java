@@ -8,8 +8,10 @@ import entities.Entity;
 import main.Game;
 import utils.LoadSave;
 
-import static utils.Constants.Flying.Sprites.BOMB_SPRITE_SIZE;
+import static utils.Constants.Flying.SpriteSizes.BOMB_SPRITE_SIZE;
 import static utils.Constants.Flying.TypeConstants.BOMB;
+import static utils.Constants.Flying.DrawOffsetConstants.BOMB_OFFSET_X;
+import static utils.Constants.Flying.DrawOffsetConstants.BOMB_OFFSET_Y;
 
 public class Bomb extends Entity implements PickupItem {
     private BufferedImage[] animations;
@@ -51,8 +53,8 @@ public class Bomb extends Entity implements PickupItem {
         if (active) {
             g.drawImage(
             animations[aniIndex], 
-            (int) ((hitbox.x - 15) * Game.SCALE), 
-            (int) ((hitbox.y - 18) * Game.SCALE), 
+            (int) ((hitbox.x - BOMB_OFFSET_X) * Game.SCALE), 
+            (int) ((hitbox.y - BOMB_OFFSET_Y) * Game.SCALE), 
             (int) (BOMB_SPRITE_SIZE * 3 * Game.SCALE),
             (int) (BOMB_SPRITE_SIZE * 3 * Game.SCALE), null);
         }

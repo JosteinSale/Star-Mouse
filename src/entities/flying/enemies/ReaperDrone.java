@@ -7,8 +7,10 @@ import java.awt.image.BufferedImage;
 import entities.Entity;
 import main.Game;
 import static utils.Constants.Flying.TypeConstants.REAPERDRONE;
-import static utils.Constants.Flying.Sprites.REAPERDRONE_SPRITE_WIDTH;
-import static utils.Constants.Flying.Sprites.REAPERDRONE_SPRITE_HEIGHT;
+import static utils.Constants.Flying.SpriteSizes.REAPERDRONE_SPRITE_WIDTH;
+import static utils.Constants.Flying.SpriteSizes.REAPERDRONE_SPRITE_HEIGHT;
+import static utils.Constants.Flying.DrawOffsetConstants.REAPERDRONE_OFFSET_X;
+import static utils.Constants.Flying.DrawOffsetConstants.REAPERDRONE_OFFSET_Y;
 
 /** The ReaperDrone shoots 3 wide, fast projectiles in fast succession.
  * They are not hard to dodge or kill, but has an imposing effect.
@@ -134,8 +136,8 @@ public class ReaperDrone extends Entity implements Enemy {
     public void draw(Graphics g) {
         g.drawImage(
             animations[action][aniIndex], 
-            (int) ((hitbox.x - 60) * Game.SCALE), 
-            (int) ((hitbox.y - 45)* Game.SCALE), 
+            (int) ((hitbox.x - REAPERDRONE_OFFSET_X) * Game.SCALE), 
+            (int) ((hitbox.y - REAPERDRONE_OFFSET_Y)* Game.SCALE), 
             (int) (REAPERDRONE_SPRITE_WIDTH * 3 * Game.SCALE), 
             (int) (REAPERDRONE_SPRITE_HEIGHT* 3 * Game.SCALE), null);
     }

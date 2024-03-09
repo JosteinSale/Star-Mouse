@@ -1,7 +1,8 @@
 package entities.flying.enemies;
 
-import static utils.Constants.Flying.Sprites.WASPDRONE_SPRITE_SIZE;
+import static utils.Constants.Flying.SpriteSizes.WASPDRONE_SPRITE_SIZE;
 import static utils.Constants.Flying.TypeConstants.WASPDRONE;
+import static utils.Constants.Flying.DrawOffsetConstants.WASPDRONE_OFFSET;
 
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
@@ -128,8 +129,8 @@ public class WaspDrone extends Entity implements Enemy {
       drawHitbox(g);
       g.drawImage(
             animations[action][aniIndex],
-            (int) ((hitbox.x - 15 + getFlipX()) * Game.SCALE),
-            (int) ((hitbox.y - 15) * Game.SCALE),
+            (int) ((hitbox.x - WASPDRONE_OFFSET + getFlipX()) * Game.SCALE),
+            (int) ((hitbox.y - WASPDRONE_OFFSET) * Game.SCALE),
             (int) (WASPDRONE_SPRITE_SIZE * 3 * direction * Game.SCALE),
             (int) (WASPDRONE_SPRITE_SIZE * 3 * Game.SCALE), null);
    }

@@ -1,8 +1,10 @@
 package entities.flying.enemies;
 
-import static utils.Constants.Flying.Sprites.FLAMEDRONE_SPRITE_HEIGHT;
-import static utils.Constants.Flying.Sprites.FLAMEDRONE_SPRITE_WIDTH;
+import static utils.Constants.Flying.SpriteSizes.FLAMEDRONE_SPRITE_HEIGHT;
+import static utils.Constants.Flying.SpriteSizes.FLAMEDRONE_SPRITE_WIDTH;
 import static utils.Constants.Flying.TypeConstants.FLAMEDRONE;
+import static utils.Constants.Flying.DrawOffsetConstants.FLAMEDRONE_OFFSET_X;
+import static utils.Constants.Flying.DrawOffsetConstants.FLAMEDRONE_OFFSET_Y;
 
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
@@ -140,8 +142,8 @@ public class FlameDrone extends Entity implements Enemy {
    public void draw(Graphics g) {
       g.drawImage(
             animations[action][aniIndex],
-            (int) ((hitbox.x - 138) * Game.SCALE),
-            (int) ((hitbox.y - 30) * Game.SCALE),
+            (int) ((hitbox.x - FLAMEDRONE_OFFSET_X) * Game.SCALE),
+            (int) ((hitbox.y - FLAMEDRONE_OFFSET_Y) * Game.SCALE),
             (int) (FLAMEDRONE_SPRITE_WIDTH * 3 * Game.SCALE),
             (int) (FLAMEDRONE_SPRITE_HEIGHT * 3 * Game.SCALE), null);
    }
