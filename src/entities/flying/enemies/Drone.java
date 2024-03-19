@@ -18,7 +18,7 @@ public class Drone extends Entity implements Enemy {
 
     BufferedImage[][] animations;
     private float startY;
-    private int maxHP = 80;
+    private int maxHP = 60;
     private int HP = maxHP;
     private boolean onScreen = false;   
     private boolean dead = false;

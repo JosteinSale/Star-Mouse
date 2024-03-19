@@ -17,7 +17,7 @@ public class OctaDrone extends Entity implements Enemy {
 
     BufferedImage[][] animations;
     private float startY;
-    private int maxHP = 120;
+    private int maxHP = 85;
     private int HP = maxHP;
     private boolean onScreen = false;   
     private boolean dead = false;

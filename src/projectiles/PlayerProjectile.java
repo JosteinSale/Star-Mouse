@@ -17,6 +17,7 @@ public class PlayerProjectile extends Entity implements Projectile {
     private int[][] collisionPixels = new int[2][2];
     private boolean powerUp;
     private boolean active = true;
+    private float powerupFactor = 1.5f;
 
     public PlayerProjectile(Rectangle2D.Float hitbox, boolean powerUp, int dmg, BufferedImage img) {
         super(hitbox);
@@ -33,7 +34,7 @@ public class PlayerProjectile extends Entity implements Projectile {
     @Override
     public int getDamage() {
         if (powerUp) {
-            return (int) (damage * 2);
+            return (int) (damage * powerupFactor);
         }
         else {
             return damage;

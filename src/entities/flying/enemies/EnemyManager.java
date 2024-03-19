@@ -38,7 +38,7 @@ public class EnemyManager {
     private BufferedImage[] explosionAnimation;
     private ArrayList<Explosion> explosions;
     private int collisionDmg = 10;
-    private int teleportDmg = 100;
+    private int teleportDmg = 80;
     private ArrayList<Integer> killedEnemies;           // Contains the enemyTypes
 
     public EnemyManager(PlayerFly player, AudioPlayer audioPlayer) {
