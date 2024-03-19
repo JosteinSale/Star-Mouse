@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,11 +42,11 @@ import static utils.HelpMethods2.GetEntitySpriteSizes;
  */
 public class LevelEditor implements Statemethods {
     private Game game;
-    private Integer level = 1;
+    private Integer level = 2;
     private BufferedImage clImg;
     private BufferedImage[] entityImgs;                  
     private ArrayList<Rectangle> hitboxes;
-    private ArrayList<int[]> entityCor;
+    private ArrayList<int[]> entityHbCor;
     private int[][] entitySpriteSizes;   // For each inner list: 0 = spritewidth, 1 = spriteheight.
     private int[][] entityDrawOffsets;
     private ArrayList<String> levelData;
@@ -73,7 +74,7 @@ public class LevelEditor implements Statemethods {
         this.game = game;
         loadMapImages(level);
         loadEntityImages();
-        this.entityCor = new ArrayList<>();
+        this.entityHbCor = new ArrayList<>();
         this.hitboxes = new ArrayList<>();
         this.levelData = new ArrayList<>();
         this.entityDirections = new ArrayList<>();
@@ -145,7 +146,7 @@ public class LevelEditor implements Statemethods {
                 int yCor = Integer.parseInt(lineData[2]);
                 int dir = Integer.parseInt(lineData[3]);
                 int shootTimer = Integer.parseInt(lineData[4]);
-                addEntityToList(entity, xCor, yCor, dir, shootTimer);
+                addEntityToList(false, entity, xCor, yCor, dir, shootTimer);
             }
         }
     }
@@ -184,7 +185,7 @@ public class LevelEditor implements Statemethods {
         else if (game.interactIsPressed) {
             game.interactIsPressed = false;
             int adjustedY = cursorY + mapYOffset;
-            addEntityToList(selectedEntity, cursorX, adjustedY, curDirection, this.shootTimer);
+            addEntityToList(true, selectedEntity, cursorX, adjustedY, curDirection, this.shootTimer);
         }
         // Here we use som KeyEvents, but if it leads to trouble we can add booleans in game-object.
         else if (e.getKeyCode() == KeyEvent.VK_UP) {
@@ -225,12 +226,16 @@ public class LevelEditor implements Statemethods {
     /** Is used to 
      *      1) load the data from levelData-file
      *      2) make new levelData from levelEditor
+     * the 'fromEditor'-boolean represents whether this method is called from the levelEditor.
     */
-    private void addEntityToList(int entity, int x, int y, int direction, int shootTimer) {
+    private void addEntityToList(boolean calledFromEditor, int entity, int x, int y, int direction, int shootTimer) {
         int width = 150;    // Hitbox-size if no entities match
         int height = 150;
-        x += entityDrawOffsets[entity][0];
-        y += entityDrawOffsets[entity][1];
+        if (calledFromEditor) {
+            // Adjusting x and y to represent hitbox.x- and -y
+            x += entityDrawOffsets[entity][0]; 
+            y += entityDrawOffsets[entity][1];
+        }
 
         if (entity == DELETE) {    
             Rectangle hitbox = new Rectangle(x, y, 90, 90);
@@ -243,7 +248,7 @@ public class LevelEditor implements Statemethods {
             }
             if (indexToRemove > -1) {
                 hitboxes.remove(indexToRemove);
-                entityCor.remove(indexToRemove);
+                entityHbCor.remove(indexToRemove);
                 levelData.remove(indexToRemove);
                 entityTypes.remove(indexToRemove);
                 entityDirections.remove(indexToRemove);
@@ -338,8 +343,8 @@ public class LevelEditor implements Statemethods {
             shootTimers.add(0);
         }
         int[] cor = {x, y};
-        entityCor.add(cor);
-        Rectangle hitbox = new Rectangle(cor[0], cor[1], width, height);
+        entityHbCor.add(cor);
+        Rectangle hitbox = new Rectangle(x, y, width, height);
         hitboxes.add(hitbox);
     }
 
@@ -366,23 +371,22 @@ public class LevelEditor implements Statemethods {
         // Outplaced images
         for (int i = 0; i < entityTypes.size(); i++) {
             int entityType = entityTypes.get(i);
+            Rectangle2D hitbox = hitboxes.get(i);
             // Text
             g.drawString(
                 Integer.toString(shootTimers.get(i)), 
-                (int)(hitboxes.get(i).x * Game.SCALE),
-                (int)((hitboxes.get(i).y - mapYOffset - 20) * Game.SCALE));
+                (int)(hitbox.getX() * Game.SCALE),
+                (int)((hitbox.getY() - mapYOffset - 20) * Game.SCALE));
             
             // Hitbox
             g.fillRect(
-                (int)(hitboxes.get(i).x * Game.SCALE),
-                (int)((hitboxes.get(i).y - mapYOffset) * Game.SCALE),
-                (int)(hitboxes.get(i).width * Game.SCALE),
-                (int)(hitboxes.get(i).height * Game.SCALE)
+                (int)(hitbox.getX() * Game.SCALE),
+                (int)((hitbox.getY() - mapYOffset) * Game.SCALE),
+                (int)(hitbox.getWidth() * Game.SCALE),
+                (int)(hitbox.getHeight() * Game.SCALE)
             );
             // Image
             int dir = entityDirections.get(i);
-            int x = entityCor.get(i)[0];
-            int y = entityCor.get(i)[1];
             int xOffset = entityDrawOffsets[entityType][0];
             int yOffset = entityDrawOffsets[entityType][1];
             int spriteW = entitySpriteSizes[entityType][0];
@@ -392,8 +396,8 @@ public class LevelEditor implements Statemethods {
             }
             g.drawImage(
                 entityImgs[entityType],
-                (int) ((x - xOffset) * Game.SCALE),
-                (int) ((y - yOffset - mapYOffset) * Game.SCALE),
+                (int) ((hitbox.getX() - xOffset) * Game.SCALE),
+                (int) ((hitbox.getY() - yOffset - mapYOffset) * Game.SCALE),
                 (int) (spriteW * 3 * dir * Game.SCALE),
                 (int) (spriteH * 3 * Game.SCALE), null);   
         }
