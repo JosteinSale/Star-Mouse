@@ -59,8 +59,8 @@ public class Flying extends State implements Statemethods {
     private float skipYPos;
 
     private int[] bgImgHeights = {7600, 10740, 10};
-    private float[] resetPoints = {20f, 1300f, 0f};
-    private float[] skipPoints = {17000f, 27500f, 0f};
+    private float[] resetPoints = {20f, 1300f, 1000f};
+    private float[] endLevelPoints = {17000f, 27500f, 0f};
     private BufferedImage clImg;
     private Image scaledClImg;
     private Image scaledBgImg;
@@ -74,6 +74,8 @@ public class Flying extends State implements Statemethods {
     private float bgNormalSpeed = 0.7f;
     private float fgCurSpeed = fgNormalSpeed;
     private float bgCurSpeed = bgNormalSpeed;
+
+    private int chartingY = 0;
 
     public Flying(Game game) {
         super(game);
@@ -89,7 +91,7 @@ public class Flying extends State implements Statemethods {
         this.level = level;
         this.song = Audio.GetFlyLevelSong(level);
         this.resetYPos = resetPoints[level];
-        this.skipYPos = skipPoints[level];
+        this.skipYPos = endLevelPoints[level];
         loadMapAndOffsets(level);
         player.setClImg(this.clImg);
         projectileHandler.setClImg(this.clImg);
@@ -247,6 +249,7 @@ public class Flying extends State implements Statemethods {
             if (!cutsceneManager.isActive()) {
                 checkCutsceneTriggers();
             }
+            updateChartingY();
             checkPause();
             moveMaps();
             moveCutscenes();
@@ -256,6 +259,11 @@ public class Flying extends State implements Statemethods {
             projectileHandler.update(clYOffset, clXOffset, fgCurSpeed);
         }
         if (!pause) {cutsceneManager.update();}
+    }
+
+    private void updateChartingY() {
+        chartingY += fgCurSpeed;
+        //System.out.println(chartingY);
     }
 
     private void checkPause() {

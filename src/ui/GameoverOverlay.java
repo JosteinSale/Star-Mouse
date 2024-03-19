@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 
 import audio.AudioPlayer;
 import gamestates.Flying;
+import gamestates.Gamestate;
 
 import static utils.HelpMethods.DrawCenteredString;
 
@@ -36,7 +37,7 @@ public class GameoverOverlay {
    private BufferedImage[] deathAnimation;
    private int selectedIndex = 0;
    private static final int RESTART_LEVEL = 0;
-   private static final int MAIN_MENU = 0;
+   private static final int MAIN_MENU = 1;
 
    private float playerX;
    private float playerY;
@@ -117,8 +118,11 @@ public class GameoverOverlay {
             flying.resetLevel();
          } 
          else if (selectedIndex == MAIN_MENU) {
-            audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
-            // TODO - a bunch of shit
+            // We do not need to reset the level, since the loadLevel-method will be called
+            // when the player reenters flying.
+            flying.resetFlying();
+            flying.getGame().resetMainMenu();
+            Gamestate.state = Gamestate.MAIN_MENU;
          } 
       }
    }
