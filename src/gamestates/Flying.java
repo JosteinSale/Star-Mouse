@@ -58,7 +58,7 @@ public class Flying extends State implements Statemethods {
     private float resetYPos;
     private float skipYPos;
 
-    private int[] bgImgHeights = {7600, 10740, 10};
+    private int[] bgImgHeights = {7600, 10740, 6000};
     private float[] resetPoints = {20f, 1300f, 1000f};
     private float[] endLevelPoints = {17000f, 27500f, 0f};
     private BufferedImage clImg;
