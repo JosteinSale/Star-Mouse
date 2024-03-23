@@ -57,10 +57,12 @@ public class Flying extends State implements Statemethods {
     private boolean gameOver = false;
     private float resetYPos;
     private float skipYPos;
+    private float songResetPos;
 
     private int[] bgImgHeights = {7600, 10740, 6000};
     private float[] resetPoints = {20f, 1300f, 1000f};
     private float[] endLevelPoints = {17000f, 27500f, 0f};
+    private float[] songResetPoints = {0f, 8f, 8f}; 
     private BufferedImage clImg;
     private Image scaledClImg;
     private Image scaledBgImg;
@@ -90,8 +92,7 @@ public class Flying extends State implements Statemethods {
     public void loadLevel(int level) {
         this.level = level;
         this.song = Audio.GetFlyLevelSong(level);
-        this.resetYPos = resetPoints[level];
-        this.skipYPos = endLevelPoints[level];
+        setResetPoints();
         loadMapAndOffsets(level);
         player.setClImg(this.clImg);
         projectileHandler.setClImg(this.clImg);
@@ -102,6 +103,12 @@ public class Flying extends State implements Statemethods {
         player.setKilledEnemies(0);
         //startAt(-13000);     // For testing purposes
         
+    }
+
+    private void setResetPoints() {
+        this.resetYPos = resetPoints[level];
+        this.skipYPos = endLevelPoints[level];
+        this.songResetPos = songResetPoints[level];
     }
 
     private void initClasses(OptionsMenu optionsMenu, ProgressValues progValues) {
@@ -210,7 +217,7 @@ public class Flying extends State implements Statemethods {
             this.levelFinishedOverlay.setLevelStats(enemyManager.getKilledEnemies());
         }
         else if (event instanceof StartSongEvent evt) {
-            this.game.getAudioPlayer().startSongLoop(evt.index());
+            this.game.getAudioPlayer().startSongLoop(evt.index(), 0);
         }
         else if (event instanceof StartAmbienceEvent evt) {
             audioPlayer.startAmbienceLoop(evt.index());
@@ -437,7 +444,7 @@ public class Flying extends State implements Statemethods {
             trigger.resetTo(resetYPos);
         }
         enemyManager.resetEnemiesTo(resetYPos);
-        audioPlayer.startSongLoop(song);
+        audioPlayer.startSongLoop(song, songResetPos);
         audioPlayer.startAmbienceLoop(Audio.AMBIENCE_ROCKET_ENGINE);
     }
 

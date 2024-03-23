@@ -46,7 +46,7 @@ public class StartScreen extends State implements Statemethods {
             //fadeActive = false;  Doesn't need to be reset, since we never return to start screen.
             Gamestate.state = Gamestate.MAIN_MENU;
             audioPlayer.stopAmbience();
-            audioPlayer.startSongLoop(Audio.SONG_MAIN_MENU);
+            audioPlayer.startSongLoop(Audio.SONG_MAIN_MENU, 0);
         }
     }
 

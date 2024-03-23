@@ -102,7 +102,7 @@ public class LevelSelect extends State implements Statemethods {
 
     private void updateGlobalBooleans(int finishedLevel, int killCount) {
         if (finishedLevel == 1 && killCount == firstLevelBigThreshold) {
-            progValues.path3Unlocked = true;
+            progValues.path3Unlocked = true;  // Note: !firstPlaythrough is also required to get LevelLayout3
         }
         else if (finishedLevel == 5) {progValues.hasEnding1 = true; progValues.firstPlayThrough = false;}
         else if (finishedLevel == 9) {progValues.hasEnding2 = true; progValues.firstPlayThrough = false;}

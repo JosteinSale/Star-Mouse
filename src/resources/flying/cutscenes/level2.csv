@@ -23,9 +23,9 @@ wait;200
 endSequence
 
 cutscene;true;automatic;2
-dialogue;Lt.Red;serious;0;2;Wait, something's wrong...
-wait;140
+dialogue;Lt.Red;suspicious;2;2;Wait, something's wrong...
+wait;180
 endSequence
-dialogue;Lt.Red;serious;0;2;It's the enemy! IT'S AN AMBUSH!
+dialogue;Lt.Red;shocked;3;2;It's the enemy! IT'S AN AMBUSH!
 wait;200
 endSequence

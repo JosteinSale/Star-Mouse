@@ -256,7 +256,7 @@ public class Area {
             game.getFlying().update();
         }
         else if (event instanceof StartSongEvent evt) {
-            this.audioPlayer.startSongLoop(evt.index());
+            this.audioPlayer.startSongLoop(evt.index(), 0);
         }
         else if (event instanceof StopLoopsEvent evt) {
             this.audioPlayer.stopAllLoops();
@@ -339,7 +339,7 @@ public class Area {
         if (justEntered) {
             audioPlayer.startAmbienceLoop(ambienceIndex);
             if (musicEnabled) {
-                audioPlayer.startSongLoop(song);
+                audioPlayer.startSongLoop(song, 0);
             }
             cutsceneManager.startFadeIn(10, true);
             justEntered = false;

@@ -52,6 +52,12 @@ dialogue;Max;determined;8;2;(Oliver... I'll find you! I promise)
 endSequence
 fadeOut;2
 endSequence
+blackScreen;true
+wait;1
+endSequence
+goToFlying;2
+wait;1
+endSequence
 
 cutscene;true;npc;1
 dialogue;Lt.Red;normal;0;2;Good to see you made it, Max.

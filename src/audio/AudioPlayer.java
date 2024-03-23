@@ -167,7 +167,7 @@ public class AudioPlayer {
     /** Starts a song loop with the specified index.
      *  Index = 99 means no song.
      */
-    public void startSongLoop(int index) {
+    public void startSongLoop(int index, float startPos) {
         if (index == 99) {return;}
         this.curSongVolume = setSongVolume;
         try {
@@ -176,6 +176,7 @@ public class AudioPlayer {
             curSong.open(audioInputStream);
             songGainControl = (FloatControl) curSong.getControl(FloatControl.Type.MASTER_GAIN);
             updateSongVolume();
+            curSong.setMicrosecondPosition((int) startPos *1000000);
             curSong.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (Exception e) {
             e.printStackTrace();
