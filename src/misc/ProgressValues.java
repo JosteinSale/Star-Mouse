@@ -7,7 +7,7 @@ public class ProgressValues {
    private int maxHP = 100;
    private int lazerDmg = 7;
    private int credits = 0;
-   private int bombs = 0;
+   private int bombs = 10;
 
    public boolean hasEnding1 = false;
    public boolean hasEnding2 = false;

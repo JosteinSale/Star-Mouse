@@ -21,7 +21,7 @@ public class WaspDrone extends Entity implements Enemy {
    BufferedImage[][] animations;
    private float startY;
    private float startX;
-   private int maxHP = 80;
+   private int maxHP = 60;
    private int HP = maxHP;
    private boolean onScreen = false;
    private boolean dead = false;
@@ -126,7 +126,7 @@ public class WaspDrone extends Entity implements Enemy {
 
    @Override
    public void draw(Graphics g) {
-      drawHitbox(g);
+      //drawHitbox(g);
       g.drawImage(
             animations[action][aniIndex],
             (int) ((hitbox.x - WASPDRONE_OFFSET + getFlipX()) * Game.SCALE),

@@ -29,3 +29,13 @@ endSequence
 dialogue;Lt.Red;shocked;3;2;It's the enemy! IT'S AN AMBUSH!
 wait;200
 endSequence
+
+cutscene;true;automatic;3
+dialogue;???;Rüdinger;0;5;...Send in the flame-drones.
+wait;280
+endSequence
+
+cutscene;true;automatic;4
+dialogue;Max;serious;8;2;Who was that?
+wait;180
+endSequence

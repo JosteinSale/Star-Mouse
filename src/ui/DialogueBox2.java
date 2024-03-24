@@ -36,7 +36,7 @@ public class DialogueBox2 {
     }
 
     private void loadAllPortraits() {
-        int nrOfCharacters = 2 + 17;  // special characters + npcs
+        int nrOfCharacters = 2 + 18;  // special characters + npcs
         portraits = new BufferedImage[nrOfCharacters][12];
         portraits[0] = getPortraits(LoadSave.MAX_PORTRAITS, 12, 0);
         portraits[1] = getPortraits(LoadSave.OLIVER_PORTRAITS, 9, 0);
