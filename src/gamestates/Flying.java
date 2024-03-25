@@ -49,7 +49,7 @@ public class Flying extends State implements Statemethods {
     private EventHandler eventHandler;
     private ArrayList<AutomaticTrigger> automaticTriggers;
     private ArrayList<PickupItem> pickupItems;
-    private int repairHealth = 100;
+    private int repairHealth = 50;
     private int song;
     private boolean pause = false;
     private boolean gamePlayActive = true;
@@ -59,10 +59,10 @@ public class Flying extends State implements Statemethods {
 
     private int[] bgImgHeights = {7600, 10740, 6000};
     private float[] resetPoints = {20f, 1300f, 1000f};
-    private float[] checkPoints = {8000f, 13000f, 11950f};
+    private float[] checkPoints = {99999f, 13500f, 11950f};
     private float[] skipLevelPoints = {17000f, 27500f, 0f};
     private float[] songResetPoints = {0f, 8f, 8f}; 
-    private float[] songCheckPoints = {10f, 10f, 0f};
+    private float[] songCheckPoints = {0f, 110f, 0f};
     private BufferedImage clImg;
     private Image scaledClImg;
     private Image scaledBgImg;
@@ -86,7 +86,6 @@ public class Flying extends State implements Statemethods {
         this.pickupItems = new ArrayList<>();
         initClasses(game.getOptionsMenu(), game.getExploring().getProgressValues());
         loadEventReactions();
-        //projectileHandler.setBombs(game.getExploring().getProgressValues().getBombs());
     }
 
     public void loadLevel(int level) {
@@ -100,7 +99,7 @@ public class Flying extends State implements Statemethods {
         loadPickupItems(level);
         loadCutscenes(level);  
         player.setKilledEnemies(0);
-        //startAt(-9000);     // For testing purposes
+        //startAt(-11000);     // For testing purposes
         
     }
 
@@ -208,7 +207,8 @@ public class Flying extends State implements Statemethods {
         }
         else if (event instanceof LevelFinishedEvent evt) {
             this.levelFinished = true;
-            this.levelFinishedOverlay.setLevelStats(enemyManager.getTotalKilledEnemies());
+            this.enemyManager.levelFinished();
+            this.levelFinishedOverlay.setLevelStats(enemyManager.getFinalKilledEnemies());
         }
         else if (event instanceof StartSongEvent evt) {
             this.game.getAudioPlayer().startSongLoop(evt.index(), 0);
@@ -261,10 +261,6 @@ public class Flying extends State implements Statemethods {
             projectileHandler.update(clYOffset, clXOffset, fgCurSpeed);
         }
         if (!pause) {cutsceneManager.update();}
-    }
-
-    private void updateChartingY() {
-        chartingY += fgCurSpeed;
     }
 
     private void checkPause() {
@@ -389,7 +385,7 @@ public class Flying extends State implements Statemethods {
         }
         else {
             game.getLevelSelect().reset();
-            game.getLevelSelect().updateUnlockedLevels(level, enemyManager.getTotalKilledEnemies().size());
+            game.getLevelSelect().updateUnlockedLevels(level, enemyManager.getFinalKilledEnemies().size());
             Gamestate.state = Gamestate.LEVEL_SELECT;
         }
     }
@@ -452,7 +448,7 @@ public class Flying extends State implements Statemethods {
             songResetPos = songCheckPoints[level];
         }
         this.clYOffset = Game.GAME_DEFAULT_HEIGHT - clImgHeight + 150 + resetYPos;
-        this.bgYOffset = Game.GAME_DEFAULT_HEIGHT - bgImgHeight + (resetYPos / 3);
+        this.bgYOffset = Game.GAME_DEFAULT_HEIGHT - bgImgHeight + (resetYPos * (bgCurSpeed / fgCurSpeed));
         // Resets pickupItems and automic triggers
         for (PickupItem p : pickupItems) {
             p.resetTo(resetYPos);
@@ -463,7 +459,7 @@ public class Flying extends State implements Statemethods {
         resetChartingY(toCheckPoint);
         projectileHandler.resetBombs(toCheckPoint);
         enemyManager.resetEnemiesTo(resetYPos, toCheckPoint);
-        if (toCheckPoint) {player.setKilledEnemies(enemyManager.getTotalKilledEnemies().size());}
+        if (toCheckPoint) {player.setKilledEnemies(enemyManager.getEnemiesKilledAtCheckpoint().size());}
         audioPlayer.startSongLoop(song, songResetPos);
         audioPlayer.startAmbienceLoop(Audio.AMBIENCE_ROCKET_ENGINE);
     }
@@ -516,5 +512,9 @@ public class Flying extends State implements Statemethods {
     /** Is called from Player. Is needed for big enemies */
     public void checkIfDead(Enemy enemy) {
         this.enemyManager.checkIfDead(enemy);
+    }
+
+    private void updateChartingY() {
+        chartingY += fgCurSpeed;
     }
 }

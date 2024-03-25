@@ -3,6 +3,7 @@ automaticTrigger;0f;-250f;10f;10f;attack_formation!
 automaticTrigger;0f;-2750f;10f;10f;entering_the_city
 automaticTrigger;0f;-3800f;10f;10f;no!
 automaticTrigger;0f;-5000f;10f;10f;HELP!
+automaticTrigger;0f;-13500f;10f;10f;Checkpoint!
 automaticTrigger;0f;-25000f;10f;10f;everyone_retreat
 automaticTrigger;0f;-27700f;10f;10f;fade_out_loops
 automaticTrigger;0f;-28000f;10f;10f;level_finished

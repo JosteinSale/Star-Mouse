@@ -32,12 +32,12 @@ public class GameoverOverlay {
    private Font headerFont;
    private Font menuFont;
 
-   private String[] menuOptions = { "Restart Level", "Last Checkpoint", "Main Menu" };
+   private String[] menuOptions = {"Last Checkpoint", "Restart Level", "Main Menu" };
    private BufferedImage pointerImg;
    private BufferedImage[] deathAnimation;
    private int selectedIndex = 0;
-   private static final int RESTART_LEVEL = 0;
-   private static final int LAST_CHECKPOINT = 1;
+   private static final int LAST_CHECKPOINT = 0;
+   private static final int RESTART_LEVEL = 1;
    private static final int MAIN_MENU = 2;
 
    private float playerX;
@@ -114,6 +114,7 @@ public class GameoverOverlay {
       else if (flying.getGame().interactIsPressed) {
          flying.getGame().interactIsPressed = false;
          if (selectedIndex == RESTART_LEVEL) {
+            this.cursorY = cursorMinY;
             flying.resetFlying();
             flying.resetLevel(false);
          }
@@ -122,6 +123,7 @@ public class GameoverOverlay {
                audioPlayer.playSFX(Audio.SFX_HURT);
             }
             else {
+               this.cursorY = cursorMinY;
                flying.resetFlying();
                flying.resetLevel(true);
             }

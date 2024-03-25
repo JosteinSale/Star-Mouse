@@ -40,7 +40,15 @@ dialogue;Po;screaming;0;2;HELP!
 wait;200
 endSequence
 
-cutscene;true;automatic;5;      // TODO - Make this cutscene depend on amount of ships destroyed
+cutscene;true;automatic;5
+fadeHeader;in;350;60;Checkpoint reached
+wait;150
+endSequence
+fadeHeader;out;350;60;Checkpoint reached
+wait;5
+endSequence
+
+cutscene;true;automatic;6;      // TODO - Make this cutscene depend on amount of ships destroyed
 dialogue;Lt.Red;serious;0;2;The city is lost!
 wait;180
 endSequence
@@ -51,12 +59,12 @@ dialogue;Lt.Red;serious;0;2;We'll regroup on Vyke.
 wait;180
 endSequence
 
-cutscene;true;automatic;6
+cutscene;true;automatic;7
 fadeOutLoops
 wait;1
 endSequence
 
-cutscene;true;automatic;7
+cutscene;true;automatic;8
 fadeOut;5
 endSequence
 setGameplayActive;false

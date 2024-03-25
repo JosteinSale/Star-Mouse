@@ -267,10 +267,18 @@ public class EnemyManager {
         }
         this.player.setKilledEnemies(killedEnemies.size() + killedEnemiesAtCheckpoint.size());
      }
-
-    public ArrayList<Integer> getTotalKilledEnemies() {
-        this.killedEnemies.addAll(killedEnemiesAtCheckpoint);
+    
+    public ArrayList<Integer> getFinalKilledEnemies() {
         return this.killedEnemies;
+    }
+
+    /** Should only be called once at the end of the level */
+    public void levelFinished() {
+        this.killedEnemies.addAll(killedEnemiesAtCheckpoint);
+    }
+
+    public ArrayList<Integer> getEnemiesKilledAtCheckpoint() {
+        return this.killedEnemiesAtCheckpoint;
     }
 
     /** Should be called from Flying when the checkpoint has been reached */

@@ -20,7 +20,7 @@ public class Repair extends Entity implements PickupItem {
     private int aniTick;
     private int aniTickPerFrame = 7;
     private boolean active = true;
-    private int healthIncrease = 100;
+    private int healthIncrease = 50;
 
     public Repair(Float hitbox) {
         super(hitbox);
@@ -71,10 +71,6 @@ public class Repair extends Entity implements PickupItem {
 
     public Rectangle2D.Float getHitbox() {
         return this.hitbox;
-    }
-
-    public int getHealth() {
-        return this.healthIncrease;
     }
 
     public int getType() {

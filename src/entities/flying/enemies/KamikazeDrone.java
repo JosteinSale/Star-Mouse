@@ -151,7 +151,6 @@ public class KamikazeDrone extends Entity implements Enemy {
 
    @Override
    public void draw(Graphics g) {
-      drawHitbox(g);
       g.drawImage(
             animations[action][aniIndex],
             (int) ((hitbox.x - KAMIKAZEDRONE_OFFSET) * Game.SCALE),

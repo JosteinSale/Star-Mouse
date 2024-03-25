@@ -11,7 +11,7 @@ import static utils.Constants.Flying.TypeConstants.DRONE_PROJECTILE;
 
 public class DroneProjectile extends Entity implements Projectile {
     BufferedImage img;
-    private int damage = 10;
+    private int damage = 20;
     private int xSpeed = 0;
     private int ySpeed = 5;
     private int[][] collisionPixels = new int[1][2];
