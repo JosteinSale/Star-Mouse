@@ -54,15 +54,15 @@ public class Flying extends State implements Statemethods {
     private boolean pause = false;
     private boolean gamePlayActive = true;
     private boolean levelFinished = false;
+    public boolean checkPointReached = false;
     private boolean gameOver = false;
-    private float resetYPos;
-    private float skipYPos;
-    private float songResetPos;
 
     private int[] bgImgHeights = {7600, 10740, 6000};
     private float[] resetPoints = {20f, 1300f, 1000f};
-    private float[] endLevelPoints = {17000f, 27500f, 0f};
+    private float[] checkPoints = {8000f, 13000f, 11950f};
+    private float[] skipLevelPoints = {17000f, 27500f, 0f};
     private float[] songResetPoints = {0f, 8f, 8f}; 
+    private float[] songCheckPoints = {10f, 10f, 0f};
     private BufferedImage clImg;
     private Image scaledClImg;
     private Image scaledBgImg;
@@ -77,7 +77,7 @@ public class Flying extends State implements Statemethods {
     private float fgCurSpeed = fgNormalSpeed;
     private float bgCurSpeed = bgNormalSpeed;
 
-    private int chartingY = 0;
+    private float chartingY = 0;
 
     public Flying(Game game) {
         super(game);
@@ -86,13 +86,12 @@ public class Flying extends State implements Statemethods {
         this.pickupItems = new ArrayList<>();
         initClasses(game.getOptionsMenu(), game.getExploring().getProgressValues());
         loadEventReactions();
-        projectileHandler.setBombs(game.getExploring().getProgressValues().getBombs());
+        //projectileHandler.setBombs(game.getExploring().getProgressValues().getBombs());
     }
 
     public void loadLevel(int level) {
         this.level = level;
         this.song = Audio.GetFlyLevelSong(level);
-        setResetPoints();
         loadMapAndOffsets(level);
         player.setClImg(this.clImg);
         projectileHandler.setClImg(this.clImg);
@@ -101,14 +100,8 @@ public class Flying extends State implements Statemethods {
         loadPickupItems(level);
         loadCutscenes(level);  
         player.setKilledEnemies(0);
-        //startAt(-12000);     // For testing purposes
+        //startAt(-9000);     // For testing purposes
         
-    }
-
-    private void setResetPoints() {
-        this.resetYPos = resetPoints[level];
-        this.skipYPos = endLevelPoints[level];
-        this.songResetPos = songResetPoints[level];
     }
 
     private void initClasses(OptionsMenu optionsMenu, ProgressValues progValues) {
@@ -125,6 +118,7 @@ public class Flying extends State implements Statemethods {
     }
 
     private void loadMapAndOffsets(int lvl) {
+        this.chartingY = 0;
         this.clImg = LoadSave.getFlyImageCollision("level" + Integer.toString(lvl) + "_cl.png");
         this.clImgHeight = clImg.getHeight() * 3;
         this.clImgWidth = clImg.getWidth() * 3;
@@ -214,7 +208,7 @@ public class Flying extends State implements Statemethods {
         }
         else if (event instanceof LevelFinishedEvent evt) {
             this.levelFinished = true;
-            this.levelFinishedOverlay.setLevelStats(enemyManager.getKilledEnemies());
+            this.levelFinishedOverlay.setLevelStats(enemyManager.getTotalKilledEnemies());
         }
         else if (event instanceof StartSongEvent evt) {
             this.game.getAudioPlayer().startSongLoop(evt.index(), 0);
@@ -259,6 +253,7 @@ public class Flying extends State implements Statemethods {
             updateChartingY();
             checkPause();
             moveMaps();
+            checkCheckPoint();
             moveCutscenes();
             player.update(clYOffset, clXOffset);
             updatePickupItems();
@@ -270,7 +265,6 @@ public class Flying extends State implements Statemethods {
 
     private void updateChartingY() {
         chartingY += fgCurSpeed;
-        //System.out.println(chartingY);
     }
 
     private void checkPause() {
@@ -278,6 +272,17 @@ public class Flying extends State implements Statemethods {
             game.pauseIsPressed = false;
             this.flipPause();
             audioPlayer.flipSongActive();
+        }
+    }
+
+    private void checkCheckPoint() {
+        if (checkPointReached) {
+            return;
+        }
+        if (this.chartingY >= checkPoints[level]) {
+            this.checkPointReached = true;
+            enemyManager.checkPointReached();
+            projectileHandler.checkPointReached();
         }
     }
 
@@ -384,13 +389,14 @@ public class Flying extends State implements Statemethods {
         }
         else {
             game.getLevelSelect().reset();
-            game.getLevelSelect().updateUnlockedLevels(level, enemyManager.getKilledEnemies().size());
+            game.getLevelSelect().updateUnlockedLevels(level, enemyManager.getTotalKilledEnemies().size());
             Gamestate.state = Gamestate.LEVEL_SELECT;
         }
     }
 
     /** Used only for testing porposes */
     private void startAt(int y) {
+        this.chartingY = -y;
         this.clYOffset -= y;
         this.bgYOffset -= y * (bgCurSpeed / fgCurSpeed);
         for (PickupItem p : pickupItems) {
@@ -423,7 +429,6 @@ public class Flying extends State implements Statemethods {
         gamePlayActive = false;
         player.setVisible(false);
         gameoverOverlay.setPlayerPos(player.getHitbox().x, player.getHitbox().y);
-        projectileHandler.setBombs(game.getExploring().getProgressValues().getBombs());
         audioPlayer.stopAllLoops();
         audioPlayer.startAmbienceLoop(Audio.AMBIENCE_SILENCE);
         audioPlayer.playSFX(Audio.SFX_DEATH);
@@ -434,29 +439,54 @@ public class Flying extends State implements Statemethods {
      * It should reset (not reload) all level-specific variables, 
      * like enemies, pickup-items and map-offsets.
      */
-    public void resetLevel() {
+    public void resetLevel(boolean toCheckPoint) {
+        // If the player has reached checkPoint, but decides to reset level to start:
+        if (!toCheckPoint) {  
+            this.checkPointReached = false;
+        }
+        // Determines y-reset and song-reset:
+        float resetYPos = resetPoints[level];
+        float songResetPos = songResetPoints[level];
+        if (toCheckPoint) {
+            resetYPos = checkPoints[level] + 100f;  // +100 to avoid cutscene and get faster into action
+            songResetPos = songCheckPoints[level];
+        }
         this.clYOffset = Game.GAME_DEFAULT_HEIGHT - clImgHeight + 150 + resetYPos;
         this.bgYOffset = Game.GAME_DEFAULT_HEIGHT - bgImgHeight + (resetYPos / 3);
+        // Resets pickupItems and automic triggers
         for (PickupItem p : pickupItems) {
             p.resetTo(resetYPos);
         }
         for (AutomaticTrigger trigger : automaticTriggers) {
             trigger.resetTo(resetYPos);
         }
-        enemyManager.resetEnemiesTo(resetYPos);
+        resetChartingY(toCheckPoint);
+        projectileHandler.resetBombs(toCheckPoint);
+        enemyManager.resetEnemiesTo(resetYPos, toCheckPoint);
+        if (toCheckPoint) {player.setKilledEnemies(enemyManager.getTotalKilledEnemies().size());}
         audioPlayer.startSongLoop(song, songResetPos);
         audioPlayer.startAmbienceLoop(Audio.AMBIENCE_ROCKET_ENGINE);
     }
 
 
+    private void resetChartingY(boolean toCheckPoint) {
+        if (toCheckPoint) {
+            chartingY = checkPoints[level];
+        }
+        else {
+            chartingY = 0;
+        }
+    }
+
     /** Changes the levelOffset to the end of the level, and moves the automatic triggers accorgingly. 
      * Doesn't move enemies or pickup-items. */
     public void skipLevel() {
-    this.cutsceneManager.skipCutscene();
-    this.clYOffset = Game.GAME_DEFAULT_HEIGHT - clImgHeight + 150 + skipYPos;
-    this.bgYOffset = Game.GAME_DEFAULT_HEIGHT - bgImgHeight + (skipYPos * (bgCurSpeed / fgCurSpeed));
-    for (AutomaticTrigger trigger : automaticTriggers) {
-        trigger.resetTo(skipYPos);
+        this.cutsceneManager.skipCutscene();
+        float skipYPos = skipLevelPoints[level];
+        this.clYOffset = Game.GAME_DEFAULT_HEIGHT - clImgHeight + 150 + skipYPos;
+        this.bgYOffset = Game.GAME_DEFAULT_HEIGHT - bgImgHeight + (skipYPos * (bgCurSpeed / fgCurSpeed));
+        for (AutomaticTrigger trigger : automaticTriggers) {
+            trigger.resetTo(skipYPos);
         }
     }
 

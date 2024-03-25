@@ -11,6 +11,7 @@ import entities.flying.enemies.Enemy;
 import entities.flying.enemies.EnemyManager;
 import main.Game;
 import misc.ProgressValues;
+import utils.Constants.Audio;
 import utils.LoadSave;
 
 import static utils.Constants.Flying.SpriteSizes.*;
@@ -54,6 +55,7 @@ public class ProjectileHandler {
     private int bombShootTick = 0;
     private int explosionDamage = 300;
     private int nrOfBombs;
+    private int nrOfBombsAtCheckpoint;
 
     private float fgSpeed;
 
@@ -61,6 +63,7 @@ public class ProjectileHandler {
         this.game = game;
         this.progValues = game.getExploring().getProgressValues();
         this.nrOfBombs = progValues.getBombs();
+        this.nrOfBombsAtCheckpoint = 0;
         this.audioPlayer = audioPlayer;
         this.player = player;
         this.enemyManager = enemyManager;
@@ -411,6 +414,19 @@ public class ProjectileHandler {
 
     public void setClImg(BufferedImage clImg) {
         this.clImg = clImg;
+    }
+
+    public void checkPointReached() {
+        this.nrOfBombsAtCheckpoint = nrOfBombs;
+    }
+
+    public void resetBombs(boolean toCheckPoint) {
+        if (toCheckPoint) {
+            this.nrOfBombs = nrOfBombsAtCheckpoint;
+        }
+        else {
+            this.setBombs(game.getExploring().getProgressValues().getBombs());
+        }
     }
 
     public void reset() {

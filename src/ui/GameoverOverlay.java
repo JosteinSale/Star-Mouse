@@ -32,20 +32,21 @@ public class GameoverOverlay {
    private Font headerFont;
    private Font menuFont;
 
-   private String[] menuOptions = { "Restart Level", "Main Menu" };
+   private String[] menuOptions = { "Restart Level", "Last Checkpoint", "Main Menu" };
    private BufferedImage pointerImg;
    private BufferedImage[] deathAnimation;
    private int selectedIndex = 0;
    private static final int RESTART_LEVEL = 0;
-   private static final int MAIN_MENU = 1;
+   private static final int LAST_CHECKPOINT = 1;
+   private static final int MAIN_MENU = 2;
 
    private float playerX;
    private float playerY;
-   private int cursorX = 280;
+   private int cursorX = 270;
    private int cursorMinY = 490;
-   private int cursorMaxY = 560;
+   private int cursorMaxY = 630;
    private int cursorY = cursorMinY;
-   private int menuOptionsDiff = cursorMaxY - cursorMinY;
+   private int menuOptionsDiff = (cursorMaxY - cursorMinY) / 2;
 
    private boolean deathAnimationActive = true;
    private int aniTick = 0;
@@ -112,14 +113,23 @@ public class GameoverOverlay {
       } 
       else if (flying.getGame().interactIsPressed) {
          flying.getGame().interactIsPressed = false;
-         audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
          if (selectedIndex == RESTART_LEVEL) {
             flying.resetFlying();
-            flying.resetLevel();
-         } 
+            flying.resetLevel(false);
+         }
+         else if (selectedIndex == LAST_CHECKPOINT) {
+            if (!flying.checkPointReached) {
+               audioPlayer.playSFX(Audio.SFX_HURT);
+            }
+            else {
+               flying.resetFlying();
+               flying.resetLevel(true);
+            }
+         }
          else if (selectedIndex == MAIN_MENU) {
             // We do not need to reset the level, since the loadLevel-method will be called
             // when the player reenters flying.
+            this.cursorY = cursorMinY;
             flying.resetFlying();
             flying.getGame().resetMainMenu();
             Gamestate.state = Gamestate.MAIN_MENU;
@@ -130,7 +140,7 @@ public class GameoverOverlay {
    private void goDown() {
       this.cursorY += menuOptionsDiff;
       this.selectedIndex++;
-      if (selectedIndex > 1) {
+      if (selectedIndex > 2) {
          selectedIndex = 0;
          cursorY = cursorMinY;
       }
@@ -140,7 +150,7 @@ public class GameoverOverlay {
       this.cursorY -= menuOptionsDiff;
       this.selectedIndex--;
       if (selectedIndex < 0) {
-         selectedIndex = 1;
+         selectedIndex = 2;
          cursorY = cursorMaxY;
       }
    }
@@ -177,6 +187,7 @@ public class GameoverOverlay {
       g.drawString("YOU DIED", (int) (400 * Game.SCALE), (int) (350 * Game.SCALE));
 
       for (int i = 0; i < menuOptions.length; i++) {
+         setTextColor(i, g);
          Rectangle rect = new Rectangle(
                (int) (425 * Game.SCALE), (int) ((450 + i * menuOptionsDiff) * Game.SCALE),
                (int) (200 * Game.SCALE), (int) (50 * Game.SCALE));
@@ -188,6 +199,15 @@ public class GameoverOverlay {
             pointerImg,
             (int) (cursorX * Game.SCALE), (int) ((cursorY - 30) * Game.SCALE),
             (int) (CURSOR_WIDTH * Game.SCALE), (int) (CURSOR_HEIGHT * Game.SCALE), null);
+   }
+
+   private void setTextColor(int index, Graphics g) {
+      if (index == LAST_CHECKPOINT && !this.flying.checkPointReached) {
+         g.setColor(new Color(255, 255, 255, 130));
+      }
+      else {
+         g.setColor(Color.WHITE);
+      }
    }
 
    public void reset() {

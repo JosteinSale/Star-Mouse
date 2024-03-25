@@ -31,11 +31,19 @@ wait;200
 endSequence
 
 cutscene;true;automatic;3
+fadeHeader;in;350;60;Checkpoint reached
+wait;150
+endSequence
+fadeHeader;out;350;60;Checkpoint reached
+wait;5
+endSequence
+
+cutscene;true;automatic;4
 dialogue;???;Rüdinger;0;5;...Send in the flame-drones.
 wait;280
 endSequence
 
-cutscene;true;automatic;4
+cutscene;true;automatic;5
 dialogue;Max;serious;8;2;Who was that?
 wait;180
 endSequence

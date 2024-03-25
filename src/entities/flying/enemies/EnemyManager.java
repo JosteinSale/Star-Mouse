@@ -40,6 +40,7 @@ public class EnemyManager {
     private int collisionDmg = 10;
     private int teleportDmg = 80;
     private ArrayList<Integer> killedEnemies;           // Contains the enemyTypes
+    private ArrayList<Integer> killedEnemiesAtCheckpoint;
 
     public EnemyManager(PlayerFly player, AudioPlayer audioPlayer) {
         this.player = player;
@@ -49,6 +50,7 @@ public class EnemyManager {
         activeEnemiesOnScreen = new ArrayList<>();
         this.explosions = new ArrayList<>();
         this.killedEnemies = new ArrayList<>();
+        this.killedEnemiesAtCheckpoint = new ArrayList<>();
     }
 
     private void loadImgs() {
@@ -105,6 +107,7 @@ public class EnemyManager {
         activeEnemiesOnScreen.clear();
         explosions.clear();
         killedEnemies.clear();
+        killedEnemiesAtCheckpoint.clear();
 
         List<String> enemyData = LoadSave.getFlyLevelData(lvl);
         for (String line : enemyData) {
@@ -255,18 +258,25 @@ public class EnemyManager {
 
     public void increaseKilledEnemies(int enemyType) {
         this.killedEnemies.add(enemyType);
-        this.player.setKilledEnemies(killedEnemies.size());
+        this.player.setKilledEnemies(killedEnemies.size() + killedEnemiesAtCheckpoint.size());
     }
 
     public void decreaseKilledEnemies(int enemyType) {
         if (killedEnemies.size() > 0) {
             this.killedEnemies.remove(killedEnemies.size() - 1);
         }
-        this.player.setKilledEnemies(killedEnemies.size());
+        this.player.setKilledEnemies(killedEnemies.size() + killedEnemiesAtCheckpoint.size());
      }
 
-    public ArrayList<Integer> getKilledEnemies() {
+    public ArrayList<Integer> getTotalKilledEnemies() {
+        this.killedEnemies.addAll(killedEnemiesAtCheckpoint);
         return this.killedEnemies;
+    }
+
+    /** Should be called from Flying when the checkpoint has been reached */
+    public void checkPointReached() {
+        this.killedEnemiesAtCheckpoint.addAll(killedEnemies);
+        killedEnemies.clear();
     }
 
     /** Is used with the 'startAt()'-method */
@@ -276,12 +286,17 @@ public class EnemyManager {
         }
     }
 
-    public void resetEnemiesTo(float y) {
-        for (Enemy enemy : allEnemies) {
-            enemy.resetTo(y);
+    public void resetEnemiesTo(float y, boolean toCheckPoint) {
+        if (!toCheckPoint) {
+            this.killedEnemiesAtCheckpoint.clear();
         }
         this.killedEnemies.clear();
         this.explosions.clear();
+        for (Enemy enemy : allEnemies) {
+            enemy.resetTo(y);
+            // It's a tiny bit unecessary to do it on all enemies in case we're going
+            // to a checkpoint, but it saves us
+        }
     }
 
     /** Is needed in the player-object, to check teleport collision with big enemies */
