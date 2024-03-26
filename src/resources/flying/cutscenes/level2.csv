@@ -47,3 +47,30 @@ cutscene;true;automatic;5
 dialogue;Max;serious;8;2;Who was that?
 wait;180
 endSequence
+
+cutscene;true;automatic;6
+dialogue;Russel;serious;0;2;I think we made it!
+wait;180
+endSequence
+dialogue;Gard;serious;0;2;No, wait...
+wait;150
+endSequence
+dialogue;Nathan;angry;1;2;Look ahead!
+wait;150
+endSequence
+fadeOutLoops
+wait;1
+endSequence
+
+cutscene;true;automatic;7
+fadeOut;5
+endSequence
+setGameplayActive;false
+blackScreen;true
+wait;40
+endSequence
+fadeHeader;in;200;10;Level finished
+wait;60
+endSequence
+levelFinished
+endSequence

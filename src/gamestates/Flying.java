@@ -57,7 +57,7 @@ public class Flying extends State implements Statemethods {
     public boolean checkPointReached = false;
     private boolean gameOver = false;
 
-    private int[] bgImgHeights = {7600, 10740, 6000};
+    private int[] bgImgHeights = {7600, 10740, 10500};
     private float[] resetPoints = {20f, 1300f, 1000f};
     private float[] checkPoints = {99999f, 13500f, 11950f};
     private float[] skipLevelPoints = {17000f, 27500f, 0f};
@@ -99,7 +99,7 @@ public class Flying extends State implements Statemethods {
         loadPickupItems(level);
         loadCutscenes(level);  
         player.setKilledEnemies(0);
-        startAt(-16000);     // For testing purposes
+        //startAt(-22000);     // For testing purposes
         
     }
 

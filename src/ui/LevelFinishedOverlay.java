@@ -83,8 +83,12 @@ public class LevelFinishedOverlay implements Statemethods {
                 case SMALLSHIP -> 10;
                 case OCTADRONE -> 40;
                 case BLASTERDRONE -> 40;
+                case REAPERDRONE -> 60;
+                case FLAMEDRONE -> 60;
+                case WASPDRONE -> 30;
+                case KAMIKAZEDRONE -> 30;
                 default -> throw new IllegalArgumentException(
-                    "'" + i + "' is not a valid argument");
+                    "No credit bounty available for enemy of type '" + i + "' ");
             };
         }
         this.creditsEarned = totalEarned;
