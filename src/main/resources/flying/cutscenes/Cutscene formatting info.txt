@@ -1,0 +1,109 @@
+Cutscene formatting - FLYING
+
+NEW CUTSCENE
+--------------------
+[0] = cutscene, [1] = canReset (boolean), [2] = triggerObject (string), [3] = totalElementNr (in sheet)
+
+* Each element (except player) must have at least one cutscene
+* The cutscenes must be ordered like their respective elements
+
+
+DIALOGUE-EVENT
+--------------------
+[0] = dialogue, [1] = characterName (String), [2] = emotion (not used for event), 
+[3] = portraitIndex, [4] = speed (int), [5] = text (String)
+
+* Max 40 letters per dialogue
+
+FADE IN
+--------------------
+[0] = fadeIn, [1] = speed (int)
+
+
+FADE OUT
+--------------------
+[0] = fadeOut, [1] = speed (int)
+
+
+SET PLAYER VISIBLE
+--------------------
+[0] = setPlayerVisible, [1] = visible (boolean)
+
+
+DRAW BLACK SCREEN
+--------------------
+[0] = blackScreen, [1] = active (boolean)
+
+
+WAIT
+--------------------
+[0] = wait, [1] = nrOfFrames (int)
+
+* This can also be used in order to advance events 
+  that are not advanced automatically, if needed. 
+
+
+SET OVERLAY IMAGE
+--------------------
+[0] = setOverlayImage, [1] = fileName (String)
+
+
+SET OVERLAY IMAGE ACTIVE
+--------------------
+[0] = setOverlayActive, [1] = active (boolean)
+
+
+SET STARTING CUTSCENE-INDEX FOR ELEMENT
+--------------------
+[0] = setStartCutscene, [1] = triggerObject (string), [2] = elementNrIndex (e.g door #0), 
+[3] = newStartCutsceneIndex
+
+
+LEVEL FINISHED
+--------------------
+[0] = levelFinished
+* This activates the levelFinished-overlay. 
+
+
+FADE IN/OUT HEADER
+--------------------
+[0] = fadeHeader, [1] = in/out (string), [2] = y-pos, [3] = fadeSpeed, [4] = headerText
+
+
+START SONG
+--------------------
+[0] = startSong (String), [1] = songIndex (int)
+* This loops the song until it's stopped
+
+
+START AMBIENCE
+--------------------
+[0] = startAmbience (String), [1] = ambienceIndex (int)
+* This loops the ambience track until it's stopped
+
+
+FADE OUT ALL LOOPS
+--------------------
+[0] = fadeOutLoops (String) 
+* Must be used in combination with a method that calls advance(), like wait();
+
+
+FELLOW SHIPS
+--------------------
+[0] = fellowShips (String), [1] = xPos (int), [2] = yPos (int), [3] = takeOffTimer (int)
+* Add as many ships as you want (maybe max 4), 
+  starting again with xPos for next ship at [4] etc.
+
+END SEQUENCE
+--------------------
+[0] = endSequence
+
+
+END CUTSCENE;
+--------------------
+empty line
+
+
+END SHEET;
+X
+

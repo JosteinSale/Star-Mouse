@@ -1,0 +1,61 @@
+cutscene;false;object;0
+info;A clothing rack with old, discarded pilot jackets.
+playSFX;infoBox
+endSequence
+info;You search through them...
+endSequence
+info;You found 300 credits!
+playSFX;pickup
+updateInventory;credits;300
+setStartCutscene;object;0;1
+endSequence
+
+cutscene;true;object;0
+playSFX;infoBox
+info;Nothing more of use here.
+endSequence
+
+cutscene;true;object;1
+playSFX;infoBox
+info;Blank ammunitions, likely for training purposes.
+endSequence
+
+cutscene;false;object;2
+playSFX;infoBox
+info;An unopened box. You search through it.
+endSequence
+info;You found 3 bombs!
+playSFX;pickup
+updateInventory;bombs;3
+setStartCutscene;object;2;1
+endSequence
+
+cutscene;true;object;2
+playSFX;infoBox
+info;It's empty.
+endSequence
+
+cutscene;true;object;3
+playSFX;infoBox
+info;It's empty.
+endSequence
+
+cutscene;true;object;4
+playSFX;infoBox
+info;Surface-to-air missiles. Nothing you can use.
+endSequence
+
+cutscene;true;object;5
+playSFX;infoBox
+info;Plasma rifle rounds. Nothing you can use.
+endSequence
+
+cutscene;true;object;6
+playSFX;infoBox
+info;Blank ammunitions, likely for training purposes.
+endSequence
+
+cutscene;true;object;7
+playSFX;infoBox
+info;It's empty, except for a lot of dust.
+endSequence

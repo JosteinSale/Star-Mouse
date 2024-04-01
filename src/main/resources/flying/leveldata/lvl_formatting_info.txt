@@ -1,0 +1,22 @@
+FLYING LEVELDATA
+
+AUTOMATIC TRIGGER:
+[0] = automaticTrigger (String), [1] = hitbox.x, [2] = hitbox.y, [3] = hitbox.width
+[4] = hitbox.height, [5] = cutsceneName
+
+
+ALL ENTITIES:
+[0] = name (String), [1] = hitbox.x, [2] = hitbox.y, [3] = direction (int), [4] = shootTimer
+
+NAMES:
+POWERUP : powerup
+TARGET: target (does nothing)
+DRONE: drone
+SMALLSHIP: smallShip (doesn't shoot)
+OCTADRONE: octaDrone (shootTimer: 60 - 180. It only shoots once)
+TANKDRONE: tankDrone (does nothing)
+BLASTERDRONE: blasterDrone (shootTimer is set at 30)
+REAPERDRONE: reaperDrone (only shoots once)
+FLAMEDRONE: flameDrone (shootTimer is set at 120. Only shoots once)
+WASPDRONE: waspDrone
+KAMIKAZEDRONE: kamikazeDrone (doesn't shoot)

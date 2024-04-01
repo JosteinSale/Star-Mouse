@@ -1,0 +1,80 @@
+cutscene;true;automatic;0
+setGameplayActive;false
+blackScreen;true
+wait;120
+endSequence
+fadeHeader;in;350;10;Skies over Alopis
+wait;150
+endSequence
+startAmbience;1
+fadeHeader;out;350;10;Skies over Alopis
+fellowShips;100;400;440;300;400;500;700;400;560;900;400;620
+wait;100
+endSequence
+setGameplayActive;true
+blackScreen;false
+fadeIn;10
+startSong;2
+endSequence
+
+cutscene;true;automatic;1
+dialogue;Lt.Red;serious;0;2;All ships enter attack positions.
+wait;240
+endSequence
+dialogue;Lt.Red;serious;0;2;Prepare to engage the enemy!
+wait;180
+endSequence
+
+cutscene;true;automatic;2
+dialogue;Russel;serious;0;2;We're approaching the city.
+wait;240
+endSequence
+
+cutscene;true;automatic;3
+dialogue;Nathan;angry;1;2;Nooo!
+wait;200
+endSequence
+
+cutscene;true;automatic;4
+dialogue;Po;screaming;0;2;HELP!
+wait;200
+endSequence
+
+cutscene;true;automatic;5
+fadeHeader;in;350;60;Checkpoint reached
+wait;150
+endSequence
+fadeHeader;out;350;60;Checkpoint reached
+wait;5
+endSequence
+
+cutscene;true;automatic;6;      // TODO - Make this cutscene depend on amount of ships destroyed
+dialogue;Lt.Red;serious;0;2;The city is lost!
+wait;180
+endSequence
+dialogue;Lt.Red;serious;0;2;All remaining personell, retreat!
+wait;240
+endSequence
+dialogue;Lt.Red;serious;0;2;We'll regroup on Vyke.
+wait;180
+endSequence
+
+cutscene;true;automatic;7
+fadeOutLoops
+wait;1
+endSequence
+
+cutscene;true;automatic;8
+fadeOut;5
+endSequence
+setGameplayActive;false
+blackScreen;true
+wait;40
+endSequence
+fadeHeader;in;200;10;Level finished
+wait;60
+endSequence
+levelFinished
+endSequence
+
+X
