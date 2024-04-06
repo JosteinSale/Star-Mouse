@@ -1,6 +1,7 @@
 package main_classes;
 
 import audio.AudioPlayer;
+import gamestates.BossMode;
 import gamestates.Exploring;
 import gamestates.Flying;
 import gamestates.Gamestate;
@@ -41,6 +42,7 @@ public class Game implements Runnable {
     private LevelSelect levelSelect;
     private Exploring exploring;
     private Flying flying;
+    private BossMode bossMode;
     private LevelEditor levelEditor;
     private OptionsMenu optionsMenu;
     private AudioPlayer audioPlayer;
@@ -71,6 +73,7 @@ public class Game implements Runnable {
         this.exploring = new Exploring(this);
         this.levelSelect = new LevelSelect(this);
         this.flying = new Flying(this);
+        this.bossMode = new BossMode(this);
         this.levelEditor = new LevelEditor(this);
     }
 
@@ -98,6 +101,9 @@ public class Game implements Runnable {
             case FLYING:
                 flying.update();
                 break;
+            case BOSS_MODE:
+                bossMode.update();
+                break;
             case LEVEL_EDITOR:
                 levelEditor.update();
                 break;
@@ -124,6 +130,9 @@ public class Game implements Runnable {
                 break;
             case FLYING:
                 flying.draw(g);
+                break;
+            case BOSS_MODE:
+                bossMode.draw(g);
                 break;
             case LEVEL_EDITOR:
                 levelEditor.draw(g);
@@ -188,6 +197,10 @@ public class Game implements Runnable {
 
     public Flying getFlying() {
         return this.flying;
+    }
+
+    public BossMode getBossMode() {
+        return this.bossMode;
     }
 
     public LevelEditor getLevelEditor() {

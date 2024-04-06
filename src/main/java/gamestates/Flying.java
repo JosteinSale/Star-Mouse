@@ -60,7 +60,7 @@ public class Flying extends State implements Statemethods {
     private int[] bgImgHeights = {7600, 10740, 9750};
     private float[] resetPoints = {20f, 1300f, 1000f};
     private float[] checkPoints = {99999f, 13500f, 11950f};
-    private float[] skipLevelPoints = {17000f, 27500f, 0f};
+    private float[] skipLevelPoints = {17000f, 27500f, 23800f};
     private float[] songResetPoints = {0f, 8f, 8f}; 
     private float[] songCheckPoints = {0f, 110f, 0f};
     private BufferedImage clImg;
@@ -221,6 +221,12 @@ public class Flying extends State implements Statemethods {
         }
         else if (event instanceof FellowShipEvent evt) {
             cutsceneManager.startFellowShips(evt.xPos(), evt.yPos(), evt.takeOffTimer());
+        }
+        else if (event instanceof GoToBossEvent evt) {
+            game.getBossMode().loadNewBoss(evt.bossNr());
+            Gamestate.state = Gamestate.BOSS_MODE;
+            // We do not need to do anything else, as we will return to Flying after
+            // the boss, and thus exit Flying properly then.
         }
         /* 
         else if (event instanceof SetStartingCutsceneEvent2 evt) {

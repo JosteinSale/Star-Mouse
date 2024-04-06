@@ -67,9 +67,10 @@ fadeOut;5
 endSequence
 setGameplayActive;false
 blackScreen;true
-wait;40
+wait;100
 endSequence
-wait;60
+goToBoss;1
+wait;100
 endSequence
 levelFinished
 endSequence

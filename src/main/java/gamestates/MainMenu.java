@@ -70,8 +70,8 @@ public class MainMenu extends State implements Statemethods {
     /** Is called when player selects 'New Game', after fadeOut is completed */
     private void doTransition() {
         //LEVEL-SELECT - Uncomment to test entire game
-        game.getLevelSelect().reset();
-        Gamestate.state = Gamestate.LEVEL_SELECT;
+        //game.getLevelSelect().reset();
+        //Gamestate.state = Gamestate.LEVEL_SELECT;
 
         // EXPLORING - Uncomment to only test one level in exploring.
         // game.getExploring().loadLevel(2); // Area is currently specified in that method.
@@ -79,9 +79,9 @@ public class MainMenu extends State implements Statemethods {
         // Gamestate.state = Gamestate.EXPLORING;
 
         // FLYING - Uncomment to only test one level in flying.
-        // game.getFlying().loadLevel(2);
-        // game.getFlying().update();
-        // Gamestate.state = Gamestate.FLYING;
+        game.getFlying().loadLevel(2);
+        game.getFlying().update();
+        Gamestate.state = Gamestate.FLYING;
     }
 
     private void handleKeyBoardInputs() {

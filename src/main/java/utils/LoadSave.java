@@ -56,6 +56,7 @@ public class LoadSave {
     public static final String NPC_PORTRAITS = "portraits_npc.png";
 
     public static final String SHIP_SPRITES = "sprites_ship.png";
+    public static final String TELEPORT_SHADOW = "teleport_shadow.png";
     public static final String FELLOWSHIP_SPRITES = "sprite_fellowShip.png";
     public static final String SHIP_FLAME_SPRITES = "sprites_shipFlame.png";
     public static final String SHIP_DEATH_SPRITES = "sprites_death.png";

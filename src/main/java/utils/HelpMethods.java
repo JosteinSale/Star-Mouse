@@ -366,6 +366,11 @@ public class HelpMethods {
                 MechanicDisplayEvent event = new MechanicDisplayEvent();
                 allSequences.get(sequenceIndex).add(event);
             }
+            else if (lineData[0].equals("goToBoss")) {
+                Integer bossNr = Integer.parseInt(lineData[1]);
+                GoToBossEvent event = new GoToBossEvent(bossNr);
+                allSequences.get(sequenceIndex).add(event);
+            }
             else if (lineData[0].equals("endSequence")) {
                 allCutscenes.get(triggerIndex).get(cutsceneIndex).addSequence(allSequences.get(sequenceIndex));
                 sequenceIndex += 1;

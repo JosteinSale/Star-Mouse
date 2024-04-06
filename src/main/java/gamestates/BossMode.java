@@ -1,0 +1,53 @@
+package gamestates;
+
+import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
+
+import entities.bossmode.PlayerBoss;
+import main_classes.Game;
+import projectiles.ProjectileHandler2;
+
+public class BossMode extends State implements Statemethods {
+   private PlayerBoss player;
+   private ProjectileHandler2 projectileHandler;
+
+   public BossMode(Game game) {
+      super(game);
+      initClasses();
+      loadNewBoss(1);   // Temporary call in constructor, for testing porposes.
+   }
+
+   private void initClasses() {
+      Rectangle2D.Float playerHitbox = new Rectangle2D.Float(500f, 600f, 50f, 50f);
+      this.player = new PlayerBoss(game, playerHitbox);
+      this.projectileHandler = new ProjectileHandler2(game, game.getAudioPlayer(), player);
+   }
+
+   public void loadNewBoss(int bossNr) {
+      loadBoss(bossNr);
+      loadBackground(bossNr);
+      loadCutscenes(bossNr);
+   }
+
+   private void loadCutscenes(int bossNr) {
+   }
+
+   private void loadBackground(int bossNr) {
+   }
+
+   private void loadBoss(int bossNr) {
+   }
+
+   @Override
+   public void update() {
+      this.player.update();
+      this.projectileHandler.update();
+   }
+
+   @Override
+   public void draw(Graphics g) {
+      this.player.draw(g);
+      this.projectileHandler.draw(g);
+   }
+   
+}

@@ -94,6 +94,13 @@ FELLOW SHIPS
 * Add as many ships as you want (maybe max 4), 
   starting again with xPos for next ship at [4] etc.
 
+
+GO TO BOSSMODE
+--------------------
+[0] = goToBoss (String), [1] = bossNr (int)
+* bossNr 1 = first boss.
+
+
 END SEQUENCE
 --------------------
 [0] = endSequence
