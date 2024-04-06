@@ -15,12 +15,13 @@ import java.util.ArrayList;
 import audio.AudioPlayer;
 import entities.Entity;
 import entities.flying.ShipFlame;
+import entities.flying.ShootingPlayer;
 import main_classes.Game;
 import ui.StatusDisplay;
 import utils.LoadSave;
 import utils.Constants.Audio;
 
-public class PlayerBoss extends Entity {
+public class PlayerBoss extends Entity implements ShootingPlayer {
    private Game game;
    private AudioPlayer audioPlayer;
    private BufferedImage[][] animations;
@@ -401,6 +402,7 @@ public class PlayerBoss extends Entity {
       return (planeAction == TAKING_COLLISION_DAMAGE);
    }
 
+   @Override
    public void takeShootDamage(int damage) {
       this.HP -= damage;
       this.aniTick = 0;
@@ -426,6 +428,7 @@ public class PlayerBoss extends Entity {
       }
    }
 
+   @Override
    public Rectangle2D.Float getHitbox() {
       return this.hitbox;
    }
@@ -442,6 +445,7 @@ public class PlayerBoss extends Entity {
       this.statusDisplay.setHP(this.HP);
    }
 
+   @Override
    public void setBombs(int nr) {
       this.statusDisplay.setBombs(nr);
    }

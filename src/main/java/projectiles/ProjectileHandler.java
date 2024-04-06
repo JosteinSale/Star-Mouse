@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import audio.AudioPlayer;
-import entities.flying.PlayerFly;
+import entities.flying.ShootingPlayer;
 import entities.flying.enemies.Enemy;
 import entities.flying.enemies.EnemyManager;
 import main_classes.Game;
@@ -26,39 +26,39 @@ import static utils.HelpMethods.IsSolid;
 import static utils.Constants.Audio;
 
 public class ProjectileHandler {
-    private Game game;
-    private ProgressValues progValues;
-    private AudioPlayer audioPlayer;
-    private PlayerFly player;
-    private EnemyManager enemyManager;
-    private ArrayList<Projectile> allProjectiles;   // projectiles on screen
-    private ArrayList<Integer> projectilesToRemove;
-    private ArrayList<ProjectileHit> projectileHits;
-    private ArrayList<BombExplosion> bombExplosions;         
-    private Rectangle2D.Float screenBox;
+    protected Game game;
+    protected ProgressValues progValues;
+    protected AudioPlayer audioPlayer;
+    protected ShootingPlayer player;
+    protected EnemyManager enemyManager;
+    protected ArrayList<Projectile> allProjectiles;   // projectiles on screen
+    protected ArrayList<Integer> projectilesToRemove;
+    protected ArrayList<ProjectileHit> projectileHits;
+    protected ArrayList<BombExplosion> bombExplosions;         
+    protected Rectangle2D.Float screenBox;
 
-    private BufferedImage clImg;
-    private BufferedImage[] plPrjctImgs;          // 0 = BLUE, 1 = GREEN
-    private BufferedImage bombImg;
-    private BufferedImage dronePrjctImg;
-    private BufferedImage octadronePrjctImg;
-    private BufferedImage reaperdronePrjctImg;
-    private BufferedImage flamedronePrjctImg;
-    private BufferedImage[] hitAnimation;
-    private BufferedImage[] bombExplosionAnimation;
+    protected BufferedImage clImg;
+    protected BufferedImage[] plPrjctImgs;          // 0 = BLUE, 1 = GREEN
+    protected BufferedImage bombImg;
+    protected BufferedImage dronePrjctImg;
+    protected BufferedImage octadronePrjctImg;
+    protected BufferedImage reaperdronePrjctImg;
+    protected BufferedImage flamedronePrjctImg;
+    protected BufferedImage[] hitAnimation;
+    protected BufferedImage[] bombExplosionAnimation;
 
-    private boolean powerUp = false;
-    private int lazerShootTick = 0;
-    private int lazerShootBuffer = 10;
-    private int bombShootBuffer = 30;  
-    private int bombShootTick = 0;
-    private int explosionDamage = 300;
-    private int nrOfBombs;
-    private int nrOfBombsAtCheckpoint;
+    protected boolean powerUp = false;
+    protected int lazerShootTick = 0;
+    protected int lazerShootBuffer = 10;
+    protected int bombShootBuffer = 30;  
+    protected int bombShootTick = 0;
+    protected int explosionDamage = 300;
+    protected int nrOfBombs;
+    protected int nrOfBombsAtCheckpoint;
 
-    private float fgSpeed;
+    protected float fgSpeed;
 
-    public ProjectileHandler(Game game, AudioPlayer audioPlayer, PlayerFly player, EnemyManager enemyManager) {
+    public ProjectileHandler(Game game, AudioPlayer audioPlayer, ShootingPlayer player, EnemyManager enemyManager) {
         this.game = game;
         this.progValues = game.getExploring().getProgressValues();
         this.nrOfBombs = progValues.getBombs();
@@ -110,7 +110,7 @@ public class ProjectileHandler {
         updateBombExplosions(fgCurSpeed);
     }
 
-    private void checkPlayerShoot() {
+    protected void checkPlayerShoot() {
         if (game.interactIsPressed && lazerShootTick == 0) {
             lazerShootTick = lazerShootBuffer;
             this.addPlayerProjectile(player.getHitbox().x, player.getHitbox().y);
@@ -125,7 +125,7 @@ public class ProjectileHandler {
         }
     }
 
-    private void addPlayerProjectile(float xPos, float yPos) {
+    protected void addPlayerProjectile(float xPos, float yPos) {
         Rectangle2D.Float hitbox1 = new Rectangle2D.Float(
             xPos - 8, yPos - 30, PLAYER_PRJT_SPRITE_W, PLAYER_PRJT_SPRITE_H);
         Rectangle2D.Float hitbox2 = new Rectangle2D.Float(
@@ -140,7 +140,7 @@ public class ProjectileHandler {
             new PlayerProjectile(hitbox2, powerUp, progValues.getLazerDmg(), plPrjctImgs[imgSelection]));
     }
 
-    private void addBombProjectile(float xPos, float yPos) {
+    protected void addBombProjectile(float xPos, float yPos) {
         Rectangle2D.Float hitbox = new Rectangle2D.Float(
             xPos + player.getHitbox().width / 2 - BOMB_SPRITE_SIZE / 2, 
             yPos - 50,
@@ -210,7 +210,7 @@ public class ProjectileHandler {
         }
     }
 
-    private void updatePlayerShootTick() {
+    protected void updatePlayerShootTick() {
         lazerShootTick--;
         if (lazerShootTick < 0) {
             lazerShootTick = 0;
@@ -221,14 +221,14 @@ public class ProjectileHandler {
         }
     }
 
-    private void moveProjectiles() {
+    protected void moveProjectiles() {
         for (Projectile p : allProjectiles) {
             p.getHitbox().x += p.getXSpeed();
             p.getHitbox().y += p.getYSpeed();
         }
     }
 
-    private void removeOffScreenProjectiles() {
+    protected void removeOffScreenProjectiles() {
         projectilesToRemove.clear();
         int index = 0;
         for (Projectile p : allProjectiles) {
@@ -249,7 +249,7 @@ public class ProjectileHandler {
 
     /** If a projectile collides with the map or with an enemy/player,
      *  it's set to inactive. */
-    private void checkProjectileCollisions(float yLevelOffset, float xLevelOffset) {
+    protected void checkProjectileCollisions(float yLevelOffset, float xLevelOffset) {
         for (Projectile p : allProjectiles) {  
             if (p.isActive()) {
                 if (p.getType() == BOMB_PROJECTILE) {
@@ -289,7 +289,7 @@ public class ProjectileHandler {
         }
     }
 
-    private void checkBombCollision(Projectile p, float yLevelOffset, float xLevelOffset) {
+    protected void checkBombCollision(Projectile p, float yLevelOffset, float xLevelOffset) {
         for (Enemy enemy : enemyManager.getActiveEnemiesOnScreen()) {
             if (p.getHitbox().intersects(enemy.getHitbox())) {
                 p.setActive(false);
@@ -311,12 +311,12 @@ public class ProjectileHandler {
         }
     }
 
-    private void addBombExplosion(Rectangle2D.Float prjctHb) {
+    protected void addBombExplosion(Rectangle2D.Float prjctHb) {
         bombExplosions.add(new BombExplosion(
                     bombExplosionAnimation, (int) (prjctHb.x + 5), (int) (prjctHb.y + 5)));
     }
 
-    private void updateBombExplosions(float fgSpeed) {
+    protected void updateBombExplosions(float fgSpeed) {
         int toRemove = 0;
         for (BombExplosion b : bombExplosions) {
             if (b.isDone()) {
@@ -341,7 +341,7 @@ public class ProjectileHandler {
         }
     }
 
-    private void updateHits(float fgCurSpeed) {
+    protected void updateHits(float fgCurSpeed) {
         int toRemove = 0;
         for (ProjectileHit ph : projectileHits) {
             ph.update();

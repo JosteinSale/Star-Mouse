@@ -21,7 +21,7 @@ import ui.StatusDisplay;
 import utils.LoadSave;
 import utils.Constants.Audio;
 
-public class PlayerFly extends Entity {
+public class PlayerFly extends Entity implements ShootingPlayer {
     private Game game;
     private AudioPlayer audioPlayer;
     private BufferedImage clImg;
@@ -447,6 +447,7 @@ public class PlayerFly extends Entity {
         return (planeAction == TAKING_COLLISION_DAMAGE);
     }
 
+    @Override
     public void takeShootDamage(int damage) {
         this.HP -= damage;
         this.aniTick = 0;
@@ -472,6 +473,7 @@ public class PlayerFly extends Entity {
         }
     }
 
+    @Override
     public Rectangle2D.Float getHitbox() {
         return this.hitbox;
     }
@@ -488,6 +490,7 @@ public class PlayerFly extends Entity {
         this.statusDisplay.setHP(this.HP);
     }
 
+    @Override
     public void setBombs(int nr) {
         this.statusDisplay.setBombs(nr);
     }
