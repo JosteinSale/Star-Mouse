@@ -22,41 +22,41 @@ import utils.LoadSave;
 import utils.Constants.Audio;
 
 public class PlayerFly extends Entity implements ShootingPlayer {
-    private Game game;
-    private AudioPlayer audioPlayer;
-    private BufferedImage clImg;
-    private BufferedImage[][] animations;
-    private BufferedImage tpShadowImg;
-    private ShipFlame flame;
-    private StatusDisplay statusDisplay;
-    private Rectangle2D.Float teleportHitbox;
+    protected Game game;
+    protected AudioPlayer audioPlayer;
+    protected BufferedImage clImg;
+    protected BufferedImage[][] animations;
+    protected BufferedImage tpShadowImg;
+    protected ShipFlame flame;
+    protected StatusDisplay statusDisplay;
+    protected Rectangle2D.Float teleportHitbox;
 
-    private int planeAction;
-    private float xSpeed = 0;
-    private float ySpeed = 0;
-    private float acceleration = 1.0f;
-    private float playerMaxSpeed = 8f;
-    private boolean visible = true;
-    private float[] collisionXs = new float[9];
-    private float[] collisionYs = new float[9];
-    private int edgeDist = 20;
-    private int pushDistance = 40;
-    private int teleportDistance = 250;
-    private int teleportKillWidth = 100;
-    private int teleportKillOffset;  // The distance between the players hitbox and the teleport hitbox
-    private int maxHP;
-    private int HP = 100;
-    private int collisionDmg = 10;
-    private int flipX = 1;      // 1 = høyre, -1 = venstre. Brukes i checkTeleportCollision
+    protected int planeAction;
+    protected float xSpeed = 0;
+    protected float ySpeed = 0;
+    protected float acceleration = 1.0f;
+    protected float playerMaxSpeed = 8f;
+    protected boolean visible = true;
+    protected float[] collisionXs = new float[9];
+    protected float[] collisionYs = new float[9];
+    protected int edgeDist = 20;
+    protected int pushDistance = 40;
+    protected int teleportDistance = 250;
+    protected int teleportKillWidth = 100;
+    protected int teleportKillOffset;  // The distance between the players hitbox and the teleport hitbox
+    protected int maxHP;
+    protected int HP = 100;
+    protected int collisionDmg = 10;
+    protected int flipX = 1;      // 1 = høyre, -1 = venstre. Brukes i checkTeleportCollision
 
-    private int aniTick = 0;
-    private int aniTickPerFrame = 3;          // Antall ticks per gang animasjonen oppdateres
-    private int aniIndex = 0;
+    protected int aniTick = 0;
+    protected int aniTickPerFrame = 3;          // Antall ticks per gang animasjonen oppdateres
+    protected int aniIndex = 0;
 
-    private int iFrames = 20;
-    private int iFrameCount = 0;
-    private int teleportBuffer = 0;
-    private int teleportCoolDown = 10;
+    protected int iFrames = 20;
+    protected int iFrameCount = 0;
+    protected int teleportBuffer = 0;
+    protected int teleportCoolDown = 10;
 
     public PlayerFly(Game game, Float hitbox) {
         super(hitbox);
@@ -87,7 +87,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
         }
     }
 
-    private void updateCollisionPixels() {
+    protected void updateCollisionPixels() {
         collisionXs[0] = hitbox.x + hitbox.width/2;
         collisionXs[1] = hitbox.x;
         collisionXs[2] = hitbox.x + hitbox.width;
@@ -120,7 +120,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
         statusDisplay.update();
     }
 
-    private void handleKeyboardInputs() {
+    protected void handleKeyboardInputs() {
 
         // First: handles behaviour based on whether keys are pressed
         if ((planeAction == TAKING_COLLISION_DAMAGE)) {   // Player can't control the plane while 
@@ -196,7 +196,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
         }
     }
 
-    private void movePlayer() {
+    protected void movePlayer() {
         if ((planeAction == TELEPORTING_RIGHT) || (planeAction == TELEPORTING_LEFT)) {
             adjustPos(teleportDistance * flipX, 0);
             adjustTeleportHitbox();
@@ -208,7 +208,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
     }
 
     /** Moves the player hitbox, and prevents it from going off screen */
-    private void adjustPos(float deltaX, float deltaY) {
+    protected void adjustPos(float deltaX, float deltaY) {
         hitbox.x += deltaX;
         hitbox.y += deltaY;
         if (hitbox.x < edgeDist) {
@@ -231,7 +231,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
 
     // Remember, this is called AFTER player has teleported. Thus the hitbox should be 
     // positioned in relation to where the player WAS, just before they teleported.
-    private void adjustTeleportHitbox() {
+    protected void adjustTeleportHitbox() {
         teleportHitbox.y = hitbox.y;
         if (flipX == 1) {
             teleportHitbox.x = hitbox.x - teleportKillOffset - teleportKillWidth;
@@ -290,7 +290,12 @@ public class PlayerFly extends Entity implements ShootingPlayer {
         }
     }
 
-    private void undoTeleportAndTakeDamage() {
+    /**
+    * Should be called if the player tried to teleport into something
+    * that couldn't be teleported into. It resets the player to the previous
+    * position, takes damage, and plays SFX.
+    */
+    protected void undoTeleportAndTakeDamage() {
         this.planeAction = TAKING_COLLISION_DAMAGE;
         hitbox.x -= (teleportDistance * flipX);
         updateCollisionPixels();
@@ -358,7 +363,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
      * 1 - 6 - 2
      * 7 - 3 - 8
      */
-    private void pushInOppositeDirectionOf(int i, float pushDistance) {
+    protected void pushInOppositeDirectionOf(int i, float pushDistance) {
         switch (i) {
             case 0 -> adjustPos(0, pushDistance * 1.5f);
             case 1 -> adjustPos(pushDistance, 0);
@@ -372,7 +377,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
         }
     }
 
-    private void updateAniTick() {
+    protected void updateAniTick() {
         this.teleportBuffer -= 1;
         if (teleportBuffer < 0) {
             teleportBuffer = 0;
@@ -460,7 +465,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
         }
     }
 
-    private void takeCollisionDmg() {
+    protected void takeCollisionDmg() {
         HP -= collisionDmg;
         this.aniTick = 0;
         this.aniIndex = 0;

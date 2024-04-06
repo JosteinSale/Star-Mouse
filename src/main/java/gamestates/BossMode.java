@@ -41,7 +41,7 @@ public class BossMode extends State implements Statemethods {
 
    @Override
    public void update() {
-      this.player.update();
+      this.player.update(0, 0);
       this.projectileHandler.update(0, 0, 0);
    }
 
