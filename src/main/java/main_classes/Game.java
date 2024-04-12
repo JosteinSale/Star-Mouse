@@ -23,7 +23,7 @@ public class Game implements Runnable {
 
     public static final int GAME_DEFAULT_WIDTH = 1050;
     public static final int GAME_DEFAULT_HEIGHT = 750;
-    public static final float SCALE = 0.8f;
+    public static final float SCALE = 1f;
     //public static final float SCALE = SCREEN_HEIGHT / (float) GAME_DEFAULT_HEIGHT;
 
     public static final int GAME_WIDTH = (int) (GAME_DEFAULT_WIDTH * SCALE);

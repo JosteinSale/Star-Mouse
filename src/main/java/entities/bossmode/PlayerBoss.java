@@ -5,18 +5,33 @@ import static utils.Constants.Flying.ActionConstants.*;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
+import java.awt.image.BufferedImage;
 
 import entities.flying.PlayerFly;
 import main_classes.Game;
 import utils.Constants.Audio;
 
+/** This class extends the PlayerFly object.
+ * All logic pertaining to handling of keyboard-inputs and player
+ * movement is kept identical to PlayerFly. 
+ * Drawing method and basic getters and setters are also the same.
+ * 
+ * There is a unique @Override-implementation of the following:
+ *    -update method
+ *    -adjustPos (player cannot move into the noFlyZone)
+ *    -takeDamage-methods
+ *    -reset-method 
+ *    -unused methods (do nothing)
+ * 
+ * There are additional methods added for collision with- and teleport-hitting 
+ * the boss.
+ */
 public class PlayerBoss extends PlayerFly {
-   private int noFlyZone = 350;
+   private int noFlyZone = 350;  // Player cannot fly above this point
  
    public PlayerBoss(Game game, Float hitbox) {
       super(game, hitbox);
    }
-
 
    @Override
    public void update(float yLevelOffset, float xLevelOffset) {
@@ -31,8 +46,6 @@ public class PlayerBoss extends PlayerFly {
       flame.update();
       statusDisplay.update();
    }
-
-
 
    /** Moves the player hitbox, and prevents it from going off screen */
    @Override
@@ -146,4 +159,15 @@ public class PlayerBoss extends PlayerFly {
       updateCollisionPixels();
       planeAction = IDLE;
   }
+
+
+  // Methods we don't use will do nothing / return false.
+  @Override
+  public boolean collidesWithEnemy(Rectangle2D.Float enemyHitbox) {return false;}
+
+  @Override
+  public boolean teleportDamagesEnemy(Rectangle2D.Float enemyHitbox) {return false;}
+
+  @Override
+  public void setClImg(BufferedImage clImg) {/* Do nothing */}
 }

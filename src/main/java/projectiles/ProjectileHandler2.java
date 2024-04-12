@@ -7,6 +7,22 @@ import entities.bossmode.PlayerBoss;
 import entities.flying.enemies.EnemyManager;
 import main_classes.Game;
 
+/** This class extends the ProjectileHandler object.
+ * All logic pertaining to handling of keyboard-inputs and creating player
+ * projectiles is kept identical to ProjectileHandler. 
+ * Drawing method, basic getters and setters + reset-method are also the same.
+ * 
+ * There is a unique @Override-implementation of the following:
+ *    -update method
+ *    -checkProjectileCollision
+ *    -checkBombCollision
+ *    -updateBombExplosion
+ *    -resetBombs
+ *    -unused methods (do nothing)
+ * 
+ * There are additional methods added for collision with- and teleport-hitting 
+ * the boss.
+ */
 public class ProjectileHandler2 extends ProjectileHandler {
 
    public ProjectileHandler2(Game game, AudioPlayer audioPlayer, PlayerBoss player, EnemyManager enemyManager) {
@@ -41,6 +57,7 @@ public class ProjectileHandler2 extends ProjectileHandler {
 
    @Override
    public void resetBombs(boolean toCheckPoint) {
+      // TODO - first transfer bomb-number from Flying to ProgressValues.
       this.setBombs(game.getExploring().getProgressValues().getBombs());
    }
 

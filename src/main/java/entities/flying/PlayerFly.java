@@ -420,7 +420,8 @@ public class PlayerFly extends Entity implements ShootingPlayer {
                 (int) (SHIP_SPRITE_HEIGHT * 3 * Game.SCALE), null);
             
             statusDisplay.draw(g);
-            //this.drawHitbox(g, 0, 0);
+            g.setColor(Color.RED);
+            this.drawHitbox(g, 0, 0);
             
             // Teleport hitbox
             /* 
