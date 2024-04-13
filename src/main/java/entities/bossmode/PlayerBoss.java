@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import entities.flying.PlayerFly;
 import main_classes.Game;
@@ -28,9 +29,17 @@ import utils.Constants.Audio;
  */
 public class PlayerBoss extends PlayerFly {
    private int noFlyZone = 350;  // Player cannot fly above this point
+   private ArrayList<IBossPart> bossParts;
+
+   private int customIframes = 60;  // The playerBoss should stay invincible for longer
+   private int customIframeTick = 0;
  
    public PlayerBoss(Game game, Float hitbox) {
       super(game, hitbox);
+   }
+
+   public void setBoss(ArrayList<IBossPart> bossParts) {
+      this.bossParts = bossParts;
    }
 
    @Override
@@ -38,13 +47,21 @@ public class PlayerBoss extends PlayerFly {
       int prevAction = planeAction;
       handleKeyboardInputs();
       movePlayer();
+      updateCollisionPixels();
       checkBossInteraction();
       if (planeAction != prevAction) {
          aniIndex = 0;
       }
+      updateCustomIframes();
       updateAniTick();
       flame.update();
       statusDisplay.update();
+   }
+
+   private void updateCustomIframes() {
+      if (customIframeTick > 0) {
+         customIframeTick--;
+      }
    }
 
    /** Moves the player hitbox, and prevents it from going off screen */
@@ -72,7 +89,7 @@ public class PlayerBoss extends PlayerFly {
 
 
    private void checkBossInteraction() {
-      // checkBossCollision(boss.getParts());
+      checkBossCollision(bossParts);
       // checkBossTeleportHit(boss.getParts());
    }
 
@@ -82,9 +99,12 @@ public class PlayerBoss extends PlayerFly {
 
 
    /**
-    * Checks if any of the boss-rectangles overlaps the player.
-    * If so, it checks whether player should be pushed in the opposite direction.
-    * If a collision has occured, player takes damage and SFX are played.
+    * First checks if the player is currently invincible due to damage.
+    * If yes, it returns.
+    * Then it checks if any of the bossParts are active.
+    * If so, it checks the collisionPixels against the bossPart.
+    * If a collision has occured, it pushes the player in the opposite direction,
+    * takes damage, plays SFX, and notifies the bossPart.
     * 
     * (This method could be improved: instead of making 9 new points for each
     * enemy,
@@ -92,23 +112,30 @@ public class PlayerBoss extends PlayerFly {
     * Make this method in enemyManager, call getPlayerPixels(),
     * check those pixels for each enemy).
     */
-   private void checkBossCollision(Rectangle2D.Float bossHitbox) {
-      // TODO - for (box2d b : bossParts)
-      if (hitbox.intersects(bossHitbox)) {
-         // TODO - if (bossRect.shouldPushPlayer) {
+   private void checkBossCollision(ArrayList<IBossPart> bossParts) {
+      if (isInvincible()) {
+         return;
+      }
+      for (IBossPart bp : bossParts) {
+         if (!bp.isActive()) {
+            continue;
+         }
          for (int i = 0; i < 9; i++) {
             Point point = new Point((int) collisionXs[i], (int) collisionYs[i]);
-            if (bossHitbox.contains(point)) {
+            if (bp.containsPoint(point)) {
+               this.takeCollisionDmg();
+               audioPlayer.playSFX(Audio.SFX_COLLISION);
                pushInOppositeDirectionOf(i, pushDistance);
                this.updateCollisionPixels();
                this.resetSpeed();
+               bp.onPlayerCollision();
+               return;
             }
          }
-         takeCollisionDmg();
-         audioPlayer.playSFX(Audio.SFX_COLLISION);
       }
    }
 
+   // TODO - fix
    public boolean teleportHitsBossPart(Rectangle2D.Float bossHitbox) {
       if (planeAction == TELEPORTING_RIGHT || planeAction == TELEPORTING_LEFT) {
          if (teleportHitbox.intersects(bossHitbox)) {
@@ -141,9 +168,14 @@ public class PlayerBoss extends PlayerFly {
       this.planeAction = TAKING_COLLISION_DAMAGE;
       this.statusDisplay.setHP(HP);
       this.statusDisplay.setBlinking(true);
+      this.customIframeTick = customIframes;
       if (HP <= 0) {
          // TODO - game.getBossMode.killPlayer();
       }
+   }
+
+   private boolean isInvincible() {
+      return (this.customIframeTick > 0 || this.iFrameCount > 0);
    }
 
    @Override

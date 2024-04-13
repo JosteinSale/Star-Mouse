@@ -2,19 +2,18 @@ package gamestates;
 
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 import entities.bossmode.PlayerBoss;
-import entities.bossmode.BossPart;
+import entities.bossmode.rudinger1.Rudinger1;
+import entities.bossmode.IBoss;
 import entities.flying.enemies.EnemyManager;
 import main_classes.Game;
 import projectiles.ProjectileHandler2;
-import utils.LoadSave;
 
 public class BossMode extends State implements Statemethods {
    private PlayerBoss player;
    private ProjectileHandler2 projectileHandler;
-   private BossPart boss;   // Temporary for testing
+   private IBoss boss;
 
    public BossMode(Game game) {
       super(game);
@@ -30,8 +29,13 @@ public class BossMode extends State implements Statemethods {
 
    public void loadNewBoss(int bossNr) {
       loadBoss(bossNr);
+      setPlayerBossParts();
       loadBackground(bossNr);
       loadCutscenes(bossNr);
+   }
+
+   private void setPlayerBossParts() {
+      this.player.setBoss(this.boss.getBossParts());
    }
 
    private void loadCutscenes(int bossNr) {
@@ -41,18 +45,20 @@ public class BossMode extends State implements Statemethods {
    }
 
    private void loadBoss(int bossNr) {
-      BufferedImage partImg = LoadSave.getFlyImageSprite(LoadSave.BOSS_TEST);
-      this.boss = new BossPart(
-         new Rectangle2D.Float(300f, 300f, partImg.getWidth(), partImg.getHeight()),
-         partImg
-         );
+      switch (bossNr) {
+         case 1:
+            this.boss = new Rudinger1();
+            return;
+         default:
+            throw new IllegalArgumentException("No boss available for bossNr: " + bossNr);
+      }
    }
 
    @Override
    public void update() {
       this.player.update(0, 0);
+      this.boss.update();
       this.projectileHandler.update(0, 0, 0);
-      this.boss.update(player.getHitbox());
    }
 
    @Override
