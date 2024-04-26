@@ -32,7 +32,7 @@ public class LoadSave {
     public static final String LEVEL_SELECT_LAYOUT2 = "levelSel_Layout2.png";
     public static final String LEVEL_SELECT_LAYOUT3 = "levelSel_Layout3.png";
     
-    // Sprites
+    // Sprites - UI
     public static final String CURSOR_SPRITE_BLACK = "pointer_black.png";
     public static final String CURSOR_SPRITE_WHITE = "pointer_white.png";
     public static final String SLIDER_SPRITE = "slider.png";
@@ -48,6 +48,7 @@ public class LoadSave {
     public static final String LEVEL_ICONS = "level_icons.png";
     public static final String LEVEL_SELECT_BOX = "level_select_box.png";
 
+    // Sprites - Exploring
     public static final String PLAYER_EXP_SPRITES = "sprites_max.png";
     public static final String PLAYER_EXP_SPRITES_NAKED = "sprites_max_naked.png";
     public static final String OLIVER_SPRITES = "sprites_oliver_cadette.png";
@@ -55,6 +56,7 @@ public class LoadSave {
     public static final String OLIVER_PORTRAITS = "portraits_oliver_cadette.png";
     public static final String NPC_PORTRAITS = "portraits_npc.png";
 
+    // Sprites - Flying
     public static final String SHIP_SPRITES = "sprites_ship.png";
     public static final String TELEPORT_SHADOW = "teleport_shadow.png";
     public static final String FELLOWSHIP_SPRITES = "sprite_fellowShip.png";
@@ -84,14 +86,25 @@ public class LoadSave {
     public static final String WASPDRONE_SPRITE = "sprites_waspDrone.png";
     public static final String KAMIKAZEDRONE_SPRITE = "sprites_kamikazeDrone.png";
     public static final String FLAME_PROJECTILE = "sprites_droneFlame.png";
-    public static final String BOSS_TEST = "bossTest.png";
 
+    // Sprites - BossMode
+    public static final String ROTATING_LAZER_SPRITE = "rotatingLazer.png";
+    public static final String LAZER_CHARGE_SPRITE = "lazerCharge.png";
+    public static final String HEATSEEKING_LAZER_SPRITE = "heatSeekingLazer.png";
+
+
+    // Sprites - LevelEditor
     public static final String SMALL_ENTITY_SPRITES = "sprites_all.png";
 
     // Fonts
     public static final String MAIN_FONT = "DTM-Mono.otf";
 
     // Methods
+    public static BufferedImage getBossSprite(String fileName) {
+        fileName = "/bossMode/sprites/" + fileName;
+        return getImage(fileName);
+    }
+
     public static BufferedImage getExpImageLandscape(String fileName) {
         fileName = "/exploring/images/landscapes/" + fileName;
         return getImage(fileName);

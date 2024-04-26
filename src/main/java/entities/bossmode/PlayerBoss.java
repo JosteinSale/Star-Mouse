@@ -117,7 +117,7 @@ public class PlayerBoss extends PlayerFly {
          return;
       }
       for (IBossPart bp : bossParts) {
-         if (!bp.isActive()) {
+         if (!bp.canCollide()) {
             continue;
          }
          for (int i = 0; i < 9; i++) {

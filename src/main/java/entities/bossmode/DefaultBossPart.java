@@ -2,6 +2,7 @@ package entities.bossmode;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
@@ -10,21 +11,28 @@ import java.awt.image.BufferedImage;
 
 import main_classes.Game;
 
+/** 
+ * The defaultBossPart is a default implementation of the IBossPart-interface.
+ * See the interface for explanation of each provided method.
+ * OBS: The given hitbox will be used to represent the x- and y-coordinate, as well
+ * as the dimensions of the hitbox, but it's NOT used for collision detection.
+*/
 public class DefaultBossPart implements IBossPart {
    protected Rectangle2D.Float nonRotatedHitbox;
    protected Area rotatedArea; // Is used to check collision
    protected Double rotation = 0.0;
-   protected BufferedImage[][] imgs;
+   protected Image[][] imgs;
    protected AffineTransform af; // Is used in rotation operations
-   protected int action = 0;
+   protected int animAction = 0;
    protected int aniIndex = 0;
-   protected Boolean active = false;
+   protected Boolean collisionEnabled = false;
+   protected boolean rotatedImgVisible = false;
 
    /**
     * Constructs a new BossPart with the given hitbox and spriteSheet.
-    * NOTE: the width/height of individual sprites should be as
-    * close as possible to the hitbox width/height. The sizes CAN differ,
-    * but know that the image will always be drawn int the centered of the hitbox.
+    * NOTE: the width/height of individual sprites will be scaled up x3. 
+    * So the hitbox should be about 3x the size of each individual sprite.
+    * The sprites will always be drawn in the dead center of the hitbox.
     * 
     * @param hitbox
     * @param img
@@ -37,17 +45,19 @@ public class DefaultBossPart implements IBossPart {
          int aniRows, int aniCols, int spriteW, int spriteH) {
       this.nonRotatedHitbox = hitbox;
       updateCollisionArea();
-      this.imgs = constructAnimationArray(img, aniRows, aniCols, spriteW, spriteH);
+      this.imgs = constructScaledAnimationArray(img, aniRows, aniCols, spriteW, spriteH);
    }
 
-   private BufferedImage[][] constructAnimationArray(BufferedImage img, int aniRows, int aniCols, int spriteW,
+   private Image[][] constructScaledAnimationArray(BufferedImage img, int aniRows, int aniCols, int spriteW,
          int spriteH) {
-      BufferedImage[][] animations = new BufferedImage[aniRows][aniCols];
+      int scaledSpriteW = spriteW * 3;
+      int scaledSpriteH = spriteH * 3;
+      Image[][] animations = new Image[aniRows][aniCols];
       for (int r = 0; r < aniRows; r++) {
          for (int c = 0; c < aniCols; c++) {
             animations[r][c] = img.getSubimage(
-                  c * spriteW,
-                  r * spriteH, spriteW, spriteH);
+               c * spriteW,
+               r * spriteH, spriteW, spriteH).getScaledInstance(scaledSpriteW, scaledSpriteH, 0);
          }
       }
       return animations;
@@ -96,6 +106,9 @@ public class DefaultBossPart implements IBossPart {
 
    @Override
    public void draw(Graphics g) {
+      if (!rotatedImgVisible) {
+         return;
+      }
       Graphics2D g2 = (Graphics2D) g;
       // Draw hitbox. OBS: NOT SCALED TO Game.SCALE!
       // (We would need to create a new Area-object, which is expensive)
@@ -107,7 +120,7 @@ public class DefaultBossPart implements IBossPart {
 
       // Draw the rotated image
       utils.Inf101Graphics.drawCenteredImage(
-         g2, imgs[action][aniIndex],
+         g2, imgs[animAction][aniIndex],
          nonRotatedHitbox.getCenterX() * Game.SCALE,
          nonRotatedHitbox.getCenterY() * Game.SCALE, Game.SCALE, this.rotation);
    }
@@ -118,13 +131,18 @@ public class DefaultBossPart implements IBossPart {
    }
 
    @Override
-   public void setActive(boolean active) {
-      this.active = active;
+   public void setCollisionActive(boolean active) {
+      this.collisionEnabled = active;
    }
 
    @Override
-   public boolean isActive() {
-      return this.active;
+   public void setRotatedImgVisible(boolean visible) {
+      this.rotatedImgVisible = visible;
+   }
+
+   @Override
+   public boolean canCollide() {
+      return this.collisionEnabled;
    }
 
    @Override
@@ -144,6 +162,22 @@ public class DefaultBossPart implements IBossPart {
 
    @Override
    public void updateAnimations() {
+      /* Override this method with custom behavior */
+   }
+
+   @Override
+   public void startAttack() {
+      /* Override this method with custom behavior */
+   }
+
+   @Override
+   public void finishAttack() {
+      /* Override this method with custom behavior */
+   }
+
+   @Override
+   public boolean isCharging() {
+      return false;
       /* Override this method with custom behavior */
    }
 }

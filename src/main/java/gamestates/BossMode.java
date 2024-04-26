@@ -47,7 +47,7 @@ public class BossMode extends State implements Statemethods {
    private void loadBoss(int bossNr) {
       switch (bossNr) {
          case 1:
-            this.boss = new Rudinger1();
+            this.boss = new Rudinger1(this.player);
             return;
          default:
             throw new IllegalArgumentException("No boss available for bossNr: " + bossNr);

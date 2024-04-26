@@ -1,16 +1,12 @@
 package utils;
 
 import static utils.Constants.Flying.DrawOffsetConstants.*;
-import static utils.Constants.Flying.HitboxConstants.*;
 import static utils.Constants.Flying.SpriteSizes.*;
 import static utils.Constants.Flying.TypeConstants.*;
-import static utils.HelpMethods.CreateHitbox;
 
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-import entities.Entity;
-import entities.exploring.AutomaticTrigger;
 import entities.flying.enemies.BlasterDrone;
 import entities.flying.enemies.Drone;
 import entities.flying.enemies.Enemy;
@@ -211,5 +207,18 @@ public class HelpMethods2 {
 
         return entityDrawOffsets;
     }
-    
+
+    /** Returns an unscaled animation array */
+    public static BufferedImage[][] GetAnimationArray(
+            BufferedImage img, int aniRows, int aniCols, int spriteW, int spriteH) {
+        BufferedImage[][] animations = new BufferedImage[aniRows][aniCols];
+        for (int r = 0; r < aniRows; r++) {
+            for (int c = 0; c < aniCols; c++) {
+                animations[r][c] = img.getSubimage(
+                        c * spriteW,
+                        r * spriteH, spriteW, spriteH);
+            }
+        }
+        return animations;
+    }
 }

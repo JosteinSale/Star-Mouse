@@ -16,8 +16,9 @@ public interface IBossPart {
     */
    public void updatePosition(int deltaX, int deltaY, Double deltaR);
 
-   /** Sets new positions for the bossPart x and y, as well as its rotation 
-    * around the hitbox center. Collision-rectangles are updated.
+   /** Sets new positions for the bossPart centerX and centerY, 
+    * as well as its rotation around the hitbox center. 
+    * Collision-rectangles are updated.
     */
    public void setPosition(int centerX, int centerY, Double rotation);
 
@@ -27,21 +28,38 @@ public interface IBossPart {
    /** Returns true if the rectangle intersects the bossPart */
    public boolean intersectsRect(Rectangle2D.Float hb);
 
-   /** OBS: for drawing, you should always call the 
-    * super-implementation in DefaultBossPart */
+   /** OBS: for rotated drawing animations, you should always call the 
+    * super-implementation in DefaultBossPart. It handles rotation automatically.
+    * 
+    * These from the spriteSheet are only drawn if visible.
+    * The bossPart should handle the visible-boolean itself.
+    *
+    * Though, the bossPart may choose to implement custom drawing-behavior, but only
+    * if it pertains to the specific part.*/
    public void draw(Graphics g);
 
-   /** Use for testing */
+   /** OBS: Only use to get hitbox-dimensions, or centerX / centerY */
    public Rectangle2D.Float getNonRotatedHitbox();
 
-   /** The player needs access to the active-status of the bossPart.
-    * If the bossPart isn't currently in an active fase, it should be set to false.
+   /** 
+    * If the bossPart can't currently be collided with, it should be set to false.
+    * (The player needs access to the canCollide-status of the bossPart).
     * @param active
     */
-   public void setActive(boolean active);
+   public void setCollisionActive(boolean active);
 
-   /** A method invoked by the player. Returns true if the bossPart is active */
-   public boolean isActive();
+   /** If set to false, the bossPart is not drawn */
+   public void setRotatedImgVisible(boolean visible);
+
+   /** A method invoked by the player. Returns true if the bossPart can be collided with */
+   public boolean canCollide();
+
+   /** Returns true if the bossPart is currently in a charging fase.
+    * The bossPart doesn't necessarily need a charging fase, in such case
+    * the default implementation can be kept, which always returns false.
+    * @return isCharging
+    */
+   public boolean isCharging();
 
    /** A method invoked by the player if a collision is detected.
     * It should implement custom behavior for the bossPart upon player collision.
@@ -61,10 +79,20 @@ public interface IBossPart {
     */
    public void updateBehavior();
 
-   /** A method invoked by the Boss at 60 FPS, if the attack is active.
+   /** A method invoked by the BossPart update-method, if the attack is active.
     * This method is made to be overwritten with custom behavior for the bossPart.
     * Alter the aniIndex- and action-variables which was inherited from the
     * DefaultBossPart.
     */
    public void updateAnimations();
+
+   /** Should be called when the bossPart enters its attack fase.
+    * This method is made to be overwritten with custom behavior for the bossPart.
+    */
+   public void startAttack();
+
+   /** Should be called when the bossPart exits its attack fase.
+    * This method is made to be overwritten with custom behavior for the bossPart.
+    */
+   public void finishAttack();
 }

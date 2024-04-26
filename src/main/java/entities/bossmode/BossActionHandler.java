@@ -1,0 +1,95 @@
+package entities.bossmode;
+
+import java.awt.Graphics;
+import java.util.ArrayList;
+
+/** A class which keeps track of which actions a boss can have.
+ * Register new actions with the registerAction()-method.
+ * The actions will then be added in that order.
+ * Each action will have:
+ *    - A name
+ *    - A duration
+ *    - A list of bossParts
+ * 
+ * Use the getName() and getDuration() to access info about the action
+ * Call startAction(), updateAction() and finishAction() to coordinate the behavior.
+ */
+public class BossActionHandler {
+   ArrayList<Integer> actionNames;
+   ArrayList<Integer> durations;
+   ArrayList<ArrayList<IBossPart>> bossParts;
+
+   public BossActionHandler() {
+      this.actionNames = new ArrayList<>();
+      this.durations = new ArrayList<>();
+      this.bossParts = new ArrayList<>();
+   }
+
+   public void registerAction(int name, int duration, ArrayList<IBossPart> actionParts) {
+      this.actionNames.add(name);
+      this.durations.add(duration);
+      this.bossParts.add(actionParts);
+   }
+
+   /** Loops through the bossParts and shootPatters for the specific action, 
+    * and finishes them */
+   public void finishAction(int index) {
+      for (IBossPart part : bossParts.get(index)) {
+         part.finishAttack();
+      }
+   }
+
+   /** Loops through the bossParts and shootPatters for the specific action, 
+    * and starts them */
+   public void startAction(int index) {
+      for (IBossPart part : bossParts.get(index)) {
+         part.startAttack();
+      }
+   }
+
+   /** Loops through the bossParts and shootPatters for the specific action, 
+    * and updates them */
+   public void updateAction(int index) {
+      for (IBossPart part : bossParts.get(index)) {
+         part.updateBehavior();
+      }
+   }
+
+   public int getName(int actionIndex) {
+      if (actionIndex > (actionNames.size() - 1)) {
+         throw new IllegalArgumentException("No name available for index : " + actionIndex);
+      }
+      return this.actionNames.get(actionIndex);
+   }
+
+   public int getDuration(int actionIndex) {
+      if (actionIndex > (durations.size() - 1)) {
+         throw new IllegalArgumentException("No duration available for index : " + actionIndex);
+      }
+      return this.durations.get(actionIndex);
+   }
+
+   public int amountOfActions() {
+      return this.actionNames.size();
+   }
+
+   public void draw(Graphics g) {
+      for (ArrayList<IBossPart> partList : bossParts) {
+         for (IBossPart part : partList) {
+            part.draw(g);
+         }
+      }
+   }
+
+   /** Checks all bossParts pertaining to the currentAction, and checks
+    * if any of them is currently in a charging fase.
+    */
+   public boolean isActionCharging(int index) {
+      for (IBossPart part : bossParts.get(index)) {
+         if (part.isCharging()) {
+            return true;
+         }
+      }
+      return false;
+   }
+}
