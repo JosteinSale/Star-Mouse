@@ -25,9 +25,17 @@ public class BossActionHandler {
       this.bossParts = new ArrayList<>();
    }
 
+   /** Use this constructor if the action has a globally controlled duration */
    public void registerAction(int name, int duration, ArrayList<IBossPart> actionParts) {
       this.actionNames.add(name);
       this.durations.add(duration);
+      this.bossParts.add(actionParts);
+   }
+
+    /** Use this constructor if the action doesn't have a globally controled duration */
+   public void registerAction(int name, ArrayList<IBossPart> actionParts) {
+      this.actionNames.add(name);
+      this.durations.add(0);
       this.bossParts.add(actionParts);
    }
 
@@ -63,8 +71,8 @@ public class BossActionHandler {
    }
 
    public int getDuration(int actionIndex) {
-      if (actionIndex > (durations.size() - 1)) {
-         throw new IllegalArgumentException("No duration available for index : " + actionIndex);
+      if (durations.get(actionIndex) == 0) {
+         throw new IllegalArgumentException("This action shouldn't have a duration : " + actionIndex);
       }
       return this.durations.get(actionIndex);
    }
@@ -91,5 +99,18 @@ public class BossActionHandler {
          }
       }
       return false;
+   }
+
+   public boolean shouldAbort(int index) {
+      for (IBossPart part : bossParts.get(index)) {
+         if (part.shouldAbort()) {
+            return true;
+         }
+      }
+      return false;
+   }
+
+   public boolean hasDuration(int index) {
+      return (durations.get(index) != 0);
    }
 }

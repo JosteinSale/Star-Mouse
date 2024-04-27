@@ -89,12 +89,18 @@ public class PlayerBoss extends PlayerFly {
 
 
    private void checkBossInteraction() {
-      checkBossCollision(bossParts);
-      // checkBossTeleportHit(boss.getParts());
+      checkBossCollision();
+      checkBossTeleportHit();
    }
 
    private void checkBossTeleportHit() {
-
+      if (planeAction == TELEPORTING_LEFT || planeAction == TELEPORTING_RIGHT) {
+         for (IBossPart bp : bossParts) {
+            if (bp.intersectsRect(teleportHitbox)) {
+               bp.onTeleportHit();
+            }
+         }
+      }
    }
 
 
@@ -112,7 +118,7 @@ public class PlayerBoss extends PlayerFly {
     * Make this method in enemyManager, call getPlayerPixels(),
     * check those pixels for each enemy).
     */
-   private void checkBossCollision(ArrayList<IBossPart> bossParts) {
+   private void checkBossCollision() {
       if (isInvincible()) {
          return;
       }
@@ -134,17 +140,6 @@ public class PlayerBoss extends PlayerFly {
          }
       }
    }
-
-   // TODO - fix
-   public boolean teleportHitsBossPart(Rectangle2D.Float bossHitbox) {
-      if (planeAction == TELEPORTING_RIGHT || planeAction == TELEPORTING_LEFT) {
-         if (teleportHitbox.intersects(bossHitbox)) {
-            return true;
-         }
-      }
-      return false;
-   }
-
 
    @Override
    public void takeShootDamage(int damage) {

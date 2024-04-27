@@ -7,7 +7,15 @@ import java.awt.geom.Rectangle2D;
 /** An interface that represents a default BossPart. It has methods for updating the 
  * x- y- and rotation, checking collision with Rectangle2D's, and drawing.
  * Specific implementations of bossParts can extend this object, and should
- * override the `onPlayerCollision`-method and 'onTeleportHit'-method
+ * override the following methods:
+ *    - updateBehavior(),
+ *    - updateAnimations(), 
+ *    - onPlayerCollision(), 
+ *    - onTeleportHit(), 
+ *    - isCharging(), 
+ *    - shouldAbort(),
+ *    - startAttack(),
+ *    - finishAttack()
  */
 public interface IBossPart {
    
@@ -31,10 +39,10 @@ public interface IBossPart {
    /** OBS: for rotated drawing animations, you should always call the 
     * super-implementation in DefaultBossPart. It handles rotation automatically.
     * 
-    * These from the spriteSheet are only drawn if visible.
-    * The bossPart should handle the visible-boolean itself.
+    * Images from the spriteSheet are only drawn if rotatedImgVisible.
+    * The bossPart should handle this visible-boolean itself.
     *
-    * Though, the bossPart may choose to implement custom drawing-behavior, but only
+    * Though, the bossPart may also implement custom drawing-behavior, but only
     * if it pertains to the specific part.*/
    public void draw(Graphics g);
 
@@ -60,6 +68,12 @@ public interface IBossPart {
     * @return isCharging
     */
    public boolean isCharging();
+
+   /** Returns true if the bossPart wants to abort the attack for whatever reason.
+    * The default implementation always returns false
+    * @return shouldAbort
+    */
+   public boolean shouldAbort();
 
    /** A method invoked by the player if a collision is detected.
     * It should implement custom behavior for the bossPart upon player collision.

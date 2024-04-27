@@ -91,6 +91,7 @@ public class LoadSave {
     public static final String ROTATING_LAZER_SPRITE = "rotatingLazer.png";
     public static final String LAZER_CHARGE_SPRITE = "lazerCharge.png";
     public static final String HEATSEEKING_LAZER_SPRITE = "heatSeekingLazer.png";
+    public static final String MACHINE_HEART_SPRITE = "machineHeart.png";
 
 
     // Sprites - LevelEditor

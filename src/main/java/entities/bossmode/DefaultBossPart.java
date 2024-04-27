@@ -178,6 +178,12 @@ public class DefaultBossPart implements IBossPart {
    @Override
    public boolean isCharging() {
       return false;
-      /* Override this method with custom behavior */
+      /* Override this method with custom behavior, if needed */
+   }
+
+   @Override
+   public boolean shouldAbort() {
+      return false;
+      /* Override this method with custom behavior, if needed */
    }
 }

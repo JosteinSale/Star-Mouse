@@ -30,7 +30,9 @@ public class RotatingLazer extends DefaultBossPart {
    private int chargeAniIndex = 0;
    // aniIndex inherited from super class
 
-   public RotatingLazer(Float hitbox, BufferedImage img, int aniRows, int aniCols, int spriteW, int spriteH, double startRotation, boolean shouldDrawCharge) {
+   public RotatingLazer(
+         Float hitbox, BufferedImage img, int aniRows, int aniCols, int spriteW, int spriteH, 
+         double startRotation, boolean shouldDrawCharge) {
       super(hitbox, img, aniRows, aniCols, spriteW, spriteH);
       this.initialRotation = startRotation;
       this.shouldDrawCharge = shouldDrawCharge;
@@ -44,6 +46,11 @@ public class RotatingLazer extends DefaultBossPart {
             Game.GAME_DEFAULT_HEIGHT/2 - 170,
             300, 300);
          }
+   }
+
+   @Override
+   public void startAttack() {
+      this.isCharging = true;
    }
 
    @Override
@@ -96,11 +103,6 @@ public class RotatingLazer extends DefaultBossPart {
    @Override
    public void onTeleportHit() {
       // No behavior
-   }
-
-   @Override
-   public void startAttack() {
-      this.isCharging = true;
    }
 
    @Override

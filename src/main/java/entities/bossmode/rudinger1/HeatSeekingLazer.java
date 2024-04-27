@@ -22,7 +22,7 @@ public class HeatSeekingLazer extends DefaultBossPart {
    private final int SHOOTING_ANIM = 1;
 
    private boolean isCharging = false;
-   private int tick = 0;
+   private int behaviorTick = 0;
    private int chargeDuration = 120;
    private int visualWarningPoint = 100;
    private int shootDuration = 60;
@@ -31,13 +31,19 @@ public class HeatSeekingLazer extends DefaultBossPart {
    private int aniSpeed = 3;
 
    public HeatSeekingLazer(
-      Float hitbox, BufferedImage img, int aniRows, int aniCols, int spriteW, int spriteH, 
-      PlayerBoss player, Point gunCenter) {
+         Float hitbox, BufferedImage img, int aniRows, int aniCols, int spriteW, int spriteH, 
+         PlayerBoss player, Point gunCenter) {
       super(hitbox, img, aniRows, aniCols, spriteW, spriteH);
       this.player = player;
       this.imgDistanceFromCenter = hitbox.height/2;
       this.gunCenter = gunCenter;
       this.lazerLine = new Line2D.Double();
+   }
+
+   @Override
+   public void startAttack() {
+      this.isCharging = true;
+      this.rotatedImgVisible = true;
    }
 
    @Override
@@ -52,28 +58,28 @@ public class HeatSeekingLazer extends DefaultBossPart {
    }
 
    private void updateChargingFase() {
-      tick++;
-      if (tick < visualWarningPoint) {
+      behaviorTick++;
+      if (behaviorTick < visualWarningPoint) {
          pointLazerAtPlayer();
          this.animAction = CHARGING_ANIM;
       }
-      else if (tick >= visualWarningPoint && tick < chargeDuration) {
+      else if (behaviorTick >= visualWarningPoint && behaviorTick < chargeDuration) {
          this.animAction = VISUALWARNING_ANIM;
       }
       else { // Shoot starts
          this.isCharging = false;
          this.animAction = SHOOTING_ANIM;
          this.collisionEnabled = true;
-         this.tick = 0;
+         this.behaviorTick = 0;
       }
    }
 
    private void updateShootingFase() {
       // When this method starts, tick is 0
-      tick++;
-      if (tick >= shootDuration) {
+      behaviorTick++;
+      if (behaviorTick >= shootDuration) {
          // Restarts from charging fase
-         this.tick = 0;
+         this.behaviorTick = 0;
          this.isCharging = true;
          this.collisionEnabled = false;
       }
@@ -124,12 +130,6 @@ public class HeatSeekingLazer extends DefaultBossPart {
    }
 
    @Override
-   public void startAttack() {
-      this.isCharging = true;
-      this.rotatedImgVisible = true;
-   }
-
-   @Override
    public boolean isCharging() {
       return isCharging;
    }
@@ -138,7 +138,7 @@ public class HeatSeekingLazer extends DefaultBossPart {
    public void finishAttack() {
       this.collisionEnabled = false;
       this.rotatedImgVisible = false;
-      this.tick = 0;
+      this.behaviorTick = 0;
    }
 
    @Override

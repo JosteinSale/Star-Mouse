@@ -17,9 +17,11 @@ import utils.LoadSave;
 public class Rudinger1 implements IBoss {
    private int HP = 2000;
    private final Point mainGunPoint = new Point(Game.GAME_DEFAULT_WIDTH/2, 350);
+   private final Point heartDockingPoint = new Point(Game.GAME_DEFAULT_WIDTH/2, 250);
    private IBossPart horizontalLazer;
    private IBossPart verticalLazer;
    private IBossPart heatSeekingLazer;
+   private IBossPart machineHeart;
    private BossActionHandler actionHandler;
 
    // Actions
@@ -58,14 +60,25 @@ public class Rudinger1 implements IBoss {
       
       // ATTACK2: A heatseeking lazer.
       BufferedImage lazerImg2 = LoadSave.getBossSprite(LoadSave.HEATSEEKING_LAZER_SPRITE);
-      int width3 = 90;
-      int height3 = 660;
-      Rectangle2D.Float hitbox3 = new Rectangle2D.Float(
-         (float) mainGunPoint.getX() - width3/2, 
+      int width2 = 90;
+      int height2 = 660;
+      Rectangle2D.Float hitbox2 = new Rectangle2D.Float(
+         (float) mainGunPoint.getX() - width2/2, 
          (float) mainGunPoint.getY(), 
-         width3, height3);
+         width2, height2);
       this.heatSeekingLazer = new HeatSeekingLazer(
-         hitbox3, lazerImg2, 3, 4, 30, 220, player, mainGunPoint);
+         hitbox2, lazerImg2, 3, 4, 30, 220, player, mainGunPoint);
+      
+      // ATTACK3: The machine heart.
+      BufferedImage heartImg = LoadSave.getBossSprite(LoadSave.MACHINE_HEART_SPRITE);
+      int width3 = 100;
+      int height3 = 100;
+      Rectangle2D.Float hitbox3 = new Rectangle2D.Float(
+         (float) heartDockingPoint.getX() - width3/2, 
+         (float) heartDockingPoint.getY(), 
+         width3, height3);
+      this.machineHeart = new MachineHeart(
+         hitbox3, heartImg, 2, 2, 40, 40, player, heartDockingPoint);
 
    }
 
@@ -79,21 +92,29 @@ public class Rudinger1 implements IBoss {
       //    new ArrayList<IBossPart>(Arrays.asList(
       //       horizontalLazer, verticalLazer)));
 
-      // actionHandler.registerAction(IDLE, 20, new ArrayList<>());
+      actionHandler.registerAction(IDLE, 40, new ArrayList<>());
 
       // actionHandler.registerAction(ATTACK2, 540, 
       //    new ArrayList<IBossPart>(Arrays.asList(
       //       heatSeekingLazer)));
+
+      actionHandler.registerAction(ATTACK3, 
+         new ArrayList<IBossPart>(Arrays.asList(
+            machineHeart)));
       
    }
 
    @Override
    public void update() {
+      checkIfAbortAction();
       updateGlobalCycle();
       updateCurrentAction();
    }
 
    private void updateGlobalCycle() {
+      if (!actionHandler.hasDuration(currentAction)) {
+         return;
+      }
       this.tick++;
       if (this.tick >= this.actionHandler.getDuration(currentAction)) {
          this.tick = 0;
@@ -111,12 +132,21 @@ public class Rudinger1 implements IBoss {
       this.actionHandler.updateAction(currentAction);
    }
 
+   // An active action can choose to abort its attack for whatever reason.
+   // In such case, the globalTick is forwarded to the end of the action.
+   private void checkIfAbortAction() {
+      if (this.actionHandler.shouldAbort(currentAction)) {
+         this.goToNextAction();
+      }
+   }
+
    @Override
    public ArrayList<IBossPart> getBossParts() {
       ArrayList<IBossPart> bossParts = new ArrayList<>();
       bossParts.add(verticalLazer);
       bossParts.add(horizontalLazer);
       bossParts.add(heatSeekingLazer);
+      bossParts.add(machineHeart);
       return bossParts;
    }
 
