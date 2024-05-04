@@ -59,7 +59,6 @@ public class MachineHeart extends DefaultBossPart {
    public void startAttack() {
       this.animAction = IDLE_ANIM;
       this.startDocking = true;
-      this.rotatedImgVisible = true;
    }
 
    @Override
@@ -82,6 +81,7 @@ public class MachineHeart extends DefaultBossPart {
       behaviorTick++;
       // Start by standing still for 120 frames while boss-animation plays
       if (behaviorTick < 120) {
+         if (behaviorTick > 70) {this.rotatedImgVisible = true;} // Syncronizing with mouth animation
          return; 
       }
       // Then move to midway point and enable collision
@@ -125,6 +125,7 @@ public class MachineHeart extends DefaultBossPart {
       else {
          this.behaviorTick++;
          this.collisionEnabled = false;
+         if (behaviorTick > 50) {this.rotatedImgVisible = false;} // Syncronizing with mouth animation
          // Then abort the attack
          if (this.behaviorTick >= 120) {
             this.endDocking = false;
@@ -208,7 +209,12 @@ public class MachineHeart extends DefaultBossPart {
 
    @Override
    public boolean isCharging() {
-      return (startDocking || endDocking);
+      return startDocking;
+   }
+
+   @Override
+   public boolean isCoolingDown() {
+      return endDocking && behaviorTick > 40;
    }
 
    @Override
@@ -224,6 +230,11 @@ public class MachineHeart extends DefaultBossPart {
    @Override
    public boolean shouldAbort() {
       return this.abortAttack;
+   }
+
+   @Override
+   public boolean stopsProjectiles() {
+      return true;
    }
 
    @Override

@@ -9,6 +9,10 @@ public interface IBoss {
 
    public void update();
 
+   public int getXPos();
+
+   public int getYPos();
+
    /** Needed for player.setBossParts() */
    public ArrayList<IBossPart> getBossParts();
 }

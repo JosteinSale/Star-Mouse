@@ -186,4 +186,16 @@ public class DefaultBossPart implements IBossPart {
       return false;
       /* Override this method with custom behavior, if needed */
    }
+
+   @Override
+   public boolean stopsProjectiles() {
+      return false;
+      /* Override this method with custom behavior, if needed */
+   }
+
+   @Override
+   public boolean isCoolingDown() {
+      return false;
+      /* Override this method with custom behavior, if needed */
+   }
 }

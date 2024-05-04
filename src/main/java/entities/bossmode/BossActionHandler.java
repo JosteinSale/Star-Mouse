@@ -101,6 +101,18 @@ public class BossActionHandler {
       return false;
    }
 
+   /** Checks all bossParts pertaining to the currentAction, and checks
+    * if any of them is currently in a charging fase.
+    */
+   public boolean isActionCoolingDown(int index) {
+      for (IBossPart part : bossParts.get(index)) {
+         if (part.isCoolingDown()) {
+            return true;
+         }
+      }
+      return false;
+   }
+
    public boolean shouldAbort(int index) {
       for (IBossPart part : bossParts.get(index)) {
          if (part.shouldAbort()) {

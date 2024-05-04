@@ -7,6 +7,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import entities.bossmode.AnimatedComponent;
+import entities.bossmode.AnimationInfo;
 import entities.bossmode.BossActionHandler;
 import entities.bossmode.IBoss;
 import entities.bossmode.IBossPart;
@@ -16,8 +18,13 @@ import utils.LoadSave;
 
 public class Rudinger1 implements IBoss {
    private int HP = 2000;
+   private float mainBodyXPos;
+   private float mainBodyYPos;
+   private BufferedImage mainBodyImg;
+   private ReaperEyes eyes;
+   private AnimatedComponent mouth;
    private final Point mainGunPoint = new Point(Game.GAME_DEFAULT_WIDTH/2, 350);
-   private final Point heartDockingPoint = new Point(Game.GAME_DEFAULT_WIDTH/2, 250);
+   private final Point heartDockingPoint = new Point(Game.GAME_DEFAULT_WIDTH/2 - 1, 240);
    private IBossPart horizontalLazer;
    private IBossPart verticalLazer;
    private IBossPart heatSeekingLazer;
@@ -35,13 +42,57 @@ public class Rudinger1 implements IBoss {
    private int tick = 0;
    private int currentAction = 0;
 
+
    public Rudinger1(PlayerBoss player) {
+      this.constructMainBody();
+      this.constructAnimatedComponents(player);
+      this.constructVulnerableArea();
       this.constructBossParts(player);
       //this.loadProjectilePatterns();
-
       actionHandler = new BossActionHandler();
       this.registerActions();
       this.actionHandler.startAction(currentAction);
+   }
+
+   private void constructAnimatedComponents(PlayerBoss player) {
+      // Reaper eyes
+      BufferedImage eyesImg = LoadSave.getBossSprite("boss1_eyes.png");
+      float xPos = 230;
+      float yPos = 100;
+      ArrayList<AnimationInfo> aniInfo = new ArrayList<>(Arrays.asList(
+         new AnimationInfo("IDLE", 0, 2, 3, 0, false),
+         new AnimationInfo("SHUT_DOWN", 1, 5, 10, 4, false),
+         new AnimationInfo("BOOT_UP", 1, 5, 10, 0, true)));
+      this.eyes = new ReaperEyes(
+         eyesImg, 200, 52, 2, 5, 
+         aniInfo, xPos, yPos, player);
+      
+      // Reaper mouth
+      BufferedImage mouthImg = LoadSave.getBossSprite("boss1_mouth.png");
+      float xPos1 = 402;
+      float yPos1 = 145;
+      ArrayList<AnimationInfo> aniInfo1 = new ArrayList<>(Arrays.asList(
+         new AnimationInfo("IDLE", 0, 1, 10, 0, false),
+         new AnimationInfo("DAMAGE", 1, 2, 3, 0, false),
+         new AnimationInfo("OPEN_UP", 2, 8, 10, 7, false),
+         new AnimationInfo("CLOSE", 2, 8, 10, 0, true)));
+      this.mouth = new AnimatedComponent(
+         mouthImg, 81, 58, 3, 8, 
+         aniInfo1, xPos1, yPos1);
+   }
+
+   private void constructMainBody() {
+      this.mainBodyImg = LoadSave.getBossSprite("boss1_body.png");
+      this.mainBodyXPos = 0;
+      this.mainBodyYPos = - 50;
+   }
+
+   // The vulnerable part is the boss's mouth. 
+   // This part also houses the machine heart.
+   // It has several different states.
+   private void constructVulnerableArea() {
+      
+
    }
 
    private void constructBossParts(PlayerBoss player) {
@@ -75,7 +126,7 @@ public class Rudinger1 implements IBoss {
       int height3 = 100;
       Rectangle2D.Float hitbox3 = new Rectangle2D.Float(
          (float) heartDockingPoint.getX() - width3/2, 
-         (float) heartDockingPoint.getY(), 
+         (float) heartDockingPoint.getY() - height3/2, 
          width3, height3);
       this.machineHeart = new MachineHeart(
          hitbox3, heartImg, 2, 2, 40, 40, player, heartDockingPoint);
@@ -86,19 +137,30 @@ public class Rudinger1 implements IBoss {
       // The boss will loop through these actions sequentially.
       // When at the end -> it goes back to start.
 
-      // actionHandler.registerAction(IDLE, 20, new ArrayList<>());
+      actionHandler.registerAction(
+         IDLE, 
+         100, 
+         new ArrayList<>());
 
-      // actionHandler.registerAction(ATTACK1, 500, 
+      // actionHandler.registerAction(
+      //    ATTACK1, 
+      //    500, 
       //    new ArrayList<IBossPart>(Arrays.asList(
       //       horizontalLazer, verticalLazer)));
 
-      actionHandler.registerAction(IDLE, 40, new ArrayList<>());
+      // actionHandler.registerAction(
+      //    IDLE, 
+      //    40, 
+      //    new ArrayList<>());
 
-      // actionHandler.registerAction(ATTACK2, 540, 
+      // actionHandler.registerAction(
+      //    ATTACK2, 
+      //    540, 
       //    new ArrayList<IBossPart>(Arrays.asList(
       //       heatSeekingLazer)));
 
-      actionHandler.registerAction(ATTACK3, 
+      actionHandler.registerAction(
+         ATTACK3, 
          new ArrayList<IBossPart>(Arrays.asList(
             machineHeart)));
       
@@ -109,6 +171,7 @@ public class Rudinger1 implements IBoss {
       checkIfAbortAction();
       updateGlobalCycle();
       updateCurrentAction();
+      updateAnimatedComponents();
    }
 
    private void updateGlobalCycle() {
@@ -120,6 +183,11 @@ public class Rudinger1 implements IBoss {
          this.tick = 0;
          goToNextAction();
       }
+   }
+
+   private void updateAnimatedComponents() {
+      this.eyes.update();
+      this.mouth.updateAnimations();
    }
 
    private void goToNextAction() {
@@ -152,12 +220,62 @@ public class Rudinger1 implements IBoss {
 
    @Override
    public void draw(Graphics g) {
-      // TODO - drawStaticBossImages
-      // TODO - drawDynamicBossAnimations. 
-            // Will be different for each attack and charging-status
-
+      drawEyeAnimations(g);
+      drawStaticBossImages(g);
+      drawMouthAnimations(g);
       // Draw all animations pertaining to individual bossParts
       this.actionHandler.draw(g);
+   }
+
+   private void drawMouthAnimations(Graphics g) {
+      int action = this.actionHandler.getName(currentAction);
+      if (action == ATTACK3) {
+         if (actionHandler.isActionCharging(currentAction)) {
+            mouth.setAnimation(2);
+         }
+         else if (actionHandler.isActionCoolingDown(currentAction)) {
+            mouth.setAnimation(3);
+         }
+      }
+      else {
+         mouth.setAnimation(0);
+      }
+      this.mouth.draw(g);
+   }
+
+   private void drawEyeAnimations(Graphics g) {
+      int action = this.actionHandler.getName(currentAction);
+      if (action == ATTACK3) {
+         if (actionHandler.isActionCharging(currentAction)) {
+            eyes.setAnimation(1);
+         }
+         else if (actionHandler.isActionCoolingDown(currentAction)) {
+            eyes.setAnimation(2);
+         }
+      }
+      else {
+         eyes.setAnimation(0);
+      }
+      this.eyes.draw(g);
+   }
+
+   private void drawStaticBossImages(Graphics g) {
+      g.drawImage(
+         mainBodyImg, 
+         (int) (mainBodyXPos * Game.SCALE),
+         (int) (mainBodyYPos * Game.SCALE),
+         (int) (mainBodyImg.getWidth() * 3 * Game.SCALE),
+         (int) (mainBodyImg.getHeight() * 3 * Game.SCALE), null);
+   }
+
+   @Override
+   public int getXPos() {
+      return (int) this.mainBodyXPos;
+   }
+
+   @Override
+   public int getYPos() {
+      return (int) this.mainBodyYPos;
    }
 
    

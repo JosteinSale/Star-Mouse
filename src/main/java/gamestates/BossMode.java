@@ -32,6 +32,7 @@ public class BossMode extends State implements Statemethods {
       setPlayerBossParts();
       loadBackground(bossNr);
       loadCutscenes(bossNr);
+      projectileHandler.setBoss(bossNr, boss.getBossParts());
    }
 
    private void setPlayerBossParts() {
@@ -58,7 +59,7 @@ public class BossMode extends State implements Statemethods {
    public void update() {
       this.player.update(0, 0);
       this.boss.update();
-      this.projectileHandler.update(0, 0, 0);
+      this.projectileHandler.update(boss.getXPos(), boss.getYPos(), 0);
    }
 
    @Override

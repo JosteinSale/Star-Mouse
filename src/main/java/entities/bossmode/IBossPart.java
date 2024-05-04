@@ -59,8 +59,13 @@ public interface IBossPart {
    /** If set to false, the bossPart is not drawn */
    public void setRotatedImgVisible(boolean visible);
 
-   /** A method invoked by the player. Returns true if the bossPart can be collided with */
+   /** A method invoked by the player. 
+    * Returns true if the player can collide with the bossPart */
    public boolean canCollide();
+
+   /** A method invoked by the projectileHandler. 
+    * Returns true if the projectile can collide with the bossPart */
+   public boolean stopsProjectiles();
 
    /** Returns true if the bossPart is currently in a charging fase.
     * The bossPart doesn't necessarily need a charging fase, in such case
@@ -68,6 +73,13 @@ public interface IBossPart {
     * @return isCharging
     */
    public boolean isCharging();
+
+   /** Returns true if the bossPart is currently in a coolDown fase.
+    * The bossPart doesn't necessarily need a coolDown fase, in such case
+    * the default implementation can be kept, which always returns false.
+    * @return isCoolingDown
+    */
+   public boolean isCoolingDown();
 
    /** Returns true if the bossPart wants to abort the attack for whatever reason.
     * The default implementation always returns false
