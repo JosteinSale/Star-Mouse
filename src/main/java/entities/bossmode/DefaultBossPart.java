@@ -12,12 +12,15 @@ import java.awt.image.BufferedImage;
 import main_classes.Game;
 
 /** 
+ * A BossPart represents an animated part of a boss that can be rotated, moved around,
+ * perform actions, and collide with player.
+ * 
  * The defaultBossPart is a default implementation of the IBossPart-interface.
  * See the interface for explanation of each provided method.
  * OBS: The given hitbox will be used to represent the x- and y-coordinate, as well
  * as the dimensions of the hitbox, but it's NOT used for collision detection.
 */
-public class DefaultBossPart implements IBossPart {
+abstract public class DefaultBossPart implements IBossPart {
    protected Rectangle2D.Float nonRotatedHitbox;
    protected Area rotatedArea; // Is used to check collision
    protected Double rotation = 0.0;
@@ -152,6 +155,11 @@ public class DefaultBossPart implements IBossPart {
 
    @Override
    public void onTeleportHit() {
+      /* Override this method with custom behavior */
+   }
+
+   @Override
+   public void onProjectileHit() {
       /* Override this method with custom behavior */
    }
 

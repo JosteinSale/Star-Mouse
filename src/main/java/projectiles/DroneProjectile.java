@@ -35,12 +35,12 @@ public class DroneProjectile extends Entity implements Projectile {
     }
 
     @Override
-    public int getXSpeed() {
+    public float getXSpeed() {
         return this.xSpeed;
     }
 
     @Override
-    public int getYSpeed() {
+    public float getYSpeed() {
         return this.ySpeed;
     }
 

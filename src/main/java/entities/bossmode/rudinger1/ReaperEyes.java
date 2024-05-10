@@ -31,7 +31,7 @@ public class ReaperEyes extends AnimatedComponent {
    }
 
    public void update() {
-      if (aniAction == 0) {lookAtPlayer();}
+      if (aniAction == 0 || aniAction == 4) {lookAtPlayer();}
       if (aniAction == 1) { this.xPos = startX; this.yPos = startY + 10;}
       this.updateAnimations();
    }

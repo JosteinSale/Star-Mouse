@@ -8,9 +8,9 @@ public interface Projectile {
 
     public int getDamage();
 
-    public int getXSpeed();
+    public float getXSpeed();
 
-    public int getYSpeed();
+    public float getYSpeed();
 
     public void updateCollisionPixels();
 

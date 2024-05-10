@@ -84,7 +84,7 @@ public class MachineHeart extends DefaultBossPart {
          if (behaviorTick > 70) {this.rotatedImgVisible = true;} // Syncronizing with mouth animation
          return; 
       }
-      // Then move to midway point and enable collision
+      // Then move towards midway docking-point
       collisionEnabled = true;
       updatePosition(0, (int) dockingSpeed, 0.0);
       if (getNonRotatedHitbox().getCenterY() >= midwayPoint.y) {
@@ -183,9 +183,11 @@ public class MachineHeart extends DefaultBossPart {
       if (endDocking || startDocking) {
          return;  // No behavior
       }
-      this.collisionTick = this.collisionWaitDuration;
-      this.nrOfCollisions++;
-      checkIf4Collisions();
+      else {
+         this.collisionTick = this.collisionWaitDuration;
+         this.nrOfCollisions++;
+         checkIf4Collisions();
+      }
    }
 
    @Override
@@ -193,10 +195,12 @@ public class MachineHeart extends DefaultBossPart {
       if (endDocking || startDocking) {
          return;  // No Behavior
       }
-      this.damageTick = damageDuration;
-      this.animAction = DAMAGE_ANIM;
-      this.nrOfCollisions++;
-      checkIf4Collisions();
+      else {
+         this.damageTick = damageDuration;
+         this.animAction = DAMAGE_ANIM;
+         this.nrOfCollisions++;
+         checkIf4Collisions();
+      }
    }
 
    private void checkIf4Collisions() {
@@ -214,7 +218,7 @@ public class MachineHeart extends DefaultBossPart {
 
    @Override
    public boolean isCoolingDown() {
-      return endDocking && behaviorTick > 40;
+      return endDocking && behaviorTick > 40;  // Syncronized with animations
    }
 
    @Override

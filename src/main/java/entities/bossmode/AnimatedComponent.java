@@ -7,28 +7,30 @@ import java.util.ArrayList;
 
 import main_classes.Game;
 
-/** A default class for an animated component, made to be extended.
- * It represents a single animated component.
+/** A default class for an animated component. Can be extended.
+ * It represents a single animated component which cannot be interacted with.
  * It takes a list of AnimationInfo-objects, and a single spritesheet.
  * A default updateAnimation()- and draw()-method is implemented, 
- * and should be accessed by the super-keyword.
+ * and should be accessed by the super-keyword if extended.
  * 
  * Change the animation action as needed.
  * Change the xPos and yPos as needed.
  * 
- * NOTE: the animation row for an animation is INDEPENDENT from the animation action.
+ * NOTE: the animation row (in the spritesheet) for an animation is INDEPENDENT 
+ * from the animation action (index in aniInfo-list).
  */
 public class AnimatedComponent {
-   private BufferedImage[][] animations;
+   protected BufferedImage[][] animations;
    private ArrayList<AnimationInfo> aniInfo;
    private int aniIndex;
    private int aniTick;
    protected int aniAction;
    protected float xPos;
    protected float yPos;
-   private int spriteW;
-   private int spriteH;
+   protected int spriteW;
+   protected int spriteH;
 
+   /** Use this constructor if you don't have a preexisting animation array */
    public AnimatedComponent(
       BufferedImage spriteSheet, int spriteW, int spriteH, int rows, int cols,
       ArrayList<AnimationInfo> aniInfo, float xPos, float yPos) {
@@ -40,11 +42,21 @@ public class AnimatedComponent {
          this.spriteW = spriteW;
       }
    
+   /** Sets the animation according to the index in the animationInfo-list */
    public void setAnimation(int newAction) {
-      // If we're setting a new animation and the animation should reverse
-      if ((newAction != this.aniAction) &&  aniInfo.get(newAction).reverse) {  
-         // Set aniIndex to last in animation.  
-         this.aniIndex =  aniInfo.get(newAction).nrOfFrames - 1;  
+      // If we're setting a new animation
+      if ((newAction != this.aniAction)) {
+         // Reset aniTick
+         this.aniTick = 0;
+         // If it should reverse
+         if (aniInfo.get(newAction).reverse) {
+            // Set aniIndex to last in animation.  
+            this.aniIndex =  aniInfo.get(newAction).nrOfFrames - 1;
+         }
+         else {
+            // Set aniIndex to 0
+            this.aniIndex = 0;
+         }
       }
       this.aniAction = newAction;
    }

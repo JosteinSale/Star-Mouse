@@ -1,13 +1,15 @@
 package entities.bossmode.rudinger1;
 
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D.Float;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Arrays;
 
+import entities.bossmode.AnimatedComponent;
+import entities.bossmode.AnimationInfo;
 import entities.bossmode.DefaultBossPart;
 import main_classes.Game;
-import utils.HelpMethods2;
 import utils.LoadSave;
 
 public class RotatingLazer extends DefaultBossPart {
@@ -19,15 +21,13 @@ public class RotatingLazer extends DefaultBossPart {
    private int chargeDuration = 140;
    private int visualWarningPoint = 100;
 
-   private BufferedImage[][] chargingAnimation;
-   private Rectangle chargingRect; // Determines where the charging animation should be
-   
+   private AnimatedComponent chargeAnimation;
+
    private final int SHOOTING_ANIM = 0;
    private final int VISUALWARNING_ANIM = 1;
 
    private int aniTick = 0;
    private int aniSpeed = 3;
-   private int chargeAniIndex = 0;
    // aniIndex inherited from super class
 
    public RotatingLazer(
@@ -37,14 +37,16 @@ public class RotatingLazer extends DefaultBossPart {
       this.initialRotation = startRotation;
       this.shouldDrawCharge = shouldDrawCharge;
       this.updatePosition(0, 0, initialRotation);
+
       if (shouldDrawCharge) {
-         this.chargingAnimation = HelpMethods2.GetAnimationArray(
-            LoadSave.getBossSprite(LoadSave.LAZER_CHARGE_SPRITE), 
-            1, 5, 100, 100);
-         this.chargingRect = new Rectangle(
+         this.chargeAnimation = new AnimatedComponent(
+            LoadSave.getBossSprite(LoadSave.LAZER_CHARGE_SPRITE1),
+            100, 100, 1, 5,
+            new ArrayList<>(Arrays.asList(
+               new AnimationInfo("CHARGE", 0, 5, 3, 0, false)
+            )),
             Game.GAME_DEFAULT_WIDTH/2 - 150,
-            Game.GAME_DEFAULT_HEIGHT/2 - 170,
-            300, 300);
+            Game.GAME_DEFAULT_HEIGHT/2 - 170);
          }
    }
 
@@ -85,14 +87,12 @@ public class RotatingLazer extends DefaultBossPart {
       if (aniTick > aniSpeed) {
          aniTick = 0;
          aniIndex ++;
-         chargeAniIndex++;
          if (aniIndex > 2) {
             aniIndex = 0;
          }
-         if (chargeAniIndex > 4) {
-            chargeAniIndex = 0;
-         }
       }
+      // Charging animation
+      if (shouldDrawCharge) {chargeAnimation.updateAnimations();};
    }
 
    @Override
@@ -124,19 +124,10 @@ public class RotatingLazer extends DefaultBossPart {
    @Override
    public void draw(Graphics g) {
       if (isCharging && shouldDrawCharge) { 
-         drawChargingAnimation(g);
+         chargeAnimation.draw(g);
       }
       if (animAction == VISUALWARNING_ANIM || !isCharging) {
          super.draw(g);
       }
    }
-
-   private void drawChargingAnimation(Graphics g) {
-      g.drawImage(
-         this.chargingAnimation[0][chargeAniIndex], 
-         (int) (chargingRect.x * Game.SCALE), 
-         (int) (chargingRect.y * Game.SCALE) , 
-         (int) (chargingRect.getWidth() * Game.SCALE),
-         (int) (chargingRect.getHeight() * Game.SCALE), null);
-      }
 }

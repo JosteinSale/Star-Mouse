@@ -82,7 +82,8 @@ public interface IBossPart {
    public boolean isCoolingDown();
 
    /** Returns true if the bossPart wants to abort the attack for whatever reason.
-    * The default implementation always returns false
+    * If so, the bossActionHandler immediately proceeds to the next action.
+    * The default implementation always returns false.
     * @return shouldAbort
     */
    public boolean shouldAbort();
@@ -99,6 +100,13 @@ public interface IBossPart {
     * This method is made to be overwritten, the default implementation does nothing.
     */
    public void onTeleportHit();
+
+   /** A method invoked by the projectileHandler if a projectile hit is detected.
+    * It should implement custom behavior for the bossPart upon being hit 
+    * with a projectile.
+    * This method is made to be overwritten, the default implementation does nothing.
+    */
+   public void onProjectileHit();
 
    /** A method invoked by the Boss at 60 FPS, if the attack is active.
     * This method is made to be overwritten, the default implementation does nothing.

@@ -11,6 +11,8 @@ import entities.bossmode.DefaultBossPart;
 import entities.bossmode.PlayerBoss;
 import main_classes.Game;
 
+/** Follows the player and shoots at regular intervals.
+ * Currently each shoot-cycle takes 180 frames */
 public class HeatSeekingLazer extends DefaultBossPart {
    private PlayerBoss player;
    private Line2D lazerLine;  // For debugging

@@ -89,7 +89,9 @@ public class LoadSave {
 
     // Sprites - BossMode
     public static final String ROTATING_LAZER_SPRITE = "rotatingLazer.png";
-    public static final String LAZER_CHARGE_SPRITE = "lazerCharge.png";
+    public static final String LAZER_CHARGE_SPRITE1 = "lazerCharge.png";
+    public static final String LAZER_CHARGE_SPRITE2 = "lazerCharge2.png";
+    public static final String ENERGY_BALL_SPRITE = "energyBall.png";
     public static final String HEATSEEKING_LAZER_SPRITE = "heatSeekingLazer.png";
     public static final String MACHINE_HEART_SPRITE = "machineHeart.png";
 

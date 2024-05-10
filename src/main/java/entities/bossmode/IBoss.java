@@ -9,8 +9,13 @@ public interface IBoss {
 
    public void update();
 
+   /** Can be called from bossParts that take the Boss as an argument. */
+   public void takeDamage(int damage);
+
+   /** Needed for ProjectileHandler */
    public int getXPos();
 
+   /** Needed for ProjectileHandler */
    public int getYPos();
 
    /** Needed for player.setBossParts() */

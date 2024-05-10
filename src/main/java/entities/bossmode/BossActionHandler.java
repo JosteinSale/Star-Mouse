@@ -3,6 +3,8 @@ package entities.bossmode;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+import entities.bossmode.shootPatterns.ShootPattern;
+
 /** A class which keeps track of which actions a boss can have.
  * Register new actions with the registerAction()-method.
  * The actions will then be added in that order.
@@ -10,33 +12,39 @@ import java.util.ArrayList;
  *    - A name
  *    - A duration
  *    - A list of bossParts
+ *    - A list of shootPatterns
  * 
  * Use the getName() and getDuration() to access info about the action
  * Call startAction(), updateAction() and finishAction() to coordinate the behavior.
  */
 public class BossActionHandler {
+   // Each property of the attack will be linked to one common index for all lists.
    ArrayList<Integer> actionNames;
    ArrayList<Integer> durations;
    ArrayList<ArrayList<IBossPart>> bossParts;
+   ArrayList<ArrayList<ShootPattern>> shootPatterns;
 
    public BossActionHandler() {
       this.actionNames = new ArrayList<>();
       this.durations = new ArrayList<>();
       this.bossParts = new ArrayList<>();
+      this.shootPatterns = new ArrayList<>();
    }
 
    /** Use this constructor if the action has a globally controlled duration */
-   public void registerAction(int name, int duration, ArrayList<IBossPart> actionParts) {
+   public void registerAction(int name, int duration, ArrayList<IBossPart> bossParts, ArrayList<ShootPattern> shootPatterns) {
       this.actionNames.add(name);
       this.durations.add(duration);
-      this.bossParts.add(actionParts);
+      this.bossParts.add(bossParts);
+      this.shootPatterns.add(shootPatterns);
    }
 
     /** Use this constructor if the action doesn't have a globally controled duration */
-   public void registerAction(int name, ArrayList<IBossPart> actionParts) {
+   public void registerAction(int name, ArrayList<IBossPart> actionParts, ArrayList<ShootPattern> shootPatterns) {
       this.actionNames.add(name);
       this.durations.add(0);
       this.bossParts.add(actionParts);
+      this.shootPatterns.add(shootPatterns);
    }
 
    /** Loops through the bossParts and shootPatters for the specific action, 
@@ -45,9 +53,12 @@ public class BossActionHandler {
       for (IBossPart part : bossParts.get(index)) {
          part.finishAttack();
       }
+      for (ShootPattern pattern : shootPatterns.get(index)) {
+         pattern.finishAttack();
+      }
    }
 
-   /** Loops through the bossParts and shootPatters for the specific action, 
+   /** Loops through the bossParts for the specific action
     * and starts them */
    public void startAction(int index) {
       for (IBossPart part : bossParts.get(index)) {
@@ -60,6 +71,9 @@ public class BossActionHandler {
    public void updateAction(int index) {
       for (IBossPart part : bossParts.get(index)) {
          part.updateBehavior();
+      }
+      for (ShootPattern pattern : shootPatterns.get(index)) {
+         pattern.update();
       }
    }
 
@@ -81,11 +95,16 @@ public class BossActionHandler {
       return this.actionNames.size();
    }
 
-   public void draw(Graphics g) {
+   /** Only visible bossParts and active shootPatterns are drawn. */
+   public void draw(Graphics g, int index) {
+      // We loop through all bossParts since some may be visible, even if inactive.
       for (ArrayList<IBossPart> partList : bossParts) {
          for (IBossPart part : partList) {
             part.draw(g);
          }
+      }
+      for (ShootPattern pattern : shootPatterns.get(index)) {
+         pattern.drawShootAnimations(g);
       }
    }
 
@@ -95,6 +114,11 @@ public class BossActionHandler {
    public boolean isActionCharging(int index) {
       for (IBossPart part : bossParts.get(index)) {
          if (part.isCharging()) {
+            return true;
+         }
+      }
+      for (ShootPattern pattern : shootPatterns.get(index)) {
+         if (pattern.isCharging()) {
             return true;
          }
       }

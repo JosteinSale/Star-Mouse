@@ -92,7 +92,8 @@ public class Constants {
             public static final int OCTA_PROJECTILE = 2;
             public static final int BOMB_PROJECTILE = 3;
             public static final int REAPER_PROJECTILE = 4;
-            public static final int FLAME_PROJECTILE = 4;
+            public static final int FLAME_PROJECTILE = 5;
+            public static final int BOSS_PROJECTILE1 = 6;
 
             // Entities
             public static final int DELETE = 0;
