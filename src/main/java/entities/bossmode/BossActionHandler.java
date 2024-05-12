@@ -3,7 +3,7 @@ package entities.bossmode;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-import entities.bossmode.shootPatterns.ShootPattern;
+import projectiles.shootPatterns.ShootPattern;
 
 /** A class which keeps track of which actions a boss can have.
  * Register new actions with the registerAction()-method.

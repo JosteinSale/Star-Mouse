@@ -12,31 +12,33 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import audio.AudioPlayer;
+import gamestates.BossMode;
 import gamestates.Flying;
 import gamestates.Gamestate;
 import main_classes.Game;
 import utils.LoadSave;
 import utils.Constants.Audio;
 
-/** Should be updated and drawn when the player dies. It does the following:
+/** For use in BossMode.
+ * Should be updated and drawn when the player dies. It does the following:
  *  1) play death animation at the player's last position,
  *  2) display menu options,
  *  3) wait for player to choose an option.
  */
-public class GameoverOverlay {
-   private Flying flying;
+public class GameoverOverlay2 {
+   private Game game;
+   private BossMode bossMode;
    private AudioPlayer audioPlayer;
    private Color bgColor = new Color(0, 0, 0, 140);
    private Font headerFont;
    private Font menuFont;
 
-   private String[] menuOptions = {"Last Checkpoint", "Restart Level", "Main Menu" };
+   private String[] menuOptions = {"Restart Boss", "Main Menu" };
    private BufferedImage pointerImg;
    private BufferedImage[] deathAnimation;
    private int selectedIndex = 0;
-   private static final int LAST_CHECKPOINT = 0;
-   private static final int RESTART_LEVEL = 1;
-   private static final int MAIN_MENU = 2;
+   private static final int RESTART_BOSS = 0;
+   private static final int MAIN_MENU = 1;
 
    private float playerX;
    private float playerY;
@@ -51,9 +53,10 @@ public class GameoverOverlay {
    private int aniIndex = 0;
    private int aniTickPerFrame = 4;
 
-   public GameoverOverlay(Flying flying) {
-      this.flying = flying;
-      this.audioPlayer = flying.getGame().getAudioPlayer();
+   public GameoverOverlay2(Game game, BossMode bossMode) {
+      this.game = game;
+      this.bossMode = bossMode;
+      this.audioPlayer = game.getAudioPlayer();
       loadImages();
       loadFonts();
    }
@@ -99,39 +102,27 @@ public class GameoverOverlay {
    }
 
    private void handleKeyboardInputs() {
-      if (flying.getGame().downIsPressed) {
+      if (game.downIsPressed) {
          audioPlayer.playSFX(Audio.SFX_CURSOR);
-         flying.getGame().downIsPressed = false;
+         game.downIsPressed = false;
          goDown();
       } 
-      else if (flying.getGame().upIsPressed) {
+      else if (game.upIsPressed) {
          audioPlayer.playSFX(Audio.SFX_CURSOR);
-         flying.getGame().upIsPressed = false;
+         game.upIsPressed = false;
          goUp();
       } 
-      else if (flying.getGame().interactIsPressed) {
-         flying.getGame().interactIsPressed = false;
-         if (selectedIndex == RESTART_LEVEL) {
+      else if (game.interactIsPressed) {
+         game.interactIsPressed = false;
+         if (selectedIndex == RESTART_BOSS) {
             this.cursorY = cursorMinY;
-            flying.resetFlying();
-            flying.resetLevel(false);
-         }
-         else if (selectedIndex == LAST_CHECKPOINT) {
-            if (!flying.checkPointReached) {
-               audioPlayer.playSFX(Audio.SFX_HURT);
-            }
-            else {
-               this.cursorY = cursorMinY;
-               flying.resetFlying();
-               flying.resetLevel(true);
-            }
+            bossMode.resetBossMode();
+            bossMode.restartBossSong();
          }
          else if (selectedIndex == MAIN_MENU) {
-            // We do not need to reset the level, since the loadLevel-method will be called
-            // when the player reenters flying.
             this.cursorY = cursorMinY;
-            flying.resetFlying();
-            flying.getGame().resetMainMenu();
+            bossMode.resetBossMode();
+            game.resetMainMenu();
             Gamestate.state = Gamestate.MAIN_MENU;
          } 
       }
@@ -187,7 +178,6 @@ public class GameoverOverlay {
       g.drawString("YOU DIED", (int) (400 * Game.SCALE), (int) (350 * Game.SCALE));
 
       for (int i = 0; i < menuOptions.length; i++) {
-         setTextColor(i, g);
          Rectangle rect = new Rectangle(
                (int) (425 * Game.SCALE), (int) ((450 + i * menuOptionsDiff) * Game.SCALE),
                (int) (200 * Game.SCALE), (int) (50 * Game.SCALE));
@@ -201,19 +191,11 @@ public class GameoverOverlay {
          (int) (CURSOR_WIDTH * Game.SCALE), (int) (CURSOR_HEIGHT * Game.SCALE), null);
    }
 
-   private void setTextColor(int index, Graphics g) {
-      if (index == LAST_CHECKPOINT && !this.flying.checkPointReached) {
-         g.setColor(new Color(255, 255, 255, 130));
-      }
-      else {
-         g.setColor(Color.WHITE);
-      }
-   }
-
    public void reset() {
       deathAnimationActive = true;
       aniTick = 0;
       aniIndex = 0;
       selectedIndex = 0;
    }
+   
 }

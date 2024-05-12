@@ -14,14 +14,17 @@ import entities.bossmode.IBoss;
 import entities.bossmode.IBossPart;
 import entities.bossmode.PlayerBoss;
 import entities.bossmode.VulnerableComponent;
-import entities.bossmode.shootPatterns.FanPattern;
 import main_classes.Game;
 import projectiles.ProjectileHandler2;
+import projectiles.shootPatterns.FanPattern;
+import projectiles.shootPatterns.HeatSeekingPattern;
+import ui.BossHealthDisplay;
 import utils.LoadSave;
 
 public class Rudinger1 implements IBoss {
    private BossActionHandler actionHandler;
    private AnimationFactory animationFactory;
+   private BossHealthDisplay healthDisplay;
 
    // Coordinates
    private float mainBodyXPos;
@@ -44,46 +47,58 @@ public class Rudinger1 implements IBoss {
    // ShootPatterns
    private FanPattern fanPattern1;
    private FanPattern fanPattern2;
+   private HeatSeekingPattern heatSeekingPattern1;
+   private HeatSeekingPattern heatSeekingPattern2;
 
    // Actions
    private final int IDLE = 0;
-   private final int ROTATING_LAZER = 1;
-   private final int HEATSEEKING_LAZER = 2;
-   private final int MACHINE_HEART = 3;
-   private final int SHOOT_ATTACK1 = 4;
-   private final int SHOOT_ATTACK2 = 5;
+   private final int SHOOT_ATTACK1 = 1;
+   private final int ROTATING_LAZER = 2;
+   private final int HEATSEEKING_LAZER = 3;
+   private final int SHOOT_ATTACK2 = 4;
+   private final int MACHINE_HEART = 5;
 
    // Global timer
    private int tick = 0;
    private int currentAction = 0;
 
    // Damage
-   private int maxHP = 2000;
+   private int maxHP = 3000;
    private int HP = maxHP;
 
    public Rudinger1(PlayerBoss player, ProjectileHandler2 projectileHandler, AnimationFactory animationFactory) {
       this.animationFactory = animationFactory;
       this.actionHandler = new BossActionHandler();
+      this.healthDisplay = new BossHealthDisplay("Grand Reaper", maxHP);
       this.constructMainBody();
       this.constructAnimatedComponents(player);
       this.constructBossParts(player);
-      this.constructShootPatterns(projectileHandler);
+      this.constructShootPatterns(projectileHandler, player);
       this.registerActions();
       this.actionHandler.startAction(currentAction);
    }
 
-   private void constructShootPatterns(ProjectileHandler2 projectileHandler) {
-      // Two fanPatterns, one for each wing cannon.
+   private void constructShootPatterns(ProjectileHandler2 projectileHandler, PlayerBoss player) {
       Point leftGunPoint = new Point(205, 280);
+      Point rightGunPoint = new Point(820, 280);
+
+      // Two fanPatterns, one for each wing cannon.
       this.fanPattern1 = new FanPattern(
          projectileHandler, leftGunPoint, animationFactory,
          120, 0, 200);
       
-      Point rightGunPoint = new Point(820, 280);
       this.fanPattern2 = new FanPattern(
          projectileHandler, rightGunPoint, animationFactory, 
          120, 100, 200);
-;
+      
+      // Two heatSeekingPatterns, one for each wing cannon.
+      this.heatSeekingPattern1 = new HeatSeekingPattern(
+         projectileHandler, leftGunPoint, animationFactory, player, 
+         60, 0, 60);
+      
+      this.heatSeekingPattern2 = new HeatSeekingPattern(
+         projectileHandler, rightGunPoint, animationFactory, player, 
+         60, 30, 60);
    }
 
    private void constructAnimatedComponents(PlayerBoss player) {
@@ -122,7 +137,7 @@ public class Rudinger1 implements IBoss {
    }
 
    private void constructBossParts(PlayerBoss player) {
-      // ATTACK1: Two rotating lazers. One vertical and one horizontal.
+      // Two rotating lazers. One vertical and one horizontal.
       BufferedImage lazerImg = LoadSave.getBossSprite(LoadSave.ROTATING_LAZER_SPRITE);
       int width1 = 30;
       int height1 = 1300;
@@ -135,7 +150,7 @@ public class Rudinger1 implements IBoss {
       this.horizontalLazer = new RotatingLazer(
          hitbox1, lazerImg, 2, 3, 10, 433, Math.PI/2, false);
       
-      // ATTACK2: A heatseeking lazer.
+      // A heatseeking lazer.
       BufferedImage lazerImg2 = LoadSave.getBossSprite(LoadSave.HEATSEEKING_LAZER_SPRITE);
       int width2 = 90;
       int height2 = 660;
@@ -146,7 +161,7 @@ public class Rudinger1 implements IBoss {
       this.heatSeekingLazer = new HeatSeekingLazer(
          hitbox2, lazerImg2, 3, 4, 30, 220, player, mainGunPoint);
       
-      // ATTACK3: The machine heart.
+      // The machine heart.
       BufferedImage heartImg = LoadSave.getBossSprite(LoadSave.MACHINE_HEART_SPRITE);
       int width3 = 100;
       int height3 = 100;
@@ -177,7 +192,7 @@ public class Rudinger1 implements IBoss {
 
       actionHandler.registerAction(
          IDLE, 
-         100, 
+         160, 
          new ArrayList<>(),
          new ArrayList<>());
       
@@ -216,6 +231,14 @@ public class Rudinger1 implements IBoss {
          new ArrayList<>());
       
       actionHandler.registerAction(
+         SHOOT_ATTACK2, 
+         500,
+         new ArrayList<>(),
+         new ArrayList<>(Arrays.asList(
+            heatSeekingPattern1, heatSeekingPattern2
+         )));
+      
+      actionHandler.registerAction(
          IDLE, 
          100, 
          new ArrayList<>(),
@@ -235,6 +258,7 @@ public class Rudinger1 implements IBoss {
       updateGlobalCycle();
       updateCurrentAction();
       updateAnimatedComponents();
+      healthDisplay.update();
    }
 
    private void updateGlobalCycle() {
@@ -287,6 +311,7 @@ public class Rudinger1 implements IBoss {
       drawEyeAnimations(g);
       drawStaticBossImages(g);
       drawMouthAnimations(g);
+      healthDisplay.draw(g);
       // Draw all animations pertaining to individual bossParts and shootPatterns
       this.actionHandler.draw(g, currentAction);
    }
@@ -362,12 +387,17 @@ public class Rudinger1 implements IBoss {
       }
       this.HP -= damage;
       this.mouth.damageAnimation();
+      this.healthDisplay.setHP(HP);
+      this.healthDisplay.setBlinking(true);
    }
 
    @Override
    public void reset() {
       this.HP = maxHP;
+      this.tick = 0;
       this.actionHandler.finishAction(currentAction);
+      this.healthDisplay.setHP(HP);
+      this.healthDisplay.setBlinking(false);
       this.currentAction = 0;
    }
 

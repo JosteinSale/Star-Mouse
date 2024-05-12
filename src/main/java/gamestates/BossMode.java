@@ -1,6 +1,7 @@
 package gamestates;
 
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.geom.Rectangle2D;
 
 import entities.bossmode.PlayerBoss;
@@ -10,16 +11,23 @@ import entities.bossmode.IBoss;
 import entities.flying.enemies.EnemyManager;
 import main_classes.Game;
 import projectiles.ProjectileHandler2;
+import ui.GameoverOverlay2;
 import ui.PauseBoss;
+import utils.Constants.Audio;
 
 public class BossMode extends State implements Statemethods {
    private PlayerBoss player;
    private ProjectileHandler2 projectileHandler;
    private AnimationFactory animationFactory;
    private IBoss boss;
+   private int bossNr;
 
    private PauseBoss pauseOverlay;
+   private GameoverOverlay2 gameoverOverlay;
    private boolean pause = false;
+   private boolean gameOver = false;
+
+   private Image scaledBgImg;
 
    public BossMode(Game game) {
       super(game);
@@ -36,9 +44,11 @@ public class BossMode extends State implements Statemethods {
          new EnemyManager(null, null));
       this.animationFactory = new AnimationFactory();
       this.pauseOverlay = new PauseBoss(game, this, game.getOptionsMenu());
+      this.gameoverOverlay = new GameoverOverlay2(game, this);
    }
 
    public void loadNewBoss(int bossNr) {
+      this.bossNr = bossNr;
       loadBoss(bossNr);
       setPlayerBossParts();
       loadBackground(bossNr);
@@ -51,6 +61,7 @@ public class BossMode extends State implements Statemethods {
    }
 
    private void loadCutscenes(int bossNr) {
+      
    }
 
    private void loadBackground(int bossNr) {
@@ -72,6 +83,9 @@ public class BossMode extends State implements Statemethods {
       if (pause) {
          this.pauseOverlay.update();
       }
+      else if (gameOver) {
+         this.gameoverOverlay.update();
+      }
       else {
          this.player.update(0, 0);
          this.boss.update();
@@ -92,7 +106,10 @@ public class BossMode extends State implements Statemethods {
       this.player.draw(g);
       this.projectileHandler.draw(g);
       this.boss.draw(g);
-      if (pause) {
+      if (gameOver) {
+         this.gameoverOverlay.draw(g);
+      }
+      else if (pause) {
          this.pauseOverlay.draw(g);
       }
    }
@@ -107,11 +124,31 @@ public class BossMode extends State implements Statemethods {
       this.projectileHandler.reset();
       this.player.reset();
       this.boss.reset();
+      this.gameoverOverlay.reset();
       this.pause = false;
+      this.gameOver = false;
+   }
+
+   /** Is called from the gameOverOverlay */
+   public void restartBossSong() {
+      int songNr = switch (bossNr) {
+         case 1 -> Audio.SONG_BOSS1;
+         default -> 0;
+      };
+      game.getAudioPlayer().startSongLoop(songNr, 0f);
    }
 
    public void skipBoss() {
       this.boss.skipBoss();
    }
+
+   public void killPlayer() {
+      gameOver = true;
+      player.setVisible(false);
+      gameoverOverlay.setPlayerPos(player.getHitbox().x, player.getHitbox().y);
+      game.getAudioPlayer().stopAllLoops();
+      game.getAudioPlayer().startAmbienceLoop(Audio.AMBIENCE_SILENCE);
+      game.getAudioPlayer().playSFX(Audio.SFX_DEATH);
+    }
    
 }

@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
  */
 public class VulnerableComponent extends DefaultBossPart {
    private IBoss boss;
-   private int shootDamage = 10;
+   protected int shootDamage = 10;
 
    public VulnerableComponent(
       Float hitbox, BufferedImage img, int aniRows, int aniCols, 

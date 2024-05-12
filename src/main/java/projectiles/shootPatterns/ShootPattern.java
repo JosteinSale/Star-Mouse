@@ -1,4 +1,4 @@
-package entities.bossmode.shootPatterns;
+package projectiles.shootPatterns;
 
 import java.awt.Graphics;
 

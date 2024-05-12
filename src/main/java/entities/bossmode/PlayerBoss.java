@@ -150,7 +150,7 @@ public class PlayerBoss extends PlayerFly {
       this.statusDisplay.setHP(this.HP);
       this.statusDisplay.setBlinking(true);
       if (HP <= 0) {
-         // TODO - game.getBossMode.killPlayer();
+         game.getBossMode().killPlayer();
       }
    }
 
@@ -165,7 +165,7 @@ public class PlayerBoss extends PlayerFly {
       this.statusDisplay.setBlinking(true);
       this.customIframeTick = customIframes;
       if (HP <= 0) {
-         // TODO - game.getBossMode.killPlayer();
+         game.getBossMode().killPlayer();
       }
    }
 
