@@ -275,6 +275,7 @@ public class Constants {
         public static final int SONG_MAIN_MENU = 3;
         public static final int SONG_VYKE = 4;
         public static final int SONG_LEVEL2 = 5;
+        public static final int SONG_BOSS1 = 6;
         
         // Ambience (don't change these indexes!)
         public static final int AMBIENCE_SILENCE = 0;

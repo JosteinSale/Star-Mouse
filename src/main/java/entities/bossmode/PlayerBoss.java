@@ -177,12 +177,12 @@ public class PlayerBoss extends PlayerFly {
    public void reset() {
       this.visible = true;
       this.aniIndex = 0;
+      this.resetSpeed();
       HP = maxHP;
       statusDisplay.setHP(this.HP);
       statusDisplay.setBlinking(false);
-      //statusDisplay.setKilledEnemies(0);   Don't alter this.
       hitbox.x = 500f;
-      hitbox.y = 400f;
+      hitbox.y = 600f;
       updateCollisionPixels();
       planeAction = IDLE;
   }

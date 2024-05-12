@@ -20,4 +20,10 @@ public interface IBoss {
 
    /** Needed for player.setBossParts() */
    public ArrayList<IBossPart> getBossParts();
+
+   /** Resets the boss's HP, actions and actionIndex */
+   public void reset();
+
+   /** Instantly kills the boss, allowing the player to progress to the next segment */
+   public void skipBoss();
 }

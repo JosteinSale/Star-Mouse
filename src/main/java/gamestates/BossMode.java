@@ -10,6 +10,7 @@ import entities.bossmode.IBoss;
 import entities.flying.enemies.EnemyManager;
 import main_classes.Game;
 import projectiles.ProjectileHandler2;
+import ui.PauseBoss;
 
 public class BossMode extends State implements Statemethods {
    private PlayerBoss player;
@@ -17,10 +18,12 @@ public class BossMode extends State implements Statemethods {
    private AnimationFactory animationFactory;
    private IBoss boss;
 
+   private PauseBoss pauseOverlay;
+   private boolean pause = false;
+
    public BossMode(Game game) {
       super(game);
       initClasses();
-      loadNewBoss(1);   // Temporary call in constructor, for testing porposes.
    }
 
    private void initClasses() {
@@ -32,6 +35,7 @@ public class BossMode extends State implements Statemethods {
          player, 
          new EnemyManager(null, null));
       this.animationFactory = new AnimationFactory();
+      this.pauseOverlay = new PauseBoss(game, this, game.getOptionsMenu());
    }
 
    public void loadNewBoss(int bossNr) {
@@ -64,9 +68,23 @@ public class BossMode extends State implements Statemethods {
 
    @Override
    public void update() {
-      this.player.update(0, 0);
-      this.boss.update();
-      this.projectileHandler.update(boss.getXPos(), boss.getYPos(), 0);
+      this.checkPause();
+      if (pause) {
+         this.pauseOverlay.update();
+      }
+      else {
+         this.player.update(0, 0);
+         this.boss.update();
+         this.projectileHandler.update(boss.getXPos(), boss.getYPos(), 0);
+      }
+   }
+
+   private void checkPause() {
+      if (game.pauseIsPressed) {
+         game.pauseIsPressed = false;
+         game.getAudioPlayer().flipAudioOnOff();
+         this.flipPause();
+      }
    }
 
    @Override
@@ -74,6 +92,26 @@ public class BossMode extends State implements Statemethods {
       this.player.draw(g);
       this.projectileHandler.draw(g);
       this.boss.draw(g);
+      if (pause) {
+         this.pauseOverlay.draw(g);
+      }
+   }
+
+   /** Needed for the pauseOverlay */
+   public void flipPause() {
+      this.pause = !pause;
+   }
+
+   /** Resets the player, current boss and projectileHandler. */
+   public void resetBossMode() {
+      this.projectileHandler.reset();
+      this.player.reset();
+      this.boss.reset();
+      this.pause = false;
+   }
+
+   public void skipBoss() {
+      this.boss.skipBoss();
    }
    
 }

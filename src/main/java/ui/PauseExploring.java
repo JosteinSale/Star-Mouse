@@ -118,6 +118,7 @@ public class PauseExploring implements Statemethods {
         }
     }
 
+    /** Handles keyboardInputs for the this pause menu (not the options menu) */
     private void handleKeyBoardInputs() {
         if (game.upIsPressed) {
             game.upIsPressed = false;

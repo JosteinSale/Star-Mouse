@@ -8,7 +8,7 @@ import entities.bossmode.AnimationFactory;
 import projectiles.ProjectileHandler2;
 import static utils.Constants.Flying.TypeConstants.BOSS_PROJECTILE1;
 
-/** Shoots 5 projectiles at once in a fan pattern, downwards.
+/** Shoots 6 projectiles at once in a fan pattern, downwards.
  * There are accompanying charge- and shoot animations at the gunPoint.
  */
 public class FanPattern extends DefaultShootPattern {
@@ -56,7 +56,7 @@ public class FanPattern extends DefaultShootPattern {
    @Override
    public void drawShootAnimations(Graphics g) {
       if (isCharging) {
-         this.chargeAnimation.draw(g);
+         chargeAnimation.draw(g);
       }
       else if (shootPhase) {
          shootAnimation.draw(g);

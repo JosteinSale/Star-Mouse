@@ -39,7 +39,8 @@ public class AudioPlayer {
         "Song - Skies Over Apolis.wav",
         "Song - Main Menu.wav",
         "Song - Vyke.wav",
-        "Song - Vyke Ambush.wav"
+        "Song - Vyke Ambush.wav",
+        "Song - Grand Reaper.wav"
     };
     private String[] ambienceFileNames = {
         "Ambience - Silence.wav",

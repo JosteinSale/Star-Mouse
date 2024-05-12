@@ -58,7 +58,8 @@ public class Rudinger1 implements IBoss {
    private int currentAction = 0;
 
    // Damage
-   private int HP = 2000;
+   private int maxHP = 2000;
+   private int HP = maxHP;
 
    public Rudinger1(PlayerBoss player, ProjectileHandler2 projectileHandler, AnimationFactory animationFactory) {
       this.animationFactory = animationFactory;
@@ -361,6 +362,18 @@ public class Rudinger1 implements IBoss {
       }
       this.HP -= damage;
       this.mouth.damageAnimation();
+   }
+
+   @Override
+   public void reset() {
+      this.HP = maxHP;
+      this.actionHandler.finishAction(currentAction);
+      this.currentAction = 0;
+   }
+
+   @Override
+   public void skipBoss() {
+      this.HP = 0;
    }
 
 }

@@ -10,6 +10,6 @@ public enum Gamestate {
     LEVEL_EDITOR,
     QUIT;
 
-    public static Gamestate state = BOSS_MODE;
+    public static Gamestate state = START_SCREEN;
 }
 
