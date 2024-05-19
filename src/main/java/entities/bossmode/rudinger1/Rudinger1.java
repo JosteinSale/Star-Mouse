@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import entities.bossmode.AnimationFactory;
-import entities.bossmode.AnimationInfo;
 import entities.bossmode.BossActionHandler;
 import entities.bossmode.IBoss;
 import entities.bossmode.IBossPart;
@@ -79,8 +78,8 @@ public class Rudinger1 implements IBoss {
    }
 
    private void constructShootPatterns(ProjectileHandler2 projectileHandler, PlayerBoss player) {
-      Point leftGunPoint = new Point(205, 280);
-      Point rightGunPoint = new Point(820, 280);
+      Point leftGunPoint = new Point(215, 285);
+      Point rightGunPoint = new Point(825, 285);
 
       // Two fanPatterns, one for each wing cannon.
       this.fanPattern1 = new FanPattern(
@@ -103,31 +102,10 @@ public class Rudinger1 implements IBoss {
 
    private void constructAnimatedComponents(PlayerBoss player) {
       // Reaper eyes
-      BufferedImage eyesImg = LoadSave.getBossSprite("boss1_eyes.png");
-      float xPos = 230;
-      float yPos = 100;
-      ArrayList<AnimationInfo> aniInfo = new ArrayList<>(Arrays.asList(
-         new AnimationInfo("IDLE", 0, 2, 3, 0, false),
-         new AnimationInfo("SHUT_DOWN", 1, 5, 10, 4, false),
-         new AnimationInfo("BOOT_UP", 1, 5, 10, 0, true), 
-         new AnimationInfo("SHOOT", 2, 2, 3, 0, false), 
-         new AnimationInfo("SMALL", 3, 2, 3, 0, false)));
-      this.eyes = new ReaperEyes(
-         eyesImg, 200, 52, 4, 5, 
-         aniInfo, xPos, yPos, player);
+      this.eyes = animationFactory.getReaperEyes(230, 100, player);
       
       // Reaper mouth
-      BufferedImage mouthImg = LoadSave.getBossSprite("boss1_mouth.png");
-      float xPos1 = 402;
-      float yPos1 = 145;
-      ArrayList<AnimationInfo> aniInfo1 = new ArrayList<>(Arrays.asList(
-         new AnimationInfo("IDLE", 0, 1, 10, 0, false),
-         new AnimationInfo("DAMAGE", 1, 2, 3, 0, false),
-         new AnimationInfo("OPEN_UP", 2, 8, 10, 7, false),
-         new AnimationInfo("CLOSE", 2, 8, 10, 0, true)));
-      this.mouth = new AnimatedMouth(
-         mouthImg, 81, 58, 3, 8, 
-         aniInfo1, xPos1, yPos1);
+      this.mouth = animationFactory.getAnimatedMouth(403, 145);
    }
 
    private void constructMainBody() {
@@ -376,9 +354,9 @@ public class Rudinger1 implements IBoss {
    }
 
    @Override
-   public void takeDamage(int damage) {
+   public void takeDamage(int damage, boolean overrideInvincibility) {
       int action = actionHandler.getName(currentAction);
-      if (action == MACHINE_HEART) {
+      if (action == MACHINE_HEART && !overrideInvincibility) {
          // Don't take damage during docking
          if (actionHandler.isActionCharging(currentAction) || 
             actionHandler.isActionCoolingDown(currentAction)) {
@@ -396,14 +374,15 @@ public class Rudinger1 implements IBoss {
       this.HP = maxHP;
       this.tick = 0;
       this.actionHandler.finishAction(currentAction);
+      this.currentAction = 0;
       this.healthDisplay.setHP(HP);
       this.healthDisplay.setBlinking(false);
-      this.currentAction = 0;
    }
 
    @Override
    public void skipBoss() {
       this.HP = 0;
+      this.healthDisplay.setHP(0);
    }
 
 }

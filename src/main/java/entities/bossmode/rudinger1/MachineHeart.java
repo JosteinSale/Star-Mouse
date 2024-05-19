@@ -223,6 +223,7 @@ public class MachineHeart extends DefaultBossPart {
 
    @Override
    public void finishAttack() {
+      this.setPosition((int)dockingPoint.getX(), (int)dockingPoint.getY(), 0.0);
       this.endDocking = false;
       this.collisionEnabled = false;
       this.rotatedImgVisible = false;

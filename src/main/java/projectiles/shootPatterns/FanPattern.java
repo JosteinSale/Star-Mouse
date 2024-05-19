@@ -23,7 +23,7 @@ public class FanPattern extends DefaultShootPattern {
       int chargeTime, int startDelay, int shootInterval) {
       super(projectileHandler, gunPoint, chargeTime, startDelay, shootInterval);
       this.shootAnimation = animationFactory.getPinkShootAnimation(
-         (int)gunPoint.getX() - 140, (int)gunPoint.getY() - 140);
+         (int)gunPoint.getX() - 150, (int)gunPoint.getY() - 150);
       this.chargeAnimation = animationFactory.getPinkEnergyBall(
          (int)gunPoint.getX() - 90, (int)gunPoint.getY() - 90);
    }
@@ -40,7 +40,7 @@ public class FanPattern extends DefaultShootPattern {
 
          this.projectileHandler.addBossProjectile(
             BOSS_PROJECTILE1, 
-            (float) gunPoint.getX(), 
+            (float) gunPoint.getX() - 35,   // 35 is the width of the projectile/2
             (float) gunPoint.getY(), 
             xSpeed, ySpeed);
       }
