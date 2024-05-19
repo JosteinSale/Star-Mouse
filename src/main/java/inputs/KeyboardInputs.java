@@ -9,9 +9,13 @@ import main_classes.GamePanel;
 
 public class KeyboardInputs implements KeyListener {
     private Game game;
-    private KeyEvent oldTypedKey;   // Used to update keybindings
-    private KeyEvent newTypedKey;
-    private String[] keyBindings = {"W", "S", "D", "A", "Space", "B", "M", "Enter"}; // Indexes are important
+    private KeyEvent newTypedKey;   // The most recently typed key
+    private KeyEvent oldTypedKey;   // The second most recently typed key
+
+    // An array of the string representation of the keybindings, 
+    // used for display in the controls menu.
+    // OBS: the indexes are important.
+    private String[] keyBindingNames = {"W", "S", "D", "A", "Space", "B", "M", "Enter"}; 
 
     // Default key bindings
     public int up = KeyEvent.VK_W;
@@ -91,25 +95,27 @@ public class KeyboardInputs implements KeyListener {
     /** Should be called when the player is in controls menu, 
      * after they have typed a new key and confirmed with 'interact'. */
     public String updateKeybindings(int index) {
+        // Since 'interact' was the newest typed key, we use the 'oldTypedKey'
+        // to get the actual key the player wanted to set.
         String newKey = KeyEvent.getKeyText(oldTypedKey.getKeyCode());
-        this.keyBindings[index] = newKey;
-        updateKeyPressed(index);
+        this.keyBindingNames[index] = newKey;
+        remapKeyPressed(index);
         return newKey;
     }
 
     /** Is used to show the player the latest key they typed */
     public String updateLatestKey(int index) {
         String newKey = KeyEvent.getKeyText(newTypedKey.getKeyCode());
-        this.keyBindings[index] = newKey;
+        this.keyBindingNames[index] = newKey;
         return newKey;
     }
 
-    public String[] getKeyBindings() {
-        return keyBindings;
+    public String[] getKeyBindingNames() {
+        return keyBindingNames;
     }
 
     /** Updates the actual keyBindings for the game */
-    private void updateKeyPressed(int index) {
+    private void remapKeyPressed(int index) {
         int keyCode = oldTypedKey.getKeyCode();
         switch (index) {
             case 0 -> up = keyCode;
