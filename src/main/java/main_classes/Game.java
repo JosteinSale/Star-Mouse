@@ -2,12 +2,12 @@ package main_classes;
 
 import audio.AudioPlayer;
 import gamestates.BossMode;
-import gamestates.Exploring;
-import gamestates.Flying;
 import gamestates.Gamestate;
 import gamestates.LevelEditor;
 import gamestates.MainMenu;
 import gamestates.StartScreen;
+import gamestates.exploring.Exploring;
+import gamestates.flying.Flying;
 import gamestates.level_select.LevelSelect;
 import ui.OptionsMenu;
 
@@ -23,13 +23,13 @@ public class Game implements Runnable {
 
     public static final int GAME_DEFAULT_WIDTH = 1050;
     public static final int GAME_DEFAULT_HEIGHT = 750;
-    public static final float SCALE = 0.8f;
-    //public static final float SCALE = SCREEN_HEIGHT / (float) GAME_DEFAULT_HEIGHT;
+    //public static final float SCALE = 0.8f;
+    public static final float SCALE = SCREEN_HEIGHT / (float) GAME_DEFAULT_HEIGHT;
 
     public static final int GAME_WIDTH = (int) (GAME_DEFAULT_WIDTH * SCALE);
     public static final int GAME_HEIGHT = (int) (GAME_DEFAULT_HEIGHT * SCALE);
 
-    public static final boolean fullScreen = false;
+    public static final boolean fullScreen = true;
 
     private GameWindow gameWindow;
     private GamePanel gamePanel;

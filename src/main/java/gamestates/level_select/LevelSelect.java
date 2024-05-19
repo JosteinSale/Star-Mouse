@@ -56,7 +56,7 @@ public class LevelSelect extends State implements Statemethods {
 
     private void loadLevelInfo() {
         levelInfo.add(new LevelInfo("Apolis", 130, 100, 99, 99)); // We have a custom method for level1.
-        levelInfo.add(new LevelInfo("Vyke", 130, 0, 3, 3));
+        levelInfo.add(new LevelInfo("Vyke", 89, 0, 3, 3));
         // etc
     }
 
@@ -124,6 +124,7 @@ public class LevelSelect extends State implements Statemethods {
                 levelToUnlock = 2;
             }
         }
+        // A path has been finished
         else if (finishedLevel == 5 || finishedLevel == 9 || finishedLevel == 13) {
             levelToUnlock = 1;  // Finishing an ending doesn't open any new levels.
         }
