@@ -10,8 +10,8 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import gamestates.Flying;
 import gamestates.Statemethods;
+import gamestates.flying.Flying;
 import main_classes.Game;
 import misc.ProgressValues;
 import utils.LoadSave;

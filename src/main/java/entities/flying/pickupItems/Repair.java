@@ -14,13 +14,13 @@ import main_classes.Game;
 import utils.LoadSave;
 
 public class Repair extends Entity implements PickupItem {
+    // Repair-health is in constants
     private BufferedImage[] animations;
     private float startY;
     private int aniIndex;
     private int aniTick;
     private int aniTickPerFrame = 7;
     private boolean active = true;
-    private int healthIncrease = 50;
 
     public Repair(Float hitbox) {
         super(hitbox);

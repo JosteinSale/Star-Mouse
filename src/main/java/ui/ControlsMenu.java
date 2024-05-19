@@ -33,14 +33,6 @@ public class ControlsMenu {
    private BufferedImage selectImg;
    private int selectedIndex = 8;
 
-   private static final int OPTION_UP = 0;
-   private static final int OPTION_DOWN = 1;
-   private static final int OPTION_RIGHT = 2;
-   private static final int OPTION_LEFT = 3;
-   private static final int OPTION_INTERACT = 4;
-   private static final int OPTION_BOMBS = 5;
-   private static final int OPTION_TELEPORT = 6;
-   private static final int OPTION_PAUSE = 7;
    private static final int RETURN = 8;
 
    private int bgW;
@@ -66,7 +58,7 @@ public class ControlsMenu {
 
    public void setKeyboardInputs(KeyboardInputs keyboardInputs) {
       this.keyboardInputs = keyboardInputs;
-      this.keyBindings = keyboardInputs.getKeyBindings();
+      this.keyBindings = keyboardInputs.getKeyBindingNames();
    }
 
    private void calcDrawValues() {

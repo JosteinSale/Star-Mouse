@@ -14,8 +14,8 @@ import entities.exploring.NpcManager;
 import entities.exploring.PlayerExp;
 import game_events.EventHandler;
 import game_events.GeneralEvent;
+import gamestates.exploring.Area;
 import main_classes.Game;
-import misc.Area;
 import ui.NumberDisplay;
 import ui.TextboxManager;
 import utils.LoadSave;
@@ -52,7 +52,6 @@ public class CutsceneManager {
     private Game game;
     private Area area;
     private NpcManager npcManager;
-    private AudioPlayer audioPlayer;
     private PlayerExp player;
     private EventHandler eventHandler;
     private TextboxManager textboxManager;
@@ -60,9 +59,6 @@ public class CutsceneManager {
     private ArrayList<ArrayList<Cutscene>> cutscenes;
     private boolean active = false; 
     private boolean canAdvance = true;
-
-
-    private int advanceCalled = 0;
 
     // Actions
     private boolean cutsceneJump;
@@ -109,7 +105,6 @@ public class CutsceneManager {
         this.game = game;
         this.area = area;
         this.npcManager = npcManager;
-        this.audioPlayer = audioPlayer;
         this.player = player;
         this.eventHandler = eventHandler;
         this.textboxManager = textboxManager;
@@ -338,18 +333,18 @@ public class CutsceneManager {
         this.shakeActive = true;
         this.canAdvance = false;
         this.shakeDuration = duration;
-        this.xLevelOffset = area.xLevelOffset;
-        this.ylevelOffset = area.yLevelOffset;
+        this.xLevelOffset = area.getXLevelOffset();
+        this.ylevelOffset = area.getYLevelOffset();
         if (xLevelOffset < shakeOffset) {
             xLevelOffset += shakeOffset;
         }
         if (ylevelOffset < shakeOffset) {
             ylevelOffset += shakeOffset;
         }
-        else if ((xLevelOffset + shakeOffset ) > area.maxLvlOffsetX) {
+        else if ((xLevelOffset + shakeOffset ) > area.getMaxLevelOffsetX()) {
             xLevelOffset -= shakeOffset;
         }
-        else if ((ylevelOffset + shakeOffset ) > area.maxLvlOffsetY) {
+        else if ((ylevelOffset + shakeOffset ) > area.getMaxLevelOffsetY()) {
             ylevelOffset -= shakeOffset;
         }
     }
@@ -452,10 +447,12 @@ public class CutsceneManager {
         }
         else {
             if (shakeDuration % 6 > 2) {
-                this.area.xLevelOffset = xLevelOffset + (shakeOffset * shakeDirection); 
+                int newXoffset = xLevelOffset + (shakeOffset * shakeDirection);
+                this.area.setXLevelOffset(newXoffset);
             }
             else {
-                this.area.yLevelOffset = ylevelOffset + (shakeOffset * shakeDirection);
+                int newYoffset = ylevelOffset + (shakeOffset * shakeDirection);
+                this.area.setYLevelOffset(newYoffset);
                 this.shakeDirection *= -1;
             }
         }

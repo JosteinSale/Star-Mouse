@@ -85,6 +85,8 @@ public class Constants {
     }
 
     public static class Flying {
+        public static final int REPAIR_HEALTH = 50;
+
         public static class TypeConstants {
             // Projectile types
             public static final int PLAYER_PROJECTILE = 0;

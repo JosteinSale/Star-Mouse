@@ -12,8 +12,8 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import audio.AudioPlayer;
-import gamestates.Flying;
 import gamestates.Gamestate;
+import gamestates.flying.Flying;
 import main_classes.Game;
 import utils.LoadSave;
 import utils.Constants.Audio;

@@ -45,7 +45,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
     protected int teleportKillWidth = 100;
     protected int teleportKillOffset;  // The distance between the players hitbox and the teleport hitbox
     protected int maxHP;
-    protected int HP = 100;
+    protected int HP;
     protected int collisionDmg = 10;
     protected int flipX = 1;      // 1 = høyre, -1 = venstre. Brukes i checkTeleportCollision
 
@@ -62,6 +62,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
         super(hitbox);
         this.game = game;
         this.maxHP = game.getExploring().getProgressValues().getMaxHP();
+        this.HP = maxHP;
         this.audioPlayer = game.getAudioPlayer();
         this.tpShadowImg = LoadSave.getFlyImageSprite(LoadSave.TELEPORT_SHADOW);
         loadAnimations();
