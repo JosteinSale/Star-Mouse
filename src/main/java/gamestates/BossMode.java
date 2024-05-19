@@ -53,7 +53,7 @@ public class BossMode extends State implements Statemethods {
       setPlayerBossParts();
       loadBackground(bossNr);
       loadCutscenes(bossNr);
-      projectileHandler.setBoss(bossNr, boss.getBossParts());
+      projectileHandler.setBoss(bossNr, boss);
    }
 
    private void setPlayerBossParts() {
@@ -61,7 +61,7 @@ public class BossMode extends State implements Statemethods {
    }
 
    private void loadCutscenes(int bossNr) {
-      
+
    }
 
    private void loadBackground(int bossNr) {
@@ -104,8 +104,8 @@ public class BossMode extends State implements Statemethods {
    @Override
    public void draw(Graphics g) {
       this.player.draw(g);
-      this.projectileHandler.draw(g);
       this.boss.draw(g);
+      this.projectileHandler.draw(g);
       if (gameOver) {
          this.gameoverOverlay.draw(g);
       }
@@ -122,6 +122,7 @@ public class BossMode extends State implements Statemethods {
    /** Resets the player, current boss and projectileHandler. */
    public void resetBossMode() {
       this.projectileHandler.reset();
+      this.projectileHandler.resetBombs(false);
       this.player.reset();
       this.boss.reset();
       this.gameoverOverlay.reset();

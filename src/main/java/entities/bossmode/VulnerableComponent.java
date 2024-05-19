@@ -31,7 +31,7 @@ public class VulnerableComponent extends DefaultBossPart {
 
    @Override
    public void onProjectileHit() {
-      this.boss.takeDamage(shootDamage);
+      this.boss.takeDamage(shootDamage, false);
    }
 
    @Override

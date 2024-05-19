@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import audio.AudioPlayer;
+import entities.bossmode.IBoss;
 import entities.bossmode.IBossPart;
 import entities.bossmode.PlayerBoss;
 import entities.flying.enemies.EnemyManager;
@@ -25,8 +26,7 @@ import static utils.Constants.Audio;
  * 
  * There is a unique @Override-implementation of the following:
  *    -update method
- *    -checkProjectileCollision
- *    -checkBombCollision
+ *    -checkProjectileCollision (checks both bombs and projectiles)
  *    -updateBombExplosion
  *    -resetBombs
  *    -unused methods (do nothing)
@@ -36,7 +36,7 @@ import static utils.Constants.Audio;
  */
 public class ProjectileHandler2 extends ProjectileHandler {
    private ArrayList<IBossPart> bossParts;
-
+   private IBoss boss;
    private BufferedImage bossPrjctImg1;
 
    public ProjectileHandler2(Game game, AudioPlayer audioPlayer, PlayerBoss player, EnemyManager enemyManager) {
@@ -50,9 +50,11 @@ public class ProjectileHandler2 extends ProjectileHandler {
    }
 
    // Should be called whenever a new boss is loaded.
-   public void setBoss(int nr, ArrayList<IBossPart> bossParts) {
-      this.bossParts = bossParts;
+   public void setBoss(int nr, IBoss boss) {
+      this.boss = boss;
+      this.bossParts = boss.getBossParts();
       this.clImg = LoadSave.getBossSprite("boss" + Integer.toString(nr) + "_cl.png");
+      this.setBombs(game.getExploring().getProgressValues().getBombs());
    }
 
    public void addBossProjectile(int type, float xPos, float yPos, float xSpeed, float ySpeed) {
@@ -78,13 +80,11 @@ public class ProjectileHandler2 extends ProjectileHandler {
    }
 
    @Override
+   // Also checks bomb collision
    protected void checkProjectileCollisions(float bossYoffset, float bossXoffset) {
       for (Projectile p : allProjectiles) {
          switch (p.getType()) {
-            case BOMB_PROJECTILE : 
-               checkBombCollision(p, bossYoffset, bossXoffset);
-               break;
-            case PLAYER_PROJECTILE :
+            case PLAYER_PROJECTILE, BOMB_PROJECTILE : 
                checkPlayerProjectileCollision(p, bossYoffset, bossXoffset);
                break;
             default :
@@ -102,26 +102,44 @@ public class ProjectileHandler2 extends ProjectileHandler {
             int xPos = cor[0] + (int) (bossXoffset / 3);
             int yPos = cor[1] - (int) (bossYoffset / 3);
             if (IsSolid(xPos, yPos, clImg)) {
-               p.setActive(false);
-               projectileHits.add(new ProjectileHit((cor[0] * 3) - 10, cor[1] * 3, 0));
+               this.onMapCollision(p);
                break;
             }
          }
          // 2. Checks collision with bossParts
          for (IBossPart bp : bossParts) {
-            if (bp.stopsProjectiles()) {
-               if (bp.intersectsRect(p.getHitbox())) {
-                  p.setActive(false);
-                  projectileHits.add(new ProjectileHit(
-                     (int)p.getHitbox().x, (int)p.getHitbox().y, 0));
-                  bp.onProjectileHit();
-                  break;
-               }
+            if (bp.stopsProjectiles() && bp.intersectsRect(p.getHitbox())) {
+               this.onBossCollision(p, bp);
+               break;
             }
          }
       }
    }
    
+   private void onBossCollision(Projectile p, IBossPart bp) {
+      p.setActive(false);
+      if (p.getType() == PLAYER_PROJECTILE) {
+         projectileHits.add(new ProjectileHit(
+            (int)p.getHitbox().x, (int)p.getHitbox().y, 0));
+         bp.onProjectileHit();
+      }
+      else {  // Bombs
+         addBombExplosion(p.getHitbox());
+         audioPlayer.playSFX(Audio.SFX_BIG_EXPLOSION);
+      }
+   }
+
+   private void onMapCollision(Projectile p) {
+      p.setActive(false);
+      if (p.getType() == PLAYER_PROJECTILE) {
+         projectileHits.add(new ProjectileHit((int) (p.getHitbox().x - 10), (int) p.getHitbox().y, 0));
+      }
+      else {  // Bombs
+         addBombExplosion(p.getHitbox());
+         audioPlayer.playSFX(Audio.SFX_BIG_EXPLOSION);
+      }
+   }
+
    private void checkBossProjectileCollision(Projectile p) {
       if (!p.isActive()) {return;}
       if (p.getHitbox().intersects(player.getHitbox())) {
@@ -137,24 +155,38 @@ public class ProjectileHandler2 extends ProjectileHandler {
    }
 
    @Override
-   protected void checkBombCollision(Projectile p, float yLevelOffset, float xLevelOffset) {
-      // TODO - custom implementation
-   }
-
-   @Override
    protected void updateBombExplosions(float fgSpeed) {
-      // TODO - custom implementation
+      int toRemove = 0;
+      for (BombExplosion b : bombExplosions) {
+         if (b.isDone()) {
+            toRemove += 1;
+         } else {
+            b.update(0);
+            if (b.explosionHappens()) {
+               boss.takeDamage(explosionDamage/2, true);
+            }
+         }
+      }
+      while (toRemove > 0) {
+         bombExplosions.remove(0);
+         toRemove -= 1;
+      }
    }
 
    @Override
    public void resetBombs(boolean toCheckPoint) {
-      // TODO - first transfer bomb-number from Flying to ProgressValues.
+      this.setBombs(game.getExploring().getProgressValues().getBombs());
    }
+
+   // ----------------- Unused methods ----------------------
 
    @Override
    public void setClImg(BufferedImage clImg) {/*Do nothing*/}
 
    @Override
    public void checkPointReached() {/*Do nothing*/}
+
+   @Override
+   protected void checkBombCollision(Projectile p, float yLevelOffset, float xLevelOffset) {/*Do nothing*/}
 
 }

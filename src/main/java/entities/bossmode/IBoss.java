@@ -9,8 +9,11 @@ public interface IBoss {
 
    public void update();
 
-   /** Can be called from bossParts that take the Boss as an argument. */
-   public void takeDamage(int damage);
+   /** Can be called from bossParts that take the Boss as an argument, 
+    * as well as the projectileHandler.
+    * The overrideInvincibility-boolean should be true in case of bombs.
+    * This will make the boss take damage regardless of potential invincibility */
+   public void takeDamage(int damage, boolean overrideInvincibility);
 
    /** Needed for ProjectileHandler */
    public int getXPos();
@@ -18,7 +21,7 @@ public interface IBoss {
    /** Needed for ProjectileHandler */
    public int getYPos();
 
-   /** Needed for player.setBossParts() */
+   /** Needed for player and projectileHandler */
    public ArrayList<IBossPart> getBossParts();
 
    /** Resets the boss's HP, actions and actionIndex */
