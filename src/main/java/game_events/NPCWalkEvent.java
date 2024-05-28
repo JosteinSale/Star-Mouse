@@ -4,6 +4,6 @@ package game_events;
  * in the span of a set amount of frames. Npc-index is found in the levelData-sheet.
 */
 public record NPCWalkEvent(
-   int npcIndex, int sheetRowIndex, float targetX, float targetY, int framesDuration) 
+   int npcIndex, int sheetRowIndex, float targetX, float targetY, int walkDuration) 
       implements GeneralEvent {}
 

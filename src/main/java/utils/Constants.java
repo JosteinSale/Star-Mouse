@@ -53,6 +53,9 @@ public class Constants {
             public static final int NPC = 2;
             public static final int AUTOMATIC = 3;
             public static final int CHOICE = 4;
+
+            public static final String FADE_OUT = "out";
+            public static final String FADE_IN = "in";
         }
 
         // Dette er standard-verdier.

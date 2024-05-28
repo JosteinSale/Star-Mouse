@@ -1,6 +1,6 @@
 cutscene;true;automatic;0
 setGameplayActive;false
-blackScreen;true
+fillScreen;black;true
 wait;120
 endSequence
 fadeHeader;in;350;10;Academy flight range
@@ -11,93 +11,93 @@ fadeHeader;out;350;10;Academy flight range
 wait;100
 endSequence
 setGameplayActive;true
-blackScreen;false
-fadeIn;10
+fillScreen;black;false
+fade;in;10
 startSong;0
 endSequence
 
 cutscene;true;automatic;1
-dialogue;Max;happy;1;2;Alright, let's do this!
+smallDialogue;Max;happy;1;2;Alright, let's do this!
 wait;180
 endSequence
 wait;100
 endSequence
-dialogue;Max;normal;0;2;Use the WASD-keys to move!
+smallDialogue;Max;normal;0;2;Use the WASD-keys to move!
 wait;240
 endSequence
 
 cutscene;true;automatic;2
-dialogue;Max;normal;0;2;Use SPACE to shoot.
+smallDialogue;Max;normal;0;2;Use SPACE to shoot.
 wait;200
 endSequence
-dialogue;Max;normal;0;2;Hold it to shoot contineously.
+smallDialogue;Max;normal;0;2;Hold it to shoot contineously.
 wait;240
 endSequence
 
 cutscene;true;automatic;3
-dialogue;Oliver;normal;0;2;Can we practice teleportation?
+smallDialogue;Oliver;normal;0;2;Can we practice teleportation?
 wait;240
 endSequence
-dialogue;Max;happy;1;2;Ok! Hold M to see where you can teleport...
+smallDialogue;Max;happy;1;2;Ok! Hold M to see where you can teleport...
 wait;240
 endSequence
-dialogue;Max;normal;0;2;...then tap left/right.
+smallDialogue;Max;normal;0;2;...then tap left/right.
 wait;240
 endSequence
 
 cutscene;true;automatic;4
-dialogue;Max;normal;0;4;Remember
+smallDialogue;Max;normal;0;4;Remember
 wait;100
 endSequence
-dialogue;Max;thoughtful;5;2;You can teleport through obstacles.
+smallDialogue;Max;thoughtful;5;2;You can teleport through obstacles.
 wait;240
 endSequence
 
 cutscene;true;automatic;5
-dialogue;Max;normal;0;2;Try to teleport through a target!
+smallDialogue;Max;normal;0;2;Try to teleport through a target!
 wait;240
 endSequence
-dialogue;Max;normal;0;2;It can be a powerful attack.
+smallDialogue;Max;normal;0;2;It can be a powerful attack.
 wait;240
 endSequence
 
 cutscene;true;automatic;6
-dialogue;Max;normal;0;2;Powerups make your shots stronger!
+smallDialogue;Max;normal;0;2;Powerups make your shots stronger!
 wait;240
 endSequence
 wait;60
 endSequence
-dialogue;Max;normal;0;2;Repairs can... uh... repair.
+smallDialogue;Max;normal;0;2;Repairs can... uh... repair.
 wait;200
 endSequence
 
 cutscene;true;automatic;7
-dialogue;Max;thoughtful;5;2;Bombs can take out many targets at once.
+smallDialogue;Max;thoughtful;5;2;Bombs can take out many targets at once.
 wait;240
 endSequence
-dialogue;Max;normal;0;2;Shoot them with B
+smallDialogue;Max;normal;0;2;Shoot them with B
 wait;200
 endSequence
 
 cutscene;true;automatic;8
-dialogue;Max;eyes_closed;4;2;But use them sparingly, they're not cheap.
+smallDialogue;Max;eyes_closed;4;2;But use them sparingly, they're not cheap.
 wait;240
 endSequence
 
 cutscene;true;automatic;9
-dialogue;Max;laughing;3;2;Nice, looks like you got the hang of it!
+smallDialogue;Max;laughing;3;2;Nice, looks like you got the hang of it!
 wait;200
 endSequence
-dialogue;Max;happy;1;2;Let's head back to the academy
+smallDialogue;Max;happy;1;2;Let's head back to the academy
 wait;200
 fadeOutLoops
 endSequence
 
 cutscene;true;automatic;10
-fadeOut;5
+fade;out;5
 endSequence
 setGameplayActive;false
-blackScreen;true
+fillScreen;black;true
 wait;40
 endSequence
 fadeHeader;in;200;10;Level finished

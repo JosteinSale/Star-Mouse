@@ -1,4 +1,4 @@
-package cutscenes;
+package cutscenes.cutsceneManagers;
 
 import static utils.Constants.Exploring.Cutscenes.*;
 import static utils.HelpMethods.DrawCenteredString;
@@ -11,6 +11,8 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import cutscenes.Cutscene;
+import cutscenes.FellowShip;
 import game_events.EventHandler;
 import game_events.GeneralEvent;
 import main_classes.Game;
@@ -124,7 +126,7 @@ public class CutsceneManager2 {
     }
 
     public void startDialogue(String name, int speed, String text, int portraitIndex) {
-        this.textboxManager.startDialogue(name, speed, text, portraitIndex);
+        //this.textboxManager.startDialogue(name, speed, text, portraitIndex);
         this.active = true;
         this.dialogueAppearing = true;
     }
@@ -165,11 +167,11 @@ public class CutsceneManager2 {
     }
 
     private void updateDialogue() {
-        if (textboxManager.allLettersAppeared()) {
-            this.dialogueAppearing = false;
-        } else {
-            textboxManager.getDialogueBox().update();
-        }
+        // if (textboxManager.allLettersAppeared()) {
+        //     this.dialogueAppearing = false;
+        // } else {
+        //     textboxManager.getDialogueBox().update();
+        // }
     }
 
     private void updateFadeIn() {

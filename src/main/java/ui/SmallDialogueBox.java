@@ -12,7 +12,7 @@ import main_classes.Game;
 import utils.HelpMethods;
 import utils.LoadSave;
 
-public class DialogueBox2 {
+public class SmallDialogueBox {
     private BufferedImage[][] portraits;
 
     private String name;
@@ -30,7 +30,7 @@ public class DialogueBox2 {
     private int X = (int) (40 * Game.SCALE);
     private int Y = (int) (600 * Game.SCALE);
 
-    public DialogueBox2() {
+    public SmallDialogueBox() {
         dialogueFont = LoadSave.getInfoFont();
         nameFont = LoadSave.getNameFont();
         loadAllPortraits();

@@ -23,7 +23,7 @@ screenShake;60
 endSequence
 wait;60
 endSequence
-dialogue;Max;shocked;10;4;Wh... What was that!?
+bigDialogue;Max;shocked;10;4;Wh... What was that!?
 endSequence
 setSprite;player;true;2;5;alert
 wait;60
@@ -33,19 +33,19 @@ startAmbience;3;alarm
 setRedLight;true
 wait;120
 endSequence
-dialogue;Speaker;--;0;4;ATTENTION ALL PERSONELL
+bigDialogue;Speaker;--;0;4;ATTENTION ALL PERSONELL
 endSequence;
-dialogue;Speaker;--;0;4;THE CITY IS UNDER ATTACK
+bigDialogue;Speaker;--;0;4;THE CITY IS UNDER ATTACK
 endSequence;
-dialogue;Speaker;--;0;4;ALL PILOTS REPORT TO THEIR STATIONS IMMEDIATELY
+bigDialogue;Speaker;--;0;4;ALL PILOTS REPORT TO THEIR STATIONS IMMEDIATELY
 endSequence
 wait;20
 endSequence
-dialogue;Max;angry;8;5;...An attack!
+bigDialogue;Max;angry;8;5;...An attack!
 endSequence
 npcWalk;Oliver;0;right;660f;520f;30
 endSequence
-dialogue;Oliver;shocked;6;4;Max!
+bigDialogue;Oliver;shocked;6;4;Max!
 endSequence
 setDir;player;left
 setSprite;player;true;3;5;alert
@@ -54,37 +54,37 @@ endSequence
 setSprite;Oliver;true;0;5;alert
 wait;30
 endSequence
-dialogue;Oliver;shocked;6;4;What's going on? Who's attacking us?
+bigDialogue;Oliver;shocked;6;4;What's going on? Who's attacking us?
 endSequence
-dialogue;Max;nervous;9;3;I don't know. It came out of nowhere.
+bigDialogue;Max;nervous;9;3;I don't know. It came out of nowhere.
 endSequence
-dialogue;Max;serious;8;2;I've got to go out there.
+bigDialogue;Max;serious;8;2;I've got to go out there.
 endSequence
-dialogue;Oliver;afraid;7;4;I'm coming too!
+bigDialogue;Oliver;afraid;7;4;I'm coming too!
 endSequence
-dialogue;Max;serious;8;3;No!
+bigDialogue;Max;serious;8;3;No!
 endSequence
-dialogue;Oliver;afraid;7;2;But...
+bigDialogue;Oliver;afraid;7;2;But...
 endSequence
-dialogue;Max;serious;8;2;You're not a pilot yet.
+bigDialogue;Max;serious;8;2;You're not a pilot yet.
 endSequence
-dialogue;Oliver;afraid;7;2;That's not what you said this morning!
+bigDialogue;Oliver;afraid;7;2;That's not what you said this morning!
 endSequence
-dialogue;Max;serious;8;2;This is different from then!
+bigDialogue;Max;serious;8;2;This is different from then!
 endSequence
-dialogue;Max;nervous;9;30;...
+bigDialogue;Max;nervous;9;30;...
 endSequence
-dialogue;Max;serious;8;3;Oliver, I want you to lead the other cadets out of the city.
+bigDialogue;Max;serious;8;3;Oliver, I want you to lead the other cadets out of the city.
 endSequence
-dialogue;Max;serious;8;3;Take your ships and get as far away as you can!
+bigDialogue;Max;serious;8;3;Take your ships and get as far away as you can!
 endSequence
-dialogue;Oliver;determined;8;10;...
+bigDialogue;Oliver;determined;8;10;...
 endSequence
-dialogue;Max;serious;8;3;We'll meet up at the outpost on Vyke, got it?
+bigDialogue;Max;serious;8;3;We'll meet up at the outpost on Vyke, got it?
 endSequence
-dialogue;Oliver;determined;8;3;Alright!
+bigDialogue;Oliver;determined;8;3;Alright!
 endSequence
-dialogue;Max;serious;8;2;Now go! We don't have time!
+bigDialogue;Max;serious;8;2;Now go! We don't have time!
 endSequence
 wait;30;
 endSequence
@@ -92,9 +92,9 @@ setSprite;Oliver;false;0;0
 setDir;Oliver;left
 npcWalk;Oliver;0;left;660f;520f;120
 endSequence
-dialogue;Max;nervous;9;2;...Be careful.
+bigDialogue;Max;nervous;9;2;...Be careful.
 endSequence
-fadeOut;3
+fade;out;3
 endSequence
 setRedLight;false
 blackScreen;true

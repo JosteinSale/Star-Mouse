@@ -2,12 +2,17 @@ package ui;
 
 import java.awt.Graphics;
 
+import game_events.BigDialogueEvent;
+import game_events.InfoBoxEvent;
+import game_events.InfoChoiceEvent;
+import game_events.TextBoxEvent;
 import main_classes.Game;
 
-public class TextboxManager {
+public class TextboxManager implements ITextboxManager {
     private InfoBox infoBox;
     private InfoChoice infoChoice;
-    private DialogueBox dialogueBox;   
+    private BigDialogueBox bigDialogueBox;
+    // TODO - add SmallDialogueBox
     
     private boolean infoActive;
     private boolean dialogueActive;
@@ -15,27 +20,55 @@ public class TextboxManager {
 
     public TextboxManager(Game game) {
         this.infoBox = new InfoBox();
-        this.dialogueBox = new DialogueBox(game);
+        this.bigDialogueBox = new BigDialogueBox(game);
         this.infoChoice = new InfoChoice();
     }
 
-    public void displayInfo(String text) {
-        this.infoBox.setText(text);
-        this.infoActive = true;
+    @Override
+    public void activateTextbox(TextBoxEvent evt) {
+        if (evt instanceof InfoBoxEvent) {
+            InfoBoxEvent infoEvt = (InfoBoxEvent) evt;
+            this.infoBox.setText(infoEvt.text());
+            this.infoActive = true;
+        }
+        else if (evt instanceof BigDialogueEvent) {
+            BigDialogueEvent dialogueEvt = (BigDialogueEvent) evt;
+            this.bigDialogueBox.setDialogue(
+                dialogueEvt.name(), dialogueEvt.speed(), 
+                dialogueEvt.text(), dialogueEvt.portraitIndex());
+            this.dialogueActive = true;
+        }
+        else if (evt instanceof InfoChoiceEvent) {
+            InfoChoiceEvent ifcEvt = (InfoChoiceEvent) evt;
+            this.infoChoice.setText(
+                ifcEvt.question(), ifcEvt.leftChoice(), ifcEvt.rightChoice());
+            this.infoChoiceActive = true;
+        }
     }
 
-    public void displayInfoChoice(String question, String leftChoice, String rightChoice) {
-        this.infoChoice.setText(question, leftChoice, rightChoice);
-        this.infoChoiceActive = true;
-    }
 
-    public void startDialogue(String name, int speed, String text, int portraitIndex) {
-        this.dialogueBox.setDialogue(name, speed, text, portraitIndex);
-        this.dialogueActive = true;
+    @Override
+    public void update() {
+        if (dialogueActive && !bigDialogueBox.allLettersAppeared()) {
+            bigDialogueBox.update();
+        }
     }
 
     public void toggleOptions() {
         this.infoChoice.toggle();
+    }
+
+    public void resetBooleans() {
+        this.infoActive = false;
+        this.dialogueActive = false;
+        this.infoChoiceActive = false;
+    }
+
+    public int getSelectedOption() {
+        if (infoChoiceActive) {
+            return infoChoice.getSelectedOption();
+        }
+        return 10;
     }
 
     public void draw(Graphics g) {
@@ -46,32 +79,21 @@ public class TextboxManager {
             infoChoice.draw(g);
         }
         else if (dialogueActive) {
-            dialogueBox.draw(g);
+            bigDialogueBox.draw(g);
         }
     }
 
-    public void resetBooleans() {
-        this.infoActive = false;
-        this.dialogueActive = false;
-        this.infoChoiceActive = false;
+    @Override
+    public boolean isDialogueAppearing() {
+        return (dialogueActive && !bigDialogueBox.allLettersAppeared());
     }
 
-    public boolean allLettersAppeared() {
-        return dialogueBox.allLettersAppeared();
-    }
-
-    public DialogueBox getDialogueBox() {
-        return this.dialogueBox;
+    @Override
+    public void forwardDialogue() {
+        this.bigDialogueBox.forwardDialogue();
     }
 
     public boolean isChoiceActive() {
         return this.infoChoiceActive;
-    }
-
-    public int getSelectedOption() {
-        if (infoChoiceActive) {
-            return infoChoice.getSelectedOption();
-        }
-        return 10;
     }
 }

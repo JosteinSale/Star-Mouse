@@ -37,7 +37,7 @@ public class Exploring extends State implements Statemethods {
      * Is normally only called from LevelSelect, but can also be called from the MainMenu if needed.*/
     public void loadLevel(int level) {
         this.currentLevel = level;
-        this.currentArea = 1;
+        this.currentArea = 5;
         this.areas = new ArrayList<>();
         ArrayList<List<String>> levelData = LoadSave.getExpLevelData(level);
         ArrayList<List<String>> cutsceneData = LoadSave.getExpCutsceneData(level);

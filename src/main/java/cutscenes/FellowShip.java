@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import entities.flying.ShipFlame;
 import main_classes.Game;
 
+/* TODO - migrate this into an Updatable and Drawable CutsceneEffect-object */
 public class FellowShip {
    private BufferedImage shipImg;
    private ShipFlame flame;   // A bit wasteful in terms of memory usage.

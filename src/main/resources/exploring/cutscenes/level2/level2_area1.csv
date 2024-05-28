@@ -8,11 +8,11 @@ wait;1
 endSequence
 
 cutscene;false;object;0
-dialogue;Lt.Red;normal;0;2;Hold it Max.
+bigDialogue;Lt.Red;normal;0;2;Hold it Max.
 endSequence
-dialogue;Lt.Red;normal;0;2;We're going to have a briefing, and I'd like you to attend.
+bigDialogue;Lt.Red;normal;0;2;We're going to have a briefing, and I'd like you to attend.
 endSequence
-dialogue;Max;normal;0;2;Yes Lieutenant.
+bigDialogue;Max;normal;0;2;Yes Lieutenant.
 endSequence
 fadeOut;3
 endSequence
@@ -26,29 +26,29 @@ fadeIn;3
 endSequence
 wait;30
 endSequence
-dialogue;Lt.Red;normal;0;2;All right pilots, listen up!
+bigDialogue;Lt.Red;normal;0;2;All right pilots, listen up!
 endSequence
-dialogue;Lt.Red;normal;0;2;I won't sugarcoat this. Things are looking grim.
+bigDialogue;Lt.Red;normal;0;2;I won't sugarcoat this. Things are looking grim.
 endSequence
-dialogue;Lt.Red;sad;1;2;The enemy appears to have a formidable drone army.
+bigDialogue;Lt.Red;sad;1;2;The enemy appears to have a formidable drone army.
 endSequence
-dialogue;Lt.Red;sad;1;2;We had to surrender our capital, and we've sustained heavy losses.
+bigDialogue;Lt.Red;sad;1;2;We had to surrender our capital, and we've sustained heavy losses.
 endSequence
-dialogue;Lt.Red;normal;0;2;But, I believe we have sufficient firepower to mount a counterattack.
+bigDialogue;Lt.Red;normal;0;2;But, I believe we have sufficient firepower to mount a counterattack.
 endSequence
-dialogue;Lt.Red;normal;0;2;We're NOT going to give them time to dig into defensive positions!
+bigDialogue;Lt.Red;normal;0;2;We're NOT going to give them time to dig into defensive positions!
 endSequence
-dialogue;Lt.Red;normal;0;2;We'll take them by surprise, and strike back immediately.
+bigDialogue;Lt.Red;normal;0;2;We'll take them by surprise, and strike back immediately.
 endSequence
-dialogue;Gard;normal;0;2;Hear, hear!
+bigDialogue;Gard;normal;0;2;Hear, hear!
 endSequence
-dialogue;Nathan;angry;1;2;Let's take them down!
+bigDialogue;Nathan;angry;1;2;Let's take them down!
 endSequence
-dialogue;Lt.Red;sad;1;2;This planet behind me... Its fate rests in our hands.
+bigDialogue;Lt.Red;sad;1;2;This planet behind me... Its fate rests in our hands.
 endSequence
-dialogue;Lt.Red;normal;0;2;Now go!
+bigDialogue;Lt.Red;normal;0;2;Now go!
 endSequence
-dialogue;Max;determined;8;2;(Oliver... I'll find you! I promise)
+bigDialogue;Max;determined;8;2;(Oliver... I'll find you! I promise)
 endSequence
 fadeOut;2
 endSequence
@@ -60,23 +60,23 @@ wait;1
 endSequence
 
 cutscene;true;npc;1
-dialogue;Lt.Red;normal;0;2;Good to see you made it, Max.
+bigDialogue;Lt.Red;normal;0;2;Good to see you made it, Max.
 endSequence
-dialogue;Max;normal;0;2;Lieutenant, has any of the cadets made it back yet?
+bigDialogue;Max;normal;0;2;Lieutenant, has any of the cadets made it back yet?
 endSequence
-dialogue;Lt.Red;sad;1;10;...
+bigDialogue;Lt.Red;sad;1;10;...
 endSequence
-dialogue;Lt.Red;normal;0;2;I'm afraid not. There has been no sign of them since they left the Academy.
+bigDialogue;Lt.Red;normal;0;2;I'm afraid not. There has been no sign of them since they left the Academy.
 endSequence
-dialogue;Max;scared;11;2;!!!
+bigDialogue;Max;scared;11;2;!!!
 endSequence
-dialogue;Max;worried;9;2;(Oliver... please be okay!)
+bigDialogue;Max;worried;9;2;(Oliver... please be okay!)
 endSequence
-dialogue;Lt.Red;sad;1;2;We'll be on the lookout for them, of course.
+bigDialogue;Lt.Red;sad;1;2;We'll be on the lookout for them, of course.
 endSequence
-dialogue;Lt.Red;normal;0;2;For now, we have to focus on regrouping and planning our next move
+bigDialogue;Lt.Red;normal;0;2;For now, we have to focus on regrouping and planning our next move
 endSequence
-dialogue;Max;normal;0;2;...Yes Lieutenant.
+bigDialogue;Max;normal;0;2;...Yes Lieutenant.
 endSequence
 
 cutscene;false;automatic;2

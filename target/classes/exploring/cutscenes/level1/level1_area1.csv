@@ -46,31 +46,30 @@ addToInventory;GRADUATION PRESENT;For a special someone on their special day. I 
 endSequence
 
 cutscene;true;door;4
-dialogue;Max;naked_normal;7;2;I'm not dressed...
+bigDialogue;Max;naked_normal;7;2;I'm not dressed...
 endSequence
 
 cutscene;true;door;4
-dialogue;Max;thoughtful;5;2;I feel like I've forgotten something
+bigDialogue;Max;thoughtful;5;2;I feel like I've forgotten something
 endSequence
 
 cutscene;false;automatic;5
-setOverlayImage;overlayBed.png
-setOverlayActive;true
-blackScreen;true
+setPlayerVisible;false
+setOverlayImage;true;overlayBed.png
+fillScreen;black;true
 setPlayerSheet;1
 startAmbience;0
 wait;120
 endSequence
-blackScreen;false
-setPlayerVisible;false
-fadeIn;1
+fillScreen;_;false
+fade;in;1
 endSequence
-dialogue;Max;naked_eyes_shut;6;30;......
+bigDialogue;Max;naked_eyes_shut;6;30;......
 endSequence
-dialogue;Max;naked_eyes_shut;6;2;I should probably get up
+bigDialogue;Max;naked_eyes_shut;6;2;I should probably get up
 endSequence
 setPlayerVisible;true
-setOverlayActive;false
+setOverlayImage;false;_
 wait;60
 endSequence
 playSFX;infoBox

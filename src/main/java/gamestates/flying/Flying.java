@@ -1,6 +1,7 @@
 package gamestates.flying;
 
 import static utils.Constants.Audio;
+import static utils.Constants.Exploring.Cutscenes.AUTOMATIC;
 import static utils.Constants.Flying.TypeConstants.BOMB;
 import static utils.Constants.Flying.TypeConstants.DRONE;
 import static utils.Constants.Flying.TypeConstants.POWERUP;
@@ -17,7 +18,8 @@ import java.util.List;
 
 import audio.AudioPlayer;
 import cutscenes.Cutscene;
-import cutscenes.CutsceneManager2;
+import cutscenes.cutsceneManagers.CutsceneManager2;
+import cutscenes.cutsceneManagers.CutsceneManagerFly;
 import entities.exploring.AutomaticTrigger;
 import entities.flying.PlayerFly;
 import entities.flying.enemies.Enemy;
@@ -35,6 +37,7 @@ import ui.LevelFinishedOverlay;
 import ui.OptionsMenu;
 import ui.PauseFlying;
 import ui.TextboxManager2;
+import utils.Constants.Audio;
 import utils.LoadSave;
 
 public class Flying extends State implements Statemethods {
@@ -48,7 +51,7 @@ public class Flying extends State implements Statemethods {
    private EnemyManager enemyManager;
    private ProjectileHandler projectileHandler;
    private PlayerFly player;
-   private CutsceneManager2 cutsceneManager;
+   private CutsceneManagerFly cutsceneManager;
    private EventHandler eventHandler;
    private ArrayList<AutomaticTrigger> automaticTriggers;
    private ArrayList<PickupItem> pickupItems;
@@ -74,6 +77,20 @@ public class Flying extends State implements Statemethods {
       loadEventReactions();
    }
 
+   private void initClasses(OptionsMenu optionsMenu, ProgressValues progValues) {
+      Rectangle2D.Float playerHitbox = new Rectangle2D.Float(500f, 400f, 50f, 50f);
+      this.player = new PlayerFly(game, playerHitbox);
+      this.enemyManager = new EnemyManager(player, audioPlayer);
+      this.projectileHandler = new ProjectileHandler(game, audioPlayer, player, enemyManager);
+      this.eventHandler = new EventHandler();
+      TextboxManager2 textboxManager = new TextboxManager2();
+      this.cutsceneManager = new CutsceneManagerFly(Gamestate.FLYING, game, eventHandler, textboxManager);
+      this.pauseOverlay = new PauseFlying(this, optionsMenu);
+      this.levelFinishedOverlay = new LevelFinishedOverlay(this, progValues);
+      this.gameoverOverlay = new GameoverOverlay(this);
+      this.flyLevelInfo = new FlyLevelInfo();
+   }
+
    public void loadLevel(int level) {
       this.level = level;
       this.song = Audio.GetFlyLevelSong(level);
@@ -87,20 +104,6 @@ public class Flying extends State implements Statemethods {
       player.setKilledEnemies(0);
       // startAt(-22000); // For testing purposes
 
-   }
-
-   private void initClasses(OptionsMenu optionsMenu, ProgressValues progValues) {
-      Rectangle2D.Float playerHitbox = new Rectangle2D.Float(500f, 400f, 50f, 50f);
-      this.player = new PlayerFly(game, playerHitbox);
-      this.enemyManager = new EnemyManager(player, audioPlayer);
-      this.projectileHandler = new ProjectileHandler(game, audioPlayer, player, enemyManager);
-      this.eventHandler = new EventHandler();
-      TextboxManager2 textboxManager = new TextboxManager2();
-      this.cutsceneManager = new CutsceneManager2(eventHandler, textboxManager);
-      this.pauseOverlay = new PauseFlying(this, optionsMenu);
-      this.levelFinishedOverlay = new LevelFinishedOverlay(this, progValues);
-      this.gameoverOverlay = new GameoverOverlay(this);
-      this.flyLevelInfo = new FlyLevelInfo();
    }
 
    private void loadPickupItems(Integer level) {
@@ -141,50 +144,40 @@ public class Flying extends State implements Statemethods {
    }
 
    public void doReaction(GeneralEvent event) {
-      if (event instanceof DialogueEvent evt) {
-         this.cutsceneManager.startDialogue(evt.name(), evt.speed(), evt.text(), evt.portraitIndex());
-      } else if (event instanceof FadeInEvent evt) {
-         this.cutsceneManager.startFadeIn(evt.speed());
-      } else if (event instanceof FadeOutEvent evt) {
-         this.cutsceneManager.startFadeOut(evt.speed());
-      } else if (event instanceof SetVisibleEvent evt) {
-         this.player.setVisible(evt.visible());
-      } else if (event instanceof WaitEvent evt) {
-         this.cutsceneManager.waitFrames(evt.waitFrames());
-      } else if (event instanceof SetOverlayImageEvent evt) {
-         this.cutsceneManager.setOverlayImage(evt.fileName());
-      } else if (event instanceof SetOverlayActiveEvent evt) {
-         this.cutsceneManager.setOverlayActive(evt.active());
-      } else if (event instanceof BlackScreenEvent evt) {
-         this.cutsceneManager.setBlackScreen(evt.active());
-      } else if (event instanceof SetGameplayEvent evt) {
+      if (event instanceof TextBoxEvent tbEvt) {
+         this.cutsceneManager.activateTextbox(tbEvt);
+      }
+      else if (event instanceof SetGameplayEvent evt) {
          this.gamePlayActive = evt.active();
-      } else if (event instanceof FadeHeaderEvent evt) {
-         cutsceneManager.fadeHeader(evt.inOut(), evt.yPos(), evt.fadeSpeed(), evt.header());
-      } else if (event instanceof LevelFinishedEvent evt) {
+      }
+      else if (event instanceof LevelFinishedEvent evt) {
          this.levelFinished = true;
          this.enemyManager.levelFinished();
          this.levelFinishedOverlay.setLevelStats(enemyManager.getFinalKilledEnemies());
-      } else if (event instanceof StartSongEvent evt) {
+      }
+      else if (event instanceof StartSongEvent evt) {
          this.game.getAudioPlayer().startSongLoop(evt.index(), 0);
-      } else if (event instanceof StartAmbienceEvent evt) {
+      }
+      else if (event instanceof StartAmbienceEvent evt) {
          audioPlayer.startAmbienceLoop(evt.index());
-      } else if (event instanceof FadeOutLoopEvent evt) {
+      } 
+      else if (event instanceof FadeOutLoopEvent evt) {
          audioPlayer.fadeOutAllLoops();
-      } else if (event instanceof FellowShipEvent evt) {
-         cutsceneManager.startFellowShips(evt.xPos(), evt.yPos(), evt.takeOffTimer());
-      } else if (event instanceof GoToBossEvent evt) {
+      }
+      else if (event instanceof GoToBossEvent evt) {
          transferBombsToProgValues();
          game.getBossMode().loadNewBoss(evt.bossNr());
          Gamestate.state = Gamestate.BOSS_MODE;
          // We do not need to do anything else, as we will return to Flying after
          // the boss, and thus exit Flying properly then.
       }
-      /*
-       * else if (event instanceof SetStartingCutsceneEvent2 evt) {
-       * this.setNewStartingCutscene(evt.triggerObject(), evt.cutsceneIndex());
-       * }
-       */
+      else {
+         this.cutsceneManager.activateEffect(event);
+      }
+
+
+      // } else if (event instanceof FellowShipEvent evt) {
+      //    cutsceneManager.startFellowShips(evt.xPos(), evt.yPos(), evt.takeOffTimer());
    }
 
    /** Flips the pause boolean */
@@ -273,7 +266,7 @@ public class Flying extends State implements Statemethods {
       for (AutomaticTrigger trigger : automaticTriggers) {
          if ((trigger.getHitbox().y > 0) && (trigger.getHitbox().y < 10)) {
             if (!trigger.hasPlayed()) {
-               this.cutsceneManager.startCutscene(index, automaticTriggers.get(index).getStartCutscene());
+               this.cutsceneManager.startCutscene(index, AUTOMATIC, automaticTriggers.get(index).getStartCutscene());
                trigger.setPlayed(true);
             }
          }
@@ -443,7 +436,7 @@ public class Flying extends State implements Statemethods {
     * Doesn't move enemies or pickup-items.
     */
    public void skipLevel() {
-      this.cutsceneManager.skipCutscene();
+      this.cutsceneManager.reset();
       float skipYPos = flyLevelInfo.getSkipLevelPoint(level);
       mapManager.resetOffsetsTo(skipYPos, (bgCurSpeed / fgCurSpeed));
       for (AutomaticTrigger trigger : automaticTriggers) {

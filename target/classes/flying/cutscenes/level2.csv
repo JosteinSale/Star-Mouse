@@ -18,15 +18,15 @@ startSong;5
 endSequence
 
 cutscene;true;automatic;1
-dialogue;Lt.Red;serious;0;2;We're heading out!
+smallDialogue;Lt.Red;serious;0;2;We're heading out!
 wait;200
 endSequence
 
 cutscene;true;automatic;2
-dialogue;Lt.Red;suspicious;2;2;Wait, something's wrong...
+smallDialogue;Lt.Red;suspicious;2;2;Wait, something's wrong...
 wait;180
 endSequence
-dialogue;Lt.Red;shocked;3;2;It's the enemy! IT'S AN AMBUSH!
+smallDialogue;Lt.Red;shocked;3;2;It's the enemy! IT'S AN AMBUSH!
 wait;200
 endSequence
 
@@ -39,23 +39,23 @@ wait;5
 endSequence
 
 cutscene;true;automatic;4
-dialogue;???;Rüdinger;0;5;...Send in the flame-drones.
+smallDialogue;???;Rüdinger;0;5;...Send in the flame-drones.
 wait;280
 endSequence
 
 cutscene;true;automatic;5
-dialogue;Max;serious;8;2;Who was that?
+smallDialogue;Max;serious;8;2;Who was that?
 wait;180
 endSequence
 
 cutscene;true;automatic;6
-dialogue;Russel;serious;0;2;I think we made it!
+smallDialogue;Russel;serious;0;2;I think we made it!
 wait;180
 endSequence
-dialogue;Gard;serious;0;2;No, wait...
+smallDialogue;Gard;serious;0;2;No, wait...
 wait;150
 endSequence
-dialogue;Nathan;angry;1;2;Look ahead!
+smallDialogue;Nathan;angry;1;2;Look ahead!
 wait;150
 endSequence
 fadeOutLoops

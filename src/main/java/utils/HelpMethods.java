@@ -177,22 +177,26 @@ public class HelpMethods {
                 InfoBoxEvent event = new InfoBoxEvent(lineData[1]);
                 allSequences.get(sequenceIndex).add(event);
             }
-            else if (lineData[0].equals("dialogue")) {
+            else if (lineData[0].equals("bigDialogue")) {
                 String name = lineData[1];
                 Integer portraitIndex = Integer.parseInt(lineData[3]);
                 Integer speed = Integer.parseInt(lineData[4]);
                 String text = lineData[5];
-                DialogueEvent event = new DialogueEvent(name, speed, text, portraitIndex);
+                BigDialogueEvent event = new BigDialogueEvent(name, speed, text, portraitIndex);
                 allSequences.get(sequenceIndex).add(event);
             }
-            else if (lineData[0].equals("fadeIn")) {
-                Integer speed = Integer.parseInt(lineData[1]);
-                FadeInEvent event = new FadeInEvent(speed);
+            else if (lineData[0].equals("smallDialogue")) {
+                String name = lineData[1];
+                Integer portraitIndex = Integer.parseInt(lineData[3]);
+                Integer speed = Integer.parseInt(lineData[4]);
+                String text = lineData[5];
+                SmallDialogueEvent event = new SmallDialogueEvent(name, speed, text, portraitIndex);
                 allSequences.get(sequenceIndex).add(event);
             }
-            else if (lineData[0].equals("fadeOut")) {
-                Integer speed = Integer.parseInt(lineData[1]);
-                FadeOutEvent event = new FadeOutEvent(speed);
+            else if (lineData[0].equals("fade")) {
+                String direction = lineData[1];
+                Integer speed = Integer.parseInt(lineData[2]);
+                FadeEvent event = new FadeEvent(direction, speed, false);
                 allSequences.get(sequenceIndex).add(event);
             }
             else if (lineData[0].equals("setPlayerVisible")) {
@@ -205,19 +209,16 @@ public class HelpMethods {
                 WaitEvent event = new WaitEvent(waitFrames);
                 allSequences.get(sequenceIndex).add(event);
             }
-            else if (lineData[0].equals("blackScreen")) {
-                Boolean active = Boolean.parseBoolean(lineData[1]);
-                BlackScreenEvent event = new BlackScreenEvent(active);
+            else if (lineData[0].equals("fillScreen")) {
+                String color = lineData[1];
+                Boolean active = Boolean.parseBoolean(lineData[2]);
+                FillScreenEvent event = new FillScreenEvent(color, active);
                 allSequences.get(sequenceIndex).add(event);
             }
             else if (lineData[0].equals("setOverlayImage")) {
-                String fileName = lineData[1];
-                SetOverlayImageEvent event = new SetOverlayImageEvent(fileName);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("setOverlayActive")) {
                 Boolean active = Boolean.parseBoolean(lineData[1]);
-                SetOverlayActiveEvent event = new SetOverlayActiveEvent(active);
+                String fileName = lineData[2];
+                SetOverlayImageEvent event = new SetOverlayImageEvent(active, fileName);
                 allSequences.get(sequenceIndex).add(event);
             }
             else if (lineData[0].equals("infoChoice")) {

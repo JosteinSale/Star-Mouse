@@ -6,13 +6,13 @@ infoChoice;Read info?;Yes;No
 endSequence
 
 cutscene;true;object;0
-dialogue;Sign;---;0;2;"Welcome to the Apolis Flight Academy!"
+bigDialogue;Sign;---;0;2;"Welcome to the Apolis Flight Academy!"
 endSequence
-dialogue;Sign;---;0;2;"Situated in the outskirts of the capital Apolis..."
+bigDialogue;Sign;---;0;2;"Situated in the outskirts of the capital Apolis..."
 endSequence
-dialogue;Sign;---;0;2;"...it specializes in the education of fighter pilots for the Apo Global Space Force."
+bigDialogue;Sign;---;0;2;"...it specializes in the education of fighter pilots for the Apo Global Space Force."
 endSequence
-dialogue;Sign;---;0;2;"OBS: visitors should note that stealing from the Academy kitchens is sort of prohibited."
+bigDialogue;Sign;---;0;2;"OBS: visitors should note that stealing from the Academy kitchens is sort of prohibited."
 endSequence
 
 cutscene;true;object;0

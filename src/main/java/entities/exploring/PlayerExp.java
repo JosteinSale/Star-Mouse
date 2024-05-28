@@ -83,8 +83,8 @@ public class PlayerExp extends Entity {
 
     public void KeyReleased(KeyEvent e) {}
 
-    public void update(ArrayList<Rectangle2D.Float> npcHitboxes, boolean cutsceneActive) {
-        if (!cutsceneActive) {
+    public void update(ArrayList<Rectangle2D.Float> npcHitboxes, boolean cutsceneActive, boolean standardFadeActive) {
+        if (!cutsceneActive && !standardFadeActive) {
             handleKeyboardInputs(npcHitboxes);
             updatePlayerAction();
         }

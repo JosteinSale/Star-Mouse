@@ -18,7 +18,7 @@ import utils.HelpMethods;
 import utils.LoadSave;
 import utils.Constants.Audio;
 
-public class DialogueBox {
+public class BigDialogueBox {
     private AudioPlayer audioPlayer;
     private BufferedImage dialogueBoxImg;
     private BufferedImage[][] portraits;
@@ -43,7 +43,7 @@ public class DialogueBox {
     private int X = (int) ((Game.GAME_DEFAULT_WIDTH/2 -  DIALOGUEBOX_WIDTH/2) * Game.SCALE);
     private int Y = (int) (550 * Game.SCALE);
 
-    public DialogueBox(Game game) {
+    public BigDialogueBox(Game game) {
         this.audioPlayer = game.getAudioPlayer();
         dialogueBoxImg = LoadSave.getExpImageSprite(LoadSave.DIALOGUE_BOX);
         dialogueFont = LoadSave.getInfoFont();

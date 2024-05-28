@@ -10,7 +10,7 @@ import java.util.List;
 
 import audio.AudioPlayer;
 import cutscenes.Cutscene;
-import cutscenes.CutsceneManager;
+import cutscenes.cutsceneManagers.CutsceneManagerExp;
 import entities.exploring.*;
 import game_events.*;
 import gamestates.Gamestate;
@@ -29,7 +29,7 @@ public class Area {
    private MapManager1 mapManager;
    private PlayerExp player;
    private NpcManager npcManager;
-   private CutsceneManager cutsceneManager;
+   private CutsceneManagerExp cutsceneManager;
    private EventHandler eventHandler;
 
    private boolean justEntered = true;
@@ -48,11 +48,11 @@ public class Area {
       doors = new ArrayList<>();
       npcManager = new NpcManager();
       automaticTriggers = new ArrayList<>();
-      TextboxManager textboxManager = new TextboxManager(game);
       this.eventHandler = new EventHandler();
       loadAreaData(areaData);
-      this.cutsceneManager = new CutsceneManager(game, this, npcManager, audioPlayer, player, eventHandler,
-            textboxManager);
+      TextboxManager textboxManager = new TextboxManager(game);
+      this.cutsceneManager = new CutsceneManagerExp(
+         Gamestate.EXPLORING, game, this, eventHandler, textboxManager, player, npcManager);
       loadEventReactions();
       loadCutscenes(cutsceneData);
    }
@@ -104,63 +104,39 @@ public class Area {
          int newArea = evt.area();
          int reenterDir = doors.get(evt.exitedDoor()).getReenterDir();
          int newSong = this.exploring.getSongForArea(newArea);
-
-         if (this.song != newSong) {
-            audioPlayer.stopAllLoops();
-         } else {
-            audioPlayer.stopAmbience();
-            this.exploring.getArea(newArea).setMusicEnabled(false);
-         }
-         player.setDirection(reenterDir);
-         player.resetAll();
-         this.justEntered = true;
-         exploring.goToArea(newArea);
-      } else if (event instanceof InfoBoxEvent evt) {
-         this.cutsceneManager.displayInfo(evt.text());
-      } else if (event instanceof DialogueEvent evt) {
-         this.cutsceneManager.startDialogue(evt.name(), evt.speed(), evt.text(), evt.portraitIndex());
-      } else if (event instanceof FadeInEvent evt) {
-         this.cutsceneManager.startFadeIn(evt.speed(), false);
-      } else if (event instanceof FadeOutEvent evt) {
-         this.cutsceneManager.startFadeOut(evt.speed(), false);
-      } else if (event instanceof SetVisibleEvent evt) {
+         this.goToArea(newArea, reenterDir, newSong);
+      } 
+      else if (event instanceof TextBoxEvent tbEvt) {
+         this.cutsceneManager.activateTextbox(tbEvt);
+      } 
+      else if (event instanceof SetVisibleEvent evt) {
          this.player.setVisible(evt.visible());
-      } else if (event instanceof WaitEvent evt) {
-         this.cutsceneManager.waitFrames(evt.waitFrames());
-      } else if (event instanceof SetOverlayImageEvent evt) {
-         this.cutsceneManager.setOverlayImage(evt.fileName());
-      } else if (event instanceof SetOverlayActiveEvent evt) {
-         this.cutsceneManager.setOverlayActive(evt.active());
-      } else if (event instanceof BlackScreenEvent evt) {
-         this.cutsceneManager.setBlackScreen(evt.active());
-      } else if (event instanceof InfoChoiceEvent evt) {
-         this.cutsceneManager.displayInfoChoice(evt.question(), evt.leftChoice(), evt.rightChoice());
-      } else if (event instanceof SetStartingCutsceneEvent evt) {
-         this.setNewStartingCutscene(evt.triggerObject(), evt.elementNr(), evt.cutsceneIndex());
-      } else if (event instanceof SetRequirementMetEvent evt) {
+      }
+      else if (event instanceof SetStartingCutsceneEvent evt) {
+         this.setNewStartingCutscene(
+            evt.triggerObject(), evt.elementNr(), evt.cutsceneIndex());
+      }
+      else if (event instanceof SetRequirementMetEvent evt) {
          this.doors.get(evt.doorIndex()).setRequirementMet(evt.requirementIndex());
-      } else if (event instanceof SetPlayerSheetEvent evt) {
+      }
+      else if (event instanceof SetPlayerSheetEvent evt) {
          this.player.setSpriteSheet(evt.sheetIndex());
-      } else if (event instanceof PlayerWalkEvent evt) {
-         this.cutsceneManager.playerWalk(
-               evt.sheetRowIndex(), evt.targetX(), evt.targetY(), evt.framesDuration());
-      } else if (event instanceof NPCWalkEvent evt) {
-         this.cutsceneManager.npcWalk(
-               evt.npcIndex(), evt.sheetRowIndex(),
-               evt.targetX(), evt.targetY(), evt.framesDuration());
-      } else if (event instanceof SetDirEvent evt) {
+      }
+      else if (event instanceof SetDirEvent evt) {
          if (evt.entityName().equals("player")) {
             this.player.setDirection(evt.dir());
-         } else {
+         } 
+         else {
             this.npcManager.setNpcDir(evt.entityName(), evt.dir());
          }
-      } else if (event instanceof AddToInventoryEvent evt) {
-         InventoryItem item = new InventoryItem(evt.name(), evt.description(),
-               LoadSave.getExpImageSprite(evt.imgFileName()));
+      }
+      else if (event instanceof AddToInventoryEvent evt) {
+         InventoryItem item = new InventoryItem(
+            evt.name(), evt.description(),
+            LoadSave.getExpImageSprite(evt.imgFileName()));
          this.exploring.addToInventory(item);
-      } else if (event instanceof NumberDisplayEvent evt) {
-         this.cutsceneManager.showNumberDisplay(evt.passCode());
-      } else if (event instanceof UpdateInventoryEvent evt) {
+      }
+      else if (event instanceof UpdateInventoryEvent evt) {
          if (evt.type().equals("bombs")) {
             int prevAmount = exploring.getProgressValues().getBombs();
             exploring.getProgressValues().setBombs(prevAmount + evt.amount());
@@ -169,41 +145,66 @@ public class Area {
             exploring.getProgressValues().setCredits(prevAmount + evt.amount());
          }
          exploring.updatePauseInventory();
-      } else if (event instanceof PurchaseEvent evt) {
-         int opt = 2;
-         if (this.exploring.playerHasEnoughCredits(evt.credits())) {
-            opt = 1;
-         }
-         this.cutsceneManager.jumpToCutscene(opt);
-      } else if (event instanceof GoToFlyingEvent evt) {
-         Gamestate.state = Gamestate.FLYING;
-         audioPlayer.stopAllLoops();
-         game.getFlying().loadLevel(evt.lvl());
-         game.getFlying().update();
-      } else if (event instanceof StartSongEvent evt) {
+      }
+      else if (event instanceof StartSongEvent evt) {
          this.audioPlayer.startSongLoop(evt.index(), 0);
-      } else if (event instanceof StopLoopsEvent evt) {
+      } 
+      else if (event instanceof StopLoopsEvent evt) {
          this.audioPlayer.stopAllLoops();
-      } else if (event instanceof MusicEnabledEvent evt) {
+      } 
+      else if (event instanceof MusicEnabledEvent evt) {
          this.musicEnabled = evt.enabled();
-      } else if (event instanceof StartAmbienceEvent evt) {
+      } 
+      else if (event instanceof StartAmbienceEvent evt) {
          audioPlayer.startAmbienceLoop(evt.index());
-      } else if (event instanceof PlaySFXEvent evt) {
+      } 
+      else if (event instanceof PlaySFXEvent evt) {
          audioPlayer.playSFX(evt.SFXIndex());
-      } else if (event instanceof SetSpriteEvent evt) {
+      } 
+      else if (event instanceof SetSpriteEvent evt) {
          if (evt.entity().equals("player")) {
             this.player.setSprite(evt.poseActive(), evt.colIndex(), evt.rowIndex());
          } else {
             this.npcManager.setSprite(
                   evt.entity(), evt.poseActive(), evt.colIndex(), evt.rowIndex());
          }
-      } else if (event instanceof ScreenShakeEvent evt) {
-         this.cutsceneManager.startScreenShake(evt.duration());
-      } else if (event instanceof SetRedLightEvent evt) {
-         this.cutsceneManager.setRedLight(evt.active());
-      } else if (event instanceof MechanicDisplayEvent evt) {
+      }
+      else if (event instanceof MechanicDisplayEvent evt) {
          this.exploring.setMechanicActive(true);
       }
+      else if (event instanceof GoToFlyingEvent evt) {
+         this.goToFlying(evt.lvl());
+      }
+      else if (event instanceof PurchaseEvent evt) {
+         int opt = 2;
+         if (this.exploring.playerHasEnoughCredits(evt.credits())) {
+            opt = 1;
+         }
+         this.cutsceneManager.jumpToCutscene(opt);
+      }  
+      else {
+         this.cutsceneManager.activateEffect(event);
+      }
+   }
+
+   private void goToArea(int newArea, int reenterDir, int newSong) {
+      if (this.song != newSong) {
+         audioPlayer.stopAllLoops();
+      } else {
+         audioPlayer.stopAmbience();
+         this.exploring.getArea(newArea).setMusicEnabled(false);
+      }
+      player.setDirection(reenterDir);
+      player.resetAll();
+      this.justEntered = true;
+      exploring.goToArea(newArea);
+   }
+
+   private void goToFlying(int lvl) {
+      Gamestate.state = Gamestate.FLYING;
+      audioPlayer.stopAllLoops();
+      game.getFlying().loadLevel(lvl);
+      game.getFlying().update();
    }
 
    public void update() {
@@ -213,7 +214,10 @@ public class Area {
          handleJustEntered();
       }
       cutsceneManager.update();
-      player.update(npcManager.getHitboxes(), cutsceneManager.isActive());
+      player.update(
+         npcManager.getHitboxes(), 
+         cutsceneManager.isActive(), 
+         cutsceneManager.isStandardFadeActive());
       adjustOffsets();
       npcManager.update(); // Hvis npc's skal ha oppførsel some er uavhengig av cutscenes.
    }
@@ -225,7 +229,7 @@ public class Area {
          // (if this area has the same music as the previous area, 
          // musicEnabled is set to false).
       }
-      cutsceneManager.startFadeIn(10, true);
+      cutsceneManager.startStandardFade(FADE_IN);
       justEntered = false;
       player.resetAll();
    }
@@ -244,7 +248,13 @@ public class Area {
    }
 
    private void handleKeyBoardInputs() {
-      if (!cutsceneManager.isActive() && game.interactIsPressed) {
+      if (cutsceneManager.isStandardFadeActive()) {
+         return;
+      }
+      else if (cutsceneManager.isActive()) {
+         cutsceneManager.handleKeyBoardInputs();
+      }
+      else if (game.interactIsPressed) {
          game.interactIsPressed = false;
          checkHitboxes();
       }
@@ -273,7 +283,7 @@ public class Area {
                cutsceneManager.startCutscene(i, DOOR, doors.get(i).getStartCutscene());
                player.resetAll();
             } else {
-               cutsceneManager.startFadeOut(10, true);
+               cutsceneManager.startStandardFade(FADE_OUT);
                player.resetAll();
                GoToAreaEvent event = new GoToAreaEvent(doors.get(i).getAreaItLeadsTo(), i);
                this.eventHandler.addEvent(event);
@@ -303,7 +313,7 @@ public class Area {
    }
 
    private void adjustOffsets() {
-      if (!cutsceneManager.shakeActive) {
+      if (!cutsceneManager.isShakeActive()) {
          mapManager.adjustOffsets(player);
       }
    }

@@ -9,7 +9,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 import main_classes.Game;
@@ -26,8 +25,7 @@ public class NumberDisplay {
     private int digitIndex = 0;
     private boolean active = false;
 
-    private Rectangle bgRect;            
-    private Rectangle nrSelectRect;
+    private Rectangle bgRect;
 
     public NumberDisplay(Game game) {
         this.game = game;
@@ -76,7 +74,7 @@ public class NumberDisplay {
         this.active = true;
     }
 
-    public void stop() {
+    public void reset() {
         this.active = false;
         this.digitIndex = 0;
         for (int i = 0; i < 4; i++) {

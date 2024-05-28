@@ -1,4 +1,4 @@
-package cutscenes;
+package cutscenes.cutsceneManagers;
 
 import static utils.Constants.Exploring.Cutscenes.*;
 import static utils.Constants.Exploring.DirectionConstants.*;
@@ -10,9 +10,12 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import audio.AudioPlayer;
+import cutscenes.Cutscene;
+import cutscenes.effects.FadeEffect;
 import entities.exploring.NpcManager;
 import entities.exploring.PlayerExp;
 import game_events.EventHandler;
+import game_events.FadeEvent;
 import game_events.GeneralEvent;
 import gamestates.exploring.Area;
 import main_classes.Game;
@@ -100,6 +103,10 @@ public class CutsceneManager {
     private int cutsceneIndex;            // For each trigger-object
 
 
+    // TEEST
+    private FadeEffect fadeOut;
+
+
     public CutsceneManager(Game game, Area area, NpcManager npcManager, AudioPlayer audioPlayer, 
         PlayerExp player, EventHandler eventHandler, TextboxManager textboxManager) {
         this.game = game;
@@ -172,7 +179,7 @@ public class CutsceneManager {
         if (waitActive) {updateWait();}
         if (redLightActive) {updateRedLight();}
         if (fadeInActive) {updateFadeIn();}
-        if (fadeOutActive) {updateFadeOut();}
+        if (fadeOut.isActive()) {updateFadeOut();}
         if (dialogueAppearing) {updateDialogue();}  // Might change all these to 'if'
         else if (playerWalkActive) {updatePlayerWalk();}
         else if (npcWalkActive) {updateNpcWalk();}
@@ -218,11 +225,11 @@ public class CutsceneManager {
         //advanceCalled++;
         //System.out.println("called " + Integer.toString(advanceCalled));
         if (dialogueAppearing) {
-            textboxManager.getDialogueBox().forwardDialogue();
+            //textboxManager.getBigDialogueBox().forwardDialogue();
             }
         else {
             textboxManager.resetBooleans();
-            numberDisplay.stop();
+            numberDisplay.reset();
             Cutscene cutscene = cutscenes.get(triggerIndex).get(cutsceneIndex);
             if (cutscene.hasMoreSequences()) {
                 ArrayList<GeneralEvent> nextSequence = cutscene.getNextSequence();
@@ -293,21 +300,21 @@ public class CutsceneManager {
         this.walkSpeedY = yDistance / framesDuration;
     }
 
-    public void displayInfo(String text) {
-        this.textboxManager.displayInfo(text);
-        this.active = true;
-    }
+    // public void displayInfo(String text) {
+    //     this.textboxManager.displayInfo(text);
+    //     this.active = true;
+    // }
 
-    public void displayInfoChoice(String question, String leftChoice, String rightChoice) {
-        this.textboxManager.displayInfoChoice(question, leftChoice, rightChoice);
-        this.active = true;
-    }
+    // public void displayInfoChoice(String question, String leftChoice, String rightChoice) {
+    //     this.textboxManager.displayInfoChoice(question, leftChoice, rightChoice);
+    //     this.active = true;
+    // }
 
-    public void startDialogue(String name, int speed, String text, int portraitIndex) {
-        this.textboxManager.startDialogue(name, speed, text, portraitIndex);
-        this.active = true;
-        this.dialogueAppearing = true;
-    }
+    // public void startDialogue(String name, int speed, String text, int portraitIndex) {
+    //     this.textboxManager.startDialogue(name, speed, text, portraitIndex);
+    //     this.active = true;
+    //     this.dialogueAppearing = true;
+    // }
 
     public void showNumberDisplay(int[] passCode) {
         this.numberDisplay.start(passCode);
@@ -382,11 +389,11 @@ public class CutsceneManager {
     }
 
     private void updateDialogue() {
-        if (textboxManager.allLettersAppeared()) {
-            this.dialogueAppearing = false;
-        } else {
-            textboxManager.getDialogueBox().update();
-        }
+        // if (textboxManager.allLettersAppeared()) {
+        //     this.dialogueAppearing = false;
+        // } else {
+        //     textboxManager.getBigDialogueBox().update();
+        // }
     }
 
     /**

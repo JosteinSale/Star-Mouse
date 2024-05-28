@@ -36,9 +36,9 @@ DIALOGUE-EVENT
 * Max 32 letters per word
 
 
-FADE IN
+FADE
 --------------------
-[0] = fadeIn, [1] = speed (int)
+[0] = fade, [1] = in/out (string), [2] = speed (int)
 
 
 SET PLAYER VISIBLE
@@ -46,9 +46,9 @@ SET PLAYER VISIBLE
 [0] = setPlayerVisible, [1] = visible (boolean)
 
 
-DRAW BLACK SCREEN
+FILL SCREEN
 --------------------
-[0] = blackScreen, [1] = active (boolean)
+[0] = fillScreen, [1] = color (string), [2] = active (boolean)
 
 
 WAIT
@@ -61,12 +61,7 @@ WAIT
 
 SET OVERLAY IMAGE
 --------------------
-[0] = setOverlayImage, [1] = fileName (String)
-
-
-SET OVERLAY IMAGE ACTIVE
---------------------
-[0] = setOverlayActive, [1] = active (boolean)
+[0] = setOverlayImage, [1] = active (boolean), [2] = fileName (String)
 
 
 SET STARTING CUTSCENE-INDEX FOR ELEMENT
