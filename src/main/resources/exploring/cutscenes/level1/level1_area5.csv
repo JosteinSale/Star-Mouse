@@ -97,7 +97,7 @@ endSequence
 fade;out;3
 endSequence
 setRedLight;false
-blackScreen;true
+fillScreen;black;true
 wait;1
 endSequence
 goToFlying;1

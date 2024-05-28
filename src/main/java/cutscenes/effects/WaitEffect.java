@@ -43,8 +43,9 @@ public class WaitEffect implements UpdatableEffect {
    }
 
    @Override
-   public void automaticReset() {
+   public void reset() {
       this.shouldAdvance = false;
+      this.isActive = false;
    }
 
    @Override

@@ -1,6 +1,6 @@
 cutscene;true;automatic;0
 setGameplayActive;false
-blackScreen;true
+fillScreen;black;true
 wait;120
 endSequence
 fadeHeader;in;350;10;Skies over Alopis
@@ -12,8 +12,8 @@ fellowShips;100;400;440;300;400;500;700;400;560;900;400;620
 wait;100
 endSequence
 setGameplayActive;true
-blackScreen;false
-fadeIn;10
+fillScreen;black;false
+fade;in;10
 startSong;2
 endSequence
 
@@ -65,10 +65,10 @@ wait;1
 endSequence
 
 cutscene;true;automatic;8
-fadeOut;5
+fade;out;5
 endSequence
 setGameplayActive;false
-blackScreen;true
+fillScreen;black;true
 wait;40
 endSequence
 fadeHeader;in;200;10;Level finished

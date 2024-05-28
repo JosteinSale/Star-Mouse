@@ -73,7 +73,7 @@ bigDialogue;Oliver;happy;1;3;Great, thanks!
 endSequence
 bigDialogue;Max;normal;0;2;I'll see you in the hangar then
 endSequence
-fadeOut;5
+fade;out;5
 endSequence
 fillScreen;black;true
 wait;100
@@ -82,7 +82,7 @@ goToFlying;0
 wait;1
 endSequence
 fillScreen;black;false
-fadeIn;5
+fade;in;5
 endSequence
 wait;100;
 endSequence
@@ -110,7 +110,7 @@ infoChoice;Go flying with Oliver?;Yes;No
 endSequence
 
 cutscene;true;npc;5
-fadeOut;5
+fade;out;5
 endSequence
 fillScreen;black;true
 wait;100
@@ -119,7 +119,7 @@ goToFlying;0
 wait;1
 endSequence
 fillScreen;black;false
-fadeIn;5
+fade;in;5
 endSequence
 wait;100;
 endSequence
@@ -190,53 +190,53 @@ wait;60
 endSequence
 bigDialogue;Max;eyes_shut;4;8;So...
 endSequence
-bigDialogue;Max;happy;1;1;The weather looks really good today, right?
+bigDialogue;Max;happy;1;1;Clear skies, perfect flying conditions.
 setDir;player;right
 musicEnabled;true
 startSong;1
 endSequence
-bigDialogue;Max;happy;1;1;Perfect flying conditions! You're in luck brother!
+bigDialogue;Max;happy;1;1;You couldn't ask for a finer day!
 endSequence
 bigDialogue;Oliver;normal;0;30;...
 endSequence
 setDir;Oliver;left
-bigDialogue;Oliver;happy;1;3;I suppose so
+bigDialogue;Oliver;happy;1;3;Maybe.
 endSequence
-bigDialogue;Max;laughing;3;1;With the way you've been training, there's no way you'll NOT pass
+bigDialogue;Max;laughing;3;1;Remember, MY flight exam was held in a literal storm, and I still passed.
 endSequence
-bigDialogue;Max;happy;1;1;I'm sure of it!
+bigDialogue;Max;happy;1;1;This will be an easy breeze for you, so stop moping.
 endSequence
-bigDialogue;Oliver;normal;0;4;...Thanks
+bigDialogue;Oliver;normal;0;4;...
 endSequence
-bigDialogue;Oliver;nervous;2;2;But they said it's a really tough one this year
+bigDialogue;Oliver;nervous;2;2;I'd probably prefer the storm actually.
 endSequence
-bigDialogue;Oliver;nervous;2;4;I...
+bigDialogue;Oliver;nervous;2;4;A little chaos would at least shake me out of my nerves.
 endSequence
-bigDialogue;Oliver;nervous;2;1;I guess I just really have to concentrate, right?
+bigDialogue;Oliver;nervous;2;2;...But I guess I shouldn't complain.
 endSequence
 setDir;Oliver;up
 wait;60
 endSequence
-bigDialogue;Max;normal;0;2;You'll do just fine
+bigDialogue;Max;normal;0;2;I can hit you in the face, if that helps.
 endSequence
 setDir;player;up
-bigDialogue;Max;eyes_shut;4;3;You'll see
+bigDialogue;Oliver;grumpy;5;10;.
 endSequence
 wait;90
 endSequence
 bigDialogue;Max;thoughtful;5;2;Besides, what you should REALLY be worrying about...
 endSequence
-bigDialogue;Max;teasing;2;2;...is all the cute female cadettes that will want to date you
+bigDialogue;Max;teasing;2;2;...is all the cute female cadettes that will want to date you.
 endSequence
 setDir;Oliver;left
 bigDialogue;Oliver;shocked;3;1;egh what??
 endSequence
-bigDialogue;Max;teasing;2;2;A stout, handsome pilot like you, they'll be lining up in masses!
+bigDialogue;Max;teasing;2;2;A stout, handsome pilot... Battle worn and mysterious. You'll be irresistable!
 endSequence
-bigDialogue;Oliver;blushing;4;1;Brother stop!
+bigDialogue;Oliver;blushing;4;1;Yeah, yeah very funny, laugh it up.
 endSequence
 setDir;player;right
-bigDialogue;Max;teasing;2;1;Maybe even Charlotte, eh?
+bigDialogue;Max;teasing;2;1;No kidding, I see Charlotte looking at you right now!
 endSequence
 bigDialogue;Oliver;blushing;4;2;wah..?
 endSequence
@@ -248,17 +248,15 @@ bigDialogue;Max;happy;1;2;Heh sorry, I'm just teasing
 endSequence
 bigDialogue;Max;happy;1;1;I'll stop
 endSequence
-bigDialogue;Oliver;grumpy;5;3;You're mean...
+bigDialogue;Oliver;grumpy;5;3;Whatever
 endSequence
 wait;60
 endSequence
-bigDialogue;Oliver;grumpy;5;3;Anyway, I wanted to ask you...
+bigDialogue;Oliver;grumpy;5;3;Anyway, there's one thing I wanted to ask.
 endSequence
 bigDialogue;Oliver;normal;0;2;There's still a while until the exam starts
 endSequence
-bigDialogue;Oliver;normal;0;6;...
-endSequence
-bigDialogue;Oliver;nervous;2;2;Do you think we could take a test ride together?
+bigDialogue;Oliver;nervous;2;2;Do you think we could take a quick test ride together?
 endSequence
 bigDialogue;Oliver;nervous;2;2;Just to, you know... refresh the basics?
 endSequence
@@ -272,7 +270,7 @@ bigDialogue;Oliver;happy;1;3;Great, thanks!
 endSequence
 bigDialogue;Max;normal;0;2;I'll see you in the hangar then
 endSequence
-fadeOut;5
+fade;out;5
 endSequence
 fillScreen;black;true
 wait;1
@@ -281,7 +279,7 @@ goToFlying;0
 wait;1
 endSequence
 fillScreen;black;false
-fadeIn;5
+fade;in;5
 endSequence
 wait;50
 endSequence

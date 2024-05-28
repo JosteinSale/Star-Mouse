@@ -3,7 +3,6 @@ package cutscenes.effects;
 import entities.exploring.NpcManager;
 import game_events.GeneralEvent;
 import game_events.NPCWalkEvent;
-import game_events.PlayerWalkEvent;
 import gamestates.Gamestate;
 
 import static utils.Constants.Exploring.DirectionConstants.STANDING;
@@ -65,8 +64,9 @@ public class NPCWalkEffect implements UpdatableEffect {
    }
 
    @Override
-   public void automaticReset() {
+   public void reset() {
       this.shouldAdvance = false;
+      this.active = false;
    }
 
    @Override

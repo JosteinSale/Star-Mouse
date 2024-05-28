@@ -62,9 +62,10 @@ public class RedLightEffect implements UpdatableEffect, DrawableEffect {
    }
 
    @Override
-   public void automaticReset() {
+   public void reset() {
       this.redLightLvl = 0;
       this.shouldAdvance = false;
+      this.active = false;
    }
 
    @Override

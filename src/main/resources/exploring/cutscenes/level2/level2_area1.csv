@@ -14,15 +14,14 @@ bigDialogue;Lt.Red;normal;0;2;We're going to have a briefing, and I'd like you t
 endSequence
 bigDialogue;Max;normal;0;2;Yes Lieutenant.
 endSequence
-fadeOut;3
+fade;out;3
 endSequence
-blackScreen;true
-setOverlayImage;overlayLevel2.png
-setOverlayActive;true
+fillScreen;black;true
+setOverlayImage;true;overlayLevel2.png
 wait;60
 endSequence
-blackScreen;false
-fadeIn;3
+fillScreen;black;false
+fade;in;3
 endSequence
 wait;30
 endSequence
@@ -52,7 +51,7 @@ bigDialogue;Max;determined;8;2;(Oliver... I'll find you! I promise)
 endSequence
 fadeOut;2
 endSequence
-blackScreen;true
+fillScreen;black;true
 wait;1
 endSequence
 goToFlying;2
@@ -80,10 +79,10 @@ bigDialogue;Max;normal;0;2;...Yes Lieutenant.
 endSequence
 
 cutscene;false;automatic;2
-blackScreen;true
+fillScreen;black;true
 wait;60
 endSequence
-blackScreen;false
-fadeIn;2
+fillScreen;black;false
+fade;in;2
 startSong;4
 endSequence

@@ -45,5 +45,10 @@ public class SetOverlayEffect implements DrawableEffect {
    public boolean isActive() {
       return this.active;
    }
+
+   @Override
+   public void reset() {
+      this.active = false;
+   }
    
 }

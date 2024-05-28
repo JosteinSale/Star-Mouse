@@ -4,7 +4,7 @@ playSFX;infoBox
 endSequence
 
 cutscene;true;objectChoice;1
-info;A drawer full of clothes.
+info;A drawer full of clothes. There's a pilot jacket.
 playSFX;infoBox
 endSequence
 infoChoice;Get dressed?;Yes;No

@@ -52,7 +52,7 @@ public class NumberDisplayEffect implements UpdatableEffect, DrawableEffect {
    }
 
    @Override
-   public void automaticReset() {
+   public void reset() {
       // Resetting is handled in cutsceneManager :: handleNumberDisplayInputs().
    }
 

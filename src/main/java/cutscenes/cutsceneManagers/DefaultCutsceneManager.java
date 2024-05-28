@@ -142,7 +142,7 @@ public class DefaultCutsceneManager {
 			if (effect.isActive()) {
 				effect.update();
 				if (effect.shouldAdvance()) {
-               effect.automaticReset();
+               effect.reset();
                this.canAdvance = true;
 					this.advance();
             } 
@@ -230,6 +230,15 @@ public class DefaultCutsceneManager {
       this.doorCutscenes.clear();
       this.npcCutscenes.clear();
       this.automaticCutscenes.clear();
+   }
+
+   /** Usually the effects are reset automatically when a cutscene is over / advances. 
+    * But, in some cases (like when exiting a finished flying level), some effects may
+    * be left active. Then you can call this method to reset them manually. */
+   protected void resetEffects() {
+      for (UpdatableEffect updE : updateableEffects) {
+         updE.reset();
+      }
    }
 
 }

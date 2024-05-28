@@ -29,11 +29,12 @@ public class CutsceneManagerFly extends DefaultCutsceneManager {
       this.clearCutscenes();
    }
 
-   /** Resets the active-status of the cutsceneManager. */
+   /** Resets the cutsceneManager and all associated cutscene effects. */
    public void reset() {
       active = false; 
       canAdvance = true;
       this.textBoxManager.resetBooleans();
+      this.resetEffects();
    }
    
 }

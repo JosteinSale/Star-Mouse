@@ -16,4 +16,8 @@ public interface CutsceneEffect {
 
    /** Returns true if the effect supports calling from the given state */
    public boolean supportsGamestate(Gamestate state);
+
+   /** Resets the cutscene effect. 
+    * Is needed when the cutsceneManager is reset, and when updatable effects are over. */
+   public void reset();
 }

@@ -87,8 +87,8 @@ public class FadeHeaderEffect implements UpdatableEffect, DrawableEffect {
    }
 
    @Override
-   public void automaticReset() {
-      /* Do nothing */
+   public void reset() {
+      this.active = false;
    }
 
    @Override

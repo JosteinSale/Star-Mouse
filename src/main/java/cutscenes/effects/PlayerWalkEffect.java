@@ -57,8 +57,9 @@ public class PlayerWalkEffect implements UpdatableEffect {
    }
 
    @Override
-   public void automaticReset() {
+   public void reset() {
       this.shouldAdvance = false;
+      this.active = false;
    }
 
    @Override
