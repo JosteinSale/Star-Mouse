@@ -30,9 +30,9 @@ public class DefaultCutsceneManager {
    protected EventHandler eventHandler;
 
    // CutsceneEffects organized by properties
-	protected HashMap<String, CutsceneEffect> allEffects;
-	protected ArrayList<UpdatableEffect> updateableEffects;
-	protected ArrayList<DrawableEffect> drawableEffects;
+	protected HashMap<String, CutsceneEffect> allEffects;    // Used to add and activate effects
+	protected ArrayList<UpdatableEffect> updateableEffects;  // Will be updated
+	protected ArrayList<DrawableEffect> drawableEffects;     // Will be drawn
 
    // Cutscenes: are organized by which kind of object triggers them
    private ArrayList<ArrayList<Cutscene>> objectCutscenes;
@@ -46,7 +46,7 @@ public class DefaultCutsceneManager {
 
    protected int triggerType;     // object | npc | door | automatic. TODO - Use ENUM?
    protected int elementNr;       // e.g. door #2
-   protected int cutsceneIndex;   // e.g. cutscene #1 (for a specific element)
+   protected int cutsceneIndex;   // e.g. cutscene #1 (for door #2)
 
    public DefaultCutsceneManager(Game game, EventHandler eventHandler, ITextboxManager textboxManager, Gamestate state) {
       this.game = game;
@@ -69,16 +69,6 @@ public class DefaultCutsceneManager {
       getCutsceneListForTrigger(trigger).add(cutscenesForElement);
    }
 
-   /** Call this method from subclass, when adding the effects  */
-	protected void addEffect(CutsceneEffect e) {
-		if (!e.supportsGamestate(this.state)) {
-			throw new IllegalArgumentException(e + " does not support gamestate " + this.state);
-      }
-		if (e instanceof UpdatableEffect) {this.updateableEffects.add((UpdatableEffect)e);}
-		if (e instanceof DrawableEffect) {this.drawableEffects.add((DrawableEffect)e);}
-		allEffects.put(e.getAssociatedEvent().getClass().toString(), e);
-   }
-
    protected ArrayList<ArrayList<Cutscene>> getCutsceneListForTrigger(int trigger) {
       switch (trigger) {
          case OBJECT: return objectCutscenes;
@@ -87,6 +77,16 @@ public class DefaultCutsceneManager {
          case AUTOMATIC: return automaticCutscenes;
          default: throw new IllegalArgumentException("No cutscene-list available for " + trigger);
       }
+   }
+
+   /** Call this method from subclass, when adding the effects  */
+	protected void addEffect(CutsceneEffect e) {
+		if (!e.supportsGamestate(this.state)) {
+			throw new IllegalArgumentException(e + " does not support gamestate " + this.state);
+      }
+		if (e instanceof UpdatableEffect) {this.updateableEffects.add((UpdatableEffect)e);}
+		if (e instanceof DrawableEffect) {this.drawableEffects.add((DrawableEffect)e);}
+		allEffects.put(e.getAssociatedEvent().getClass().toString(), e);
    }
 
    /**
@@ -113,10 +113,10 @@ public class DefaultCutsceneManager {
    }
 
    /** Can be called from the doReaction-method in the associated gamestate.
-    * First it checks if the effect is supported for the current state.
+    * First it checks if the effect is included in the CutsceneManager.
     * If no, it throws an error.
     * Then it activates the effect. If it's updatable, canAdvance is set to false.
-    * If it's abortable, canAdvance is set to true.
+    * Note that textBoxes are not effects, and are not handled in this method.
     * @param evt
     */
    public void activateEffect(GeneralEvent evt) {
@@ -131,6 +131,10 @@ public class DefaultCutsceneManager {
       }
    }
 
+   /** Activates the textBoxManager with the given evt. Depending on what the
+    * textBoxManager supports, it could be an infoBox, infoChoice, 
+    * small- or bigDialogueBox. The player can advance at any time.
+    */
    public void activateTextbox(TextBoxEvent evt) {
       this.textBoxManager.activateTextbox(evt);
    }

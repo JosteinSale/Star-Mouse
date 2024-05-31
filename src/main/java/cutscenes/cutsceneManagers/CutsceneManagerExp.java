@@ -98,11 +98,6 @@ public class CutsceneManagerExp extends DefaultCutsceneManager {
       }
    }
 
-   /** Can be called from area to check if a fade is active */
-   public boolean isStandardFadeActive() {
-      return (this.fadeEffect.isStandardFadeActive());
-   }
-
    /** Starts a standard fade in/out.
     * A standard fade circumvents the 'activateEffect'-method, and thus 'canAdvace'
     * remains true. Instead, use the 'isStandardFadeActive'-method to prevent
@@ -110,6 +105,11 @@ public class CutsceneManagerExp extends DefaultCutsceneManager {
    public void startStandardFade(String in_out) {
       FadeEvent evt = new FadeEvent(in_out, 10, true);
       this.fadeEffect.activate(evt);
+   }
+
+   /** Can be called from area to check if a fade is active */
+   public boolean isStandardFadeActive() {
+      return (this.fadeEffect.isStandardFadeActive());
    }
 
    /** Can be called from area to check if a shake is active */
