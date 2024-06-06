@@ -3,6 +3,7 @@ package cutscenes.cutsceneManagers;
 import cutscenes.Cutscene;
 import cutscenes.effects.FadeEffect;
 import cutscenes.effects.FadeHeaderEffect;
+import cutscenes.effects.FellowShipEffect;
 import cutscenes.effects.FillScreenEffect;
 import cutscenes.effects.WaitEffect;
 import game_events.EventHandler;
@@ -19,6 +20,7 @@ public class CutsceneManagerFly extends DefaultCutsceneManager {
 
    private void addCutsceneEffects() {
       this.addEffect(new WaitEffect());
+      this.addEffect(new FellowShipEffect());
       this.addEffect(new FillScreenEffect());
       this.addEffect(new FadeEffect(eventHandler));
       this.addEffect(new FadeHeaderEffect());

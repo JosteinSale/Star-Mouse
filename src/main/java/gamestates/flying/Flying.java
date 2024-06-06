@@ -1,6 +1,5 @@
 package gamestates.flying;
 
-import static utils.Constants.Audio;
 import static utils.Constants.Exploring.Cutscenes.AUTOMATIC;
 import static utils.Constants.Flying.TypeConstants.BOMB;
 import static utils.Constants.Flying.TypeConstants.DRONE;
@@ -18,7 +17,6 @@ import java.util.List;
 
 import audio.AudioPlayer;
 import cutscenes.Cutscene;
-import cutscenes.cutsceneManagers.CutsceneManager2;
 import cutscenes.cutsceneManagers.CutsceneManagerFly;
 import entities.exploring.AutomaticTrigger;
 import entities.flying.PlayerFly;
@@ -174,10 +172,6 @@ public class Flying extends State implements Statemethods {
       else {
          this.cutsceneManager.activateEffect(event);
       }
-
-
-      // } else if (event instanceof FellowShipEvent evt) {
-      //    cutsceneManager.startFellowShips(evt.xPos(), evt.yPos(), evt.takeOffTimer());
    }
 
    /** Flips the pause boolean */

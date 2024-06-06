@@ -70,11 +70,11 @@ public class MainMenu extends State implements Statemethods {
     /** Is called when player selects 'New Game', after fadeOut is completed */
     private void doTransition() {
         //LEVEL-SELECT - Uncomment to test entire game
-        //game.getLevelSelect().reset();
-        //Gamestate.state = Gamestate.LEVEL_SELECT;
+        // game.getLevelSelect().reset();
+        // Gamestate.state = Gamestate.LEVEL_SELECT;
 
         // EXPLORING - Uncomment to only test one level in exploring.
-        game.getExploring().loadLevel(1); // Area is currently specified in that method.
+        game.getExploring().loadLevel(2); // Area is currently specified in that method.
         game.getExploring().update();
         Gamestate.state = Gamestate.EXPLORING;
 

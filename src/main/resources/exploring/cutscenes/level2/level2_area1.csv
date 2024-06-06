@@ -49,7 +49,7 @@ bigDialogue;Lt.Red;normal;0;2;Now go!
 endSequence
 bigDialogue;Max;determined;8;2;(Oliver... I'll find you! I promise)
 endSequence
-fadeOut;2
+fade;out;2
 endSequence
 fillScreen;black;true
 wait;1

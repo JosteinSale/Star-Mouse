@@ -303,7 +303,7 @@ public class EnemyManager {
         for (Enemy enemy : allEnemies) {
             enemy.resetTo(y);
             // It's a tiny bit unecessary to do it on all enemies in case we're going
-            // to a checkpoint, but it saves us
+            // to a checkpoint, but it saves us a bit of troublesome coding
         }
     }
 
