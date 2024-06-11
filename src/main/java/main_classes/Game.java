@@ -1,11 +1,11 @@
 package main_classes;
 
 import audio.AudioPlayer;
-import gamestates.BossMode;
 import gamestates.Gamestate;
 import gamestates.LevelEditor;
 import gamestates.MainMenu;
 import gamestates.StartScreen;
+import gamestates.boss_mode.BossMode;
 import gamestates.exploring.Exploring;
 import gamestates.flying.Flying;
 import gamestates.level_select.LevelSelect;

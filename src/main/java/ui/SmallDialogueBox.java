@@ -1,6 +1,5 @@
 package ui;
 
-import static utils.Constants.UI.PORTRAIT_SIZE;
 import static utils.HelpMethods.GetCharacterIndex;
 
 import java.awt.Color;
@@ -33,28 +32,7 @@ public class SmallDialogueBox {
     public SmallDialogueBox() {
         dialogueFont = LoadSave.getInfoFont();
         nameFont = LoadSave.getNameFont();
-        loadAllPortraits();
-    }
-
-    private void loadAllPortraits() {
-        int nrOfCharacters = 2 + 18;  // special characters + npcs
-        portraits = new BufferedImage[nrOfCharacters][12];
-        portraits[0] = getPortraits(LoadSave.MAX_PORTRAITS, 12, 0);
-        portraits[1] = getPortraits(LoadSave.OLIVER_PORTRAITS, 9, 0);
-        for (int i = 2; i < nrOfCharacters; i++) {
-            portraits[i] = getPortraits(LoadSave.NPC_PORTRAITS, 4, i-2);
-        }
-    }
-
-    private BufferedImage[] getPortraits(String portraitName, int length, int rowIndex) {
-        BufferedImage img = LoadSave.getExpImageSprite(portraitName);
-        BufferedImage[] portraits = new BufferedImage[length];
-        for (int i = 0; i < portraits.length; i++) { 
-            portraits[i] = img.getSubimage(
-                i * PORTRAIT_SIZE, rowIndex * PORTRAIT_SIZE, 
-                PORTRAIT_SIZE, PORTRAIT_SIZE);
-        }
-        return portraits;
+        this.portraits = BigDialogueBox.getAllPortraits();
     }
 
     public void setDialogue(String name, int speed, String text, int portraitIndex) {

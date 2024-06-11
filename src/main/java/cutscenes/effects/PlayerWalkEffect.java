@@ -5,7 +5,7 @@ import game_events.GeneralEvent;
 import game_events.PlayerWalkEvent;
 import gamestates.Gamestate;
 
-public class PlayerWalkEffect implements UpdatableEffect {
+public class PlayerWalkEffect implements UpdatableEffect, AdvancableEffect {
    private boolean active;
    private boolean shouldAdvance;
    private PlayerExp player;

@@ -10,7 +10,6 @@ import main_classes.Game;
 
 public class RedLightEffect implements UpdatableEffect, DrawableEffect {
    private boolean active;
-   private boolean shouldAdvance;
    private int redLightLvl = 0;
    private int redLightDir = 1;    // 1 = opp, -1 = ned
 
@@ -23,7 +22,6 @@ public class RedLightEffect implements UpdatableEffect, DrawableEffect {
       }
       else {
          this.active = false;
-         this.shouldAdvance = true;
       }
    }
 
@@ -64,13 +62,6 @@ public class RedLightEffect implements UpdatableEffect, DrawableEffect {
    @Override
    public void reset() {
       this.redLightLvl = 0;
-      this.shouldAdvance = false;
       this.active = false;
    }
-
-   @Override
-   public boolean shouldAdvance() {
-      return this.shouldAdvance;
-   }
-   
 }

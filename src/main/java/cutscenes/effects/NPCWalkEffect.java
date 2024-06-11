@@ -10,7 +10,7 @@ import static utils.Constants.Exploring.DirectionConstants.STANDING;
 
 // TODO - Inlcude support for having many NPC's walk at the same time?
 // Could have a list of xSpeed, ySpeed, and a list of active npc-indexes
-public class NPCWalkEffect implements UpdatableEffect {
+public class NPCWalkEffect implements UpdatableEffect, AdvancableEffect {
    private NpcManager npcManager;
    private boolean active;
    private boolean shouldAdvance;

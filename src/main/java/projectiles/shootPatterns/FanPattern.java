@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 
 import entities.bossmode.AnimatedComponent;
-import entities.bossmode.AnimationFactory;
+import entities.bossmode.AnimatedComponentFactory;
 import projectiles.ProjectileHandler2;
 import static utils.Constants.Flying.TypeConstants.BOSS_PROJECTILE1;
 
@@ -19,7 +19,7 @@ public class FanPattern extends DefaultShootPattern {
    private double fanWidth = 140;   // The fan spans 140 degrees
 
    public FanPattern(
-      ProjectileHandler2 projectileHandler, Point gunPoint, AnimationFactory animationFactory, 
+      ProjectileHandler2 projectileHandler, Point gunPoint, AnimatedComponentFactory animationFactory, 
       int chargeTime, int startDelay, int shootInterval) {
       super(projectileHandler, gunPoint, chargeTime, startDelay, shootInterval);
       this.shootAnimation = animationFactory.getPinkShootAnimation(

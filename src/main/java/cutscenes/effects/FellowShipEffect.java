@@ -77,10 +77,4 @@ public class FellowShipEffect implements UpdatableEffect, DrawableEffect {
    public boolean isActive() {
       return this.active;
    }
-
-   @Override
-   public boolean shouldAdvance() {
-      return false;  // We don't need to call advance for this effect
-   }
-
 }

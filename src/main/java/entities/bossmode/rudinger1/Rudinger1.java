@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import entities.bossmode.AnimationFactory;
+import entities.bossmode.AnimatedComponentFactory;
 import entities.bossmode.BossActionHandler;
 import entities.bossmode.IBoss;
 import entities.bossmode.IBossPart;
@@ -22,8 +22,9 @@ import utils.LoadSave;
 
 public class Rudinger1 implements IBoss {
    private BossActionHandler actionHandler;
-   private AnimationFactory animationFactory;
+   private AnimatedComponentFactory animationFactory;
    private BossHealthDisplay healthDisplay;
+   private boolean visible;
 
    // Coordinates
    private float mainBodyXPos;
@@ -65,7 +66,7 @@ public class Rudinger1 implements IBoss {
    private int maxHP = 3000;
    private int HP = maxHP;
 
-   public Rudinger1(PlayerBoss player, ProjectileHandler2 projectileHandler, AnimationFactory animationFactory) {
+   public Rudinger1(PlayerBoss player, ProjectileHandler2 projectileHandler, AnimatedComponentFactory animationFactory) {
       this.animationFactory = animationFactory;
       this.actionHandler = new BossActionHandler();
       this.healthDisplay = new BossHealthDisplay("Grand Reaper", maxHP);
@@ -286,12 +287,17 @@ public class Rudinger1 implements IBoss {
 
    @Override
    public void draw(Graphics g) {
-      drawEyeAnimations(g);
-      drawStaticBossImages(g);
-      drawMouthAnimations(g);
-      healthDisplay.draw(g);
-      // Draw all animations pertaining to individual bossParts and shootPatterns
-      this.actionHandler.draw(g, currentAction);
+      if (!visible) {
+         return;
+      }
+      else {
+         drawEyeAnimations(g);
+         drawStaticBossImages(g);
+         drawMouthAnimations(g);
+         healthDisplay.draw(g);
+         // Draw all animations pertaining to individual bossParts and shootPatterns
+         this.actionHandler.draw(g, currentAction);
+      }
    }
 
    private void drawMouthAnimations(Graphics g) {
@@ -383,6 +389,11 @@ public class Rudinger1 implements IBoss {
    public void skipBoss() {
       this.HP = 0;
       this.healthDisplay.setHP(0);
+   }
+
+   @Override
+   public void setVisible(boolean visible) {
+      this.visible = visible;
    }
 
 }

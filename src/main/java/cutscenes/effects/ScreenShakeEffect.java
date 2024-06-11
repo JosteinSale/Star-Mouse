@@ -5,7 +5,7 @@ import game_events.ScreenShakeEvent;
 import gamestates.Gamestate;
 import gamestates.exploring.Area;
 
-public class ScreenShakeEffect implements UpdatableEffect {
+public class ScreenShakeEffect implements UpdatableEffect, AdvancableEffect {
    private boolean active;
    private boolean shouldAdvance;
    private int duration;

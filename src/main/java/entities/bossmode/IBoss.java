@@ -29,4 +29,7 @@ public interface IBoss {
 
    /** Instantly kills the boss, allowing the player to progress to the next segment */
    public void skipBoss();
+
+   /** Sets the visbility-status of the boss. Can be called from the cutsceneManger */
+   public void setVisible(boolean visible);
 }

@@ -1,0 +1,42 @@
+cutscene;true;automatic;0
+fillScreen;black;true
+setBossVisible;false
+addObject;rowOfDrones;10;200
+addObject;rowOfDrones;525;200
+addObject;rowOfDrones;-20;120
+addObject;rowOfDrones;555;120
+addObject;rudingerShip;450;-140
+wait;60
+endSequence
+startAmbience;0
+fillScreen;black;false
+fade;in;10
+endSequence
+wait;60
+endSequence
+bigDialogue;Nathan;angry;1;3;Come on, let's take them down!
+endSequence
+wait;30
+endSequence
+bigDialogue;Lt.Red;normal;0;2;Wait, they're not attacking. Hold your fire.
+endSequence
+wait;100
+endSequence
+bigDialogue;???;rudinger_shadow;0;3;I must say, you've done quite well against my drones.
+endSequence
+moveObject;0;-110;200;120
+moveObject;1;625;200;120
+wait;60
+endSequence
+moveObject;2;-140;120;120
+moveObject;3;655;120;120
+moveObject;4;450;150;200
+wait;60
+endSequence
+startSong;7
+wait;140
+endSequence
+bigDialogue;???;rudinger_shadow;1;2;Allow me to introduce myself.
+endSequence
+bigDialogue;Rudinger;evil_smile;0;2;I am Rudinger. Looking forward to work with you!
+endSequence

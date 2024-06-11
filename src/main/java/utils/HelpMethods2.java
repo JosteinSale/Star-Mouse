@@ -221,4 +221,15 @@ public class HelpMethods2 {
         }
         return animations;
     }
+
+    /** Returns an unscaled animation array */
+    public static BufferedImage[] GetSimpleAnimationArray(
+            BufferedImage img, int aniCols, int spriteW, int spriteH) {
+        BufferedImage[] animation = new BufferedImage[aniCols];
+        for (int c = 0; c < aniCols; c++) {
+            animation[c] = img.getSubimage(
+                c * spriteW, 0, spriteW, spriteH);
+            }
+        return animation;
+    }
 }

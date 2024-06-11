@@ -12,7 +12,4 @@ public interface UpdatableEffect extends CutsceneEffect {
 
    /** Returns true if the effect is active */
    public boolean isActive();
-
-   /** Returns true if the cutsceneManager should call the advance-method. */
-   public boolean shouldAdvance();
 }

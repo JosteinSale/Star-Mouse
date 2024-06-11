@@ -372,12 +372,35 @@ public class HelpMethods {
                 GoToBossEvent event = new GoToBossEvent(bossNr);
                 allSequences.get(sequenceIndex).add(event);
             }
+            else if (lineData[0].equals("setBossVisible")) {
+                Boolean active = Boolean.parseBoolean(lineData[1]);
+                SetBossVisibleEvent event = new SetBossVisibleEvent(active);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("addObject")) {
+                String objectName = lineData[1];
+                Float xPos = Float.parseFloat(lineData[2]);
+                Float yPos = Float.parseFloat(lineData[3]);
+                AddObjectEvent event = new AddObjectEvent(objectName, xPos, yPos);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("moveObject")) {
+                Integer objectIndex = Integer.parseInt(lineData[1]);
+                Integer targetX = Integer.parseInt(lineData[2]);
+                Integer targetY = Integer.parseInt(lineData[3]);
+                Integer duration = Integer.parseInt(lineData[4]);
+                ObjectMoveEvent event = new ObjectMoveEvent(objectIndex, targetX, targetY, duration);
+                allSequences.get(sequenceIndex).add(event);
+            }
             else if (lineData[0].equals("endSequence")) {
                 allCutscenes.get(triggerIndex).get(cutsceneIndex).addSequence(allSequences.get(sequenceIndex));
                 sequenceIndex += 1;
             }
             else if (lineData[0].equals("")) {
                 cutsceneIndex += 1;
+            }
+            else {
+                throw new IllegalArgumentException("Couldn't parse " + lineData[0]);
             }
         }
         return allCutscenes;
@@ -398,24 +421,25 @@ public class HelpMethods {
         int index = switch (name) {
             case "Max" -> 0;
             case "Oliver" -> 1;
-            case "Sign" -> 2;
-            case "Lance" -> 3;
-            case "Charlotte" -> 4;
-            case "Nina" -> 5;
-            case "Shady pilot" -> 6;
-            case "Speaker" -> 7;
-            case "Lt.Red" -> 8;
-            case "Russel" -> 9;
-            case "Emma" -> 10;
-            case "Po" -> 11;
-            case "Nathan" -> 12;
-            case "Frida" -> 13;
-            case "Mechanic" -> 14;
-            case "Skye" -> 15;
-            case "Zack" -> 16;
-            case "Gard" -> 17;
-            case "Feno" -> 18;
-            case "???" -> 19;
+            case "Rudinger" -> 2;
+            case "Sign" -> 3;
+            case "Lance" -> 4;
+            case "Charlotte" -> 5;
+            case "Nina" -> 6;
+            case "Shady pilot" -> 7;
+            case "Speaker" -> 8;
+            case "Lt.Red" -> 9;
+            case "Russel" -> 10;
+            case "Emma" -> 11;
+            case "Po" -> 12;
+            case "Nathan" -> 13;
+            case "Frida" -> 14;
+            case "Mechanic" -> 15;
+            case "Skye" -> 16;
+            case "Zack" -> 17;
+            case "Gard" -> 18;
+            case "Feno" -> 19;
+            case "???" -> 20;
             default -> throw new IllegalArgumentException(
                     "No characterIndex available for '" + name + "'");
         };
@@ -426,6 +450,7 @@ public class HelpMethods {
         Color color = switch(name) {
             case "Max" -> Color.LIGHT_GRAY;
             case "Oliver" -> new Color(206, 191, 132);
+            case "Rudinger" -> Color.WHITE;
             case "Lance" -> Color.LIGHT_GRAY;
             case "Charlotte" -> Color.GREEN.darker();
             case "Nina" -> Color.PINK;

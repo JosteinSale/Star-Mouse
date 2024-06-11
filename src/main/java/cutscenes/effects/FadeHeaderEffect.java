@@ -90,10 +90,4 @@ public class FadeHeaderEffect implements UpdatableEffect, DrawableEffect {
    public void reset() {
       this.active = false;
    }
-
-   @Override
-   public boolean shouldAdvance() {
-      return false;   // Another effect must advance the cutscene.
-   }
-
 }

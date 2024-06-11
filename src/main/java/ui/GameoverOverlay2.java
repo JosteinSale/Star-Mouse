@@ -12,8 +12,8 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import audio.AudioPlayer;
-import gamestates.BossMode;
 import gamestates.Gamestate;
+import gamestates.boss_mode.BossMode;
 import gamestates.flying.Flying;
 import main_classes.Game;
 import utils.LoadSave;

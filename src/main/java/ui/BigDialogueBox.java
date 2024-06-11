@@ -50,21 +50,26 @@ public class BigDialogueBox {
         nameFont = LoadSave.getNameFont();
         this.breakPoints = new ArrayList<>();
         this.formattedStrings = new ArrayList<>();
-        loadAllPortraits();
+        this.portraits = BigDialogueBox.getAllPortraits();
     }
 
-    private void loadAllPortraits() {
-        int nrOfCharacters = 2 + 18;  // special characters + npcs
-        portraits = new BufferedImage[nrOfCharacters][12];
+    public static BufferedImage[][] getAllPortraits() {
+        BufferedImage[][] portraits;
+        int nrOfSpecialCharacters = 3;
+        int nrOfNpcs = 18;
+        int maxAmountOfPortraits = 12;
+        int nrOfCharacters = nrOfSpecialCharacters + nrOfNpcs;
+        portraits = new BufferedImage[nrOfCharacters][maxAmountOfPortraits];
         portraits[0] = getPortraits(LoadSave.MAX_PORTRAITS, 12, 0);
         portraits[1] = getPortraits(LoadSave.OLIVER_PORTRAITS, 9, 0);
-        for (int i = 2; i < nrOfCharacters; i++) {
-            portraits[i] = getPortraits(LoadSave.NPC_PORTRAITS, 4, i-2);
+        portraits[2] = getPortraits(LoadSave.RUDINGER_PORTRAITS, 7, 0);
+        for (int i = 0; i < nrOfNpcs; i++) {
+            portraits[i + nrOfSpecialCharacters] = getPortraits(LoadSave.NPC_PORTRAITS, 4, i);
         }
-        
+        return portraits;
     }
 
-    private BufferedImage[] getPortraits(String portraitName, int length, int rowIndex) {
+    private static BufferedImage[] getPortraits(String portraitName, int length, int rowIndex) {
         BufferedImage img = LoadSave.getExpImageSprite(portraitName);
         BufferedImage[] portraits = new BufferedImage[length];
         for (int i = 0; i < portraits.length; i++) { 

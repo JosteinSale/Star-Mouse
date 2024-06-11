@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 
 import entities.bossmode.AnimatedComponent;
-import entities.bossmode.AnimationFactory;
+import entities.bossmode.AnimatedComponentFactory;
 import entities.bossmode.PlayerBoss;
 import projectiles.ProjectileHandler2;
 import static utils.Constants.Flying.TypeConstants.BOSS_PROJECTILE1;
@@ -19,7 +19,7 @@ public class HeatSeekingPattern extends DefaultShootPattern {
    private PlayerBoss player;
 
    public HeatSeekingPattern (
-      ProjectileHandler2 projectileHandler, Point gunPoint, AnimationFactory animationFactory, PlayerBoss player, 
+      ProjectileHandler2 projectileHandler, Point gunPoint, AnimatedComponentFactory animationFactory, PlayerBoss player, 
       int chargeTime, int startDelay, int shootInterval) {
       super(projectileHandler, gunPoint, chargeTime, startDelay, shootInterval);
       this.player = player;

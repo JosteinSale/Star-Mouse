@@ -103,6 +103,11 @@ public class PlayerBoss extends PlayerFly {
       }
    }
 
+   /** Can be used in cutscenes */
+   public void updateOnlyFlame() {
+      this.flame.update();
+   }
+
 
    /**
     * First checks if the player is currently invincible due to damage.

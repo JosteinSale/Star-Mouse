@@ -4,7 +4,7 @@ import game_events.GeneralEvent;
 import game_events.WaitEvent;
 import gamestates.Gamestate;
 
-public class WaitEffect implements UpdatableEffect {
+public class WaitEffect implements UpdatableEffect, AdvancableEffect {
    private int waitDuration;
    private int tick;
    private boolean isActive;
@@ -25,7 +25,7 @@ public class WaitEffect implements UpdatableEffect {
 
    @Override
    public boolean supportsGamestate(Gamestate state) {
-      return (state == Gamestate.EXPLORING || state == Gamestate.FLYING);
+      return true; // All gamestates are supported
    }
 
    @Override

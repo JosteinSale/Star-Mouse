@@ -281,6 +281,7 @@ public class Constants {
         public static final int SONG_VYKE = 4;
         public static final int SONG_LEVEL2 = 5;
         public static final int SONG_BOSS1 = 6;
+        public static final int RUDINGER_THEME = 7;
         
         // Ambience (don't change these indexes!)
         public static final int AMBIENCE_SILENCE = 0;

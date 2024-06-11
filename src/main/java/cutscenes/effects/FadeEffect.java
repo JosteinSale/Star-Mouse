@@ -12,7 +12,7 @@ import game_events.GeneralEvent;
 import gamestates.Gamestate;
 import main_classes.Game;
 
-public class FadeEffect implements UpdatableEffect, DrawableEffect {
+public class FadeEffect implements UpdatableEffect, DrawableEffect, AdvancableEffect {
    private EventHandler eventHandler;
    private String fadeDirection;
    private boolean standardFade;
@@ -107,7 +107,7 @@ public class FadeEffect implements UpdatableEffect, DrawableEffect {
 
    @Override
    public boolean supportsGamestate(Gamestate state) {
-      return (state == Gamestate.EXPLORING || state == Gamestate.FLYING);
+      return true;  // All gamestates are supported
    }
 
 }

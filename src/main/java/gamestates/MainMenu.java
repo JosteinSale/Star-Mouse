@@ -74,20 +74,19 @@ public class MainMenu extends State implements Statemethods {
         // Gamestate.state = Gamestate.LEVEL_SELECT;
 
         // EXPLORING - Uncomment to only test one level in exploring.
-        game.getExploring().loadLevel(2); // Area is currently specified in that method.
-        game.getExploring().update();
-        Gamestate.state = Gamestate.EXPLORING;
+        // game.getExploring().loadLevel(2); // Area is currently specified in that method.
+        // game.getExploring().update();
+        // Gamestate.state = Gamestate.EXPLORING;
 
         // FLYING - Uncomment to only test one level in flying.
-        // game.getFlying().loadLevel(0);
+        // game.getFlying().loadLevel(2);
         // game.getFlying().update();
         // Gamestate.state = Gamestate.FLYING;
 
         // BOSSMODE - Uncomment to only test one boss.
-        // game.getBossMode().loadNewBoss(1);
-        // game.getBossMode().update();
-        // Gamestate.state = Gamestate.BOSS_MODE;
-        // audioPlayer.startSongLoop(Audio.SONG_BOSS1, 0f); // Temporary
+        game.getBossMode().loadNewBoss(1);
+        game.getBossMode().update();
+        Gamestate.state = Gamestate.BOSS_MODE;
     }
 
     private void handleKeyBoardInputs() {

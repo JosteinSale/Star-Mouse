@@ -55,10 +55,5 @@ public class NumberDisplayEffect implements UpdatableEffect, DrawableEffect {
    public void reset() {
       // Resetting is handled in cutsceneManager :: handleNumberDisplayInputs().
    }
-
-   @Override
-   public boolean shouldAdvance() {
-      return false;
-   }
    
 }

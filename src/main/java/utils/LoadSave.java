@@ -54,6 +54,7 @@ public class LoadSave {
     public static final String OLIVER_SPRITES = "sprites_oliver_cadette.png";
     public static final String MAX_PORTRAITS = "portraits_max.png";
     public static final String OLIVER_PORTRAITS = "portraits_oliver_cadette.png";
+    public static final String RUDINGER_PORTRAITS = "portraits_rudinger.png";
     public static final String NPC_PORTRAITS = "portraits_npc.png";
 
     // Sprites - Flying
@@ -105,6 +106,16 @@ public class LoadSave {
     // Methods
     public static BufferedImage getBossSprite(String fileName) {
         fileName = "/bossMode/sprites/" + fileName;
+        return getImage(fileName);
+    }
+
+    public static BufferedImage getCutsceneImage(String fileName) {
+        fileName = "/cutsceneImages/" + fileName;
+        return getImage(fileName);
+    }
+
+    public static BufferedImage getBossBackground(String fileName) {
+        fileName = "/bossMode/backgrounds/" + fileName;
         return getImage(fileName);
     }
 
@@ -217,6 +228,12 @@ public class LoadSave {
     public static List<String> getFlyCutsceneData(Integer level) {
         File filePath = new File(System.getProperty("user.dir") + 
             "/src/main/resources/flying/cutscenes/level" + Integer.toString(level) + ".csv");
+        return getFlyCsvData(filePath);
+    }
+
+    public static List<String> getBossCutsceneData(Integer bossNr) {
+        File filePath = new File(System.getProperty("user.dir") + 
+            "/src/main/resources/bossMode/cutscenes/boss" + Integer.toString(bossNr) + ".csv");
         return getFlyCsvData(filePath);
     }
 

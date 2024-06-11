@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import cutscenes.Cutscene;
+import cutscenes.effects.AdvancableEffect;
 import cutscenes.effects.CutsceneEffect;
 import cutscenes.effects.DrawableEffect;
 import cutscenes.effects.UpdatableEffect;
@@ -145,16 +146,22 @@ public class DefaultCutsceneManager {
 		for (UpdatableEffect effect : updateableEffects) {
 			if (effect.isActive()) {
 				effect.update();
-				if (effect.shouldAdvance()) {
-               effect.reset();
-               this.canAdvance = true;
-					this.advance();
+				if (effect instanceof AdvancableEffect) {
+               checkAdvance((AdvancableEffect) effect);
             } 
          }
       }
       if (cutsceneJump) {  // TODO - can this be done elsewhere?
          this.cutsceneJump = false;
          startCutscene(elementNr, triggerType, cutsceneIndex);
+      }
+   }
+
+   private void checkAdvance(AdvancableEffect effect) {
+      if (effect.shouldAdvance()) {
+         effect.reset();
+         this.canAdvance = true;
+			this.advance();
       }
    }
 

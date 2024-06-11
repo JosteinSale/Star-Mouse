@@ -37,7 +37,7 @@ public class FillScreenEffect implements DrawableEffect {
 
    @Override
    public boolean supportsGamestate(Gamestate state) {
-      return (state == Gamestate.EXPLORING || state == Gamestate.FLYING);
+      return true; // All gamestates are supported
    }
 
    @Override
