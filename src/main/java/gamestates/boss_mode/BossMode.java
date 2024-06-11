@@ -18,6 +18,7 @@ import entities.bossmode.IBoss;
 import entities.flying.enemies.EnemyManager;
 
 import game_events.EventHandler;
+import game_events.FadeOutLoopEvent;
 import game_events.GeneralEvent;
 import game_events.GoToFlyingEvent;
 import game_events.ObjectMoveEvent;
@@ -88,13 +89,16 @@ public class BossMode extends State implements Statemethods {
       } 
       else if (event instanceof StopLoopsEvent evt) {
          this.audioPlayer.stopAllLoops();
-      } 
+      }
+      else if (event instanceof FadeOutLoopEvent evt) {
+         audioPlayer.fadeOutAllLoops();
+      }
       else if (event instanceof StartAmbienceEvent evt) {
          audioPlayer.startAmbienceLoop(evt.index());
       } 
       else if (event instanceof PlaySFXEvent evt) {
          audioPlayer.playSFX(evt.SFXIndex());
-      } 
+      }
       else if (event instanceof GoToFlyingEvent evt) {
          this.goToFlying(evt.lvl());
       }

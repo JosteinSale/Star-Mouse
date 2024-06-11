@@ -40,3 +40,34 @@ bigDialogue;???;rudinger_shadow;1;2;Allow me to introduce myself.
 endSequence
 bigDialogue;Rudinger;evil_smile;0;2;I am Rudinger. Looking forward to work with you!
 endSequence
+bigDialogue;Skye;angry;1;2;YOU'RE the one behind all of this? This is unforgivable!
+endSequence
+bigDialogue;Lt.Red;normal;0;2;Hold it Skye.
+endSequence
+bigDialogue;Lt.Red;normal;0;2;Rudinger, I am the commander of these forces. We are willing to negotiate. 
+endSequence
+bigDialogue;Lt.Red;normal;0;2;What are your demands?
+endSequence
+bigDialogue;Rudinger;coy;1;3;Demands...? Eh let me see...
+endSequence
+bigDialogue;Rudinger;evil_smile;0;3;None.
+endSequence
+bigDialogue;Lt.Red;suspicious;2;5;...
+endSequence
+bigDialogue;Lt.Red;normal;0;2;Stop this charade. We are on the brink of breaking through your defences. Now talk.
+endSequence
+bigDialogue;Rudinger;bored;2;2;10 seconds in and I'm already bored. I told you, we have no demands.
+endSequence
+bigDialogue;Lt.Red;angry;3;2;Damnit you!
+endSequence
+bigDialogue;Gard;normal;0;2;Lieutenant, I don't think he's the kind of guy you can reason with.
+endSequence
+bigDialogue;Gard;normal;0;2;I say we break through the ranks and head for Apo!
+endSequence
+bigDialogue;Rudinger;excited;3;2;Ooh, a man of action! Going to break through the ranks, are you?
+endSequence
+fadeOutLoops
+bigDialogue;Rudinger;evil_eye;4;2;I'd very much like to see you try that!
+endSequence
+wait;120
+endSequence
