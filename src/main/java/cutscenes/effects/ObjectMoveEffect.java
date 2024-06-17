@@ -13,7 +13,7 @@ import main_classes.Game;
 /** Keeps a list of SimpleAnimation-objects. These can be added with the 
  * activate-method. Once added they will be drawn and updated. 
  * They can be moved with the moveObject-method.
- * Once all objects are out of the screen, the effect is set to inactive.
+ * The effect can only be inactivated with the reset-method.
  * 
  * OBS: when used in combination with an advancable effect,
  * make sure that movements get time to finish. Or else they will be interrupted.
@@ -65,6 +65,18 @@ public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
       this.ySpeeds.add(0f);
    }
 
+   /** Can be called to set target position for an object. The update-method will
+    * move the object. */
+    public void moveObject(ObjectMoveEvent evt) {
+      int i = evt.objectIndex();
+      this.moveStatuses.set(i, true);
+      this.moveDurations.set(i, evt.duration());
+      float xSpeed = (evt.targetX() - objects.get(i).xPos) / evt.duration();
+      float ySpeed = (evt.targetY() - objects.get(i).yPos) / evt.duration();
+      this.xSpeeds.set(i, xSpeed);
+      this.ySpeeds.set(i, ySpeed);
+   }
+
    @Override
    public GeneralEvent getAssociatedEvent() {
       return new AddObjectEvent(null, 0, 0);
@@ -78,19 +90,13 @@ public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
    // For each object: 
    //    1. It updates animations
    //    2. If it should move, it does so. 
-   // If all objects are moved out of the screen, the effect is set to inactive.
    @Override
    public void update() {
-      boolean allObjectsOutOfScreen = true;
       for (int i = 0; i < objects.size(); i++) {
          objects.get(i).updateAnimation();
          if (shouldObjectMove(i)) {
             this.updatePositionOf(i);
          }
-         if (!isOutOfScreen(objects.get(i))) {allObjectsOutOfScreen = false;}
-      }
-      if (allObjectsOutOfScreen) {
-         this.active = false;
       }
    }
 
@@ -143,18 +149,6 @@ public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
       this.moveStatuses.clear();
       this.xSpeeds.clear();
       this.ySpeeds.clear();
-   }
-
-   /** Can be called to set target position for an object. The update-method will
-    * move the object. */
-   public void moveObject(ObjectMoveEvent evt) {
-      int i = evt.objectIndex();
-      this.moveStatuses.set(i, true);
-      this.moveDurations.set(i, evt.duration());
-      float xSpeed = (evt.targetX() - objects.get(i).xPos) / evt.duration();
-      float ySpeed = (evt.targetY() - objects.get(i).yPos) / evt.duration();
-      this.xSpeeds.set(i, xSpeed);
-      this.ySpeeds.set(i, ySpeed);
    }
    
 }

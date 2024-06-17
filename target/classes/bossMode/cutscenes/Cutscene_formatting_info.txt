@@ -17,8 +17,8 @@ BIG DIALOGUE-EVENT
 
 FADE
 --------------------
-[0] = fade, [1] = in/out (string), [2] = speed (int)
-
+[0] = fade, [1] = in/out (string), [2] = color (string), [3] = speed (int)
+* Color = black | white
 
 
 FILL SCREEN
@@ -89,6 +89,11 @@ MOVE ANIMATED OBJECT
 --------------------
 [0] = objectMove (String), [1] = objectIndex, [2] = targetX, 
 [3] = targetY, [4] = duration (int)
+
+
+CLEAR ANIMATED OBJECTS
+--------------------
+[0] = clearObjects (string)
 
 
 END SEQUENCE

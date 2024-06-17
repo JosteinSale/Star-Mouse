@@ -16,7 +16,7 @@ import entities.bossmode.rudinger1.Rudinger1;
 import entities.bossmode.AnimatedComponentFactory;
 import entities.bossmode.IBoss;
 import entities.flying.enemies.EnemyManager;
-
+import game_events.ClearObjectsEvent;
 import game_events.EventHandler;
 import game_events.FadeOutLoopEvent;
 import game_events.GeneralEvent;
@@ -107,6 +107,9 @@ public class BossMode extends State implements Statemethods {
       }
       else if (event instanceof ObjectMoveEvent evt) {
          this.cutsceneManager.moveObject(evt);
+      }
+      else if (event instanceof ClearObjectsEvent evt) {
+         this.cutsceneManager.clearObjects();
       }
       else {
          this.cutsceneManager.activateEffect(event);

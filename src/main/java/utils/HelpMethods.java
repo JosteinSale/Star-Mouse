@@ -195,8 +195,9 @@ public class HelpMethods {
             }
             else if (lineData[0].equals("fade")) {
                 String direction = lineData[1];
-                Integer speed = Integer.parseInt(lineData[2]);
-                FadeEvent event = new FadeEvent(direction, speed, false);
+                String color = lineData[2];
+                Integer speed = Integer.parseInt(lineData[3]);
+                FadeEvent event = new FadeEvent(direction, color, speed, false);
                 allSequences.get(sequenceIndex).add(event);
             }
             else if (lineData[0].equals("setPlayerVisible")) {
@@ -392,6 +393,10 @@ public class HelpMethods {
                 ObjectMoveEvent event = new ObjectMoveEvent(objectIndex, targetX, targetY, duration);
                 allSequences.get(sequenceIndex).add(event);
             }
+            else if (lineData[0].equals("clearObjects")) {
+                ClearObjectsEvent event = new ClearObjectsEvent();
+                allSequences.get(sequenceIndex).add(event);
+            }
             else if (lineData[0].equals("endSequence")) {
                 allCutscenes.get(triggerIndex).get(cutsceneIndex).addSequence(allSequences.get(sequenceIndex));
                 sequenceIndex += 1;
@@ -406,6 +411,9 @@ public class HelpMethods {
         return allCutscenes;
     }
 
+    /** Checks if the sfx-string matches any standard names. Else it
+     * tries to parse the string to an integer.
+     */
     private static Integer getSFX(String string) {
         Integer index = switch (string) {
             case "infoBox" -> Audio.SFX_INFOBOX;

@@ -253,6 +253,9 @@ public class Constants {
         public static final int SFX_INVENTORY_PICKUP = 12;
         public static final int SFX_SUCCESS = 13;
         public static final int SFX_INFOBOX = 14;
+
+        // SFX - BossMode
+        public static final int SFX_METALLIC_SOUND = 18;
         
         // VoiceClips
         public static final int VOICECLIP_MAX = 0;

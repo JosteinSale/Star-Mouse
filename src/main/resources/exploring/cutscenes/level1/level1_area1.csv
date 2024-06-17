@@ -62,7 +62,7 @@ startAmbience;0
 wait;120
 endSequence
 fillScreen;_;false
-fade;in;1
+fade;in;black;1
 endSequence
 bigDialogue;Max;naked_eyes_shut;6;30;......
 endSequence

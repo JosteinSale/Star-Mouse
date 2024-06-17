@@ -15,6 +15,7 @@ import main_classes.Game;
 public class FadeEffect implements UpdatableEffect, DrawableEffect, AdvancableEffect {
    private EventHandler eventHandler;
    private String fadeDirection;
+   private Color color;
    private boolean standardFade;
    private boolean isActive = false;
    private boolean shouldAdvance = false;
@@ -29,6 +30,7 @@ public class FadeEffect implements UpdatableEffect, DrawableEffect, AdvancableEf
    public void activate(GeneralEvent evt) {
       FadeEvent fadeEvt = (FadeEvent) evt;
       this.fadeDirection = fadeEvt.in_out();
+      this.color = this.getColor(fadeEvt.color());
       this.fadeSpeed = fadeEvt.speed();
       this.standardFade = fadeEvt.standardFade();
       this.isActive = true;
@@ -37,6 +39,14 @@ public class FadeEffect implements UpdatableEffect, DrawableEffect, AdvancableEf
       }
       else {
          alphaFade = 0;
+      }
+   }
+
+   private Color getColor(String string) {
+      switch (string) {
+         case "black" : return Color.BLACK;
+         case "white" : return Color.WHITE;
+         default : throw new IllegalArgumentException("No color available for: " + string);
       }
    }
 
@@ -96,13 +106,15 @@ public class FadeEffect implements UpdatableEffect, DrawableEffect, AdvancableEf
 
    @Override
    public void draw(Graphics g) {
-      g.setColor(new Color(0, 0, 0, alphaFade));
+      g.setColor(
+         new Color(color.getRed(), color.getGreen(), color.getBlue(), alphaFade)
+         );
       g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
    }
 
    @Override
    public GeneralEvent getAssociatedEvent() {
-      return new FadeEvent(FADE_IN, 0, false);
+      return new FadeEvent(FADE_IN, null, 0, false);
    }
 
    @Override

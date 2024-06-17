@@ -73,7 +73,7 @@ bigDialogue;Oliver;happy;1;3;Great, thanks!
 endSequence
 bigDialogue;Max;normal;0;2;I'll see you in the hangar then
 endSequence
-fade;out;5
+fade;out;black;5
 endSequence
 fillScreen;black;true
 wait;100
@@ -82,7 +82,7 @@ goToFlying;0
 wait;1
 endSequence
 fillScreen;black;false
-fade;in;5
+fade;in;black;5
 endSequence
 wait;100;
 endSequence
@@ -110,7 +110,7 @@ infoChoice;Go flying with Oliver?;Yes;No
 endSequence
 
 cutscene;true;npc;5
-fade;out;5
+fade;out;black;5
 endSequence
 fillScreen;black;true
 wait;100
@@ -119,7 +119,7 @@ goToFlying;0
 wait;1
 endSequence
 fillScreen;black;false
-fade;in;5
+fade;in;black;5
 endSequence
 wait;100;
 endSequence
@@ -270,7 +270,7 @@ bigDialogue;Oliver;happy;1;3;Great, thanks!
 endSequence
 bigDialogue;Max;normal;0;2;I'll see you in the hangar then
 endSequence
-fade;out;5
+fade;out;black;5
 endSequence
 fillScreen;black;true
 wait;1
@@ -279,7 +279,7 @@ goToFlying;0
 wait;1
 endSequence
 fillScreen;black;false
-fade;in;5
+fade;in;black;5
 endSequence
 wait;50
 endSequence
