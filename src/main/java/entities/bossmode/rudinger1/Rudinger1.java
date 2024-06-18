@@ -396,4 +396,9 @@ public class Rudinger1 implements IBoss {
       this.visible = visible;
    }
 
+   @Override
+   public boolean isDead() {
+      return this.HP <= 0;
+   }
+
 }

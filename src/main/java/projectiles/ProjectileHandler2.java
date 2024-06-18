@@ -129,6 +129,7 @@ public class ProjectileHandler2 extends ProjectileHandler {
       }
    }
 
+   /** Handles projectile collision with the map (including the boss collision map) */
    private void onMapCollision(Projectile p) {
       p.setActive(false);
       if (p.getType() == PLAYER_PROJECTILE) {

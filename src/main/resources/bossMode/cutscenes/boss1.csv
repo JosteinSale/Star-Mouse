@@ -93,7 +93,7 @@ endSequence
 moveObject;2;-520;120;240
 moveObject;3;1060;120;240
 moveObject;4;450;400;240
-moveObject;5;10;0;240
+moveObject;5;11;-15;240
 playSFX;18
 wait;240
 endSequence
@@ -109,12 +109,110 @@ bigDialogue;Lt.Red;scared;3;2;All pilots, spread out!
 endSequence
 fade;out;white;5
 endSequence
-clearObjects
 fillScreen;white;true
-setBossVisible;true
+moveObject;4;450;-140;1
 wait;60
 endSequence
 fillScreen;white;false
 fade;in;white;5
+endSequence
+clearObjects
+setBossVisible;true
 startSong;6
+wait;1
+endSequence
+
+cutscene;true;automatic;0
+setBossVisible;false
+startAmbience;0
+addObject;rudinger1Death;11;-15
+addObject;loopingExplosion;240;81
+addObject;loopingExplosion;750;250
+wait;10
+endSequence
+addObject;loopingExplosion;500;189
+wait;10
+endSequence
+addObject;loopingExplosion;360;300
+wait;10
+endSequence
+addObject;loopingExplosion;660;60
+wait;10
+endSequence
+wait;120
+endSequence
+fade;out;white;3
+endSequence
+fillScreen;white;true
+clearObjects
+addObject;rudingerShip;450;200
+setPlayerVisible;false
+addObject;playerShip;490;600
+wait;120
+endSequence
+fillScreen;white;false
+fade;in;white;3
+endSequence
+wait;60
+endSequence
+bigDialogue;Rudinger;grumpy;5;5;...
+endSequence
+bigDialogue;Rudinger;grumpy;5;5;Drat.
+endSequence
+bigDialogue;Max;angry;8;2;(I did it!)
+endSequence
+bigDialogue;Lt.Red;normal;0;2;It's over Rudinger. You missed your chance to negotiate.
+endSequence
+bigDialogue;Lt.Red;normal;0;2;You just lost your trump card, and we've got the advantage.
+endSequence
+bigDialogue;Lt.Red;angry;2;2;Now surrender!
+endSequence
+bigDialogue;Rudinger;grumpy;5;5;...
+endSequence
+bigDialogue;Rudinger;coy;1;2;Heh
+endSequence
+bigDialogue;Rudinger;coy;1;2;Your confidence amuses me, lieutenant.
+endSequence
+bigDialogue;Rudinger;bored;2;2;I admit the tech demo was a failure. And a shame too, that drone had a pretty stable AI.
+endSequence
+bigDialogue;Rudinger;coy;1;2;But that's all it was: an experiment.
+endSequence
+bigDialogue;Rudinger;evil_smile;0;2;I'm afraid this battle has just begun.
+endSequence
+addObject;rowOfFlameDrones;0;-320
+wait;1
+endSequence
+moveObject;0;450;330;100
+moveObject;2;0;0;180
+wait;180
+endSequence
+bigDialogue;Lt.Red;nervous;4;5;...
+endSequence
+bigDialogue;Rudinger;coy;1;2;Would be fun to play with you a bit more, but...
+endSequence
+bigDialogue;Rudinger;coy;1;2;..the boss needs to finish his work, after all.
+endSequence
+bigDialogue;Rudinger;evil_eye;4;2;Prepare to die!
+endSequence
+bigDialogue;Lt.Red;nervous;4;2;...We can't break through that.
+endSequence
+bigDialogue;Lt.Red;nervous;4;2;The last battle weakened us too much.
+endSequence
+bigDialogue;Lt.Red;sad;1;2;All pilots, retreat!
+endSequence
+bigDialogue;Max;nervouse;9;2;(No...!)
+endSequence
+wait;30;
+endSequence
+moveObject;0;450;200;100
+moveObject;2;0;600;400
+wait;60
+endSequence
+moveObject;1;500;800;100
+wait;30
+endSequence
+fade;out;black;5
+endSequence
+goToFlying;2
+wait;1
 endSequence

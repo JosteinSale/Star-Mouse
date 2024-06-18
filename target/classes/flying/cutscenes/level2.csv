@@ -70,7 +70,11 @@ fillScreen;black;true
 wait;100
 endSequence
 goToBoss;1
-wait;100
+wait;1
 endSequence
+fadeHeader;in;200;10;Level finished
+wait;60
+endSequence
+wait;60
 levelFinished
 endSequence

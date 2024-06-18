@@ -424,19 +424,19 @@ public class HelpMethods {
         return index;
     }
 
-    /** Get the rowIndex in the 2D-BufferedImage for the character */
+    /** Get the rowIndex in the 2D-BufferedImage-array for the character */
     public static int GetCharacterIndex(String name) {
         int index = switch (name) {
             case "Max" -> 0;
             case "Oliver" -> 1;
-            case "Rudinger" -> 2;
-            case "Sign" -> 3;
-            case "Lance" -> 4;
-            case "Charlotte" -> 5;
-            case "Nina" -> 6;
-            case "Shady pilot" -> 7;
-            case "Speaker" -> 8;
-            case "Lt.Red" -> 9;
+            case "Lt.Red" -> 2;
+            case "Rudinger" -> 3;
+            case "Sign" -> 4;
+            case "Lance" -> 5;
+            case "Charlotte" -> 6;
+            case "Nina" -> 7;
+            case "Shady pilot" -> 8;
+            case "Speaker" -> 9;
             case "Russel" -> 10;
             case "Emma" -> 11;
             case "Po" -> 12;

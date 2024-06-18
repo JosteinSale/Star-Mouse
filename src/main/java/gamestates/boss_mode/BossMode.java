@@ -24,6 +24,7 @@ import game_events.GoToFlyingEvent;
 import game_events.ObjectMoveEvent;
 import game_events.PlaySFXEvent;
 import game_events.SetBossVisibleEvent;
+import game_events.SetVisibleEvent;
 import game_events.StartAmbienceEvent;
 import game_events.StartSongEvent;
 import game_events.StopLoopsEvent;
@@ -111,13 +112,27 @@ public class BossMode extends State implements Statemethods {
       else if (event instanceof ClearObjectsEvent evt) {
          this.cutsceneManager.clearObjects();
       }
+      else if (event instanceof SetVisibleEvent evt) {
+         this.player.setVisible(evt.visible());
+      }
       else {
          this.cutsceneManager.activateEffect(event);
       }
    }
 
-   /** Should be called from a cutscene when the boss has been defeated. */
+   /** A wrapper method which abstracts away unecessary arguments */
+   private void startCutscene(int i) {
+      cutsceneManager.startCutscene(0, AUTOMATIC, i);
+   }
+
+   /** Should be called from the boss-defeated-cutscene. */
    private void goToFlying(int lvl) {
+      // Bombs are first transfered to flying, 
+      // and later (when Flying :: exitFinishedLevel is called) from flying to progressValues.
+      game.getFlying().setBombsWhenBossIsFinished(projectileHandler.getBombsAtEndOfLevel());
+      this.player.reset();
+      this.pause = false;
+      this.gameOver = false;
       Gamestate.state = Gamestate.FLYING;
    }
 
@@ -131,7 +146,7 @@ public class BossMode extends State implements Statemethods {
       loadBackground(bossNr);
       loadCutscenes(bossNr);
       projectileHandler.setBoss(bossNr, boss);
-      cutsceneManager.startCutscene(0, AUTOMATIC, 0);
+      this.startCutscene(0);
    }
 
    private void setPlayerBossParts() {
@@ -179,6 +194,13 @@ public class BossMode extends State implements Statemethods {
          this.player.update(0, 0);
          this.boss.update();
          this.projectileHandler.update(boss.getXPos(), boss.getYPos(), 0);
+         checkBossDeath();
+      }
+   }
+
+   private void checkBossDeath() {
+      if (boss.isDead()) {
+         this.killBoss();
       }
    }
 
@@ -241,6 +263,16 @@ public class BossMode extends State implements Statemethods {
       game.getAudioPlayer().stopAllLoops();
       game.getAudioPlayer().startAmbienceLoop(Audio.AMBIENCE_SILENCE);
       game.getAudioPlayer().playSFX(Audio.SFX_DEATH);
-    }
+   }
+
+   /** Stops all sound loops, and starts the second cutscene in the cutscene sheet. 
+    * (This also inactivates the boss). Death animation and death-sfx for the boss 
+    * should be in that cutscene.
+    */
+   public void killBoss() {
+      game.getAudioPlayer().stopAllLoops();
+      this.projectileHandler.reset();
+      this.startCutscene(1);
+   }
    
 }
