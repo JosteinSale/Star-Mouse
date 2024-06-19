@@ -94,7 +94,7 @@ npcWalk;Oliver;0;left;660f;520f;120
 endSequence
 bigDialogue;Max;nervous;9;2;...Be careful.
 endSequence
-fade;out;3
+fade;out;black;3
 endSequence
 setRedLight;false
 fillScreen;black;true

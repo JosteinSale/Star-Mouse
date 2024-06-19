@@ -9,13 +9,13 @@ import main_classes.Game;
  * It differs from AnimatedComponent in that it's simpler to construct, 
  * and only has 1 animation, that always loops.
  * 
- * Speed is 3.
+ * Speed is 4.
  * Scale is x3 of original image size.
  * To move it, alter the protected xPos and yPos-variables. */
 public class SimpleAnimation {
    private int aniIndex = 0;
    private int aniTick = 0;
-   private int aniSpeed = 3;
+   private int aniSpeed = 4;
    private BufferedImage[] animation;
    protected float xPos;
    protected float yPos;

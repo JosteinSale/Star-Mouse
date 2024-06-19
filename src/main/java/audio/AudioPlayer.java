@@ -13,7 +13,9 @@ import javax.sound.sampled.FloatControl;
  *  -Potential memory leak if silent track isn't stopped upon playing a new ambience.
  */
 public class AudioPlayer {
-    private String[] SFXfileNames = {    // Only the soundfiles included in the game.
+    // Only the soundfiles included in the game.
+    // OBS: Don't change the indexes. These are coded into the Constants-class
+    private String[] SFXfileNames = {    
         "SFX - Lazer10.wav",
         "SFX - BombShoot.wav",
         "SFX - Teleport.wav",     
@@ -31,7 +33,8 @@ public class AudioPlayer {
         "SFX - InfoBox2.wav",
         "SFX - BigExplosion3.wav",
         "SFX - Hurt2.wav",
-        "SFX - Death.wav"
+        "SFX - Death.wav",
+        "SFX - MetallicWarning.wav"
     };
     private String[] songFileNames = {
         "Song - Tutorial (FINISHED)3.wav",

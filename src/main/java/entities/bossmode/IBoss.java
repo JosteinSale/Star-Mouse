@@ -32,4 +32,7 @@ public interface IBoss {
 
    /** Sets the visbility-status of the boss. Can be called from the cutsceneManger */
    public void setVisible(boolean visible);
+
+   /** Returns true if the boss's HP is <= 0 */
+   public boolean isDead();
 }

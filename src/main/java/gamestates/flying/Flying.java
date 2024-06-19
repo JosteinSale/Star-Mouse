@@ -326,6 +326,12 @@ public class Flying extends State implements Statemethods {
       game.getExploring().updatePauseInventory();
    }
 
+   /** Is called from bossMode right before 
+    * exitFinishedLevel and transferBombsToProgValues */
+   public void setBombsWhenBossIsFinished(int nrOfBombs) {
+      this.projectileHandler.setBombs(nrOfBombs);
+   }
+
    /** Used only for testing porposes */
    private void startAt(int y) {
       mapManager.yProgess = -y;

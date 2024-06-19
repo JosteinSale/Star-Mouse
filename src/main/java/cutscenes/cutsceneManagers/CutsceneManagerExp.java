@@ -103,7 +103,7 @@ public class CutsceneManagerExp extends DefaultCutsceneManager {
     * remains true. Instead, use the 'isStandardFadeActive'-method to prevent
     * handling of user input during this time. */
    public void startStandardFade(String in_out) {
-      FadeEvent evt = new FadeEvent(in_out, 10, true);
+      FadeEvent evt = new FadeEvent(in_out, "black", 10, true);
       this.fadeEffect.activate(evt);
    }
 

@@ -15,14 +15,11 @@ DIALOGUE-EVENT
 
 * Max 40 letters per dialogue
 
-FADE IN
---------------------
-[0] = fadeIn, [1] = speed (int)
 
-
-FADE OUT
+FADE
 --------------------
-[0] = fadeOut, [1] = speed (int)
+[0] = fade, [1] = in/out (string), [2] = color (string), [3] = speed (int)
+* Color = black | white
 
 
 SET PLAYER VISIBLE

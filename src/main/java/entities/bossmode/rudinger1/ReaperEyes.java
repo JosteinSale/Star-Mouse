@@ -27,7 +27,7 @@ public class ReaperEyes extends AnimatedComponent {
       this.player = player;
       this.eyesWidth = spriteW * 3;
       this.eyesCenter = new Point((int) (xPos + (eyesWidth / 2)), (int) yPos);
-
+      this.lookAtPlayer();
    }
 
    public void update() {

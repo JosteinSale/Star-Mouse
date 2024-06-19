@@ -14,14 +14,14 @@ bigDialogue;Lt.Red;normal;0;2;We're going to have a briefing, and I'd like you t
 endSequence
 bigDialogue;Max;normal;0;2;Yes Lieutenant.
 endSequence
-fade;out;3
+fade;out;black;3
 endSequence
 fillScreen;black;true
 setOverlayImage;true;overlayLevel2.png
 wait;60
 endSequence
 fillScreen;black;false
-fade;in;3
+fade;in;black;3
 endSequence
 wait;30
 endSequence
@@ -49,7 +49,7 @@ bigDialogue;Lt.Red;normal;0;2;Now go!
 endSequence
 bigDialogue;Max;determined;8;2;(Oliver... I'll find you! I promise)
 endSequence
-fade;out;2
+fade;out;black;2
 endSequence
 fillScreen;black;true
 wait;1
@@ -83,6 +83,6 @@ fillScreen;black;true
 wait;60
 endSequence
 fillScreen;black;false
-fade;in;2
-startSong;4
+fade;in;black;2
+startSong;4;   // is needed because we override the justEntered-method with a cutscene.
 endSequence

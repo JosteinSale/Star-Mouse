@@ -13,7 +13,7 @@ wait;100
 endSequence
 setGameplayActive;true
 fillScreen;black;false
-fade;in;10
+fade;in;black;10
 startSong;5
 endSequence
 
@@ -63,14 +63,18 @@ wait;1
 endSequence
 
 cutscene;true;automatic;7
-fade;out;5
+fade;out;black;5
 endSequence
 setGameplayActive;false
 fillScreen;black;true
 wait;100
 endSequence
 goToBoss;1
-wait;100
+wait;1
 endSequence
+fadeHeader;in;200;10;Level finished
+wait;60
+endSequence
+wait;60
 levelFinished
 endSequence

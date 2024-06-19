@@ -3,22 +3,26 @@ Cutscene formatting - EXPLORING
 NEW CUTSCENE
 --------------------
 [0] = cutscene, [1] = canReset (boolean), [2] = triggerObject (string), [3] = totalElementNr (in sheet)
-
 * Each boss must have at least two cutscenes
+
 
 BIG DIALOGUE-EVENT
 --------------------
 [0] = bigDialogue, [1] = characterName (String), [2] = emotion (not used for event), 
 [3] = portraitIndex, [4] = speed (int), [5] = text (String)
-
 * Max ~90 letters total per dialogue (see notes in DialogueBox)
 * Max 32 letters per word
 
 
+SET PLAYER VISIBLE
+--------------------
+[0] = setPlayerVisible, [1] = visible (boolean)
+
+
 FADE
 --------------------
-[0] = fade, [1] = in/out (string), [2] = speed (int)
-
+[0] = fade, [1] = in/out (string), [2] = color (string), [3] = speed (int)
+* Color = black | white
 
 
 FILL SCREEN
@@ -89,6 +93,11 @@ MOVE ANIMATED OBJECT
 --------------------
 [0] = objectMove (String), [1] = objectIndex, [2] = targetX, 
 [3] = targetY, [4] = duration (int)
+
+
+CLEAR ANIMATED OBJECTS
+--------------------
+[0] = clearObjects (string)
 
 
 END SEQUENCE

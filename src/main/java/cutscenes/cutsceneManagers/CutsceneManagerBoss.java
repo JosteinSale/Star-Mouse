@@ -45,5 +45,9 @@ public class CutsceneManagerBoss extends DefaultCutsceneManager {
    public void moveObject(ObjectMoveEvent evt) {
       this.objectMoveEffect.moveObject(evt);
    }
+
+   public void clearObjects() {
+      this.objectMoveEffect.reset();
+   }
    
 }

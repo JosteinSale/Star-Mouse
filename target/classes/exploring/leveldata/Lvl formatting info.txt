@@ -9,7 +9,8 @@ AMBIENCE TRACK:
 SONG:
 [0] = song (String), [1] = songIndex (int), [2] = musicEnabled
 * If there's supposed to be no song, use songIndex = 99 (nothing).
-* If musicEnabled is set to true, the song starts upon entering the area. 
+* If musicEnabled is set to true, the song starts upon entering the area.
+* If several areas have the same song, this will be handled in the area-object.
 
 PLAYER:
 [0] = player (String), [1] = hitbox-x, [2] = hitbox-y, [3] = hitbox-width, 
