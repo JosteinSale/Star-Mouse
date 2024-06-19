@@ -275,6 +275,8 @@ public class Constants {
         public static final int VOICECLIP_ZACK = 14;
         public static final int VOICECLIP_GARD = 15;
         public static final int VOICECLIP_FENO = 16;
+        public static final int VOICECLIP_RUDINGER = 17;
+        public static final int VOICECLIP_RAZE = 18;
 
         // Songs (don't change these indexes!)
         public static final int SONG_LEVEL0 = 0;

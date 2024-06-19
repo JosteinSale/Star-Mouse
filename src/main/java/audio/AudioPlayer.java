@@ -70,7 +70,9 @@ public class AudioPlayer {
         "VoiceClip - Skye.wav",
         "VoiceClip - Zack.wav",
         "VoiceClip - Gard.wav",
-        "VoiceClip - Feno.wav"
+        "VoiceClip - Feno.wav",
+        "VoiceClip - Rudinger.wav",
+        "VoiceClip - Raze.wav"
     };
     private File[] SFX;
     private File[] voiceClips;

@@ -72,9 +72,9 @@ bigDialogue;Rudinger;evil_eye;4;2;I'd very much like to see you try that!
 endSequence
 wait;120
 endSequence
-bigDialogue;???;raze_shadow;2;4;Rudinger, enough playing.
+bigDialogue;????;raze_shadow;2;4;Rudinger, enough playing.
 endSequence
-bigDialogue;???;raze_shadow;2;4;You have your orders.
+bigDialogue;????;raze_shadow;2;4;You have your orders.
 endSequence
 bigDialogue;Max;angry;8;4;?
 endSequence
