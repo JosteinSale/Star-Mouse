@@ -39,7 +39,7 @@ public class AudioPlayer {
     };
     private String[] songFileNames = {
         "Song - Tutorial (FINISHED)3.wav",
-        "Song - The Academy ver2 (FINISHED).wav",
+        "Song - The Academy ver3.wav",
         "Song - Skies Over Apolis.wav",
         "Song - Main Menu.wav",
         "Song - Vyke.wav",
