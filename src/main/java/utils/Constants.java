@@ -256,6 +256,7 @@ public class Constants {
 
         // SFX - BossMode
         public static final int SFX_METALLIC_SOUND = 18;
+        public static final int SFX_RUDINGER1_DEATH = 19;
         
         // VoiceClips
         public static final int VOICECLIP_MAX = 0;

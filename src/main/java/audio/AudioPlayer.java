@@ -34,7 +34,8 @@ public class AudioPlayer {
         "SFX - BigExplosion3.wav",
         "SFX - Hurt2.wav",
         "SFX - Death.wav",
-        "SFX - MetallicWarning.wav"
+        "SFX - MetallicWarning.wav",
+        "SFX - Rudinger1Death.wav"
     };
     private String[] songFileNames = {
         "Song - Tutorial (FINISHED)3.wav",
