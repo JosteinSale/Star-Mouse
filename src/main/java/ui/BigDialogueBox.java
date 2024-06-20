@@ -11,6 +11,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Random;
 
 import audio.AudioPlayer;
 import main_classes.Game;
@@ -35,6 +36,7 @@ public class BigDialogueBox {
     private int voiceTick;
     private int voiceTickPerFrame;
     private boolean allLettersAppeared = false;
+    private Random rand;
 
     private Font dialogueFont;
     private Font nameFont;
@@ -45,6 +47,7 @@ public class BigDialogueBox {
 
     public BigDialogueBox(Game game) {
         this.audioPlayer = game.getAudioPlayer();
+        this.rand = new Random();
         dialogueBoxImg = LoadSave.getExpImageSprite(LoadSave.DIALOGUE_BOX);
         dialogueFont = LoadSave.getInfoFont();
         nameFont = LoadSave.getNameFont();
@@ -150,6 +153,8 @@ public class BigDialogueBox {
             case "Zack" -> Audio.VOICECLIP_ZACK;
             case "Gard" -> Audio.VOICECLIP_GARD;
             case "Feno" -> Audio.VOICECLIP_FENO;
+            case "???", "Rudinger" -> Audio.VOICECLIP_RUDINGER;
+            case "????" -> Audio.VOICECLIP_RAZE;
             default -> Audio.VOICECLIP_SIGN;
             };
 
@@ -163,7 +168,8 @@ public class BigDialogueBox {
     }
 
     public void update() {
-        updateTicks();
+        updateAnimations();
+        updateVoices();
         checkIfDone();
     }
 
@@ -173,7 +179,7 @@ public class BigDialogueBox {
             (currentLetter == (formattedStrings.get(currentLine).length()) - 1));
     }
 
-    private void updateTicks() {
+    private void updateAnimations() {
         aniTick ++;
         if (aniTick >= aniTickPerFrame) {
             currentLetter += 1;
@@ -183,18 +189,37 @@ public class BigDialogueBox {
                 currentLetter = 0;
             }
         }
-        if (voiceTick % voiceTickPerFrame == 0) {
-            if (!(formattedStrings.get(currentLine).charAt(currentLetter) == ' ')) {
+    }
+
+    private void updateVoices() { 
+        if (voiceTick == 0) { 
+            // Always play on first syllable
+            audioPlayer.playVoiceClip(voiceClipIndex);
+        } 
+        else if (voiceTick % voiceTickPerFrame == 0) {
+            // In order for the voices to sound less 'machine gun'-like, we don't play the voiceclip
+            // on spaces, and also add a bit of randomization.
+            if (!(currentCharIs(' ')) && randomizerRollsTrue()) {
                 audioPlayer.playVoiceClip(voiceClipIndex);
             }
         }
         voiceTick++;
     }
 
+    // Rolls true with an 80% chance
+    private boolean randomizerRollsTrue() {
+        double i = rand.nextDouble();
+        return i < 0.8;
+    }
+
     public void forwardDialogue() {
         this.currentLine = formattedStrings.size() - 1;
         this.currentLetter = formattedStrings.get(currentLine).length() - 1;
         this.allLettersAppeared = true;
+    }
+
+    private boolean currentCharIs(char c) {
+        return formattedStrings.get(currentLine).charAt(currentLetter) == c;
     }
 
     public void draw(Graphics g) {

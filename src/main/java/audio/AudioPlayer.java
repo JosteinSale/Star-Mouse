@@ -34,11 +34,12 @@ public class AudioPlayer {
         "SFX - BigExplosion3.wav",
         "SFX - Hurt2.wav",
         "SFX - Death.wav",
-        "SFX - MetallicWarning.wav"
+        "SFX - MetallicWarning.wav",
+        "SFX - Rudinger1Death.wav"
     };
     private String[] songFileNames = {
         "Song - Tutorial (FINISHED)3.wav",
-        "Song - The Academy ver2 (FINISHED).wav",
+        "Song - The Academy ver3.wav",
         "Song - Skies Over Apolis.wav",
         "Song - Main Menu.wav",
         "Song - Vyke.wav",
@@ -70,7 +71,9 @@ public class AudioPlayer {
         "VoiceClip - Skye.wav",
         "VoiceClip - Zack.wav",
         "VoiceClip - Gard.wav",
-        "VoiceClip - Feno.wav"
+        "VoiceClip - Feno.wav",
+        "VoiceClip - Rudinger2.wav",
+        "VoiceClip - Raze.wav"
     };
     private File[] SFX;
     private File[] voiceClips;

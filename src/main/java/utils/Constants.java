@@ -256,6 +256,7 @@ public class Constants {
 
         // SFX - BossMode
         public static final int SFX_METALLIC_SOUND = 18;
+        public static final int SFX_RUDINGER1_DEATH = 19;
         
         // VoiceClips
         public static final int VOICECLIP_MAX = 0;
@@ -275,6 +276,8 @@ public class Constants {
         public static final int VOICECLIP_ZACK = 14;
         public static final int VOICECLIP_GARD = 15;
         public static final int VOICECLIP_FENO = 16;
+        public static final int VOICECLIP_RUDINGER = 17;
+        public static final int VOICECLIP_RAZE = 18;
 
         // Songs (don't change these indexes!)
         public static final int SONG_LEVEL0 = 0;
