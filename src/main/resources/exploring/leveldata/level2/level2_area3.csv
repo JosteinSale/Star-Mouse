@@ -1,0 +1,7 @@
+ambience;0
+song;99;false
+player;280f;525f;45f;18f;0
+object;645f;345f;126f;156f;clothing_rack
+object;639f;605f;126;66f;bombBox
+object;381f;348f;63f;27f;locker
+door;270f;525f;42f;42f;0;exitDoor;2;1

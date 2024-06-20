@@ -188,16 +188,21 @@ public class Area {
    }
 
    private void goToArea(int newArea, int reenterDir, int newSong) {
-      if (this.song != newSong) {
-         audioPlayer.stopAllLoops();
-      } else {
-         audioPlayer.stopAmbience();
-         this.exploring.getArea(newArea).setMusicEnabled(false);
-      }
+      checkStopAudio(newSong);
       player.setDirection(reenterDir);
       player.resetAll();
       this.justEntered = true;
       exploring.goToArea(newArea);
+   }
+
+   /** Stops ambience, and maybe stops the song. 
+    * If the song for the new area is the same as the old song, it doesn't stop it. */
+   private void checkStopAudio(int songForNewArea) {
+      if (this.song != songForNewArea) {
+         audioPlayer.stopAllLoops();
+      } else {
+         audioPlayer.stopAmbience();
+      }
    }
 
    private void goToFlying(int lvl) {
@@ -224,14 +229,19 @@ public class Area {
 
    private void handleJustEntered() {
       audioPlayer.startAmbienceLoop(ambienceIndex);
-      if (musicEnabled) {
-         audioPlayer.startSongLoop(song, 0);
-         // (if this area has the same music as the previous area, 
-         // musicEnabled is set to false).
-      }
+      checkIfSongShouldStart();
       cutsceneManager.startStandardFade(FADE_IN);
       justEntered = false;
       player.resetAll();
+   }
+
+   /** Checks 1) if music is enabled in this area, and 2) if the song is already
+    * playing due to it being started in another area.
+    */
+   private void checkIfSongShouldStart() {
+      if (musicEnabled && !audioPlayer.isSongPlaying(this.song)) {
+         audioPlayer.startSongLoop(song, 0);
+      }
    }
 
    // Automatic triggers are checked every frame, regardless of the player's activity.

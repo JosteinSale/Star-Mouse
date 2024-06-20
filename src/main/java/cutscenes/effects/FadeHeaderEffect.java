@@ -40,9 +40,9 @@ public class FadeHeaderEffect implements UpdatableEffect, DrawableEffect {
    public void activate(GeneralEvent evt) {
       FadeHeaderEvent headerEvt = (FadeHeaderEvent) evt;
       this.active = true;
-      this.headerText = headerEvt.text();
-      this.headerBox.y = (int) (headerEvt.yPos() * Game.SCALE);
       if (headerEvt.inOut().equals("in")) {
+         this.headerBox.y = (int) (headerEvt.yPos() * Game.SCALE);
+         this.headerText = headerEvt.text();
          this.headerFadeSpeed = headerEvt.fadeSpeed();
          this.alphaFade = 0;
       }
@@ -58,7 +58,7 @@ public class FadeHeaderEffect implements UpdatableEffect, DrawableEffect {
 
    @Override
    public boolean supportsGamestate(Gamestate state) {
-      return (state == Gamestate.FLYING);
+      return (state == Gamestate.FLYING || state == Gamestate.EXPLORING);
    }
 
    @Override

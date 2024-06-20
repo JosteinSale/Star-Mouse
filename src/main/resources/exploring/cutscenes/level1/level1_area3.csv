@@ -210,7 +210,7 @@ bigDialogue;Oliver;normal;0;4;...
 endSequence
 bigDialogue;Oliver;nervous;2;2;I'd probably prefer the storm actually.
 endSequence
-bigDialogue;Oliver;nervous;2;4;A little chaos would at least shake me out of my nerves.
+bigDialogue;Oliver;nervous;2;2;A little chaos would at least shake me out of my nerves.
 endSequence
 bigDialogue;Oliver;nervous;2;2;...But I guess I shouldn't complain.
 endSequence
@@ -233,15 +233,17 @@ bigDialogue;Oliver;shocked;3;1;egh what??
 endSequence
 bigDialogue;Max;teasing;2;2;A stout, handsome pilot... Battle worn and mysterious. You'll be irresistable!
 endSequence
-bigDialogue;Oliver;blushing;4;1;Yeah, yeah very funny, laugh it up.
+bigDialogue;Oliver;blushing;4;2;Yeah, yeah very funny, laugh it up.
 endSequence
 setDir;player;right
 bigDialogue;Max;teasing;2;1;No kidding, I see Charlotte looking at you right now!
 endSequence
+setDir;Oliver;right
 bigDialogue;Oliver;blushing;4;2;wah..?
 endSequence
 bigDialogue;Max;laughing;3;3;Hahaha!
 endSequence
+setDir;Oliver;left
 bigDialogue;Oliver;blushing;4;1;Shut up!
 endSequence
 bigDialogue;Max;happy;1;2;Heh sorry, I'm just teasing

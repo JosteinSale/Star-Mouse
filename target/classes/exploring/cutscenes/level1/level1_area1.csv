@@ -64,7 +64,13 @@ endSequence
 fillScreen;_;false
 fade;in;black;1
 endSequence
-bigDialogue;Max;naked_eyes_shut;6;30;......
+fadeHeader;in;50;10;Press SPACE to wake up
+wait;1
+endSequence
+bigDialogue;Max;naked_eyes_shut;6;30;.
+endSequence
+fadeHeader;out;50;10;_
+wait;1
 endSequence
 bigDialogue;Max;naked_eyes_shut;6;2;I should probably get up
 endSequence

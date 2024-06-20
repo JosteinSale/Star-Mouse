@@ -1,0 +1,48 @@
+cutscene;false;object;0
+info;A clothing rack with old, discarded pilot jackets.
+playSFX;infoBox
+endSequence
+info;You search through them...
+endSequence
+info;You found 500 credits!
+playSFX;pickup
+updateInventory;credits;500
+setStartCutscene;object;0;1
+endSequence
+
+cutscene;true;object;0
+playSFX;infoBox
+info;Nothing more of use here.
+endSequence
+
+cutscene;false;object;1
+playSFX;infoBox
+info;An unopened box. You search through it.
+endSequence
+info;You found 1 bomb!
+playSFX;pickup
+updateInventory;bombs;1
+setStartCutscene;object;1;1
+endSequence
+
+cutscene;true;object;1
+playSFX;infoBox
+info;It's empty.
+endSequence
+
+cutscene;false;object;2
+playSFX;infoBox
+info;You open the cabinet and rummage through it.
+endSequence
+info;You found a comfort pet plushie!
+playSFX;pickup
+endSequence
+info;Squeezing it makes it say "It's gonna to be alright".
+addToInventory;COMFORT PET PLUSHIE;"It's gonna be alright";item_plushie.png
+setStartCutscene;object;2;1
+endSequence
+
+cutscene;true;object;2
+playSFX;infoBox
+info;Nothing more of interest here.
+endSequence

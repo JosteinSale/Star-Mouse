@@ -2,6 +2,7 @@ ambience;99
 song;4;true
 player;174;662;45f;18f;0
 door;135f;580f;30f;111f;0;exit;1;0
+door;1405f;645f;30f;39f;1;lockerRoomDoor;3;1
 npc;210f;440f;120f;100f;Russel;sprite_npc_russel.png;70;80;false
 npc;400f;400f;120f;100f;Emma;sprite_npc_emma.png;80;80;false
 npc;360f;685f;90f;100f;Nathan;sprite_npc_nathan.png;80;80;true
@@ -9,6 +10,6 @@ npc;540f;690f;90f;100f;Frida;sprite_npc_frida.png;100;70;true
 npc;750f;420f;90f;100f;Mechanic;sprite_npc_mechanic.png;60;80;false
 npc;920f;500f;120f;100f;Skye;sprite_npc_skye.png;70;80;false
 npc;1120f;420f;120f;100f;Zack;sprite_npc_zack.png;85;80;false
-npc;1280f;570f;120f;60f;Gard;sprite_npc_gard.png;85;120;false
+npc;1280f;570f;60f;60f;Gard;sprite_npc_gard.png;85;120;false
 npc;1230f;720f;120f;60f;Feno;sprite_npc_feno.png;85;120;true
 

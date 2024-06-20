@@ -79,6 +79,7 @@ public class AudioPlayer {
     private File[] voiceClips;
     private File[] songs;
     private File[] ambienceTracks;
+    private Integer curSongIndex;           // Used to check if a given song is playing.
     private Clip curSong;
     private Clip curAmbience;
     private FloatControl songGainControl;      // Is initially set in the StartScreen
@@ -177,6 +178,7 @@ public class AudioPlayer {
      */
     public void startSongLoop(int index, float startPos) {
         if (index == 99) {return;}
+        this.curSongIndex = index;
         this.curSongVolume = setSongVolume;
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(songs[index]);
@@ -322,5 +324,9 @@ public class AudioPlayer {
         if (curAmbience.isActive()) {
             curAmbience.stop();
         }
+    }
+
+    public boolean isSongPlaying(Integer index) {
+        return index.equals(curSongIndex) && curSong.isActive();
     }
 }

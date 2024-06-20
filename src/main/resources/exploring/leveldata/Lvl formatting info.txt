@@ -24,6 +24,8 @@ DOOR:
 [0] = door (String), [1] = hitbox-x, [2] = hitbox-y, [3] = hitbox-width, 
 [4] = hitbox-height, [5] = nrOfRequirments, [6] = name (String),
 [7] = areaDoorLeadsTo (int), [8] = playerDirUponReentering (int)
+* OBS: if a door will have cutscenes, every door before that must also have a 
+ cutscene (e.g. just wait;1).
 
 NPC (special):
 [0] = npc-name (String), [1] = hitbox-x, [2] = hitbox-y, [3] = hitbox-width, 

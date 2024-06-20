@@ -52,6 +52,11 @@ FILL SCREEN
 [0] = fillScreen, [1] = color (string), [2] = active (boolean)
 
 
+FADE IN/OUT HEADER
+--------------------
+[0] = fadeHeader, [1] = in/out (string), [2] = y-pos, [3] = fadeSpeed, [4] = headerText
+
+
 WAIT
 --------------------
 [0] = wait, [1] = nrOfFrames (int)

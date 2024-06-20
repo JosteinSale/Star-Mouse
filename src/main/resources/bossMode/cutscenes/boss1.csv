@@ -214,6 +214,8 @@ wait;30
 endSequence
 fade;out;black;5
 endSequence
+fillScreen;black;true
+clearObjects
 wait;100
 endSequence
 goToFlying;2
