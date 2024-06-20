@@ -198,7 +198,7 @@ bigDialogue;Lt.Red;nervous;4;2;...We can't break through that.
 endSequence
 bigDialogue;Lt.Red;nervous;4;2;The last battle weakened us too much.
 endSequence
-bigDialogue;Lt.Red;sad;1;2;All pilots, retreat!
+bigDialogue;Lt.Red;sad;1;2;All pilots, retreat.
 endSequence
 bigDialogue;Max;nervouse;9;2;(No...!)
 endSequence
@@ -212,6 +212,8 @@ moveObject;1;500;800;100
 wait;30
 endSequence
 fade;out;black;5
+endSequence
+wait;100
 endSequence
 goToFlying;2
 wait;1
