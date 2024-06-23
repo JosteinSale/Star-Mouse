@@ -261,7 +261,6 @@ public class BossMode extends State implements Statemethods {
       player.setVisible(false);
       gameoverOverlay.setPlayerPos(player.getHitbox().x, player.getHitbox().y);
       game.getAudioPlayer().stopAllLoops();
-      game.getAudioPlayer().startAmbienceLoop(Audio.AMBIENCE_SILENCE);
       game.getAudioPlayer().playSFX(Audio.SFX_DEATH);
    }
 

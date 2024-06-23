@@ -58,7 +58,6 @@ setPlayerVisible;false
 setOverlayImage;true;overlayBed.png
 fillScreen;black;true
 setPlayerSheet;1
-startAmbience;0
 wait;120
 endSequence
 fillScreen;_;false

@@ -55,15 +55,25 @@ public class LevelSelect extends State implements Statemethods {
     }
 
     private void loadLevelInfo() {
-        levelInfo.add(new LevelInfo("Apolis", 130, 100, 99, 99)); // We have a custom method for level1.
+        levelInfo.add(new LevelInfo("Apolis", 130));
         levelInfo.add(new LevelInfo("Vyke", 89, 0, 3, 3));
-        // etc
+        levelInfo.add(new LevelInfo("Level3", 100, 0, 4, 4));
+        levelInfo.add(new LevelInfo("Level4", 100, 0, 5, 5));
+        levelInfo.add(new LevelInfo("Level5", 100));
+        levelInfo.add(new LevelInfo("Level6", 100, 70, 7, 3));
+        levelInfo.add(new LevelInfo("Level7", 100, 70, 8, 4));
+        levelInfo.add(new LevelInfo("Level8", 100, 70, 9, 5));
+        levelInfo.add(new LevelInfo("Level9", 100));
+        levelInfo.add(new LevelInfo("Level10", 100, 70, 11, 7));
+        levelInfo.add(new LevelInfo("Level11", 100, 70, 12, 8));
+        levelInfo.add(new LevelInfo("Level12", 100, 70, 13, 9));
+        levelInfo.add(new LevelInfo("Level13", 100));
     }
 
     private BufferedImage[] loadLevelIcons() {
         BufferedImage[] images = new BufferedImage[13];
         BufferedImage img = LoadSave.getExpImageSprite(LoadSave.LEVEL_ICONS);
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 13; i++) {
             images[i] = img.getSubimage(
                     i * LEVEL_ICON_SIZE, 0, 
                     LEVEL_ICON_SIZE, LEVEL_ICON_SIZE);
@@ -95,9 +105,9 @@ public class LevelSelect extends State implements Statemethods {
      */
     public void updateUnlockedLevels(int finishedLevel, int killCount) {
         updateGlobalBooleans(finishedLevel, killCount);
-        unlockNextLevel(finishedLevel, killCount);
+        int levelToUnlock = getAndUnlockNextLevel(finishedLevel, killCount);
         checkIfNewLayout();
-        levelLayouts.get(currentLayout - 1).setUnlocked(finishedLevel);
+        levelLayouts.get(currentLayout - 1).setUnlocked(levelToUnlock);
     }
 
     private void updateGlobalBooleans(int finishedLevel, int killCount) {
@@ -109,33 +119,37 @@ public class LevelSelect extends State implements Statemethods {
         else if (finishedLevel == 13) {progValues.hasEnding3 = true; progValues.firstPlayThrough = false;}
     }
 
-    private void unlockNextLevel(int finishedLevel, int killCount) {
+    private int getAndUnlockNextLevel(int finishedLevel, int killCount) {
         LevelInfo lvl = levelInfo.get(finishedLevel - 1);
         lvl.updateKillCount(killCount);
         int levelToUnlock = 0;
 
+        // 1. Handles the very first level
         if (finishedLevel == 1) {
             if (killCount == firstLevelBigThreshold) {
                 levelToUnlock = 10;
-            } else if (killCount >= lvl.getKillThreshold()) {
+            } else if (killCount >= lvl.getThreshold()) {
                 levelToUnlock = 6;
             }
             else {
                 levelToUnlock = 2;
             }
         }
-        // A path has been finished
+        // 2. Else if a path has been finished
         else if (finishedLevel == 5 || finishedLevel == 9 || finishedLevel == 13) {
             levelToUnlock = 1;  // Finishing an ending doesn't open any new levels.
         }
-        else {  // level:  2, 3, 4  -  6, 7, 8  -  10, 11, 12
+        // 3. Else: level 2, 3, 4  -  6, 7, 8  -  10, 11, 12
+        else {  
             boolean hasEnoughKills = false;
-            if (killCount >= lvl.getKillThreshold()) {
+            if (killCount >= lvl.getThreshold()) {
                 hasEnoughKills = true;
             };
             levelToUnlock = lvl.getNext(hasEnoughKills);
         }
-        unlockedLevels[levelToUnlock - 1] = true; 
+        // 4. Unlocking the correct level
+        unlockedLevels[levelToUnlock - 1] = true;
+        return levelToUnlock;
     }
 
     /** Should be called whenever the player unlocks a new level, or finishes an ending.
@@ -182,6 +196,7 @@ public class LevelSelect extends State implements Statemethods {
         this.alphaFade += 5;
         if (alphaFade > 255) {
             alphaFade = 255;
+            game.getAudioPlayer().stopAmbience();
             this.game.getExploring().loadLevel(selectedLevel);
             this.game.getExploring().update(); 
             Gamestate.state = Gamestate.EXPLORING;

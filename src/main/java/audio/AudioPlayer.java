@@ -7,6 +7,8 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 
+import utils.Constants.Audio;
+
 /**
  * Current suboptimal implementation of the following:
  *  -Volume adjustment (is done every time a new clip is played)
@@ -82,6 +84,7 @@ public class AudioPlayer {
     private Integer curSongIndex;           // Used to check if a given song is playing.
     private Clip curSong;
     private Clip curAmbience;
+    private Clip silentTrack;
     private FloatControl songGainControl;      // Is initially set in the StartScreen
     private FloatControl sfxGainControl;       // Is initially set in the StartScreen
     private FloatControl ambienceGainControl;  // Is initially set in the StartScreen
@@ -100,6 +103,15 @@ public class AudioPlayer {
     
     public AudioPlayer() {
         loadAudio();
+        initAmbience();
+        this.startSilentTrack();
+    }
+
+    /** The Clip and GainControl for ambience needs to be set. 
+     * This method handles that. */
+    private void initAmbience() {
+        this.startAmbienceLoop(Audio.AMBIENCE_WIND);
+        this.curAmbience.stop();
     }
 
     private void loadAudio() {
@@ -130,6 +142,22 @@ public class AudioPlayer {
             File sample = new File(System.getProperty("user.dir") + 
             "/src/main/resources/audio/" + voiceClipNames[i]);
             this.voiceClips[i] = sample;
+        }
+    }
+
+    /** Starts a silent track that loops continuously. Should be called at 
+     * game startup, and should run in the background until the game is exited.
+     * This is needed because sfx-clips do not start unless there is another clip
+     * running in the background, for some reason.
+     */
+    private void startSilentTrack() {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(ambienceTracks[Audio.AMBIENCE_SILENCE]);
+            silentTrack = AudioSystem.getClip();
+            silentTrack.open(audioInputStream);
+            silentTrack.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -195,11 +223,13 @@ public class AudioPlayer {
 
     /** Stops the current ambience loop, and then starts a new
      *  ambience loop with the specified index.
-     *  Index = 0 means a silence track.
      *  Index = 99 means no ambience.
      */
     public void startAmbienceLoop(int index) {
         if (index == 99) {return;}
+        else if (index == Audio.AMBIENCE_SILENCE) {
+            throw new IllegalArgumentException("Don't play silent track!");
+        }
         this.curAmbienceVolume = setAmbienceVolume;
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(ambienceTracks[index]);

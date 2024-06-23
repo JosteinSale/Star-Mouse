@@ -9,7 +9,6 @@ addObject;rudingerShip;450;-140
 addObject;rudinger1Idle;10;-410
 wait;60
 endSequence
-startAmbience;0
 fillScreen;black;false
 fade;in;black;10
 endSequence
@@ -124,7 +123,6 @@ endSequence
 
 cutscene;true;automatic;0
 setBossVisible;false
-startAmbience;0
 playSFX;19
 addObject;rudinger1Death;11;-15
 addObject;loopingExplosion;240;81

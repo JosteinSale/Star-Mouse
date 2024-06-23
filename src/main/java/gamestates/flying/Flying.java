@@ -372,7 +372,6 @@ public class Flying extends State implements Statemethods {
       player.setVisible(false);
       gameoverOverlay.setPlayerPos(player.getHitbox().x, player.getHitbox().y);
       audioPlayer.stopAllLoops();
-      audioPlayer.startAmbienceLoop(Audio.AMBIENCE_SILENCE);
       audioPlayer.playSFX(Audio.SFX_DEATH);
    }
 
@@ -396,7 +395,6 @@ public class Flying extends State implements Statemethods {
 
       // Restart audio
       audioPlayer.startSongLoop(song, songResetPos);
-      audioPlayer.startAmbienceLoop(Audio.AMBIENCE_ROCKET_ENGINE);
    }
 
    private void resetLevelValues(boolean toCheckPoint) {

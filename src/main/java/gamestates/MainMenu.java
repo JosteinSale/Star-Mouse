@@ -17,7 +17,7 @@ import ui.OptionsMenu;
 import utils.LoadSave;
 import utils.Constants.Audio;
 
-public class MainMenu extends State implements Statemethods {
+ public class MainMenu extends State implements Statemethods {
     
     private AudioPlayer audioPlayer;
     private BufferedImage bgImg;
@@ -69,14 +69,14 @@ public class MainMenu extends State implements Statemethods {
 
     /** Is called when player selects 'New Game', after fadeOut is completed */
     private void doTransition() {
-        //LEVEL-SELECT - Uncomment to test entire game
-        // game.getLevelSelect().reset();
-        // Gamestate.state = Gamestate.LEVEL_SELECT;
+        // LEVEL-SELECT - Uncomment to test entire game
+        game.getLevelSelect().reset();
+        Gamestate.state = Gamestate.LEVEL_SELECT;
 
         // EXPLORING - Uncomment to only test one level in exploring.
-        game.getExploring().loadLevel(2); // Area is currently specified in that method.
-        game.getExploring().update();
-        Gamestate.state = Gamestate.EXPLORING;
+        // game.getExploring().loadLevel(2); // Area is currently specified in that method.
+        // game.getExploring().update();
+        // Gamestate.state = Gamestate.EXPLORING;
 
         // FLYING - Uncomment to only test one level in flying.
         // game.getFlying().loadLevel(1);

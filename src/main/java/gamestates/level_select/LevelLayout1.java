@@ -49,10 +49,12 @@ public class LevelLayout1 implements ILevelLayout {
         this.audioPlayer = game.getAudioPlayer();
         this.allLevelIcons = levelIcons;
         this.allLevelInfo = levelInfo;
-        this.levelsInCurrentPath = new ArrayList<>();
+        this.initClasses();
         levelsInCurrentPath.add(1);
-        // Add more levels to test.
+    }
 
+    private void initClasses() {
+        this.levelsInCurrentPath = new ArrayList<>();
         this.layoutImg = LoadSave.getExpImageBackground(LoadSave.LEVEL_SELECT_LAYOUT1);
         this.cursorBox = LoadSave.getExpImageSprite(LoadSave.LEVEL_SELECT_BOX);
         this.font = LoadSave.getMenuFont();
@@ -123,12 +125,13 @@ public class LevelLayout1 implements ILevelLayout {
                 (int) (LEVEL_ICON_DRAW_SIZE * Game.SCALE), null);
         }
 
-        // CursorBox + levelInfo
+        // CursorBox 
         g.drawImage(cursorBox, 
             (int) (cursorX * Game.SCALE), (int) (cursorY * Game.SCALE), 
             (int) (LEVEL_SELECT_BOX_SIZE * Game.SCALE), 
             (int) (LEVEL_SELECT_BOX_SIZE * Game.SCALE), null);
         
+        // Level info text
         if (selectedIndex < levelsInCurrentPath.size()) {
             int level = levelsInCurrentPath.get(selectedIndex) - 1;
             LevelInfo lvl = allLevelInfo.get(level);
@@ -145,9 +148,7 @@ public class LevelLayout1 implements ILevelLayout {
 
     @Override
     public void setUnlocked(int level) {
-        // levelsInCurrentPath.add(level);  // Uncomment when we have all the levels ready :P
-        // For now, just add them manually in the constructor
-        levelsInCurrentPath.add(2);  // Simulates going from level 1 to 2.
+        levelsInCurrentPath.add(level); 
     }
     
 }

@@ -1,0 +1,13 @@
+cutscene;true;object;0
+playSFX;infoBox
+infoChoice;Leave area?;No;Yes
+endSequence
+
+cutscene;true;object;0
+wait;1
+endSequence
+
+cutscene;true;object;0
+goToFlying;12
+wait;1
+endSequence
