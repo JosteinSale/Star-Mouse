@@ -196,6 +196,7 @@ public class DefaultCutsceneManager {
          eventHandler.triggerEvents();
       } else {
          this.resetCutscene(cutscene);
+         this.resetEffectsManually();
          this.active = false;
       }
    }
@@ -243,12 +244,13 @@ public class DefaultCutsceneManager {
       this.automaticCutscenes.clear();
    }
 
-   /** Usually the effects are reset automatically when a cutscene is over / advances. 
-    * But, in some cases (like when exiting a finished flying level), some effects may
-    * be left active. Then you can call this method to reset them manually. */
-   protected void resetEffects() {
-      for (UpdatableEffect updE : updateableEffects) {
-         updE.reset();
+   /** Usually the effects will inactivate themselves automatically, or it's done
+    * manually in a cutscene. But sometimes (e.g. when exiting a finished flying level),
+    * some effects may not be reset properly. Then you can call this method manually
+    * to reset all effects. */
+   protected void resetEffectsManually() {
+      for (CutsceneEffect effect : allEffects.values()) {
+         effect.reset();
       }
    }
 

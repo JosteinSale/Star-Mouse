@@ -36,15 +36,21 @@ public class PauseExploring implements Statemethods {
     private Font itemFont;
     private BufferedImage itemBoxImg;
     private BufferedImage itemSelectedImg;
-    private String[] menuOptions = {"Continue", "Options", "Main Menu"};
+    private String[] menuOptions = {"Continue", "Options", "Main Menu", "Skip Level"};
     private BufferedImage pointerImg;
     private Rectangle itemInfoBox;     //  Alle Rectangle's er justert ift game.Scale
     private boolean active;
-    private int selectedIndex = 8;     // Items = 0-7, menuOptions = 8-10
+    private int selectedIndex = 8;     // Items = 0-7, menuOptions = 8-11
     
     private String[] valueNames = {"Credits: x", "Bombs: x"};
     private int[] statusValues = {0, 0};
     private ArrayList<InventoryItem> items;
+
+    private final static int CONTINUE = 8;
+    private final static int OPTIONS = 9;
+    private final static int MAIN_MENU = 10;
+    private final static int SKIP_LEVEL = 11;
+
 
     private int bgW;
     private int bgH;
@@ -56,11 +62,11 @@ public class PauseExploring implements Statemethods {
     private int itemBoxX;
     private int itemBoxY;
 
-    private int cursorMinY = 490;
-    private int cursorMaxY = 620;
+    private int cursorMinY = 452;
+    private int cursorMaxY = 650;
     private int cursorX = 505;
     private int cursorY = cursorMinY;
-    private int menuOptionsDiff = (cursorMaxY - cursorMinY) / 2;   
+    private int menuOptionsDiff = (cursorMaxY - cursorMinY) / 3;   
     
     public PauseExploring(Game game, ProgressValues progValues, AudioPlayer audioPlayer, OptionsMenu optionsMenu) {
         this.game = game;
@@ -144,20 +150,24 @@ public class PauseExploring implements Statemethods {
         }
         else if (game.interactIsPressed) {
             game.interactIsPressed = false;
-            if (selectedIndex == 8) {
+            if (selectedIndex == CONTINUE) {
                 this.flipActive();
             }
-            else if (selectedIndex == 9) {
+            else if (selectedIndex == OPTIONS) {
                 audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
                 optionsMenu.setActive(true);
             }
-            else if (selectedIndex == 10) {
+            else if (selectedIndex == MAIN_MENU) {
                 this.flipActive();
                 audioPlayer.stopAllLoops();
                 game.resetMainMenu();
                 // TODO - make resetMethod for Exploring.
                 // TODO - make fadeOut. Make public reset-method that resets fade-boolean
                 Gamestate.state = Gamestate.MAIN_MENU;
+            }
+            else if (selectedIndex == SKIP_LEVEL) {
+                this.flipActive();
+                game.getExploring().goToFlying();
             }
         }
     }
@@ -186,7 +196,7 @@ public class PauseExploring implements Statemethods {
         if (increaseIndexRow()) {
             return;
         }
-        else if (selectedIndex < 10) { 
+        else if (selectedIndex < 11) { 
             selectedIndex += 1;
         }
     }
@@ -289,7 +299,7 @@ public class PauseExploring implements Statemethods {
         // Menu options
         for (int i = 0; i < menuOptions.length; i++) {
             Rectangle rect = new Rectangle(
-                (int) (600 * Game.SCALE), (int) ((450 + i * menuOptionsDiff) * Game.SCALE),
+                (int) (600 * Game.SCALE), (int) ((cursorMinY - 35 + i * menuOptionsDiff) * Game.SCALE),
                 (int) (200 * Game.SCALE), (int) (50 * Game.SCALE));
             DrawCenteredString(g2, menuOptions[i], rect, menuFont);
         }

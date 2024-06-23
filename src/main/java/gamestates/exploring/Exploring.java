@@ -38,7 +38,7 @@ public class Exploring extends State implements Statemethods {
     public void loadLevel(int level) {
         System.out.println("Loading level " + level + ":");
         this.currentLevel = level;
-        this.currentArea = 3;
+        this.currentArea = 1;
         this.areas = new ArrayList<>();
         ArrayList<List<String>> levelData = LoadSave.getExpLevelData(level);
         ArrayList<List<String>> cutsceneData = LoadSave.getExpCutsceneData(level);
@@ -118,5 +118,9 @@ public class Exploring extends State implements Statemethods {
 
     public Area getArea(int area) {
         return areas.get(area - 1);
+    }
+
+    public void goToFlying() {
+        areas.get(currentArea - 1).goToFlying(currentLevel);
     }
 }

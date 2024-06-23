@@ -205,7 +205,8 @@ public class Area {
       }
    }
 
-   private void goToFlying(int lvl) {
+   /** Can be called from a cutscene, or from the PauseExploring :: skipLevel-option. */
+   public void goToFlying(int lvl) {
       Gamestate.state = Gamestate.FLYING;
       audioPlayer.stopAllLoops();
       game.getFlying().loadLevel(lvl);

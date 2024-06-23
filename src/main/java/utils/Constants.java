@@ -299,7 +299,7 @@ public class Constants {
                 case 0 : return SONG_LEVEL0;
                 case 1 : return SONG_LEVEL1;
                 case 2 : return SONG_LEVEL2;
-                default : throw new IllegalArgumentException("No song available for: level " + level);
+                default : return SONG_LEVEL0;
             }
         }
     }

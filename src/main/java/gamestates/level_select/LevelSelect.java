@@ -30,7 +30,6 @@ public class LevelSelect extends State implements Statemethods {
 
     private ArrayList<LevelInfo> levelInfo;
     private int currentLayout = 1;
-    public final int firstLevelBigThreshold = 130;
     private boolean[] unlockedLevels = {   // For now this is a 1D-array, but we might make it a 2D-array.
         true, false, false, false, false,  // Path 1
              false, false, false, false,   // Path 2
@@ -42,6 +41,10 @@ public class LevelSelect extends State implements Statemethods {
     private int alphaFade = 255;
     private boolean fadeInActive = true;
     private boolean fadeOutActive = false;
+
+    private final int LEVEL1_THRESHOLD2 = 130;
+    private final int LEVEL1_THRESHOLD1 = 100;
+
 
     public LevelSelect(Game game) {
         super(game);
@@ -57,17 +60,17 @@ public class LevelSelect extends State implements Statemethods {
     private void loadLevelInfo() {
         levelInfo.add(new LevelInfo("Apolis", 130));
         levelInfo.add(new LevelInfo("Vyke", 89, 0, 3, 3));
-        levelInfo.add(new LevelInfo("Level3", 100, 0, 4, 4));
-        levelInfo.add(new LevelInfo("Level4", 100, 0, 5, 5));
-        levelInfo.add(new LevelInfo("Level5", 100));
-        levelInfo.add(new LevelInfo("Level6", 100, 70, 7, 3));
-        levelInfo.add(new LevelInfo("Level7", 100, 70, 8, 4));
-        levelInfo.add(new LevelInfo("Level8", 100, 70, 9, 5));
-        levelInfo.add(new LevelInfo("Level9", 100));
-        levelInfo.add(new LevelInfo("Level10", 100, 70, 11, 7));
-        levelInfo.add(new LevelInfo("Level11", 100, 70, 12, 8));
-        levelInfo.add(new LevelInfo("Level12", 100, 70, 13, 9));
-        levelInfo.add(new LevelInfo("Level13", 100));
+        levelInfo.add(new LevelInfo("Level 3", 100, 0, 4, 4));
+        levelInfo.add(new LevelInfo("Level 4", 100, 0, 5, 5));
+        levelInfo.add(new LevelInfo("Level 5", 100));
+        levelInfo.add(new LevelInfo("Level 6", 100, 70, 7, 3));
+        levelInfo.add(new LevelInfo("Level 7", 100, 70, 8, 4));
+        levelInfo.add(new LevelInfo("Level 8", 100, 70, 9, 5));
+        levelInfo.add(new LevelInfo("Level 9", 100));
+        levelInfo.add(new LevelInfo("Level 10", 100, 70, 11, 7));
+        levelInfo.add(new LevelInfo("Level 11", 100, 70, 12, 8));
+        levelInfo.add(new LevelInfo("Level 12", 100, 70, 13, 9));
+        levelInfo.add(new LevelInfo("Level 13", 100));
     }
 
     private BufferedImage[] loadLevelIcons() {
@@ -111,7 +114,7 @@ public class LevelSelect extends State implements Statemethods {
     }
 
     private void updateGlobalBooleans(int finishedLevel, int killCount) {
-        if (finishedLevel == 1 && killCount == firstLevelBigThreshold) {
+        if (finishedLevel == 1 && killCount == LEVEL1_THRESHOLD2) {
             progValues.path3Unlocked = true;  // Note: !firstPlaythrough is also required to get LevelLayout3
         }
         else if (finishedLevel == 5) {progValues.hasEnding1 = true; progValues.firstPlayThrough = false;}
@@ -122,13 +125,13 @@ public class LevelSelect extends State implements Statemethods {
     private int getAndUnlockNextLevel(int finishedLevel, int killCount) {
         LevelInfo lvl = levelInfo.get(finishedLevel - 1);
         lvl.updateKillCount(killCount);
-        int levelToUnlock = 0;
+        int levelToUnlock;
 
         // 1. Handles the very first level
         if (finishedLevel == 1) {
-            if (killCount == firstLevelBigThreshold) {
+            if (killCount == LEVEL1_THRESHOLD2) {
                 levelToUnlock = 10;
-            } else if (killCount >= lvl.getThreshold()) {
+            } else if (killCount >= LEVEL1_THRESHOLD1) {
                 levelToUnlock = 6;
             }
             else {
@@ -207,6 +210,16 @@ public class LevelSelect extends State implements Statemethods {
     public void reset() {
         this.fadeOutActive = false;
         this.fadeInActive = true;
+    }
+
+    /** Unlocks all the levels up to the given level, 
+     * in both this object and the current LevelSelect-layout. 
+     * Doesn't affect the progress-values. */
+    public void unlockAllLevelsUpTo(int level) {
+        for (int i = 0; i < level; i++) {
+            this.unlockedLevels[i] = true;
+            levelLayouts.get(currentLayout - 1).setUnlocked(i + 1);
+        }
     }
 
     @Override

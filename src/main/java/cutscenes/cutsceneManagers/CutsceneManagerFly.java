@@ -36,7 +36,7 @@ public class CutsceneManagerFly extends DefaultCutsceneManager {
       active = false; 
       canAdvance = true;
       this.textBoxManager.resetBooleans();
-      this.resetEffects();
+      this.resetEffectsManually();
    }
    
 }

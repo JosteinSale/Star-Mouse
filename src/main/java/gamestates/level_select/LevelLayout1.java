@@ -50,7 +50,6 @@ public class LevelLayout1 implements ILevelLayout {
         this.allLevelIcons = levelIcons;
         this.allLevelInfo = levelInfo;
         this.initClasses();
-        levelsInCurrentPath.add(1);
     }
 
     private void initClasses() {
