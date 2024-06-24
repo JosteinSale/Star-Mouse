@@ -71,7 +71,7 @@ import utils.Constants.Audio;
     private void doTransition() {
         // LEVEL-SELECT - Uncomment to test entire game
         game.getLevelSelect().reset();
-        game.getLevelSelect().unlockAllLevelsUpTo(3);
+        game.getLevelSelect().unlockAllLevelsUpTo(13);
         Gamestate.state = Gamestate.LEVEL_SELECT;
 
         // EXPLORING - Uncomment to only test one level in exploring.

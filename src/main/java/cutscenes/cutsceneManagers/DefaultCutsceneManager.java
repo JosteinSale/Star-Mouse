@@ -151,7 +151,7 @@ public class DefaultCutsceneManager {
             } 
          }
       }
-      if (cutsceneJump) {  // TODO - can this be done elsewhere?
+      if (cutsceneJump) {  // TODO - can this be done differently?
          this.cutsceneJump = false;
          startCutscene(elementNr, triggerType, cutsceneIndex);
       }
@@ -196,7 +196,6 @@ public class DefaultCutsceneManager {
          eventHandler.triggerEvents();
       } else {
          this.resetCutscene(cutscene);
-         this.resetEffectsManually();
          this.active = false;
       }
    }
@@ -247,11 +246,15 @@ public class DefaultCutsceneManager {
    /** Usually the effects will inactivate themselves automatically, or it's done
     * manually in a cutscene. But sometimes (e.g. when exiting a finished flying level),
     * some effects may not be reset properly. Then you can call this method manually
-    * to reset all effects. */
+    * to reset all effects. 
+    *
+    * NOTE: some effects may continue to be updated and drawn after all the cutscene
+    * sequences have been executed. E.g. the FellowShipEffect. Therefore, you shouldn't
+    * call this method in the advance()-method, as it will abort the effect too early.
+    */
    protected void resetEffectsManually() {
       for (CutsceneEffect effect : allEffects.values()) {
          effect.reset();
       }
    }
-
 }

@@ -1,153 +1,85 @@
 package gamestates.level_select;
 
-import static utils.Constants.UI.LEVEL_ICON_DRAW_SIZE;
-import static utils.Constants.UI.LEVEL_SELECT_BOX_SIZE;
-import static utils.HelpMethods.DrawCenteredString;
-
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import audio.AudioPlayer;
 import main_classes.Game;
-import utils.LoadSave;
 import utils.Constants.Audio;
+import utils.LoadSave;
 
-/** 
- * In LevelLayout1, the unlocked levels are displayed in a single line, and the player
- * can only enter the last one at any given time.
- * The cursor can move back and forth, to display info about a given level.
+/**
+ * LevelLayout1 will always be displayed if the player is on his first playthrough. 
+ * Here, the levels are displayed in a single straight line.
+ * The player can only choose the level he's currently at.
+ * Levels from all 3 paths may be unlocked here (but the player doesn't know that).
  */
-public class LevelLayout1 implements ILevelLayout {
-    private Game game;
-    private AudioPlayer audioPlayer;
-    private Font font;
-    private BufferedImage[] allLevelIcons;
-    private ArrayList<LevelInfo> allLevelInfo;
+public class LevelLayout1 extends DefaultLevelLayout {
+   private ArrayList<Integer> levelsInCurrentPath;
 
-    private ArrayList<Integer> levelsInCurrentPath;
-    private BufferedImage layoutImg;
-    private BufferedImage cursorBox;
+   public LevelLayout1(Game game) {
+      super(game);
+      this.levelsInCurrentPath = new ArrayList<>();
+      this.levelSlots = new ArrayList<>();
+      this.layoutImg = LoadSave.getExpImageBackground(LoadSave.LEVEL_SELECT_LAYOUT1);
+      this.layoutY = 360;
+      this.layoutH = 45;
+      this.loadSlots();
+   }
 
-    private Rectangle lvlNameRect;
-    private Rectangle killCountRect;
-    private int selectedIndex = 0;
-    private int cursorX = 110;
-    private int cursorY = 315;
-    private int imageDist = 182;
+   /** Must be called upon construction */
+   private void loadSlots() {
+      int distanceBetweenImages = 182;
+      for (int i = 0; i < 5; i++) {
+         int xPos = 125 + i * distanceBetweenImages;
+         int yPos = 330;
+         this.levelSlots.add(new LevelSlot(xPos, yPos, cursorBox, font));
+      }
+   }
 
-    private int layoutX = 150;
-    private int layoutY = 360;
-    private int layoutW = 777;
-    private int layoutH = 45;
+   @Override
+   public void update() {
+      this.handleKeyboardInputs();
+   }
 
-    public LevelLayout1(Game game, BufferedImage[] levelIcons, ArrayList<LevelInfo> levelInfo) {
-        this.game = game;
-        this.audioPlayer = game.getAudioPlayer();
-        this.allLevelIcons = levelIcons;
-        this.allLevelInfo = levelInfo;
-        this.initClasses();
+   private void handleKeyboardInputs() {
+      if (game.interactIsPressed) {
+         handleInteractPressed();
+      }
+      else if (game.rightIsPressed) {
+         game.rightIsPressed = false;
+         audioPlayer.playSFX(Audio.SFX_CURSOR);
+         if (selectedIndex < 4) {
+            selectedIndex ++;
+         }
+      }
+      else if (game.leftIsPressed) {
+         game.leftIsPressed = false;
+         audioPlayer.playSFX(Audio.SFX_CURSOR);
+         if (selectedIndex > 0) {
+            selectedIndex --;
+         }
+      }
     }
 
-    private void initClasses() {
-        this.levelsInCurrentPath = new ArrayList<>();
-        this.layoutImg = LoadSave.getExpImageBackground(LoadSave.LEVEL_SELECT_LAYOUT1);
-        this.cursorBox = LoadSave.getExpImageSprite(LoadSave.LEVEL_SELECT_BOX);
-        this.font = LoadSave.getMenuFont();
-        this.lvlNameRect = new Rectangle(
-            (int) ((cursorX + 16) * Game.SCALE), 
-            (int) ((cursorY - 60) * Game.SCALE), 
-            (int) (LEVEL_ICON_DRAW_SIZE * Game.SCALE), 
-            (int) (50 * Game.SCALE));
-        this.killCountRect = new Rectangle(lvlNameRect);
-        this.killCountRect.y += (int) (195 * Game.SCALE);
-    }
+   /** Should be called when interact is pressed */
+   private void handleInteractPressed() {
+      game.interactIsPressed = false;
+      // 1. If the selected index is the next level in the path:
+      if (selectedIndex == levelsInCurrentPath.size() - 1) {
+         audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
+         int lvl = levelsInCurrentPath.get(selectedIndex);
+         this.game.getLevelSelect().goToLevel(lvl);
+      } 
+      // 2. Else, you're not allowed to enter the level.
+      else {
+         audioPlayer.playSFX(Audio.SFX_HURT);
+      }
+   }
 
-    @Override
-    public void update() {
-        handleKeyboardInputs();
-    }
-
-    private void handleKeyboardInputs() {
-        if (game.interactIsPressed) {
-            game.interactIsPressed = false;
-            if (selectedIndex != levelsInCurrentPath.size() - 1) {
-                audioPlayer.playSFX(Audio.SFX_HURT);
-            }
-            else {
-                audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
-                int lvl = levelsInCurrentPath.get(selectedIndex);
-                this.game.getLevelSelect().goToLevel(lvl);
-            }
-        }
-        else if (game.rightIsPressed) {
-            game.rightIsPressed = false;
-            audioPlayer.playSFX(Audio.SFX_CURSOR);
-            if (selectedIndex < 4) {
-                selectedIndex ++;
-                cursorX += imageDist;
-                lvlNameRect.x += (int) (imageDist * Game.SCALE);
-                killCountRect.x += (int) (imageDist * Game.SCALE);
-            }
-        }
-        else if (game.leftIsPressed) {
-            game.leftIsPressed = false;
-            audioPlayer.playSFX(Audio.SFX_CURSOR);
-            if (selectedIndex > 0) {
-                selectedIndex --;
-                cursorX -= imageDist;
-                lvlNameRect.x -= (int) (imageDist * Game.SCALE);
-                killCountRect.x -= (int) (imageDist * Game.SCALE);
-            }
-        }
-    }
-
-    @Override
-    public void draw(Graphics g) {
-        // Layout
-        g.drawImage(
-            layoutImg, 
-            (int) (layoutX * Game.SCALE), (int) (layoutY * Game.SCALE), 
-            (int) (layoutW * Game.SCALE), (int) (layoutH * Game.SCALE), null);
-        
-        // Level icons
-        for (int i = 0; i < levelsInCurrentPath.size(); i++) {
-            int imageIndex = levelsInCurrentPath.get(i) - 1;
-            g.drawImage(
-                allLevelIcons[imageIndex], 
-                (int) ((125 + i * imageDist) * Game.SCALE), 
-                (int) (330 * Game.SCALE), 
-                (int) (LEVEL_ICON_DRAW_SIZE * Game.SCALE), 
-                (int) (LEVEL_ICON_DRAW_SIZE * Game.SCALE), null);
-        }
-
-        // CursorBox 
-        g.drawImage(cursorBox, 
-            (int) (cursorX * Game.SCALE), (int) (cursorY * Game.SCALE), 
-            (int) (LEVEL_SELECT_BOX_SIZE * Game.SCALE), 
-            (int) (LEVEL_SELECT_BOX_SIZE * Game.SCALE), null);
-        
-        // Level info text
-        if (selectedIndex < levelsInCurrentPath.size()) {
-            int level = levelsInCurrentPath.get(selectedIndex) - 1;
-            LevelInfo lvl = allLevelInfo.get(level);
-            String name = lvl.getName();
-            Integer killCount = lvl.getKillCount();
-            Integer totalEnemies = lvl.getTotalEnemies();
-            g.setFont(font);
-            g.setColor(Color.WHITE);
-            DrawCenteredString(g, name, lvlNameRect, font);
-            DrawCenteredString(g, killCount.toString() + "/" + totalEnemies.toString(), killCountRect, font);
-        }
-        
-    }
-
-    @Override
-    public void setUnlocked(int level) {
-        levelsInCurrentPath.add(level); 
-    }
-    
+   @Override
+   public void setUnlocked(int level, LevelInfo levelInfo, BufferedImage levelIcon) {
+      super.setUnlocked(level, levelInfo, levelIcon);
+      this.levelsInCurrentPath.add(level);
+   }
+   
 }

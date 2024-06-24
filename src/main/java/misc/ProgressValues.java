@@ -11,7 +11,7 @@ public class ProgressValues {
 
    public boolean hasEnding1 = false;
    public boolean hasEnding2 = false;
-   public boolean hasEnding3 = false;
+   public boolean hasEnding3 = false;          
    public boolean firstPlayThrough = true;
    public boolean path3Unlocked = false;
 

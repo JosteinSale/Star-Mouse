@@ -13,7 +13,6 @@ import gamestates.Statemethods;
 import main_classes.Game;
 import misc.ProgressValues;
 import utils.LoadSave;
-import utils.Constants.Audio;
 
 /** OBS: we should probably wait with implementing more logic until we have more paths. 
  * 
@@ -26,10 +25,9 @@ public class LevelSelect extends State implements Statemethods {
     private BufferedImage bgImg;
     private ArrayList<ILevelLayout> levelLayouts;
     private BufferedImage[] levelIcons;
-    private int selectedLevel = 1;    // This is altered from the current layout.
-
     private ArrayList<LevelInfo> levelInfo;
     private int currentLayout = 1;
+    private int levelToEnter = 1;    // This is altered from the current layout.
     private boolean[] unlockedLevels = {   // For now this is a 1D-array, but we might make it a 2D-array.
         true, false, false, false, false,  // Path 1
              false, false, false, false,   // Path 2
@@ -52,9 +50,15 @@ public class LevelSelect extends State implements Statemethods {
         this.levelLayouts = new ArrayList<>();
         this.levelIcons = loadLevelIcons();
         this.levelInfo = new ArrayList<>(); 
-        loadLevelInfo();
-        levelLayouts.add(new LevelLayout1(game, levelIcons, levelInfo));
         bgImg = LoadSave.getExpImageBackground(LoadSave.LEVEL_SELECT_BG);
+        loadLevelInfo();
+        loadLevelLayouts();
+    }
+
+    private void loadLevelLayouts() {
+        levelLayouts.add(new LevelLayout1(game));
+        levelLayouts.add(new LevelLayout2(game));
+        levelLayouts.add(new LevelLayout3(game));
     }
 
     private void loadLevelInfo() {
@@ -108,9 +112,17 @@ public class LevelSelect extends State implements Statemethods {
      */
     public void updateUnlockedLevels(int finishedLevel, int killCount) {
         updateGlobalBooleans(finishedLevel, killCount);
-        int levelToUnlock = getAndUnlockNextLevel(finishedLevel, killCount);
+        int levelToUnlock = getLevelToUnlock(finishedLevel, killCount);
         checkIfNewLayout();
-        levelLayouts.get(currentLayout - 1).setUnlocked(levelToUnlock);
+        this.unlockLevel(levelToUnlock);
+    }
+
+    private void unlockLevel(int levelToUnlock) {
+        this.unlockedLevels[levelToUnlock - 1] = true;
+        levelLayouts.get(currentLayout - 1).setUnlocked(
+            levelToUnlock, 
+            levelInfo.get(levelToUnlock - 1),
+            levelIcons[levelToUnlock - 1]);
     }
 
     private void updateGlobalBooleans(int finishedLevel, int killCount) {
@@ -122,7 +134,7 @@ public class LevelSelect extends State implements Statemethods {
         else if (finishedLevel == 13) {progValues.hasEnding3 = true; progValues.firstPlayThrough = false;}
     }
 
-    private int getAndUnlockNextLevel(int finishedLevel, int killCount) {
+    private int getLevelToUnlock(int finishedLevel, int killCount) {
         LevelInfo lvl = levelInfo.get(finishedLevel - 1);
         lvl.updateKillCount(killCount);
         int levelToUnlock;
@@ -151,7 +163,6 @@ public class LevelSelect extends State implements Statemethods {
             levelToUnlock = lvl.getNext(hasEnoughKills);
         }
         // 4. Unlocking the correct level
-        unlockedLevels[levelToUnlock - 1] = true;
         return levelToUnlock;
     }
 
@@ -177,7 +188,7 @@ public class LevelSelect extends State implements Statemethods {
 
     public void goToLevel(int level) {
         this.fadeOutActive = true;
-        this.selectedLevel = level;
+        this.levelToEnter = level;
     }
 
     private void moveBackGround() {
@@ -200,7 +211,7 @@ public class LevelSelect extends State implements Statemethods {
         if (alphaFade > 255) {
             alphaFade = 255;
             game.getAudioPlayer().stopAmbience();
-            this.game.getExploring().loadLevel(selectedLevel);
+            this.game.getExploring().loadLevel(levelToEnter);
             this.game.getExploring().update(); 
             Gamestate.state = Gamestate.EXPLORING;
         }
@@ -212,13 +223,12 @@ public class LevelSelect extends State implements Statemethods {
         this.fadeInActive = true;
     }
 
-    /** Unlocks all the levels up to the given level, 
+    /** Testing method: Unlocks all the levels up to the given level, 
      * in both this object and the current LevelSelect-layout. 
      * Doesn't affect the progress-values. */
     public void unlockAllLevelsUpTo(int level) {
         for (int i = 0; i < level; i++) {
-            this.unlockedLevels[i] = true;
-            levelLayouts.get(currentLayout - 1).setUnlocked(i + 1);
+            this.unlockLevel(i + 1);
         }
     }
 
