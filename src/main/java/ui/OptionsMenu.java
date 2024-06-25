@@ -16,7 +16,7 @@ import java.awt.image.BufferedImage;
 import audio.AudioPlayer;
 import inputs.KeyboardInputs;
 import main_classes.Game;
-import utils.LoadSave;
+import utils.ResourceLoader;
 import utils.Constants.Audio;
 
 public class OptionsMenu {
@@ -108,13 +108,13 @@ public class OptionsMenu {
    }
 
    private void loadImages() {
-      this.pointerImg = LoadSave.getExpImageSprite(LoadSave.CURSOR_SPRITE_WHITE);
-      this.sliderImg = LoadSave.getExpImageSprite(LoadSave.SLIDER_SPRITE);
+      this.pointerImg = ResourceLoader.getExpImageSprite(ResourceLoader.CURSOR_SPRITE_WHITE);
+      this.sliderImg = ResourceLoader.getExpImageSprite(ResourceLoader.SLIDER_SPRITE);
    }
 
    private void loadFonts() {
-      this.headerFont = LoadSave.getHeaderFont();
-      this.menuFont = LoadSave.getMenuFont();
+      this.headerFont = ResourceLoader.getHeaderFont();
+      this.menuFont = ResourceLoader.getMenuFont();
    }
 
    public void update() {

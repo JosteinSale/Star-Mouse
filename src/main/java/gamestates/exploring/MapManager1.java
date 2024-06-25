@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 
 import entities.exploring.PlayerExp;
 import main_classes.Game;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 /**
  * The MapManager1's task is to handle everything related to map-specific images
@@ -38,10 +38,10 @@ public class MapManager1 {
 
    private void loadImgs(Integer levelIndex, Integer areaIndex) {
       String imgName = "level" + levelIndex.toString() + "_area" + areaIndex.toString();
-      landScapeImg = LoadSave.getExpImageLandscape(imgName + "_ls.png");
-      bgImg = LoadSave.getExpImageBackground(imgName + "_bg.png");
-      clImg = LoadSave.getExpImageCollision(imgName + "_cl.png");
-      fgImg = LoadSave.getExpImageForeground(imgName + "_fg.png");
+      landScapeImg = ResourceLoader.getExpImageLandscape(imgName + "_ls.png");
+      bgImg = ResourceLoader.getExpImageBackground(imgName + "_bg.png");
+      clImg = ResourceLoader.getExpImageCollision(imgName + "_cl.png");
+      fgImg = ResourceLoader.getExpImageForeground(imgName + "_fg.png");
    }
 
    private void calcLvlOffset() {

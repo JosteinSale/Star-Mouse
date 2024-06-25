@@ -3,8 +3,7 @@
 
 AMBIENCE TRACK:
 [0] = ambience (String), ambienceIndex (int)
-* If there's supposed to be NO song and NO ambience, use ambienceIndex = 0 (silent track).
-* If there IS a song and NO ambience, you can set ambienceIndex = 99 (nothing).
+* If is no ambience, you can set ambienceIndex = 99 (nothing).
 
 SONG:
 [0] = song (String), [1] = songIndex (int), [2] = musicEnabled

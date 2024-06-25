@@ -18,7 +18,7 @@ import projectiles.ProjectileHandler2;
 import projectiles.shootPatterns.FanPattern;
 import projectiles.shootPatterns.HeatSeekingPattern;
 import ui.BossHealthDisplay;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 public class Rudinger1 implements IBoss {
    private BossActionHandler actionHandler;
@@ -110,14 +110,14 @@ public class Rudinger1 implements IBoss {
    }
 
    private void constructMainBody() {
-      this.mainBodyImg = LoadSave.getBossSprite("boss1_body2.png");
+      this.mainBodyImg = ResourceLoader.getBossSprite("boss1_body2.png");
       this.mainBodyXPos = 0;
       this.mainBodyYPos = - 50;
    }
 
    private void constructBossParts(PlayerBoss player) {
       // Two rotating lazers. One vertical and one horizontal.
-      BufferedImage lazerImg = LoadSave.getBossSprite(LoadSave.ROTATING_LAZER_SPRITE);
+      BufferedImage lazerImg = ResourceLoader.getBossSprite(ResourceLoader.ROTATING_LAZER_SPRITE);
       int width1 = 30;
       int height1 = 1300;
       Rectangle2D.Float hitbox1 = new Rectangle2D.Float(
@@ -130,7 +130,7 @@ public class Rudinger1 implements IBoss {
          hitbox1, lazerImg, 2, 3, 10, 433, Math.PI/2, false);
       
       // A heatseeking lazer.
-      BufferedImage lazerImg2 = LoadSave.getBossSprite(LoadSave.HEATSEEKING_LAZER_SPRITE);
+      BufferedImage lazerImg2 = ResourceLoader.getBossSprite(ResourceLoader.HEATSEEKING_LAZER_SPRITE);
       int width2 = 90;
       int height2 = 660;
       Rectangle2D.Float hitbox2 = new Rectangle2D.Float(
@@ -141,7 +141,7 @@ public class Rudinger1 implements IBoss {
          hitbox2, lazerImg2, 3, 4, 30, 220, player, mainGunPoint);
       
       // The machine heart.
-      BufferedImage heartImg = LoadSave.getBossSprite(LoadSave.MACHINE_HEART_SPRITE);
+      BufferedImage heartImg = ResourceLoader.getBossSprite(ResourceLoader.MACHINE_HEART_SPRITE);
       int width3 = 100;
       int height3 = 100;
       Rectangle2D.Float hitbox3 = new Rectangle2D.Float(
@@ -153,7 +153,7 @@ public class Rudinger1 implements IBoss {
 
       // The vulnerable area (is not part of an attack, doesn't have animations)
       // It's placed just below the machine heart.
-      BufferedImage nonImg = LoadSave.getBossSprite("nonImg.png");
+      BufferedImage nonImg = ResourceLoader.getBossSprite("nonImg.png");
       int width4 = 120;
       int height4 = 40;
       Rectangle2D.Float hitbox4 = new Rectangle2D.Float(
@@ -383,12 +383,6 @@ public class Rudinger1 implements IBoss {
       this.currentAction = 0;
       this.healthDisplay.setHP(HP);
       this.healthDisplay.setBlinking(false);
-   }
-
-   @Override
-   public void skipBoss() {
-      this.HP = 0;
-      this.healthDisplay.setHP(0);
    }
 
    @Override

@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import entities.bossmode.rudinger1.AnimatedMouth;
 import entities.bossmode.rudinger1.ReaperEyes;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 /** A factory class for producing animated components. Some can be reused, while
  * others are more specific to a certain boss etc.
@@ -22,9 +22,9 @@ public class AnimatedComponentFactory {
    }
 
    private void loadImages() {
-      this.redChargeSprite = LoadSave.getBossSprite(LoadSave.LAZER_CHARGE_SPRITE1);
-      this.pinkChargeSprite = LoadSave.getBossSprite(LoadSave.LAZER_CHARGE_SPRITE2);
-      this.energyBallSprite = LoadSave.getBossSprite(LoadSave.ENERGY_BALL_SPRITE);
+      this.redChargeSprite = ResourceLoader.getBossSprite(ResourceLoader.LAZER_CHARGE_SPRITE1);
+      this.pinkChargeSprite = ResourceLoader.getBossSprite(ResourceLoader.LAZER_CHARGE_SPRITE2);
+      this.energyBallSprite = ResourceLoader.getBossSprite(ResourceLoader.ENERGY_BALL_SPRITE);
    }
 
    public AnimatedComponent getRedChargeAnimation(int x, int y) {
@@ -61,7 +61,7 @@ public class AnimatedComponentFactory {
    }
 
    public ReaperEyes getReaperEyes(int x, int y, PlayerBoss player) {
-      BufferedImage eyesImg = LoadSave.getBossSprite("boss1_eyes.png");
+      BufferedImage eyesImg = ResourceLoader.getBossSprite("boss1_eyes.png");
       ArrayList<AnimationInfo> aniInfo = new ArrayList<>(Arrays.asList(
          new AnimationInfo("IDLE", 0, 2, 3, 0, false),
          new AnimationInfo("SHUT_DOWN", 1, 5, 10, 4, false),
@@ -75,7 +75,7 @@ public class AnimatedComponentFactory {
    }
 
    public AnimatedMouth getAnimatedMouth(int x, int y) {
-      BufferedImage mouthImg = LoadSave.getBossSprite("boss1_mouth.png");
+      BufferedImage mouthImg = ResourceLoader.getBossSprite("boss1_mouth.png");
       ArrayList<AnimationInfo> aniInfo1 = new ArrayList<>(Arrays.asList(
          new AnimationInfo("IDLE", 0, 1, 10, 0, false),
          new AnimationInfo("DAMAGE", 1, 2, 3, 0, false),

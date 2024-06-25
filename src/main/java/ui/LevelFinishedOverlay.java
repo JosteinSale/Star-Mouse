@@ -14,7 +14,7 @@ import gamestates.Statemethods;
 import gamestates.flying.Flying;
 import main_classes.Game;
 import misc.ProgressValues;
-import utils.LoadSave;
+import utils.ResourceLoader;
 import utils.Constants.Audio;
 
 public class LevelFinishedOverlay implements Statemethods {
@@ -40,9 +40,9 @@ public class LevelFinishedOverlay implements Statemethods {
         this.flying = flying;
         this.progValues = progValues;
         this.enemiesKilled = new ArrayList<>();
-        this.infoFont = LoadSave.getInfoFont();
-        this.continueFont = LoadSave.getNameFont();
-        this.cursorImg = LoadSave.getExpImageSprite(LoadSave.CURSOR_SPRITE_WHITE);
+        this.infoFont = ResourceLoader.getInfoFont();
+        this.continueFont = ResourceLoader.getNameFont();
+        this.cursorImg = ResourceLoader.getExpImageSprite(ResourceLoader.CURSOR_SPRITE_WHITE);
     }
 
     @Override

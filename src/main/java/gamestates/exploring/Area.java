@@ -17,7 +17,7 @@ import gamestates.Gamestate;
 import main_classes.Game;
 import ui.InventoryItem;
 import ui.TextboxManager;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 public class Area {
    private Game game;
@@ -133,7 +133,7 @@ public class Area {
       else if (event instanceof AddToInventoryEvent evt) {
          InventoryItem item = new InventoryItem(
             evt.name(), evt.description(),
-            LoadSave.getExpImageSprite(evt.imgFileName()));
+            ResourceLoader.getExpImageSprite(evt.imgFileName()));
          this.exploring.addToInventory(item);
       }
       else if (event instanceof UpdateInventoryEvent evt) {
@@ -312,8 +312,8 @@ public class Area {
       }
    }
 
-   // Returns the index of the automatic cutscene trigger that the player overlaps.
-   // If the player doesn't overlap anything, it returns -1.
+   /** Returns the index of the automatic cutscene trigger that the player overlaps.
+    If the player doesn't overlap anything, it returns -1. */
    private int getAutomaticCutsceneTrigger() {
       for (int i = 0; i < automaticTriggers.size(); i++) {
          if (automaticTriggers.get(i).getHitbox().intersects(player.getHitbox())) {

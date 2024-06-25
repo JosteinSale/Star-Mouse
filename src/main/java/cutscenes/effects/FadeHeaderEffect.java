@@ -6,7 +6,7 @@ import game_events.FadeHeaderEvent;
 import game_events.GeneralEvent;
 import gamestates.Gamestate;
 import main_classes.Game;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 import static utils.HelpMethods.DrawCenteredString;
 
@@ -33,7 +33,7 @@ public class FadeHeaderEffect implements UpdatableEffect, DrawableEffect {
          Game.GAME_WIDTH,  
          (int) (100 * Game.SCALE)
          );
-      this.headerFont = LoadSave.getHeaderFont();
+      this.headerFont = ResourceLoader.getHeaderFont();
    }
 
    @Override

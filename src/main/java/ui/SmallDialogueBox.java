@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 
 import main_classes.Game;
 import utils.HelpMethods;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 public class SmallDialogueBox {
     private BufferedImage[][] portraits;
@@ -30,8 +30,8 @@ public class SmallDialogueBox {
     private int Y = (int) (600 * Game.SCALE);
 
     public SmallDialogueBox() {
-        dialogueFont = LoadSave.getInfoFont();
-        nameFont = LoadSave.getNameFont();
+        dialogueFont = ResourceLoader.getInfoFont();
+        nameFont = ResourceLoader.getNameFont();
         this.portraits = BigDialogueBox.getAllPortraits();
     }
 

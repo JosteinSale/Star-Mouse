@@ -7,7 +7,7 @@ import game_events.GeneralEvent;
 import game_events.SetOverlayImageEvent;
 import gamestates.Gamestate;
 import main_classes.Game;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 public class SetOverlayEffect implements DrawableEffect {
    private boolean active;
@@ -19,7 +19,7 @@ public class SetOverlayEffect implements DrawableEffect {
       this.active = imgEvt.active();
       if (active) {
          // TODO - make global folder for overlayImages?
-         this.overlayImage = LoadSave.getExpImageBackground(imgEvt.fileName());
+         this.overlayImage = ResourceLoader.getExpImageBackground(imgEvt.fileName());
       }
    }
 

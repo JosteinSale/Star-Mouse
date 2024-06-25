@@ -18,7 +18,7 @@ import entities.Entity;
 import entities.flying.enemies.Enemy;
 import main_classes.Game;
 import ui.StatusDisplay;
-import utils.LoadSave;
+import utils.ResourceLoader;
 import utils.Constants.Audio;
 
 public class PlayerFly extends Entity implements ShootingPlayer {
@@ -64,7 +64,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
         this.maxHP = game.getExploring().getProgressValues().getMaxHP();
         this.HP = maxHP;
         this.audioPlayer = game.getAudioPlayer();
-        this.tpShadowImg = LoadSave.getFlyImageSprite(LoadSave.TELEPORT_SHADOW);
+        this.tpShadowImg = ResourceLoader.getFlyImageSprite(ResourceLoader.TELEPORT_SHADOW);
         loadAnimations();
         updateCollisionPixels();
         this.flame = new ShipFlame();
@@ -77,7 +77,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
     }
 
     private void loadAnimations() {
-        BufferedImage img = LoadSave.getFlyImageSprite(LoadSave.SHIP_SPRITES);
+        BufferedImage img = ResourceLoader.getFlyImageSprite(ResourceLoader.SHIP_SPRITES);
         this.animations = new BufferedImage[7][6];
         for (int j = 0; j < animations.length; j++) {
             for (int i = 0; i < animations[0].length; i++) {

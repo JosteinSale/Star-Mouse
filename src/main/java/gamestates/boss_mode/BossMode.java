@@ -38,7 +38,7 @@ import ui.GameoverOverlay2;
 import ui.PauseBoss;
 import ui.TextboxManager;
 import utils.Constants.Audio;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 public class BossMode extends State implements Statemethods {
    private PlayerBoss player;
@@ -155,7 +155,7 @@ public class BossMode extends State implements Statemethods {
 
    private void loadCutscenes(int bossNr) {
       this.cutsceneManager.clear();
-      List<String> cutsceneData = LoadSave.getBossCutsceneData(bossNr);
+      List<String> cutsceneData = ResourceLoader.getBossCutsceneData(bossNr);
       ArrayList<ArrayList<Cutscene>> cutscenes = GetCutscenes(cutsceneData);
       for (ArrayList<Cutscene> cutscenesForTrigger : cutscenes) {
          cutsceneManager.addCutscene(cutscenesForTrigger);
@@ -252,8 +252,10 @@ public class BossMode extends State implements Statemethods {
       game.getAudioPlayer().startSongLoop(songNr, 0f);
    }
 
-   public void skipBoss() {
-      this.boss.skipBoss();
+   /** Is called from the pauseOverlay */
+   public void skipBossMode() {
+      this.resetBossMode();
+      Gamestate.state = Gamestate.FLYING;
    }
 
    public void killPlayer() {

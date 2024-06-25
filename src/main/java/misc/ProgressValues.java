@@ -1,7 +1,7 @@
 package misc;
 
 /** This class is a container for values pertaining to the players' progress. 
- * It only offers simple setters and getters.
+ * It contains the data that will represent a single save file.
 */
 public class ProgressValues {
    private int maxHP = 100;
@@ -14,6 +14,13 @@ public class ProgressValues {
    public boolean hasEnding3 = false;          
    public boolean firstPlayThrough = true;
    public boolean path3Unlocked = false;
+
+   public int levelLayout = 1;
+   public boolean[] unlockedLevels = {   // For now this is a 1D-array, but we might make it a 2D-array.
+      true, false, false, false, false,  // Path 1
+           false, false, false, false,   // Path 2
+           false, false, false, false    // Path 3
+      };
 
    // Setters
    public void setMaxHP(int maxHP) {

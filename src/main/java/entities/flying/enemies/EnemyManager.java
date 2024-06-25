@@ -17,7 +17,7 @@ import audio.AudioPlayer;
 import entities.flying.PlayerFly;
 import main_classes.Game;
 import projectiles.Explosion;
-import utils.LoadSave;
+import utils.ResourceLoader;
 import utils.Constants.Audio;
 
 public class EnemyManager {
@@ -54,48 +54,48 @@ public class EnemyManager {
     }
 
     private void loadImgs() {
-        BufferedImage targetImg = LoadSave.getFlyImageSprite(LoadSave.TARGET_SPRITE);
+        BufferedImage targetImg = ResourceLoader.getFlyImageSprite(ResourceLoader.TARGET_SPRITE);
         this.targetAnimations = GetEnemyAnimations(
             targetImg, TARGET_SPRITE_SIZE, TARGET_SPRITE_SIZE, 2, 4);
         
-        BufferedImage droneImg = LoadSave.getFlyImageSprite(LoadSave.DRONE_SPRITE);
+        BufferedImage droneImg = ResourceLoader.getFlyImageSprite(ResourceLoader.DRONE_SPRITE);
         this.droneAnimations = GetEnemyAnimations(
             droneImg, DRONE_SPRITE_SIZE, DRONE_SPRITE_SIZE, 2, 3);
         
-        BufferedImage smallShipImg = LoadSave.getFlyImageSprite(LoadSave.SMALLSHIP_SPRITE);
+        BufferedImage smallShipImg = ResourceLoader.getFlyImageSprite(ResourceLoader.SMALLSHIP_SPRITE);
         this.smallShipAnimations = GetEnemyAnimations(
             smallShipImg, SMALLSHIP_SPRITE_SIZE, SMALLSHIP_SPRITE_SIZE, 2, 4);
         
-        BufferedImage octadroneImg = LoadSave.getFlyImageSprite(LoadSave.OCTADRONE_SPRITE);
+        BufferedImage octadroneImg = ResourceLoader.getFlyImageSprite(ResourceLoader.OCTADRONE_SPRITE);
         this.octadroneAnimations = GetEnemyAnimations(
             octadroneImg, OCTADRONE_SPRITE_SIZE, OCTADRONE_SPRITE_SIZE, 2, 4);
         
-        BufferedImage tankdroneImg = LoadSave.getFlyImageSprite(LoadSave.TANKDRONE_SPRITE);
+        BufferedImage tankdroneImg = ResourceLoader.getFlyImageSprite(ResourceLoader.TANKDRONE_SPRITE);
         this.tankdroneAnimations = GetEnemyAnimations(
             tankdroneImg, TANKDRONE_SPRITE_SIZE, TANKDRONE_SPRITE_SIZE, 2, 4);
         
-        BufferedImage blasterdroneImg = LoadSave.getFlyImageSprite(LoadSave.BLASTERDRONE_SPRITE);
+        BufferedImage blasterdroneImg = ResourceLoader.getFlyImageSprite(ResourceLoader.BLASTERDRONE_SPRITE);
         this.blasterdroneAnimations = GetEnemyAnimations(
             blasterdroneImg, BLASTERDRONE_SPRITE_SIZE, BLASTERDRONE_SPRITE_SIZE, 2, 4);
         
-        BufferedImage reaperdroneImg = LoadSave.getFlyImageSprite(LoadSave.REAPERDRONE_SPRITE);
+        BufferedImage reaperdroneImg = ResourceLoader.getFlyImageSprite(ResourceLoader.REAPERDRONE_SPRITE);
         this.reaperdroneAnimations = GetEnemyAnimations(
             reaperdroneImg, REAPERDRONE_SPRITE_WIDTH, REAPERDRONE_SPRITE_HEIGHT, 2, 4);
         
-        BufferedImage flamedroneImg = LoadSave.getFlyImageSprite(LoadSave.FLAMEDRONE_SPRITE);
+        BufferedImage flamedroneImg = ResourceLoader.getFlyImageSprite(ResourceLoader.FLAMEDRONE_SPRITE);
         this.flamedroneAnimations = GetEnemyAnimations(
             flamedroneImg, FLAMEDRONE_SPRITE_WIDTH, FLAMEDRONE_SPRITE_HEIGHT, 3, 6);
         
-        BufferedImage waspdroneImg = LoadSave.getFlyImageSprite(LoadSave.WASPDRONE_SPRITE);
+        BufferedImage waspdroneImg = ResourceLoader.getFlyImageSprite(ResourceLoader.WASPDRONE_SPRITE);
         this.waspdroneAnimations = GetEnemyAnimations(
             waspdroneImg, WASPDRONE_SPRITE_SIZE, WASPDRONE_SPRITE_SIZE, 2, 4);
         
-        BufferedImage kamikazeImg = LoadSave.getFlyImageSprite(LoadSave.KAMIKAZEDRONE_SPRITE);
+        BufferedImage kamikazeImg = ResourceLoader.getFlyImageSprite(ResourceLoader.KAMIKAZEDRONE_SPRITE);
         this.kamikazedroneAnimations = GetEnemyAnimations(
             kamikazeImg, KAMIKAZEDRONE_SPRITE_SIZE, KAMIKAZEDRONE_SPRITE_SIZE, 2, 4);
 
         this.explosionAnimation = new BufferedImage[5];
-        BufferedImage explosionImg = LoadSave.getFlyImageSprite(LoadSave.EXPLOSION);
+        BufferedImage explosionImg = ResourceLoader.getFlyImageSprite(ResourceLoader.EXPLOSION);
         for (int i = 0; i < explosionAnimation.length; i++) {
             explosionAnimation[i] = explosionImg.getSubimage(
                 i * EXPLOSION_SPRITE_SIZE, 0, EXPLOSION_SPRITE_SIZE, EXPLOSION_SPRITE_SIZE);
@@ -109,7 +109,7 @@ public class EnemyManager {
         killedEnemies.clear();
         killedEnemiesAtCheckpoint.clear();
 
-        List<String> enemyData = LoadSave.getFlyLevelData(lvl);
+        List<String> enemyData = ResourceLoader.getFlyLevelData(lvl);
         for (String line : enemyData) {
             String[] lineData = line.split(";");
 

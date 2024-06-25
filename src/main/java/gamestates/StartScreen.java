@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 
 import audio.AudioPlayer;
 import main_classes.Game;
-import utils.LoadSave;
+import utils.ResourceLoader;
 import utils.Constants.Audio;
 
 public class StartScreen extends State implements Statemethods {
@@ -23,10 +23,10 @@ public class StartScreen extends State implements Statemethods {
     public StartScreen(Game game) {
         super(game);
         this.audioPlayer = game.getAudioPlayer();
-        mouseImg = LoadSave.getExpImageSprite(LoadSave.BASIC_MOUSE);
+        mouseImg = ResourceLoader.getExpImageSprite(ResourceLoader.BASIC_MOUSE);
         mouseImgW = 100 * 3;
         mouseImgH = 100 * 3;
-        font = LoadSave.getInfoFont();
+        font = ResourceLoader.getInfoFont();
     }
 
     @Override

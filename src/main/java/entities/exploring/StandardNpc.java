@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 
 import entities.Entity;
 import main_classes.Game;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 public class StandardNpc extends Entity implements NPC {
     private String name;
@@ -25,7 +25,7 @@ public class StandardNpc extends Entity implements NPC {
         super(hitbox);
         makeTriggerBox();
         this.name = name;
-        this.sprite = LoadSave.getExpImageSprite(fileName);
+        this.sprite = ResourceLoader.getExpImageSprite(fileName);
         this.xDrawOffset = xDrawOffset;
         this.yDrawOffset = yDrawOffset;
         this.inForeground = inForeground;

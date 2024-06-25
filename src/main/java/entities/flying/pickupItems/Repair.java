@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 
 import entities.Entity;
 import main_classes.Game;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 public class Repair extends Entity implements PickupItem {
     // Repair-health is in constants
@@ -29,7 +29,7 @@ public class Repair extends Entity implements PickupItem {
     }
 
     private void loadAnimations() {
-        BufferedImage img = LoadSave.getFlyImageSprite(LoadSave.REPAIR_SPRITE);
+        BufferedImage img = ResourceLoader.getFlyImageSprite(ResourceLoader.REPAIR_SPRITE);
         this.animations = new BufferedImage[4];
         for (int i = 0; i < animations.length; i++) {
             animations[i] = img.getSubimage(

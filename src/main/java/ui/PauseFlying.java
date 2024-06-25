@@ -15,7 +15,7 @@ import audio.AudioPlayer;
 import gamestates.Gamestate;
 import gamestates.flying.Flying;
 import main_classes.Game;
-import utils.LoadSave;
+import utils.ResourceLoader;
 import utils.Constants.Audio;
 
 public class PauseFlying {
@@ -51,12 +51,12 @@ public class PauseFlying {
     }
 
     private void loadImages() {
-        this.pointerImg = LoadSave.getExpImageSprite(LoadSave.CURSOR_SPRITE_WHITE);
+        this.pointerImg = ResourceLoader.getExpImageSprite(ResourceLoader.CURSOR_SPRITE_WHITE);
     }
 
     private void loadFonts() {
-        this.headerFont = LoadSave.getHeaderFont();
-        this.menuFont = LoadSave.getNameFont();
+        this.headerFont = ResourceLoader.getHeaderFont();
+        this.menuFont = ResourceLoader.getNameFont();
     }
 
     public void update() {

@@ -12,7 +12,7 @@ import misc.ProgressValues;
 import ui.InventoryItem;
 import ui.MechanicOverlay;
 import ui.PauseExploring;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 public class Exploring extends State implements Statemethods {
     private AudioPlayer audioPlayer;
@@ -40,8 +40,8 @@ public class Exploring extends State implements Statemethods {
         this.currentLevel = level;
         this.currentArea = 1;
         this.areas = new ArrayList<>();
-        ArrayList<List<String>> levelData = LoadSave.getExpLevelData(level);
-        ArrayList<List<String>> cutsceneData = LoadSave.getExpCutsceneData(level);
+        ArrayList<List<String>> levelData = ResourceLoader.getExpLevelData(level);
+        ArrayList<List<String>> cutsceneData = ResourceLoader.getExpCutsceneData(level);
         for (int i = 0; i < levelData.size(); i++) {
             Area area = new Area(game, this, audioPlayer, level, i + 1, levelData.get(i), cutsceneData.get(i));
             areas.add(area);

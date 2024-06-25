@@ -11,7 +11,7 @@ import entities.flying.enemies.Enemy;
 import entities.flying.enemies.EnemyManager;
 import main_classes.Game;
 import misc.ProgressValues;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 import static utils.Constants.Flying.SpriteSizes.*;
 import static utils.Constants.Flying.TypeConstants.BLASTERDRONE;
@@ -75,22 +75,22 @@ public class ProjectileHandler {
 
    private void loadImgs() {
       this.plPrjctImgs = new BufferedImage[2];
-      this.plPrjctImgs[0] = LoadSave.getFlyImageSprite(LoadSave.PLAYER_PROJECTILE_BLUE);
-      this.plPrjctImgs[1] = LoadSave.getFlyImageSprite(LoadSave.PLAYER_PROJECTILE_GREEN);
-      this.bombImg = LoadSave.getFlyImageSprite(LoadSave.BOMB_SPRITE);
-      this.dronePrjctImg = LoadSave.getFlyImageSprite(LoadSave.DRONE_PROJECTILE);
-      this.octadronePrjctImg = LoadSave.getFlyImageSprite(LoadSave.OCTADRONE_PROJECTILE);
-      this.reaperdronePrjctImg = LoadSave.getFlyImageSprite(LoadSave.REAPERDRONE_PROJECTILE);
-      this.flamedronePrjctImg = LoadSave.getFlyImageSprite(LoadSave.FLAME_PROJECTILE);
+      this.plPrjctImgs[0] = ResourceLoader.getFlyImageSprite(ResourceLoader.PLAYER_PROJECTILE_BLUE);
+      this.plPrjctImgs[1] = ResourceLoader.getFlyImageSprite(ResourceLoader.PLAYER_PROJECTILE_GREEN);
+      this.bombImg = ResourceLoader.getFlyImageSprite(ResourceLoader.BOMB_SPRITE);
+      this.dronePrjctImg = ResourceLoader.getFlyImageSprite(ResourceLoader.DRONE_PROJECTILE);
+      this.octadronePrjctImg = ResourceLoader.getFlyImageSprite(ResourceLoader.OCTADRONE_PROJECTILE);
+      this.reaperdronePrjctImg = ResourceLoader.getFlyImageSprite(ResourceLoader.REAPERDRONE_PROJECTILE);
+      this.flamedronePrjctImg = ResourceLoader.getFlyImageSprite(ResourceLoader.FLAME_PROJECTILE);
 
       this.hitAnimation = new BufferedImage[4];
-      BufferedImage hitImg = LoadSave.getFlyImageSprite(LoadSave.PROJECTILE_HIT);
+      BufferedImage hitImg = ResourceLoader.getFlyImageSprite(ResourceLoader.PROJECTILE_HIT);
       for (int i = 0; i < hitAnimation.length; i++) {
          hitAnimation[i] = hitImg.getSubimage(
                i * PRJT_HIT_SPRITE_SIZE, 0, PRJT_HIT_SPRITE_SIZE, PRJT_HIT_SPRITE_SIZE);
       }
       this.bombExplosionAnimation = new BufferedImage[11];
-      BufferedImage explosionImg = LoadSave.getFlyImageSprite(LoadSave.BOMB_EXPLOSION_SPRITE);
+      BufferedImage explosionImg = ResourceLoader.getFlyImageSprite(ResourceLoader.BOMB_EXPLOSION_SPRITE);
       for (int i = 0; i < bombExplosionAnimation.length; i++) {
          bombExplosionAnimation[i] = explosionImg.getSubimage(
                i * BOMBEXPLOSION_SPRITE_WIDTH, 0, BOMBEXPLOSION_SPRITE_WIDTH, BOMBEXPLOSION_SPRITE_HEIGHT);

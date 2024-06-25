@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import main_classes.Game;
 import utils.Constants.Audio;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 /**
  * LevelLayout1 will always be displayed if the player is on his first playthrough. 
@@ -20,7 +20,7 @@ public class LevelLayout1 extends DefaultLevelLayout {
       super(game);
       this.levelsInCurrentPath = new ArrayList<>();
       this.levelSlots = new ArrayList<>();
-      this.layoutImg = LoadSave.getExpImageBackground(LoadSave.LEVEL_SELECT_LAYOUT1);
+      this.layoutImg = ResourceLoader.getExpImageBackground(ResourceLoader.LEVEL_SELECT_LAYOUT1);
       this.layoutY = 360;
       this.layoutH = 45;
       this.loadSlots();
@@ -78,8 +78,9 @@ public class LevelLayout1 extends DefaultLevelLayout {
 
    @Override
    public void setUnlocked(int level, LevelInfo levelInfo, BufferedImage levelIcon) {
-      super.setUnlocked(level, levelInfo, levelIcon);
       this.levelsInCurrentPath.add(level);
+      int slotToUnlock = levelsInCurrentPath.size();
+      super.setUnlocked(slotToUnlock, levelInfo, levelIcon);
    }
    
 }

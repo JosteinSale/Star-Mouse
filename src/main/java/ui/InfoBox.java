@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import main_classes.Game;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 public class InfoBox {
     private Font infoFont;
@@ -19,8 +19,8 @@ public class InfoBox {
     private int Y = (int) (580 * Game.SCALE);
 
     public InfoBox() {
-        infoBoxImg = LoadSave.getExpImageSprite(LoadSave.INFO_BOX);
-        infoFont = LoadSave.getInfoFont();
+        infoBoxImg = ResourceLoader.getExpImageSprite(ResourceLoader.INFO_BOX);
+        infoFont = ResourceLoader.getInfoFont();
         this.formattedStrings = new ArrayList<>();
     }
 

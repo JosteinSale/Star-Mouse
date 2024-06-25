@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 
 import entities.Entity;
 import main_classes.Game;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 public class Oliver extends Entity implements NPC {
     private String name = "Oliver";
@@ -47,7 +47,7 @@ public class Oliver extends Entity implements NPC {
     }
 
     private void loadSprites() {
-        BufferedImage img = LoadSave.getExpImageSprite(LoadSave.OLIVER_SPRITES);
+        BufferedImage img = ResourceLoader.getExpImageSprite(ResourceLoader.OLIVER_SPRITES);
         oliverSprites = new BufferedImage[6][4];
         for (int j = 0; j < oliverSprites.length; j++) {
             for (int i = 0; i < oliverSprites[j].length; i++) {

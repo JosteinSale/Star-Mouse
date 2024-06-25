@@ -21,7 +21,7 @@ import gamestates.Gamestate;
 import gamestates.Statemethods;
 import main_classes.Game;
 import misc.ProgressValues;
-import utils.LoadSave;
+import utils.ResourceLoader;
 import utils.Constants.Audio;
 
 public class PauseExploring implements Statemethods {
@@ -102,16 +102,16 @@ public class PauseExploring implements Statemethods {
     }
 
     private void loadImages() {
-        this.itemBoxImg = LoadSave.getExpImageSprite(LoadSave.ITEM_BOX);
-        this.pointerImg = LoadSave.getExpImageSprite(LoadSave.CURSOR_SPRITE_WHITE);
-        this.itemSelectedImg = LoadSave.getExpImageSprite(LoadSave.ITEM_SELECTED);
+        this.itemBoxImg = ResourceLoader.getExpImageSprite(ResourceLoader.ITEM_BOX);
+        this.pointerImg = ResourceLoader.getExpImageSprite(ResourceLoader.CURSOR_SPRITE_WHITE);
+        this.itemSelectedImg = ResourceLoader.getExpImageSprite(ResourceLoader.ITEM_SELECTED);
     }
 
     private void loadFonts() {
-        this.headerFont = LoadSave.getHeaderFont();
-        this.menuFont = LoadSave.getNameFont();
-        this.infoFont = LoadSave.getInfoFont();
-        this.itemFont = LoadSave.getItemFont();
+        this.headerFont = ResourceLoader.getHeaderFont();
+        this.menuFont = ResourceLoader.getNameFont();
+        this.infoFont = ResourceLoader.getInfoFont();
+        this.itemFont = ResourceLoader.getItemFont();
     }
 
     @Override

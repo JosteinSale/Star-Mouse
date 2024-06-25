@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import main_classes.Game;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 public class StatusDisplay {
     private BufferedImage bombImg;
@@ -36,14 +36,14 @@ public class StatusDisplay {
     private int HPbarCurW;
 
     public StatusDisplay() {
-        this.bombImg = LoadSave.getFlyImageSprite(LoadSave.BOMB_SPRITE);
-        this.enemyCounterImg = LoadSave.getFlyImageSprite(LoadSave.ENEMYCOUNTER_SPRITE);
+        this.bombImg = ResourceLoader.getFlyImageSprite(ResourceLoader.BOMB_SPRITE);
+        this.enemyCounterImg = ResourceLoader.getFlyImageSprite(ResourceLoader.ENEMYCOUNTER_SPRITE);
         this.bombW = bombImg.getWidth() * 2;
         this.bombH = bombImg.getHeight() * 2;
         this.enemyCounterW = enemyCounterImg.getWidth() * 2;
         this.enemyCounterH = enemyCounterImg.getHeight() * 2;
 
-        this.font = LoadSave.getInfoFont();
+        this.font = ResourceLoader.getInfoFont();
         this.HPbarCurW = (int) (((float) HP / maxHP) * HPbarMaxW);
     }
 

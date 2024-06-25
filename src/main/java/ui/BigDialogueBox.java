@@ -16,7 +16,7 @@ import java.util.Random;
 import audio.AudioPlayer;
 import main_classes.Game;
 import utils.HelpMethods;
-import utils.LoadSave;
+import utils.ResourceLoader;
 import utils.Constants.Audio;
 
 public class BigDialogueBox {
@@ -48,9 +48,9 @@ public class BigDialogueBox {
     public BigDialogueBox(Game game) {
         this.audioPlayer = game.getAudioPlayer();
         this.rand = new Random();
-        dialogueBoxImg = LoadSave.getExpImageSprite(LoadSave.DIALOGUE_BOX);
-        dialogueFont = LoadSave.getInfoFont();
-        nameFont = LoadSave.getNameFont();
+        dialogueBoxImg = ResourceLoader.getExpImageSprite(ResourceLoader.DIALOGUE_BOX);
+        dialogueFont = ResourceLoader.getInfoFont();
+        nameFont = ResourceLoader.getNameFont();
         this.breakPoints = new ArrayList<>();
         this.formattedStrings = new ArrayList<>();
         this.portraits = BigDialogueBox.getAllPortraits();
@@ -63,18 +63,18 @@ public class BigDialogueBox {
         int maxAmountOfPortraits = 12;
         int nrOfCharacters = nrOfSpecialCharacters + nrOfNpcs;
         portraits = new BufferedImage[nrOfCharacters][maxAmountOfPortraits];
-        portraits[0] = getPortraits(LoadSave.MAX_PORTRAITS, 12, 0);
-        portraits[1] = getPortraits(LoadSave.OLIVER_PORTRAITS, 9, 0);
-        portraits[2] = getPortraits(LoadSave.LT_RED_PORTRAITS, 5, 0);
-        portraits[3] = getPortraits(LoadSave.RUDINGER_PORTRAITS, 7, 0);
+        portraits[0] = getPortraits(ResourceLoader.MAX_PORTRAITS, 12, 0);
+        portraits[1] = getPortraits(ResourceLoader.OLIVER_PORTRAITS, 9, 0);
+        portraits[2] = getPortraits(ResourceLoader.LT_RED_PORTRAITS, 5, 0);
+        portraits[3] = getPortraits(ResourceLoader.RUDINGER_PORTRAITS, 7, 0);
         for (int i = 0; i < nrOfNpcs; i++) {
-            portraits[i + nrOfSpecialCharacters] = getPortraits(LoadSave.NPC_PORTRAITS, 4, i);
+            portraits[i + nrOfSpecialCharacters] = getPortraits(ResourceLoader.NPC_PORTRAITS, 4, i);
         }
         return portraits;
     }
 
     private static BufferedImage[] getPortraits(String portraitName, int length, int rowIndex) {
-        BufferedImage img = LoadSave.getExpImageSprite(portraitName);
+        BufferedImage img = ResourceLoader.getExpImageSprite(portraitName);
         BufferedImage[] portraits = new BufferedImage[length];
         for (int i = 0; i < portraits.length; i++) { 
             portraits[i] = img.getSubimage(

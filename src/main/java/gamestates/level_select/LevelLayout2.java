@@ -1,10 +1,8 @@
 package gamestates.level_select;
 
-import java.util.ArrayList;
-
 import main_classes.Game;
 import utils.Constants.Audio;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 /**
  * If the player is on his second playthrough, and path 3 is not unlocked, 
@@ -16,8 +14,7 @@ public class LevelLayout2 extends DefaultLevelLayout {
 
    public LevelLayout2(Game game) {
       super(game);
-      this.levelSlots = new ArrayList<>();
-      this.layoutImg = LoadSave.getExpImageBackground(LoadSave.LEVEL_SELECT_LAYOUT2);
+      this.layoutImg = ResourceLoader.getExpImageBackground(ResourceLoader.LEVEL_SELECT_LAYOUT2);
       this.layoutY = 217;
       this.layoutH = 333;
       this.loadSlots();
@@ -50,49 +47,58 @@ public class LevelLayout2 extends DefaultLevelLayout {
    }
 
    private void handleKeyBoardInputs() {
-      if (game.interactIsPressed) {
-         handleInteractPressed();
+      if (game.interactIsPressed) {handleInteractPressed();}
+      else if (game.rightIsPressed) {this.handleRightPressed();}
+      else if (game.leftIsPressed) {this.handleLeftPressed();}
+      else if (game.downIsPressed) {this.handleDownPressed();}
+      else if (game.upIsPressed) {this.handleUpPressed();}
+   }
+
+   private void handleUpPressed() {
+      game.upIsPressed = false;
+      audioPlayer.playSFX(Audio.SFX_CURSOR);
+      if (selectedIndex == 0) {
+         // If at first level, go up to path 2.
+         selectedIndex = 5;
       }
-      else if (game.rightIsPressed) {
-         game.rightIsPressed = false;
-         audioPlayer.playSFX(Audio.SFX_CURSOR);
-         if (selectedIndex < 8 && selectedIndex != 4) {
-            // If not at the end of either paths: go right.
-            selectedIndex ++;
-         }
+      else if (selectedIndex < 5) {
+         // If at path 1, go up to path 2.
+         selectedIndex += 4;
+      } 
+   }
+
+   private void handleDownPressed() {
+      game.downIsPressed = false;
+      audioPlayer.playSFX(Audio.SFX_CURSOR);
+      if (selectedIndex == 0) {
+         // If at first level, go down to path 1.
+         selectedIndex = 1;
       }
-      else if (game.leftIsPressed) {
-         game.leftIsPressed = false;
-         audioPlayer.playSFX(Audio.SFX_CURSOR);
-         if (selectedIndex == 5) {
-            // If at the start of path 2, go left to level 1.
-            selectedIndex = 0;
-         }
-         else if (selectedIndex > 0) {
-            selectedIndex--;
-         }
+      else if (selectedIndex > 4) {
+         // If at path 2, go down to path 1.
+         selectedIndex -= 4;
+      } 
+   }
+
+   private void handleLeftPressed() {
+      game.leftIsPressed = false;
+      audioPlayer.playSFX(Audio.SFX_CURSOR);
+      if (selectedIndex == 5) {
+         // If at the start of path 2, go left to level 1.
+         selectedIndex = 0;
+      } 
+      else if (selectedIndex > 0) {
+         // If not at the first level, go left.
+         selectedIndex--;
       }
-      else if (game.downIsPressed) {
-         game.downIsPressed = false;
-         audioPlayer.playSFX(Audio.SFX_CURSOR);
-         if (selectedIndex > 4) {
-            selectedIndex -= 4;
-         }
-         else if (selectedIndex == 0) {
-            // If at first level, go down to path 1.
-            selectedIndex = 1;
-         }
-      }
-      else if (game.upIsPressed) {
-         game.upIsPressed = false;
-         audioPlayer.playSFX(Audio.SFX_CURSOR);
-         if (selectedIndex < 5 && selectedIndex != 0) {
-            selectedIndex += 4;
-         }
-         else if (selectedIndex == 0) {
-            // If at first level, go up to path 2.
-            selectedIndex = 5;
-         }
+   }
+
+   private void handleRightPressed() {
+      game.rightIsPressed = false;
+      audioPlayer.playSFX(Audio.SFX_CURSOR);
+      if (selectedIndex < 8 && selectedIndex != 4) {
+         // If not at the end of either paths: go right.
+         selectedIndex++;
       }
    }
 

@@ -12,7 +12,7 @@ import gamestates.State;
 import gamestates.Statemethods;
 import main_classes.Game;
 import misc.ProgressValues;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 /** OBS: we should probably wait with implementing more logic until we have more paths. 
  * 
@@ -26,13 +26,7 @@ public class LevelSelect extends State implements Statemethods {
     private ArrayList<ILevelLayout> levelLayouts;
     private BufferedImage[] levelIcons;
     private ArrayList<LevelInfo> levelInfo;
-    private int currentLayout = 1;
     private int levelToEnter = 1;    // This is altered from the current layout.
-    private boolean[] unlockedLevels = {   // For now this is a 1D-array, but we might make it a 2D-array.
-        true, false, false, false, false,  // Path 1
-             false, false, false, false,   // Path 2
-             false, false, false, false    // Path 3
-        };
     
     private float bgX = -50;
     private int bgSlideDir = 1;
@@ -50,7 +44,7 @@ public class LevelSelect extends State implements Statemethods {
         this.levelLayouts = new ArrayList<>();
         this.levelIcons = loadLevelIcons();
         this.levelInfo = new ArrayList<>(); 
-        bgImg = LoadSave.getExpImageBackground(LoadSave.LEVEL_SELECT_BG);
+        bgImg = ResourceLoader.getExpImageBackground(ResourceLoader.LEVEL_SELECT_BG);
         loadLevelInfo();
         loadLevelLayouts();
     }
@@ -79,7 +73,7 @@ public class LevelSelect extends State implements Statemethods {
 
     private BufferedImage[] loadLevelIcons() {
         BufferedImage[] images = new BufferedImage[13];
-        BufferedImage img = LoadSave.getExpImageSprite(LoadSave.LEVEL_ICONS);
+        BufferedImage img = ResourceLoader.getExpImageSprite(ResourceLoader.LEVEL_ICONS);
         for (int i = 0; i < 13; i++) {
             images[i] = img.getSubimage(
                     i * LEVEL_ICON_SIZE, 0, 
@@ -98,7 +92,7 @@ public class LevelSelect extends State implements Statemethods {
             updateFadeOut();
         }
         else {
-            levelLayouts.get(currentLayout - 1).update();
+            levelLayouts.get(progValues.levelLayout - 1).update();
         }
     }
 
@@ -117,9 +111,10 @@ public class LevelSelect extends State implements Statemethods {
         this.unlockLevel(levelToUnlock);
     }
 
+    /** Unlocks the level in the current layout */
     private void unlockLevel(int levelToUnlock) {
-        this.unlockedLevels[levelToUnlock - 1] = true;
-        levelLayouts.get(currentLayout - 1).setUnlocked(
+        progValues.unlockedLevels[levelToUnlock - 1] = true;
+        levelLayouts.get(progValues.levelLayout - 1).setUnlocked(
             levelToUnlock, 
             levelInfo.get(levelToUnlock - 1),
             levelIcons[levelToUnlock - 1]);
@@ -162,7 +157,6 @@ public class LevelSelect extends State implements Statemethods {
             };
             levelToUnlock = lvl.getNext(hasEnoughKills);
         }
-        // 4. Unlocking the correct level
         return levelToUnlock;
     }
 
@@ -172,18 +166,34 @@ public class LevelSelect extends State implements Statemethods {
      * Then it calculates which level-layout the player should see.
      */
     private void checkIfNewLayout() {
+        int oldLayout = progValues.levelLayout;
+
         if ((!progValues.firstPlayThrough) && 
             (progValues.path3Unlocked || progValues.hasEnding3 || progValues.hasEnding2)) {
-            currentLayout = 3;
+            progValues.levelLayout = 3;
         } else if (progValues.hasEnding1) {
-            currentLayout = 2;
+            progValues.levelLayout = 2;
         } else {
-            currentLayout = 1;
+            progValues.levelLayout = 1;
+        }
+
+        // If we have changed the layout, we need to transfer the unlocked levels
+        if (progValues.levelLayout != oldLayout) {
+            this.transferUnlockedLevelsToLayout(progValues.levelLayout);
+        }
+    }
+
+    private void transferUnlockedLevelsToLayout(int layout) {
+        // Loop through all unlocked levels, and unlock the corresponding level.
+        for (int i = 0; i < progValues.unlockedLevels.length; i++) {
+            if (progValues.unlockedLevels[i] == true) {
+                this.unlockLevel(i + 1);
+            }
         }
     }
 
     public boolean canGoToLevel(int level) {
-        return unlockedLevels[level -1 ];
+        return progValues.unlockedLevels[level -1 ];
     }
 
     public void goToLevel(int level) {
@@ -224,9 +234,11 @@ public class LevelSelect extends State implements Statemethods {
     }
 
     /** Testing method: Unlocks all the levels up to the given level, 
-     * in both this object and the current LevelSelect-layout. 
-     * Doesn't affect the progress-values. */
+     * in both this object and the relevant LevelSelect-layout. 
+     * Also affects progValues.levelLayout. */
     public void unlockAllLevelsUpTo(int level) {
+        if (level >= 10) {progValues.levelLayout = 3;}
+        else if (level > 5) {progValues.levelLayout = 2;}
         for (int i = 0; i < level; i++) {
             this.unlockLevel(i + 1);
         }
@@ -235,7 +247,7 @@ public class LevelSelect extends State implements Statemethods {
     @Override
     public void draw(Graphics g) {
         g.drawImage(bgImg, (int) bgX, 0, Game.GAME_WIDTH + 50, Game.GAME_HEIGHT + 50, null);
-        levelLayouts.get(currentLayout - 1).draw(g);
+        levelLayouts.get(progValues.levelLayout - 1).draw(g);
 
         g.setColor(new Color(0, 0, 0, alphaFade));
         g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);

@@ -8,7 +8,7 @@ import cutscenes.FellowShip;
 import game_events.FellowShipEvent;
 import game_events.GeneralEvent;
 import gamestates.Gamestate;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 public class FellowShipEffect implements UpdatableEffect, DrawableEffect {
    private boolean active;
@@ -16,7 +16,7 @@ public class FellowShipEffect implements UpdatableEffect, DrawableEffect {
    private ArrayList<FellowShip> fellowShips;
 
    public FellowShipEffect() {
-      this.shipImg = LoadSave.getFlyImageSprite(LoadSave.FELLOWSHIP_SPRITES);
+      this.shipImg = ResourceLoader.getFlyImageSprite(ResourceLoader.FELLOWSHIP_SPRITES);
       this.fellowShips = new ArrayList<>();
    }
 

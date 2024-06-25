@@ -56,6 +56,10 @@ public class Game implements Runnable {
     public boolean bombIsPressed = false;
     public boolean pauseIsPressed = false;
 
+    // These are modified from the Main Menu
+    public int currentSaveFile = 1;
+    public boolean testingMode = false;
+
     public Game() {
         initClasses();
         this.gamePanel = new GamePanel(this);

@@ -16,7 +16,7 @@ import gamestates.Gamestate;
 import gamestates.boss_mode.BossMode;
 import gamestates.flying.Flying;
 import main_classes.Game;
-import utils.LoadSave;
+import utils.ResourceLoader;
 import utils.Constants.Audio;
 
 /** For use in BossMode.
@@ -62,9 +62,9 @@ public class GameoverOverlay2 {
    }
 
    private void loadImages() {
-      this.pointerImg = LoadSave.getExpImageSprite(LoadSave.CURSOR_SPRITE_WHITE);
+      this.pointerImg = ResourceLoader.getExpImageSprite(ResourceLoader.CURSOR_SPRITE_WHITE);
 
-      BufferedImage deathImg = LoadSave.getFlyImageSprite(LoadSave.SHIP_DEATH_SPRITES);
+      BufferedImage deathImg = ResourceLoader.getFlyImageSprite(ResourceLoader.SHIP_DEATH_SPRITES);
       this.deathAnimation = new BufferedImage[26];
       for (int i = 0; i < deathAnimation.length; i++) {
          deathAnimation[i] = deathImg.getSubimage(
@@ -73,8 +73,8 @@ public class GameoverOverlay2 {
    }
 
    private void loadFonts() {
-      this.headerFont = LoadSave.getHeaderFont();
-      this.menuFont = LoadSave.getNameFont();
+      this.headerFont = ResourceLoader.getHeaderFont();
+      this.menuFont = ResourceLoader.getNameFont();
    }
 
    public void setPlayerPos(float x, float y) {

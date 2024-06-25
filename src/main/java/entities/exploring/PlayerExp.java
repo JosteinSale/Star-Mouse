@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import entities.Entity;
 import main_classes.Game;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 public class PlayerExp extends Entity {
     Game game;
@@ -49,7 +49,7 @@ public class PlayerExp extends Entity {
     }
 
     private void loadSprites() {
-        BufferedImage image = LoadSave.getExpImageSprite(LoadSave.PLAYER_EXP_SPRITES);
+        BufferedImage image = ResourceLoader.getExpImageSprite(ResourceLoader.PLAYER_EXP_SPRITES);
         BufferedImage[][] normalSprites = new BufferedImage[6][4];
         for (int j = 0; j < normalSprites.length; j++) {
             for (int i = 0; i < normalSprites[j].length; i++) {
@@ -61,7 +61,7 @@ public class PlayerExp extends Entity {
         }
         playerSprites.add(normalSprites);
         
-        BufferedImage image2 = LoadSave.getExpImageSprite(LoadSave.PLAYER_EXP_SPRITES_NAKED);
+        BufferedImage image2 = ResourceLoader.getExpImageSprite(ResourceLoader.PLAYER_EXP_SPRITES_NAKED);
         BufferedImage[][] nakedSprites = new BufferedImage[5][4];
         for (int j = 0; j < nakedSprites.length; j++) {
             for (int i = 0; i < nakedSprites[j].length; i++) {

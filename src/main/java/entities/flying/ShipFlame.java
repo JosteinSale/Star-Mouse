@@ -7,7 +7,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import main_classes.Game;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 public class ShipFlame {
     private BufferedImage[] animations;
@@ -20,7 +20,7 @@ public class ShipFlame {
     }
 
     private void loadAnimations() {
-        BufferedImage img = LoadSave.getFlyImageSprite(LoadSave.SHIP_FLAME_SPRITES);
+        BufferedImage img = ResourceLoader.getFlyImageSprite(ResourceLoader.SHIP_FLAME_SPRITES);
         this.animations = new BufferedImage[2];
         for (int i = 0; i < animations.length; i++) {
             animations[i] = img.getSubimage(

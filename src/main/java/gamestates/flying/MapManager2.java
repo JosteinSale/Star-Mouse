@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import main_classes.Game;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 import java.awt.Image;
 
@@ -31,12 +31,12 @@ public class MapManager2 {
 
    private void loadMapAndOffsets(int lvl, int bgImgHeight) {
       this.yProgess = 0;
-      this.clImg = LoadSave.getFlyImageCollision("level" + Integer.toString(lvl) + "_cl.png");
+      this.clImg = ResourceLoader.getFlyImageCollision("level" + Integer.toString(lvl) + "_cl.png");
       this.clImgHeight = clImg.getHeight() * 3;
       this.clImgWidth = clImg.getWidth() * 3;
       this.clYOffset = Game.GAME_DEFAULT_HEIGHT - clImgHeight + 150;
       this.clXOffset = 150;
-      BufferedImage bgImg = LoadSave.getFlyImageBackground("level" + Integer.toString(lvl) + "_bg.png");
+      BufferedImage bgImg = ResourceLoader.getFlyImageBackground("level" + Integer.toString(lvl) + "_bg.png");
       this.bgYOffset = Game.GAME_DEFAULT_HEIGHT - bgImgHeight;
       scaledClImg = clImg.getScaledInstance(
          (int) (clImgWidth * Game.SCALE),

@@ -23,7 +23,7 @@ import javax.imageio.ImageIO;
 import main_classes.Game;
 
 
-public class LoadSave {
+public class ResourceLoader {
     // Menus
     public static final String BASIC_MOUSE = "BasicMouse.png";
     public static final String MAIN_MENU_TITLE = "main_menu_title.png";
@@ -163,7 +163,7 @@ public class LoadSave {
 
     private static BufferedImage getImage(String fileName) {
         BufferedImage image = null;
-        InputStream is = LoadSave.class.getResourceAsStream(fileName);
+        InputStream is = ResourceLoader.class.getResourceAsStream(fileName);
         try {
             image = ImageIO.read(is);
         } catch (IOException e) {
@@ -210,7 +210,7 @@ public class LoadSave {
 
     private static Font getFont(String fileName, float size) {
         Font font = null;
-        InputStream is = LoadSave.class.getResourceAsStream(fileName);
+        InputStream is = ResourceLoader.class.getResourceAsStream(fileName);
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(size);
         } catch (FontFormatException | IOException e) {

@@ -8,7 +8,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import main_classes.Game;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 public class InfoChoice {
     private Font infoFont;
@@ -27,9 +27,9 @@ public class InfoChoice {
     private int Y = (int) (580 * Game.SCALE);
 
     public InfoChoice() {
-        infoBoxImg = LoadSave.getExpImageSprite(LoadSave.INFO_BOX);
-        infoFont = LoadSave.getInfoFont();
-        this.cursor = LoadSave.getExpImageSprite(LoadSave.CURSOR_SPRITE_BLACK);
+        infoBoxImg = ResourceLoader.getExpImageSprite(ResourceLoader.INFO_BOX);
+        infoFont = ResourceLoader.getInfoFont();
+        this.cursor = ResourceLoader.getExpImageSprite(ResourceLoader.CURSOR_SPRITE_BLACK);
         this.cursorX = X + (int) (80 * Game.SCALE);
         this.cursorY = Y + (int) (90 * Game.SCALE);
         this.cursorW = (int) (CURSOR_WIDTH * 0.6f * Game.SCALE);

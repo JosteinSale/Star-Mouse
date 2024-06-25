@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 import cutscenes.effects.SimpleAnimation;
 import utils.HelpMethods2;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 public class SimpleAnimationFactory {
    // Filenames
@@ -31,19 +31,19 @@ public class SimpleAnimationFactory {
    
    private void loadImages() {
       rowOfDrones = HelpMethods2.GetSimpleAnimationArray(
-         LoadSave.getCutsceneImage(ROW_OF_DRONES), 1, 170, 29);
+         ResourceLoader.getCutsceneImage(ROW_OF_DRONES), 1, 170, 29);
       rudingerShip = HelpMethods2.GetSimpleAnimationArray(
-         LoadSave.getCutsceneImage(RUDINGER_SHIP), 2, 50, 50);
+         ResourceLoader.getCutsceneImage(RUDINGER_SHIP), 2, 50, 50);
       rudinger1Idle = HelpMethods2.GetSimpleAnimationArray(
-         LoadSave.getCutsceneImage(RUDINGER1_IDLE), 2, 343, 147);
+         ResourceLoader.getCutsceneImage(RUDINGER1_IDLE), 2, 343, 147);
       rudinger1Death = HelpMethods2.GetSimpleAnimationArray(
-         LoadSave.getCutsceneImage(RUDINGER1_DEATH), 2, 343, 147);
+         ResourceLoader.getCutsceneImage(RUDINGER1_DEATH), 2, 343, 147);
       loopingExlposion = HelpMethods2.GetSimpleAnimationArray(
-         LoadSave.getCutsceneImage(LOOPING_EXPLOSION), 10, 40, 40);
+         ResourceLoader.getCutsceneImage(LOOPING_EXPLOSION), 10, 40, 40);
       rowOfFlameDrones = HelpMethods2.GetSimpleAnimationArray(
-         LoadSave.getCutsceneImage(ROW_OF_FLAME_DRONES), 1, 350, 110);
+         ResourceLoader.getCutsceneImage(ROW_OF_FLAME_DRONES), 1, 350, 110);
       playerShip = HelpMethods2.GetSimpleAnimationArray(
-         LoadSave.getCutsceneImage(PLAYER_SHIP), 2, 30, 50);
+         ResourceLoader.getCutsceneImage(PLAYER_SHIP), 2, 30, 50);
    }
 
    public SimpleAnimation getAnimation(String name, float xPos, float yPos) {

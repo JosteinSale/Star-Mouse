@@ -36,7 +36,7 @@ import ui.OptionsMenu;
 import ui.PauseFlying;
 import ui.TextboxManager2;
 import utils.Constants.Audio;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 public class Flying extends State implements Statemethods {
 
@@ -107,7 +107,7 @@ public class Flying extends State implements Statemethods {
    private void loadPickupItems(Integer level) {
       pickupItems.clear();
       automaticTriggers.clear();
-      List<String> levelData = LoadSave.getFlyLevelData(level);
+      List<String> levelData = ResourceLoader.getFlyLevelData(level);
       for (String line : levelData) {
          String[] lineData = line.split(";");
          if (lineData[0].equals("automaticTrigger")) {
@@ -130,7 +130,7 @@ public class Flying extends State implements Statemethods {
 
    private void loadCutscenes(Integer level) {
       this.cutsceneManager.clear();
-      List<String> cutsceneData = LoadSave.getFlyCutsceneData(level);
+      List<String> cutsceneData = ResourceLoader.getFlyCutsceneData(level);
       ArrayList<ArrayList<Cutscene>> cutscenes = GetCutscenes(cutsceneData);
       for (ArrayList<Cutscene> cutscenesForTrigger : cutscenes) {
          cutsceneManager.addCutscene(cutscenesForTrigger);

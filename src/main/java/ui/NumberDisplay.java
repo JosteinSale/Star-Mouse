@@ -12,7 +12,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import main_classes.Game;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 public class NumberDisplay {
     private Game game;
@@ -29,11 +29,11 @@ public class NumberDisplay {
 
     public NumberDisplay(Game game) {
         this.game = game;
-        this.bgImg = LoadSave.getExpImageSprite(LoadSave.NUMBER_DISPLAY);
-        this.selectedNrImg = LoadSave.getExpImageSprite(LoadSave.NUMBER_SELECT);
+        this.bgImg = ResourceLoader.getExpImageSprite(ResourceLoader.NUMBER_DISPLAY);
+        this.selectedNrImg = ResourceLoader.getExpImageSprite(ResourceLoader.NUMBER_SELECT);
         calcDrawValues();
         this.fadeColor = new Color(0, 0, 0, 150);
-        this.numberFont = LoadSave.getHeaderFont();
+        this.numberFont = ResourceLoader.getHeaderFont();
     }
 
     private void calcDrawValues() {

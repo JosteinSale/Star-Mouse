@@ -27,9 +27,6 @@ public interface IBoss {
    /** Resets the boss's HP, actions and actionIndex */
    public void reset();
 
-   /** Instantly kills the boss, allowing the player to progress to the next segment */
-   public void skipBoss();
-
    /** Sets the visbility-status of the boss. Can be called from the cutsceneManger */
    public void setVisible(boolean visible);
 

@@ -14,7 +14,7 @@ import java.awt.image.BufferedImage;
 import audio.AudioPlayer;
 import inputs.KeyboardInputs;
 import main_classes.Game;
-import utils.LoadSave;
+import utils.ResourceLoader;
 import utils.Constants.Audio;
 
 public class ControlsMenu {
@@ -69,13 +69,13 @@ public class ControlsMenu {
    }
 
    private void loadImages() {
-      this.pointerImg = LoadSave.getExpImageSprite(LoadSave.CURSOR_SPRITE_WHITE);
-      this.selectImg = LoadSave.getExpImageSprite(LoadSave.KEY_SELECT);
+      this.pointerImg = ResourceLoader.getExpImageSprite(ResourceLoader.CURSOR_SPRITE_WHITE);
+      this.selectImg = ResourceLoader.getExpImageSprite(ResourceLoader.KEY_SELECT);
    }
 
    private void loadFonts() {
-      this.headerFont = LoadSave.getHeaderFont();
-      this.menuFont = LoadSave.getInfoFont();
+      this.headerFont = ResourceLoader.getHeaderFont();
+      this.menuFont = ResourceLoader.getInfoFont();
    }
 
    public void update() {

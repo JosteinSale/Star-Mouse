@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import audio.AudioPlayer;
 import main_classes.Game;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 public abstract class DefaultLevelLayout implements ILevelLayout {
    protected Game game;
@@ -25,8 +25,8 @@ public abstract class DefaultLevelLayout implements ILevelLayout {
    public DefaultLevelLayout(Game game) {
       this.game = game;
       this.audioPlayer = game.getAudioPlayer();
-      this.cursorBox = LoadSave.getExpImageSprite(LoadSave.LEVEL_SELECT_BOX);
-      this.font = LoadSave.getMenuFont();
+      this.cursorBox = ResourceLoader.getExpImageSprite(ResourceLoader.LEVEL_SELECT_BOX);
+      this.font = ResourceLoader.getMenuFont();
       this.levelSlots = new ArrayList<>();
    }
 

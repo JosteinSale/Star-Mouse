@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 
 import entities.Entity;
 import main_classes.Game;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 public class Powerup extends Entity implements PickupItem {
     private BufferedImage[] animations;
@@ -29,7 +29,7 @@ public class Powerup extends Entity implements PickupItem {
     }
 
     private void loadAnimations() {
-        BufferedImage img = LoadSave.getFlyImageSprite(LoadSave.POWERUP_SPRITE);
+        BufferedImage img = ResourceLoader.getFlyImageSprite(ResourceLoader.POWERUP_SPRITE);
         this.animations = new BufferedImage[7];
         for (int i = 0; i < animations.length; i++) {
             animations[i] = img.getSubimage(

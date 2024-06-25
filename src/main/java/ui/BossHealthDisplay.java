@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import main_classes.Game;
-import utils.LoadSave;
+import utils.ResourceLoader;
 import static utils.HelpMethods.DrawCenteredString;
 
 public class BossHealthDisplay {
@@ -31,7 +31,7 @@ public class BossHealthDisplay {
    private int blinkFrames = 20;
 
    public BossHealthDisplay(String bossName, int maxHP) {
-      this.font = LoadSave.getInfoFont();
+      this.font = ResourceLoader.getInfoFont();
       this.bossName = bossName;
       this.maxHP = maxHP;
       this.HP = maxHP;

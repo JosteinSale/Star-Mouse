@@ -15,7 +15,7 @@ import audio.AudioPlayer;
 import gamestates.Gamestate;
 import gamestates.boss_mode.BossMode;
 import main_classes.Game;
-import utils.LoadSave;
+import utils.ResourceLoader;
 import utils.Constants.Audio;
 
 public class PauseBoss {
@@ -30,8 +30,8 @@ public class PauseBoss {
    private final int CONTINUE = 0;
    private final int OPTIONS = 1;
    private final int MAIN_MENU = 2;
-   private final int SKIP_BOSS = 3;
-   private String[] menuOptions = { "Continue", "Options", "Main Menu", "Skip Boss"};
+   private final int SKIP_LEVEL = 3;
+   private String[] menuOptions = { "Continue", "Options", "Main Menu", "Skip Level"};
    private BufferedImage pointerImg;
    private int selectedIndex = 0;
 
@@ -51,12 +51,12 @@ public class PauseBoss {
    }
 
    private void loadImages() {
-      this.pointerImg = LoadSave.getExpImageSprite(LoadSave.CURSOR_SPRITE_WHITE);
+      this.pointerImg = ResourceLoader.getExpImageSprite(ResourceLoader.CURSOR_SPRITE_WHITE);
    }
 
    private void loadFonts() {
-      this.headerFont = LoadSave.getHeaderFont();
-      this.menuFont = LoadSave.getNameFont();
+      this.headerFont = ResourceLoader.getHeaderFont();
+      this.menuFont = ResourceLoader.getNameFont();
    }
 
    public void update() {
@@ -90,10 +90,10 @@ public class PauseBoss {
             bossMode.resetBossMode();
             game.resetMainMenu();
             Gamestate.state = Gamestate.MAIN_MENU;
-         } else if (selectedIndex == SKIP_BOSS) {
+         } else if (selectedIndex == SKIP_LEVEL) {
             bossMode.flipPause();
             audioPlayer.flipAudioOnOff();
-            bossMode.skipBoss();
+            bossMode.skipBossMode();
          }
       }
    }

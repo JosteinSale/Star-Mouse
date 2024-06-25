@@ -11,7 +11,7 @@ import entities.bossmode.PlayerBoss;
 import entities.flying.enemies.EnemyManager;
 import main_classes.Game;
 import utils.Constants.Audio;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 import static utils.Constants.Flying.TypeConstants.BOMB_PROJECTILE;
 import static utils.Constants.Flying.TypeConstants.BOSS_PROJECTILE1;
@@ -46,14 +46,14 @@ public class ProjectileHandler2 extends ProjectileHandler {
    }
 
    private void loadImages() {
-      this.bossPrjctImg1 = LoadSave.getBossSprite("bossProjectile1.png");
+      this.bossPrjctImg1 = ResourceLoader.getBossSprite("bossProjectile1.png");
    }
 
    // Should be called whenever a new boss is loaded.
    public void setBoss(int nr, IBoss boss) {
       this.boss = boss;
       this.bossParts = boss.getBossParts();
-      this.clImg = LoadSave.getBossSprite("boss" + Integer.toString(nr) + "_cl.png");
+      this.clImg = ResourceLoader.getBossSprite("boss" + Integer.toString(nr) + "_cl.png");
       this.setBombs(game.getExploring().getProgressValues().getBombs());
    }
 

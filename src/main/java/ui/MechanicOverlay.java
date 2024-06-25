@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage;
 import audio.AudioPlayer;
 import main_classes.Game;
 import misc.ProgressValues;
-import utils.LoadSave;
+import utils.ResourceLoader;
 import utils.Constants.Audio;
 
 public class MechanicOverlay {
@@ -111,14 +111,14 @@ public class MechanicOverlay {
    }
 
    private void loadImages() {
-      this.pointerImg = LoadSave.getExpImageSprite(LoadSave.CURSOR_SPRITE_BLACK);
-      this.bgImg = LoadSave.getExpImageSprite(LoadSave.MECHANIC_DISPLAY);
+      this.pointerImg = ResourceLoader.getExpImageSprite(ResourceLoader.CURSOR_SPRITE_BLACK);
+      this.bgImg = ResourceLoader.getExpImageSprite(ResourceLoader.MECHANIC_DISPLAY);
    }
 
    private void loadFonts() {
-      this.menuFont = LoadSave.getNameFont();
-      this.infoFont = LoadSave.getInfoFont();
-      this.itemFont = LoadSave.getItemFont();
+      this.menuFont = ResourceLoader.getNameFont();
+      this.infoFont = ResourceLoader.getInfoFont();
+      this.itemFont = ResourceLoader.getItemFont();
    }
 
    public void update() {

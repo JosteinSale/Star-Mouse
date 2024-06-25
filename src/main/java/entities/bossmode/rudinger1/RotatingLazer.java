@@ -10,7 +10,7 @@ import entities.bossmode.AnimatedComponent;
 import entities.bossmode.AnimationInfo;
 import entities.bossmode.DefaultBossPart;
 import main_classes.Game;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 public class RotatingLazer extends DefaultBossPart {
    private Double rotationSpeed = 0.013;
@@ -40,7 +40,7 @@ public class RotatingLazer extends DefaultBossPart {
 
       if (shouldDrawCharge) {
          this.chargeAnimation = new AnimatedComponent(
-            LoadSave.getBossSprite(LoadSave.LAZER_CHARGE_SPRITE1),
+            ResourceLoader.getBossSprite(ResourceLoader.LAZER_CHARGE_SPRITE1),
             100, 100, 1, 5,
             new ArrayList<>(Arrays.asList(
                new AnimationInfo("CHARGE", 0, 5, 3, 0, false)

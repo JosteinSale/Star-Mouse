@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main_classes.Game;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 
 /**
@@ -64,7 +64,7 @@ public class LevelEditor implements Statemethods {
     
     private int curDirection = 1;      // 1 = right, -1 = left
     private int shootTimer = 100;   // Drones : 100 - 160, Octadrones : 60 - 180
-    private Font font = LoadSave.getInfoFont();
+    private Font font = ResourceLoader.getInfoFont();
     private int cursorX = 500;
     private int cursorY = 400;
     private int cursorSpeed = 10;
@@ -87,7 +87,7 @@ public class LevelEditor implements Statemethods {
     
 
     private void loadMapImages(int lvl) {
-        this.clImg = LoadSave.getFlyImageCollision("level" + Integer.toString(lvl) + "_cl.png");
+        this.clImg = ResourceLoader.getFlyImageCollision("level" + Integer.toString(lvl) + "_cl.png");
         this.clImgHeight = clImg.getHeight() * 3;
         this.clImgWidth = clImg.getWidth() * 3;
         this.clYOffset = Game.GAME_DEFAULT_HEIGHT - clImgHeight + 150;
@@ -96,31 +96,31 @@ public class LevelEditor implements Statemethods {
 
     private void loadEntityImages() {
         this.entityImgs = new BufferedImage[14];
-        BufferedImage img = LoadSave.getFlyImageSprite(LoadSave.SMALL_ENTITY_SPRITES);
+        BufferedImage img = ResourceLoader.getFlyImageSprite(ResourceLoader.SMALL_ENTITY_SPRITES);
         for (int i = 0; i < 10; i++) {
             entityImgs[i] = img.getSubimage(
                 i * SMALL_SPRITES_SIZE, 0, SMALL_SPRITES_SIZE, SMALL_SPRITES_SIZE);
         }
         entityImgs[REAPERDRONE] = 
-            LoadSave.getFlyImageSprite(LoadSave.REAPERDRONE_SPRITE).getSubimage(
+            ResourceLoader.getFlyImageSprite(ResourceLoader.REAPERDRONE_SPRITE).getSubimage(
                 0, REAPERDRONE_SPRITE_HEIGHT, REAPERDRONE_SPRITE_WIDTH, REAPERDRONE_SPRITE_HEIGHT);
 
         entityImgs[FLAMEDRONE] = 
-            LoadSave.getFlyImageSprite(LoadSave.FLAMEDRONE_SPRITE).getSubimage(
+            ResourceLoader.getFlyImageSprite(ResourceLoader.FLAMEDRONE_SPRITE).getSubimage(
                 0, FLAMEDRONE_SPRITE_HEIGHT, FLAMEDRONE_SPRITE_WIDTH, FLAMEDRONE_SPRITE_HEIGHT);
             
         entityImgs[WASPDRONE] = 
-            LoadSave.getFlyImageSprite(LoadSave.WASPDRONE_SPRITE).getSubimage(
+            ResourceLoader.getFlyImageSprite(ResourceLoader.WASPDRONE_SPRITE).getSubimage(
                 0, WASPDRONE_SPRITE_SIZE, WASPDRONE_SPRITE_SIZE, WASPDRONE_SPRITE_SIZE);
             
         entityImgs[KAMIKAZEDRONE] = 
-            LoadSave.getFlyImageSprite(LoadSave.KAMIKAZEDRONE_SPRITE).getSubimage(
+            ResourceLoader.getFlyImageSprite(ResourceLoader.KAMIKAZEDRONE_SPRITE).getSubimage(
                 0, KAMIKAZEDRONE_SPRITE_SIZE, KAMIKAZEDRONE_SPRITE_SIZE, KAMIKAZEDRONE_SPRITE_SIZE);
         
     }
 
     private void loadLevelData(Integer level) {
-        List<String> levelData = LoadSave.getFlyLevelData(level);
+        List<String> levelData = ResourceLoader.getFlyLevelData(level);
         for (String line : levelData) {
             String[] lineData = line.split(";");
                 int entity = switch(lineData[0]) {   // index in entityImgs-array

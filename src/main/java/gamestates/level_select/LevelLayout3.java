@@ -2,7 +2,7 @@ package gamestates.level_select;
 
 import main_classes.Game;
 import utils.Constants.Audio;
-import utils.LoadSave;
+import utils.ResourceLoader;
 
 /**
  * If the player has the first and/or the second ending, or path 3 is unlocked,
@@ -14,7 +14,7 @@ public class LevelLayout3 extends DefaultLevelLayout {
 
    public LevelLayout3(Game game) {
       super(game);
-      this.layoutImg = LoadSave.getExpImageBackground(LoadSave.LEVEL_SELECT_LAYOUT3);
+      this.layoutImg = ResourceLoader.getExpImageBackground(ResourceLoader.LEVEL_SELECT_LAYOUT3);
       this.layoutY = 156;
       this.layoutH = 453;
       this.loadSlots();
