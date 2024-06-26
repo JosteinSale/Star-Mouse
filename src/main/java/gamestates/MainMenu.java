@@ -81,14 +81,6 @@ import utils.Constants.Audio;
         }
     }
 
-    /** Is called when player selects 'New Game', after fadeOut is completed */
-    private void startNewGame() {
-        // LEVEL-SELECT - Uncomment to test entire game
-        game.getLevelSelect().reset();
-        game.getLevelSelect().unlockAllLevelsUpTo(1);
-        Gamestate.state = Gamestate.LEVEL_SELECT;
-    }
-
     private void handleKeyBoardInputs() {
         if (game.upIsPressed) {
             game.upIsPressed = false;
@@ -115,13 +107,12 @@ import utils.Constants.Audio;
             this.enterTestingMode();
         } 
         else if (selectedIndex == NEW_GAME) {
-            audioPlayer.playSFX(Audio.SFX_STARTGAME);
-            fadeOutActive = true;
-            audioPlayer.stopAllLoops();
+            audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
+            this.loadSaveMenu.setActive(true, "NEW GAME");
         } 
         else if (selectedIndex == LOAD_SAVE) {
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
-            this.loadSaveMenu.setActive(true);
+            this.loadSaveMenu.setActive(true, "LOAD SAVE");
         } 
         else if (selectedIndex == LEVEL_EDITOR) {
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
@@ -193,6 +184,12 @@ import utils.Constants.Audio;
         else if (this.bgX < -50) {bgSlideDir *= -1;}
     }
 
+    public void startTransitionToGame() {
+        this.fadeOutActive = true;
+        audioPlayer.stopAllLoops();
+        audioPlayer.playSFX(Audio.SFX_STARTGAME);
+    }
+
     private void updateFadeIn() {
         this.alphaFade -= 5;
         if (alphaFade < 0) {
@@ -206,8 +203,18 @@ import utils.Constants.Audio;
         this.alphaFade += 5;
         if (alphaFade > 255) {
             alphaFade = 255;
-            startNewGame();
+            startGame();
         }
+    }
+
+    /** Is called when after fadeOut is completed.
+     * For now, it takes you to Level Select. In the future, we might
+     * make it so that if it's a new game, it goes straight to Exploring in lvl 1.
+     */
+    private void startGame() {
+        game.getLevelSelect().reset();
+        game.getLevelSelect().transferDataFromSave();
+        Gamestate.state = Gamestate.LEVEL_SELECT;
     }
 
 

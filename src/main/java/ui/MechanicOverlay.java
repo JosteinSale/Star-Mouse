@@ -11,8 +11,8 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import audio.AudioPlayer;
+import data_storage.ProgressValues;
 import main_classes.Game;
-import misc.ProgressValues;
 import utils.ResourceLoader;
 import utils.Constants.Audio;
 

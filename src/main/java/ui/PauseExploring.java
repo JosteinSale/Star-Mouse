@@ -17,10 +17,10 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import audio.AudioPlayer;
+import data_storage.ProgressValues;
 import gamestates.Gamestate;
 import gamestates.Statemethods;
 import main_classes.Game;
-import misc.ProgressValues;
 import utils.ResourceLoader;
 import utils.Constants.Audio;
 
@@ -63,7 +63,7 @@ public class PauseExploring implements Statemethods {
     private int itemBoxY;
 
     private int cursorMinY = 452;
-    private int cursorMaxY = 650;
+    private int cursorMaxY = 630;
     private int cursorX = 505;
     private int cursorY = cursorMinY;
     private int menuOptionsDiff = (cursorMaxY - cursorMinY) / 3;   

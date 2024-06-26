@@ -1,10 +1,12 @@
 package ui;
 
 import static utils.Constants.UI.*;
+import static utils.HelpMethods.DrawCenteredString;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import main_classes.Game;
@@ -12,13 +14,13 @@ import utils.ResourceLoader;
 
 public class InfoChoice {
     private Font infoFont;
+    private Rectangle questionRect;
     private String question;
     private String leftChoice;
     private String rightChoice;
     private BufferedImage infoBoxImg;
     private BufferedImage cursor;
     private int selectedOption = 1;          // 1 = left, 2 = right
-    private int questionX;
     private int cursorX;
     private int cursorY;
     private int cursorW;
@@ -34,12 +36,17 @@ public class InfoChoice {
         this.cursorY = Y + (int) (90 * Game.SCALE);
         this.cursorW = (int) (CURSOR_WIDTH * 0.6f * Game.SCALE);
         this.cursorH = (int) (CURSOR_HEIGHT * 0.6f * Game.SCALE);
+        this.createQuestionRect();
+    }
+
+    private void createQuestionRect() {
+        this.questionRect = new Rectangle(
+            X, (int) (Y + (20 * Game.SCALE)), 
+            (int) (INFOBOX_WIDTH * Game.SCALE), (int) (50 * Game.SCALE));
     }
 
     public void setText(String question, String leftChoice, String rightChoice) {
         this.question = question;
-        this.questionX = Game.GAME_WIDTH/2 - 
-        (int) (question.length() * infoFont.getSize() * 0.35f);   // SCALE er allerede ganget inn via font
         this.leftChoice = leftChoice;
         this.rightChoice = rightChoice;
     }
@@ -60,10 +67,8 @@ public class InfoChoice {
             (int) (INFOBOX_HEIGHT * Game.SCALE), null);
 
         g.setColor(Color.BLACK);
-        g.setFont(infoFont);  
-        g.drawString(question, 
-            questionX, 
-            Y + (int) (60 * Game.SCALE));
+        g.setFont(infoFont);
+        DrawCenteredString(g, question, questionRect, infoFont);
         g.drawString(leftChoice, 
             X + (int) (150 * Game.SCALE), 
             Y + (int) (110 * Game.SCALE));

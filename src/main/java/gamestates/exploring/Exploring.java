@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import audio.AudioPlayer;
+import data_storage.ProgressValues;
 import gamestates.State;
 import gamestates.Statemethods;
 import main_classes.Game;
-import misc.ProgressValues;
 import ui.InventoryItem;
 import ui.MechanicOverlay;
 import ui.PauseExploring;
@@ -27,10 +27,19 @@ public class Exploring extends State implements Statemethods {
     public Exploring(Game game) {
         super(game);
         this.audioPlayer = game.getAudioPlayer();
+        initProxyProgValues();
         areas = new ArrayList<>();
-        progValues = new ProgressValues();
         pauseOverlay = new PauseExploring(game, progValues, audioPlayer, game.getOptionsMenu());
         mechanicOverlay = new MechanicOverlay(game, progValues);
+    }
+
+    /** Initiates a new rogressValues-object that represents a new game.
+     * In the case of testing, it will serve as a proxy.
+     * If the player loads a previous save, this object will replaced with the
+     * one loaded on disc.
+     */
+    private void initProxyProgValues() {
+        this.progValues = new ProgressValues();
     }
 
     /** Loads all areas for the given level. 
@@ -102,6 +111,11 @@ public class Exploring extends State implements Statemethods {
 
     public ProgressValues getProgressValues() {
         return this.progValues;
+    }
+
+    /** Can be used to load a 'save' from disc */
+    public void setProgressValues(ProgressValues progValues) {
+        this.progValues = progValues;
     }
 
     public void updatePauseInventory() {

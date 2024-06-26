@@ -1,9 +1,9 @@
 package data_storage;
 
-import misc.ProgressValues;
-
 /**
- * Represents 3 progressValue-objects, which each represent a save file.
+ * Contains 3 progressValue-objects, which each represent a save file.
+ * This entire object will be saved into JSON-format every time 
+ * the game is saved.
  */
 public class SaveData {
    /*  

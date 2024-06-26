@@ -10,10 +10,10 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import data_storage.ProgressValues;
 import gamestates.Statemethods;
 import gamestates.flying.Flying;
 import main_classes.Game;
-import misc.ProgressValues;
 import utils.ResourceLoader;
 import utils.Constants.Audio;
 

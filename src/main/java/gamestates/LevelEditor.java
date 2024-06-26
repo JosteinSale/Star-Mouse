@@ -186,6 +186,10 @@ public class LevelEditor implements Statemethods {
             int adjustedY = cursorY + mapYOffset;
             addEntityToList(true, selectedEntity, cursorX, adjustedY, curDirection, this.shootTimer);
         }
+        else if (game.pauseIsPressed) {
+            game.resetMainMenu();
+            Gamestate.state = Gamestate.MAIN_MENU;
+        }
         // Here we use som KeyEvents, but if it leads to trouble we can add booleans in game-object.
         else if (e.getKeyCode() == KeyEvent.VK_UP) {
             this.cursorY -= cursorSpeed;
