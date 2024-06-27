@@ -3,6 +3,7 @@ package cutscenes.cutsceneManagers;
 import cutscenes.effects.FadeEffect;
 import cutscenes.effects.FadeHeaderEffect;
 import cutscenes.effects.FillScreenEffect;
+import cutscenes.effects.MoveCameraEffect;
 import cutscenes.effects.NPCWalkEffect;
 import cutscenes.effects.NumberDisplayEffect;
 import cutscenes.effects.PlayerWalkEffect;
@@ -47,6 +48,7 @@ public class CutsceneManagerExp extends DefaultCutsceneManager {
       this.addEffect(new NPCWalkEffect(this.npcManager));
       this.addEffect(new NumberDisplayEffect(numberDisplay));
       this.addEffect(new RedLightEffect());
+      this.addEffect(new MoveCameraEffect(area));
       
       // Effects that need to be accessible from the cutsceneManager:
       this.shakeEffect = new ScreenShakeEffect(this.area);

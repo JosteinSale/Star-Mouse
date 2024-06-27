@@ -39,10 +39,7 @@ public class DataStorage {
       return new File(directory, FILE_NAME);
    }
 
-   public static void saveData(SaveData data, boolean testingMode) {
-      if (testingMode) {
-         return;
-      }
+   public static void saveData(SaveData data) {
       try {
          File file = getDataFile();
          objectMapper.writeValue(file, data);

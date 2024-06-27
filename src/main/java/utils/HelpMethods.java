@@ -397,6 +397,17 @@ public class HelpMethods {
                 ClearObjectsEvent event = new ClearObjectsEvent();
                 allSequences.get(sequenceIndex).add(event);
             }
+            else if (lineData[0].equals("moveCamera")) {
+                Integer deltaX = Integer.parseInt(lineData[1]);
+                Integer deltaY = Integer.parseInt(lineData[2]);
+                Integer duration = Integer.parseInt(lineData[3]);
+                MoveCameraEvent event = new MoveCameraEvent(deltaX, deltaY, duration);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            else if (lineData[0].equals("reattatchCamera")) {
+                ReattatchCameraEvent event = new ReattatchCameraEvent();
+                allSequences.get(sequenceIndex).add(event);
+            }
             else if (lineData[0].equals("endSequence")) {
                 allCutscenes.get(triggerIndex).get(cutsceneIndex).addSequence(allSequences.get(sequenceIndex));
                 sequenceIndex += 1;

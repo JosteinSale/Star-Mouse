@@ -183,6 +183,18 @@ SET RED LIGHT
 * Needs to be turned off in a cutscene
 
 
+MOVE CAMERA
+--------------------
+[0] = moveCamera (String), [1] = deltaX, [2] = deltaY, [3] = duration.
+* OBS: remember to reattatch camera when cutscene is done.
+* Use the same numbers when moving the camera back to starting position (due to rounding)
+
+
+REATTATCH CAMERA
+--------------------
+[0] = reattatchCamera (String)
+
+
 END SEQUENCE
 --------------------
 [0] = endSequence

@@ -102,9 +102,10 @@ public class Game implements Runnable {
     * disc. If the game is in testing mode, no saving will happen.
     */
    public void saveDataToDisc() {
-      // Save the data back to the file, if not in testing mode
-      DataStorage.saveData(this.saveData, this.testingMode);
-      drawSaving.start();
+      if (!testingMode) {
+         DataStorage.saveData(this.saveData);
+         drawSaving.start();
+      }
    }
 
    private void startGameLoop() {

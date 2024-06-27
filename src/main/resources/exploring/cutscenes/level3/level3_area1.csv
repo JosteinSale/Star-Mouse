@@ -8,6 +8,16 @@ wait;1
 endSequence
 
 cutscene;true;object;0
-goToFlying;3
+moveCamera;100;-300;80
+endSequence
+wait;120
+endSequence
+moveCamera;-100;300;80
+endSequence
 wait;1
+reattatchCamera
+endSequence
+
+cutscene;false;automatic;1
+bigDialogue;Max;normal;0;2;I can see a path going down the cliffside.
 endSequence

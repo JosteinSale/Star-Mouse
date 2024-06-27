@@ -181,7 +181,10 @@ public class Area {
             opt = 1;
          }
          this.cutsceneManager.jumpToCutscene(opt);
-      }  
+      }
+      else if (event instanceof ReattatchCameraEvent) {
+         this.reAttatchCamera();
+      }
       else {
          this.cutsceneManager.activateEffect(event);
       }
@@ -324,7 +327,7 @@ public class Area {
    }
 
    private void adjustOffsets() {
-      if (!cutsceneManager.isShakeActive()) {
+      if (!cutsceneManager.isShakeActive() && !mapManager.cameraDeattached()) {
          mapManager.adjustOffsets(player);
       }
    }
@@ -416,5 +419,13 @@ public class Area {
 
    public void setYLevelOffset(int offset) {
       mapManager.yLevelOffset = offset;
+   }
+
+   public void deAttatchCamera() {
+      mapManager.cameraDeattached = true;
+   }
+
+   public void reAttatchCamera() {
+      mapManager.cameraDeattached = false;
    }
 }

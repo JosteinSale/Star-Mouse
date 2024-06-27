@@ -29,6 +29,7 @@ public class MapManager1 {
    protected int yBorder = (int) (0.5 * Game.GAME_DEFAULT_HEIGHT) + 50;
    protected int maxLvlOffsetX;
    protected int maxLvlOffsetY;
+   protected boolean cameraDeattached = false;
 
    public MapManager1(Integer levelIndex, Integer areaIndex) {
       this.loadImgs(levelIndex, areaIndex);
@@ -110,6 +111,10 @@ public class MapManager1 {
          (int) ((0 - xLevelOffset) * Game.SCALE), 
          (int) ((0 - yLevelOffset) * Game.SCALE), 
          fgImgWidth, fgImgHeight, null);
+   }
+
+   public boolean cameraDeattached() {
+      return cameraDeattached;
    }
 
 }

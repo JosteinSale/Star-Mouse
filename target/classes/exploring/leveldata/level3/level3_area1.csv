@@ -1,4 +1,5 @@
-ambience;99
+ambience;2
 song;99;false
-player;492;615;45f;18f;0
-object;450f;570f;60f;36f;exitSaber
+player;1086;651;45f;18f;0
+object;993f;621f;60f;36f;exitSaber
+automaticTrigger;480f;510f;30f;231f;I can see a path

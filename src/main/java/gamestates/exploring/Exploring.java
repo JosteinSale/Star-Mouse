@@ -33,7 +33,7 @@ public class Exploring extends State implements Statemethods {
         mechanicOverlay = new MechanicOverlay(game, progValues);
     }
 
-    /** Initiates a new rogressValues-object that represents a new game.
+    /** Initiates a new rogressValues-object.
      * In the case of testing, it will serve as a proxy.
      * If the player loads a previous save, this object will replaced with the
      * one loaded on disc.
