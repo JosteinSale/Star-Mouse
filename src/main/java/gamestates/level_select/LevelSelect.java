@@ -83,6 +83,16 @@ public class LevelSelect extends State implements Statemethods {
       return images;
    }
 
+   /**
+    * Should be called if the game is not run in testing mode.
+    * Replaces the proxy progValues with the one from the saved file.
+    * Then it unlocks the corresponding levels.
+    */
+   public void transferDataFromSave() {
+      this.progValues = game.getExploring().getProgressValues();
+      this.transferUnlockedLevelsToLayout(progValues.levelLayout);
+   }
+
    @Override
    public void update() {
       moveBackGround();
@@ -268,13 +278,5 @@ public class LevelSelect extends State implements Statemethods {
 
       g.setColor(new Color(0, 0, 0, alphaFade));
       g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
-   }
-
-   /** Replaces the proxy progValues with the one from the saved file. 
-    * Then it unlocks the corresponding levels.
-    */
-   public void transferDataFromSave() {
-      this.progValues = game.getExploring().getProgressValues();
-      this.transferUnlockedLevelsToLayout(progValues.levelLayout);
    }
 }

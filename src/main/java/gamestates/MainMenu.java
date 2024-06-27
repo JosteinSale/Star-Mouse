@@ -108,11 +108,11 @@ import utils.Constants.Audio;
         } 
         else if (selectedIndex == NEW_GAME) {
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
-            this.loadSaveMenu.setActive(true, "NEW GAME");
+            this.loadSaveMenu.activate("NEW GAME");
         } 
         else if (selectedIndex == LOAD_SAVE) {
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
-            this.loadSaveMenu.setActive(true, "LOAD SAVE");
+            this.loadSaveMenu.activate("LOAD SAVE");
         } 
         else if (selectedIndex == LEVEL_EDITOR) {
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
@@ -202,6 +202,7 @@ import utils.Constants.Audio;
     private void updateFadeOut() {
         this.alphaFade += 5;
         if (alphaFade > 255) {
+            this.loadSaveMenu.deActivate();
             alphaFade = 255;
             startGame();
         }
@@ -249,11 +250,6 @@ import utils.Constants.Audio;
             (int) (CURSOR_HEIGHT * Game.SCALE),
             null);
         
-        // Fade
-        if (fadeInActive || fadeOutActive) {
-            g.setColor(new Color(0, 0, 0, alphaFade));
-            g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
-        }
         // Options
         if (optionsMenu.isActive()) {
             optionsMenu.draw(g);
@@ -261,6 +257,12 @@ import utils.Constants.Audio;
         // LoadSave Menu
         else if (loadSaveMenu.isActive()) {
             loadSaveMenu.draw(g);
+        }
+
+        // Fade
+        if (fadeInActive || fadeOutActive) {
+            g.setColor(new Color(0, 0, 0, alphaFade));
+            g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
         }
     }
 

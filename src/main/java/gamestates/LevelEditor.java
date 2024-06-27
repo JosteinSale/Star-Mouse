@@ -156,6 +156,7 @@ public class LevelEditor implements Statemethods {
     /**
      * Controls:
      * ---------------------------------------------
+     * ENTER                         Return to Main Menu
      * w / s                         Change screen 
      * x                             Change entity
      * UP / DOWN / LEFT / RIGHT      Change cursor position

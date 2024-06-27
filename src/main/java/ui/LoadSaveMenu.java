@@ -21,7 +21,8 @@ import static utils.Constants.UI.CURSOR_HEIGHT;
 import static utils.Constants.UI.CURSOR_WIDTH;
 
 
-/** This menu can be accessed in two ways:
+/** This menu handles loading of a previous game, and starting a new game. 
+ * It can be accessed in two ways:
  *    - Either, if the player chooses 'Load Game' in the Main Menu
  *    - Or, if the player chooses 'New Game' in the Main Menu.
  * Both options will activate this object, but the update and draw-methods
@@ -202,13 +203,14 @@ public class LoadSaveMenu {
    /** Should be called whenever you want to load an existing save. 
     * It gets the selected progressValues from SaveData and inserts it
     * into Exploring. Finally it saves it to disc, sets the time, 
-    * inactivates the menu, and starts the transition to the game. */
+    * and starts the transition to the game. The menu is deactivated after
+    * the transition is complete (but keyboardInputs are not handled, due to
+    * being downprioritized in MainMenu :: update.) */
    private void loadSelectedSaveIntoExploring() {
       ProgressValues savedProgValues = game.getSaveData().getProgValuesFor(selectedSaveFile);
       game.getExploring().setProgressValues(savedProgValues);
       savedProgValues.setTime();
       game.saveDataToDisc();
-      this.active = false;
       game.getMainMenu().startTransitionToGame();
    }
 
@@ -292,11 +294,20 @@ public class LoadSaveMenu {
       return this.active;
    }
 
-   public void setActive(boolean active, String menu) {
-      this.active = active;
+   /** Sets the active status to true, and sets the menu.
+    * Menu must be either "LOAD SAVE" or "NEW GAME". Throws error if not.
+    * @param menu
+    */
+   public void activate(String menu) {
       if (!(menu.equals(LOAD_SAVE) || menu.equals(NEW_GAME))) {
          throw new IllegalArgumentException("Menu name must be either LOAD SAVE or NEW GAME");
       }
+      this.active = true;
       this.currentMenu = menu;
+   }
+
+   /** Sets the active status to false */
+   public void deActivate() {
+      this.active = false;
    }
 }

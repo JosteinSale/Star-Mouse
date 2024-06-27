@@ -78,6 +78,11 @@ public class LevelLayout1 extends DefaultLevelLayout {
 
    @Override
    public void setUnlocked(int level, LevelInfo levelInfo, BufferedImage levelIcon) {
+      // 1. If the level is already unlocked, return.
+      if (levelsInCurrentPath.contains(level)) {
+         return;
+      }
+      // 2. Else, unlock the level
       this.levelsInCurrentPath.add(level);
       int slotToUnlock = levelsInCurrentPath.size();
       super.setUnlocked(slotToUnlock, levelInfo, levelIcon);

@@ -7,7 +7,10 @@ import java.time.format.DateTimeFormatter;
  * It contains the data that will represent a single save file.
 */
 public class ProgressValues {
-   // See resetToDefault-method for default values.
+   /* 
+   See resetToDefault-method for default values.
+   OBS: Whenever you include a new value, make sure to initiate it in that method!
+   */
 
    public boolean saveStarted;
    public String lastUsed;
@@ -91,8 +94,5 @@ public class ProgressValues {
       }
       array[0] = true;   // Unlock first level.
       return array;
-   }
-
-   
-   
+   }   
 }

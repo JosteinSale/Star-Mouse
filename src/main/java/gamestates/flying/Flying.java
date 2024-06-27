@@ -317,6 +317,7 @@ public class Flying extends State implements Statemethods {
       } else {
          game.getLevelSelect().reset();
          game.getLevelSelect().updateUnlockedLevels(level, enemyManager.getFinalKilledEnemies().size());
+         game.saveDataToDisc();
          Gamestate.state = Gamestate.LEVEL_SELECT;
       }
    }

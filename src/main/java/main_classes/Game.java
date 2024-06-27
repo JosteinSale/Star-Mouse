@@ -2,6 +2,7 @@ package main_classes;
 
 import audio.AudioPlayer;
 import data_storage.DataStorage;
+import data_storage.DrawSaving;
 import data_storage.ProgressValues;
 import data_storage.SaveData;
 import gamestates.Gamestate;
@@ -50,6 +51,7 @@ public class Game implements Runnable {
    private OptionsMenu optionsMenu;
    private AudioPlayer audioPlayer;
    private SaveData saveData;
+   private DrawSaving drawSaving;
 
    public boolean upIsPressed = false;
    public boolean downIsPressed = false;
@@ -82,6 +84,7 @@ public class Game implements Runnable {
       this.flying = new Flying(this);
       this.bossMode = new BossMode(this);
       this.levelEditor = new LevelEditor(this);
+      this.drawSaving = new DrawSaving();
       this.initializeSaveData();
    }
 
@@ -101,6 +104,7 @@ public class Game implements Runnable {
    public void saveDataToDisc() {
       // Save the data back to the file, if not in testing mode
       DataStorage.saveData(this.saveData, this.testingMode);
+      drawSaving.start();
    }
 
    private void startGameLoop() {
@@ -110,6 +114,7 @@ public class Game implements Runnable {
 
    private void update() {
       audioPlayer.update();
+      drawSaving.update();
       switch (Gamestate.state) {
          case START_SCREEN:
             startScreen.update();
@@ -165,6 +170,7 @@ public class Game implements Runnable {
          default:
             break;
       }
+      drawSaving.draw(g);
    }
 
    public void windowLostFocus() {
