@@ -345,7 +345,7 @@ public class Area {
       mapManager.drawForeground(g);
 
       // Hitboxes
-      // drawHitboxes(g, xLevelOffset, yLevelOffset);
+      drawHitboxes(g, mapManager.xLevelOffset, mapManager.yLevelOffset);
 
       // Cutscenes
       cutsceneManager.draw(g); // Alt som ikke allerede er tegnet, f.ex overlay-effekter.

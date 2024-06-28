@@ -68,6 +68,7 @@ public class MoveCameraEffect implements UpdatableEffect, AdvancableEffect {
       }
    }
 
+
    @Override
    public boolean isActive() {
       return active;

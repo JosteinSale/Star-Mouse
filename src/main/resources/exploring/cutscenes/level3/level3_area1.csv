@@ -18,6 +18,51 @@ wait;1
 reattatchCamera
 endSequence
 
-cutscene;false;automatic;1
+cutscene;true;npc;1
+bigDialogue;Max;normal;0;2;Lieutenant, any sign from the cadets yet?
+endSequence
+bigDialogue;Lt.Red;sad;1;5;...
+endSequence
+bigDialogue;Lt.Red;sad;1;2;No. As far as I know, we're the only ones left. We made a narrow escape.
+endSequence
+bigDialogue;Lt.Red;sad;1;2;..I... underestimated the enemy.
+endSequence
+bigDialogue;Max;nervous;9;2;...I'll be on the lookout then.
+endSequence
+
+cutscene;true;npc;2
+bigDialogue;Frida;normal;0;2;We fought as hard as we could.
+endSequence
+bigDialogue;Frida;normal;0;2;It... just wasn't enough.
+endSequence
+
+cutscene;true;npc;3
+bigDialogue;Mechanic;normal;0;2;Hey buddy, need service?
+endSequence
+setStartCutscene;npc;2;1
+playSFX;infoBox
+mechanicDisplay
+wait;1
+endSequence
+
+cutscene;true;npc;3
+playSFX;infoBox
+mechanicDisplay
+wait;1
+endSequence
+
+cutscene;true;npc;4
+bigDialogue;Skye;angry;1;2;Rudinger... I'll make him pay for this.
+endSequence
+
+cutscene;true;npc;5
+bigDialogue;Zack;normal;0;2;Did you notice Rudinger was taking orders from someone?
+endSequence
+
+cutscene;true;npc;6
+bigDialogue;Gard;normal;0;2;We lost a lot of good pilots today.
+endSequence
+
+cutscene;false;automatic;7
 bigDialogue;Max;normal;0;2;I can see a path going down the cliffside.
 endSequence

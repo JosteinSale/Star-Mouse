@@ -1,0 +1,47 @@
+cutscene;true;object;0
+playSFX;infoBox
+info;You search the drone.
+endSequence
+info;You found some parts you could sell to the mechanic.
+endSequence
+info;Should be worth about 1000 credits!
+playSFX;pickup
+updateInventory;credits;1000
+setStartCutscene;object;0;1
+endSequence
+bigDialogue;Drone;normal;1;3;####### ###!
+endSequence
+info;(The drone doesn't seem too happy about it).
+endSequence
+
+cutscene;true;object;0
+playSFX;infoBox
+info;Nothing more of use here.
+endSequence
+
+cutscene;true;npc;1
+bigDialogue;Nathan;normal;0;2;That thing reeks of malice...
+endSequence
+
+cutscene;false;automatic;2
+moveCamera;300;0;120
+endSequence
+wait;60;
+endSequence
+bigDialogue;Nathan;normal;0;2;It must have crashed here after we shot it down.
+endSequence
+bigDialogue;Drone;normal;1;3;##### ## ##### ###### ### ### #### ########## ##### ###### ##
+endSequence
+bigDialogue;Drone;normal;1;3;##### ######## ### #### # # # # ######
+endSequence
+bigDialogue;Nathan;normal;0;2;It's almost as if it's talking...
+endSequence
+bigDialogue;Max;angry;8;2;If it is, I doubt it's saying anything nice.
+endSequence
+bigDialogue;Max;angry;8;2;(Hm... Maybe I should try and search it).
+endSequence
+moveCamera;-300;0;120
+endSequence
+reattatchCamera
+wait;1
+endSequence

@@ -155,6 +155,7 @@ public class BigDialogueBox {
             case "Feno" -> Audio.VOICECLIP_FENO;
             case "???", "Rudinger" -> Audio.VOICECLIP_RUDINGER;
             case "????" -> Audio.VOICECLIP_RAZE;
+            case "Drone" -> Audio.VOICECLIP_DRONE;
             default -> Audio.VOICECLIP_SIGN;
             };
 

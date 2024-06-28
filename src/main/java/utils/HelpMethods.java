@@ -447,7 +447,7 @@ public class HelpMethods {
             case "Charlotte" -> 6;
             case "Nina" -> 7;
             case "Shady pilot" -> 8;
-            case "Speaker" -> 9;
+            case "Speaker", "Drone" -> 9;
             case "Russel" -> 10;
             case "Emma" -> 11;
             case "Po" -> 12;
@@ -488,6 +488,7 @@ public class HelpMethods {
             case "Feno" -> Color.ORANGE;
             case "Skye" -> Color.PINK;
             case "???", "????" -> Color.WHITE;
+            case "Drone" -> Color.GRAY;
             default -> throw new IllegalArgumentException(
                 "No nameColor available for '" + name + "'");
         };

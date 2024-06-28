@@ -75,7 +75,8 @@ public class AudioPlayer {
         "VoiceClip - Gard.wav",
         "VoiceClip - Feno.wav",
         "VoiceClip - Rudinger2.wav",
-        "VoiceClip - Raze.wav"
+        "VoiceClip - Raze.wav",
+        "VoiceClip - Drone.wav"
     };
     private File[] SFX;
     private File[] voiceClips;
