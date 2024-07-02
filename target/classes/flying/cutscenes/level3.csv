@@ -1,8 +1,107 @@
 cutscene;true;automatic;0
-addProjectile;1;300;750;0;-4
+setGameplayActive;false
+fillScreen;black;true
+wait;120
+endSequence
+fadeHeader;in;350;10;Asteroid Escape
+wait;150
+endSequence
+startAmbience;1
+fadeHeader;out;350;10;Asteroid Escape
+fellowShips;300;400;260;700;400;200
+wait;100
+endSequence
+setGameplayActive;true
+fillScreen;black;false
+fade;in;black;10
+startSong;8
 endSequence
 
 cutscene;true;automatic;1
+smallDialogue;Lt.Red;serious;0;2;Alright everyone, look sharp!
+wait;180
+endSequence
+wait;60
+endSequence
+smallDialogue;Zack;scared;2;2;Incoming!
+wait;180
+endSequence
+
+cutscene;true;automatic;2
+smallDialogue;Nathan;angry;1;2;This is crazy!
+wait;180
+endSequence
+
+cutscene;true;automatic;3
+smallDialogue;Lt.Red;serious;0;2;Watch your 6!
+wait;120
+endSequence
+smallDialogue;Lt.Red;serious;0;2;They're shooting at us from behind!
+wait;200
+endSequence
+addProjectile;1;300;750;0;-4
+wait;30
+endSequence
+addProjectile;1;700;750;0;-4
+wait;30
+endSequence
+addProjectile;1;500;750;0;-4
+wait;60
+endSequence
+addProjectile;1;400;750;0;-4
+wait;60
+endSequence
+addProjectile;1;300;750;0;-4
+wait;60
+endSequence
+addProjectile;1;600;750;0;-4
+wait;20
+endSequence
+addProjectile;1;300;750;0;-4
+addProjectile;1;800;750;0;-4
+wait;60
+endSequence
+
+cutscene;true;automatic;4
+addProjectile;1;300;750;0;-4
+wait;60
+endSequence
+addProjectile;1;700;750;0;-4
+wait;60
+endSequence
+addProjectile;1;500;750;0;-4
+wait;30
+endSequence
+addProjectile;1;400;750;0;-4
+wait;30
+endSequence
+addProjectile;1;300;750;0;-4
+wait;60
+endSequence
+addProjectile;1;600;750;0;-4
+wait;20
+endSequence
+addProjectile;1;300;750;0;-4
+addProjectile;1;800;750;0;-4
+wait;60
+endSequence
+
+cutscene;true;automatic;5
+smallDialogue;Lt.Red;serious;0;2;Everyone ok?
+wait;160
+endSequence
+wait;30
+endSequence
+smallDialogue;Frida;normal;0;2;...I think so!
+wait;160
+endSequence
+wait;90
+endSequence
+smallDialogue;Gard;serious;0;2;Big boulders ahead!
+wait;160
+endSequence
+
+cutscene;true;automatic;6
 fade;out;black;5
 endSequence
 setGameplayActive;false

@@ -1,8 +1,10 @@
-automaticTrigger;0f;-500f;10f;10f;projectileShoot_1
+automaticTrigger;0f;2f;10f;10f;openingCutscene
+automaticTrigger;0f;-200f;10f;10f;Incoming asteroids!
+automaticTrigger;0f;-1600f;10f;10f;This is crazy!
+automaticTrigger;0f;-3000f;10f;10f;watch your 6!
+automaticTrigger;0f;-5000f;10f;10f;Shots and asteroids
+automaticTrigger;0f;-6000f;10f;10f;Big asteroids!
 automaticTrigger;0f;-10000f;10f;10f;endLevel
-smallAsteroid;898;-202;-1;550
-smallAsteroid;98;-662;1;110
-smallAsteroid;898;-952;-1;220
 smallAsteroid;118;-1702;1;330
 smallAsteroid;878;-2452;-1;440
 smallAsteroid;878;-2062;-1;510
@@ -11,3 +13,27 @@ smallAsteroid;598;-2232;-1;510
 smallAsteroid;-72;-1182;1;150
 smallAsteroid;-32;-1322;1;150
 smallAsteroid;28;-1472;1;150
+smallAsteroid;108;-872;1;440
+smallAsteroid;788;-1082;-1;530
+smallAsteroid;88;-2382;1;510
+smallAsteroid;348;-2662;1;510
+smallAsteroid;708;-1362;-1;420
+smallAsteroid;458;-1492;-1;420
+smallAsteroid;738;-1912;-1;510
+smallAsteroid;218;-2582;1;510
+smallAsteroid;1048;-4432;-1;150
+smallAsteroid;408;-4492;1;400
+smallAsteroid;68;-5112;1;400
+smallAsteroid;218;-5372;1;500
+smallAsteroid;778;-4892;1;500
+smallAsteroid;918;-5082;1;400
+repair;525;-5435;1;0
+bigAsteroid;65;-7725;1;220
+smallAsteroid;408;-7592;1;220
+smallAsteroid;538;-7672;1;220
+bigAsteroid;815;-7405;-1;230
+bigAsteroid;605;-8205;1;400
+smallAsteroid;368;-8242;1;400
+smallAsteroid;918;-8242;1;400
+smallAsteroid;468;-8142;1;400
+bigAsteroid;1005;-7875;-1;230

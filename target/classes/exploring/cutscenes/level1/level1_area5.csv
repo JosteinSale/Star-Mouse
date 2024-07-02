@@ -1,18 +1,22 @@
 cutscene;true;object;0
+bigDialogue;Sign;normal;0;2;If you want to leave an area, just climb into your ship!
+endSequence
+
+cutscene;true;object;1
 info;Your trusty Saber
 playSFX;infoBox
 endSequence
 
-cutscene;true;object;1
+cutscene;true;object;2
 infoChoice;Leave area?;No;Yes
 playSFX;infoBox
 endSequence
 
-cutscene;true;object;1
+cutscene;true;object;2
 wait;1
 endSequence
 
-cutscene;false;object;1
+cutscene;false;object;2
 wait;60
 endSequence
 wait;65
@@ -43,13 +47,13 @@ wait;20
 endSequence
 bigDialogue;Max;angry;8;5;...An attack!
 endSequence
-npcWalk;Oliver;0;right;660f;520f;30
+npcWalk;Oliver;0;right;918f;520f;30
 endSequence
 bigDialogue;Oliver;shocked;6;4;Max!
 endSequence
 setDir;player;left
 setSprite;player;true;3;5;alert
-npcWalk;Oliver;0;right;1370f;558f;120
+npcWalk;Oliver;0;right;1628f;558f;120
 endSequence
 setSprite;Oliver;true;0;5;alert
 wait;30
@@ -90,7 +94,7 @@ wait;30;
 endSequence
 setSprite;Oliver;false;0;0
 setDir;Oliver;left
-npcWalk;Oliver;0;left;660f;520f;120
+npcWalk;Oliver;0;left;918f;520f;120
 endSequence
 bigDialogue;Max;nervous;9;2;...Be careful.
 endSequence
@@ -104,6 +108,6 @@ goToFlying;1
 wait;1
 endSequence
 
-cutscene;true;npc;2
+cutscene;true;npc;3
 info;That's Oliver lol
 endSequence

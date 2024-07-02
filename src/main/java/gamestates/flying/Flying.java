@@ -102,7 +102,7 @@ public class Flying extends State implements Statemethods {
       loadPickupItems(level);
       loadCutscenes(level);
       player.setKilledEnemies(0);
-      //startAt(-10000); // For testing purposes
+      startAt(-6000); // For testing purposes
 
    }
 
@@ -178,6 +178,7 @@ public class Flying extends State implements Statemethods {
 
    @Override
    public void update() {
+      System.out.println(mapManager.yProgess);
       if (gameOver) {
          gameoverOverlay.update();
       } else if (pause) {

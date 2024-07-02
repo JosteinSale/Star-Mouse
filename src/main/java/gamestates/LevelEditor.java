@@ -32,7 +32,7 @@ import utils.ResourceLoader;
  */
 public class LevelEditor implements Statemethods {
    private Game game;
-   private Integer level = 2;
+   private Integer level = 3;
    private BufferedImage clImg;
    private ArrayList<String> levelData;
    private EntityFactory entityFactory;
@@ -197,7 +197,7 @@ public class LevelEditor implements Statemethods {
             // Flamedrones have a standard shootTimer of 120
             this.addModifiedEntry(info.name, x, y, direction, 120, hitbox);
             break;
-         case POWERUP, BOMB, REPAIR, TARGET, TANKDRONE, KAMIKAZEDRONE:
+         case POWERUP, BOMB, REPAIR, TARGET, SMALLSHIP, TANKDRONE, KAMIKAZEDRONE:
             // Entities without shootTimer will have standard value of 0.
             this.addModifiedEntry(info.name, x, y, direction, 0, hitbox);
             break;
@@ -207,7 +207,7 @@ public class LevelEditor implements Statemethods {
             break;
       }
       addedEntityNames.add(name);
-   }
+   } 
 
    private void deleteOverlappingEntity(Rectangle deleteHitbox) {
       int indexToRemove = -1;
@@ -218,10 +218,16 @@ public class LevelEditor implements Statemethods {
          }
       }
       if (indexToRemove > -1) {
-         hitboxes.remove(indexToRemove);
-         levelData.remove(indexToRemove);
-         addedEntityNames.remove(indexToRemove);
+         removeEntry(indexToRemove);
       }
+   }
+
+   private void removeEntry(int indexToRemove) {
+      addedEntityNames.remove(indexToRemove);
+      levelData.remove(indexToRemove);
+      hitboxes.remove(indexToRemove);
+      directions.remove(indexToRemove);
+      shootTimers.remove(indexToRemove);
    }
 
    private void addModifiedEntry(String name, int x, int y, int direction, int shootTimer, Rectangle hitbox) {

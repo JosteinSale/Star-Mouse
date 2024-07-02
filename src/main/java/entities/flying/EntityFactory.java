@@ -71,6 +71,7 @@ public class EntityFactory {
       this.constantToNameMap.put(WASPDRONE, "waspDrone");
       this.constantToNameMap.put(KAMIKAZEDRONE, "kamikazeDrone");
       this.constantToNameMap.put(SMALL_ASTEROID, "smallAsteroid");
+      this.constantToNameMap.put(BIG_ASTEROID, "bigAsteroid");
    }
 
    private void registerAllEntities() {
@@ -149,6 +150,11 @@ public class EntityFactory {
          ResourceLoader.getFlyImageSprite(ResourceLoader.SMALL_ASTEROID_SPRITE), 30, 30, 8, 2, 
          getName(SMALL_ASTEROID), 75, 75, 8, 8, 
          6, 0);
+      this.registerEntity(
+         BIG_ASTEROID, 
+         ResourceLoader.getFlyImageSprite(ResourceLoader.BIG_ASTEROID_SPRITE), 90, 90, 1, 1, 
+         getName(BIG_ASTEROID), 220, 220, 25, 25, 
+         0, 0);
    }
 
    /** Registers pickup-items into the pickup-hashMap, and enemies into 
@@ -253,6 +259,8 @@ public class EntityFactory {
             return kamikazeDrone;
          case SMALL_ASTEROID :
             return new SmallAsteroid(hitbox, info, shootTimer, dir);
+         case BIG_ASTEROID :
+            return new BigAsteroid(hitbox, info, shootTimer, dir);
          default :
             throw new IllegalArgumentException("No enemy constructor for type " + typeConstant);
       }

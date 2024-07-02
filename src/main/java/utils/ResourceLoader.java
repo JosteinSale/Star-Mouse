@@ -89,6 +89,7 @@ public class ResourceLoader {
     public static final String WASPDRONE_SPRITE = "sprites_waspDrone.png";
     public static final String KAMIKAZEDRONE_SPRITE = "sprites_kamikazeDrone.png";
     public static final String SMALL_ASTEROID_SPRITE = "sprites_smallAsteroid.png";
+    public static final String BIG_ASTEROID_SPRITE = "sprites_bigAsteroid.png";
     public static final String FLAME_PROJECTILE = "sprites_droneFlame.png";
 
     // Sprites - BossMode

@@ -125,7 +125,7 @@ public class SmallShip extends Entity implements Enemy{
         g.drawImage(
             info.animation[action][aniIndex], 
             (int) ((hitbox.x - info.drawOffsetX + getFlipX()) * Game.SCALE), 
-            (int) ((hitbox.y - info.drawOffsetX)* Game.SCALE), 
+            (int) ((hitbox.y - info.drawOffsetY)* Game.SCALE), 
             (int) (info.spriteW * 3 * direction * Game.SCALE), 
             (int) (info.spriteH * 3 * Game.SCALE), null);
     }
