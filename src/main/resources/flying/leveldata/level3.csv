@@ -1,1 +1,13 @@
+automaticTrigger;0f;-500f;10f;10f;projectileShoot_1
 automaticTrigger;0f;-10000f;10f;10f;endLevel
+smallAsteroid;898;-202;-1;550
+smallAsteroid;98;-662;1;110
+smallAsteroid;898;-952;-1;220
+smallAsteroid;118;-1702;1;330
+smallAsteroid;878;-2452;-1;440
+smallAsteroid;878;-2062;-1;510
+smallAsteroid;738;-2132;-1;510
+smallAsteroid;598;-2232;-1;510
+smallAsteroid;-72;-1182;1;150
+smallAsteroid;-32;-1322;1;150
+smallAsteroid;28;-1472;1;150

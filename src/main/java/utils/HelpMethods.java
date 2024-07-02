@@ -287,6 +287,15 @@ public class HelpMethods {
                 NumberDisplayEvent event = new NumberDisplayEvent(passCode);
                 allSequences.get(sequenceIndex).add(event);
             }
+            else if (lineData[0].equals("addProjectile")) {
+                Integer type = Integer.parseInt(lineData[1]);
+                Integer xPos = Integer.parseInt(lineData[2]);
+                Integer yPos = Integer.parseInt(lineData[3]);
+                Integer xSpeed = Integer.parseInt(lineData[4]);
+                Integer ySpeed = Integer.parseInt(lineData[5]);
+                AddProjectileEvent event = new AddProjectileEvent(type, xPos, yPos, xSpeed, ySpeed);
+                allSequences.get(sequenceIndex).add(event);
+            }
             else if (lineData[0].equals("updateInventory")) {
                 String type = lineData[1];
                 Integer amount = Integer.parseInt(lineData[2]);

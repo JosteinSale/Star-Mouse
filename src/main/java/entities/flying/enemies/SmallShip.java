@@ -1,26 +1,21 @@
 package entities.flying.enemies;
 
-import static utils.Constants.Flying.DrawOffsetConstants.SMALLSHIP_OFFSET_X;
-import static utils.Constants.Flying.DrawOffsetConstants.SMALLSHIP_OFFSET_Y;
-import static utils.Constants.Flying.SpriteSizes.SMALLSHIP_SPRITE_SIZE;
-import static utils.Constants.Flying.TypeConstants.SMALLSHIP;
-
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 import entities.Entity;
+import entities.flying.EntityInfo;
 import main_classes.Game;
 
 public class SmallShip extends Entity implements Enemy{
-    // Actions
+    private EntityInfo info;
+
     private static final int IDLE = 1;
     private static final int TAKING_DAMAGE = 0;
 
     private int direction;            // 1 = right, -1 = left
     private int xSpeed = 2;
 
-    BufferedImage[][] animations;
     private float startY;
     private float startX;
     private int maxHP = 20;
@@ -36,11 +31,11 @@ public class SmallShip extends Entity implements Enemy{
     private int damageTick = 0;
 
 
-    public SmallShip(Rectangle2D.Float hitbox, BufferedImage[][] animations, int direction) {
+    public SmallShip(Rectangle2D.Float hitbox, EntityInfo info, int direction) {
         super(hitbox);
         startX = hitbox.x;
         startY = hitbox.y;
-        this.animations = animations;
+        this.info = info;
         this.direction = direction;
     }
 
@@ -82,17 +77,22 @@ public class SmallShip extends Entity implements Enemy{
 
     @Override
     public int getType() {
-        return SMALLSHIP;
+        return info.typeConstant;
     }
 
     @Override
-    public void takeDamage(int damage) {
+    public void takeShootDamage(int damage) {
         this.HP -= damage;
         this.action = TAKING_DAMAGE;
         this.damageTick = damageFrames;
         if (HP <= 0) {
             dead = true;
         }
+    }
+
+    @Override
+    public void takeCollisionDamage(int damage) {
+        this.takeShootDamage(damage);
     }
 
     @Override
@@ -123,11 +123,11 @@ public class SmallShip extends Entity implements Enemy{
     @Override
     public void draw(Graphics g) {
         g.drawImage(
-            animations[action][aniIndex], 
-            (int) ((hitbox.x - SMALLSHIP_OFFSET_X + getFlipX()) * Game.SCALE), 
-            (int) ((hitbox.y - SMALLSHIP_OFFSET_Y)* Game.SCALE), 
-            (int) (SMALLSHIP_SPRITE_SIZE * 3 * direction * Game.SCALE), 
-            (int) (SMALLSHIP_SPRITE_SIZE * 3 * Game.SCALE), null);
+            info.animation[action][aniIndex], 
+            (int) ((hitbox.x - info.drawOffsetX + getFlipX()) * Game.SCALE), 
+            (int) ((hitbox.y - info.drawOffsetX)* Game.SCALE), 
+            (int) (info.spriteW * 3 * direction * Game.SCALE), 
+            (int) (info.spriteH * 3 * Game.SCALE), null);
     }
 
     private float getFlipX() {

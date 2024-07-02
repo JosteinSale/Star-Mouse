@@ -69,7 +69,7 @@ public class BossMode extends State implements Statemethods {
          game, 
          game.getAudioPlayer(), 
          player, 
-         new EnemyManager(null, null));
+         new EnemyManager(null, null, null));
       this.animationFactory = new AnimatedComponentFactory();
       this.pauseOverlay = new PauseBoss(game, this, game.getOptionsMenu());
       this.gameoverOverlay = new GameoverOverlay2(game, this);

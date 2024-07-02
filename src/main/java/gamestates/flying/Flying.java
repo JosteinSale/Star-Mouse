@@ -1,14 +1,13 @@
 package gamestates.flying;
 
 import static utils.Constants.Exploring.Cutscenes.AUTOMATIC;
-import static utils.Constants.Flying.TypeConstants.BOMB;
-import static utils.Constants.Flying.TypeConstants.DRONE;
-import static utils.Constants.Flying.TypeConstants.POWERUP;
-import static utils.Constants.Flying.TypeConstants.REPAIR;
 import static utils.Constants.Flying.REPAIR_HEALTH;
+import static entities.flying.EntityFactory.TypeConstants.DRONE;
+import static entities.flying.EntityFactory.TypeConstants.BOMB;
+import static entities.flying.EntityFactory.TypeConstants.REPAIR;
+import static entities.flying.EntityFactory.TypeConstants.POWERUP;
 import static utils.HelpMethods.GetAutomaticTrigger;
 import static utils.HelpMethods.GetCutscenes;
-import static utils.HelpMethods2.GetPickupItem;
 
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
@@ -20,6 +19,7 @@ import cutscenes.Cutscene;
 import cutscenes.cutsceneManagers.CutsceneManagerFly;
 import data_storage.ProgressValues;
 import entities.exploring.AutomaticTrigger;
+import entities.flying.EntityFactory;
 import entities.flying.PlayerFly;
 import entities.flying.enemies.Enemy;
 import entities.flying.enemies.EnemyManager;
@@ -46,6 +46,7 @@ public class Flying extends State implements Statemethods {
    private GameoverOverlay gameoverOverlay;
    private MapManager2 mapManager;
    private FlyLevelInfo flyLevelInfo;
+   private EntityFactory entityFactory;
    private EnemyManager enemyManager;
    private ProjectileHandler projectileHandler;
    private PlayerFly player;
@@ -78,7 +79,8 @@ public class Flying extends State implements Statemethods {
    private void initClasses(OptionsMenu optionsMenu, ProgressValues progValues) {
       Rectangle2D.Float playerHitbox = new Rectangle2D.Float(500f, 400f, 50f, 50f);
       this.player = new PlayerFly(game, playerHitbox);
-      this.enemyManager = new EnemyManager(player, audioPlayer);
+      this.entityFactory = new EntityFactory(player);
+      this.enemyManager = new EnemyManager(player, entityFactory, audioPlayer);
       this.projectileHandler = new ProjectileHandler(game, audioPlayer, player, enemyManager);
       this.eventHandler = new EventHandler();
       TextboxManager2 textboxManager = new TextboxManager2();
@@ -100,7 +102,7 @@ public class Flying extends State implements Statemethods {
       loadPickupItems(level);
       loadCutscenes(level);
       player.setKilledEnemies(0);
-      // startAt(-22000); // For testing purposes
+      //startAt(-10000); // For testing purposes
 
    }
 
@@ -110,20 +112,12 @@ public class Flying extends State implements Statemethods {
       List<String> levelData = ResourceLoader.getFlyLevelData(level);
       for (String line : levelData) {
          String[] lineData = line.split(";");
-         if (lineData[0].equals("automaticTrigger")) {
+         String entryName = lineData[0];
+         if (entryName.equals("automaticTrigger")) {
             automaticTriggers.add(GetAutomaticTrigger(lineData));
-         } else if (lineData[0].equals("powerup")) {
-            int width = 30;
-            int height = 50;
-            pickupItems.add(GetPickupItem(lineData, width, height, POWERUP));
-         } else if (lineData[0].equals("repair")) {
-            int width = 60;
-            int height = 60;
-            pickupItems.add(GetPickupItem(lineData, width, height, REPAIR));
-         } else if (lineData[0].equals("bomb")) {
-            int width = 45;
-            int height = 45;
-            pickupItems.add(GetPickupItem(lineData, width, height, BOMB));
+         } 
+         else if (entityFactory.isPickupItemRegistered(entryName)) {
+            pickupItems.add(entityFactory.getNewPickupItem(lineData));
          }
       }
    }
@@ -161,6 +155,9 @@ public class Flying extends State implements Statemethods {
       } 
       else if (event instanceof FadeOutLoopEvent evt) {
          audioPlayer.fadeOutAllLoops();
+      }
+      else if (event instanceof AddProjectileEvent evt) {
+         this.projectileHandler.addCustomProjectile(evt);
       }
       else if (event instanceof GoToBossEvent evt) {
          transferBombsToProgValues();

@@ -64,6 +64,7 @@ public class ResourceLoader {
     public static final String FELLOWSHIP_SPRITES = "sprite_fellowShip.png";
     public static final String SHIP_FLAME_SPRITES = "sprites_shipFlame.png";
     public static final String SHIP_DEATH_SPRITES = "sprites_death.png";
+    public static final String DELETE_SPRITE = "sprite_delete.png";
     public static final String POWERUP_SPRITE = "sprite_powerup.png";
     public static final String REPAIR_SPRITE = "sprite_repair.png";
     public static final String ENEMYCOUNTER_SPRITE = "sprite_counter3.png";
@@ -87,6 +88,7 @@ public class ResourceLoader {
     public static final String FLAMEDRONE_SPRITE = "sprites_flameDrone.png";
     public static final String WASPDRONE_SPRITE = "sprites_waspDrone.png";
     public static final String KAMIKAZEDRONE_SPRITE = "sprites_kamikazeDrone.png";
+    public static final String SMALL_ASTEROID_SPRITE = "sprites_smallAsteroid.png";
     public static final String FLAME_PROJECTILE = "sprites_droneFlame.png";
 
     // Sprites - BossMode

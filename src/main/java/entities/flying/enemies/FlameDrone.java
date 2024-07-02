@@ -1,25 +1,19 @@
 package entities.flying.enemies;
 
-import static utils.Constants.Flying.DrawOffsetConstants.FLAMEDRONE_OFFSET_X;
-import static utils.Constants.Flying.DrawOffsetConstants.FLAMEDRONE_OFFSET_Y;
-import static utils.Constants.Flying.SpriteSizes.FLAMEDRONE_SPRITE_HEIGHT;
-import static utils.Constants.Flying.SpriteSizes.FLAMEDRONE_SPRITE_WIDTH;
-import static utils.Constants.Flying.TypeConstants.FLAMEDRONE;
-
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 import entities.Entity;
+import entities.flying.EntityInfo;
 import main_classes.Game;
 
 public class FlameDrone extends Entity implements Enemy {
-   // Actions
+   private EntityInfo info;
+
    private static final int PREPARING_TO_SHOOT = 2;
    private static final int IDLE = 1;
    private static final int TAKING_DAMAGE = 0;
 
-   BufferedImage[][] animations;
    private float startY;
    private int maxHP = 120;
    private int HP = maxHP;
@@ -35,10 +29,10 @@ public class FlameDrone extends Entity implements Enemy {
 
    private int shootTick = 0;  // See implementation of upodateShootTick and canShoot
 
-   public FlameDrone(Rectangle2D.Float hitbox, BufferedImage[][] animations) {
+   public FlameDrone(Rectangle2D.Float hitbox, EntityInfo info) {
       super(hitbox);
       startY = hitbox.y;
-      this.animations = animations;
+      this.info = info;
    }
 
    @Override
@@ -94,11 +88,11 @@ public class FlameDrone extends Entity implements Enemy {
 
    @Override
    public int getType() {
-      return FLAMEDRONE;
+      return info.typeConstant;
    }
 
    @Override
-   public void takeDamage(int damage) {
+   public void takeShootDamage(int damage) {
       this.HP -= damage;
       if (this.action != PREPARING_TO_SHOOT) {
          this.action = TAKING_DAMAGE;
@@ -107,6 +101,11 @@ public class FlameDrone extends Entity implements Enemy {
       if (HP <= 0) {
          dead = true;
       }
+   }
+
+   @Override
+   public void takeCollisionDamage(int damage) {
+      this.takeShootDamage(damage);
    }
 
    @Override
@@ -141,11 +140,11 @@ public class FlameDrone extends Entity implements Enemy {
    @Override
    public void draw(Graphics g) {
       g.drawImage(
-            animations[action][aniIndex],
-            (int) ((hitbox.x - FLAMEDRONE_OFFSET_X) * Game.SCALE),
-            (int) ((hitbox.y - FLAMEDRONE_OFFSET_Y) * Game.SCALE),
-            (int) (FLAMEDRONE_SPRITE_WIDTH * 3 * Game.SCALE),
-            (int) (FLAMEDRONE_SPRITE_HEIGHT * 3 * Game.SCALE), null);
+         info.animation[action][aniIndex],
+         (int) ((hitbox.x - info.drawOffsetX) * Game.SCALE),
+         (int) ((hitbox.y - info.drawOffsetY) * Game.SCALE),
+         (int) (info.spriteW * 3 * Game.SCALE),
+         (int) (info.spriteH * 3 * Game.SCALE), null);
    }
 
    private int getDroneSpriteAmount() {

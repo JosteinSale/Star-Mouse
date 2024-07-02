@@ -1,27 +1,22 @@
 package entities.flying.enemies;
 
-import static utils.Constants.Flying.DrawOffsetConstants.REAPERDRONE_OFFSET_X;
-import static utils.Constants.Flying.DrawOffsetConstants.REAPERDRONE_OFFSET_Y;
-import static utils.Constants.Flying.SpriteSizes.REAPERDRONE_SPRITE_HEIGHT;
-import static utils.Constants.Flying.SpriteSizes.REAPERDRONE_SPRITE_WIDTH;
-import static utils.Constants.Flying.TypeConstants.REAPERDRONE;
-
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import entities.Entity;
+import entities.flying.EntityInfo;
 import main_classes.Game;
 
 /** The ReaperDrone shoots 3 wide, fast projectiles in fast succession.
  * They are not hard to dodge or kill, but has an imposing effect.
  */
 public class ReaperDrone extends Entity implements Enemy {
-    // Actions
+    private EntityInfo info;
+
     private static final int IDLE = 1;
     private static final int TAKING_DAMAGE = 0;
 
-    BufferedImage[][] animations;
     private float startY;
     private int maxHP = 150;
     private int HP = maxHP;
@@ -38,10 +33,10 @@ public class ReaperDrone extends Entity implements Enemy {
     private int shootTick = 0;
     private int shootInterval;
 
-    public ReaperDrone(Rectangle2D.Float hitbox, BufferedImage[][] animations, int shootInterval) {
+    public ReaperDrone(Rectangle2D.Float hitbox, EntityInfo info, int shootInterval) {
         super(hitbox);
         startY = hitbox.y;
-        this.animations = animations;
+        this.info = info;
         this.shootInterval = shootInterval;
     }
 
@@ -91,17 +86,22 @@ public class ReaperDrone extends Entity implements Enemy {
 
     @Override
     public int getType() {
-        return REAPERDRONE;
+        return info.typeConstant;
     }
 
     @Override
-    public void takeDamage(int damage) {
+    public void takeShootDamage(int damage) {
         this.HP -= damage;
         this.action = TAKING_DAMAGE;
         this.damageTick = damageFrames;
         if (HP <= 0) {
             dead = true;
         }
+    }
+
+    @Override
+    public void takeCollisionDamage(int damage) {
+        this.takeShootDamage(damage);
     }
 
     @Override
@@ -136,11 +136,11 @@ public class ReaperDrone extends Entity implements Enemy {
     @Override
     public void draw(Graphics g) {
         g.drawImage(
-            animations[action][aniIndex], 
-            (int) ((hitbox.x - REAPERDRONE_OFFSET_X) * Game.SCALE), 
-            (int) ((hitbox.y - REAPERDRONE_OFFSET_Y)* Game.SCALE), 
-            (int) (REAPERDRONE_SPRITE_WIDTH * 3 * Game.SCALE), 
-            (int) (REAPERDRONE_SPRITE_HEIGHT* 3 * Game.SCALE), null);
+            info.animation[action][aniIndex], 
+            (int) ((hitbox.x - info.drawOffsetX) * Game.SCALE), 
+            (int) ((hitbox.y - info.drawOffsetY)* Game.SCALE), 
+            (int) (info.spriteW * 3 * Game.SCALE), 
+            (int) (info.spriteH* 3 * Game.SCALE), null);
     }
 
     private int getDroneSpriteAmount() {

@@ -98,6 +98,13 @@ GO TO BOSSMODE
 * bossNr 1 = first boss.
 
 
+ADD PROJECTILE
+--------------------
+[0] = addProjectile (String), [1] = type (int), [2] = xPos, [3] = yPos, 
+[4] = xSpeed, [5] = ySpeed
+* x- and y-pos is relative to the screen, e.g. top of the screen is always 0.
+
+
 END SEQUENCE
 --------------------
 [0] = endSequence

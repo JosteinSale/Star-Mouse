@@ -1,7 +1,7 @@
 package projectiles;
 
-import static utils.Constants.Flying.SpriteSizes.BOMB_SPRITE_SIZE;
 import static utils.Constants.Flying.TypeConstants.BOMB_PROJECTILE;
+import static utils.Constants.Flying.SpriteSizes.BOMB_PRJT_SPRITE_SIZE;
 
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
@@ -83,8 +83,8 @@ public class BombProjectile extends Entity implements Projectile {
             img, 
             (int) ((hitbox.x - 20) * Game.SCALE), 
             (int) ((hitbox.y - 18) * Game.SCALE), 
-            (int) (BOMB_SPRITE_SIZE * 2.5f * Game.SCALE),
-            (int) (BOMB_SPRITE_SIZE * 2.5f * Game.SCALE), null);
+            (int) (BOMB_PRJT_SPRITE_SIZE * 2.5f * Game.SCALE),
+            (int) (BOMB_PRJT_SPRITE_SIZE * 2.5f * Game.SCALE), null);
     }
     
 }

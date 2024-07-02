@@ -13,7 +13,7 @@ import main_classes.Game;
 
 public class FlameProjectile extends Entity implements Projectile {
    BufferedImage img;
-   private int damage = 30;
+   private int damage = 20;
    private int xSpeed = 0;
    private int ySpeed = 4;
    private int[][] collisionPixels = new int[1][2];

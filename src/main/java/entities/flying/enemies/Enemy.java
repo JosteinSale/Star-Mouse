@@ -22,10 +22,17 @@ public interface Enemy {
 
     public int getType();
 
-    /** Reduces the enemy's HP by the specified amount. Also sets the enemies
+    /** Will be called in projecileHandler when the enemy is hit by a projectile.
+     * Reduces the enemy's HP by the specified amount. Also sets the enemies
      * status to TAKING_DAMAGE. If HP falls below 0, it sets 'dead' to true.
      */
-    public void takeDamage(int damage);
+    public void takeShootDamage(int damage);
+
+    /** Will be called by the enemymanager if the player collides with the enemy.
+     * Is useful if there is distinct behavior for the enemy upon collision.
+     * If not, you can simply do a call to takeShootDamage in the implementation.
+     */
+    public void takeCollisionDamage(int damage);
 
     public boolean canShoot();
 

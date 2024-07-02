@@ -14,6 +14,7 @@ public class SimpleAnimationFactory {
    public static final String RUDINGER1_DEATH = "rudinger1Death.png";
    public static final String LOOPING_EXPLOSION = "loopingExplosion.png";
    public static final String ROW_OF_FLAME_DRONES = "rowOfFlameDrones.png";
+   public static final String ROW_OF_FLAME_DRONES_SHADOW = "rowOfFlameDronesShadow.png";
    public static final String PLAYER_SHIP = "playerShip.png";
 
    // Images
@@ -23,6 +24,7 @@ public class SimpleAnimationFactory {
    private BufferedImage[] rudinger1Death;
    private BufferedImage[] loopingExlposion;
    private BufferedImage[] rowOfFlameDrones;
+   private BufferedImage[] rowOfFlameDronesShadow;
    private BufferedImage[] playerShip;
 
    public SimpleAnimationFactory() {
@@ -42,6 +44,8 @@ public class SimpleAnimationFactory {
          ResourceLoader.getCutsceneImage(LOOPING_EXPLOSION), 10, 40, 40);
       rowOfFlameDrones = HelpMethods2.GetSimpleAnimationArray(
          ResourceLoader.getCutsceneImage(ROW_OF_FLAME_DRONES), 1, 350, 110);
+      rowOfFlameDronesShadow = HelpMethods2.GetSimpleAnimationArray(
+         ResourceLoader.getCutsceneImage(ROW_OF_FLAME_DRONES_SHADOW), 1, 350, 110);
       playerShip = HelpMethods2.GetSimpleAnimationArray(
          ResourceLoader.getCutsceneImage(PLAYER_SHIP), 2, 30, 50);
    }
@@ -55,6 +59,7 @@ public class SimpleAnimationFactory {
          case RUDINGER1_DEATH -> new SimpleAnimation(xPos, yPos, rudinger1Death);
          case LOOPING_EXPLOSION -> new SimpleAnimation(xPos, yPos, loopingExlposion);
          case ROW_OF_FLAME_DRONES -> new SimpleAnimation(xPos, yPos, rowOfFlameDrones);
+         case ROW_OF_FLAME_DRONES_SHADOW -> new SimpleAnimation(xPos, yPos, rowOfFlameDronesShadow);
          case PLAYER_SHIP -> new SimpleAnimation(xPos, yPos, playerShip);
          default -> throw new IllegalArgumentException("No animation available for " + name);
       };

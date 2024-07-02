@@ -250,7 +250,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
             int nrOfCollisions = 0;
             while (collidesWithMap(yLevelOffset, xLevelOffset)) {
                 nrOfCollisions += 1;
-                if (nrOfCollisions > 2) {  // failsafe
+                if (nrOfCollisions > 2) {  // failsafe, if the player gets stuck
                     this.HP = 0;
                     takeCollisionDmg();
                     return;
@@ -278,7 +278,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
             for (Enemy e : bigEnemies) {  
                 if (hitbox.intersects(e.getHitbox())) {
                     undoTeleportAndTakeDamage();
-                    e.takeDamage(10);
+                    e.takeCollisionDamage(10);
                     game.getFlying().checkIfDead(e);
                     while (!hitbox.intersects(e.getHitbox())) {
                         hitbox.x += (teleportDistance/10 * flipX);
@@ -422,7 +422,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
             
             statusDisplay.draw(g);
             g.setColor(Color.RED);
-            this.drawHitbox(g, 0, 0);
+            //this.drawHitbox(g, 0, 0);
             
             // Teleport hitbox
             /* 

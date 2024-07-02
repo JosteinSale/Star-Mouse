@@ -1,39 +1,24 @@
 package entities.flying.pickupItems;
 
-import static utils.Constants.Flying.DrawOffsetConstants.BOMB_OFFSET_X;
-import static utils.Constants.Flying.DrawOffsetConstants.BOMB_OFFSET_Y;
-import static utils.Constants.Flying.SpriteSizes.BOMB_SPRITE_SIZE;
-import static utils.Constants.Flying.TypeConstants.BOMB;
-
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 import entities.Entity;
+import entities.flying.EntityInfo;
 import main_classes.Game;
-import utils.ResourceLoader;
 
 public class Bomb extends Entity implements PickupItem {
-    private BufferedImage[] animations;
+    private EntityInfo info;
     private float startY;
     private int aniIndex;
     private int aniTick;
     private int aniTickPerFrame = 3;
     private boolean active = true;
 
-    public Bomb(Rectangle2D.Float hitbox) {
+    public Bomb(Rectangle2D.Float hitbox, EntityInfo info) {
         super(hitbox);
         startY = hitbox.y;
-        loadAnimations();
-    }
-
-    private void loadAnimations() {
-        BufferedImage img = ResourceLoader.getFlyImageSprite(ResourceLoader.BOMB_PICKUP_SPRITE);
-        this.animations = new BufferedImage[2];
-        for (int i = 0; i < animations.length; i++) {
-            animations[i] = img.getSubimage(
-                i * BOMB_SPRITE_SIZE, 0, BOMB_SPRITE_SIZE, BOMB_SPRITE_SIZE);
-        }
+        this.info = info;
     }
 
     public void update(float yLevelSpeed) {
@@ -52,11 +37,11 @@ public class Bomb extends Entity implements PickupItem {
         //drawHitbox(g, 0, 0);
         if (active) {
             g.drawImage(
-            animations[aniIndex], 
-            (int) ((hitbox.x - BOMB_OFFSET_X) * Game.SCALE), 
-            (int) ((hitbox.y - BOMB_OFFSET_Y) * Game.SCALE), 
-            (int) (BOMB_SPRITE_SIZE * 3 * Game.SCALE),
-            (int) (BOMB_SPRITE_SIZE * 3 * Game.SCALE), null);
+            info.animation[0][aniIndex], 
+            (int) ((hitbox.x - info.drawOffsetX) * Game.SCALE), 
+            (int) ((hitbox.y - info.drawOffsetY) * Game.SCALE), 
+            (int) (info.spriteW * 3 * Game.SCALE),
+            (int) (info.spriteH * 3 * Game.SCALE), null);
         }
     }
 
@@ -73,7 +58,7 @@ public class Bomb extends Entity implements PickupItem {
     }
 
     public int getType() {
-        return BOMB;
+        return info.typeConstant;
     }
 
     @Override

@@ -1,40 +1,25 @@
 package entities.flying.pickupItems;
 
-import static utils.Constants.Flying.DrawOffsetConstants.POWERUP_OFFSET_X;
-import static utils.Constants.Flying.DrawOffsetConstants.POWERUP_OFFSET_Y;
-import static utils.Constants.Flying.SpriteSizes.POWERUP_SPRITE_SIZE;
-import static utils.Constants.Flying.TypeConstants.POWERUP;
-
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
-import java.awt.image.BufferedImage;
 
 import entities.Entity;
+import entities.flying.EntityInfo;
 import main_classes.Game;
-import utils.ResourceLoader;
 
 public class Powerup extends Entity implements PickupItem {
-    private BufferedImage[] animations;
+    private EntityInfo info;
     private float startY;
     private int aniIndex;
     private int aniTick;
     private int aniTickPerFrame = 5;
     private boolean active = true;
 
-    public Powerup(Float hitbox) {
+    public Powerup(Float hitbox, EntityInfo info) {
         super(hitbox);
         startY = hitbox.y;
-        loadAnimations();
-    }
-
-    private void loadAnimations() {
-        BufferedImage img = ResourceLoader.getFlyImageSprite(ResourceLoader.POWERUP_SPRITE);
-        this.animations = new BufferedImage[7];
-        for (int i = 0; i < animations.length; i++) {
-            animations[i] = img.getSubimage(
-                i * POWERUP_SPRITE_SIZE, 0, POWERUP_SPRITE_SIZE, POWERUP_SPRITE_SIZE);
-        }
+        this.info = info;
     }
 
     public void update(float yLevelSpeed) {
@@ -53,11 +38,11 @@ public class Powerup extends Entity implements PickupItem {
         //drawHitbox(g, 0, 0);
         if (active) {
             g.drawImage(
-            animations[aniIndex], 
-            (int) ((hitbox.x - POWERUP_OFFSET_X) * Game.SCALE), 
-            (int) ((hitbox.y - POWERUP_OFFSET_Y) * Game.SCALE), 
-            (int) (POWERUP_SPRITE_SIZE * 3 * Game.SCALE),
-            (int) (POWERUP_SPRITE_SIZE * 3 * Game.SCALE), null);
+            info.animation[0][aniIndex], 
+            (int) ((hitbox.x - info.drawOffsetX) * Game.SCALE), 
+            (int) ((hitbox.y - info.drawOffsetY) * Game.SCALE), 
+            (int) (info.spriteW * 3 * Game.SCALE),
+            (int) (info.spriteH * 3 * Game.SCALE), null);
         }
     }
 
@@ -74,7 +59,7 @@ public class Powerup extends Entity implements PickupItem {
     }
 
     public int getType() {
-        return POWERUP;
+        return info.typeConstant;
     }
 
     @Override

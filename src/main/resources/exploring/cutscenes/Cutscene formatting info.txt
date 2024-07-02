@@ -144,6 +144,12 @@ STOP ALL LOOPS
 * If used alone, it needs to be used together with the wait-method
 
 
+FADE OUT LOOPS
+--------------------
+[0] = fadeOutLoops (String) 
+* Must be used in combination with a method that calls advance(), like wait();
+
+
 MUSIC ENABLED
 --------------------
 [0] = musicEnabled (String), [1] = enabled (boolean)
@@ -193,6 +199,26 @@ MOVE CAMERA
 REATTATCH CAMERA
 --------------------
 [0] = reattatchCamera (String)
+
+
+ADD ANIMATED OBJECT
+--------------------
+[0] = addObject (String), [1] = objectName (String) *
+[2] = xPos (float), [3] = yPos (float)
+* for valid names, check the file names in SimpleAnimationFactory
+
+
+MOVE ANIMATED OBJECT
+--------------------
+[0] = objectMove (String), [1] = objectIndex, [2] = targetX, 
+[3] = targetY, [4] = duration (int)
+* OBS: moving is not an advancable effect, 
+  so it should be used in combination with e.g. wait.
+
+
+CLEAR ANIMATED OBJECTS
+--------------------
+[0] = clearObjects (string)
 
 
 END SEQUENCE

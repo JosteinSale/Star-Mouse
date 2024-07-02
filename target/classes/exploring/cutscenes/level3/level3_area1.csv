@@ -8,14 +8,51 @@ wait;1
 endSequence
 
 cutscene;true;object;0
-moveCamera;100;-300;80
+bigDialogue;Lt.Red;normal;0;2;Hold it Max, we're starting our mission briefing.
 endSequence
-wait;120
+wait;60
 endSequence
-moveCamera;-100;300;80
+stopAllLoops
+bigDialogue;Zack;scared;2;2;Wait, look in the distance!
+setSprite;player;true;0;0;standing_right
 endSequence
+addObject;rowOfFlameDronesShadow;0;-320
+wait;20
+endSequence
+moveCamera;0;-200;120
+endSequence
+moveObject;0;0;0;240
+startSong;5
+wait;60
+setSprite;player;true;0;5;shocked
+endSequence
+wait;60
+endSequence
+bigDialogue;Max;scared;11;2;!
+endSequence
+setSprite;player;true;2;5;standing_alert_right
+bigDialogue;Lt.Red;nervous;4;5;...
+endSequence
+bigDialogue;Lt.Red;nervous;4;2;The enemy has caught up with us! Everyone to their ships!
+endSequence
+bigDialogue;Lt.Red;nervous;4;2;We'll head into the asteroid field!
+endSequence
+bigDialogue;Zack;scared;2;2;Into the asteroids? But that's more dangerous than staying here to fight!
+endSequence
+bigDialogue;Lt.Red;angry;3;2;Zack, you dimwit! We're outnumbered!
+endSequence
+bigDialogue;Lt.Red;angry;3;2;Now do as I say, that's an ORDER!
+endSequence
+bigDialogue;Max;nervous;9;2;...
+endSequence
+bigDialogue;Lt.Red;nervous;4;2;We'll shake them off in the asteroids, and then meet up afterwards.
+endSequence
+bigDialogue;Lt.Red;angry;3;2;Now GO!
+endSequence
+fade;out;black;3
+endSequence
+goToFlying;3
 wait;1
-reattatchCamera
 endSequence
 
 cutscene;true;npc;1

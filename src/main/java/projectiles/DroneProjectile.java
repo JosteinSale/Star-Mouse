@@ -19,9 +19,22 @@ public class DroneProjectile extends Entity implements Projectile {
 
     private boolean active = true;
 
+    /** This constructor can be used in case of standard drones.
+     * The x- and y-speed will have default values.
+     * @param hitbox
+     * @param img
+     */
     public DroneProjectile(Rectangle2D.Float hitbox, BufferedImage img) {
         super(hitbox);
         this.img = img;
+    }
+
+    /** This constructor can be used if a custom x- and y-speed is needed. */
+    public DroneProjectile(Rectangle2D.Float hitbox, BufferedImage img, int xSpeed, int ySpeed) {
+        super(hitbox);
+        this.img = img;
+        this.xSpeed = xSpeed;
+        this.ySpeed = ySpeed;
     }
 
     @Override

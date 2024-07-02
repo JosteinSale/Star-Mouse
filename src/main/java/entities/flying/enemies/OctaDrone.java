@@ -1,22 +1,19 @@
 package entities.flying.enemies;
 
-import static utils.Constants.Flying.DrawOffsetConstants.OCTADRONE_OFFSET;
-import static utils.Constants.Flying.SpriteSizes.OCTADRONE_SPRITE_SIZE;
-import static utils.Constants.Flying.TypeConstants.OCTADRONE;
-
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import entities.Entity;
+import entities.flying.EntityInfo;
 import main_classes.Game;
 
 public class OctaDrone extends Entity implements Enemy {
-    // Actions
+    private EntityInfo info;
+
     private static final int IDLE = 1;
     private static final int TAKING_DAMAGE = 0;
 
-    BufferedImage[][] animations;
     private float startY;
     private int maxHP = 85;
     private int HP = maxHP;
@@ -33,10 +30,10 @@ public class OctaDrone extends Entity implements Enemy {
     private int shootTick = 0;
     private int shootTimer;
 
-    public OctaDrone(Rectangle2D.Float hitbox, BufferedImage[][] animations, int shootTimer) {
+    public OctaDrone(Rectangle2D.Float hitbox, EntityInfo info, int shootTimer) {
         super(hitbox);
         startY = hitbox.y;
-        this.animations = animations;
+        this.info = info;
         this.shootTimer = shootTimer;
     }
 
@@ -88,11 +85,11 @@ public class OctaDrone extends Entity implements Enemy {
 
     @Override
     public int getType() {
-        return OCTADRONE;
+        return info.typeConstant;
     }
 
     @Override
-    public void takeDamage(int damage) {
+    public void takeShootDamage(int damage) {
         this.HP -= damage;
         this.action = TAKING_DAMAGE;
         this.damageTick = damageFrames;
@@ -100,6 +97,11 @@ public class OctaDrone extends Entity implements Enemy {
             dead = true;
         }
     }
+
+    @Override
+   public void takeCollisionDamage(int damage) {
+      this.takeShootDamage(damage);
+   }
 
     @Override
     public boolean isDead() {
@@ -131,11 +133,11 @@ public class OctaDrone extends Entity implements Enemy {
     @Override
     public void draw(Graphics g) {
         g.drawImage(
-            animations[action][aniIndex], 
-            (int) ((hitbox.x - OCTADRONE_OFFSET) * Game.SCALE), 
-            (int) ((hitbox.y - OCTADRONE_OFFSET) * Game.SCALE), 
-            (int) (OCTADRONE_SPRITE_SIZE * 3 * Game.SCALE), 
-            (int) (OCTADRONE_SPRITE_SIZE * 3 * Game.SCALE), null);
+        info.animation[action][aniIndex], 
+        (int) ((hitbox.x - info.drawOffsetX) * Game.SCALE), 
+        (int) ((hitbox.y - info.drawOffsetY) * Game.SCALE), 
+        (int) (info.spriteW * 3 * Game.SCALE), 
+        (int) (info.spriteH * 3 * Game.SCALE), null);
     }
 
     private int getDroneSpriteAmount() {

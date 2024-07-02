@@ -10,17 +10,14 @@ import data_storage.ProgressValues;
 import entities.flying.ShootingPlayer;
 import entities.flying.enemies.Enemy;
 import entities.flying.enemies.EnemyManager;
+import game_events.AddProjectileEvent;
 import main_classes.Game;
 import utils.ResourceLoader;
 
 import static utils.Constants.Flying.SpriteSizes.*;
-import static utils.Constants.Flying.TypeConstants.BLASTERDRONE;
 import static utils.Constants.Flying.TypeConstants.BOMB_PROJECTILE;
-import static utils.Constants.Flying.TypeConstants.DRONE;
-import static utils.Constants.Flying.TypeConstants.FLAMEDRONE;
-import static utils.Constants.Flying.TypeConstants.OCTADRONE;
-import static utils.Constants.Flying.TypeConstants.REAPERDRONE;
-import static utils.Constants.Flying.TypeConstants.WASPDRONE;
+import static entities.flying.EntityFactory.TypeConstants.*;
+import static utils.Constants.Flying.TypeConstants.DRONE_PROJECTILE;
 import static utils.HelpMethods.IsSolid;
 import static utils.Constants.Audio;
 
@@ -141,10 +138,10 @@ public class ProjectileHandler {
 
    protected void addBombProjectile(float xPos, float yPos) {
       Rectangle2D.Float hitbox = new Rectangle2D.Float(
-            xPos + player.getHitbox().width / 2 - BOMB_SPRITE_SIZE / 2,
+            xPos + player.getHitbox().width / 2 - BOMB_PRJT_SPRITE_SIZE / 2,
             yPos - 50,
-            BOMB_SPRITE_SIZE,
-            BOMB_SPRITE_SIZE);
+            BOMB_PRJT_SPRITE_SIZE,
+            BOMB_PRJT_SPRITE_SIZE);
       this.allProjectiles.add(new BombProjectile(hitbox, bombImg));
    }
 
@@ -254,7 +251,7 @@ public class ProjectileHandler {
                   if (!enemy.isDead()) {
                      if (p.getHitbox().intersects(enemy.getHitbox())) {
                         p.setActive(false);
-                        enemy.takeDamage(p.getDamage());
+                        enemy.takeShootDamage(p.getDamage());
                         enemyManager.checkIfDead(enemy);
                      }
                   }
@@ -320,7 +317,7 @@ public class ProjectileHandler {
             b.update(fgSpeed);
             if (b.explosionHappens()) {
                for (Enemy enemy : enemyManager.getActiveEnemiesOnScreen()) {
-                  enemy.takeDamage(explosionDamage);
+                  enemy.takeShootDamage(explosionDamage);
                   if (enemy.isDead()) {
                      enemyManager.addSmallExplosion(enemy.getHitbox());
                      enemyManager.increaseKilledEnemies(enemy.getType());
@@ -428,5 +425,16 @@ public class ProjectileHandler {
       powerUp = false;
       lazerShootTick = 0;
       bombShootTick = 0;
+   }
+
+   /* This could be done better */
+   public void addCustomProjectile(AddProjectileEvent evt) {
+      switch (evt.type()) {
+         case DRONE_PROJECTILE : Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
+            evt.xPos(), evt.yPos(), 32, 33);
+            this.allProjectiles.add(new DroneProjectile(prjctHitbox, dronePrjctImg, evt.xSpeed(), evt.ySpeed()));
+            break;
+         default : throw new IllegalArgumentException("Projectile type " + evt.type() + " is not supported yet.");
+      }
    }
 }

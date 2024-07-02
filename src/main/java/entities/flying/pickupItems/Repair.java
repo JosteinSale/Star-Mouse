@@ -1,40 +1,26 @@
 package entities.flying.pickupItems;
 
-import static utils.Constants.Flying.DrawOffsetConstants.REPAIR_OFFSET;
-import static utils.Constants.Flying.SpriteSizes.REPAIR_SPRITE_SIZE;
-import static utils.Constants.Flying.TypeConstants.REPAIR;
-
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
-import java.awt.image.BufferedImage;
 
 import entities.Entity;
+import entities.flying.EntityInfo;
 import main_classes.Game;
-import utils.ResourceLoader;
 
 public class Repair extends Entity implements PickupItem {
     // Repair-health is in constants
-    private BufferedImage[] animations;
+    private EntityInfo info;
     private float startY;
     private int aniIndex;
     private int aniTick;
     private int aniTickPerFrame = 7;
     private boolean active = true;
 
-    public Repair(Float hitbox) {
+    public Repair(Float hitbox, EntityInfo info) {
         super(hitbox);
         startY = hitbox.y;
-        loadAnimations();
-    }
-
-    private void loadAnimations() {
-        BufferedImage img = ResourceLoader.getFlyImageSprite(ResourceLoader.REPAIR_SPRITE);
-        this.animations = new BufferedImage[4];
-        for (int i = 0; i < animations.length; i++) {
-            animations[i] = img.getSubimage(
-                i * REPAIR_SPRITE_SIZE, 0, REPAIR_SPRITE_SIZE, REPAIR_SPRITE_SIZE);
-        }
+        this.info = info;
     }
 
     public void update(float yLevelSpeed) {
@@ -53,11 +39,11 @@ public class Repair extends Entity implements PickupItem {
         //drawHitbox(g, 0, 0);
         if (active) {
             g.drawImage(
-            animations[aniIndex], 
-            (int) ((hitbox.x - REPAIR_OFFSET) * Game.SCALE), 
-            (int) ((hitbox.y - REPAIR_OFFSET) * Game.SCALE), 
-            (int) (REPAIR_SPRITE_SIZE * 3 * Game.SCALE),
-            (int) (REPAIR_SPRITE_SIZE * 3 * Game.SCALE), null);
+            info.animation[0][aniIndex], 
+            (int) ((hitbox.x - info.drawOffsetX) * Game.SCALE), 
+            (int) ((hitbox.y - info.drawOffsetY) * Game.SCALE), 
+            (int) (info.spriteW * 3 * Game.SCALE),
+            (int) (info.spriteH * 3 * Game.SCALE), null);
         }
     }
 
@@ -74,7 +60,7 @@ public class Repair extends Entity implements PickupItem {
     }
 
     public int getType() {
-        return REPAIR;
+        return info.typeConstant;
     }
 
     @Override

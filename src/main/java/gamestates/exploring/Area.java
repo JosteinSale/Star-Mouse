@@ -151,7 +151,10 @@ public class Area {
       } 
       else if (event instanceof StopLoopsEvent evt) {
          this.audioPlayer.stopAllLoops();
-      } 
+      }
+      else if (event instanceof FadeOutLoopEvent evt) {
+         this.audioPlayer.fadeOutAllLoops();
+      }
       else if (event instanceof MusicEnabledEvent evt) {
          this.musicEnabled = evt.enabled();
       } 
@@ -184,6 +187,12 @@ public class Area {
       }
       else if (event instanceof ReattatchCameraEvent) {
          this.reAttatchCamera();
+      }
+      else if (event instanceof ObjectMoveEvent evt) {
+         this.cutsceneManager.moveObject(evt);
+      }
+      else if (event instanceof ClearObjectsEvent evt) {
+         this.cutsceneManager.clearObjects();
       }
       else {
          this.cutsceneManager.activateEffect(event);

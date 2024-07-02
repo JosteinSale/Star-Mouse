@@ -1,8 +1,8 @@
 package ui;
 
-import static utils.Constants.Flying.TypeConstants.*;
 import static utils.Constants.UI.CURSOR_HEIGHT;
 import static utils.Constants.UI.CURSOR_WIDTH;
+import static entities.flying.EntityFactory.TypeConstants.*;
 
 import java.awt.Color;
 import java.awt.Font;

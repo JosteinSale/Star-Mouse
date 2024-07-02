@@ -6,6 +6,7 @@ import cutscenes.effects.FillScreenEffect;
 import cutscenes.effects.MoveCameraEffect;
 import cutscenes.effects.NPCWalkEffect;
 import cutscenes.effects.NumberDisplayEffect;
+import cutscenes.effects.ObjectMoveEffect;
 import cutscenes.effects.PlayerWalkEffect;
 import cutscenes.effects.RedLightEffect;
 import cutscenes.effects.ScreenShakeEffect;
@@ -15,6 +16,7 @@ import entities.exploring.NpcManager;
 import entities.exploring.PlayerExp;
 import game_events.EventHandler;
 import game_events.FadeEvent;
+import game_events.ObjectMoveEvent;
 import gamestates.Gamestate;
 import gamestates.exploring.Area;
 import main_classes.Game;
@@ -22,12 +24,15 @@ import ui.ITextboxManager;
 import ui.NumberDisplay;
 
 public class CutsceneManagerExp extends DefaultCutsceneManager {
-   private FadeEffect fadeEffect;         // Is needed to check isFadeActive from area
-   private ScreenShakeEffect shakeEffect; // Is needed to check isShakeActive from area
    private Area area;
    private PlayerExp player;
    private NpcManager npcManager;
    private NumberDisplay numberDisplay;
+
+   // Effects that need to be accessible from the area
+   private FadeEffect fadeEffect;        
+   private ScreenShakeEffect shakeEffect; 
+   private ObjectMoveEffect objectMoveEffect;
 
    public CutsceneManagerExp(Gamestate state, Game game, Area area, EventHandler eventHandler, ITextboxManager textboxManager, PlayerExp player, NpcManager npcManager) {
       super(game, eventHandler, textboxManager, state);
@@ -51,8 +56,10 @@ public class CutsceneManagerExp extends DefaultCutsceneManager {
       this.addEffect(new MoveCameraEffect(area));
       
       // Effects that need to be accessible from the cutsceneManager:
+      this.objectMoveEffect = new ObjectMoveEffect();
       this.shakeEffect = new ScreenShakeEffect(this.area);
       this.fadeEffect = new FadeEffect(this.eventHandler);
+      this.addEffect(objectMoveEffect);
       this.addEffect(fadeEffect);
       this.addEffect(shakeEffect);
    }
@@ -119,6 +126,14 @@ public class CutsceneManagerExp extends DefaultCutsceneManager {
    /** Can be called from area to check if a shake is active */
    public boolean isShakeActive() {
       return this.shakeEffect.isActive();
+   }
+
+   public void moveObject(ObjectMoveEvent evt) {
+      this.objectMoveEffect.moveObject(evt);
+   }
+
+   public void clearObjects() {
+      this.objectMoveEffect.reset();
    }
    
 }

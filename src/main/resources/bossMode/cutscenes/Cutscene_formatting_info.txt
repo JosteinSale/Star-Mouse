@@ -92,6 +92,8 @@ MOVE ANIMATED OBJECT
 --------------------
 [0] = objectMove (String), [1] = objectIndex, [2] = targetX, 
 [3] = targetY, [4] = duration (int)
+* OBS: moving is not an advancable effect, 
+  so it should be used in combination with e.g. wait.
 
 
 CLEAR ANIMATED OBJECTS

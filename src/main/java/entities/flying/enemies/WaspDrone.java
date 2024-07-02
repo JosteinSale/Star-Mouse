@@ -1,24 +1,20 @@
 package entities.flying.enemies;
 
-import static utils.Constants.Flying.DrawOffsetConstants.WASPDRONE_OFFSET;
-import static utils.Constants.Flying.SpriteSizes.WASPDRONE_SPRITE_SIZE;
-import static utils.Constants.Flying.TypeConstants.WASPDRONE;
-
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 import entities.Entity;
+import entities.flying.EntityInfo;
 import main_classes.Game;
 
 public class WaspDrone extends Entity implements Enemy {
-   // Actions
+   private EntityInfo info;
+   
    private static final int IDLE = 1;
    private static final int TAKING_DAMAGE = 0;
 
    private int direction; // 1 = right, -1 = left
 
-   BufferedImage[][] animations;
    private float startY;
    private float startX;
    private int maxHP = 60;
@@ -35,11 +31,11 @@ public class WaspDrone extends Entity implements Enemy {
    private int shootTick = 0;
    private int shootTimer;
 
-   public WaspDrone(Rectangle2D.Float hitbox, BufferedImage[][] animations, int direction, int shootTimer) {
+   public WaspDrone(Rectangle2D.Float hitbox, EntityInfo info, int direction, int shootTimer) {
       super(hitbox);
       startX = hitbox.x;
       startY = hitbox.y;
-      this.animations = animations;
+      this.info = info;
       this.direction = direction;
       this.shootTimer = shootTimer;
    }
@@ -86,11 +82,11 @@ public class WaspDrone extends Entity implements Enemy {
 
    @Override
    public int getType() {
-      return WASPDRONE;
+      return info.typeConstant;
    }
 
    @Override
-   public void takeDamage(int damage) {
+   public void takeShootDamage(int damage) {
       this.HP -= damage;
       this.action = TAKING_DAMAGE;
       this.damageTick = damageFrames;
@@ -98,6 +94,11 @@ public class WaspDrone extends Entity implements Enemy {
          dead = true;
       }
    }
+
+   @Override
+    public void takeCollisionDamage(int damage) {
+        this.takeShootDamage(damage);
+    }
 
    @Override
    public boolean isDead() {
@@ -128,11 +129,11 @@ public class WaspDrone extends Entity implements Enemy {
    public void draw(Graphics g) {
       //drawHitbox(g);
       g.drawImage(
-            animations[action][aniIndex],
-            (int) ((hitbox.x - WASPDRONE_OFFSET + getFlipX()) * Game.SCALE),
-            (int) ((hitbox.y - WASPDRONE_OFFSET) * Game.SCALE),
-            (int) (WASPDRONE_SPRITE_SIZE * 3 * direction * Game.SCALE),
-            (int) (WASPDRONE_SPRITE_SIZE * 3 * Game.SCALE), null);
+            info.animation[action][aniIndex],
+            (int) ((hitbox.x - info.drawOffsetX + getFlipX()) * Game.SCALE),
+            (int) ((hitbox.y - info.drawOffsetY) * Game.SCALE),
+            (int) (info.spriteW * 3 * direction * Game.SCALE),
+            (int) (info.spriteH * 3 * Game.SCALE), null);
    }
 
    private float getFlipX() {

@@ -1,10 +1,6 @@
 package entities.flying.enemies;
 
-import static utils.Constants.Flying.HitboxConstants.*;
 import static utils.Constants.Flying.SpriteSizes.*;
-import static utils.Constants.Flying.TypeConstants.*;
-import static utils.HelpMethods2.GetEnemy;
-import static utils.HelpMethods2.GetEnemyAnimations;
 
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
@@ -14,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import audio.AudioPlayer;
+import entities.flying.EntityFactory;
 import entities.flying.PlayerFly;
 import main_classes.Game;
 import projectiles.Explosion;
@@ -22,19 +19,10 @@ import utils.Constants.Audio;
 
 public class EnemyManager {
     PlayerFly player;
+    private EntityFactory entityFactory;
     private AudioPlayer audioPlayer;
     private ArrayList<Enemy> allEnemies;
     private ArrayList<Enemy> activeEnemiesOnScreen;
-    private BufferedImage[][] targetAnimations;
-    private BufferedImage[][] droneAnimations;
-    private BufferedImage[][] smallShipAnimations;
-    private BufferedImage[][] octadroneAnimations;
-    private BufferedImage[][] tankdroneAnimations;
-    private BufferedImage[][] blasterdroneAnimations;
-    private BufferedImage[][] reaperdroneAnimations;
-    private BufferedImage[][] flamedroneAnimations;
-    private BufferedImage[][] waspdroneAnimations;
-    private BufferedImage[][] kamikazedroneAnimations;
     private BufferedImage[] explosionAnimation;
     private ArrayList<Explosion> explosions;
     private int collisionDmg = 10;
@@ -42,10 +30,11 @@ public class EnemyManager {
     private ArrayList<Integer> killedEnemies;           // Contains the enemyTypes
     private ArrayList<Integer> killedEnemiesAtCheckpoint;
 
-    public EnemyManager(PlayerFly player, AudioPlayer audioPlayer) {
+    public EnemyManager(PlayerFly player, EntityFactory entityFactory, AudioPlayer audioPlayer) {
         this.player = player;
         this.audioPlayer = audioPlayer;
-        loadImgs();
+        this.entityFactory = entityFactory;
+        this.loadImgs();
         allEnemies = new ArrayList<>();
         activeEnemiesOnScreen = new ArrayList<>();
         this.explosions = new ArrayList<>();
@@ -54,46 +43,6 @@ public class EnemyManager {
     }
 
     private void loadImgs() {
-        BufferedImage targetImg = ResourceLoader.getFlyImageSprite(ResourceLoader.TARGET_SPRITE);
-        this.targetAnimations = GetEnemyAnimations(
-            targetImg, TARGET_SPRITE_SIZE, TARGET_SPRITE_SIZE, 2, 4);
-        
-        BufferedImage droneImg = ResourceLoader.getFlyImageSprite(ResourceLoader.DRONE_SPRITE);
-        this.droneAnimations = GetEnemyAnimations(
-            droneImg, DRONE_SPRITE_SIZE, DRONE_SPRITE_SIZE, 2, 3);
-        
-        BufferedImage smallShipImg = ResourceLoader.getFlyImageSprite(ResourceLoader.SMALLSHIP_SPRITE);
-        this.smallShipAnimations = GetEnemyAnimations(
-            smallShipImg, SMALLSHIP_SPRITE_SIZE, SMALLSHIP_SPRITE_SIZE, 2, 4);
-        
-        BufferedImage octadroneImg = ResourceLoader.getFlyImageSprite(ResourceLoader.OCTADRONE_SPRITE);
-        this.octadroneAnimations = GetEnemyAnimations(
-            octadroneImg, OCTADRONE_SPRITE_SIZE, OCTADRONE_SPRITE_SIZE, 2, 4);
-        
-        BufferedImage tankdroneImg = ResourceLoader.getFlyImageSprite(ResourceLoader.TANKDRONE_SPRITE);
-        this.tankdroneAnimations = GetEnemyAnimations(
-            tankdroneImg, TANKDRONE_SPRITE_SIZE, TANKDRONE_SPRITE_SIZE, 2, 4);
-        
-        BufferedImage blasterdroneImg = ResourceLoader.getFlyImageSprite(ResourceLoader.BLASTERDRONE_SPRITE);
-        this.blasterdroneAnimations = GetEnemyAnimations(
-            blasterdroneImg, BLASTERDRONE_SPRITE_SIZE, BLASTERDRONE_SPRITE_SIZE, 2, 4);
-        
-        BufferedImage reaperdroneImg = ResourceLoader.getFlyImageSprite(ResourceLoader.REAPERDRONE_SPRITE);
-        this.reaperdroneAnimations = GetEnemyAnimations(
-            reaperdroneImg, REAPERDRONE_SPRITE_WIDTH, REAPERDRONE_SPRITE_HEIGHT, 2, 4);
-        
-        BufferedImage flamedroneImg = ResourceLoader.getFlyImageSprite(ResourceLoader.FLAMEDRONE_SPRITE);
-        this.flamedroneAnimations = GetEnemyAnimations(
-            flamedroneImg, FLAMEDRONE_SPRITE_WIDTH, FLAMEDRONE_SPRITE_HEIGHT, 3, 6);
-        
-        BufferedImage waspdroneImg = ResourceLoader.getFlyImageSprite(ResourceLoader.WASPDRONE_SPRITE);
-        this.waspdroneAnimations = GetEnemyAnimations(
-            waspdroneImg, WASPDRONE_SPRITE_SIZE, WASPDRONE_SPRITE_SIZE, 2, 4);
-        
-        BufferedImage kamikazeImg = ResourceLoader.getFlyImageSprite(ResourceLoader.KAMIKAZEDRONE_SPRITE);
-        this.kamikazedroneAnimations = GetEnemyAnimations(
-            kamikazeImg, KAMIKAZEDRONE_SPRITE_SIZE, KAMIKAZEDRONE_SPRITE_SIZE, 2, 4);
-
         this.explosionAnimation = new BufferedImage[5];
         BufferedImage explosionImg = ResourceLoader.getFlyImageSprite(ResourceLoader.EXPLOSION);
         for (int i = 0; i < explosionAnimation.length; i++) {
@@ -112,57 +61,9 @@ public class EnemyManager {
         List<String> enemyData = ResourceLoader.getFlyLevelData(lvl);
         for (String line : enemyData) {
             String[] lineData = line.split(";");
-
-            if (lineData[0].equals("target")) {
-                int size = TARGET_HITBOX_SIZE;
-                allEnemies.add(GetEnemy(TARGET, lineData, size, size, targetAnimations));
-            }
-            else if (lineData[0].equals("drone")) {
-                int width = DRONE_HITBOX_W;
-                int height = DRONE_HITBOX_H;
-                allEnemies.add(GetEnemy(DRONE, lineData, width, height, droneAnimations));
-            }
-            else if (lineData[0].equals("smallShip")) {
-                int width = SMALLSHIP_HITBOX_W;
-                int height = SMALLSHIP_HITBOX_H; 
-                allEnemies.add(GetEnemy(SMALLSHIP, lineData, width, height, smallShipAnimations));
-            }
-            else if (lineData[0].equals("octaDrone")) {
-                int width = OCTADRONE_HITBOX_SIZE;
-                int height = OCTADRONE_HITBOX_SIZE;
-                allEnemies.add(GetEnemy(OCTADRONE, lineData, width, height, octadroneAnimations));
-            }
-            else if (lineData[0].equals("tankDrone")) {
-                int width = TANKDRONE_HITBOX_W;
-                int height = TANKDRONE_HITBOX_H;
-                allEnemies.add(GetEnemy(TANKDRONE, lineData, width, height, tankdroneAnimations));
-            }
-            else if (lineData[0].equals("blasterDrone")) {
-                int width = BLASTERDRONE_HITBOX_W;
-                int height = BLASTERDRONE_HITBOX_H;
-                allEnemies.add(GetEnemy(BLASTERDRONE, lineData, width, height, blasterdroneAnimations));
-            }
-            else if (lineData[0].equals("reaperDrone")) {
-                int width = REAPERDRONE_HITBOX_W;
-                int height = REAPERDRONE_HITBOX_H;
-                allEnemies.add(GetEnemy(REAPERDRONE, lineData, width, height, reaperdroneAnimations));
-            }
-            else if (lineData[0].equals("flameDrone")) {
-                int width = FLAMEDRONE_HITBOX_SIZE;
-                int height = FLAMEDRONE_HITBOX_SIZE;
-                allEnemies.add(GetEnemy(FLAMEDRONE, lineData, width, height, flamedroneAnimations));
-            }
-            else if (lineData[0].equals("waspDrone")) {
-                int width = WASPDRONE_HITBOX_SIZE;
-                int height = WASPDRONE_HITBOX_SIZE;
-                allEnemies.add(GetEnemy(WASPDRONE, lineData, width, height, waspdroneAnimations));
-            }
-            else if (lineData[0].equals("kamikazeDrone")) {
-                int width = KAMIKAZEDRONE_HITBOX_SIZE;
-                int height = KAMIKAZEDRONE_HITBOX_SIZE;
-                KamikazeDrone kamikazeDrone = (KamikazeDrone) GetEnemy(KAMIKAZEDRONE, lineData, width, height, kamikazedroneAnimations);
-                kamikazeDrone.setPlayer(this.player);
-                allEnemies.add(kamikazeDrone);
+            String entryName = lineData[0];
+            if (entityFactory.isEnemyRegistered(entryName)) {
+                this.allEnemies.add(entityFactory.GetNewEnemy(lineData));
             }
         }
     }
@@ -175,11 +76,11 @@ public class EnemyManager {
             if (enemy.isOnScreen() && !enemy.isDead()) {
                 activeEnemiesOnScreen.add(enemy);
                 if (enemy.isSmall() && player.teleportDamagesEnemy(enemy.getHitbox())) {
-                    enemy.takeDamage(teleportDmg);
+                    enemy.takeShootDamage(teleportDmg);
                     checkIfDead(enemy);
                 }
                 else if (player.collidesWithEnemy(enemy.getHitbox())) {   // Also pushes player in opposite direction
-                    enemy.takeDamage(collisionDmg);
+                    enemy.takeCollisionDamage(collisionDmg);
                     checkIfDead(enemy);
                 }
             }
@@ -238,7 +139,7 @@ public class EnemyManager {
         ArrayList<Enemy> copy = new ArrayList<>(activeEnemiesOnScreen);
         for (Enemy enemy : copy) {  
             enemy.draw(g);
-            //enemy.drawHitbox(g);
+            enemy.drawHitbox(g);
         }
         for (Explosion ex : explosions) {   // ConcurrentModificationException
             g.drawImage(

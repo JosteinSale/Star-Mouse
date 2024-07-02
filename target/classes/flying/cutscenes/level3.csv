@@ -1,4 +1,8 @@
 cutscene;true;automatic;0
+addProjectile;1;300;750;0;-4
+endSequence
+
+cutscene;true;automatic;1
 fade;out;black;5
 endSequence
 setGameplayActive;false

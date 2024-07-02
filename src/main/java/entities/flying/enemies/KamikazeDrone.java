@@ -1,25 +1,21 @@
 package entities.flying.enemies;
 
-import static utils.Constants.Flying.DrawOffsetConstants.KAMIKAZEDRONE_OFFSET;
-import static utils.Constants.Flying.SpriteSizes.KAMIKAZEDRONE_SPRITE_SIZE;
-import static utils.Constants.Flying.TypeConstants.KAMIKAZEDRONE;
-
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 import entities.Entity;
+import entities.flying.EntityInfo;
 import entities.flying.PlayerFly;
 import main_classes.Game;
 
 public class KamikazeDrone extends Entity implements Enemy {
-   // Actions
+   private EntityInfo info;
    private static final int IDLE = 1;
    private static final int TAKING_DAMAGE = 0;
 
-   PlayerFly player;
-   BufferedImage[][] animations;
+   private PlayerFly player;
    private float startY;
+   private float startX;
    private float xSpeed = 3;
    private int maxHP = 60;
    private int HP = maxHP;
@@ -35,10 +31,11 @@ public class KamikazeDrone extends Entity implements Enemy {
 
    private int playerCollisions = 0;    // When the drone has collided 3 times, it explodes
 
-   public KamikazeDrone(Rectangle2D.Float hitbox, BufferedImage[][] animations) {
+   public KamikazeDrone(Rectangle2D.Float hitbox, EntityInfo info) {
       super(hitbox);
       startY = hitbox.y;
-      this.animations = animations;
+      startX = hitbox.x;
+      this.info = info;
    }
 
    /** The kamikazedrone follows the player's position, so it needs access to the player */
@@ -54,16 +51,6 @@ public class KamikazeDrone extends Entity implements Enemy {
          hitbox.y += levelYSpeed;
          updateAniTick();
          moveTowardsPlayer();
-         checkPlayerOverlap();
-      }
-   }
-
-   private void checkPlayerOverlap() {
-      if (playerCollisions == 2) {
-         this.HP = 0;  // The drone will explode next time the takeDamage-method is called.
-      }
-      if (player.getHitbox().intersects(hitbox)) {
-         this.playerCollisions++;
       }
    }
 
@@ -107,15 +94,26 @@ public class KamikazeDrone extends Entity implements Enemy {
 
    @Override
    public int getType() {
-      return KAMIKAZEDRONE;
+      return info.typeConstant;
    }
 
    @Override
-   public void takeDamage(int damage) {
+   public void takeShootDamage(int damage) {
       this.HP -= damage;
       this.action = TAKING_DAMAGE;
       this.damageTick = damageFrames;
       if (HP <= 0) {
+         dead = true;
+      }
+   }
+
+   @Override
+   public void takeCollisionDamage(int damage) {
+      this.playerCollisions++;
+      this.HP -= damage;
+      if (playerCollisions == 3) {
+         // The drone explodes after 3 collisions
+         this.HP = 0;  
          dead = true;
       }
    }
@@ -152,11 +150,11 @@ public class KamikazeDrone extends Entity implements Enemy {
    @Override
    public void draw(Graphics g) {
       g.drawImage(
-            animations[action][aniIndex],
-            (int) ((hitbox.x - KAMIKAZEDRONE_OFFSET) * Game.SCALE),
-            (int) ((hitbox.y - KAMIKAZEDRONE_OFFSET) * Game.SCALE),
-            (int) (KAMIKAZEDRONE_SPRITE_SIZE * 3 * Game.SCALE),
-            (int) (KAMIKAZEDRONE_SPRITE_SIZE * 3 * Game.SCALE), null);
+         info.animation[action][aniIndex],
+         (int) ((hitbox.x - info.drawOffsetX) * Game.SCALE),
+         (int) ((hitbox.y - info.drawOffsetY) * Game.SCALE),
+         (int) (info.spriteW * 3 * Game.SCALE),
+         (int) (info.spriteH * 3 * Game.SCALE), null);
    }
 
    private int getSpriteAmount() {
@@ -172,6 +170,7 @@ public class KamikazeDrone extends Entity implements Enemy {
    @Override
    public void resetTo(float y) {
       hitbox.y = startY + y;
+      hitbox.x = startX;
       action = IDLE;
       HP = maxHP;
       onScreen = false;

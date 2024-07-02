@@ -1,23 +1,20 @@
 package entities.flying.enemies;
 
-import static utils.Constants.Flying.SpriteSizes.TARGET_SPRITE_SIZE;
-import static utils.Constants.Flying.TypeConstants.TARGET;
-
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
-import java.awt.image.BufferedImage;
 
 import entities.Entity;
+import entities.flying.EntityInfo;
 import main_classes.Game;
 
 
 public class Target extends Entity implements Enemy {
-    // Actions
+    private EntityInfo info;
+
     private static final int IDLE = 1;
     private static final int TAKING_DAMAGE = 0;
 
-    BufferedImage[][] animations;
     private float startY;
     private int maxHP = 25;
     private int HP = maxHP;
@@ -31,10 +28,10 @@ public class Target extends Entity implements Enemy {
     private int damageFrames = 10;
     private int damageTick = 0;
 
-    public Target(Rectangle2D.Float hitbox, BufferedImage[][] animations) {
+    public Target(Rectangle2D.Float hitbox, EntityInfo info) {
         super(hitbox);
         startY = hitbox.y;
-        this.animations = animations;
+        this.info = info;
     }
 
     @Override
@@ -71,17 +68,22 @@ public class Target extends Entity implements Enemy {
 
     @Override
     public int getType() {
-        return TARGET;
+        return info.typeConstant;
     }
 
     @Override
-    public void takeDamage(int damage) {
+    public void takeShootDamage(int damage) {
         this.HP -= damage;
         this.action = TAKING_DAMAGE;
         this.damageTick = damageFrames;
         if (HP <= 0) {
             dead = true;
         }
+    }
+
+    @Override
+    public void takeCollisionDamage(int damage) {
+        this.takeShootDamage(damage);
     }
 
     @Override
@@ -102,11 +104,11 @@ public class Target extends Entity implements Enemy {
     @Override
     public void draw(Graphics g) {
         g.drawImage(
-            animations[action][aniIndex], 
+            info.animation[action][aniIndex], 
             (int) (hitbox.x * Game.SCALE), 
             (int) (hitbox.y * Game.SCALE), 
-            (int) (TARGET_SPRITE_SIZE * 3 * Game.SCALE), 
-            (int) (TARGET_SPRITE_SIZE * 3 * Game.SCALE), null);
+            (int) (info.spriteW * 3 * Game.SCALE), 
+            (int) (info.spriteH * 3 * Game.SCALE), null);
     }
 
     private int getTargetSpriteAmount() {
