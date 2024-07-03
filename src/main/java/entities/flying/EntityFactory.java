@@ -26,7 +26,7 @@ public class EntityFactory {
    private HashMap<Integer, String> constantToNameMap;
    private PlayerFly player;    // Some enemies might need the player for their constructor.
 
-   // Entity constants. Should be numbered from 0 to x.
+   // Entity constants. Should be numbered from 0 and upwards.
    public static class TypeConstants {
       public static final int DELETE = 0;
       public static final int POWERUP = 1;

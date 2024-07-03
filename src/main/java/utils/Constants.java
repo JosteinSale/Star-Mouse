@@ -223,6 +223,7 @@ public class Constants {
                 case 0 : return SONG_LEVEL0;
                 case 1 : return SONG_LEVEL1;
                 case 2 : return SONG_LEVEL2;
+                case 3 : return SONG_ASTEROID_ESCAPE;
                 default : return SONG_LEVEL0;
             }
         }

@@ -138,8 +138,8 @@ import utils.Constants.Audio;
         game.getLevelSelect().unlockAllLevelsUpTo(3);
 
         // LEVEL SELECT
-        //game.getLevelSelect().reset();
-        //Gamestate.state = Gamestate.LEVEL_SELECT;
+        // game.getLevelSelect().reset();
+        // Gamestate.state = Gamestate.LEVEL_SELECT;
 
         // EXPLORING - Uncomment to only test one level in exploring.
         // game.getExploring().loadLevel(1); // Area is currently specified in that method.

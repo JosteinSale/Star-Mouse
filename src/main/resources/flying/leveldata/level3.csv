@@ -4,7 +4,10 @@ automaticTrigger;0f;-1600f;10f;10f;This is crazy!
 automaticTrigger;0f;-3000f;10f;10f;watch your 6!
 automaticTrigger;0f;-5000f;10f;10f;Shots and asteroids
 automaticTrigger;0f;-6000f;10f;10f;Big asteroids!
-automaticTrigger;0f;-10000f;10f;10f;endLevel
+automaticTrigger;0f;-11000f;10f;10f;Checkpoint!
+automaticTrigger;0f;-11400f;10f;10f;More shots and asteroids.
+automaticTrigger;0f;-13200f;10f;10f;Zack dies.
+automaticTrigger;0f;-20000f;10f;10f;endLevel
 smallAsteroid;118;-1702;1;330
 smallAsteroid;878;-2452;-1;440
 smallAsteroid;878;-2062;-1;510
@@ -30,10 +33,35 @@ smallAsteroid;918;-5082;1;400
 repair;525;-5435;1;0
 bigAsteroid;65;-7725;1;220
 smallAsteroid;408;-7592;1;220
-smallAsteroid;538;-7672;1;220
 bigAsteroid;815;-7405;-1;230
 bigAsteroid;605;-8205;1;400
 smallAsteroid;368;-8242;1;400
 smallAsteroid;918;-8242;1;400
 smallAsteroid;468;-8142;1;400
 bigAsteroid;1005;-7875;-1;230
+smallAsteroid;578;-7632;1;220
+smallAsteroid;28;-7632;1;400
+smallAsteroid;118;-7742;1;400
+bigAsteroid;825;-8605;-1;330
+smallAsteroid;-2;-8702;1;310
+bigAsteroid;-35;-9185;1;140
+smallAsteroid;918;-8952;-1;150
+smallAsteroid;808;-8962;1;500
+powerup;948;-10160;1;0
+smallAsteroid;378;-9572;1;600
+smallAsteroid;508;-9602;1;600
+smallAsteroid;438;-9762;1;600
+smallAsteroid;558;-9882;1;600
+smallAsteroid;418;-9922;1;600
+smallAsteroid;488;-10052;1;600
+smallAsteroid;388;-10072;1;600
+smallAsteroid;468;-10202;1;600
+smallAsteroid;578;-10302;1;600
+smallAsteroid;458;-10362;1;600
+smallAsteroid;508;-10492;1;600
+smallAsteroid;678;-12602;1;410
+smallAsteroid;928;-12572;-1;410
+smallAsteroid;138;-11542;1;440
+smallAsteroid;878;-11972;-1;440
+bigAsteroid;155;-12625;1;400
+bigAsteroid;815;-12785;-1;10

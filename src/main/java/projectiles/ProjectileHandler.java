@@ -241,6 +241,7 @@ public class ProjectileHandler {
     * If a projectile collides with the map or with an enemy/player,
     * it's set to inactive.
     */
+   // TODO - clean up this messy method >:(
    protected void checkProjectileCollisions(float yLevelOffset, float xLevelOffset) {
       for (Projectile p : allProjectiles) {
          if (p.isActive()) {
@@ -253,6 +254,13 @@ public class ProjectileHandler {
                         p.setActive(false);
                         enemy.takeShootDamage(p.getDamage());
                         enemyManager.checkIfDead(enemy);
+                        if (!enemy.isSmall()) {
+                           projectileHits.add(new ProjectileHit(
+                           (int) (p.getHitbox().x - 10),
+                           (int) (p.getHitbox().y) + 20,
+                           0)); // Small hit
+                        }
+                     break;
                      }
                   }
                }

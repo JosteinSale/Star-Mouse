@@ -11,6 +11,7 @@ import main_classes.Game;
  * xSpeed and ySpeed, see the documentation for SmallAsteroid for explanation.
  * This is a big enemy, which cannot be teleport-killed.
  * Also it cannot take damage, and thus has no damage animation.
+ * If the player collides with it, the speed is reduced by 1 unit.
  */
 public class BigAsteroid extends Entity implements Enemy {
    private EntityInfo info;
@@ -78,7 +79,18 @@ public class BigAsteroid extends Entity implements Enemy {
 
    @Override
    public void takeCollisionDamage(int damage) {
-      this.takeShootDamage(damage);
+      this.reduceAsteroidSpeed();
+   }
+
+   private void reduceAsteroidSpeed() {
+      if (Math.abs(xSpeed) > 0) {
+         int decrement = (int) (xSpeed / Math.abs(xSpeed));  // will be +1 or -1
+         xSpeed -= decrement;
+      }
+      if (Math.abs(ySpeed) > 0) {
+         int decrement = (int) (ySpeed / Math.abs(ySpeed));  // will be +1 or -1
+         ySpeed -= decrement;
+      }
    }
 
    @Override

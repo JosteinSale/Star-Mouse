@@ -102,7 +102,7 @@ public class Flying extends State implements Statemethods {
       loadPickupItems(level);
       loadCutscenes(level);
       player.setKilledEnemies(0);
-      startAt(-6000); // For testing purposes
+      startAt(-9500); // For testing purposes
 
    }
 
@@ -178,7 +178,6 @@ public class Flying extends State implements Statemethods {
 
    @Override
    public void update() {
-      System.out.println(mapManager.yProgess);
       if (gameOver) {
          gameoverOverlay.update();
       } else if (pause) {
@@ -394,6 +393,7 @@ public class Flying extends State implements Statemethods {
 
       // Restart audio
       audioPlayer.startSongLoop(song, songResetPos);
+      audioPlayer.startAmbienceLoop(Audio.AMBIENCE_ROCKET_ENGINE);
    }
 
    private void resetLevelValues(boolean toCheckPoint) {

@@ -32,15 +32,16 @@ public class PauseFlying {
     private final int SKIP_LEVEL = 3;
     private final int PLUS10_ENEMIES = 4;
     private final int MINUS10_ENEMIES = 5;
-    private String[] menuOptions = { "Continue", "Options", "Main Menu", "Skip Level", "+10 Enemies", "-10 Enemies"};
+    private final int DIE = 6;
+    private String[] menuOptions = { "Continue", "Options", "Main Menu", "Skip Level", "+10 Enemies", "-10 Enemies", "Die (lol)"};
     private BufferedImage pointerImg;
     private int selectedIndex = 0;
 
     private int cursorX = 320;
     private int cursorMinY = 290;
-    private int cursorMaxY = 620;
+    private int cursorMaxY = 650;
     private int cursorY = cursorMinY;
-    private int menuOptionsDiff = (cursorMaxY - cursorMinY) / 5;
+    private int menuOptionsDiff = (cursorMaxY - cursorMinY) / 6;
 
     public PauseFlying(Flying flying, OptionsMenu optionsMenu) {
         this.audioPlayer = flying.getGame().getAudioPlayer();
@@ -109,13 +110,17 @@ public class PauseFlying {
                 audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
                 this.flying.minus10KilledEnemies();
             }
+            else if (selectedIndex == DIE) {
+                this.flying.flipPause();
+                this.flying.killPlayer();
+            }
         }
     }
 
     private void goDown() {
         this.cursorY += menuOptionsDiff;
         this.selectedIndex++;
-        if (selectedIndex > 5) {
+        if (selectedIndex > 6) {
             selectedIndex = 0;
             cursorY = cursorMinY;
         }
@@ -125,7 +130,7 @@ public class PauseFlying {
         this.cursorY -= menuOptionsDiff;
         this.selectedIndex--;
         if (selectedIndex < 0) {
-            selectedIndex = 5;
+            selectedIndex = 6;
             cursorY = cursorMaxY;
         }
     }
