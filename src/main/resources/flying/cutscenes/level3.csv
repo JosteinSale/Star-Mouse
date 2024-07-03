@@ -81,7 +81,7 @@ endSequence
 addProjectile;1;600;750;0;-4
 wait;20
 endSequence
-addProjectile;1;300;750;0;-4
+addProjectile;1;100;750;0;-4
 addProjectile;1;800;750;0;-4
 wait;60
 endSequence
@@ -154,12 +154,26 @@ cutscene;true;automatic;8
 smallDialogue;Zack;scared;2;2;AAH, I'M HIT!
 wait;180
 endSequence
-wait;60;
 smallDialogue;Lt.Red;scared;3;2;Zack!
 wait;180
 endSequence
 
 cutscene;true;automatic;9
+smallDialogue;Gard;normal;0;2;Use teleport to get through!
+wait;240
+endSequence
+
+cutscene;true;automatic;10
+smallDialogue;Frida;scared;0;2;HELP!
+wait;180
+endSequence
+wait;60
+endSequence
+smallDialogue;Gard;normal;0;2;Frida, no!
+wait;180
+endSequence
+
+cutscene;true;automatic;11
 fade;out;black;5
 endSequence
 setGameplayActive;false

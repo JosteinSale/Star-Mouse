@@ -7,7 +7,9 @@ automaticTrigger;0f;-6000f;10f;10f;Big asteroids!
 automaticTrigger;0f;-11000f;10f;10f;Checkpoint!
 automaticTrigger;0f;-11400f;10f;10f;More shots and asteroids.
 automaticTrigger;0f;-13200f;10f;10f;Zack dies.
-automaticTrigger;0f;-20000f;10f;10f;endLevel
+automaticTrigger;0f;-15750f;10f;10f;Use teleport to get through!
+automaticTrigger;0f;-17250f;10f;10f;Frida dies.
+automaticTrigger;0f;-25000f;10f;10f;endLevel
 smallAsteroid;118;-1702;1;330
 smallAsteroid;878;-2452;-1;440
 smallAsteroid;878;-2062;-1;510
@@ -65,3 +67,23 @@ smallAsteroid;138;-11542;1;440
 smallAsteroid;878;-11972;-1;440
 bigAsteroid;155;-12625;1;400
 bigAsteroid;815;-12785;-1;10
+smallAsteroid;238;-1842;1;510
+smallAsteroid;88;-2032;1;540
+smallAsteroid;488;-2432;1;500
+bigAsteroid;35;-14365;1;300
+smallAsteroid;188;-14002;1;440
+bigAsteroid;35;-14695;1;300
+bigAsteroid;35;-15025;1;300
+bigAsteroid;305;-14535;1;300
+bigAsteroid;305;-14865;1;300
+bigAsteroid;305;-15195;1;300
+smallAsteroid;958;-15572;-1;330
+smallAsteroid;948;-16322;-1;330
+smallAsteroid;948;-16752;-1;330
+smallAsteroid;938;-17092;-1;330
+repair;505;-16735;1;0
+smallAsteroid;838;-17222;-1;330
+smallAsteroid;748;-17362;-1;330
+smallAsteroid;898;-17362;-1;330
+smallAsteroid;628;-17502;-1;330
+smallAsteroid;938;-17642;-1;330

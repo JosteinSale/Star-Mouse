@@ -18,8 +18,10 @@ public class BigAsteroid extends Entity implements Enemy {
 
    private float startY;
    private float startX;
-   private float xSpeed;
-   private float ySpeed;
+   private float startXSpeed;
+   private float startYSpeed;
+   private float curXSpeed;
+   private float curYSpeed;
    private boolean onScreen = false;
 
 
@@ -30,6 +32,8 @@ public class BigAsteroid extends Entity implements Enemy {
       this.info = info;
       // Extract x- and y-Speed.
       this.extractXandYSpeed(shootInterval, direction);
+      this.curXSpeed = startXSpeed;
+      this.curYSpeed = startYSpeed;
    }
 
    /** Will use the shootInterval and direction to extract x- and y-Speed.
@@ -44,8 +48,8 @@ public class BigAsteroid extends Entity implements Enemy {
       if (shootInterval < 0) {
          throw new IllegalArgumentException("We can't have negative y-speed");
       }
-      this.ySpeed = shootInterval / 100;
-      this.xSpeed = Math.abs((shootInterval / 10) % 10) * direction;
+      this.startYSpeed = shootInterval / 100;
+      this.startXSpeed = Math.abs((shootInterval / 10) % 10) * direction;
    }
 
    @Override
@@ -53,8 +57,8 @@ public class BigAsteroid extends Entity implements Enemy {
       hitbox.y += levelYSpeed;
       onScreen = (((hitbox.y + hitbox.height + 50) > 0) && ((hitbox.y - 50) < Game.GAME_DEFAULT_HEIGHT));
       if (onScreen) {
-         hitbox.y += ySpeed;
-         hitbox.x += xSpeed;
+         hitbox.y += curYSpeed;
+         hitbox.x += curXSpeed;
       }
    }
 
@@ -83,13 +87,13 @@ public class BigAsteroid extends Entity implements Enemy {
    }
 
    private void reduceAsteroidSpeed() {
-      if (Math.abs(xSpeed) > 0) {
-         int decrement = (int) (xSpeed / Math.abs(xSpeed));  // will be +1 or -1
-         xSpeed -= decrement;
+      if (Math.abs(curXSpeed) > 0) {
+         int decrement = (int) (curXSpeed / Math.abs(curXSpeed));  // will be +1 or -1
+         curXSpeed -= decrement;
       }
-      if (Math.abs(ySpeed) > 0) {
-         int decrement = (int) (ySpeed / Math.abs(ySpeed));  // will be +1 or -1
-         ySpeed -= decrement;
+      if (Math.abs(curYSpeed) > 0) {
+         int decrement = (int) (curYSpeed / Math.abs(curYSpeed));  // will be +1 or -1
+         curYSpeed -= decrement;
       }
    }
 
@@ -137,6 +141,8 @@ public class BigAsteroid extends Entity implements Enemy {
    public void resetTo(float y) {
       hitbox.y = startY + y;
       hitbox.x = startX;
+      curXSpeed = startXSpeed;
+      curYSpeed = startYSpeed;
       onScreen = false;
    }
 
