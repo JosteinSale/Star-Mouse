@@ -9,7 +9,13 @@ automaticTrigger;0f;-11400f;10f;10f;More shots and asteroids.
 automaticTrigger;0f;-13200f;10f;10f;Zack dies.
 automaticTrigger;0f;-15750f;10f;10f;Use teleport to get through!
 automaticTrigger;0f;-17250f;10f;10f;Frida dies.
-automaticTrigger;0f;-25000f;10f;10f;endLevel
+automaticTrigger;0f;-19000f;10f;10f;Even more shots and asteroids.
+automaticTrigger;0f;-20500f;10f;10f;Nathan dies.
+automaticTrigger;0f;-21700f;10f;10f;Still lots of shots
+automaticTrigger;0f;-22500f;10f;10f;Find shelter
+automaticTrigger;0f;-23300f;10f;10f;Final barrage of shots
+automaticTrigger;0f;-24300f;10f;10f;Skye dies.
+automaticTrigger;0f;-25200f;10f;10f;endLevel
 smallAsteroid;118;-1702;1;330
 smallAsteroid;878;-2452;-1;440
 smallAsteroid;878;-2062;-1;510
@@ -87,3 +93,28 @@ smallAsteroid;748;-17362;-1;330
 smallAsteroid;898;-17362;-1;330
 smallAsteroid;628;-17502;-1;330
 smallAsteroid;938;-17642;-1;330
+smallAsteroid;68;-17932;1;330
+bigAsteroid;650;-18405;1;210
+smallAsteroid;48;-18682;1;330
+smallAsteroid;138;-18782;1;330
+smallAsteroid;888;-18832;-1;330
+smallAsteroid;848;-18942;-1;330
+smallAsteroid;58;-19052;1;330
+smallAsteroid;918;-19162;-1;330
+smallAsteroid;288;-20162;1;500
+smallAsteroid;408;-20232;1;500
+smallAsteroid;888;-20202;1;500
+smallAsteroid;58;-20312;1;500
+smallAsteroid;158;-20372;1;500
+smallAsteroid;908;-20342;1;500
+smallAsteroid;808;-20442;1;500
+smallAsteroid;698;-20502;1;500
+smallAsteroid;568;-20542;1;500
+smallAsteroid;398;-20532;1;500
+smallAsteroid;48;-20862;1;500
+smallAsteroid;178;-20792;1;500
+smallAsteroid;868;-20972;1;500
+smallAsteroid;918;-20702;1;500
+smallAsteroid;198;-21172;1;500
+smallAsteroid;728;-21102;1;500
+smallAsteroid;858;-21332;1;500

@@ -72,6 +72,10 @@ bigDialogue;Frida;normal;0;2;We fought as hard as we could.
 endSequence
 bigDialogue;Frida;normal;0;2;It... just wasn't enough.
 endSequence
+bigDialogue;Frida;normal;0;2;...
+endSequence
+bigDialogue;Frida;crying;1;2;SOB
+endSequence
 
 cutscene;true;npc;3
 bigDialogue;Mechanic;normal;0;2;Hey buddy, need service?
