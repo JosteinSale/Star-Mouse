@@ -2,7 +2,7 @@ package gamestates.flying;
 
 /** A container class for constants related to specific flying levels */
 public class FlyLevelInfo {
-   private int[] bgImgHeights = { 7600, 10740, 9750, 10200, 1200, 1200, 1200, 1200, 1200, 1200, 1200, 1200, 1200, 1200 };
+   private int[] bgImgHeights = { 7600, 10740, 9750, 9200, 1200, 1200, 1200, 1200, 1200, 1200, 1200, 1200, 1200, 1200 };
    private float[] resetPoints = { 20f, 1300f, 1000f, 20f, 20f, 20f, 20f, 20f, 20f, 20f, 20f, 20f, 20f, 20f };
    private float[] checkPoints = { 99999f, 13500f, 11950f, 11000f, 99999f, 99999f, 99999f, 99999f, 99999f, 99999f, 99999f, 99999f, 99999f, 99999f };
    private float[] skipLevelPoints = { 17000f, 27500f, 23800f, 9900f, 9900f, 9900f, 9900f, 9900f, 9900f, 9900f, 9900f, 9900f, 9900f, 9900f };
