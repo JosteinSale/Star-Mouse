@@ -87,6 +87,7 @@ public class LevelFinishedOverlay implements Statemethods {
                 case FLAMEDRONE -> 60;
                 case WASPDRONE -> 30;
                 case KAMIKAZEDRONE -> 30;
+                case SMALL_ASTEROID -> 0;
                 default -> throw new IllegalArgumentException(
                     "No credit bounty available for enemy of type '" + i + "' ");
             };

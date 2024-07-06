@@ -58,10 +58,10 @@ public class LevelSelect extends State implements Statemethods {
 
    private void loadLevelInfo() {
       levelInfo.add(new LevelInfo("Apolis", 130));
-      levelInfo.add(new LevelInfo("Vyke", 89, 0, 3, 3));
-      levelInfo.add(new LevelInfo("Level 3", 100, 0, 4, 4));
-      levelInfo.add(new LevelInfo("Level 4", 100, 0, 5, 5));
-      levelInfo.add(new LevelInfo("Level 5", 100));
+      levelInfo.add(new LevelInfo("Vyke", 88, 0, 3, 3));
+      levelInfo.add(new LevelInfo("Asteroids", 99, 0, 4, 4));
+      levelInfo.add(new LevelInfo("Cave", 100, 0, 5, 5));
+      levelInfo.add(new LevelInfo("Cathedral", 100));
       levelInfo.add(new LevelInfo("Level 6", 100, 70, 7, 3));
       levelInfo.add(new LevelInfo("Level 7", 100, 70, 8, 4));
       levelInfo.add(new LevelInfo("Level 8", 100, 70, 9, 5));

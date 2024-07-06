@@ -221,6 +221,11 @@ CLEAR ANIMATED OBJECTS
 [0] = clearObjects (string)
 
 
+DARKEN SCREEN
+--------------------
+[0] = darken (String), [1] = alpha (int), [2] = active (boolean)
+
+
 END SEQUENCE
 --------------------
 [0] = endSequence

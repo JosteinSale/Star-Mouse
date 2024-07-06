@@ -417,6 +417,12 @@ public class HelpMethods {
                 ReattatchCameraEvent event = new ReattatchCameraEvent();
                 allSequences.get(sequenceIndex).add(event);
             }
+            else if (lineData[0].equals("darken")) {
+                Integer alpha = Integer.parseInt(lineData[1]);
+                Boolean active = Boolean.parseBoolean(lineData[2]);
+                DarkenEvent event = new DarkenEvent(alpha, active);
+                allSequences.get(sequenceIndex).add(event);
+            }
             else if (lineData[0].equals("endSequence")) {
                 allCutscenes.get(triggerIndex).get(cutsceneIndex).addSequence(allSequences.get(sequenceIndex));
                 sequenceIndex += 1;

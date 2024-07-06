@@ -86,6 +86,7 @@ public class PauseBoss {
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
             optionsMenu.setActive(true);
          } else if (selectedIndex == MAIN_MENU) {
+            // TODO - reset exploring AND reset flying.
             audioPlayer.stopAllLoops();
             bossMode.resetBossMode();
             game.resetMainMenu();

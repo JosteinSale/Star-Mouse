@@ -1,13 +1,9 @@
-cutscene;true;object;0
-playSFX;infoBox
-infoChoice;Leave area?;No;Yes
+cutscene;false;automatic;0
+fillScreen;black;true
+wait;60
 endSequence
-
-cutscene;true;object;0
-wait;1
-endSequence
-
-cutscene;true;object;0
-goToFlying;4
-wait;1
+fillScreen;black;false
+darken;80;true
+fade;in;black;5
+startAmbience;5;   // is needed because we override the justEntered-method with a cutscene.
 endSequence

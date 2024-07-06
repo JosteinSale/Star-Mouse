@@ -9,4 +9,5 @@ npc;2750f;420f;90f;100f;Mechanic;sprite_npc_mechanic.png;60;80;false
 npc;2920f;500f;120f;100f;Skye;sprite_npc_skye.png;70;80;false
 npc;2420f;420f;120f;100f;Zack;sprite_npc_zack.png;85;80;false
 npc;2080f;440f;100f;120f;Gard;sprite_npc_gard.png;85;60;false
+automaticTrigger;1086;651;45f;18f;Loading level
 automaticTrigger;480f;510f;30f;231f;I can see a path

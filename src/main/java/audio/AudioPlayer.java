@@ -55,7 +55,8 @@ public class AudioPlayer {
         "Ambience - RocketEngineQuiet.wav",
         "Ambience - Wind.wav",
         "Ambience - Alarm.wav",
-        "Ambience - Hangar.wav"
+        "Ambience - Hangar.wav",
+        "Ambience - ArcticWind2.wav"
     };
     private String[] voiceClipNames = {
         "VoiceClip - Max.wav",

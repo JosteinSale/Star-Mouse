@@ -105,5 +105,14 @@ bigDialogue;Gard;normal;0;2;We lost a lot of good pilots today.
 endSequence
 
 cutscene;false;automatic;7
+fillScreen;black;true
+wait;60
+endSequence
+fillScreen;black;false
+fade;in;black;5
+startAmbience;2;   // is needed because we override the justEntered-method with a cutscene.
+endSequence
+
+cutscene;false;automatic;8
 bigDialogue;Max;normal;0;2;I can see a path going down the cliffside.
 endSequence

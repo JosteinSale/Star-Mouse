@@ -1,4 +1,4 @@
 ambience;99
 song;99;false
-player;492;615;45f;18f;0
-object;450f;570f;60f;36f;exitSaber
+player;441;675;45f;18f;0
+automaticTrigger;441;675;45f;18f;Loading level
