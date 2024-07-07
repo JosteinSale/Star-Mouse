@@ -3,7 +3,6 @@ package entities.exploring;
 import static utils.Constants.Exploring.DirectionConstants.*;
 import static utils.Constants.Exploring.Sprites.*;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
@@ -25,7 +24,6 @@ public class Oliver extends Entity implements NPC {
     private int oliverAction = STANDING;
     private boolean poseActive = false;
     private int oliverDirection;
-    private float oliverSpeed = 5f;
     
     private int aniTick = 0;
     private int aniTickPerFrame = 8;          // Antall ticks per gang animasjonen oppdateres

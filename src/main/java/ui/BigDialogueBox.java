@@ -60,12 +60,12 @@ public class BigDialogueBox {
         BufferedImage[][] portraits;
         int nrOfSpecialCharacters = 4;
         int nrOfNpcs = 17;
-        int maxAmountOfPortraits = 12;
+        int maxAmountOfPortraits = 13;
         int nrOfCharacters = nrOfSpecialCharacters + nrOfNpcs;
         portraits = new BufferedImage[nrOfCharacters][maxAmountOfPortraits];
-        portraits[0] = getPortraits(ResourceLoader.MAX_PORTRAITS, 12, 0);
+        portraits[0] = getPortraits(ResourceLoader.MAX_PORTRAITS, 13, 0);
         portraits[1] = getPortraits(ResourceLoader.OLIVER_PORTRAITS, 9, 0);
-        portraits[2] = getPortraits(ResourceLoader.LT_RED_PORTRAITS, 5, 0);
+        portraits[2] = getPortraits(ResourceLoader.LT_RED_PORTRAITS, 6, 0);
         portraits[3] = getPortraits(ResourceLoader.RUDINGER_PORTRAITS, 7, 0);
         for (int i = 0; i < nrOfNpcs; i++) {
             portraits[i + nrOfSpecialCharacters] = getPortraits(ResourceLoader.NPC_PORTRAITS, 4, i);

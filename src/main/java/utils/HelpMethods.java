@@ -82,6 +82,14 @@ public class HelpMethods {
         return oliver;
     }
 
+    public static Gard GetGard(String[] lineData) {
+        Rectangle2D.Float hitbox = CreateHitbox(lineData);
+        Integer direction = Integer.parseInt(lineData[5]);
+        Boolean inForeground = Boolean.parseBoolean(lineData[6]);
+        Gard gard = new Gard(hitbox, direction, inForeground);
+        return gard;
+    }
+
     public static StandardNpc GetStandardNpc(String[] lineData) {
         Rectangle2D.Float hitbox = CreateHitbox(lineData);
         String name = lineData[5];

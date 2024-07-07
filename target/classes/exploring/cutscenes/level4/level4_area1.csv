@@ -1,4 +1,44 @@
-cutscene;false;automatic;0
+cutscene;true;object;0
+info;The remains of a Saber cannon.
+playSFX;infoBox
+endSequence
+
+cutscene;true;npc;1
+bigDialogue;Mechanic;normal;0;2;A lot of pilots bit the dust back there.
+endSequence
+bigDialogue;Mechanic;normal;0;2;I suppose things are looking pretty grim, huh?
+endSequence
+bigDialogue;Mechanic;normal;0;5;...
+endSequence
+bigDialogue;Mechanic;normal;0;2;Hey uh... Just this once, I can give you some service free of charge.
+endSequence
+bigDialogue;Mechanic;normal;0;2;But only this once, 'kay?
+endSequence
+info;The mechanic offers you 1000 credits worth of service!
+playSFX;pickup
+updateInventory;credits;1000
+setStartCutscene;npc;0;1
+endSequence
+playSFX;infoBox
+mechanicDisplay
+wait;1
+endSequence
+bigDialogue;Mechanic;normal;0;5;...
+endSequence
+bigDialogue;Mechanic;normal;0;3;It's not a pretty scene back there.
+endSequence
+
+cutscene;true;npc;1
+playSFX;infoBox
+mechanicDisplay
+wait;1
+endSequence
+
+cutscene;true;npc;2
+info;omg Gard is so handsome
+endSequence
+
+cutscene;false;automatic;3
 fillScreen;black;true
 wait;60
 endSequence
@@ -6,4 +46,127 @@ fillScreen;black;false
 darken;80;true
 fade;in;black;5
 startAmbience;5;   // is needed because we override the justEntered-method with a cutscene.
+endSequence
+
+cutscene;false;automatic;4
+info;This might be your only chance to talk to the mechanic
+playSFX;infoBox
+endSequence
+
+cutscene;false;automatic;5
+setPlayerSheet;2
+setDir;player;right
+wait;60
+endSequence
+moveCamera;550;0;240
+endSequence
+wait;60
+endSequence
+bigDialogue;Max;sad;12;5;...
+endSequence
+wait;30
+endSequence
+playerWalk;right;3620f;675f;120
+endSequence
+wait;30
+endSequence
+bigDialogue;Max;sad;12;4;(She's gone)
+endSequence
+wait;60
+endSequence
+bigDialogue;Lt.Red;looking_down;5;5;...
+endSequence
+bigDialogue;Lt.Red;looking_down;5;3;My sweet daughter.
+endSequence
+bigDialogue;Lt.Red;looking_down;5;3;Always so focused on her duty.
+endSequence
+bigDialogue;Lt.Red;looking_down;5;3;Always so hard on herself.
+endSequence
+bigDialogue;Lt.Red;sad;1;2;She had trouble making friends when she was younger...
+endSequence
+bigDialogue;Lt.Red;sad;1;2;...because she would be as hard on others as she was on herself.
+endSequence
+bigDialogue;Lt.Red;sad;1;2;But she found a family in the military.
+endSequence
+bigDialogue;Lt.Red;sad;1;3;And now... the military has failed her.
+endSequence
+bigDialogue;Lt.Red;looking_down;5;3;I've failed her.
+endSequence
+bigDialogue;Lt.Red;looking_down;5;3;I failed... everyone.
+endSequence
+wait;60
+endSequence
+bigDialogue;Gard;normal;0;2;Lieutenant, this is not your fault.
+endSequence
+wait;60
+endSequence
+bigDialogue;Gard;normal;0;2;...Lieutenant, what are your orders?
+endSequence
+wait;60
+endSequence
+bigDialogue;Lt.Red;looking_down;5;5;...
+endSequence
+bigDialogue;Lt.Red;looking_down;5;3;There are no orders.
+endSequence
+bigDialogue;Lt.Red;looking_down;5;3;There is no military.
+endSequence
+bigDialogue;Lt.Red;looking_down;5;3;There's nothing.
+endSequence
+wait;60
+endSequence
+bigDialogue;Max;sad;12;5;...
+endSequence
+setPlayerSheet;0
+bigDialogue;Max;eyes_shut;4;5;.
+endSequence
+bigDialogue;Max;angry;8;2;I'm going to look for my Brother.
+endSequence
+bigDialogue;Max;angry;8;2;I saw him last on Apo, so that's where I'm going.
+endSequence
+wait;30
+endSequence
+bigDialogue;Gard;normal;0;2;Max, Apo is heavily guarded.
+endSequence
+bigDialogue;Max;angry;8;2;I don't care. I have to find him.
+endSequence
+wait;60
+endSequence
+setDir;player;left
+playerWalk;left;3420f;675f;120
+endSequence
+setDir;Gard;left
+bigDialogue;Gard;normal;0;2;Max, wait.
+endSequence
+bigDialogue;Gard;normal;0;5;...
+endSequence
+bigDialogue;Gard;normal;0;4;I'm conflicted.
+endSequence
+bigDialogue;Gard;normal;0;2;I would follow the lieutenant to the bitter end.
+endSequence
+bigDialogue;Gard;normal;0;2;But...
+endSequence
+bigDialogue;Gard;normal;0;2;...my ultimate duty is to protect those in need of help.
+endSequence
+bigDialogue;Gard;normal;0;2;If you're going to save your brother, I want to come with you.
+endSequence
+setDir;player;right
+wait;60
+endSequence
+bigDialogue;Max;normal;0;2;Thanks Gard.
+endSequence
+bigDialogue;Max;normal;0;2;I really appreciate that.
+endSequence
+bigDialogue;Lt.Red;looking_down;5;5;...
+endSequence
+setDir;Gard;right
+wait;60
+endSequence
+bigDialogue;Gard;normal;0;2;Take care of yourself, Lieutenant.
+endSequence
+wait;60
+endSequence
+setDir;Gard;left
+bigDialogue;Gard;normal;0;2;Now come on, let's go.
+endSequence
+npcWalk;Gard;1;left;3320;495f;120
 endSequence

@@ -79,11 +79,15 @@ public class Area {
             doors.add(door);
          } else if (lineData[0].equals("oliver")) {
             this.npcManager.addNpc(GetOliver(lineData));
+         } else if (lineData[0].equals("gard")) {
+            this.npcManager.addNpc(GetGard(lineData));
          } else if (lineData[0].equals("npc")) {
             this.npcManager.addNpc(GetStandardNpc(lineData));
          } else if (lineData[0].equals("automaticTrigger")) {
             AutomaticTrigger trigger = GetAutomaticTrigger(lineData);
             this.automaticTriggers.add(trigger);
+         } else {
+            throw new IllegalArgumentException("Couldn't parse " + line);
          }
       }
    }

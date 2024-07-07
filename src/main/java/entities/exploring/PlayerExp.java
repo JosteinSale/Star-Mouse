@@ -6,7 +6,6 @@ import static utils.Constants.Exploring.Sprites.STANDARD_SPRITE_WIDTH;
 import static utils.HelpMethods.CollidesWithMap;
 import static utils.HelpMethods.CollidesWithNpc;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
@@ -16,15 +15,21 @@ import java.util.ArrayList;
 
 import entities.Entity;
 import main_classes.Game;
+import utils.HelpMethods2;
 import utils.ResourceLoader;
 
 public class PlayerExp extends Entity {
-    Game game;
-    ArrayList<BufferedImage[][]> playerSprites;
-    BufferedImage collisionImg;
-    private Color shadowColor = new Color(0, 0, 0, 50);
+    private Game game;
+    private BufferedImage collisionImg;
     private int playerSpriteWidth;
     private int playerSpriteHeight;
+
+    // Sprite sheets
+    private ArrayList<BufferedImage[][]> playerSprites;
+    private final int NORMAL_SPRITE = 0;
+    private final int NAKED_SPRITE = 1;
+    private final int SAD_SPRITE = 2;
+
 
     private boolean poseActive = false;
     private int playerAction;
@@ -48,30 +53,20 @@ public class PlayerExp extends Entity {
         adjustImageSizes();
     }
 
+    /** Add sprites according to the indexes given at the top */
     private void loadSprites() {
-        BufferedImage image = ResourceLoader.getExpImageSprite(ResourceLoader.PLAYER_EXP_SPRITES);
-        BufferedImage[][] normalSprites = new BufferedImage[6][4];
-        for (int j = 0; j < normalSprites.length; j++) {
-            for (int i = 0; i < normalSprites[j].length; i++) {
-                normalSprites[j][i] = image.getSubimage(
-                    i * STANDARD_SPRITE_WIDTH, 
-                    j * STANDARD_SPRITE_HEIGHT, 
-                    STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
-            }
-        }
-        playerSprites.add(normalSprites);
-        
-        BufferedImage image2 = ResourceLoader.getExpImageSprite(ResourceLoader.PLAYER_EXP_SPRITES_NAKED);
-        BufferedImage[][] nakedSprites = new BufferedImage[5][4];
-        for (int j = 0; j < nakedSprites.length; j++) {
-            for (int i = 0; i < nakedSprites[j].length; i++) {
-                nakedSprites[j][i] = image2.getSubimage(
-                    i * STANDARD_SPRITE_WIDTH, 
-                    j * STANDARD_SPRITE_HEIGHT, 
-                    STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
-            }
-        }
+        BufferedImage[][] normalSprites = HelpMethods2.GetAnimationArray(
+            ResourceLoader.getExpImageSprite(ResourceLoader.PLAYER_EXP_SPRITES), 
+            6, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
+        BufferedImage[][] nakedSprites = HelpMethods2.GetAnimationArray(
+            ResourceLoader.getExpImageSprite(ResourceLoader.PLAYER_EXP_SPRITES_NAKED), 
+            5, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
+        BufferedImage[][] sadSprites = HelpMethods2.GetAnimationArray(
+            ResourceLoader.getExpImageSprite(ResourceLoader.PLAYER_EXP_SPRITES_SAD), 
+            5, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
+        playerSprites.add(normalSprites); 
         playerSprites.add(nakedSprites);
+        playerSprites.add(sadSprites);
     }
 
     private void adjustImageSizes() {
@@ -171,14 +166,6 @@ public class PlayerExp extends Entity {
             playerSpriteWidth, playerSpriteHeight, 
             null);
         }
-    }
-
-    private void drawShadow(Graphics g, int xLevelOffset, int yLevelOffset) {
-        g.setColor(shadowColor);
-        g.fillOval(
-            (int) ((hitbox.x - xLevelOffset) * Game.SCALE), 
-            (int) ((hitbox.y  - yLevelOffset) * Game.SCALE), 
-            (int) (hitbox.width * Game.SCALE), (int) (hitbox.height * Game.SCALE));
     }
 
     public Rectangle2D.Float getHitbox() {

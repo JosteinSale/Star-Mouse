@@ -59,7 +59,7 @@ public class LevelSelect extends State implements Statemethods {
    private void loadLevelInfo() {
       levelInfo.add(new LevelInfo("Apolis", 130));
       levelInfo.add(new LevelInfo("Vyke", 88, 0, 3, 3));
-      levelInfo.add(new LevelInfo("Asteroids", 99, 0, 4, 4));
+      levelInfo.add(new LevelInfo("Asteroids", 0, 0, 4, 4));
       levelInfo.add(new LevelInfo("Cave", 100, 0, 5, 5));
       levelInfo.add(new LevelInfo("Cathedral", 100));
       levelInfo.add(new LevelInfo("Level 6", 100, 70, 7, 3));
@@ -148,7 +148,9 @@ public class LevelSelect extends State implements Statemethods {
 
    private int getLevelToUnlock(int finishedLevel, int killCount) {
       LevelInfo lvl = levelInfo.get(finishedLevel - 1);
-      lvl.updateKillCount(killCount);
+      if (finishedLevel != 3) { // Lvl 3 only has asteroids, which do not count as enemies
+         lvl.updateKillCount(killCount);
+      }
       int levelToUnlock;
 
       // 1. Handles the very first level

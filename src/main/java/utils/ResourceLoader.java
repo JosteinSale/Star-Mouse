@@ -51,7 +51,9 @@ public class ResourceLoader {
     // Sprites - Exploring
     public static final String PLAYER_EXP_SPRITES = "sprites_max.png";
     public static final String PLAYER_EXP_SPRITES_NAKED = "sprites_max_naked.png";
+    public static final String PLAYER_EXP_SPRITES_SAD = "sprites_max_sad.png";
     public static final String OLIVER_SPRITES = "sprites_oliver_cadette.png";
+    public static final String GARD_SPRITES = "sprites_gard.png";
     public static final String MAX_PORTRAITS = "portraits_max.png";
     public static final String OLIVER_PORTRAITS = "portraits_oliver_cadette.png";
     public static final String LT_RED_PORTRAITS = "portraits_lt_red.png";

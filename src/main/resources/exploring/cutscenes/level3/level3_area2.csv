@@ -24,6 +24,7 @@ bigDialogue;Nathan;normal;0;2;That thing reeks of malice...
 endSequence
 
 cutscene;false;automatic;2
+setDir;player;right
 moveCamera;300;0;120
 endSequence
 wait;60;
