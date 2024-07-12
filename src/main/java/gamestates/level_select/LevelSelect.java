@@ -244,10 +244,10 @@ public class LevelSelect extends State implements Statemethods {
       this.alphaFade += 5;
       if (alphaFade > 255) {
          alphaFade = 255;
+         Gamestate.state = Gamestate.EXPLORING;
          game.getAudioPlayer().stopAmbience();
          this.game.getExploring().loadLevel(levelToEnter);
          this.game.getExploring().update();
-         Gamestate.state = Gamestate.EXPLORING;
       }
    }
 

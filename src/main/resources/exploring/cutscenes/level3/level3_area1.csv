@@ -16,12 +16,12 @@ stopAllLoops
 bigDialogue;Zack;scared;2;2;Wait, look in the distance!
 setSprite;player;true;0;0;standing_right
 endSequence
-addObject;rowOfFlameDronesShadow;0;-320
+addObject;rowOfFlameDronesShadow;flameDrones;0;-320;3;3;4
 wait;20
 endSequence
 moveCamera;0;-200;120
 endSequence
-moveObject;0;0;0;240
+moveObject;flameDrones;0;0;240
 startSong;5
 wait;60
 setSprite;player;true;0;5;shocked

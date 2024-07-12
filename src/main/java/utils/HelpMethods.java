@@ -15,8 +15,10 @@ import java.util.List;
 import cutscenes.Cutscene;
 import entities.exploring.*;
 import game_events.*;
+import gamestates.Gamestate;
 import main_classes.Game;
 import utils.Constants.Audio;
+import utils.parsing.CutsceneParser;
 
 
 public class HelpMethods {
@@ -31,7 +33,8 @@ public class HelpMethods {
         }
     }
 
-    // Sjekker de fire hjørnene til hitboksen. Brukes i exploring.
+    /** Checks the four corners of the hitbox, 
+     * and returns true if any of them touches something solid */ 
     public static boolean CollidesWithMap(Rectangle2D.Float hitbox, BufferedImage collisionImg) {
         float newX1 = (hitbox.x) / 3;
         float newY1 = (hitbox.y) / 3;
@@ -136,7 +139,8 @@ public class HelpMethods {
         // 1st loop: creating the initial cutscene- and sequence-objects
         for (String line: cutsceneData) {
             String[] lineData = line.split(";");
-            if (lineData[0].equals("cutscene")) {
+            String entryName = lineData[0];
+            if (entryName.equals("cutscene")) {
                 Cutscene cutscene = new Cutscene();
                 Integer triggerIndex2 = Integer.parseInt(lineData[3]);
                 if (triggerIndex2 > (allCutscenes.size() - 1)) {
@@ -145,7 +149,7 @@ public class HelpMethods {
                 }
                 allCutscenes.get(triggerIndex2).add(cutscene); 
             }
-            else if (lineData[0].equals("endSequence")) {
+            else if (entryName.equals("endSequence")) {
                 ArrayList<GeneralEvent> sequence = new ArrayList<>();
                 allSequences.add(sequence);
             }
@@ -153,7 +157,15 @@ public class HelpMethods {
         // 2nd loop: adding the data
         for (String line : cutsceneData) {
             String[] lineData = line.split(";");
-            if (lineData[0].equals("cutscene")) {
+            String entryName = lineData[0];
+
+            // 2.1. Try to parse GeneralEvent
+            if (CutsceneParser.canParseEntry(entryName)) {
+                GeneralEvent event = CutsceneParser.parseEvent(entryName, lineData);
+                allSequences.get(sequenceIndex).add(event);
+            }
+            // 2.2. Try to parse cutscene specifics
+            else if (entryName.equals("cutscene")) {
                 Boolean canReset = Boolean.parseBoolean(lineData[1]);
                 int triggerObject = GetTrigger(lineData[2]);
                 Integer newTriggerIndex = Integer.parseInt(lineData[3]);
@@ -164,291 +176,38 @@ public class HelpMethods {
                 allCutscenes.get(triggerIndex).get(cutsceneIndex).setCanReset(canReset);
                 allCutscenes.get(triggerIndex).get(cutsceneIndex).setTrigger(triggerObject);
             }
-            else if (lineData[0].equals("setGameplayActive")) {
-                Boolean active = Boolean.parseBoolean(lineData[1]);
-                SetGameplayEvent event = new SetGameplayEvent(active);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("levelFinished")) {
-                LevelFinishedEvent event = new LevelFinishedEvent();
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("fadeHeader")) {
-                String inOut = lineData[1];
-                Integer yPos = Integer.parseInt(lineData[2]);
-                Integer fadeSpeed = Integer.parseInt(lineData[3]);
-                String headerText = lineData[4];
-                FadeHeaderEvent event = new FadeHeaderEvent(inOut, yPos, fadeSpeed, headerText);
-                allSequences.get(sequenceIndex).add(event);
-            }               
-            else if (lineData[0].equals("info")) {
-                InfoBoxEvent event = new InfoBoxEvent(lineData[1]);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("bigDialogue")) {
-                String name = lineData[1];
-                Integer portraitIndex = Integer.parseInt(lineData[3]);
-                Integer speed = Integer.parseInt(lineData[4]);
-                String text = lineData[5];
-                BigDialogueEvent event = new BigDialogueEvent(name, speed, text, portraitIndex);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("smallDialogue")) {
-                String name = lineData[1];
-                Integer portraitIndex = Integer.parseInt(lineData[3]);
-                Integer speed = Integer.parseInt(lineData[4]);
-                String text = lineData[5];
-                SmallDialogueEvent event = new SmallDialogueEvent(name, speed, text, portraitIndex);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("fade")) {
-                String direction = lineData[1];
-                String color = lineData[2];
-                Integer speed = Integer.parseInt(lineData[3]);
-                FadeEvent event = new FadeEvent(direction, color, speed, false);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("setPlayerVisible")) {
-                Boolean visible = Boolean.parseBoolean(lineData[1]);
-                SetVisibleEvent event = new SetVisibleEvent(visible);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("wait")) {
-                Integer waitFrames = Integer.parseInt(lineData[1]);
-                WaitEvent event = new WaitEvent(waitFrames);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("fillScreen")) {
-                String color = lineData[1];
-                Boolean active = Boolean.parseBoolean(lineData[2]);
-                FillScreenEvent event = new FillScreenEvent(color, active);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("setOverlayImage")) {
-                Boolean active = Boolean.parseBoolean(lineData[1]);
-                String fileName = lineData[2];
-                SetOverlayImageEvent event = new SetOverlayImageEvent(active, fileName);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("infoChoice")) {
-                String question = lineData[1];
-                String leftChoice = lineData[2];
-                String rightChoice = lineData[3];
-                InfoChoiceEvent event = new InfoChoiceEvent(question, leftChoice, rightChoice);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("setStartCutscene")) {
-                int triggerObject = GetTrigger(lineData[1]);
-                Integer elementNr = Integer.parseInt(lineData[2]);
-                Integer newStartingCutscene = Integer.parseInt(lineData[3]);
-                SetStartingCutsceneEvent event = new SetStartingCutsceneEvent(
-                    triggerObject, elementNr, newStartingCutscene);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("setRequirementMet")) {
-                Integer doorIndex = Integer.parseInt(lineData[1]);
-                Integer requirementIndex = Integer.parseInt(lineData[2]);
-                SetRequirementMetEvent event = new SetRequirementMetEvent(doorIndex, requirementIndex);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("setPlayerSheet")) {
-                Integer sheetIndex = Integer.parseInt(lineData[1]);
-                SetPlayerSheetEvent event = new SetPlayerSheetEvent(sheetIndex);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("playerWalk")) {
-                Integer sheetRowIndex = GetDirection(lineData[1]) + 1; 
-                Float targetX = Float.parseFloat(lineData[2]);
-                Float targetY = Float.parseFloat(lineData[3]);
-                Integer framesDuration = Integer.parseInt(lineData[4]);
-                PlayerWalkEvent event = new PlayerWalkEvent(sheetRowIndex, targetX, targetY, framesDuration);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("npcWalk")) {
-                Integer npcIndex = Integer.parseInt(lineData[2]);
-                Integer sheetRowIndex = GetDirection(lineData[3]) + 1; 
-                Float targetX = Float.parseFloat(lineData[4]);
-                Float targetY = Float.parseFloat(lineData[5]);
-                Integer framesDuration = Integer.parseInt(lineData[6]);
-                NPCWalkEvent event = new NPCWalkEvent(npcIndex, sheetRowIndex, targetX, targetY, framesDuration);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("setDir")) {
-                String entityName = lineData[1];
-                int dir = GetDirection(lineData[2]);
-                SetDirEvent event = new SetDirEvent(entityName, dir);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("addToInventory")) {
-                String itemName = lineData[1];
-                String description = lineData[2];
-                String imgFileName = lineData[3];
-                AddToInventoryEvent event = new AddToInventoryEvent(itemName, description, imgFileName);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("numberDisplay")) {
-                Integer nr1 = Integer.parseInt(lineData[1]);
-                Integer nr2 = Integer.parseInt(lineData[2]);
-                Integer nr3 = Integer.parseInt(lineData[3]);
-                Integer nr4 = Integer.parseInt(lineData[4]);
-                int[] passCode = {nr1, nr2, nr3, nr4};
-                NumberDisplayEvent event = new NumberDisplayEvent(passCode);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("addProjectile")) {
-                Integer type = Integer.parseInt(lineData[1]);
-                Integer xPos = Integer.parseInt(lineData[2]);
-                Integer yPos = Integer.parseInt(lineData[3]);
-                Integer xSpeed = Integer.parseInt(lineData[4]);
-                Integer ySpeed = Integer.parseInt(lineData[5]);
-                AddProjectileEvent event = new AddProjectileEvent(type, xPos, yPos, xSpeed, ySpeed);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("updateInventory")) {
-                String type = lineData[1];
-                Integer amount = Integer.parseInt(lineData[2]);
-                UpdateInventoryEvent event = new UpdateInventoryEvent(type, amount);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("purchase")) {
-                Integer amount = Integer.parseInt(lineData[1]);
-                PurchaseEvent event = new PurchaseEvent(amount);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("goToFlying")) {
-                Integer lvl = Integer.parseInt(lineData[1]);
-                GoToFlyingEvent event = new GoToFlyingEvent(lvl);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("startSong")) {
-                Integer index = Integer.parseInt(lineData[1]);
-                StartSongEvent event = new StartSongEvent(index);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("startAmbience")) {
-                Integer index = Integer.parseInt(lineData[1]);
-                StartAmbienceEvent event = new StartAmbienceEvent(index);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("fadeOutLoops")) {
-                FadeOutLoopEvent event = new FadeOutLoopEvent();
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("stopAllLoops")) {
-                StopLoopsEvent event = new StopLoopsEvent();
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("musicEnabled")) {
-                Boolean enabled = Boolean.parseBoolean(lineData[1]);
-                MusicEnabledEvent event = new MusicEnabledEvent(enabled);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("playSFX")) {
-                Integer index = getSFX(lineData[1]);
-                PlaySFXEvent event = new PlaySFXEvent(index);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("setSprite")) {
-                String entity = lineData[1];
-                Boolean poseActive = Boolean.parseBoolean(lineData[2]);
-                Integer colIndex = Integer.parseInt(lineData[3]);
-                Integer rowIndex = Integer.parseInt(lineData[4]);
-                SetSpriteEvent event = new SetSpriteEvent(entity, poseActive, colIndex, rowIndex);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("screenShake")) {
-                Integer duration = Integer.parseInt(lineData[1]);
-                ScreenShakeEvent event = new ScreenShakeEvent(duration);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("setRedLight")) {
-                Boolean active = Boolean.parseBoolean(lineData[1]);
-                SetRedLightEvent event = new SetRedLightEvent(active);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("fellowShips")) {
-                int nrOfShips = (lineData.length - 1) / 3;
-                int[] xPos = new int[nrOfShips];
-                int[] yPos = new int[nrOfShips];
-                int[] takeOffTimer = new int[nrOfShips];
-                int index = 0;
-                for (int i = 1; i < lineData.length; i += 3) {
-                    xPos[index] = Integer.parseInt(lineData[i]);
-                    yPos[index] = Integer.parseInt(lineData[i+1]);
-                    takeOffTimer[index] = Integer.parseInt(lineData[i+2]);
-                    index ++;
-                }
-                FellowShipEvent event = new FellowShipEvent(xPos, yPos, takeOffTimer);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("mechanicDisplay")) {
-                MechanicDisplayEvent event = new MechanicDisplayEvent();
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("goToBoss")) {
-                Integer bossNr = Integer.parseInt(lineData[1]);
-                GoToBossEvent event = new GoToBossEvent(bossNr);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("setBossVisible")) {
-                Boolean active = Boolean.parseBoolean(lineData[1]);
-                SetBossVisibleEvent event = new SetBossVisibleEvent(active);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("addObject")) {
-                String objectName = lineData[1];
-                Float xPos = Float.parseFloat(lineData[2]);
-                Float yPos = Float.parseFloat(lineData[3]);
-                AddObjectEvent event = new AddObjectEvent(objectName, xPos, yPos);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("moveObject")) {
-                Integer objectIndex = Integer.parseInt(lineData[1]);
-                Integer targetX = Integer.parseInt(lineData[2]);
-                Integer targetY = Integer.parseInt(lineData[3]);
-                Integer duration = Integer.parseInt(lineData[4]);
-                ObjectMoveEvent event = new ObjectMoveEvent(objectIndex, targetX, targetY, duration);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("clearObjects")) {
-                ClearObjectsEvent event = new ClearObjectsEvent();
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("moveCamera")) {
-                Integer deltaX = Integer.parseInt(lineData[1]);
-                Integer deltaY = Integer.parseInt(lineData[2]);
-                Integer duration = Integer.parseInt(lineData[3]);
-                MoveCameraEvent event = new MoveCameraEvent(deltaX, deltaY, duration);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("reattatchCamera")) {
-                ReattatchCameraEvent event = new ReattatchCameraEvent();
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("darken")) {
-                Integer alpha = Integer.parseInt(lineData[1]);
-                Boolean active = Boolean.parseBoolean(lineData[2]);
-                DarkenEvent event = new DarkenEvent(alpha, active);
-                allSequences.get(sequenceIndex).add(event);
-            }
-            else if (lineData[0].equals("endSequence")) {
+            // 2.3. Try to parse endSequence
+            else if (entryName.equals("endSequence")) {
                 allCutscenes.get(triggerIndex).get(cutsceneIndex).addSequence(allSequences.get(sequenceIndex));
                 sequenceIndex += 1;
             }
-            else if (lineData[0].equals("")) {
+            // 2.4. Check if cutscene is over
+            else if (entryName.equals("")) {
                 cutsceneIndex += 1;
             }
+            // 2.5. Parsing failed
             else {
-                throw new IllegalArgumentException("Couldn't parse " + lineData[0]);
+                throw new IllegalArgumentException("Couldn't parse " + entryName);
             }
         }
         return allCutscenes;
     }
 
+    public static Gamestate ParseGameState(String string) {
+        switch (string) {
+            case "exploring" : return Gamestate.EXPLORING;
+            case "flying" : return Gamestate.FLYING;
+            case "bossMode" : return Gamestate.BOSS_MODE;
+            case "levelSelect" : return Gamestate.LEVEL_SELECT;
+            case "mainMenu" : return Gamestate.MAIN_MENU;
+            default : throw new IllegalArgumentException("Couldn't parse game state with name: " + string);
+        }
+    }
+
     /** Checks if the sfx-string matches any standard names. Else it
      * tries to parse the string to an integer.
      */
-    private static Integer getSFX(String string) {
+    public static Integer GetSFX(String string) {
         Integer index = switch (string) {
             case "infoBox" -> Audio.SFX_INFOBOX;
             case "pickup" -> Audio.SFX_INVENTORY_PICKUP;
@@ -532,7 +291,7 @@ public class HelpMethods {
     }
 
 
-    private static int GetTrigger(String string) {
+    public static int GetTrigger(String string) {
         int trigger = switch (string) {
             case "object" -> OBJECT;
             case "objectChoice" -> OBJECT;

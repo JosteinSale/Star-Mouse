@@ -5,23 +5,33 @@ import java.awt.Graphics;
 import game_events.BigDialogueEvent;
 import game_events.InfoBoxEvent;
 import game_events.InfoChoiceEvent;
+import game_events.SmallDialogueEvent;
 import game_events.TextBoxEvent;
 import main_classes.Game;
 
+/** Currently we use this TextboxManager-object for the entire game.
+ * SIDE EFFECT OF THIS: 
+ *      When switching between states, if there's a
+ *      textbox-event immediately after the switch, 
+ *      the wait + advance combo might prematurely forward the textbox. 
+ *      Fix: don't use textbox events immediately after switching states.
+ */
 public class TextboxManager implements ITextboxManager {
     private InfoBox infoBox;
     private InfoChoice infoChoice;
     private BigDialogueBox bigDialogueBox;
-    // TODO - add SmallDialogueBox
+    private SmallDialogueBox smallDialogueBox;
     
     private boolean infoActive;
-    private boolean dialogueActive;
+    private boolean bigDialogueActive;
+    private boolean smallDialogueActive;
     private boolean infoChoiceActive;
 
     public TextboxManager(Game game) {
         this.infoBox = new InfoBox();
         this.bigDialogueBox = new BigDialogueBox(game);
         this.infoChoice = new InfoChoice();
+        this.smallDialogueBox = new SmallDialogueBox();
     }
 
     @Override
@@ -36,7 +46,14 @@ public class TextboxManager implements ITextboxManager {
             this.bigDialogueBox.setDialogue(
                 dialogueEvt.name(), dialogueEvt.speed(), 
                 dialogueEvt.text(), dialogueEvt.portraitIndex());
-            this.dialogueActive = true;
+            this.bigDialogueActive = true;
+        }
+        else if (evt instanceof SmallDialogueEvent) {
+            SmallDialogueEvent dialogueEvt = (SmallDialogueEvent) evt;
+            this.smallDialogueBox.setDialogue(
+                dialogueEvt.name(), dialogueEvt.speed(), 
+                dialogueEvt.text(), dialogueEvt.portraitIndex());
+            this.smallDialogueActive = true;
         }
         else if (evt instanceof InfoChoiceEvent) {
             InfoChoiceEvent ifcEvt = (InfoChoiceEvent) evt;
@@ -49,8 +66,11 @@ public class TextboxManager implements ITextboxManager {
 
     @Override
     public void update() {
-        if (dialogueActive && !bigDialogueBox.allLettersAppeared()) {
+        if (bigDialogueActive && !bigDialogueBox.allLettersAppeared()) {
             bigDialogueBox.update();
+        }
+        else if (smallDialogueActive && !smallDialogueBox.allLettersAppeared()) {
+            smallDialogueBox.update();
         }
     }
 
@@ -60,7 +80,8 @@ public class TextboxManager implements ITextboxManager {
 
     public void resetBooleans() {
         this.infoActive = false;
-        this.dialogueActive = false;
+        this.bigDialogueActive = false;
+        this.smallDialogueActive = false;
         this.infoChoiceActive = false;
     }
 
@@ -78,14 +99,17 @@ public class TextboxManager implements ITextboxManager {
         else if (infoChoiceActive) {
             infoChoice.draw(g);
         }
-        else if (dialogueActive) {
+        else if (bigDialogueActive) {
             bigDialogueBox.draw(g);
+        }
+        else if (smallDialogueActive) {
+            smallDialogueBox.draw(g);
         }
     }
 
     @Override
     public boolean isDialogueAppearing() {
-        return (dialogueActive && !bigDialogueBox.allLettersAppeared());
+        return (bigDialogueActive && !bigDialogueBox.allLettersAppeared());
     }
 
     @Override

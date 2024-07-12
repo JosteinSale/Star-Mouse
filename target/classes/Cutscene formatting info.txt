@@ -1,4 +1,17 @@
-Cutscene formatting - EXPLORING
+GENERAL STUFF:
+-Each element can have several cutscenes. 
+ (That's why we include the elementNr in the cutscene-header, so that we know which element
+  the cutscene belongs to).
+  .The setStartCutscene-event can be used to change between which cutscenes are started 
+  whenever an element is interacted with.
+  .This could be in response to certain requirements being met, or a certain infoChoice-option
+   being taken.
+
+-Only effects that implement the Advancable-interface will advance the the cutscene
+ to the next sequence. This means that non-Advancable cutscene entries must be used in
+ combination with an advancable effect, like wait.
+ .To see which effects are advancable, see the effect implementation.
+
 
 NEW CUTSCENE
 --------------------
@@ -12,7 +25,7 @@ NEW CUTSCENE
 
 INFOBOX-EVENT
 --------------------
-[0] = infobox, [1] = text
+[0] = info, [1] = text
 
 * Max ~50 letters total per info
 * Max 27 letters per word
@@ -131,6 +144,12 @@ GO TO FLYING
 [0] = goToFlying (String), [1] = level
 
 
+GO TO BOSSMODE
+--------------------
+[0] = goToBoss (String), [1] = bossNr (int)
+* bossNr 1 = first boss.
+
+
 START SONG
 --------------------
 [0] = startSong (String), [1] = songIndex (int)
@@ -161,21 +180,18 @@ START AMBIENCE
 [0] = startAmbience (String), [1] = ambienceIndex (int)
 * This loops the ambience track until it's stopped
 * 1 is rocketEngine
-* If used alone, it needs to be used together with the wait-method
 
 
 PLAY SFX
 --------------------
 [0] = playSFX (String), [1] = whichSfx (String / int)
-* whichSfx = success/pickup/infoBox
+* whichSfx = success/pickup/infoBox, or index
 
 
 SET SPRITE
 --------------------
 [0] = setSprite (String), [1] = entity (e.g. player / Oliver), [2] = poseActive (boolean)
 [3] = colIndex, [4] = rowIndex, [5] = description
-* Has to be used in combination with an action that calls advance(), like wait.
-* After the posing is done, poseActive has to be set to false.
 
 
 SCREEN SHAKE
@@ -226,6 +242,17 @@ DARKEN SCREEN
 [0] = darken (String), [1] = alpha (int), [2] = active (boolean)
 
 
+START CINEMATIC
+--------------------
+[0] = startCinematic (String), [1] = fileName (String), [2] = returnGamestate (Gamestate)
+* Must be used in combination with an advancable effect
+
+
+EXIT CINEMATIC
+[0] = exitCinematic (String)
+* Does not need to be used in combination with an advancable effect
+
+
 END SEQUENCE
 --------------------
 [0] = endSequence
@@ -234,18 +261,3 @@ END SEQUENCE
 END CUTSCENE
 --------------------
 empty line
-
-
-
-GENERAL STUFF:
--Each element can have several cutscenes. 
- (That's why we include the elementNr in the cutscene-header, so that we know which element
-  the cutscene belongs to).
-  .The setStartCutscene-event can be used to change between which cutscenes are started 
-  whenever an element is interacted with.
-  .This could be in response to certain requirements being met, or a certain infoChoice-option
-   being taken.
-
-OBS: I can make an event that changes an npc's inForeground-boolean!
-
-

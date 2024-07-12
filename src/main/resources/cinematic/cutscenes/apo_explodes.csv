@@ -1,0 +1,10 @@
+cutscene;true;automatic;0
+fillScreen;black;true
+setOverlayImage;true;apo_explodes_bg.png;1;1
+addObject;apo;apo;200;60;2;2;4
+addObject;raze_shadow;raze;260;120;3;3;15
+wait;60
+endSequence
+fillScreen;black;false
+fade;in;black;1
+endSequence

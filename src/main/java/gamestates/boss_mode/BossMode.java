@@ -77,7 +77,7 @@ public class BossMode extends State implements Statemethods {
 
       EventHandler eventHandler = new EventHandler();
       eventHandler.addEventListener(this::doReaction);
-      TextboxManager textboxManager = new TextboxManager(game);
+      TextboxManager textboxManager = game.getTextboxManager();
       this.cutsceneManager = new CutsceneManagerBoss(game, eventHandler, textboxManager, Gamestate.BOSS_MODE);
    }
 
@@ -236,6 +236,7 @@ public class BossMode extends State implements Statemethods {
    public void resetBossMode() {
       this.projectileHandler.reset();
       this.projectileHandler.resetBombs(false);
+      this.cutsceneManager.reset();
       this.player.reset();
       this.boss.reset();
       this.gameoverOverlay.reset();

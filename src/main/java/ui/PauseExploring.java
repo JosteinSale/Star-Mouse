@@ -167,7 +167,7 @@ public class PauseExploring implements Statemethods {
             }
             else if (selectedIndex == SKIP_LEVEL) {
                 this.flipActive();
-                game.getExploring().goToFlying();
+                game.getExploring().skipLevel();
             }
         }
     }

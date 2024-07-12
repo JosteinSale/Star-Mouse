@@ -32,7 +32,7 @@ public class RedLightEffect implements UpdatableEffect, DrawableEffect {
 
    @Override
    public boolean supportsGamestate(Gamestate state) {
-      return (state == Gamestate.EXPLORING);
+      return true; // Supports all gamestates
    }
 
    @Override

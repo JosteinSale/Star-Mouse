@@ -58,7 +58,7 @@ public class FadeHeaderEffect implements UpdatableEffect, DrawableEffect {
 
    @Override
    public boolean supportsGamestate(Gamestate state) {
-      return (state == Gamestate.FLYING || state == Gamestate.EXPLORING);
+      return true; // Supports all gamestates
    }
 
    @Override

@@ -16,6 +16,9 @@ public class SimpleAnimationFactory {
    public static final String ROW_OF_FLAME_DRONES = "rowOfFlameDrones.png";
    public static final String ROW_OF_FLAME_DRONES_SHADOW = "rowOfFlameDronesShadow.png";
    public static final String PLAYER_SHIP = "playerShip.png";
+   public static final String RAZE_SHADOW = "raze_shadow.png";
+   public static final String CATHEDRAL = "cathedral.png";
+   public static final String APO = "apo.png";
 
    // Images
    private BufferedImage[] rowOfDrones;
@@ -26,6 +29,9 @@ public class SimpleAnimationFactory {
    private BufferedImage[] rowOfFlameDrones;
    private BufferedImage[] rowOfFlameDronesShadow;
    private BufferedImage[] playerShip;
+   private BufferedImage[] razeShadow;
+   private BufferedImage[] cathedral;
+   private BufferedImage[] apo;
 
    public SimpleAnimationFactory() {
       this.loadImages();
@@ -48,21 +54,30 @@ public class SimpleAnimationFactory {
          ResourceLoader.getCutsceneImage(ROW_OF_FLAME_DRONES_SHADOW), 1, 350, 110);
       playerShip = HelpMethods2.GetSimpleAnimationArray(
          ResourceLoader.getCutsceneImage(PLAYER_SHIP), 2, 30, 50);
+      razeShadow = HelpMethods2.GetSimpleAnimationArray(
+         ResourceLoader.getCutsceneImage(RAZE_SHADOW), 4, 180, 160);
+      cathedral = HelpMethods2.GetSimpleAnimationArray(
+         ResourceLoader.getCutsceneImage(CATHEDRAL), 1, 177, 211);
+      apo = HelpMethods2.GetSimpleAnimationArray(
+         ResourceLoader.getCutsceneImage(APO), 1, 340, 333);
    }
 
-   public SimpleAnimation getAnimation(String name, float xPos, float yPos) {
+   public SimpleAnimation getAnimation(String name, float xPos, float yPos, float scaleW, float scaleH, int aniSpeed) {
       name += ".png";
-      SimpleAnimation animation = switch (name) {
-         case ROW_OF_DRONES -> new SimpleAnimation(xPos, yPos, rowOfDrones);
-         case RUDINGER_SHIP -> new SimpleAnimation(xPos, yPos, rudingerShip);
-         case RUDINGER1_IDLE -> new SimpleAnimation(xPos, yPos, rudinger1Idle);
-         case RUDINGER1_DEATH -> new SimpleAnimation(xPos, yPos, rudinger1Death);
-         case LOOPING_EXPLOSION -> new SimpleAnimation(xPos, yPos, loopingExlposion);
-         case ROW_OF_FLAME_DRONES -> new SimpleAnimation(xPos, yPos, rowOfFlameDrones);
-         case ROW_OF_FLAME_DRONES_SHADOW -> new SimpleAnimation(xPos, yPos, rowOfFlameDronesShadow);
-         case PLAYER_SHIP -> new SimpleAnimation(xPos, yPos, playerShip);
+      BufferedImage[] animationArray = switch(name) {
+         case ROW_OF_DRONES -> rowOfDrones;
+         case RUDINGER_SHIP -> rudingerShip;
+         case RUDINGER1_IDLE -> rudinger1Idle;
+         case RUDINGER1_DEATH -> rudinger1Death;
+         case LOOPING_EXPLOSION -> loopingExlposion;
+         case ROW_OF_FLAME_DRONES -> rowOfFlameDrones;
+         case ROW_OF_FLAME_DRONES_SHADOW -> rowOfFlameDronesShadow;
+         case PLAYER_SHIP -> playerShip;
+         case RAZE_SHADOW -> razeShadow;
+         case CATHEDRAL -> cathedral;
+         case APO -> apo;
          default -> throw new IllegalArgumentException("No animation available for " + name);
-      };
-      return animation;
+      }; 
+      return new SimpleAnimation(animationArray, xPos, yPos, scaleW, scaleH, aniSpeed);
    }
 }

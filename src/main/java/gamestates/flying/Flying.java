@@ -34,7 +34,6 @@ import ui.GameoverOverlay;
 import ui.LevelFinishedOverlay;
 import ui.OptionsMenu;
 import ui.PauseFlying;
-import ui.TextboxManager2;
 import utils.Constants.Audio;
 import utils.ResourceLoader;
 
@@ -83,8 +82,7 @@ public class Flying extends State implements Statemethods {
       this.enemyManager = new EnemyManager(player, entityFactory, audioPlayer);
       this.projectileHandler = new ProjectileHandler(game, audioPlayer, player, enemyManager);
       this.eventHandler = new EventHandler();
-      TextboxManager2 textboxManager = new TextboxManager2();
-      this.cutsceneManager = new CutsceneManagerFly(Gamestate.FLYING, game, eventHandler, textboxManager);
+      this.cutsceneManager = new CutsceneManagerFly(Gamestate.FLYING, game, eventHandler, game.getTextboxManager());
       this.pauseOverlay = new PauseFlying(this, optionsMenu);
       this.levelFinishedOverlay = new LevelFinishedOverlay(this, progValues);
       this.gameoverOverlay = new GameoverOverlay(this);

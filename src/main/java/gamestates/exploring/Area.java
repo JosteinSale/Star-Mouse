@@ -50,7 +50,7 @@ public class Area {
       automaticTriggers = new ArrayList<>();
       this.eventHandler = new EventHandler();
       loadAreaData(areaData);
-      TextboxManager textboxManager = new TextboxManager(game);
+      TextboxManager textboxManager = game.getTextboxManager();
       this.cutsceneManager = new CutsceneManagerExp(
          Gamestate.EXPLORING, game, this, eventHandler, textboxManager, player, npcManager);
       loadEventReactions();
@@ -86,6 +86,8 @@ public class Area {
          } else if (lineData[0].equals("automaticTrigger")) {
             AutomaticTrigger trigger = GetAutomaticTrigger(lineData);
             this.automaticTriggers.add(trigger);
+         } else if (lineData[0].equals("")) {
+            // That's okay
          } else {
             throw new IllegalArgumentException("Couldn't parse " + line);
          }
@@ -198,6 +200,9 @@ public class Area {
       else if (event instanceof ClearObjectsEvent evt) {
          this.cutsceneManager.clearObjects();
       }
+      else if (event instanceof StartCinematicEvent evt) {
+         this.goToCinematic(evt.fileName(), evt.returnGamestate());
+      }
       else {
          this.cutsceneManager.activateEffect(event);
       }
@@ -222,11 +227,17 @@ public class Area {
    }
 
    /** Can be called from a cutscene, or from the PauseExploring :: skipLevel-option. */
-   public void goToFlying(int lvl) {
+   public void goToFlying(int lvl) { 
       Gamestate.state = Gamestate.FLYING;
       audioPlayer.stopAllLoops();
       game.getFlying().loadLevel(lvl);
       game.getFlying().update();
+   }
+
+   private void goToCinematic(String fileName, Gamestate returnGamestate) {
+      Gamestate.state = Gamestate.CINEMATIC;
+      game.getCinematic().startCutscene(fileName, returnGamestate);
+      game.getCinematic().update();
    }
 
    public void update() {
@@ -440,5 +451,10 @@ public class Area {
 
    public void reAttatchCamera() {
       mapManager.cameraDeattached = false;
+   }
+
+   public void skipLevel() {
+      this.cutsceneManager.reset();
+      game.getExploring().goToFlying();
    }
 }

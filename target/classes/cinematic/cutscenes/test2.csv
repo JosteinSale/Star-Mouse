@@ -1,0 +1,9 @@
+cutscene;true;automatic;0
+wait;30
+endSequence
+info;Test2!!
+endSequence
+info;yrgrhrgh
+endSequence
+exitCinematic
+endSequence

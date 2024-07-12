@@ -228,19 +228,19 @@ public class ResourceLoader {
     public static ArrayList<List<String>> getExpCutsceneData(Integer level) {
         File filePath = new File(System.getProperty("user.dir") + 
             "/src/main/resources/exploring/cutscenes/level" + Integer.toString(level));
-        return getExpCsvData(filePath);
+        return readAllCsvFilesInFolder(filePath);
     }
 
     public static List<String> getFlyCutsceneData(Integer level) {
         File filePath = new File(System.getProperty("user.dir") + 
             "/src/main/resources/flying/cutscenes/level" + Integer.toString(level) + ".csv");
-        return getFlyCsvData(filePath);
+        return readCsvFile(filePath);
     }
 
     public static List<String> getBossCutsceneData(Integer bossNr) {
         File filePath = new File(System.getProperty("user.dir") + 
             "/src/main/resources/bossMode/cutscenes/boss" + Integer.toString(bossNr) + ".csv");
-        return getFlyCsvData(filePath);
+        return readCsvFile(filePath);
     }
 
     /** Reads from the flying-leveldata folder for a specific level. 
@@ -250,7 +250,7 @@ public class ResourceLoader {
     public static List<String> getFlyLevelData(Integer level) {
         File filePath = new File(System.getProperty("user.dir") + 
             "/src/main/resources/flying/leveldata/level" + Integer.toString(level) + ".csv");
-        return getFlyCsvData(filePath);
+        return readCsvFile(filePath);
     }
 
     /** Reads from the exploring-leveldata folder for a specific level. 
@@ -261,13 +261,22 @@ public class ResourceLoader {
     public static ArrayList<List<String>> getExpLevelData(Integer level) {
         File filePath = new File(System.getProperty("user.dir") + 
             "/src/main/resources/exploring/leveldata/level" + Integer.toString(level));
-        return getExpCsvData(filePath);
+        return readAllCsvFilesInFolder(filePath);
     }
 
-    private static ArrayList<List<String>> getExpCsvData(File filePath) {
+    public static List<String> getCinematicData(String fileName) {
+        File filePath = new File(System.getProperty("user.dir") + 
+            "/src/main/resources/cinematic/cutscenes/" + fileName);
+        return readCsvFile(filePath);
+    }
+
+    private static ArrayList<List<String>> readAllCsvFilesInFolder(File filePath) {
         ArrayList<List<String>> levelData = new ArrayList<>();
         File[] allFiles = filePath.listFiles();
         for (File file : allFiles) {
+            if (!file.getName().endsWith(".csv")) {
+                continue;
+            }
             List<String> areaData = new ArrayList<>();
             BufferedReader reader = null;
             try {
@@ -286,7 +295,7 @@ public class ResourceLoader {
         return levelData;
     }
 
-    private static List<String> getFlyCsvData(File filePath) {
+    private static List<String> readCsvFile(File filePath) {
         List<String> flyData = new ArrayList<>();
         BufferedReader reader = null;
         try {

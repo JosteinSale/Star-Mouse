@@ -2,130 +2,133 @@ package cutscenes.effects;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import cutscenes.SimpleAnimationFactory;
 import game_events.AddObjectEvent;
 import game_events.GeneralEvent;
 import game_events.ObjectMoveEvent;
 import gamestates.Gamestate;
-import main_classes.Game;
 
-/** Keeps a list of SimpleAnimation-objects. These can be added with the 
- * activate-method. Once added they will be drawn and updated. 
+/**
+ * Keeps a list of SimpleAnimation-objects. These can be added with the
+ * activate-method. Once added they will be drawn and updated.
  * They can be moved with the moveObject-method.
  * The effect can only be inactivated with the reset-method.
  * 
- * OBS: when used in combination with an advancable effect,
- * make sure that movements get time to finish. Or else they will be interrupted.
+ * Objects will move independently of any other cutscene effects.
+ * NOTE: objects added first will be drawn at the bottom layer.
  */
 public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
    private boolean active;
    private SimpleAnimationFactory animationFactory;
-   private ArrayList<SimpleAnimation> objects;
-   private ArrayList<Boolean> moveStatuses;
-   private ArrayList<Integer> moveTicks;
-   private ArrayList<Integer> moveDurations;
-   private ArrayList<Float> xSpeeds;
-   private ArrayList<Float> ySpeeds;
-   
+   private ArrayList<SimpleAnimation> objects;  // Need arraylist because of sorting, to ensure correct layering
+   private HashMap<String, Integer> nameToIndexMap; // Needed to associate the identifier with the correct index
+   private HashMap<String, Boolean> moveStatuses;
+   private HashMap<String, Integer> moveTicks;
+   private HashMap<String, Integer> moveDurations;
+   private HashMap<String, Float> xSpeeds;
+   private HashMap<String, Float> ySpeeds;
 
    public ObjectMoveEffect() {
       this.animationFactory = new SimpleAnimationFactory();
       this.objects = new ArrayList<>();
-      this.moveStatuses = new ArrayList<>();
-      this.moveTicks = new ArrayList<>();
-      this.moveDurations = new ArrayList<>();
-      this.xSpeeds = new ArrayList<>();
-      this.ySpeeds = new ArrayList<>();
+      this.nameToIndexMap = new HashMap<>();
+      this.moveStatuses = new HashMap<>();
+      this.moveTicks = new HashMap<>();
+      this.moveDurations = new HashMap<>();
+      this.xSpeeds = new HashMap<>();
+      this.ySpeeds = new HashMap<>();
       // TODO - Later we might also include the AnimatedComponentFactory.
+      // TODO - Then, include methods setAnimation(String name, int row) which throws exception if not AnimatedComponent.
+      //  and setPose(int row, int col, boolean active).
    }
 
-   /* Can be used to add new objects. 
-   Once an object is added, the effect is set to active.
-   If the initial position is outside of the screen, 
-   it throws an IllegalArgumentException */ 
+   /*
+    * Can be used to add new objects.
+    * Once an object is added, the effect is set to active.
+    * If the initial position is outside of the screen,
+    * it throws an IllegalArgumentException
+    */
    @Override
    public void activate(GeneralEvent evt) {
       this.active = true;
       AddObjectEvent addEvt = (AddObjectEvent) evt;
-      SimpleAnimation animation = animationFactory.getAnimation(
-         addEvt.objectName(), addEvt.xPos(), addEvt.yPos());
-      if (isOutOfScreen(animation)) {
-         throw new IllegalArgumentException("Start position cannot be outside the screen");
+      if (this.nameToIndexMap.containsKey(addEvt.identifier())) {
+         throw new IllegalArgumentException("Identifier already registered: " + addEvt.identifier());
       }
-      this.addNewEmptyEntry(animation);
+      SimpleAnimation animation = animationFactory.getAnimation(
+            addEvt.objectName(), addEvt.xPos(), addEvt.yPos(), addEvt.scaleW(), addEvt.scaleH(), addEvt.aniSpeed());
+      this.addNewEmptyEntry(addEvt.identifier(), animation);
    }
 
-   private void addNewEmptyEntry(SimpleAnimation animation) {
+   private void addNewEmptyEntry(String identifier, SimpleAnimation animation) {
+      this.nameToIndexMap.put(identifier, objects.size());
       this.objects.add(animation);
-      this.moveStatuses.add(false);
-      this.moveTicks.add(0);
-      this.moveDurations.add(0);
-      this.xSpeeds.add(0f);
-      this.ySpeeds.add(0f);
+      this.moveStatuses.put(identifier, false);
+      this.moveTicks.put(identifier, 0);
+      this.moveDurations.put(identifier, 0);
+      this.xSpeeds.put(identifier, 0f);
+      this.ySpeeds.put(identifier, 0f);
    }
 
-   /** Can be called to set target position for an object. The update-method will
-    * move the object. */
-    public void moveObject(ObjectMoveEvent evt) {
-      int i = evt.objectIndex();
-      this.moveStatuses.set(i, true);
-      this.moveDurations.set(i, evt.duration());
-      float xSpeed = (evt.targetX() - objects.get(i).xPos) / evt.duration();
-      float ySpeed = (evt.targetY() - objects.get(i).yPos) / evt.duration();
-      this.xSpeeds.set(i, xSpeed);
-      this.ySpeeds.set(i, ySpeed);
+   /**
+    * Can be called to set target position for an object. The update-method will
+    * move the object. If the identifier name is not registered, it throws an
+    * exception.
+    */
+   public void moveObject(ObjectMoveEvent evt) {
+      String id = evt.identifier();
+      if (!this.nameToIndexMap.containsKey(id)) {
+         throw new IllegalArgumentException("Cannot find identifier: " + id);
+      }
+      int index = nameToIndexMap.get(id);
+      this.moveStatuses.put(id, true);
+      this.moveDurations.put(id, evt.duration());
+      float xSpeed = (evt.targetX() - objects.get(index).xPos) / evt.duration();
+      float ySpeed = (evt.targetY() - objects.get(index).yPos) / evt.duration();
+      this.xSpeeds.put(id, xSpeed);
+      this.ySpeeds.put(id, ySpeed);
    }
 
    @Override
    public GeneralEvent getAssociatedEvent() {
-      return new AddObjectEvent(null, 0, 0);
+      return new AddObjectEvent(null, null, 0, 0, 0f, 0f, 0);
    }
 
    @Override
    public boolean supportsGamestate(Gamestate state) {
-      return true;  // Supports all gamestates
+      return true; // Supports all gamestates
    }
 
-   // For each object: 
-   //    1. It updates animations
-   //    2. If it should move, it does so. 
+   // For each object:
+   // 1. It updates animations
+   // 2. If it should move, it does so.
    @Override
    public void update() {
-      for (int i = 0; i < objects.size(); i++) {
-         objects.get(i).updateAnimation();
-         if (shouldObjectMove(i)) {
-            this.updatePositionOf(i);
+      for (String id : nameToIndexMap.keySet()) {
+         int index = nameToIndexMap.get(id);
+         objects.get(index).updateAnimation();
+         if (shouldObjectMove(id)) {
+            this.updatePositionOf(id);
          }
       }
    }
 
-   private void updatePositionOf(int i) {
-      SimpleAnimation object = objects.get(i);
-      object.xPos += xSpeeds.get(i);
-      object.yPos += ySpeeds.get(i);
-      int updatedTick = moveTicks.get(i) + 1;
-      moveTicks.set(i, updatedTick);
-      if (updatedTick > moveDurations.get(i)) {
-         moveTicks.set(i, 0);
-         moveStatuses.set(i, false);
+   private void updatePositionOf(String id) {
+      SimpleAnimation object = objects.get(nameToIndexMap.get(id));
+      object.xPos += xSpeeds.get(id);
+      object.yPos += ySpeeds.get(id);
+      int updatedTick = moveTicks.get(id) + 1;
+      moveTicks.put(id, updatedTick);
+      if (updatedTick > moveDurations.get(id)) {
+         moveTicks.put(id, 0);
+         moveStatuses.put(id, false);
       }
    }
 
-   private boolean shouldObjectMove(int i) {
-      return this.moveStatuses.get(i);
-   }
-
-   private boolean isOutOfScreen(SimpleAnimation object) {
-      // 1. Checks x-position
-      if (((object.xPos + object.width) < 0) || (object.xPos > Game.GAME_WIDTH)) { 
-         return true;
-      }
-      // 2. Checks y-position
-      if (((object.yPos + object.height) < 0) || (object.yPos > Game.GAME_HEIGHT)) { 
-         return true;
-      }
-      return false;
+   private boolean shouldObjectMove(String id) {
+      return this.moveStatuses.get(id);
    }
 
    @Override
@@ -144,11 +147,12 @@ public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
    public void reset() {
       this.active = false;
       this.objects.clear();
+      this.nameToIndexMap.clear();
       this.moveDurations.clear();
       this.moveTicks.clear();
       this.moveStatuses.clear();
       this.xSpeeds.clear();
       this.ySpeeds.clear();
    }
-   
+
 }

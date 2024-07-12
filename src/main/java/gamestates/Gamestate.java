@@ -7,6 +7,7 @@ public enum Gamestate {
     EXPLORING,
     FLYING,
     BOSS_MODE,
+    CINEMATIC,
     LEVEL_EDITOR,
     QUIT;
 

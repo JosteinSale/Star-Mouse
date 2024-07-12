@@ -9,25 +9,24 @@ import main_classes.Game;
  * It differs from AnimatedComponent in that it's simpler to construct, 
  * and only has 1 animation, that always loops.
  * 
- * Speed is 4.
- * Scale is x3 of original image size.
  * To move it, alter the protected xPos and yPos-variables. */
 public class SimpleAnimation {
    private int aniIndex = 0;
    private int aniTick = 0;
-   private int aniSpeed = 4;
+   private int aniSpeed;
    private BufferedImage[] animation;
    protected float xPos;
    protected float yPos;
    protected int width;
    protected int height;
 
-   public SimpleAnimation(float xPos, float yPos, BufferedImage[] animation) {
+   public SimpleAnimation(BufferedImage[] animation, float xPos, float yPos, float scaleW, float scaleH, int aniSpeed) {
       this.animation = animation;
       this.xPos = xPos;
       this.yPos = yPos;
-      this.width = animation[0].getWidth() * 3;
-      this.height = animation[0].getHeight() * 3;
+      this.width = (int) (animation[0].getWidth() * scaleW);
+      this.height = (int) (animation[0].getHeight() * scaleH);
+      this.aniSpeed = aniSpeed;
    }
 
    public void updateAnimation() {

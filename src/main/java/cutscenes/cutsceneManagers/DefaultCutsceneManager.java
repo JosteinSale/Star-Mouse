@@ -80,7 +80,9 @@ public class DefaultCutsceneManager {
       }
    }
 
-   /** Call this method from subclass, when adding the effects  */
+   /** Call this method from subclass when adding the effects. 
+    * Note that effects added first will be drawn at the bottom layer, 
+    * and vice versa. */
 	protected void addEffect(CutsceneEffect e) {
 		if (!e.supportsGamestate(this.state)) {
 			throw new IllegalArgumentException(e + " does not support gamestate " + this.state);
@@ -256,5 +258,13 @@ public class DefaultCutsceneManager {
       for (CutsceneEffect effect : allEffects.values()) {
          effect.reset();
       }
+   }
+
+   /** Resets the cutsceneManager and all associated cutscene effects. */
+   public void reset() {
+      active = false; 
+      canAdvance = true;
+      this.textBoxManager.resetBooleans();
+      this.resetEffectsManually();
    }
 }

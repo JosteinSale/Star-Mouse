@@ -30,13 +30,5 @@ public class CutsceneManagerFly extends DefaultCutsceneManager {
    public void clear() {
       this.clearCutscenes();
    }
-
-   /** Resets the cutsceneManager and all associated cutscene effects. */
-   public void reset() {
-      active = false; 
-      canAdvance = true;
-      this.textBoxManager.resetBooleans();
-      this.resetEffectsManually();
-   }
    
 }

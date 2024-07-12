@@ -5,6 +5,7 @@ import data_storage.DataStorage;
 import data_storage.DrawSaving;
 import data_storage.ProgressValues;
 import data_storage.SaveData;
+import gamestates.Cinematic;
 import gamestates.Gamestate;
 import gamestates.LevelEditor;
 import gamestates.MainMenu;
@@ -14,6 +15,7 @@ import gamestates.exploring.Exploring;
 import gamestates.flying.Flying;
 import gamestates.level_select.LevelSelect;
 import ui.OptionsMenu;
+import ui.TextboxManager;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -37,9 +39,10 @@ public class Game implements Runnable {
    private GameWindow gameWindow;
    private GamePanel gamePanel;
    private Thread gameThread;
-   private final int FPS_SET = 60; // Påvirker prosessor
+   private final int FPS_SET = 60;
    private final int UPS_SET = 60;
 
+   // Game states
    private StartScreen startScreen;
    private MainMenu mainMenu;
    private LevelSelect levelSelect;
@@ -47,11 +50,16 @@ public class Game implements Runnable {
    private Flying flying;
    private BossMode bossMode;
    private LevelEditor levelEditor;
+   private Cinematic cinematic;
+
+   // Special objects
    private OptionsMenu optionsMenu;
    private AudioPlayer audioPlayer;
+   private TextboxManager textBoxManager;
    private SaveData saveData;
    private DrawSaving drawSaving;
 
+   // Keyboard inputs
    public boolean upIsPressed = false;
    public boolean downIsPressed = false;
    public boolean rightIsPressed = false;
@@ -78,11 +86,13 @@ public class Game implements Runnable {
       this.optionsMenu = new OptionsMenu(this, audioPlayer);
       this.startScreen = new StartScreen(this);
       this.mainMenu = new MainMenu(this, optionsMenu);
+      this.textBoxManager = new TextboxManager(this);
       this.exploring = new Exploring(this);
       this.levelSelect = new LevelSelect(this);
       this.flying = new Flying(this);
       this.bossMode = new BossMode(this);
       this.levelEditor = new LevelEditor(this);
+      this.cinematic = new Cinematic(this);
       this.drawSaving = new DrawSaving();
       this.initializeSaveData();
    }
@@ -134,6 +144,9 @@ public class Game implements Runnable {
          case BOSS_MODE:
             bossMode.update();
             break;
+         case CINEMATIC:
+            cinematic.update();
+            break;
          case LEVEL_EDITOR:
             levelEditor.update();
             break;
@@ -163,6 +176,9 @@ public class Game implements Runnable {
             break;
          case BOSS_MODE:
             bossMode.draw(g);
+            break;
+         case CINEMATIC:
+            cinematic.draw(g);
             break;
          case LEVEL_EDITOR:
             levelEditor.draw(g);
@@ -232,8 +248,16 @@ public class Game implements Runnable {
       return this.bossMode;
    }
 
+   public Cinematic getCinematic() {
+      return this.cinematic;
+   }
+
    public LevelEditor getLevelEditor() {
       return this.levelEditor;
+   }
+
+   public TextboxManager getTextboxManager() {
+      return this.textBoxManager;
    }
 
    public AudioPlayer getAudioPlayer() {

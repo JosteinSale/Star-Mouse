@@ -40,6 +40,11 @@ endSequence
 
 cutscene;false;automatic;3
 fillScreen;black;true
+wait;1
+endSequence
+startCinematic;apo_explodes.csv;exploring
+wait;1
+endSequence
 wait;60
 endSequence
 fillScreen;black;false
@@ -168,5 +173,13 @@ endSequence
 setDir;Gard;left
 bigDialogue;Gard;normal;0;2;Now come on, let's go.
 endSequence
-npcWalk;Gard;1;left;3320;495f;120
+npcWalk;Gard;1;left;3220;495f;200
+endSequence
+setDir;player;left
+playerWalk;left;3220f;675f;80
+endSequence
+fade;out;black;3
+endSequence
+goToFlying;4
+wait;1
 endSequence

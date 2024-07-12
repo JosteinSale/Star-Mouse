@@ -12,33 +12,36 @@ import utils.ResourceLoader;
 public class SetOverlayEffect implements DrawableEffect {
    private boolean active;
    private BufferedImage overlayImage;
+   private float scaleW;
+   private float scaleH;
 
    @Override
    public void activate(GeneralEvent evt) {
       SetOverlayImageEvent imgEvt = (SetOverlayImageEvent) evt;
       this.active = imgEvt.active();
       if (active) {
-         // TODO - make global folder for overlayImages?
-         this.overlayImage = ResourceLoader.getExpImageBackground(imgEvt.fileName());
+         this.overlayImage = ResourceLoader.getCutsceneImage(imgEvt.fileName());
+         this.scaleW = imgEvt.scaleW();
+         this.scaleH = imgEvt.ScaleH();
       }
    }
 
    @Override
    public GeneralEvent getAssociatedEvent() {
-      return new SetOverlayImageEvent(active, null);
+      return new SetOverlayImageEvent(active, null, 0f, 0f);
    }
 
    @Override
    public boolean supportsGamestate(Gamestate state) {
-      return (state == Gamestate.EXPLORING);
+      return true; // Supports all gamestates
    }
 
    @Override
    public void draw(Graphics g) {
       g.drawImage(
          overlayImage, 0, 0, 
-         (int) (overlayImage.getWidth() * 3 * Game.SCALE), 
-         (int) (overlayImage.getHeight() * 3 * Game.SCALE), null);
+         (int) (overlayImage.getWidth() * scaleW * Game.SCALE), 
+         (int) (overlayImage.getHeight() * scaleH * Game.SCALE), null);
    }
 
    @Override

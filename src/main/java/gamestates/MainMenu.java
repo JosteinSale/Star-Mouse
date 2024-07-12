@@ -135,7 +135,7 @@ import utils.Constants.Audio;
         game.testingMode = true;
 
         // UNLOCK LEVELS
-        game.getLevelSelect().unlockAllLevelsUpTo(3);
+        game.getLevelSelect().unlockAllLevelsUpTo(2);
 
         // LEVEL SELECT
         game.getLevelSelect().reset();
@@ -147,7 +147,7 @@ import utils.Constants.Audio;
         // Gamestate.state = Gamestate.EXPLORING;
 
         // FLYING - Uncomment to only test one level in flying.
-        // game.getFlying().loadLevel(3);
+        // game.getFlying().loadLevel(2);
         // game.getFlying().update();
         // Gamestate.state = Gamestate.FLYING;
 

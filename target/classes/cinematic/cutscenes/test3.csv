@@ -1,0 +1,10 @@
+cutscene;true;automatic;0
+wait;30
+endSequence
+bigDialogue;Max;normal;0;2;ljpgrPG KAHBVHABFV ABHOU AO
+endSequence
+setOverlayImage;true;overlayLevel2.png
+wait;120
+endSequence
+exitCinematic
+endSequence

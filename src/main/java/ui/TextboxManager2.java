@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import game_events.SmallDialogueEvent;
 import game_events.TextBoxEvent;
 
+/** OBS: Class may currently be obsolete. We're using TextboxManager instead. */
+
 /** Is used in flying-mode. The dialogueBox is transparent and smaller, 
  * and can only take 1 line of dialogue at the time.
  */
