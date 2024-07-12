@@ -27,6 +27,7 @@ public class CutsceneParser {
       parseMap.put("levelFinished", CutsceneParser::parseLevelFinished);
       parseMap.put("fadeHeader", CutsceneParser::parseFadeHeader);
       parseMap.put("bigDialogue", CutsceneParser::parseBigDialogue);
+      parseMap.put("noSkipDialogue", CutsceneParser :: parseNoSkipDialogue);
       parseMap.put("smallDialogue", CutsceneParser::parseSmallDialogue);
       parseMap.put("fade", CutsceneParser::parseFade);
       parseMap.put("setPlayerVisible", CutsceneParser::parseSetPlayerVisible);
@@ -99,6 +100,14 @@ public class CutsceneParser {
       Integer speed = Integer.parseInt(lineData[4]);
       String text = lineData[5];
       return new BigDialogueEvent(name, speed, text, portraitIndex);
+   }
+
+   private static NoSkipDialogueEvent parseNoSkipDialogue(String[] lineData) {
+      String name = lineData[1];
+      Integer portraitIndex = Integer.parseInt(lineData[3]);
+      Integer speed = Integer.parseInt(lineData[4]);
+      String text = lineData[5];
+      return new NoSkipDialogueEvent(name, speed, text, portraitIndex);
    }
 
    private static SmallDialogueEvent parseSmallDialogue(String[] lineData) {

@@ -44,9 +44,16 @@ DIALOGUE-EVENT
 --------------------
 [0] = dialogue, [1] = characterName (String), [2] = emotion (not used for event), 
 [3] = portraitIndex, [4] = speed (int), [5] = text (String)
-
 * Max ~90 letters total per dialogue (see notes in DialogueBox)
 * Max 32 letters per word
+* NOTE: by using in combination with the wait-method, you can block keyboardInputs from player.
+
+
+NO SKIP DIALOGUE
+--------------------
+[0] = noSkipDialogue, [1] = characterName (String), [2] = emotion (not used for event), 
+[3] = portraitIndex, [4] = speed (int), [5] = text (String)
+* NOTE: must be implemented in each cutsceneManagers handleKeyPressed-method
 
 
 FADE

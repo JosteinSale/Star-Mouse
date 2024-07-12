@@ -1,10 +1,38 @@
 cutscene;true;automatic;0
 fillScreen;black;true
 setOverlayImage;true;apo_explodes_bg.png;1;1
+addObject;cathedral;cathedral;250;100;3;3;3
 addObject;apo;apo;200;60;2;2;4
-addObject;raze_shadow;raze;260;120;3;3;15
+addObject;rudingerShip;rudingerShip;300;-150;3;3;3
+addObject;raze_shadow;raze;260;120;3;3;12
 wait;60
 endSequence
 fillScreen;black;false
 fade;in;black;1
+endSequence
+noSkipDialogue;????;normal;2;30;...
+endSequence
+moveObject;rudingerShip;300;300;180
+endSequence
+noSkipDialogue;Rudinger;coy;1;2;Hi boss.
+endSequence
+noSkipDialogue;Rudinger;bored;2;2;The cathedral has arrived, and everything is ready.
+endSequence
+noSkipDialogue;????;normal;2;2;Good.
+endSequence
+moveObject;cathedral;550;100;600
+moveObject;apo;0;60;600
+moveObject;rudingerShip;100;300;600
+moveObject;raze;60;120;600
+wait;30
+endSequence
+noSkipDialogue;????;normal;2;3;The divine instrument of our most sacred cause.
+endSequence
+noSkipDialogue;????;normal;2;3;The cathedral will purify all sins, and enable glorious creation.
+endSequence
+noSkipDialogue;????;normal;2;3;All that was lost, shall be regained.
+endSequence
+noSkipDialogue;????;normal;2;3;And all that is regained, shall be regained sevenfold.
+endSequence
+noSkipDialogue;????;normal;2;3;Now, let this planet bathe in the light of salvation.
 endSequence

@@ -57,7 +57,7 @@ public class SimpleAnimationFactory {
       razeShadow = HelpMethods2.GetSimpleAnimationArray(
          ResourceLoader.getCutsceneImage(RAZE_SHADOW), 4, 180, 160);
       cathedral = HelpMethods2.GetSimpleAnimationArray(
-         ResourceLoader.getCutsceneImage(CATHEDRAL), 1, 177, 211);
+         ResourceLoader.getCutsceneImage(CATHEDRAL), 2, 177, 211);
       apo = HelpMethods2.GetSimpleAnimationArray(
          ResourceLoader.getCutsceneImage(APO), 1, 340, 333);
    }

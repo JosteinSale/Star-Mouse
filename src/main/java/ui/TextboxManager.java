@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import game_events.BigDialogueEvent;
 import game_events.InfoBoxEvent;
 import game_events.InfoChoiceEvent;
+import game_events.NoSkipDialogueEvent;
 import game_events.SmallDialogueEvent;
 import game_events.TextBoxEvent;
 import main_classes.Game;
@@ -26,6 +27,7 @@ public class TextboxManager implements ITextboxManager {
     private boolean bigDialogueActive;
     private boolean smallDialogueActive;
     private boolean infoChoiceActive;
+    private boolean canSkipDialogue;
 
     public TextboxManager(Game game) {
         this.infoBox = new InfoBox();
@@ -47,6 +49,14 @@ public class TextboxManager implements ITextboxManager {
                 dialogueEvt.name(), dialogueEvt.speed(), 
                 dialogueEvt.text(), dialogueEvt.portraitIndex());
             this.bigDialogueActive = true;
+        }
+        else if (evt instanceof NoSkipDialogueEvent) {
+            NoSkipDialogueEvent dialogueEvt = (NoSkipDialogueEvent) evt;
+            this.bigDialogueBox.setDialogue(
+                dialogueEvt.name(), dialogueEvt.speed(), 
+                dialogueEvt.text(), dialogueEvt.portraitIndex());
+            this.bigDialogueActive = true;
+            this.canSkipDialogue = false;
         }
         else if (evt instanceof SmallDialogueEvent) {
             SmallDialogueEvent dialogueEvt = (SmallDialogueEvent) evt;
@@ -83,13 +93,14 @@ public class TextboxManager implements ITextboxManager {
         this.bigDialogueActive = false;
         this.smallDialogueActive = false;
         this.infoChoiceActive = false;
+        this.canSkipDialogue = true;
     }
 
     public int getSelectedOption() {
         if (infoChoiceActive) {
             return infoChoice.getSelectedOption();
         }
-        return 10;
+        return 10; // failsafe
     }
 
     public void draw(Graphics g) {
@@ -114,7 +125,9 @@ public class TextboxManager implements ITextboxManager {
 
     @Override
     public void forwardDialogue() {
-        this.bigDialogueBox.forwardDialogue();
+        if (canSkipDialogue) {
+            this.bigDialogueBox.forwardDialogue();
+        }
     }
 
     public boolean isChoiceActive() {
