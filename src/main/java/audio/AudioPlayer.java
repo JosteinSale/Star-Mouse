@@ -224,6 +224,7 @@ public class AudioPlayer {
         if (index == 99) {return;}
         this.curSongIndex = index;
         this.curSongVolume = setSongVolume;
+        stopFadeOutIfActive();   // In case fadeOut is happening 
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(songs[index]);
             curSong = AudioSystem.getClip();
@@ -237,6 +238,7 @@ public class AudioPlayer {
         }
     }
 
+
     /** Stops the current ambience loop, and then starts a new
      *  ambience loop with the specified index.
      *  Index = 99 means no ambience.
@@ -247,6 +249,7 @@ public class AudioPlayer {
             throw new IllegalArgumentException("Don't play silent track!");
         }
         this.curAmbienceVolume = setAmbienceVolume;
+        this.stopFadeOutIfActive();  // In case fadeOut is happening 
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(ambienceTracks[index]);
             curAmbience = AudioSystem.getClip();
@@ -256,6 +259,17 @@ public class AudioPlayer {
             curAmbience.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /** Sometimes we start a new song/ambience while a fadeOut is happening.
+     * In such case we need to stop the fadeout and reset it, so that it
+     * doesn't stop the new song/ambience.
+     */
+    private void stopFadeOutIfActive() {
+        if (fadeOutActive) {
+            fadeOutActive = false;
+            waitTick = 0;
         }
     }
 
@@ -277,19 +291,15 @@ public class AudioPlayer {
     }
 
     /** Should be called whenever you want to stop/start both music and ambience.
-     * (I tried having ambience-flipping in its own method, but for some reason, 
-     * when you had the flying-pauseScreen open and moved your cursor a bunch
-     * of times and then exited the pauseScreen, that method wasn't called (???))
+     * (We might phase out this method later, since it only works properly for Flying.
+     * Consider using the strategy used in bossMode instead.)
      */
     public void flipAudioOnOff() {
-        if (this.curSong.isActive()) {
+        if (this.curSong.isActive() || this.curAmbience.isActive()) {
             this.curSong.stop();
-        } else {
-            this.curSong.loop(Clip.LOOP_CONTINUOUSLY);
-        }
-        if (this.curAmbience.isActive()) {
             this.curAmbience.stop();
         } else {
+            this.curSong.loop(Clip.LOOP_CONTINUOUSLY);
             this.curAmbience.loop(Clip.LOOP_CONTINUOUSLY);
         }
     }
@@ -374,5 +384,13 @@ public class AudioPlayer {
 
     public boolean isSongPlaying(Integer index) {
         return index.equals(curSongIndex) && curSong.isActive();
+    }
+
+    public void continueCurrentSong() {
+        this.curSong.loop(Clip.LOOP_CONTINUOUSLY);
+    }
+
+    public void continueCurrentAmbience() {
+      this.curAmbience.loop(Clip.LOOP_CONTINUOUSLY);
     }
 }

@@ -209,6 +209,11 @@ public class DefaultCutsceneManager {
       }
    }
 
+   public void resetCurrentCutscene() {
+      Cutscene cutscene = getCutsceneListForTrigger(triggerType).get(elementNr).get(cutsceneIndex);
+      this.resetCutscene(cutscene);
+   }
+
    /** Starting new cutscenes cannot be done directly by 
      * triggering events in the eventHandler.
      * Doing this seems to get the program stuck in a loop where the same 
@@ -260,7 +265,8 @@ public class DefaultCutsceneManager {
       }
    }
 
-   /** Resets the cutsceneManager and all associated cutscene effects. */
+   /** Resets the cutsceneManagers active status, textBoxManager, 
+    * and all cutscene effects. */
    public void reset() {
       active = false; 
       canAdvance = true;

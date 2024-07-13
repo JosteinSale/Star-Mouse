@@ -52,6 +52,8 @@ public class BossMode extends State implements Statemethods {
 
    private PauseBoss pauseOverlay;
    private GameoverOverlay2 gameoverOverlay;
+   public boolean shouldAmbiencePlay = false;
+   public boolean shouldMusicPlay = false;
    private boolean pause = false;
    private boolean gameOver = false;
 
@@ -86,17 +88,23 @@ public class BossMode extends State implements Statemethods {
          this.cutsceneManager.activateTextbox(tbEvt);
       }
       else if (event instanceof StartSongEvent evt) {
+         this.shouldMusicPlay = true;
          this.audioPlayer.startSongLoop(evt.index(), 0);
-      } 
-      else if (event instanceof StopLoopsEvent evt) {
-         this.audioPlayer.stopAllLoops();
-      }
-      else if (event instanceof FadeOutLoopEvent evt) {
-         audioPlayer.fadeOutAllLoops();
       }
       else if (event instanceof StartAmbienceEvent evt) {
+         this.shouldAmbiencePlay = true;
          audioPlayer.startAmbienceLoop(evt.index());
       } 
+      else if (event instanceof StopLoopsEvent) {
+         this.shouldAmbiencePlay = false;
+         this.shouldMusicPlay = false;
+         this.audioPlayer.stopAllLoops();
+      }
+      else if (event instanceof FadeOutLoopEvent) {
+         this.shouldAmbiencePlay = false;
+         this.shouldMusicPlay = false;
+         audioPlayer.fadeOutAllLoops();
+      }
       else if (event instanceof PlaySFXEvent evt) {
          audioPlayer.playSFX(evt.SFXIndex());
       }
@@ -109,7 +117,7 @@ public class BossMode extends State implements Statemethods {
       else if (event instanceof ObjectMoveEvent evt) {
          this.cutsceneManager.moveObject(evt);
       }
-      else if (event instanceof ClearObjectsEvent evt) {
+      else if (event instanceof ClearObjectsEvent) {
          this.cutsceneManager.clearObjects();
       }
       else if (event instanceof SetVisibleEvent evt) {
@@ -207,7 +215,7 @@ public class BossMode extends State implements Statemethods {
    private void checkPause() {
       if (game.pauseIsPressed) {
          game.pauseIsPressed = false;
-         game.getAudioPlayer().flipAudioOnOff();
+         game.getAudioPlayer().stopAllLoops();
          this.flipPause();
       }
    }
@@ -242,6 +250,8 @@ public class BossMode extends State implements Statemethods {
       this.gameoverOverlay.reset();
       this.pause = false;
       this.gameOver = false;
+      this.shouldAmbiencePlay = false;
+      this.shouldMusicPlay = false;
    }
 
    /** Is called from the gameOverOverlay */
@@ -273,6 +283,8 @@ public class BossMode extends State implements Statemethods {
     */
    public void killBoss() {
       game.getAudioPlayer().stopAllLoops();
+      this.shouldAmbiencePlay = false;
+      this.shouldMusicPlay = false;
       this.projectileHandler.reset();
       this.startCutscene(1);
    }

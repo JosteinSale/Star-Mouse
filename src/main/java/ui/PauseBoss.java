@@ -81,7 +81,7 @@ public class PauseBoss {
 
          if (selectedIndex == CONTINUE) {
             this.bossMode.flipPause();
-            this.audioPlayer.flipAudioOnOff();
+            this.checkIfAudioShouldPlay();
          } else if (selectedIndex == OPTIONS) {
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
             optionsMenu.setActive(true);
@@ -93,9 +93,18 @@ public class PauseBoss {
             Gamestate.state = Gamestate.MAIN_MENU;
          } else if (selectedIndex == SKIP_LEVEL) {
             bossMode.flipPause();
-            audioPlayer.flipAudioOnOff();
+            audioPlayer.stopAllLoops();
             bossMode.skipBossMode();
          }
+      }
+   }
+
+   private void checkIfAudioShouldPlay() {
+      if (bossMode.shouldMusicPlay) {
+         this.audioPlayer.continueCurrentSong();
+      }
+      if (bossMode.shouldAmbiencePlay) {
+         this.audioPlayer.continueCurrentAmbience();
       }
    }
 

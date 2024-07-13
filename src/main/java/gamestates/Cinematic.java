@@ -3,6 +3,8 @@ package gamestates;
 import static utils.HelpMethods.GetCutscenes;
 import static utils.Constants.Exploring.Cutscenes.AUTOMATIC;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,6 +42,8 @@ public class Cinematic extends State implements Statemethods {
 
    public static final String CINEMATICS_FILE_PATH = "/src/main/resources/cinematic/cutscenes";
 
+   private Font skipFont;
+
    private EventHandler eventHandler;
    private AudioPlayer audioPlayer;
    private CutsceneManagerCinematic cutsceneManager;
@@ -55,6 +59,7 @@ public class Cinematic extends State implements Statemethods {
       this.cutsceneManager = new CutsceneManagerCinematic(
             game, eventHandler, game.getTextboxManager(), Gamestate.CINEMATIC);
       this.indexMap = new HashMap<>();
+      this.skipFont = ResourceLoader.getInfoFont();
       this.loadEventReactions();
    }
 
@@ -118,20 +123,41 @@ public class Cinematic extends State implements Statemethods {
             indexMap.get(fileName), AUTOMATIC, 0);
    }
 
-   private void exitCinematic() {
+   public void exitCinematic() {
       this.cutsceneManager.reset();
+      this.cutsceneManager.resetCurrentCutscene();
       Gamestate.state = this.returnGamestate;
    }
 
    @Override
    public void update() {
-      this.cutsceneManager.handleKeyBoardInputs();
+      this.handleKeyBoardInputs();
       this.cutsceneManager.update();
+   }
+
+   private void handleKeyBoardInputs() {
+      if (game.pauseIsPressed) {
+         game.pauseIsPressed = false;
+         audioPlayer.stopAllLoops();
+         this.exitCinematic();
+      }
+      else {
+         this.cutsceneManager.handleKeyBoardInputs();
+      }
    }
 
    @Override
    public void draw(Graphics g) {
       this.cutsceneManager.draw(g);
+      this.drawSkipText(g);
+   }
+
+   private void drawSkipText(Graphics g) {
+      g.setColor(Color.GRAY);
+      g.setFont(skipFont);
+      g.drawString(
+         "ENTER to skip", 
+         (int) (30 * Game.SCALE), (int)(30 * Game.SCALE));
    }
 
 }
