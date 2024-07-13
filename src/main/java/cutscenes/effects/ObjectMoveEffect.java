@@ -121,7 +121,7 @@ public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
       object.yPos += ySpeeds.get(id);
       int updatedTick = moveTicks.get(id) + 1;
       moveTicks.put(id, updatedTick);
-      if (updatedTick > moveDurations.get(id)) {
+      if (updatedTick >= moveDurations.get(id)) {
          moveTicks.put(id, 0);
          moveStatuses.put(id, false);
       }

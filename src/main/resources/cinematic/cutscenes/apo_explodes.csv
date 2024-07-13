@@ -2,17 +2,20 @@ cutscene;true;automatic;0
 fillScreen;black;true
 setOverlayImage;true;apo_explodes_bg.png;1;1
 addObject;cathedral;cathedral;250;100;3;3;3
+addObject;white_charge;charge;1050;200;3;3;5
 addObject;apo;apo;200;60;2;2;4
 addObject;rudingerShip;rudingerShip;300;-150;3;3;3
 addObject;raze_shadow;raze;260;120;3;3;12
 wait;60
 endSequence
+startSong;9
 fillScreen;black;false
 fade;in;black;1
 endSequence
 noSkipDialogue;????;normal;2;30;...
 endSequence
 moveObject;rudingerShip;300;300;180
+wait;200
 endSequence
 noSkipDialogue;Rudinger;coy;1;2;Hi boss.
 endSequence
@@ -35,4 +38,25 @@ endSequence
 noSkipDialogue;????;normal;2;3;And all that is regained, shall be regained sevenfold.
 endSequence
 noSkipDialogue;????;normal;2;3;Now, let this planet bathe in the light of salvation.
+endSequence
+moveObject;charge;660;200;1
+fadeOutLoops
+playSFX;20;charge up
+wait;1
+endSequence
+wait;250
+endSequence
+fade;out;white;1
+endSequence
+fillScreen;white;true
+wait;100
+endSequence
+noSkipDialogue;????;normal;2;3;Release
+endSequence
+fade;out;black;3
+endSequence
+fillScreen;black;true
+wait;30
+endSequence
+exitCinematic
 endSequence

@@ -133,6 +133,7 @@ public class HelpMethods {
     public static ArrayList<ArrayList<Cutscene>> GetCutscenes(List<String> cutsceneData) {
         ArrayList<ArrayList<Cutscene>> allCutscenes = new ArrayList<>();
         ArrayList<ArrayList<GeneralEvent>> allSequences = new ArrayList<>();
+        int currentLine = 1; // used for exception handling
         int triggerIndex = 0;
         int cutsceneIndex = 0;
         int sequenceIndex = 0;
@@ -161,7 +162,7 @@ public class HelpMethods {
 
             // 2.1. Try to parse GeneralEvent
             if (CutsceneParser.canParseEntry(entryName)) {
-                GeneralEvent event = CutsceneParser.parseEvent(entryName, lineData);
+                GeneralEvent event = CutsceneParser.parseEvent(entryName, lineData, currentLine);
                 allSequences.get(sequenceIndex).add(event);
             }
             // 2.2. Try to parse cutscene specifics
@@ -189,6 +190,7 @@ public class HelpMethods {
             else {
                 throw new IllegalArgumentException("Couldn't parse " + entryName);
             }
+            currentLine += 1;
         }
         return allCutscenes;
     }

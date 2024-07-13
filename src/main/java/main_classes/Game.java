@@ -82,7 +82,7 @@ public class Game implements Runnable {
    }
 
    private void initClasses() {
-      this.audioPlayer = new AudioPlayer();
+      this.audioPlayer = AudioPlayer.getSingletonAudioPlayer();
       this.optionsMenu = new OptionsMenu(this, audioPlayer);
       this.startScreen = new StartScreen(this);
       this.mainMenu = new MainMenu(this, optionsMenu);

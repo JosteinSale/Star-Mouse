@@ -30,7 +30,6 @@ public class AnimatedComponent {
    protected int spriteW;
    protected int spriteH;
 
-   /** Use this constructor if you don't have a preexisting animation array */
    public AnimatedComponent(
       BufferedImage spriteSheet, int spriteW, int spriteH, int rows, int cols,
       ArrayList<AnimationInfo> aniInfo, float xPos, float yPos) {

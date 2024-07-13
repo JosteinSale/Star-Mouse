@@ -37,7 +37,8 @@ public class AudioPlayer {
         "SFX - Hurt2.wav",
         "SFX - Death.wav",
         "SFX - MetallicWarning.wav",
-        "SFX - Rudinger1Death.wav"
+        "SFX - Rudinger1Death.wav",
+        "SFX - CathedralShot.wav"
     };
     private String[] songFileNames = {
         "Song - Tutorial (FINISHED)3.wav",
@@ -49,6 +50,7 @@ public class AudioPlayer {
         "Song - Grand Reaper.wav",
         "Song - Rudinger Theme.wav",
         "Song - Asteroid Escape.wav",
+        "Song - Apo Explodes.wav"
     };
     private String[] ambienceFileNames = {
         "Ambience - Silence.wav",
@@ -103,11 +105,22 @@ public class AudioPlayer {
     private boolean fadeOutActive = false;
     private int waitTick = 0;                 // Used for fade
     private int tickPerFrame = 20;
+
+    private static boolean singletonCreated = false;  // Flag to determine singleton
     
-    public AudioPlayer() {
+    /** Private constructor, to ensure that we never make a new one. */
+    private AudioPlayer() {
+        if (singletonCreated) {
+            throw new IllegalArgumentException("Singleton created. Don't create new AudioPlayer!");
+        }
+        AudioPlayer.singletonCreated = true;
         loadAudio();
         initAmbience();
         this.startSilentTrack();
+    }
+
+    public static AudioPlayer getSingletonAudioPlayer() {
+        return new AudioPlayer();  
     }
 
     /** The Clip and GainControl for ambience needs to be set. 
@@ -258,7 +271,7 @@ public class AudioPlayer {
 
     /** Fades out the current song + ambience, and then stops them. */
     public void fadeOutAllLoops() {
-        if ((curSong.isActive()) || (curAmbience.isActive())) { 
+        if ((curSong.isActive()) || (curAmbience.isActive())) {
             this.fadeOutActive = true;
         }
     }

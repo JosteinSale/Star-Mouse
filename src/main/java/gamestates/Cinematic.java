@@ -50,7 +50,7 @@ public class Cinematic extends State implements Statemethods {
 
    public Cinematic(Game game) {
       super(game);
-      this.audioPlayer = new AudioPlayer();
+      this.audioPlayer = game.getAudioPlayer();
       this.eventHandler = new EventHandler();
       this.cutsceneManager = new CutsceneManagerCinematic(
             game, eventHandler, game.getTextboxManager(), Gamestate.CINEMATIC);
@@ -67,9 +67,9 @@ public class Cinematic extends State implements Statemethods {
          this.cutsceneManager.activateTextbox(tbEvt);
       } else if (event instanceof StartSongEvent evt) {
          this.audioPlayer.startSongLoop(evt.index(), 0);
-      } else if (event instanceof StopLoopsEvent evt) {
+      } else if (event instanceof StopLoopsEvent) {
          this.audioPlayer.stopAllLoops();
-      } else if (event instanceof FadeOutLoopEvent evt) {
+      } else if (event instanceof FadeOutLoopEvent) {
          audioPlayer.fadeOutAllLoops();
       } else if (event instanceof StartAmbienceEvent evt) {
          audioPlayer.startAmbienceLoop(evt.index());
@@ -77,9 +77,9 @@ public class Cinematic extends State implements Statemethods {
          audioPlayer.playSFX(evt.SFXIndex());
       } else if (event instanceof ObjectMoveEvent evt) {
          this.cutsceneManager.moveObject(evt);
-      } else if (event instanceof ClearObjectsEvent evt) {
+      } else if (event instanceof ClearObjectsEvent) {
          this.cutsceneManager.clearObjects();
-      } else if (event instanceof ExitCinematicEvent evt) {
+      } else if (event instanceof ExitCinematicEvent) {
          this.exitCinematic();
       } else {
          this.cutsceneManager.activateEffect(event);

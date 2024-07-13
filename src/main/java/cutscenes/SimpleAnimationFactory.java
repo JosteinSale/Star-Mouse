@@ -19,6 +19,8 @@ public class SimpleAnimationFactory {
    public static final String RAZE_SHADOW = "raze_shadow.png";
    public static final String CATHEDRAL = "cathedral.png";
    public static final String APO = "apo.png";
+   public static final String WHITE_CHARGE = "white_charge.png";
+
 
    // Images
    private BufferedImage[] rowOfDrones;
@@ -32,6 +34,7 @@ public class SimpleAnimationFactory {
    private BufferedImage[] razeShadow;
    private BufferedImage[] cathedral;
    private BufferedImage[] apo;
+   private BufferedImage[] whiteCharge;
 
    public SimpleAnimationFactory() {
       this.loadImages();
@@ -60,6 +63,8 @@ public class SimpleAnimationFactory {
          ResourceLoader.getCutsceneImage(CATHEDRAL), 2, 177, 211);
       apo = HelpMethods2.GetSimpleAnimationArray(
          ResourceLoader.getCutsceneImage(APO), 1, 340, 333);
+      whiteCharge = HelpMethods2.GetSimpleAnimationArray(
+         ResourceLoader.getCutsceneImage(WHITE_CHARGE), 5, 100, 100);
    }
 
    public SimpleAnimation getAnimation(String name, float xPos, float yPos, float scaleW, float scaleH, int aniSpeed) {
@@ -76,6 +81,7 @@ public class SimpleAnimationFactory {
          case RAZE_SHADOW -> razeShadow;
          case CATHEDRAL -> cathedral;
          case APO -> apo;
+         case WHITE_CHARGE -> whiteCharge;
          default -> throw new IllegalArgumentException("No animation available for " + name);
       }; 
       return new SimpleAnimation(animationArray, xPos, yPos, scaleW, scaleH, aniSpeed);

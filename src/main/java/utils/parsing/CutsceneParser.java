@@ -17,8 +17,13 @@ public class CutsceneParser {
       return parseMap.containsKey(entryName);
    }
 
-   public static GeneralEvent parseEvent(String entryName, String[] lineData) {
-      return parseMap.get(entryName).parseEvent(lineData);
+   public static GeneralEvent parseEvent(String entryName, String[] lineData, int lineNr) {
+      try {
+         return parseMap.get(entryName).parseEvent(lineData);
+      }
+      catch (ArrayIndexOutOfBoundsException e) {
+         throw new IllegalArgumentException("Cutscene parsing failed. Incorrect arguments given for entry: " + entryName + " (line " + lineNr + ")");
+      }
    }
 
    static {
