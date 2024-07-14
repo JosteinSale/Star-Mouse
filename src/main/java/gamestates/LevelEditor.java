@@ -32,7 +32,7 @@ import utils.ResourceLoader;
  */
 public class LevelEditor implements Statemethods {
    private Game game;
-   private Integer level = 3;
+   private Integer level = 4;
    private BufferedImage clImg;
    private ArrayList<String> levelData;
    private EntityFactory entityFactory;

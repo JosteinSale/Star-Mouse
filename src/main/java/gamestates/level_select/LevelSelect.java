@@ -60,7 +60,7 @@ public class LevelSelect extends State implements Statemethods {
       levelInfo.add(new LevelInfo("Apolis", 130));
       levelInfo.add(new LevelInfo("Vyke", 88, 0, 3, 3));
       levelInfo.add(new LevelInfo("Asteroids", 0, 0, 4, 4));
-      levelInfo.add(new LevelInfo("Cave", 100, 0, 5, 5));
+      levelInfo.add(new LevelInfo("The Dark", 100, 0, 5, 5));
       levelInfo.add(new LevelInfo("Cathedral", 100));
       levelInfo.add(new LevelInfo("Level 6", 100, 70, 7, 3));
       levelInfo.add(new LevelInfo("Level 7", 100, 70, 8, 4));

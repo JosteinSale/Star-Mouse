@@ -44,6 +44,7 @@ public class EntityFactory {
       public static final int KAMIKAZEDRONE = 13;
       public static final int SMALL_ASTEROID = 14;
       public static final int BIG_ASTEROID = 15;
+      public static final int BURNING_FRAGMENT = 16;
    }
 
    public EntityFactory(PlayerFly player) {
@@ -72,6 +73,7 @@ public class EntityFactory {
       this.constantToNameMap.put(KAMIKAZEDRONE, "kamikazeDrone");
       this.constantToNameMap.put(SMALL_ASTEROID, "smallAsteroid");
       this.constantToNameMap.put(BIG_ASTEROID, "bigAsteroid");
+      this.constantToNameMap.put(BURNING_FRAGMENT, "burningFragment");
    }
 
    private void registerAllEntities() {
@@ -154,6 +156,11 @@ public class EntityFactory {
          BIG_ASTEROID, 
          ResourceLoader.getFlyImageSprite(ResourceLoader.BIG_ASTEROID_SPRITE), 90, 90, 1, 1, 
          getName(BIG_ASTEROID), 220, 220, 25, 25, 
+         0, 0);
+      this.registerEntity(
+         BURNING_FRAGMENT, 
+         ResourceLoader.getFlyImageSprite(ResourceLoader.BURNING_FRAGMENT_SPRITE), 50, 100, 2, 4, 
+         getName(BURNING_FRAGMENT), 75, 75, 35, 210, 
          0, 0);
    }
 
@@ -261,6 +268,8 @@ public class EntityFactory {
             return new SmallAsteroid(hitbox, info, shootTimer, dir);
          case BIG_ASTEROID :
             return new BigAsteroid(hitbox, info, shootTimer, dir);
+         case BURNING_FRAGMENT :
+            return new BurningFragment(hitbox, info, shootTimer);
          default :
             throw new IllegalArgumentException("No enemy constructor for type " + typeConstant);
       }

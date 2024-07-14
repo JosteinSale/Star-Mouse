@@ -155,10 +155,10 @@ public class Area {
       else if (event instanceof StartSongEvent evt) {
          this.audioPlayer.startSongLoop(evt.index(), 0);
       } 
-      else if (event instanceof StopLoopsEvent evt) {
+      else if (event instanceof StopLoopsEvent) {
          this.audioPlayer.stopAllLoops();
       }
-      else if (event instanceof FadeOutLoopEvent evt) {
+      else if (event instanceof FadeOutLoopEvent) {
          this.audioPlayer.fadeOutAllLoops();
       }
       else if (event instanceof MusicEnabledEvent evt) {
@@ -178,7 +178,7 @@ public class Area {
                   evt.entity(), evt.poseActive(), evt.colIndex(), evt.rowIndex());
          }
       }
-      else if (event instanceof MechanicDisplayEvent evt) {
+      else if (event instanceof MechanicDisplayEvent) {
          this.exploring.setMechanicActive(true);
       }
       else if (event instanceof GoToFlyingEvent evt) {
@@ -197,7 +197,7 @@ public class Area {
       else if (event instanceof ObjectMoveEvent evt) {
          this.cutsceneManager.moveObject(evt);
       }
-      else if (event instanceof ClearObjectsEvent evt) {
+      else if (event instanceof ClearObjectsEvent) {
          this.cutsceneManager.clearObjects();
       }
       else if (event instanceof StartCinematicEvent evt) {

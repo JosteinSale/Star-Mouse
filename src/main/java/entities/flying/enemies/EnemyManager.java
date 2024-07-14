@@ -139,7 +139,7 @@ public class EnemyManager {
         ArrayList<Enemy> copy = new ArrayList<>(activeEnemiesOnScreen);
         for (Enemy enemy : copy) {  
             enemy.draw(g);
-            //enemy.drawHitbox(g);
+            enemy.drawHitbox(g);
         }
         for (Explosion ex : explosions) {   // ConcurrentModificationException
             g.drawImage(
