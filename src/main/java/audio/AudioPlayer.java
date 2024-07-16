@@ -50,7 +50,8 @@ public class AudioPlayer {
         "Song - Grand Reaper.wav",
         "Song - Rudinger Theme.wav",
         "Song - Asteroid Escape.wav",
-        "Song - Apo Explodes.wav"
+        "Song - Apo Explodes.wav",
+        "Song - Back to Apo.wav",
     };
     private String[] ambienceFileNames = {
         "Ambience - Silence.wav",

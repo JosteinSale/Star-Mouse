@@ -1,4 +1,142 @@
 cutscene;true;automatic;0
+setGameplayActive;false
+fillScreen;black;true
+wait;120
+endSequence
+fadeHeader;in;350;10;Back to Apo
+wait;150
+endSequence
+startAmbience;1
+fadeHeader;out;350;10;Back to Apo
+fellowShips;350;400;650
+wait;100
+endSequence
+setGameplayActive;true
+fillScreen;black;false
+fade;in;black;10
+startSong;10
+endSequence
+wait;80
+endSequence
+smallDialogue;Gard;normal;0;2;So, what's the plan?
+wait;180
+endSequence
+smallDialogue;Max;angry;8;2;We'll have to shake off the pursuers first
+wait;220
+endSequence
+smallDialogue;Gard;normal;0;2;Alright.
+wait;120
+endSequence
+
+cutscene;true;automatic;1
+smallDialogue;Gard;angry;1;2;There they are!
+wait;180
+endSequence
+
+cutscene;true;automatic;2
+smallDialogue;Max;angry;8;2;We're out of the asteroid field!
+wait;180
+endSequence
+smallDialogue;Max;angry;8;2;You alright, Gard?
+wait;120
+endSequence
+smallDialogue;Gard;normal;0;2;...I'm fine.
+wait;120
+endSequence
+wait;120
+endSequence
+smallDialogue;Gard;normal;0;2;Apo's defences are next. 
+wait;120
+endSequence
+smallDialogue;Gard;normal;0;2;We must stay on our toes!
+wait;180
+endSequence
+
+cutscene;true;automatic;3
+smallDialogue;Max;angry;8;2;Here they come!
+wait;120
+endSequence
+
+cutscene;true;automatic;4
+fadeHeader;in;350;60;Checkpoint reached
+wait;150
+endSequence
+fadeHeader;out;350;60;Checkpoint reached
+wait;5
+endSequence
+
+cutscene;true;automatic;5
+smallDialogue;Gard;angry;1;2;Come on, do your worst!
+wait;180
+endSequence
+
+cutscene;true;automatic;6
+smallDialogue;Gard;angry;1;2;Agh... This is it for me...
+wait;180
+endSequence
+smallDialogue;Gard;normal;0;2;Save your brother, Max.
+wait;180
+endSequence
+wait;60
+endSequence
+smallDialogue;Max;surprised;10;2;GARD!
+wait;120
+endSequence
+
+cutscene;true;automatic;7
+smallDialogue;Max;angry;8;2;...I'm through...
+wait;180
+endSequence
+smallDialogue;Max;sad;12;2;Thank you, Gard...
+wait;180
+endSequence
+
+cutscene;true;automatic;8
+smallDialogue;Max;angry;8;2;Apo is coming up.
+wait;180
+endSequence
+
+cutscene;true;automatic;9
+smallDialogue;Max;nervous;9;2;What the...?
+wait;180
+endSequence
+
+cutscene;true;automatic;10
+smallDialogue;Max;nervous;9;2; 
+wait;180
+endSequence
+smallDialogue;Max;scared;11;2; 
+wait;180
+endSequence
+smallDialogue;Max;shocked;10;2; 
+wait;180
+endSequence
+setGameplayActive;false
+setOverlayImage;true;overlayDeath.png
+wait;300
+endSequence
+setOverlayImage;false;overlayDeath.png
+setGameplayActive;true
+wait;1
+endSequence
+wait;180
+endSequence
+smallDialogue;Max;crying;13;5;...Oliver... 
+wait;240
+endSequence
+smallDialogue;Max;crying;13;5;Oliver, I'm sorry...
+wait;240
+endSequence
+
+cutscene;true;automatic;11
+smallDialogue;Max;dark eyes;14;5;...That ship... 
+wait;180
+endSequence
+smallDialogue;Max;dark eyes;14;5;They did this...? 
+wait;180
+endSequence
+
+cutscene;true;automatic;12
 fade;out;black;5
 endSequence
 setGameplayActive;false

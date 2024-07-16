@@ -17,7 +17,7 @@ public class PlayerProjectile extends Entity implements Projectile {
     private int[][] collisionPixels = new int[2][2];
     private boolean powerUp;
     private boolean active = true;
-    private float powerupFactor = 1.5f;
+    private float powerupFactor = 1.35f;  // Tried 1.5, that was maybe too much.
 
     public PlayerProjectile(Rectangle2D.Float hitbox, boolean powerUp, int dmg, BufferedImage img) {
         super(hitbox);

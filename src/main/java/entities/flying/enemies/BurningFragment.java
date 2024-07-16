@@ -26,7 +26,7 @@ public class BurningFragment extends Entity implements Enemy {
    private int action = IDLE;
    private int aniIndex = 0;
    private int aniTick;
-   private int aniTickPerFrame = 5;
+   private int aniTickPerFrame = 4;
    private int damageFrames = 10;
    private int damageTick = 0;
 
@@ -71,7 +71,7 @@ public class BurningFragment extends Entity implements Enemy {
       if (aniTick >= aniTickPerFrame) {
          aniTick = 0;
          aniIndex++;
-         if (aniIndex >= 3) {
+         if (aniIndex >= 8) {
             aniIndex = 0;
          }
       }

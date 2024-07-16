@@ -56,6 +56,13 @@ NO SKIP DIALOGUE
 * NOTE: must be implemented in each cutsceneManagers handleKeyPressed-method
 
 
+SMALL DIALOGUE
+--------------------
+[0] = smallDialogue, [1] = characterName (String), [2] = emotion (not used for event), 
+[3] = portraitIndex, [4] = speed (int), [5] = text (String)
+* Max ~40 letters total per dialogue
+
+
 FADE
 --------------------
 [0] = fade, [1] = in/out (string), [2] = color (string), [3] = speed (int)

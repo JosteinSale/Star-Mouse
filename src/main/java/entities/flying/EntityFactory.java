@@ -159,7 +159,7 @@ public class EntityFactory {
          0, 0);
       this.registerEntity(
          BURNING_FRAGMENT, 
-         ResourceLoader.getFlyImageSprite(ResourceLoader.BURNING_FRAGMENT_SPRITE), 50, 100, 2, 4, 
+         ResourceLoader.getFlyImageSprite(ResourceLoader.BURNING_FRAGMENT_SPRITE), 50, 100, 2, 8, 
          getName(BURNING_FRAGMENT), 75, 75, 35, 210, 
          0, 0);
    }

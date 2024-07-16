@@ -100,7 +100,7 @@ public class Flying extends State implements Statemethods {
       loadPickupItems(level);
       loadCutscenes(level);
       player.setKilledEnemies(0);
-      //startAt(-20000); // For testing purposes
+      //startAt(-18000); // For testing purposes
    }
 
    private void loadPickupItems(Integer level) {
@@ -191,6 +191,7 @@ public class Flying extends State implements Statemethods {
    }
 
    private void updateGameplay() {
+      //System.out.println(mapManager.yProgess);
       if (!cutsceneManager.isActive()) {
          checkCutsceneTriggers();
       }

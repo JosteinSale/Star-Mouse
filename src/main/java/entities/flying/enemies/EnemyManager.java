@@ -1,5 +1,7 @@
 package entities.flying.enemies;
 
+import static entities.flying.EntityFactory.TypeConstants.BURNING_FRAGMENT;
+import static entities.flying.EntityFactory.TypeConstants.SMALL_ASTEROID;
 import static utils.Constants.Flying.SpriteSizes.*;
 
 import java.awt.Graphics;
@@ -158,8 +160,18 @@ public class EnemyManager {
     }
 
     public void increaseKilledEnemies(int enemyType) {
-        this.killedEnemies.add(enemyType);
-        this.player.setKilledEnemies(killedEnemies.size() + killedEnemiesAtCheckpoint.size());
+        if (doesEnemyCount(enemyType)) {
+            this.killedEnemies.add(enemyType);
+            this.player.setKilledEnemies(killedEnemies.size() + killedEnemiesAtCheckpoint.size());
+        }
+    }
+
+    /** Returns true if the enemy counts in terms of the killCount */
+    private boolean doesEnemyCount(int enemyType) {
+        return (
+            enemyType != SMALL_ASTEROID && 
+            enemyType != BURNING_FRAGMENT
+            );
     }
 
     public void decreaseKilledEnemies(int enemyType) {
