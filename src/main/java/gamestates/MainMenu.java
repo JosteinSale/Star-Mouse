@@ -138,8 +138,8 @@ import utils.Constants.Audio;
         game.getLevelSelect().unlockAllLevelsUpTo(4);
 
         // LEVEL SELECT
-        // game.getLevelSelect().reset();
-        // Gamestate.state = Gamestate.LEVEL_SELECT;
+        game.getLevelSelect().reset();
+        Gamestate.state = Gamestate.LEVEL_SELECT;
 
         // EXPLORING - Uncomment to only test one level in exploring.
         // game.getExploring().loadLevel(1); // Area is currently specified in that method.
@@ -147,9 +147,9 @@ import utils.Constants.Audio;
         // Gamestate.state = Gamestate.EXPLORING;
 
         // FLYING - Uncomment to only test one level in flying.
-        game.getFlying().loadLevel(4);
-        game.getFlying().update();
-        Gamestate.state = Gamestate.FLYING;
+        // game.getFlying().loadLevel(4);
+        // game.getFlying().update();
+        // Gamestate.state = Gamestate.FLYING;
 
         // BOSSMODE - Uncomment to only test one boss.
         // game.getBossMode().loadNewBoss(1);
@@ -297,6 +297,6 @@ import utils.Constants.Audio;
         this.fadeInActive = true;
         this.fadeOutActive = false;
         this.alphaFade = 255;
-        audioPlayer.startSongLoop(Audio.SONG_MAIN_MENU, 0);
+        audioPlayer.startSong(Audio.SONG_MAIN_MENU, 0, true);
     }
 }

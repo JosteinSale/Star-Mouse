@@ -89,7 +89,7 @@ public class BossMode extends State implements Statemethods {
       }
       else if (event instanceof StartSongEvent evt) {
          this.shouldMusicPlay = true;
-         this.audioPlayer.startSongLoop(evt.index(), 0);
+         this.audioPlayer.startSong(evt.index(), 0, true);
       }
       else if (event instanceof StartAmbienceEvent evt) {
          this.shouldAmbiencePlay = true;
@@ -260,7 +260,7 @@ public class BossMode extends State implements Statemethods {
          case 1 -> Audio.SONG_BOSS1;
          default -> 0;
       };
-      game.getAudioPlayer().startSongLoop(songNr, 0f);
+      game.getAudioPlayer().startSong(songNr, 0f, true);
    }
 
    /** Is called from the pauseOverlay */

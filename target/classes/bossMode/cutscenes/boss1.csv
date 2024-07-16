@@ -33,7 +33,7 @@ moveObject;drones4;655;120;120
 moveObject;rudingerShip;450;150;200
 wait;60
 endSequence
-startSong;7
+startSong;7;false
 wait;140
 endSequence
 bigDialogue;???;rudinger_shadow;1;2;Allow me to introduce myself.
@@ -117,7 +117,7 @@ fade;in;white;5
 endSequence
 clearObjects
 setBossVisible;true
-startSong;6
+startSong;6;true
 wait;1
 endSequence
 

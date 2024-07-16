@@ -96,7 +96,7 @@ bigDialogue;Max;happy;1;2;Good luck!
 endSequence
 wait;1
 setStartCutscene;npc;0;3
-startSong;1
+startSong;1;true
 endSequence
 
 cutscene;true;automatic;5
@@ -124,7 +124,7 @@ endSequence
 wait;100;
 endSequence
 bigDialogue;Oliver;happy;1;2;Just let me know if you want to go again!
-startSong;1
+startSong;1;true
 endSequence
 
 cutscene;true;npc;5
@@ -193,7 +193,7 @@ endSequence
 bigDialogue;Max;happy;1;1;Clear skies, perfect flying conditions.
 setDir;player;right
 musicEnabled;true
-startSong;1
+startSong;1;true
 endSequence
 bigDialogue;Max;happy;1;1;You couldn't ask for a finer day!
 endSequence
@@ -293,7 +293,7 @@ bigDialogue;Max;happy;1;2;No problem
 endSequence
 bigDialogue;Max;happy;1;2;Good luck!
 endSequence
-startSong;1
+startSong;1;true
 wait;1
 setStartCutscene;npc;0;3
 endSequence

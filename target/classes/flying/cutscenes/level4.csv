@@ -14,7 +14,7 @@ endSequence
 setGameplayActive;true
 fillScreen;black;false
 fade;in;black;10
-startSong;10
+startSong;10;false
 endSequence
 wait;80
 endSequence
@@ -111,6 +111,7 @@ endSequence
 smallDialogue;Max;shocked;10;2; 
 wait;180
 endSequence
+stopAllLoops
 setGameplayActive;false
 setOverlayImage;true;overlayDeath.png
 wait;300

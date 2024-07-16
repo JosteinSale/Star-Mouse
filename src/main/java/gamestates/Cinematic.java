@@ -71,7 +71,7 @@ public class Cinematic extends State implements Statemethods {
       if (event instanceof TextBoxEvent tbEvt) {
          this.cutsceneManager.activateTextbox(tbEvt);
       } else if (event instanceof StartSongEvent evt) {
-         this.audioPlayer.startSongLoop(evt.index(), 0);
+         this.audioPlayer.startSong(evt.index(), 0, evt.shouldLoop());
       } else if (event instanceof StopLoopsEvent) {
          this.audioPlayer.stopAllLoops();
       } else if (event instanceof FadeOutLoopEvent) {

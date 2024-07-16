@@ -88,6 +88,7 @@ public class AudioPlayer {
     private File[] songs;
     private File[] ambienceTracks;
     private Integer curSongIndex;           // Used to check if a given song is playing.
+    private boolean curSongLooping;         // Is needed whenever we restart a song.
     private Clip curSong;
     private Clip curAmbience;
     private Clip silentTrack;
@@ -221,10 +222,11 @@ public class AudioPlayer {
     /** Starts a song loop with the specified index.
      *  Index = 99 means no song.
      */
-    public void startSongLoop(int index, float startPos) {
+    public void startSong(int index, float startPos, boolean shouldLoop) {
         if (index == 99) {return;}
         this.curSongIndex = index;
         this.curSongVolume = setSongVolume;
+        this.curSongLooping = shouldLoop;
         stopFadeOutIfActive();   // In case fadeOut is happening 
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(songs[index]);
@@ -233,7 +235,8 @@ public class AudioPlayer {
             songGainControl = (FloatControl) curSong.getControl(FloatControl.Type.MASTER_GAIN);
             updateSongVolume();
             curSong.setMicrosecondPosition((int) startPos *1000000);
-            curSong.loop(Clip.LOOP_CONTINUOUSLY);
+            if (curSongLooping) { curSong.loop(Clip.LOOP_CONTINUOUSLY);}
+            else { curSong.start();}
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -288,20 +291,6 @@ public class AudioPlayer {
     public void fadeOutAllLoops() {
         if ((curSong.isActive()) || (curAmbience.isActive())) {
             this.fadeOutActive = true;
-        }
-    }
-
-    /** Should be called whenever you want to stop/start both music and ambience.
-     * (We might phase out this method later, since it only works properly for Flying.
-     * Consider using the strategy used in bossMode instead.)
-     */
-    public void flipAudioOnOff() {
-        if (this.curSong.isActive() || this.curAmbience.isActive()) {
-            this.curSong.stop();
-            this.curAmbience.stop();
-        } else {
-            this.curSong.loop(Clip.LOOP_CONTINUOUSLY);
-            this.curAmbience.loop(Clip.LOOP_CONTINUOUSLY);
         }
     }
 
@@ -387,10 +376,14 @@ public class AudioPlayer {
         return index.equals(curSongIndex) && curSong.isActive();
     }
 
+    /** Loops the current song if it should loop, else it just starts it. */
     public void continueCurrentSong() {
-        this.curSong.loop(Clip.LOOP_CONTINUOUSLY);
+        if (curSongLooping) {this.curSong.loop(Clip.LOOP_CONTINUOUSLY);}
+        else {this.curSong.start();}
+        
     }
 
+    /** Continues looping the current ambience */
     public void continueCurrentAmbience() {
       this.curAmbience.loop(Clip.LOOP_CONTINUOUSLY);
     }

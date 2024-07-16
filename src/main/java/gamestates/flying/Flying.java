@@ -56,6 +56,7 @@ public class Flying extends State implements Statemethods {
 
    private Integer level;
    private int song;
+   private boolean shouldSongLoop;
    private boolean pause = false;
    private boolean gamePlayActive = true;
    private boolean levelFinished = false;
@@ -100,7 +101,7 @@ public class Flying extends State implements Statemethods {
       loadPickupItems(level);
       loadCutscenes(level);
       player.setKilledEnemies(0);
-      //startAt(-18000); // For testing purposes
+      //startAt(-20000); // For testing purposes
    }
 
    private void loadPickupItems(Integer level) {
@@ -139,19 +140,23 @@ public class Flying extends State implements Statemethods {
       else if (event instanceof SetGameplayEvent evt) {
          this.gamePlayActive = evt.active();
       }
-      else if (event instanceof LevelFinishedEvent evt) {
+      else if (event instanceof LevelFinishedEvent) {
          this.levelFinished = true;
          this.enemyManager.levelFinished();
          this.levelFinishedOverlay.setLevelStats(enemyManager.getFinalKilledEnemies());
       }
       else if (event instanceof StartSongEvent evt) {
-         this.game.getAudioPlayer().startSongLoop(evt.index(), 0);
+         this.shouldSongLoop = evt.shouldLoop();
+         this.game.getAudioPlayer().startSong(evt.index(), 0, shouldSongLoop);
       }
       else if (event instanceof StartAmbienceEvent evt) {
          audioPlayer.startAmbienceLoop(evt.index());
       } 
-      else if (event instanceof FadeOutLoopEvent evt) {
+      else if (event instanceof FadeOutLoopEvent) {
          audioPlayer.fadeOutAllLoops();
+      }
+      else if (event instanceof StopLoopsEvent) {
+         this.audioPlayer.stopAllLoops();
       }
       else if (event instanceof AddProjectileEvent evt) {
          this.projectileHandler.addCustomProjectile(evt);
@@ -166,11 +171,6 @@ public class Flying extends State implements Statemethods {
       else {
          this.cutsceneManager.activateEffect(event);
       }
-   }
-
-   /** Flips the pause boolean */
-   public void flipPause() {
-      this.pause = !pause;
    }
 
    @Override
@@ -211,8 +211,25 @@ public class Flying extends State implements Statemethods {
       if (game.pauseIsPressed) {
          game.pauseIsPressed = false;
          this.flipPause();
-         audioPlayer.flipAudioOnOff();
       }
+   }
+
+   public void flipPause() {
+      // 1. If we are entering pause:
+      if (!pause) {  
+         this.pause = true;
+         this.audioPlayer.stopAllLoops();
+      }
+      // 2. If we are exiting pause:
+      else {
+         this.pause = false;
+         this.audioPlayer.continueCurrentAmbience();
+         this.audioPlayer.continueCurrentSong();
+      }
+   }
+
+   public void resetPause() {
+      this.pause = false;
    }
 
    private void checkCheckPoint() {
@@ -390,7 +407,7 @@ public class Flying extends State implements Statemethods {
       resetObjects(toCheckPoint, resetYPos);
 
       // Restart audio
-      audioPlayer.startSongLoop(song, songResetPos);
+      audioPlayer.startSong(song, songResetPos, shouldSongLoop);
       audioPlayer.startAmbienceLoop(Audio.AMBIENCE_ROCKET_ENGINE);
    }
 

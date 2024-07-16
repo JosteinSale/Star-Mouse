@@ -153,7 +153,7 @@ public class Area {
          exploring.updatePauseInventory();
       }
       else if (event instanceof StartSongEvent evt) {
-         this.audioPlayer.startSongLoop(evt.index(), 0);
+         this.audioPlayer.startSong(evt.index(), 0, evt.shouldLoop());
       } 
       else if (event instanceof StopLoopsEvent) {
          this.audioPlayer.stopAllLoops();
@@ -264,11 +264,11 @@ public class Area {
    }
 
    /** Checks 1) if music is enabled in this area, and 2) if the song is already
-    * playing due to it being started in another area.
+    * playing due to it being started in another area. If so, it loops the song.
     */
    private void checkIfSongShouldStart() {
       if (musicEnabled && !audioPlayer.isSongPlaying(this.song)) {
-         audioPlayer.startSongLoop(song, 0);
+         audioPlayer.startSong(song, 0, true);
       }
    }
 

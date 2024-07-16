@@ -84,7 +84,6 @@ public class PauseFlying {
 
             if (selectedIndex == CONTINUE) {
                 this.flying.flipPause();
-                this.audioPlayer.flipAudioOnOff();
             } 
             else if (selectedIndex == OPTIONS) {
                 audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
@@ -99,7 +98,6 @@ public class PauseFlying {
             }
             else if (selectedIndex == SKIP_LEVEL) {
                 this.flying.flipPause();
-                this.audioPlayer.flipAudioOnOff();
                 this.flying.skipLevel();
             }
             else if (selectedIndex == PLUS10_ENEMIES) {
@@ -111,7 +109,7 @@ public class PauseFlying {
                 this.flying.minus10KilledEnemies();
             }
             else if (selectedIndex == DIE) {
-                this.flying.flipPause();
+                this.flying.resetPause();
                 this.flying.killPlayer();
             }
         }

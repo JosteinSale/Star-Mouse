@@ -13,7 +13,7 @@ endSequence
 setGameplayActive;true
 fillScreen;black;false
 fade;in;black;10
-startSong;0
+startSong;0;true
 endSequence
 
 cutscene;true;automatic;1

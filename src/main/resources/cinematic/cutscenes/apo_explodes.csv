@@ -8,7 +8,7 @@ addObject;rudingerShip;rudingerShip;300;-150;3;3;3
 addObject;raze_shadow;raze;260;120;3;3;12
 wait;60
 endSequence
-startSong;9
+startSong;9;false
 fillScreen;black;false
 fade;in;black;1
 endSequence

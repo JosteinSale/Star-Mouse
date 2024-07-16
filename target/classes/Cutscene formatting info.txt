@@ -166,7 +166,7 @@ GO TO BOSSMODE
 
 START SONG
 --------------------
-[0] = startSong (String), [1] = songIndex (int)
+[0] = startSong (String), [1] = songIndex (int), [2] = shouldLoop (boolean)
 * This loops the song until it's stopped
 * If used alone, it needs to be used together with the wait-method
 

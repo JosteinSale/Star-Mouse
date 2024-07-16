@@ -251,7 +251,8 @@ public class CutsceneParser {
 
    private static StartSongEvent parseStartSong(String[] lineData) {
       Integer index = Integer.parseInt(lineData[1]);
-      return new StartSongEvent(index);
+      Boolean shouldLoop = Boolean.parseBoolean(lineData[2]);
+      return new StartSongEvent(index, shouldLoop);
    }
 
    private static StartAmbienceEvent parseStartAmbience(String[] lineData) {
