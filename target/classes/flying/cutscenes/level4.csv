@@ -116,6 +116,7 @@ setGameplayActive;false
 setOverlayImage;true;overlayDeath.png
 wait;300
 endSequence
+startSong;11;false
 setOverlayImage;false;overlayDeath.png
 setGameplayActive;true
 wait;1
@@ -133,7 +134,8 @@ cutscene;true;automatic;11
 smallDialogue;Max;dark eyes;14;5;...That ship... 
 wait;180
 endSequence
-smallDialogue;Max;dark eyes;14;5;They did this...? 
+smallDialogue;Max;dark eyes;14;5;They did this...?
+fadeOutLoops
 wait;180
 endSequence
 
