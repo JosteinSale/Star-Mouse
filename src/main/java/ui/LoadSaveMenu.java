@@ -42,8 +42,8 @@ public class LoadSaveMenu {
    private Font menuFont;
 
    // The two 'states' this menu can be in, is loadSave, and newGame:
-   private static final String LOAD_SAVE = "LOAD SAVE";
-   private static final String NEW_GAME = "NEW GAME";
+   public static final String LOAD_SAVE = "LOAD SAVE";
+   public static final String NEW_GAME = "NEW GAME";
    private String currentMenu = LOAD_SAVE;
 
    private String[] menuOptions = {"Save 1", "Save 2", "Save 3", "Return"};
@@ -295,7 +295,9 @@ public class LoadSaveMenu {
    }
 
    /** Sets the active status to true, and sets the menu.
-    * Menu must be either "LOAD SAVE" or "NEW GAME". Throws error if not.
+    * For the string argument, use the public static variables 
+    * LoadSaveMenu :: LOAD_SAVE or LoadSaveMenu :: NEW_GAME. 
+    * An error is thrown if this condition is not met.
     * @param menu
     */
    public void activate(String menu) {

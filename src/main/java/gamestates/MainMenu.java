@@ -108,11 +108,11 @@ import utils.Constants.Audio;
         } 
         else if (selectedIndex == NEW_GAME) {
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
-            this.loadSaveMenu.activate("NEW GAME");
+            this.loadSaveMenu.activate(LoadSaveMenu.NEW_GAME);
         } 
         else if (selectedIndex == LOAD_SAVE) {
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
-            this.loadSaveMenu.activate("LOAD SAVE");
+            this.loadSaveMenu.activate(LoadSaveMenu.LOAD_SAVE);
         } 
         else if (selectedIndex == LEVEL_EDITOR) {
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
