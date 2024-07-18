@@ -1,9 +1,14 @@
 cutscene;true;object;0
+info;I can't leave yet.
+playSFX;infoBox
+endSequence
+
+cutscene;true;object;1
 info;The remains of a Saber cannon.
 playSFX;infoBox
 endSequence
 
-cutscene;true;npc;1
+cutscene;true;npc;2
 bigDialogue;Mechanic;normal;0;2;A lot of pilots bit the dust back there.
 endSequence
 bigDialogue;Mechanic;normal;0;2;I suppose things are looking pretty grim, huh?
@@ -28,17 +33,17 @@ endSequence
 bigDialogue;Mechanic;normal;0;3;It's not a pretty scene back there.
 endSequence
 
-cutscene;true;npc;1
+cutscene;true;npc;2
 playSFX;infoBox
 mechanicDisplay
 wait;1
 endSequence
 
-cutscene;true;npc;2
+cutscene;true;npc;3
 info;omg Gard is so handsome
 endSequence
 
-cutscene;false;automatic;3
+cutscene;false;automatic;4
 fillScreen;black;true
 wait;1
 endSequence
@@ -53,12 +58,12 @@ fade;in;black;5
 startAmbience;5;   // is needed because we override the justEntered-method with a cutscene.
 endSequence
 
-cutscene;false;automatic;4
+cutscene;false;automatic;5
 info;This might be your only chance to talk to the mechanic
 playSFX;infoBox
 endSequence
 
-cutscene;false;automatic;5
+cutscene;false;automatic;6
 setPlayerSheet;2
 setDir;player;right
 wait;60
