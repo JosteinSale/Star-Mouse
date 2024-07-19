@@ -1,13 +1,21 @@
 cutscene;true;object;0
 playSFX;infoBox
-infoChoice;Leave area?;No;Yes
+info;I can't leave yet.
 endSequence
 
-cutscene;true;object;0
-wait;1
+cutscene;false;automatic;1
+fillScreen;black;true
+setPlayerSheet;2
+wait;60
+endSequence
+fillScreen;black;false
+fade;in;black;5
+startAmbience;5;   // is needed because we override the justEntered-method with a cutscene.
 endSequence
 
-cutscene;true;object;0
-goToFlying;5
-wait;1
+cutscene;false;automatic;2
+setDir;player;up
+wait;100
+endSequence
+bigDialogue;Max;crying;13;10; 
 endSequence

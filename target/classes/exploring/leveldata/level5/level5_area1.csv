@@ -1,4 +1,7 @@
-ambience;99
+ambience;5
 song;99;false
-player;492;615;45f;18f;0
-object;450f;570f;60f;36f;exitSaber
+player;1460f;680f;45f;18f;0
+object;1449f;669f;63f;27f;Saber
+door;2571f;570f;162f;39f;0;churchDoor;2;2
+automaticTrigger;1460f;680f;45f;18f;Opening cutscene
+automaticTrigger;672f;573f;24f;114f;Max cries

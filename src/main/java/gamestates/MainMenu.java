@@ -135,7 +135,7 @@ import utils.Constants.Audio;
         game.testingMode = true;
 
         // UNLOCK LEVELS
-        game.getLevelSelect().unlockAllLevelsUpTo(4);
+        game.getLevelSelect().unlockAllLevelsUpTo(5);
 
         // LEVEL SELECT
         game.getLevelSelect().reset();
