@@ -34,7 +34,7 @@ public class PlayerExp extends Entity {
     private boolean poseActive = false;
     private int playerAction;
     private int playerDirection = LEFT;
-    private int spriteSheet = 0;
+    private static int CURRENT_SPRITE_SHEET = 0;
     private float playerSpeed = 5f;
     private boolean visible = true;
     
@@ -160,7 +160,7 @@ public class PlayerExp extends Entity {
         if (visible) {
             //drawShadow(g, xLevelOffset, yLevelOffset);
             g.drawImage(
-            playerSprites.get(spriteSheet)[playerAction][aniIndex],
+            playerSprites.get(CURRENT_SPRITE_SHEET)[playerAction][aniIndex],
             (int) ((hitbox.x - 113 - xLevelOffset) * Game.SCALE), 
             (int) ((hitbox.y - 135 - yLevelOffset) * Game.SCALE), 
             playerSpriteWidth, playerSpriteHeight, 
@@ -180,8 +180,8 @@ public class PlayerExp extends Entity {
         this.visible = visible;
     }
 
-    public void setSpriteSheet(int sheetIndex) {
-        this.spriteSheet = sheetIndex;
+    public void setCURRENT_SPRITE_SHEET(int sheetIndex) {
+        PlayerExp.CURRENT_SPRITE_SHEET = sheetIndex;
     }
 
     public void adjustPos(float walkSpeedX, float walkSpeedY) {

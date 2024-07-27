@@ -12,10 +12,3 @@ fillScreen;black;false
 fade;in;black;5
 startAmbience;5;   // is needed because we override the justEntered-method with a cutscene.
 endSequence
-
-cutscene;false;automatic;2
-setDir;player;up
-wait;100
-endSequence
-bigDialogue;Max;crying;13;10; 
-endSequence

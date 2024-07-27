@@ -1,18 +1,6 @@
 package cutscenes.cutsceneManagers;
 
-import cutscenes.effects.DarkenScreenEffect;
-import cutscenes.effects.FadeEffect;
-import cutscenes.effects.FadeHeaderEffect;
-import cutscenes.effects.FillScreenEffect;
-import cutscenes.effects.MoveCameraEffect;
-import cutscenes.effects.NPCWalkEffect;
-import cutscenes.effects.NumberDisplayEffect;
-import cutscenes.effects.ObjectMoveEffect;
-import cutscenes.effects.PlayerWalkEffect;
-import cutscenes.effects.RedLightEffect;
-import cutscenes.effects.ScreenShakeEffect;
-import cutscenes.effects.SetOverlayEffect;
-import cutscenes.effects.WaitEffect;
+import cutscenes.effects.*;
 import entities.exploring.NpcManager;
 import entities.exploring.PlayerExp;
 import game_events.EventHandler;

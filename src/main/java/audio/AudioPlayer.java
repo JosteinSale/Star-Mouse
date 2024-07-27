@@ -52,7 +52,8 @@ public class AudioPlayer {
         "Song - Asteroid Escape.wav",
         "Song - Apo Explodes.wav",
         "Song - The Dark.wav",
-        "Song - The Dark (Ending).wav"
+        "Song - The Dark (Ending).wav",
+        "Song - Cathedral.wav"
     };
     private String[] ambienceFileNames = {
         "Ambience - Silence.wav",

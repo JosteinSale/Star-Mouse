@@ -87,7 +87,7 @@ public class Area {
             AutomaticTrigger trigger = GetAutomaticTrigger(lineData);
             this.automaticTriggers.add(trigger);
          } else if (lineData[0].equals("")) {
-            // That's okay
+            // "" Doesn't mean anything - That's okay: do nothing.
          } else {
             throw new IllegalArgumentException("Couldn't parse " + line);
          }
@@ -126,7 +126,7 @@ public class Area {
          this.doors.get(evt.doorIndex()).setRequirementMet(evt.requirementIndex());
       }
       else if (event instanceof SetPlayerSheetEvent evt) {
-         this.player.setSpriteSheet(evt.sheetIndex());
+         this.player.setCURRENT_SPRITE_SHEET(evt.sheetIndex());
       }
       else if (event instanceof SetDirEvent evt) {
          if (evt.entityName().equals("player")) {

@@ -1,0 +1,6 @@
+cutscene;false;automatic;0
+setDir;player;up
+wait;100
+endSequence
+bigDialogue;Max;crying;13;10; 
+endSequence
