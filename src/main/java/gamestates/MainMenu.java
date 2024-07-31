@@ -18,18 +18,19 @@ import ui.OptionsMenu;
 import utils.ResourceLoader;
 import utils.Constants.Audio;
 
-/** The MainMenu is the gateway into the different game states:
+/**
+ * The MainMenu is the gateway into the different game states:
  * 
  * - Testing: Can test whatever state. This doesn't affect loading and saving.
  * - New Game: let's the player start a new game in a given save file.
- * - Load Save: let's player load a previous save, or start a new save if the 
- *              selected save is empty.
+ * - Load Save: let's player load a previous save, or start a new save if the
+ * selected save is empty.
  * - Options: let's the player customize the controls and sound volume
  * - Level Editor: developer tool for editing flying levels
  * - Quit: quits the game.
  */
- public class MainMenu extends State implements Statemethods {
-    
+public class MainMenu extends State implements Statemethods {
+
     private AudioPlayer audioPlayer;
     private BufferedImage bgImg;
     private BufferedImage titleImg;
@@ -37,7 +38,7 @@ import utils.Constants.Audio;
     private Font menuFont;
     private LoadSaveMenu loadSaveMenu;
     private OptionsMenu optionsMenu;
-    private String[] alternatives = {"Testing", "New Game", "Load Save", "Level Editor", "Options", "Quit"};
+    private String[] alternatives = { "Testing", "New Game", "Load Save", "Level Editor", "Options", "Quit" };
     private ArrayList<Rectangle> menuRectangles;
     private float bgX = -50;
     private int bgSlideDir = 1;
@@ -58,7 +59,6 @@ import utils.Constants.Audio;
     private static final int OPTIONS = 4;
     private static final int QUIT = 5;
 
-
     public MainMenu(Game game, OptionsMenu optionsMenu) {
         super(game);
         this.optionsMenu = optionsMenu;
@@ -75,8 +75,8 @@ import utils.Constants.Audio;
         this.menuRectangles = new ArrayList<>();
         for (int i = 0; i < alternatives.length; i++) {
             Rectangle rect = new Rectangle(
-                (int) (425 * Game.SCALE), (int) ((450 + i * cursorYStep) * Game.SCALE),
-                (int) (200 * Game.SCALE), (int) (50 * Game.SCALE));
+                    (int) (425 * Game.SCALE), (int) ((450 + i * cursorYStep) * Game.SCALE),
+                    (int) (200 * Game.SCALE), (int) (50 * Game.SCALE));
             menuRectangles.add(rect);
         }
     }
@@ -87,49 +87,44 @@ import utils.Constants.Audio;
             audioPlayer.playSFX(Audio.SFX_CURSOR);
             moveCursorUp();
             reduceIndex();
-        }
-        else if (game.downIsPressed) {
+        } else if (game.downIsPressed) {
             game.downIsPressed = false;
             audioPlayer.playSFX(Audio.SFX_CURSOR);
             moveCursorDown();
             increaseIndex();
-        }
-        else if (game.interactIsPressed) {
+        } else if (game.interactIsPressed) {
             this.handleInteractPressed();
         }
     }
-    
+
     private void handleInteractPressed() {
         game.interactIsPressed = false;
         if (selectedIndex == TESTING) {
             audioPlayer.stopAllLoops();
             audioPlayer.playSFX(Audio.SFX_STARTGAME);
             this.enterTestingMode();
-        } 
-        else if (selectedIndex == NEW_GAME) {
+        } else if (selectedIndex == NEW_GAME) {
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
             this.loadSaveMenu.activate(LoadSaveMenu.NEW_GAME);
-        } 
-        else if (selectedIndex == LOAD_SAVE) {
+        } else if (selectedIndex == LOAD_SAVE) {
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
             this.loadSaveMenu.activate(LoadSaveMenu.LOAD_SAVE);
-        } 
-        else if (selectedIndex == LEVEL_EDITOR) {
+        } else if (selectedIndex == LEVEL_EDITOR) {
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
             audioPlayer.stopAllLoops();
             Gamestate.state = Gamestate.LEVEL_EDITOR;
-        } 
-        else if (selectedIndex == OPTIONS) {
+        } else if (selectedIndex == OPTIONS) {
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
             optionsMenu.setActive(true);
-        } 
-        else {
+        } else {
             Gamestate.state = Gamestate.QUIT;
         }
     }
 
-    /** In testing mode, the game will not load any data, and will
-     * not save any data. */
+    /**
+     * In testing mode, the game will not load any data, and will
+     * not save any data.
+     */
     private void enterTestingMode() {
         // Activate testing mode
         game.testingMode = true;
@@ -142,7 +137,8 @@ import utils.Constants.Audio;
         Gamestate.state = Gamestate.LEVEL_SELECT;
 
         // EXPLORING - Uncomment to only test one level in exploring.
-        // game.getExploring().loadLevel(1); // Area is currently specified in that method.
+        // game.getExploring().loadLevel(1); // Area is currently specified in that
+        // method.
         // game.getExploring().update();
         // Gamestate.state = Gamestate.EXPLORING;
 
@@ -163,25 +159,24 @@ import utils.Constants.Audio;
 
         if (fadeInActive) {
             updateFadeIn();
-        }
-        else if (fadeOutActive) {
+        } else if (fadeOutActive) {
             updateFadeOut();
-        }
-        else if (optionsMenu.isActive()) {
+        } else if (optionsMenu.isActive()) {
             optionsMenu.update();
-        }
-        else if (loadSaveMenu.isActive()) {
+        } else if (loadSaveMenu.isActive()) {
             loadSaveMenu.update();
-        }
-        else {
+        } else {
             handleKeyBoardInputs();
         }
     }
 
     private void moveBackGround() {
         this.bgX += 0.05f * bgSlideDir;
-        if (this.bgX > 0) {bgSlideDir *= -1;}
-        else if (this.bgX < -50) {bgSlideDir *= -1;}
+        if (this.bgX > 0) {
+            bgSlideDir *= -1;
+        } else if (this.bgX < -50) {
+            bgSlideDir *= -1;
+        }
     }
 
     public void startTransitionToGame() {
@@ -208,7 +203,8 @@ import utils.Constants.Audio;
         }
     }
 
-    /** Is called when after fadeOut is completed.
+    /**
+     * Is called when after fadeOut is completed.
      * For now, it takes you to Level Select. In the future, we might
      * make it so that if it's a new game, it goes straight to Exploring in lvl 1.
      */
@@ -218,14 +214,13 @@ import utils.Constants.Audio;
         Gamestate.state = Gamestate.LEVEL_SELECT;
     }
 
-
     @Override
     public void draw(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 
         // Background
-        g.drawImage(bgImg, 
-            (int) bgX, 0, Game.GAME_WIDTH + 50, Game.GAME_HEIGHT + 50, null);
+        g.drawImage(bgImg,
+                (int) bgX, 0, Game.GAME_WIDTH + 50, Game.GAME_HEIGHT + 50, null);
 
         // Text
         g.setColor(Color.WHITE);
@@ -234,22 +229,22 @@ import utils.Constants.Audio;
             DrawCenteredString(g2, alternatives[i], menuRectangles.get(i), menuFont);
         }
         g.drawImage(
-            titleImg, 
-            (int) (280 * Game.SCALE), 
-            (int) (100 * Game.SCALE), 
-            (int) (500 * Game.SCALE), 
-            (int) (200 * Game.SCALE),
-            null);
+                titleImg,
+                (int) (280 * Game.SCALE),
+                (int) (100 * Game.SCALE),
+                (int) (500 * Game.SCALE),
+                (int) (200 * Game.SCALE),
+                null);
 
         // Cursor
         g.drawImage(
-            cursorImg, 
-            (int) (cursorX * Game.SCALE), 
-            (int) ((cursorY - CURSOR_HEIGHT/2) * Game.SCALE), 
-            (int) (CURSOR_WIDTH * Game.SCALE), 
-            (int) (CURSOR_HEIGHT * Game.SCALE),
-            null);
-        
+                cursorImg,
+                (int) (cursorX * Game.SCALE),
+                (int) ((cursorY - CURSOR_HEIGHT / 2) * Game.SCALE),
+                (int) (CURSOR_WIDTH * Game.SCALE),
+                (int) (CURSOR_HEIGHT * Game.SCALE),
+                null);
+
         // Options
         if (optionsMenu.isActive()) {
             optionsMenu.draw(g);

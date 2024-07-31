@@ -9,4 +9,4 @@ object;624f;264f;42f;48f;rightCrates1
 object;711f;279f;219f;132f;rightCrates2
 object;870f;435f;42f;30f;rightCrates3
 object;765f;500f;120f;100f;rightBox
-door;450f;722f;144f;27f;0;exitDoor;3;3
+portal;450f;722f;144f;27f;3;3;exitPortal

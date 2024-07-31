@@ -1,4 +1,4 @@
 ambience;99
 song;12;true
 player;393f;696f;45f;18f;3
-door;333f;717f;168f;30f;0;backOutside;2;3
+portal;333f;737f;168f;30f;2;3;backOutside

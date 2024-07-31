@@ -1,7 +1,7 @@
 ambience;99
 song;4;true
 player;174;662;45f;18f;0
-door;135f;580f;30f;111f;0;exit;1;0
+portal;135f;580f;30f;111f;1;0;exit
 door;1405f;645f;30f;39f;1;lockerRoomDoor;3;1
 npc;210f;440f;120f;100f;Russel;sprite_npc_russel.png;70;80;false
 npc;400f;400f;120f;100f;Emma;sprite_npc_emma.png;80;80;false

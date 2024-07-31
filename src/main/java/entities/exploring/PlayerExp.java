@@ -30,16 +30,15 @@ public class PlayerExp extends Entity {
     private final int NAKED_SPRITE = 1;
     private final int SAD_SPRITE = 2;
 
-
     private boolean poseActive = false;
     private int playerAction;
     private int playerDirection = LEFT;
     private static int CURRENT_SPRITE_SHEET = 0;
     private float playerSpeed = 5f;
     private boolean visible = true;
-    
+
     private int aniTick = 0;
-    private int aniTickPerFrame = 8;          // Antall ticks per gang animasjonen oppdateres
+    private int aniTickPerFrame = 8; // Antall ticks per gang animasjonen oppdateres
     private int aniIndex = 0;
 
     public PlayerExp(Game game, Float hitbox, int direction, BufferedImage collisionImg) {
@@ -56,15 +55,15 @@ public class PlayerExp extends Entity {
     /** Add sprites according to the indexes given at the top */
     private void loadSprites() {
         BufferedImage[][] normalSprites = HelpMethods2.GetAnimationArray(
-            ResourceLoader.getExpImageSprite(ResourceLoader.PLAYER_EXP_SPRITES), 
-            6, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
+                ResourceLoader.getExpImageSprite(ResourceLoader.PLAYER_EXP_SPRITES),
+                6, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
         BufferedImage[][] nakedSprites = HelpMethods2.GetAnimationArray(
-            ResourceLoader.getExpImageSprite(ResourceLoader.PLAYER_EXP_SPRITES_NAKED), 
-            5, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
+                ResourceLoader.getExpImageSprite(ResourceLoader.PLAYER_EXP_SPRITES_NAKED),
+                5, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
         BufferedImage[][] sadSprites = HelpMethods2.GetAnimationArray(
-            ResourceLoader.getExpImageSprite(ResourceLoader.PLAYER_EXP_SPRITES_SAD), 
-            5, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
-        playerSprites.add(normalSprites); 
+                ResourceLoader.getExpImageSprite(ResourceLoader.PLAYER_EXP_SPRITES_SAD),
+                5, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
+        playerSprites.add(normalSprites);
         playerSprites.add(nakedSprites);
         playerSprites.add(sadSprites);
     }
@@ -73,10 +72,12 @@ public class PlayerExp extends Entity {
         playerSpriteWidth = (int) (STANDARD_SPRITE_WIDTH * Game.SCALE * 3);
         playerSpriteHeight = (int) (STANDARD_SPRITE_HEIGHT * Game.SCALE * 3);
     }
-    
-    public void keyPressed(KeyEvent e) {}
 
-    public void KeyReleased(KeyEvent e) {}
+    public void keyPressed(KeyEvent e) {
+    }
+
+    public void KeyReleased(KeyEvent e) {
+    }
 
     public void update(ArrayList<Rectangle2D.Float> npcHitboxes, boolean cutsceneActive, boolean standardFadeActive) {
         if (!cutsceneActive && !standardFadeActive) {
@@ -132,10 +133,12 @@ public class PlayerExp extends Entity {
     }
 
     private void updateAniTick() {
-        if (poseActive) {return;}
+        if (poseActive) {
+            return;
+        }
         aniTick++;
         if (aniTick >= aniTickPerFrame) {
-            aniIndex ++;
+            aniIndex++;
             aniTick = 0;
         }
         if (aniIndex >= GetSpriteAmount(playerAction)) {
@@ -158,13 +161,13 @@ public class PlayerExp extends Entity {
 
     public void draw(Graphics g, int xLevelOffset, int yLevelOffset) {
         if (visible) {
-            //drawShadow(g, xLevelOffset, yLevelOffset);
+            // drawShadow(g, xLevelOffset, yLevelOffset);
             g.drawImage(
-            playerSprites.get(CURRENT_SPRITE_SHEET)[playerAction][aniIndex],
-            (int) ((hitbox.x - 113 - xLevelOffset) * Game.SCALE), 
-            (int) ((hitbox.y - 135 - yLevelOffset) * Game.SCALE), 
-            playerSpriteWidth, playerSpriteHeight, 
-            null);
+                    playerSprites.get(CURRENT_SPRITE_SHEET)[playerAction][aniIndex],
+                    (int) ((hitbox.x - 113 - xLevelOffset) * Game.SCALE),
+                    (int) ((hitbox.y - 135 - yLevelOffset) * Game.SCALE),
+                    playerSpriteWidth, playerSpriteHeight,
+                    null);
         }
     }
 
@@ -184,9 +187,9 @@ public class PlayerExp extends Entity {
         PlayerExp.CURRENT_SPRITE_SHEET = sheetIndex;
     }
 
-    public void adjustPos(float walkSpeedX, float walkSpeedY) {
-        hitbox.x += walkSpeedX;
-        hitbox.y += walkSpeedY;
+    public void adjustPos(float deltaX, float deltaY) {
+        hitbox.x += deltaX;
+        hitbox.y += deltaY;
     }
 
     public void setAction(int action) {
@@ -198,11 +201,30 @@ public class PlayerExp extends Entity {
             this.poseActive = true;
             this.playerAction = rowIndex;
             this.aniIndex = colIndex;
-        }
-        else {  // Stop posing
+        } else { // Stop posing
             this.poseActive = false;
             this.playerAction = STANDING;
             this.aniIndex = 0;
+        }
+    }
+
+    /** Moves the player 20 px in the reenter-direction specified for this portal */
+    public void adjustReenterPos(int reenterDir) {
+        int adjustDistance = 20;
+        switch (reenterDir) {
+            // right = 0, left = 1, down = 2, up = 3
+            case 0:
+                hitbox.x += adjustDistance;
+                break;
+            case 1:
+                hitbox.x -= adjustDistance;
+                break;
+            case 2:
+                hitbox.y += adjustDistance;
+                break;
+            case 3:
+                hitbox.y -= adjustDistance;
+                break;
         }
     }
 }

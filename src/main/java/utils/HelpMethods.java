@@ -20,34 +20,32 @@ import main_classes.Game;
 import utils.Constants.Audio;
 import utils.parsing.CutsceneParser;
 
-
 public class HelpMethods {
-    
+
     public static boolean IsSolid(int pixelX, int pixelY, BufferedImage collisionImg) {
         Color c = new Color(collisionImg.getRGB(pixelX, pixelY));
         if (c.getRed() > 0 && c.getRed() < 100) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 
-    /** Checks the four corners of the hitbox, 
-     * and returns true if any of them touches something solid */ 
+    /**
+     * Checks the four corners of the hitbox,
+     * and returns true if any of them touches something solid
+     */
     public static boolean CollidesWithMap(Rectangle2D.Float hitbox, BufferedImage collisionImg) {
         float newX1 = (hitbox.x) / 3;
         float newY1 = (hitbox.y) / 3;
         float newX2 = (hitbox.x + hitbox.width) / 3;
         float newY2 = (hitbox.y + hitbox.height) / 3;
-        if (
-            !IsSolid((int)newX1, (int)newY1, collisionImg) && 
-            !IsSolid((int)newX2, (int)newY1, collisionImg) &&
-            !IsSolid((int)newX1, (int)newY2, collisionImg) && 
-            !IsSolid((int)newX2, (int)newY2, collisionImg)) { 
-                return false;
-            }
-        else {
+        if (!IsSolid((int) newX1, (int) newY1, collisionImg) &&
+                !IsSolid((int) newX2, (int) newY1, collisionImg) &&
+                !IsSolid((int) newX1, (int) newY2, collisionImg) &&
+                !IsSolid((int) newX2, (int) newY2, collisionImg)) {
+            return false;
+        } else {
             return true;
         }
     }
@@ -101,7 +99,7 @@ public class HelpMethods {
         Integer yDrawOffset = Integer.parseInt(lineData[8]);
         Boolean inForeground = Boolean.parseBoolean(lineData[9]);
         StandardNpc npc = new StandardNpc(
-            name, hitbox, spriteFileName, xDrawOffset, yDrawOffset, inForeground);
+                name, hitbox, spriteFileName, xDrawOffset, yDrawOffset, inForeground);
         return npc;
     }
 
@@ -122,6 +120,14 @@ public class HelpMethods {
         return door;
     }
 
+    public static Portal GetPortal(String[] lineData) {
+        Rectangle2D.Float hitbox = CreateHitbox(lineData);
+        Integer areaItLeadsTo = Integer.parseInt(lineData[5]);
+        Integer playerDirUponReentering = Integer.parseInt(lineData[6]);
+        Portal portal = new Portal(hitbox, areaItLeadsTo, playerDirUponReentering);
+        return portal;
+    }
+
     public static AutomaticTrigger GetAutomaticTrigger(String[] lineData) {
         Rectangle2D.Float hitbox = CreateHitbox(lineData);
         String name = lineData[5];
@@ -138,7 +144,7 @@ public class HelpMethods {
         int cutsceneIndex = 0;
         int sequenceIndex = 0;
         // 1st loop: creating the initial cutscene- and sequence-objects
-        for (String line: cutsceneData) {
+        for (String line : cutsceneData) {
             String[] lineData = line.split(";");
             String entryName = lineData[0];
             if (entryName.equals("cutscene")) {
@@ -148,9 +154,8 @@ public class HelpMethods {
                     ArrayList<Cutscene> cutscenesForElement = new ArrayList<>();
                     allCutscenes.add(cutscenesForElement);
                 }
-                allCutscenes.get(triggerIndex2).add(cutscene); 
-            }
-            else if (entryName.equals("endSequence")) {
+                allCutscenes.get(triggerIndex2).add(cutscene);
+            } else if (entryName.equals("endSequence")) {
                 ArrayList<GeneralEvent> sequence = new ArrayList<>();
                 allSequences.add(sequence);
             }
@@ -197,16 +202,23 @@ public class HelpMethods {
 
     public static Gamestate ParseGameState(String string) {
         switch (string) {
-            case "exploring" : return Gamestate.EXPLORING;
-            case "flying" : return Gamestate.FLYING;
-            case "bossMode" : return Gamestate.BOSS_MODE;
-            case "levelSelect" : return Gamestate.LEVEL_SELECT;
-            case "mainMenu" : return Gamestate.MAIN_MENU;
-            default : throw new IllegalArgumentException("Couldn't parse game state with name: " + string);
+            case "exploring":
+                return Gamestate.EXPLORING;
+            case "flying":
+                return Gamestate.FLYING;
+            case "bossMode":
+                return Gamestate.BOSS_MODE;
+            case "levelSelect":
+                return Gamestate.LEVEL_SELECT;
+            case "mainMenu":
+                return Gamestate.MAIN_MENU;
+            default:
+                throw new IllegalArgumentException("Couldn't parse game state with name: " + string);
         }
     }
 
-    /** Checks if the sfx-string matches any standard names. Else it
+    /**
+     * Checks if the sfx-string matches any standard names. Else it
      * tries to parse the string to an integer.
      */
     public static Integer GetSFX(String string) {
@@ -248,9 +260,9 @@ public class HelpMethods {
         };
         return index;
     }
-    
+
     public static Color GetNameColor(String name) {
-        Color color = switch(name) {
+        Color color = switch (name) {
             case "Max" -> Color.LIGHT_GRAY;
             case "Oliver" -> new Color(206, 191, 132);
             case "Rudinger" -> Color.WHITE;
@@ -274,12 +286,12 @@ public class HelpMethods {
             case "???", "????" -> Color.WHITE;
             case "Drone" -> Color.GRAY;
             default -> throw new IllegalArgumentException(
-                "No nameColor available for '" + name + "'");
+                    "No nameColor available for '" + name + "'");
         };
         return color;
     }
 
-    /**For use by the exploring-cutsceneManager */
+    /** For use by the exploring-cutsceneManager */
     public static int GetDirection(String string) {
         int dir = switch (string) {
             case "right" -> 0;
@@ -291,7 +303,6 @@ public class HelpMethods {
         };
         return dir;
     }
-
 
     public static int GetTrigger(String string) {
         int trigger = switch (string) {

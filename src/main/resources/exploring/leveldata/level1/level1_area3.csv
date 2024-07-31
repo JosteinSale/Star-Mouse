@@ -4,9 +4,9 @@ player;66f;1545f;45f;18f;0
 object;1233f;456f;10f;30f;locker#1
 object;1299f;456f;10f;30f;locker#2
 object;1360f;456f;10f;30f;locker#3
-door;18f;1500f;60f;78f;0;leftDoor;2;0
 door;1536f;321;168;33;1;storageDoor;4;2
-door;2079f;1338f;18;135;0;rightDoor;5;1
+portal;0f;1500f;30f;100f;2;0;leftPortal
+portal;2095f;1338f;18;135;5;1;rightPortal
 oliver;800f;366f;110f;150f;3;false
 npc;1440f;430f;100f;69f;Lance;sprite_npc_lance.png;90;100;false
 npc;1480f;625f;90f;72f;Charlotte;sprite_npc_charlotte.png;60;113;true

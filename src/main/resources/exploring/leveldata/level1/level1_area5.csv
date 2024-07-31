@@ -4,5 +4,5 @@ player;70f;615f;45f;18f;0
 object;90f;555f;129f;36;sign
 object;1497f;567f;231f;120f;Saber
 object;1794f;639f;72f;24f;ladder
-door;0;564;24f;192f;0;exitDoor;3;0
+portal;0;564;24f;192f;3;0;exitPortal
 oliver;-200f;520;110f;150f;0;false

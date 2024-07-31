@@ -17,7 +17,7 @@ import utils.ResourceLoader;
 public class Exploring extends State implements Statemethods {
     private AudioPlayer audioPlayer;
     private int currentLevel;
-    private int currentArea;    // Is set in the loadLevel-method. Can be altered for testing purposes.
+    private int currentArea; // Is set in the loadLevel-method. Can be altered for testing purposes.
     private ArrayList<Area> areas;
     private PauseExploring pauseOverlay;
     private ProgressValues progValues;
@@ -33,7 +33,8 @@ public class Exploring extends State implements Statemethods {
         mechanicOverlay = new MechanicOverlay(game, progValues);
     }
 
-    /** Initiates a new rogressValues-object.
+    /**
+     * Initiates a new rogressValues-object.
      * In the case of testing, it will serve as a proxy.
      * If the player loads a previous save, this object will replaced with the
      * one loaded on disc.
@@ -42,8 +43,11 @@ public class Exploring extends State implements Statemethods {
         this.progValues = new ProgressValues();
     }
 
-    /** Loads all areas for the given level. 
-     * Is normally only called from LevelSelect, but can also be called from the MainMenu if needed.*/
+    /**
+     * Loads all areas for the given level.
+     * Is normally only called from LevelSelect, but can also be called from the
+     * MainMenu if needed.
+     */
     public void loadLevel(int level) {
         System.out.println("Loading level " + level + ":");
         this.currentLevel = level;
@@ -128,6 +132,10 @@ public class Exploring extends State implements Statemethods {
 
     public int getSongForArea(int newArea) {
         return this.areas.get(newArea - 1).getSong();
+    }
+
+    public int getAmbienceForArea(int newArea) {
+        return this.areas.get(newArea - 1).getAmbience();
     }
 
     public Area getArea(int area) {

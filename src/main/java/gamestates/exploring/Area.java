@@ -36,6 +36,7 @@ public class Area {
    private boolean musicEnabled;
    private ArrayList<InteractableObject> interactableObject;
    private ArrayList<Door> doors;
+   private ArrayList<Portal> portals;
    private ArrayList<AutomaticTrigger> automaticTriggers;
 
    public Area(Game game, Exploring exploring, AudioPlayer audioPlayer, int levelIndex, int areaIndex,
@@ -46,13 +47,14 @@ public class Area {
       constructMapManager(levelIndex, areaIndex);
       interactableObject = new ArrayList<>();
       doors = new ArrayList<>();
+      portals = new ArrayList<>();
       npcManager = new NpcManager();
       automaticTriggers = new ArrayList<>();
       this.eventHandler = new EventHandler();
       loadAreaData(areaData);
       TextboxManager textboxManager = game.getTextboxManager();
       this.cutsceneManager = new CutsceneManagerExp(
-         Gamestate.EXPLORING, game, this, eventHandler, textboxManager, player, npcManager);
+            Gamestate.EXPLORING, game, this, eventHandler, textboxManager, player, npcManager);
       loadEventReactions();
       loadCutscenes(cutsceneData);
    }
@@ -77,6 +79,9 @@ public class Area {
          } else if (lineData[0].equals("door")) {
             Door door = GetDoor(lineData);
             doors.add(door);
+         } else if (lineData[0].equals("portal")) {
+            Portal portal = GetPortal(lineData);
+            portals.add(portal);
          } else if (lineData[0].equals("oliver")) {
             this.npcManager.addNpc(GetOliver(lineData));
          } else if (lineData[0].equals("gard")) {
@@ -108,41 +113,33 @@ public class Area {
    public void doReaction(GeneralEvent event) {
       if (event instanceof GoToAreaEvent evt) {
          int newArea = evt.area();
-         int reenterDir = doors.get(evt.exitedDoor()).getReenterDir();
+         int reenterDir = evt.reenterDir();
          int newSong = this.exploring.getSongForArea(newArea);
-         this.goToArea(newArea, reenterDir, newSong);
-      } 
-      else if (event instanceof TextBoxEvent tbEvt) {
+         int newAmbience = this.exploring.getAmbienceForArea(newArea);
+         this.goToArea(newArea, reenterDir, newSong, newAmbience);
+      } else if (event instanceof TextBoxEvent tbEvt) {
          this.cutsceneManager.activateTextbox(tbEvt);
-      } 
-      else if (event instanceof SetVisibleEvent evt) {
+      } else if (event instanceof SetVisibleEvent evt) {
          this.player.setVisible(evt.visible());
-      }
-      else if (event instanceof SetStartingCutsceneEvent evt) {
+      } else if (event instanceof SetStartingCutsceneEvent evt) {
          this.setNewStartingCutscene(
-            evt.triggerObject(), evt.elementNr(), evt.cutsceneIndex());
-      }
-      else if (event instanceof SetRequirementMetEvent evt) {
+               evt.triggerObject(), evt.elementNr(), evt.cutsceneIndex());
+      } else if (event instanceof SetRequirementMetEvent evt) {
          this.doors.get(evt.doorIndex()).setRequirementMet(evt.requirementIndex());
-      }
-      else if (event instanceof SetPlayerSheetEvent evt) {
+      } else if (event instanceof SetPlayerSheetEvent evt) {
          this.player.setCURRENT_SPRITE_SHEET(evt.sheetIndex());
-      }
-      else if (event instanceof SetDirEvent evt) {
+      } else if (event instanceof SetDirEvent evt) {
          if (evt.entityName().equals("player")) {
             this.player.setDirection(evt.dir());
-         } 
-         else {
+         } else {
             this.npcManager.setNpcDir(evt.entityName(), evt.dir());
          }
-      }
-      else if (event instanceof AddToInventoryEvent evt) {
+      } else if (event instanceof AddToInventoryEvent evt) {
          InventoryItem item = new InventoryItem(
-            evt.name(), evt.description(),
-            ResourceLoader.getExpImageSprite(evt.imgFileName()));
+               evt.name(), evt.description(),
+               ResourceLoader.getExpImageSprite(evt.imgFileName()));
          this.exploring.addToInventory(item);
-      }
-      else if (event instanceof UpdateInventoryEvent evt) {
+      } else if (event instanceof UpdateInventoryEvent evt) {
          if (evt.type().equals("bombs")) {
             int prevAmount = exploring.getProgressValues().getBombs();
             exploring.getProgressValues().setBombs(prevAmount + evt.amount());
@@ -151,83 +148,75 @@ public class Area {
             exploring.getProgressValues().setCredits(prevAmount + evt.amount());
          }
          exploring.updatePauseInventory();
-      }
-      else if (event instanceof StartSongEvent evt) {
+      } else if (event instanceof StartSongEvent evt) {
          this.audioPlayer.startSong(evt.index(), 0, evt.shouldLoop());
-      } 
-      else if (event instanceof StopLoopsEvent) {
+      } else if (event instanceof StopLoopsEvent) {
          this.audioPlayer.stopAllLoops();
-      }
-      else if (event instanceof FadeOutLoopEvent) {
+      } else if (event instanceof FadeOutLoopEvent) {
          this.audioPlayer.fadeOutAllLoops();
-      }
-      else if (event instanceof MusicEnabledEvent evt) {
+      } else if (event instanceof MusicEnabledEvent evt) {
          this.musicEnabled = evt.enabled();
-      } 
-      else if (event instanceof StartAmbienceEvent evt) {
+      } else if (event instanceof StartAmbienceEvent evt) {
          audioPlayer.startAmbienceLoop(evt.index());
-      } 
-      else if (event instanceof PlaySFXEvent evt) {
+      } else if (event instanceof PlaySFXEvent evt) {
          audioPlayer.playSFX(evt.SFXIndex());
-      } 
-      else if (event instanceof SetSpriteEvent evt) {
+      } else if (event instanceof SetSpriteEvent evt) {
          if (evt.entity().equals("player")) {
             this.player.setSprite(evt.poseActive(), evt.colIndex(), evt.rowIndex());
          } else {
             this.npcManager.setSprite(
                   evt.entity(), evt.poseActive(), evt.colIndex(), evt.rowIndex());
          }
-      }
-      else if (event instanceof MechanicDisplayEvent) {
+      } else if (event instanceof MechanicDisplayEvent) {
          this.exploring.setMechanicActive(true);
-      }
-      else if (event instanceof GoToFlyingEvent evt) {
+      } else if (event instanceof GoToFlyingEvent evt) {
          this.goToFlying(evt.lvl());
-      }
-      else if (event instanceof PurchaseEvent evt) {
+      } else if (event instanceof PurchaseEvent evt) {
          int opt = 2;
          if (this.exploring.playerHasEnoughCredits(evt.credits())) {
             opt = 1;
          }
          this.cutsceneManager.jumpToCutscene(opt);
-      }
-      else if (event instanceof ReattatchCameraEvent) {
+      } else if (event instanceof ReattatchCameraEvent) {
          this.reAttatchCamera();
-      }
-      else if (event instanceof ObjectMoveEvent evt) {
+      } else if (event instanceof ObjectMoveEvent evt) {
          this.cutsceneManager.moveObject(evt);
-      }
-      else if (event instanceof ClearObjectsEvent) {
+      } else if (event instanceof ClearObjectsEvent) {
          this.cutsceneManager.clearObjects();
-      }
-      else if (event instanceof StartCinematicEvent evt) {
+      } else if (event instanceof StartCinematicEvent evt) {
          this.goToCinematic(evt.fileName(), evt.returnGamestate());
-      }
-      else {
+      } else {
          this.cutsceneManager.activateEffect(event);
       }
    }
 
-   private void goToArea(int newArea, int reenterDir, int newSong) {
-      checkStopAudio(newSong);
+   private void goToArea(int newArea, int reenterDir, int newSong, int newAmbience) {
+      checkStopAudio(newSong, newAmbience);
       player.setDirection(reenterDir);
+      player.adjustReenterPos(reenterDir);
       player.resetAll();
       this.justEntered = true;
       exploring.goToArea(newArea);
    }
 
-   /** Stops ambience, and maybe stops the song. 
-    * If the song for the new area is the same as the old song, it doesn't stop it. */
-   private void checkStopAudio(int songForNewArea) {
-      if (this.song != songForNewArea) {
-         audioPlayer.stopAllLoops();
-      } else {
+   /**
+    * Stops ambience, and maybe stops the song.
+    * If the song for the new area is the same as the old song, it doesn't stop it.
+    */
+   private void checkStopAudio(int newSong, int newAmbience) {
+      if (this.song != newSong) {
+         audioPlayer.stopSong();
+      }
+      if (this.ambienceIndex != newAmbience) {
          audioPlayer.stopAmbience();
       }
    }
 
-   /** Can be called from a cutscene, or from the PauseExploring :: skipLevel-option. */
-   public void goToFlying(int lvl) { 
+   /**
+    * Can be called from a cutscene, or from the PauseExploring ::
+    * skipLevel-option.
+    */
+   public void goToFlying(int lvl) {
       Gamestate.state = Gamestate.FLYING;
       audioPlayer.stopAllLoops();
       game.getFlying().loadLevel(lvl);
@@ -243,36 +232,43 @@ public class Area {
    public void update() {
       handleKeyBoardInputs();
       checkAutomaticTriggers();
+      checkPortals();
       if (justEntered) {
          handleJustEntered();
       }
       cutsceneManager.update();
       player.update(
-         npcManager.getHitboxes(), 
-         cutsceneManager.isActive(), 
-         cutsceneManager.isStandardFadeActive());
+            npcManager.getHitboxes(),
+            cutsceneManager.isActive(),
+            cutsceneManager.isStandardFadeActive());
       adjustOffsets();
       npcManager.update(); // Hvis npc's skal ha oppførsel some er uavhengig av cutscenes.
    }
 
    private void handleJustEntered() {
-      audioPlayer.startAmbienceLoop(ambienceIndex);
-      checkIfSongShouldStart();
+      checkIfAudioShouldStart();
       cutsceneManager.startStandardFade(FADE_IN);
       justEntered = false;
       player.resetAll();
    }
 
-   /** Checks 1) if music is enabled in this area, and 2) if the song is already
+   /**
+    * Checks 1) if music is enabled in this area, and 2) if the song is already
     * playing due to it being started in another area. If so, it loops the song.
     */
-   private void checkIfSongShouldStart() {
+   private void checkIfAudioShouldStart() {
       if (musicEnabled && !audioPlayer.isSongPlaying(this.song)) {
          audioPlayer.startSong(song, 0, true);
       }
+      if (!audioPlayer.isAmbiencePlaying(this.ambienceIndex)) {
+         audioPlayer.startAmbienceLoop(ambienceIndex);
+      }
    }
 
-   // Automatic triggers are checked every frame, regardless of the player's activity.
+   /**
+    * Checks if the player intersects any automaticTriggers.
+    * If so, it starts the correct cutscene for that trigger.
+    */
    private void checkAutomaticTriggers() {
       int triggerIndex = getAutomaticCutsceneTrigger();
       if ((triggerIndex >= 0) && !cutsceneManager.isActive()) {
@@ -285,14 +281,31 @@ public class Area {
       }
    }
 
+   /**
+    * Checks if the player intersects any portals.
+    * If so, it starts a standard fade,
+    * resets the player, adjusts player position away from the portalHitbox,
+    * and triggers a GoToArea-event.
+    */
+   private void checkPortals() {
+      int portalIndex = getPortalIntersectingPlayer();
+      if ((portalIndex >= 0 && !cutsceneManager.isStandardFadeActive())) {
+         int reenterDir = portals.get(portalIndex).getReenterDir();
+         cutsceneManager.startStandardFade(FADE_OUT);
+         player.resetAll();
+         GoToAreaEvent event = new GoToAreaEvent(
+               portals.get(portalIndex).getAreaItLeadsTo(),
+               reenterDir);
+         this.eventHandler.addEvent(event);
+      }
+   }
+
    private void handleKeyBoardInputs() {
       if (cutsceneManager.isStandardFadeActive()) {
          return;
-      }
-      else if (cutsceneManager.isActive()) {
+      } else if (cutsceneManager.isActive()) {
          cutsceneManager.handleKeyBoardInputs();
-      }
-      else if (game.interactIsPressed) {
+      } else if (game.interactIsPressed) {
          game.interactIsPressed = false;
          checkHitboxes();
       }
@@ -323,7 +336,9 @@ public class Area {
             } else {
                cutsceneManager.startStandardFade(FADE_OUT);
                player.resetAll();
-               GoToAreaEvent event = new GoToAreaEvent(doors.get(i).getAreaItLeadsTo(), i);
+               GoToAreaEvent event = new GoToAreaEvent(
+                     doors.get(i).getAreaItLeadsTo(),
+                     doors.get(i).getReenterDir());
                this.eventHandler.addEvent(event);
             }
          }
@@ -339,11 +354,26 @@ public class Area {
       }
    }
 
-   /** Returns the index of the automatic cutscene trigger that the player overlaps.
-    If the player doesn't overlap anything, it returns -1. */
+   /**
+    * Returns the index of the automatic cutscene trigger that the player overlaps.
+    * If the player doesn't overlap anything, it returns -1.
+    */
    private int getAutomaticCutsceneTrigger() {
       for (int i = 0; i < automaticTriggers.size(); i++) {
          if (automaticTriggers.get(i).getHitbox().intersects(player.getHitbox())) {
+            return i;
+         }
+      }
+      return -1;
+   }
+
+   /**
+    * Returns the index of the portal that the player overlaps.
+    * If the player doesn't overlap anything, it returns -1.
+    */
+   private int getPortalIntersectingPlayer() {
+      for (int i = 0; i < portals.size(); i++) {
+         if (portals.get(i).getHitbox().intersects(player.getHitbox())) {
             return i;
          }
       }
@@ -385,6 +415,9 @@ public class Area {
       for (Door door : doors) {
          door.drawHitbox(g, xLevelOffset, yLevelOffset);
       }
+      for (Portal portal : portals) {
+         portal.drawHitbox(g, xLevelOffset, yLevelOffset);
+      }
       npcManager.drawHitboxes(g, xLevelOffset, yLevelOffset);
 
       for (AutomaticTrigger trigger : automaticTriggers) {
@@ -415,6 +448,10 @@ public class Area {
 
    public int getSong() {
       return this.song;
+   }
+
+   public int getAmbience() {
+      return this.ambienceIndex;
    }
 
    public int getXLevelOffset() {

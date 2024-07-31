@@ -11,107 +11,109 @@ import utils.Constants.Audio;
 
 /**
  * Current suboptimal implementation of the following:
- *  -Volume adjustment (is done every time a new clip is played)
- *  -Potential memory leak if silent track isn't stopped upon playing a new ambience.
+ * -Volume adjustment (is done every time a new clip is played)
+ * -Potential memory leak if silent track isn't stopped upon playing a new
+ * ambience.
  */
 public class AudioPlayer {
     // Only the soundfiles included in the game.
     // OBS: Don't change the indexes. These are coded into the Constants-class
-    private String[] SFXfileNames = {    
-        "SFX - Lazer10.wav",
-        "SFX - BombShoot.wav",
-        "SFX - Teleport.wav",     
-        "SFX - ShipCrash1.5.wav",
-        "SFX - SmallExplosion3.5.wav",
-        "SFX - BigExplosion2.wav",    
-        "SFX - BombPickup.wav",
-        "SFX - Powerup2.wav",
-        "SFX - Powerup3.wav",
-        "SFX - Cursor1.wav",        
-        "SFX - Select2.wav",
-        "SFX - MenuSound.wav",
-        "SFX - ItemPickup.wav",
-        "SFX - Success.wav",               
-        "SFX - InfoBox2.wav",
-        "SFX - BigExplosion3.wav",
-        "SFX - Hurt2.wav",
-        "SFX - Death.wav",
-        "SFX - MetallicWarning.wav",
-        "SFX - Rudinger1Death.wav",
-        "SFX - CathedralShot.wav"
+    private String[] SFXfileNames = {
+            "SFX - Lazer10.wav",
+            "SFX - BombShoot.wav",
+            "SFX - Teleport.wav",
+            "SFX - ShipCrash1.5.wav",
+            "SFX - SmallExplosion3.5.wav",
+            "SFX - BigExplosion2.wav",
+            "SFX - BombPickup.wav",
+            "SFX - Powerup2.wav",
+            "SFX - Powerup3.wav",
+            "SFX - Cursor1.wav",
+            "SFX - Select2.wav",
+            "SFX - MenuSound.wav",
+            "SFX - ItemPickup.wav",
+            "SFX - Success.wav",
+            "SFX - InfoBox2.wav",
+            "SFX - BigExplosion3.wav",
+            "SFX - Hurt2.wav",
+            "SFX - Death.wav",
+            "SFX - MetallicWarning.wav",
+            "SFX - Rudinger1Death.wav",
+            "SFX - CathedralShot.wav"
     };
     private String[] songFileNames = {
-        "Song - Tutorial (FINISHED)3.wav",
-        "Song - The Academy ver3.wav",
-        "Song - Skies Over Apolis.wav",
-        "Song - Main Menu.wav",
-        "Song - Vyke.wav",
-        "Song - Vyke Ambush.wav",
-        "Song - Grand Reaper.wav",
-        "Song - Rudinger Theme.wav",
-        "Song - Asteroid Escape.wav",
-        "Song - Apo Explodes.wav",
-        "Song - The Dark.wav",
-        "Song - The Dark (Ending).wav",
-        "Song - Cathedral.wav"
+            "Song - Tutorial (FINISHED)3.wav",
+            "Song - The Academy ver3.wav",
+            "Song - Skies Over Apolis.wav",
+            "Song - Main Menu.wav",
+            "Song - Vyke.wav",
+            "Song - Vyke Ambush.wav",
+            "Song - Grand Reaper.wav",
+            "Song - Rudinger Theme.wav",
+            "Song - Asteroid Escape.wav",
+            "Song - Apo Explodes.wav",
+            "Song - The Dark.wav",
+            "Song - The Dark (Ending).wav",
+            "Song - Cathedral.wav"
     };
     private String[] ambienceFileNames = {
-        "Ambience - Silence.wav",
-        "Ambience - RocketEngineQuiet.wav",
-        "Ambience - Wind.wav",
-        "Ambience - Alarm.wav",
-        "Ambience - Hangar.wav",
-        "Ambience - Cave.wav"
+            "Ambience - Silence.wav",
+            "Ambience - RocketEngineQuiet.wav",
+            "Ambience - Wind.wav",
+            "Ambience - Alarm.wav",
+            "Ambience - Hangar.wav",
+            "Ambience - Cave.wav"
     };
     private String[] voiceClipNames = {
-        "VoiceClip - Max.wav",
-        "VoiceClip - Oliver.wav",
-        "VoiceClip - Lance.wav",
-        "VoiceClip - Charlotte.wav",
-        "VoiceClip - Nina.wav",
-        "VoiceClip - ShadyPilot.wav",
-        "VoiceClip - Speaker.wav",
-        "VoiceClip - Sign.wav",
-        "VoiceClip - Lt.Red.wav",
-        "VoiceClip - Russel.wav",
-        "VoiceClip - Emma.wav",
-        "VoiceClip - Nathan.wav",
-        "VoiceClip - Frida.wav",
-        "VoiceClip - Skye.wav",
-        "VoiceClip - Zack.wav",
-        "VoiceClip - Gard.wav",
-        "VoiceClip - Feno.wav",
-        "VoiceClip - Rudinger2.wav",
-        "VoiceClip - Raze.wav",
-        "VoiceClip - Drone.wav"
+            "VoiceClip - Max.wav",
+            "VoiceClip - Oliver.wav",
+            "VoiceClip - Lance.wav",
+            "VoiceClip - Charlotte.wav",
+            "VoiceClip - Nina.wav",
+            "VoiceClip - ShadyPilot.wav",
+            "VoiceClip - Speaker.wav",
+            "VoiceClip - Sign.wav",
+            "VoiceClip - Lt.Red.wav",
+            "VoiceClip - Russel.wav",
+            "VoiceClip - Emma.wav",
+            "VoiceClip - Nathan.wav",
+            "VoiceClip - Frida.wav",
+            "VoiceClip - Skye.wav",
+            "VoiceClip - Zack.wav",
+            "VoiceClip - Gard.wav",
+            "VoiceClip - Feno.wav",
+            "VoiceClip - Rudinger2.wav",
+            "VoiceClip - Raze.wav",
+            "VoiceClip - Drone.wav"
     };
     private File[] SFX;
     private File[] voiceClips;
     private File[] songs;
     private File[] ambienceTracks;
-    private Integer curSongIndex;           // Used to check if a given song is playing.
-    private boolean curSongLooping;         // Is needed whenever we restart a song.
+    private Integer curSongIndex; // Used to check if a given song is playing.
+    private Integer curAmbienceIndex; // Used to check if a given ambience is playing.
+    private boolean curSongLooping; // Is needed whenever we restart a song.
     private Clip curSong;
     private Clip curAmbience;
     private Clip silentTrack;
-    private FloatControl songGainControl;      // Is initially set in the StartScreen
-    private FloatControl sfxGainControl;       // Is initially set in the StartScreen
-    private FloatControl ambienceGainControl;  // Is initially set in the StartScreen
+    private FloatControl songGainControl; // Is initially set in the StartScreen
+    private FloatControl sfxGainControl; // Is initially set in the StartScreen
+    private FloatControl ambienceGainControl; // Is initially set in the StartScreen
 
-    private float setSongVolume = 0.85f;   // The player's selected volume
-    private float setSfxVolume = 0.91f;    
+    private float setSongVolume = 0.85f; // The player's selected volume
+    private float setSfxVolume = 0.91f;
     private float setAmbienceVolume = 0.91f;
-    private float curSongVolume = 0.85f;   // Used for fading
+    private float curSongVolume = 0.85f; // Used for fading
     private float curSfxVolume = 0.91f;
     private float curAmbienceVolume = 0.91f;
 
     private float volumeFadeSpeed = 0.05f;
     private boolean fadeOutActive = false;
-    private int waitTick = 0;                 // Used for fade
+    private int waitTick = 0; // Used for fade
     private int tickPerFrame = 20;
 
-    private static boolean singletonCreated = false;  // Flag to determine singleton
-    
+    private static boolean singletonCreated = false; // Flag to determine singleton
+
     /** Private constructor, to ensure that we never make a new one. */
     private AudioPlayer() {
         if (singletonCreated) {
@@ -124,11 +126,13 @@ public class AudioPlayer {
     }
 
     public static AudioPlayer getSingletonAudioPlayer() {
-        return new AudioPlayer();  
+        return new AudioPlayer();
     }
 
-    /** The Clip and GainControl for ambience needs to be set. 
-     * This method handles that. */
+    /**
+     * The Clip and GainControl for ambience needs to be set.
+     * This method handles that.
+     */
     private void initAmbience() {
         this.startAmbienceLoop(Audio.AMBIENCE_WIND);
         this.curAmbience.stop();
@@ -138,34 +142,35 @@ public class AudioPlayer {
         // Songs
         this.songs = new File[this.songFileNames.length];
         for (int i = 0; i < this.songs.length; i++) {
-            File file = new File(System.getProperty("user.dir") + 
-            "/src/main/resources/audio/" + songFileNames[i]);
+            File file = new File(System.getProperty("user.dir") +
+                    "/src/main/resources/audio/" + songFileNames[i]);
             this.songs[i] = file;
         }
         // Ambience
         this.ambienceTracks = new File[this.ambienceFileNames.length];
         for (int i = 0; i < this.ambienceTracks.length; i++) {
-            File file = new File(System.getProperty("user.dir") + 
-            "/src/main/resources/audio/" + ambienceFileNames[i]);
+            File file = new File(System.getProperty("user.dir") +
+                    "/src/main/resources/audio/" + ambienceFileNames[i]);
             this.ambienceTracks[i] = file;
         }
         // SFX
         this.SFX = new File[this.SFXfileNames.length];
         for (int i = 0; i < this.SFX.length; i++) {
-            File sample = new File(System.getProperty("user.dir") + 
-            "/src/main/resources/audio/" + SFXfileNames[i]);
+            File sample = new File(System.getProperty("user.dir") +
+                    "/src/main/resources/audio/" + SFXfileNames[i]);
             this.SFX[i] = sample;
         }
         // VoiceClips
         this.voiceClips = new File[this.voiceClipNames.length];
         for (int i = 0; i < this.voiceClips.length; i++) {
-            File sample = new File(System.getProperty("user.dir") + 
-            "/src/main/resources/audio/" + voiceClipNames[i]);
+            File sample = new File(System.getProperty("user.dir") +
+                    "/src/main/resources/audio/" + voiceClipNames[i]);
             this.voiceClips[i] = sample;
         }
     }
 
-    /** Starts a silent track that loops continuously. Should be called at 
+    /**
+     * Starts a silent track that loops continuously. Should be called at
      * game startup, and should run in the background until the game is exited.
      * This is needed because sfx-clips do not start unless there is another clip
      * running in the background, for some reason.
@@ -181,11 +186,13 @@ public class AudioPlayer {
         }
     }
 
-    /** Lager et nytt Clip-objekt hver gang metoden kalles.
+    /**
+     * Lager et nytt Clip-objekt hver gang metoden kalles.
      * Av en eller annen grunn: hvis det ikke er musikk i bakgrunnen, OG frekvensen
      * på SFX-avspillingen er lav, kommer det ikke noe lyd fra klippet.
      * 
      * Foreløpig justeres volum hver eneste gang et nytt klipp avspilles.
+     * 
      * @param index
      */
     public void playSFX(int index) {
@@ -201,17 +208,19 @@ public class AudioPlayer {
         }
     }
 
-    /** Lager et nytt Clip-objekt hver gang metoden kalles.
+    /**
+     * Lager et nytt Clip-objekt hver gang metoden kalles.
      * Av en eller annen grunn: hvis det ikke er musikk i bakgrunnen, OG frekvensen
      * på SFX-avspillingen er lav, kommer det ikke noe lyd fra klippet.
      * 
      * Foreløpig justeres volum hver eneste gang et nytt klipp avspilles.
+     * 
      * @param index
      */
     public void playVoiceClip(int index) {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(voiceClips[index]);
-            Clip clip = AudioSystem.getClip();	
+            Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             sfxGainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
             updateSfxVolume();
@@ -221,41 +230,49 @@ public class AudioPlayer {
         }
     }
 
-    /** Starts a song loop with the specified index.
-     *  Index = 99 means no song.
+    /**
+     * Starts a song loop with the specified index.
+     * Index = 99 means no song.
      */
     public void startSong(int index, float startPos, boolean shouldLoop) {
-        if (index == 99) {return;}
+        if (index == 99) {
+            return;
+        }
         this.curSongIndex = index;
         this.curSongVolume = setSongVolume;
         this.curSongLooping = shouldLoop;
-        stopFadeOutIfActive();   // In case fadeOut is happening 
+        stopFadeOutIfActive(); // In case fadeOut is happening
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(songs[index]);
             curSong = AudioSystem.getClip();
             curSong.open(audioInputStream);
             songGainControl = (FloatControl) curSong.getControl(FloatControl.Type.MASTER_GAIN);
             updateSongVolume();
-            curSong.setMicrosecondPosition((int) startPos *1000000);
-            if (curSongLooping) { curSong.loop(Clip.LOOP_CONTINUOUSLY);}
-            else { curSong.start();}
+            curSong.setMicrosecondPosition((int) startPos * 1000000);
+            if (curSongLooping) {
+                curSong.loop(Clip.LOOP_CONTINUOUSLY);
+            } else {
+                curSong.start();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-
-    /** Stops the current ambience loop, and then starts a new
-     *  ambience loop with the specified index.
-     *  Index = 99 means no ambience.
+    /**
+     * Stops the current ambience loop, and then starts a new
+     * ambience loop with the specified index.
+     * Index = 99 means no ambience.
      */
     public void startAmbienceLoop(int index) {
-        if (index == 99) {return;}
-        else if (index == Audio.AMBIENCE_SILENCE) {
+        if (index == 99) {
+            return;
+        } else if (index == Audio.AMBIENCE_SILENCE) {
             throw new IllegalArgumentException("Don't play silent track!");
         }
+        this.curAmbienceIndex = index;
         this.curAmbienceVolume = setAmbienceVolume;
-        this.stopFadeOutIfActive();  // In case fadeOut is happening 
+        this.stopFadeOutIfActive(); // In case fadeOut is happening
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(ambienceTracks[index]);
             curAmbience = AudioSystem.getClip();
@@ -268,7 +285,8 @@ public class AudioPlayer {
         }
     }
 
-    /** Sometimes we start a new song/ambience while a fadeOut is happening.
+    /**
+     * Sometimes we start a new song/ambience while a fadeOut is happening.
      * In such case we need to stop the fadeout and reset it, so that it
      * doesn't stop the new song/ambience.
      */
@@ -281,10 +299,10 @@ public class AudioPlayer {
 
     /** Abruptly stops the current song + ambience */
     public void stopAllLoops() {
-        if (curSong.isActive()) {  
+        if (curSong.isActive()) {
             curSong.stop();
         }
-        if (curAmbience.isActive()) {  
+        if (curAmbience.isActive()) {
             curAmbience.stop();
         }
     }
@@ -297,7 +315,9 @@ public class AudioPlayer {
     }
 
     public void update() {
-        if (this.fadeOutActive) {updateFade();}
+        if (this.fadeOutActive) {
+            updateFade();
+        }
     }
 
     private void updateFade() {
@@ -328,7 +348,7 @@ public class AudioPlayer {
 
     /** Adjusts sfxGainControl according to curSfxVolume */
     private void updateSfxVolume() {
-        float range = sfxGainControl.getMaximum() -  sfxGainControl.getMinimum();
+        float range = sfxGainControl.getMaximum() - sfxGainControl.getMinimum();
         float gain = (range * curSfxVolume) + sfxGainControl.getMinimum();
         sfxGainControl.setValue(gain);
     }
@@ -362,10 +382,16 @@ public class AudioPlayer {
         this.setSfxVolume = volume;
         this.curSfxVolume = volume;
         updateSfxVolume();
-        
+
         this.setAmbienceVolume = volume;
         this.curAmbienceVolume = volume;
         updateAmbienceVolume();
+    }
+
+    public void stopSong() {
+        if (curSong.isActive()) {
+            curSong.stop();
+        }
     }
 
     public void stopAmbience() {
@@ -378,15 +404,22 @@ public class AudioPlayer {
         return index.equals(curSongIndex) && curSong.isActive();
     }
 
+    public boolean isAmbiencePlaying(Integer ambienceIndex) {
+        return ambienceIndex.equals(curAmbienceIndex) && curAmbience.isActive();
+    }
+
     /** Loops the current song if it should loop, else it just starts it. */
     public void continueCurrentSong() {
-        if (curSongLooping) {this.curSong.loop(Clip.LOOP_CONTINUOUSLY);}
-        else {this.curSong.start();}
-        
+        if (curSongLooping) {
+            this.curSong.loop(Clip.LOOP_CONTINUOUSLY);
+        } else {
+            this.curSong.start();
+        }
+
     }
 
     /** Continues looping the current ambience */
     public void continueCurrentAmbience() {
-      this.curAmbience.loop(Clip.LOOP_CONTINUOUSLY);
+        this.curAmbience.loop(Clip.LOOP_CONTINUOUSLY);
     }
 }

@@ -26,6 +26,11 @@ DOOR:
 * OBS: if a door will have cutscenes, every door before that must also have a 
  cutscene (e.g. just wait;1).
 
+PORTAL:
+[0] = door (String), [1] = hitbox-x, [2] = hitbox-y, [3] = hitbox-width, 
+[4] = hitbox-height, [6] = areaDoorLeadsTo (int), 
+[7] = playerDirUponReentering (int)
+
 NPC (special):
 [0] = npc-name (String), [1] = hitbox-x, [2] = hitbox-y, [3] = hitbox-width, 
 [4] = hitbox-height, [5] = npcDir (int), [6] = inForeground (boolean)
