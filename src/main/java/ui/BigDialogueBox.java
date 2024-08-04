@@ -42,7 +42,7 @@ public class BigDialogueBox {
     private Font nameFont;
     private ArrayList<Integer> breakPoints;
     private ArrayList<String> formattedStrings;
-    private int X = (int) ((Game.GAME_DEFAULT_WIDTH/2 -  DIALOGUEBOX_WIDTH/2) * Game.SCALE);
+    private int X = (int) ((Game.GAME_DEFAULT_WIDTH / 2 - DIALOGUEBOX_WIDTH / 2) * Game.SCALE);
     private int Y = (int) (550 * Game.SCALE);
 
     public BigDialogueBox(Game game) {
@@ -76,10 +76,10 @@ public class BigDialogueBox {
     private static BufferedImage[] getPortraits(String portraitName, int length, int rowIndex) {
         BufferedImage img = ResourceLoader.getExpImageSprite(portraitName);
         BufferedImage[] portraits = new BufferedImage[length];
-        for (int i = 0; i < portraits.length; i++) { 
+        for (int i = 0; i < portraits.length; i++) {
             portraits[i] = img.getSubimage(
-                i * PORTRAIT_SIZE, rowIndex * PORTRAIT_SIZE, 
-                PORTRAIT_SIZE, PORTRAIT_SIZE);
+                    i * PORTRAIT_SIZE, rowIndex * PORTRAIT_SIZE,
+                    PORTRAIT_SIZE, PORTRAIT_SIZE);
         }
         return portraits;
     }
@@ -103,9 +103,11 @@ public class BigDialogueBox {
     // Regarding length limits for sentences:
     // There's a limit of 32 characters per sentence.
     // Though, a sentence may not end perfectly at 32 chars, causing us to 'loose'
-    // those unused letters at the end of the sentence. Thus the limit is usually a bit lower.
+    // those unused letters at the end of the sentence. Thus the limit is usually a
+    // bit lower.
     // At most you can do 3 single words of length 32.
-    // But if you approach 90, calculate how many letters you've lost before running.
+    // But if you approach 90, calculate how many letters you've lost before
+    // running.
     private void formatStrings(String text) {
         String[] words = text.split(" ");
         int letterCount = 0;
@@ -114,28 +116,27 @@ public class BigDialogueBox {
             letterCount += word.length();
             breakCount += word.length();
             if ((letterCount) > DIALOGUE_MAX_LETTERS) {
-                breakCount -= (word.length() + 1);   // Trekker fra et ord og et mellomrom
+                breakCount -= (word.length() + 1); // Trekker fra et ord og et mellomrom
                 breakPoints.add(breakCount);
-                breakCount += word.length() + 1;     // Legger til samme ord og mellomrom igjen
+                breakCount += word.length() + 1; // Legger til samme ord og mellomrom igjen
 
-                letterCount = word.length();         // 'Nullsettes'
+                letterCount = word.length(); // 'Nullsettes'
             }
-            letterCount += 1;  // +1 for mellomrom
+            letterCount += 1; // +1 for mellomrom
             breakCount += 1;
         }
-        breakPoints.add(text.length());              // Siste breakpoint
-    
+        breakPoints.add(text.length()); // Siste breakpoint
+
         int beginIndex = 0;
         for (Integer endIndex : breakPoints) {
             String line = text.substring(beginIndex, endIndex);
             formattedStrings.add(line);
-            beginIndex += (endIndex + 1 - beginIndex); 
+            beginIndex += (endIndex + 1 - beginIndex);
         }
     }
 
-
     private void setVoiceStuff() {
-        voiceClipIndex = switch(name) {
+        voiceClipIndex = switch (name) {
             case "Max" -> Audio.VOICECLIP_MAX;
             case "Oliver" -> Audio.VOICECLIP_OLIVER;
             case "Lance" -> Audio.VOICECLIP_LANCE;
@@ -156,16 +157,16 @@ public class BigDialogueBox {
             case "???", "Rudinger" -> Audio.VOICECLIP_RUDINGER;
             case "????" -> Audio.VOICECLIP_RAZE;
             case "Drone" -> Audio.VOICECLIP_DRONE;
+            case "Acolyte" -> Audio.VOICECLIP_EMMA;
             default -> Audio.VOICECLIP_SIGN;
-            };
+        };
 
         voiceTick = 0;
         if (aniTickPerFrame < 5) {
             voiceTickPerFrame = 5;
-        }
-        else {
+        } else {
             voiceTickPerFrame = aniTickPerFrame;
-        }  
+        }
     }
 
     public void update() {
@@ -175,13 +176,12 @@ public class BigDialogueBox {
     }
 
     private void checkIfDone() {
-        allLettersAppeared = (
-            (formattedStrings.size() == (currentLine + 1)) && 
-            (currentLetter == (formattedStrings.get(currentLine).length()) - 1));
+        allLettersAppeared = ((formattedStrings.size() == (currentLine + 1)) &&
+                (currentLetter == (formattedStrings.get(currentLine).length()) - 1));
     }
 
     private void updateAnimations() {
-        aniTick ++;
+        aniTick++;
         if (aniTick >= aniTickPerFrame) {
             currentLetter += 1;
             aniTick = 0;
@@ -192,13 +192,13 @@ public class BigDialogueBox {
         }
     }
 
-    private void updateVoices() { 
-        if (voiceTick == 0) { 
+    private void updateVoices() {
+        if (voiceTick == 0) {
             // Always play on first syllable
             audioPlayer.playVoiceClip(voiceClipIndex);
-        } 
-        else if (voiceTick % voiceTickPerFrame == 0) {
-            // In order for the voices to sound less 'machine gun'-like, we don't play the voiceclip
+        } else if (voiceTick % voiceTickPerFrame == 0) {
+            // In order for the voices to sound less 'machine gun'-like, we don't play the
+            // voiceclip
             // on spaces, and also add a bit of randomization.
             if (!(currentCharIs(' ')) && randomizerRollsTrue()) {
                 audioPlayer.playVoiceClip(voiceClipIndex);
@@ -225,21 +225,21 @@ public class BigDialogueBox {
 
     public void draw(Graphics g) {
         g.drawImage(
-            dialogueBoxImg, X, Y, 
-            (int) (DIALOGUEBOX_WIDTH * Game.SCALE), 
-            (int) (DIALOGUEBOX_HEIGHT * Game.SCALE), null);
-        
+                dialogueBoxImg, X, Y,
+                (int) (DIALOGUEBOX_WIDTH * Game.SCALE),
+                (int) (DIALOGUEBOX_HEIGHT * Game.SCALE), null);
+
         g.drawImage(
-            portraits[characterIndex][portraitIndex], 
-            X + (int)(12 * Game.SCALE), Y + (int)(12 * Game.SCALE), 
-            (int) (PORTRAIT_SIZE * 3 * Game.SCALE), (int) (PORTRAIT_SIZE * 3 * Game.SCALE), null);
+                portraits[characterIndex][portraitIndex],
+                X + (int) (12 * Game.SCALE), Y + (int) (12 * Game.SCALE),
+                (int) (PORTRAIT_SIZE * 3 * Game.SCALE), (int) (PORTRAIT_SIZE * 3 * Game.SCALE), null);
 
         g.setColor(nameColor);
-        g.setFont(nameFont);   // Er allerede justert ift Game.SCALE
+        g.setFont(nameFont); // Er allerede justert ift Game.SCALE
         g.drawString(
-            name,
-            X + (int) (200 * Game.SCALE), 
-            Y + (int) (60 * Game.SCALE));
+                name,
+                X + (int) (200 * Game.SCALE),
+                Y + (int) (60 * Game.SCALE));
 
         g.setColor(Color.WHITE);
         g.setFont(dialogueFont);
@@ -253,16 +253,16 @@ public class BigDialogueBox {
             if (i == currentLine) {
                 endLetter = currentLetter + 1;
             }
-            drawPartialSentence(g, formattedStrings.get(i), 
-                endLetter,
-                X + (int) (200 * Game.SCALE), Y + (int) ((i * 35 + 100) * Game.SCALE));
+            drawPartialSentence(g, formattedStrings.get(i),
+                    endLetter,
+                    X + (int) (200 * Game.SCALE), Y + (int) ((i * 35 + 100) * Game.SCALE));
         }
     }
 
     // Vi kunne forbedret kjøretiden ved å bruke stringBuilder.
     private void drawPartialSentence(Graphics g, String s, int currentLetter, int x, int y) {
         g.drawString(
-            s.substring(0, currentLetter), x, y);
+                s.substring(0, currentLetter), x, y);
     }
 
     public boolean allLettersAppeared() {

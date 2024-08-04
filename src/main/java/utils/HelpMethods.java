@@ -255,6 +255,7 @@ public class HelpMethods {
             case "Gard" -> 18;
             case "Feno" -> 19;
             case "???", "????" -> 20;
+            case "Acolyte" -> 21;
             default -> throw new IllegalArgumentException(
                     "No characterIndex available for '" + name + "'");
         };
@@ -285,6 +286,7 @@ public class HelpMethods {
             case "Skye" -> Color.PINK;
             case "???", "????" -> Color.WHITE;
             case "Drone" -> Color.GRAY;
+            case "Acolyte" -> Color.CYAN;
             default -> throw new IllegalArgumentException(
                     "No nameColor available for '" + name + "'");
         };
