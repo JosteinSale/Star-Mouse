@@ -37,10 +37,10 @@ This is a work-in-progress and **may contain bugs**. I do not guarantee that it 
 <img src="src/main/resources/promo/screenshot5.png" alt="Captivating visuals" width="650" height="432">
 
 <h3>Flying through obstacles</h3>
-<img src="src/main/resources/promo/screenshot6.png" alt="Flying through obstacles" width="650" height="432">
+<img src="src/main/resources/promo/screenshot7.png" alt="Flying through obstacles" width="650" height="432">
 
 <h3>Intense battles</h3>
-<img src="src/main/resources/promo/screenshot7.png" alt="Intense battles" width="650" height="432">
+<img src="src/main/resources/promo/screenshot6.png" alt="Intense battles" width="650" height="432">
 
 <h3>Boss Battle</h3>
 <img src="src/main/resources/promo/screenshot8.png" alt="Boss Battle" width="650" height="432">
