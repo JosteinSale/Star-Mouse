@@ -24,11 +24,26 @@ This is a work-in-progress and **may contain bugs**. I do not guarantee that it 
 <h3>Title Screen</h3>
 <img src="src/main/resources/promo/screenshot1.png" alt="Title Screen" width="650" height="432">
 
-![Max the mouse](src/main/resources/promo/screenshot2.png)
-![Go flying with Oliver?](src/main/resources/promo/screenshot3.png)
-![Talking to NPC's](src/main/resources/promo/screenshot4.png)
-![Captivating visuals](src/main/resources/promo/screenshot5.png)
-![Flying through obstacles](src/main/resources/promo/screenshot6.png)
-![Intense battles](src/main/resources/promo/screenshot7.png)
-![Boss Battle](src/main/resources/promo/screenshot8.png)
-![Change controls at any time](src/main/resources/promo/screenshot9.png)
+<h3>Max the mouse</h3>
+<img src="src/main/resources/promo/screenshot2.png" alt="Max the mouse" width="650" height="432">
+
+<h3>Go flying with Oliver?</h3>
+<img src="src/main/resources/promo/screenshot3.png" alt="Go flying with Oliver?" width="650" height="432">
+
+<h3>Talking to NPC's</h3>
+<img src="src/main/resources/promo/screenshot4.png" alt="Talking to NPC's" width="650" height="432">
+
+<h3>Captivating visuals</h3>
+<img src="src/main/resources/promo/screenshot5.png" alt="Captivating visuals" width="650" height="432">
+
+<h3>Flying through obstacles</h3>
+<img src="src/main/resources/promo/screenshot6.png" alt="Flying through obstacles" width="650" height="432">
+
+<h3>Intense battles</h3>
+<img src="src/main/resources/promo/screenshot7.png" alt="Intense battles" width="650" height="432">
+
+<h3>Boss Battle</h3>
+<img src="src/main/resources/promo/screenshot8.png" alt="Boss Battle" width="650" height="432">
+
+<h3>Change controls at any time</h3>
+<img src="src/main/resources/promo/screenshot8.png" alt="Change controls at any time" width="650" height="432">
