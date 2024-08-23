@@ -21,7 +21,7 @@ This is a work-in-progress and **may contain bugs**. I do not guarantee that it 
 
 ## Screenshots
 
-Title Screen
+<h3>Title Screen</h3>
 <img src="src/main/resources/promo/screenshot1.png" alt="Title Screen" width="500" height="333">
 
 ![Max the mouse](src/main/resources/promo/screenshot2.png)
