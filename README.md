@@ -33,12 +33,12 @@ This is a work-in-progress and **may contain bugs**. I do not guarantee that it 
 
 ## Screenshots
 
-![Title Screen](resources/promo/screenshot1.png)
-![Max the mouse](resources/promo/screenshot2.png)
-![Go flying with Oliver?](resources/promo/screenshot3.png)
-![Talking to NPC's](resources/promo/screenshot4.png)
-![Captivating visuals](resources/promo/screenshot5.png)
-![Flying through obstacles](resources/promo/screenshot6.png)
-![Intense battles](resources/promo/screenshot7.png)
-![Boss Battle](resources/promo/screenshot8.png)
-![Change controls at any time](resources/promo/screenshot9.png)
+![Title Screen](src/main/resources/promo/screenshot1.png)
+![Max the mouse](src/main/resources/promo/screenshot2.png)
+![Go flying with Oliver?](src/main/resources/promo/screenshot3.png)
+![Talking to NPC's](src/main/resources/promo/screenshot4.png)
+![Captivating visuals](src/main/resources/promo/screenshot5.png)
+![Flying through obstacles](src/main/resources/promo/screenshot6.png)
+![Intense battles](src/main/resources/promo/screenshot7.png)
+![Boss Battle](src/main/resources/promo/screenshot8.png)
+![Change controls at any time](src/main/resources/promo/screenshot9.png)
