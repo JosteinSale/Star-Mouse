@@ -22,7 +22,7 @@ This is a work-in-progress and **may contain bugs**. I do not guarantee that it 
 ## Screenshots
 
 <h3>Title Screen</h3>
-<img src="src/main/resources/promo/screenshot1.png" alt="Title Screen" width="500" height="333">
+<img src="src/main/resources/promo/screenshot1.png" alt="Title Screen" width="650" height="432">
 
 ![Max the mouse](src/main/resources/promo/screenshot2.png)
 ![Go flying with Oliver?](src/main/resources/promo/screenshot3.png)
