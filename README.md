@@ -46,4 +46,4 @@ This is a work-in-progress and **may contain bugs**. I do not guarantee that it 
 <img src="src/main/resources/promo/screenshot8.png" alt="Boss Battle" width="650" height="432">
 
 <h3>Change controls at any time</h3>
-<img src="src/main/resources/promo/screenshot8.png" alt="Change controls at any time" width="650" height="432">
+<img src="src/main/resources/promo/screenshot9.png" alt="Change controls at any time" width="650" height="432">
