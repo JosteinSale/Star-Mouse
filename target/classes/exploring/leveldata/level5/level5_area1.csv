@@ -2,5 +2,5 @@ ambience;5
 song;99;false
 player;600f;942f;45f;18f;0
 object;570f;924f;63f;27f;Saber
-portal;138f;20f;843f;75f;2;2;toChurch
+portal;435f;20f;300f;75f;2;2;toChurch
 automaticTrigger;600f;942f;45f;18;Opening cutscene
