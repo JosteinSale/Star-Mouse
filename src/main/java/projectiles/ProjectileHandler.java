@@ -23,7 +23,6 @@ import static utils.Constants.Audio;
 
 public class ProjectileHandler {
    protected Game game;
-   protected ProgressValues progValues;
    protected AudioPlayer audioPlayer;
    protected ShootingPlayer player;
    protected EnemyManager enemyManager;
@@ -56,8 +55,7 @@ public class ProjectileHandler {
 
    public ProjectileHandler(Game game, AudioPlayer audioPlayer, ShootingPlayer player, EnemyManager enemyManager) {
       this.game = game;
-      this.progValues = game.getExploring().getProgressValues();
-      this.nrOfBombs = progValues.getBombs();
+      this.nrOfBombs = game.getExploring().getProgressValues().getBombs();
       this.nrOfBombsAtCheckpoint = 0;
       this.audioPlayer = audioPlayer;
       this.player = player;
@@ -131,9 +129,11 @@ public class ProjectileHandler {
          imgSelection = 1;
       }
       this.allProjectiles.add(
-            new PlayerProjectile(hitbox1, powerUp, progValues.getLazerDmg(), plPrjctImgs[imgSelection]));
+            new PlayerProjectile(hitbox1, powerUp, game.getExploring().getProgressValues().getLazerDmg(),
+                  plPrjctImgs[imgSelection]));
       this.allProjectiles.add(
-            new PlayerProjectile(hitbox2, powerUp, progValues.getLazerDmg(), plPrjctImgs[imgSelection]));
+            new PlayerProjectile(hitbox2, powerUp, game.getExploring().getProgressValues().getLazerDmg(),
+                  plPrjctImgs[imgSelection]));
    }
 
    protected void addBombProjectile(float xPos, float yPos) {
@@ -256,11 +256,11 @@ public class ProjectileHandler {
                         enemyManager.checkIfDead(enemy);
                         if (!enemy.isSmall()) {
                            projectileHits.add(new ProjectileHit(
-                           (int) (p.getHitbox().x - 10),
-                           (int) (p.getHitbox().y) + 20,
-                           0)); // Small hit
+                                 (int) (p.getHitbox().x - 10),
+                                 (int) (p.getHitbox().y) + 20,
+                                 0)); // Small hit
                         }
-                     break;
+                        break;
                      }
                   }
                }
@@ -438,11 +438,13 @@ public class ProjectileHandler {
    /* This could be done better */
    public void addCustomProjectile(AddProjectileEvent evt) {
       switch (evt.type()) {
-         case DRONE_PROJECTILE : Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
-            evt.xPos(), evt.yPos(), 32, 33);
+         case DRONE_PROJECTILE:
+            Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
+                  evt.xPos(), evt.yPos(), 32, 33);
             this.allProjectiles.add(new DroneProjectile(prjctHitbox, dronePrjctImg, evt.xSpeed(), evt.ySpeed()));
             break;
-         default : throw new IllegalArgumentException("Projectile type " + evt.type() + " is not supported yet.");
+         default:
+            throw new IllegalArgumentException("Projectile type " + evt.type() + " is not supported yet.");
       }
    }
 }

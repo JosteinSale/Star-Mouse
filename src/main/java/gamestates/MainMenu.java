@@ -211,7 +211,6 @@ public class MainMenu extends State implements Statemethods {
     private void startGame() {
         game.getLevelSelect().reset();
         game.getLevelSelect().transferDataFromSave();
-        game.getLevelSelect().unlockAllLevelsUpTo(2);
         Gamestate.state = Gamestate.LEVEL_SELECT;
     }
 

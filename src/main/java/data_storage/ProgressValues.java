@@ -31,9 +31,20 @@ public class ProgressValues {
    public int levelLayout;
    public boolean[] unlockedLevels;
 
-   public ProgressValues() {
-      this.resetToDefault();
-      this.setTime();
+   // Private constructor to ensure it's not used wrongly.
+   private ProgressValues() {
+   }
+
+   /**
+    * You should only instantiate a new ProgressValues-object if you want to
+    * a) create a proxy for testing mode, or b) create a new JSON save-file
+    * (in the case that it doesn't already exist on the computer).
+    */
+   public static ProgressValues getNewSave() {
+      ProgressValues p = new ProgressValues();
+      p.resetToDefault();
+      p.setTime();
+      return p;
    }
 
    // Setters

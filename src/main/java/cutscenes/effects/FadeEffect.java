@@ -12,6 +12,12 @@ import game_events.GeneralEvent;
 import gamestates.Gamestate;
 import main_classes.Game;
 
+/**
+ * Note: in the event of standard fades, when fading out, the isActive-boolean
+ * is left true. Thus it will still be drawn black, to cover for premature
+ * resetting before drawing is complete in fullscreen-mode.
+ * The effect is properly reset the next time the player enters the area.
+ */
 public class FadeEffect implements UpdatableEffect, DrawableEffect, AdvancableEffect {
    private EventHandler eventHandler;
    private String fadeDirection;
@@ -36,17 +42,19 @@ public class FadeEffect implements UpdatableEffect, DrawableEffect, AdvancableEf
       this.isActive = true;
       if (fadeDirection.equals(FADE_IN)) {
          alphaFade = 255;
-      }
-      else {
+      } else {
          alphaFade = 0;
       }
    }
 
    private Color getColor(String string) {
       switch (string) {
-         case "black" : return Color.BLACK;
-         case "white" : return Color.WHITE;
-         default : throw new IllegalArgumentException("No color available for: " + string);
+         case "black":
+            return Color.BLACK;
+         case "white":
+            return Color.WHITE;
+         default:
+            throw new IllegalArgumentException("No color available for: " + string);
       }
    }
 
@@ -54,8 +62,7 @@ public class FadeEffect implements UpdatableEffect, DrawableEffect, AdvancableEf
    public void update() {
       if (fadeDirection.equals(FADE_OUT)) {
          updateFadeOut();
-      }
-      else {
+      } else {
          updateFadeIn();
       }
    }
@@ -64,10 +71,10 @@ public class FadeEffect implements UpdatableEffect, DrawableEffect, AdvancableEf
       this.alphaFade += fadeSpeed;
       if (this.alphaFade > 255) {
          alphaFade = 255;
-         this.isActive = false;
          if (standardFade) {
             eventHandler.triggerEvents();
          } else {
+            this.isActive = false;
             this.shouldAdvance = true;
          }
       }
@@ -107,8 +114,7 @@ public class FadeEffect implements UpdatableEffect, DrawableEffect, AdvancableEf
    @Override
    public void draw(Graphics g) {
       g.setColor(
-         new Color(color.getRed(), color.getGreen(), color.getBlue(), alphaFade)
-         );
+            new Color(color.getRed(), color.getGreen(), color.getBlue(), alphaFade));
       g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
    }
 
@@ -119,7 +125,7 @@ public class FadeEffect implements UpdatableEffect, DrawableEffect, AdvancableEf
 
    @Override
    public boolean supportsGamestate(Gamestate state) {
-      return true;  // All gamestates are supported
+      return true; // All gamestates are supported
    }
 
 }

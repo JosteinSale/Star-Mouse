@@ -20,7 +20,7 @@ public class Exploring extends State implements Statemethods {
     private int currentArea; // Is set in the loadLevel-method. Can be altered for testing purposes.
     private ArrayList<Area> areas;
     private PauseExploring pauseOverlay;
-    private ProgressValues progValues; // This is the only instance of progValues in the code base
+    private ProgressValues progValues; // Is the only instance in the code base (except LevelSelect)
     private MechanicOverlay mechanicOverlay;
     private boolean mechanicActive = false;
 
@@ -40,7 +40,7 @@ public class Exploring extends State implements Statemethods {
      * one loaded on disc.
      */
     private void initProxyProgValues() {
-        this.progValues = new ProgressValues();
+        this.progValues = ProgressValues.getNewSave();
     }
 
     /** Can be used to load a 'save' from disc */

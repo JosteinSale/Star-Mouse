@@ -70,7 +70,7 @@ public class Game implements Runnable {
    public boolean bombIsPressed = false;
    public boolean pauseIsPressed = false;
 
-   // This are modified from the Main Menu
+   // This is modified from the Main Menu
    public boolean testingMode = false;
 
    public Game() {
@@ -103,7 +103,10 @@ public class Game implements Runnable {
       saveData = DataStorage.loadData();
       if (saveData == null) {
          // If no data exists, create new data
-         saveData = new SaveData(new ProgressValues(), new ProgressValues(), new ProgressValues());
+         saveData = new SaveData(
+               ProgressValues.getNewSave(),
+               ProgressValues.getNewSave(),
+               ProgressValues.getNewSave());
       }
    }
 

@@ -72,11 +72,11 @@ public class Flying extends State implements Statemethods {
       this.audioPlayer = game.getAudioPlayer();
       this.automaticTriggers = new ArrayList<>();
       this.pickupItems = new ArrayList<>();
-      initClasses(game.getOptionsMenu(), game.getExploring().getProgressValues());
+      initClasses(game.getOptionsMenu());
       loadEventReactions();
    }
 
-   private void initClasses(OptionsMenu optionsMenu, ProgressValues progValues) {
+   private void initClasses(OptionsMenu optionsMenu) {
       Rectangle2D.Float playerHitbox = new Rectangle2D.Float(500f, 400f, 50f, 50f);
       this.player = new PlayerFly(game, playerHitbox);
       this.entityFactory = new EntityFactory(player);
@@ -85,7 +85,7 @@ public class Flying extends State implements Statemethods {
       this.eventHandler = new EventHandler();
       this.cutsceneManager = new CutsceneManagerFly(Gamestate.FLYING, game, eventHandler, game.getTextboxManager());
       this.pauseOverlay = new PauseFlying(this, optionsMenu);
-      this.levelFinishedOverlay = new LevelFinishedOverlay(this, progValues);
+      this.levelFinishedOverlay = new LevelFinishedOverlay(game, this);
       this.gameoverOverlay = new GameoverOverlay(this);
       this.flyLevelInfo = new FlyLevelInfo();
    }
@@ -101,7 +101,7 @@ public class Flying extends State implements Statemethods {
       loadPickupItems(level);
       loadCutscenes(level);
       player.setKilledEnemies(0);
-      //startAt(-20000); // For testing purposes
+      // startAt(-20000); // For testing purposes
    }
 
    private void loadPickupItems(Integer level) {
@@ -113,8 +113,7 @@ public class Flying extends State implements Statemethods {
          String entryName = lineData[0];
          if (entryName.equals("automaticTrigger")) {
             automaticTriggers.add(GetAutomaticTrigger(lineData));
-         } 
-         else if (entityFactory.isPickupItemRegistered(entryName)) {
+         } else if (entityFactory.isPickupItemRegistered(entryName)) {
             pickupItems.add(entityFactory.getNewPickupItem(lineData));
          }
       }
@@ -136,39 +135,30 @@ public class Flying extends State implements Statemethods {
    public void doReaction(GeneralEvent event) {
       if (event instanceof TextBoxEvent tbEvt) {
          this.cutsceneManager.activateTextbox(tbEvt);
-      }
-      else if (event instanceof SetGameplayEvent evt) {
+      } else if (event instanceof SetGameplayEvent evt) {
          this.gamePlayActive = evt.active();
-      }
-      else if (event instanceof LevelFinishedEvent) {
+      } else if (event instanceof LevelFinishedEvent) {
          this.levelFinished = true;
          this.enemyManager.levelFinished();
          this.levelFinishedOverlay.setLevelStats(enemyManager.getFinalKilledEnemies());
-      }
-      else if (event instanceof StartSongEvent evt) {
+      } else if (event instanceof StartSongEvent evt) {
          this.shouldSongLoop = evt.shouldLoop();
          this.game.getAudioPlayer().startSong(evt.index(), 0, shouldSongLoop);
-      }
-      else if (event instanceof StartAmbienceEvent evt) {
+      } else if (event instanceof StartAmbienceEvent evt) {
          audioPlayer.startAmbienceLoop(evt.index());
-      } 
-      else if (event instanceof FadeOutLoopEvent) {
+      } else if (event instanceof FadeOutLoopEvent) {
          audioPlayer.fadeOutAllLoops();
-      }
-      else if (event instanceof StopLoopsEvent) {
+      } else if (event instanceof StopLoopsEvent) {
          this.audioPlayer.stopAllLoops();
-      }
-      else if (event instanceof AddProjectileEvent evt) {
+      } else if (event instanceof AddProjectileEvent evt) {
          this.projectileHandler.addCustomProjectile(evt);
-      }
-      else if (event instanceof GoToBossEvent evt) {
+      } else if (event instanceof GoToBossEvent evt) {
          transferBombsToProgValues();
          game.getBossMode().loadNewBoss(evt.bossNr());
          Gamestate.state = Gamestate.BOSS_MODE;
          // We do not need to do anything else, as we will return to Flying after
          // the boss, and thus exit Flying properly then.
-      }
-      else {
+      } else {
          this.cutsceneManager.activateEffect(event);
       }
    }
@@ -191,7 +181,7 @@ public class Flying extends State implements Statemethods {
    }
 
    private void updateGameplay() {
-      //System.out.println(mapManager.yProgess);
+      // System.out.println(mapManager.yProgess);
       if (!cutsceneManager.isActive()) {
          checkCutsceneTriggers();
       }
@@ -204,7 +194,7 @@ public class Flying extends State implements Statemethods {
       updatePickupItems();
       enemyManager.update(fgCurSpeed);
       projectileHandler.update(
-         mapManager.clYOffset, mapManager.clXOffset, fgCurSpeed);
+            mapManager.clYOffset, mapManager.clXOffset, fgCurSpeed);
    }
 
    private void checkPause() {
@@ -216,7 +206,7 @@ public class Flying extends State implements Statemethods {
 
    public void flipPause() {
       // 1. If we are entering pause:
-      if (!pause) {  
+      if (!pause) {
          this.pause = true;
          this.audioPlayer.stopAllLoops();
       }
@@ -321,7 +311,9 @@ public class Flying extends State implements Statemethods {
 
    public void exitFinishedLevel() {
       // Credits are updated in LevelFinishedOverlay.
-      transferBombsToProgValues();
+      if (this.level != 0) {
+         transferBombsToProgValues();
+      }
       this.checkPointReached = false;
       this.resetFlying();
       if (this.level == 0) {
@@ -339,8 +331,10 @@ public class Flying extends State implements Statemethods {
       game.getExploring().updatePauseInventory();
    }
 
-   /** Is called from bossMode right before 
-    * exitFinishedLevel and transferBombsToProgValues */
+   /**
+    * Is called from bossMode right before
+    * exitFinishedLevel and transferBombsToProgValues
+    */
    public void setBombsWhenBossIsFinished(int nrOfBombs) {
       this.projectileHandler.setBombs(nrOfBombs);
    }
@@ -389,7 +383,8 @@ public class Flying extends State implements Statemethods {
    }
 
    /**
-    * Not to be confused with the resetFlying()-method. This method should be called
+    * Not to be confused with the resetFlying()-method. This method should be
+    * called
     * when the player has died, and resets the level.
     * It should reset (not reload) all level-specific variables,
     * like enemies, pickup-items and map-offsets.
@@ -415,7 +410,7 @@ public class Flying extends State implements Statemethods {
       // If the player has reached checkPoint, but decides to reset level to start:
       if (!toCheckPoint) {
          this.checkPointReached = false;
-      }  
+      }
    }
 
    private void resetObjects(boolean toCheckPoint, float resetYPos) {
