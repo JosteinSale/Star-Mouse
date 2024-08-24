@@ -20,7 +20,7 @@ public class Exploring extends State implements Statemethods {
     private int currentArea; // Is set in the loadLevel-method. Can be altered for testing purposes.
     private ArrayList<Area> areas;
     private PauseExploring pauseOverlay;
-    private ProgressValues progValues;
+    private ProgressValues progValues; // This is the only instance of progValues in the code base
     private MechanicOverlay mechanicOverlay;
     private boolean mechanicActive = false;
 
@@ -29,8 +29,8 @@ public class Exploring extends State implements Statemethods {
         this.audioPlayer = game.getAudioPlayer();
         initProxyProgValues();
         areas = new ArrayList<>();
-        pauseOverlay = new PauseExploring(game, progValues, audioPlayer, game.getOptionsMenu());
-        mechanicOverlay = new MechanicOverlay(game, progValues);
+        pauseOverlay = new PauseExploring(game, audioPlayer, game.getOptionsMenu());
+        mechanicOverlay = new MechanicOverlay(game);
     }
 
     /**
@@ -41,6 +41,11 @@ public class Exploring extends State implements Statemethods {
      */
     private void initProxyProgValues() {
         this.progValues = new ProgressValues();
+    }
+
+    /** Can be used to load a 'save' from disc */
+    public void setProgressValues(ProgressValues progValues) {
+        this.progValues = progValues;
     }
 
     /**
@@ -117,17 +122,13 @@ public class Exploring extends State implements Statemethods {
         return this.progValues;
     }
 
-    /** Can be used to load a 'save' from disc */
-    public void setProgressValues(ProgressValues progValues) {
-        this.progValues = progValues;
-    }
-
     public void updatePauseInventory() {
         this.pauseOverlay.updateProgressValues();
     }
 
     public void setMechanicActive(boolean active) {
         this.mechanicActive = active;
+        this.mechanicOverlay.onOpen();
     }
 
     public int getSongForArea(int newArea) {

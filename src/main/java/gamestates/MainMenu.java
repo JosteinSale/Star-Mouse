@@ -130,7 +130,7 @@ public class MainMenu extends State implements Statemethods {
         game.testingMode = true;
 
         // UNLOCK LEVELS
-        game.getLevelSelect().unlockAllLevelsUpTo(1);
+        game.getLevelSelect().unlockAllLevelsUpTo(2);
 
         // LEVEL SELECT
         game.getLevelSelect().reset();
@@ -211,6 +211,7 @@ public class MainMenu extends State implements Statemethods {
     private void startGame() {
         game.getLevelSelect().reset();
         game.getLevelSelect().transferDataFromSave();
+        game.getLevelSelect().unlockAllLevelsUpTo(2);
         Gamestate.state = Gamestate.LEVEL_SELECT;
     }
 
