@@ -250,6 +250,7 @@ public class AudioPlayer {
             updateSongVolume();
             curSong.setMicrosecondPosition((int) startPos * 1000000);
             if (curSongLooping) {
+                System.out.println("Song looped");
                 curSong.loop(Clip.LOOP_CONTINUOUSLY);
             } else {
                 curSong.start();

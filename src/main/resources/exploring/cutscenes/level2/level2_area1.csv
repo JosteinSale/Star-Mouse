@@ -84,5 +84,5 @@ wait;60
 endSequence
 fillScreen;black;false
 fade;in;black;2
-startSong;4;true   // is needed because we override the justEntered-method with a cutscene.
+startSong;4;true;   // is needed because we override the justEntered-method with a cutscene.
 endSequence
