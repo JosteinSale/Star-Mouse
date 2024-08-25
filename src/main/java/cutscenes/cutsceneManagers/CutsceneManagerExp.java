@@ -19,11 +19,12 @@ public class CutsceneManagerExp extends DefaultCutsceneManager {
    private NumberDisplay numberDisplay;
 
    // Effects that need to be accessible from the area
-   private FadeEffect fadeEffect;        
-   private ScreenShakeEffect shakeEffect; 
+   private FadeEffect fadeEffect;
+   private ScreenShakeEffect shakeEffect;
    private ObjectMoveEffect objectMoveEffect;
 
-   public CutsceneManagerExp(Gamestate state, Game game, Area area, EventHandler eventHandler, ITextboxManager textboxManager, PlayerExp player, NpcManager npcManager) {
+   public CutsceneManagerExp(Gamestate state, Game game, Area area, EventHandler eventHandler,
+         ITextboxManager textboxManager, PlayerExp player, NpcManager npcManager) {
       super(game, eventHandler, textboxManager, state);
       this.area = area;
       this.player = player;
@@ -36,7 +37,6 @@ public class CutsceneManagerExp extends DefaultCutsceneManager {
    private void addCutsceneEffects() {
       this.addEffect(new WaitEffect());
       this.addEffect(new SetOverlayEffect());
-      this.addEffect(new FillScreenEffect());
       this.addEffect(new FadeHeaderEffect());
       this.addEffect(new PlayerWalkEffect(this.player));
       this.addEffect(new NPCWalkEffect(this.npcManager));
@@ -44,7 +44,7 @@ public class CutsceneManagerExp extends DefaultCutsceneManager {
       this.addEffect(new RedLightEffect());
       this.addEffect(new MoveCameraEffect(area));
       this.addEffect(new DarkenScreenEffect());
-      
+
       // Effects that need to be accessible from the cutsceneManager:
       this.objectMoveEffect = new ObjectMoveEffect();
       this.shakeEffect = new ScreenShakeEffect(this.area);
@@ -52,17 +52,18 @@ public class CutsceneManagerExp extends DefaultCutsceneManager {
       this.addEffect(objectMoveEffect);
       this.addEffect(fadeEffect);
       this.addEffect(shakeEffect);
+
+      // Effects that need to be drawn on top
+      this.addEffect(new FillScreenEffect());
    }
 
    /** Is called from the state's update-loop if the cutsceneManager is active */
    public void handleKeyBoardInputs() {
       if (textBoxManager.isChoiceActive()) {
          this.handleInfoChoiceInputs();
-      }
-      else if (numberDisplay.isActive()) {
+      } else if (numberDisplay.isActive()) {
          this.handleNumberDisplayInputs();
-      }
-      else if (game.interactIsPressed) {
+      } else if (game.interactIsPressed) {
          game.interactIsPressed = false;
          this.advance();
       }
@@ -83,11 +84,11 @@ public class CutsceneManagerExp extends DefaultCutsceneManager {
    }
 
    private void handleNumberDisplayInputs() {
-      // The act of changing the numbers on the display is handled in the 
+      // The act of changing the numbers on the display is handled in the
       // NumberDisplay itself.
       if (game.interactIsPressed) {
          game.interactIsPressed = false;
-         int answerGiven = 2;     // 1 = right, 2 = wrong
+         int answerGiven = 2; // 1 = right, 2 = wrong
          if (numberDisplay.isCodeCorrect()) {
             answerGiven = 1;
          }
@@ -99,10 +100,12 @@ public class CutsceneManagerExp extends DefaultCutsceneManager {
       }
    }
 
-   /** Starts a standard fade in/out.
+   /**
+    * Starts a standard fade in/out.
     * A standard fade circumvents the 'activateEffect'-method, and thus 'canAdvace'
     * remains true. Instead, use the 'isStandardFadeActive'-method to prevent
-    * handling of user input during this time. */
+    * handling of user input during this time.
+    */
    public void startStandardFade(String in_out) {
       FadeEvent evt = new FadeEvent(in_out, "black", 10, true);
       this.fadeEffect.activate(evt);
@@ -125,5 +128,5 @@ public class CutsceneManagerExp extends DefaultCutsceneManager {
    public void clearObjects() {
       this.objectMoveEffect.reset();
    }
-   
+
 }

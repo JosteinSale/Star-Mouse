@@ -22,7 +22,7 @@ import gamestates.Gamestate;
 public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
    private boolean active;
    private SimpleAnimationFactory animationFactory;
-   private ArrayList<SimpleAnimation> objects;  // Need arraylist because of sorting, to ensure correct layering
+   private ArrayList<SimpleAnimation> objects; // Need arraylist because of sorting, to ensure correct layering
    private HashMap<String, Integer> nameToIndexMap; // Needed to associate the identifier with the correct index
    private HashMap<String, Boolean> moveStatuses;
    private HashMap<String, Integer> moveTicks;
@@ -40,8 +40,9 @@ public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
       this.xSpeeds = new HashMap<>();
       this.ySpeeds = new HashMap<>();
       // TODO - Later we might also include the AnimatedComponentFactory.
-      // TODO - Then, include methods setAnimation(String name, int row) which throws exception if not AnimatedComponent.
-      //  and setPose(int row, int col, boolean active).
+      // TODO - Then, include methods setAnimation(String name, int row) which throws
+      // exception if not AnimatedComponent.
+      // and setPose(int row, int col, boolean active).
    }
 
    /*
@@ -133,7 +134,9 @@ public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
 
    @Override
    public void draw(Graphics g) {
-      for (SimpleAnimation object : objects) {
+      // ConcurrentModificationException - make a copy
+      ArrayList<SimpleAnimation> copy = new ArrayList<>(objects);
+      for (SimpleAnimation object : copy) {
          object.draw(g);
       }
    }

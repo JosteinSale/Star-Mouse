@@ -18,10 +18,11 @@ import main_classes.Game;
 import utils.ResourceLoader;
 import utils.Constants.Audio;
 
-/** Should be updated and drawn when the player dies. It does the following:
- *  1) play death animation at the player's last position,
- *  2) display menu options,
- *  3) wait for player to choose an option.
+/**
+ * Should be updated and drawn when the player dies. It does the following:
+ * 1) play death animation at the player's last position,
+ * 2) display menu options,
+ * 3) wait for player to choose an option.
  */
 public class GameoverOverlay {
    private Flying flying;
@@ -30,7 +31,7 @@ public class GameoverOverlay {
    private Font headerFont;
    private Font menuFont;
 
-   private String[] menuOptions = {"Last Checkpoint", "Restart Level", "Main Menu" };
+   private String[] menuOptions = { "Last Checkpoint", "Restart Level", "Main Menu" };
    private BufferedImage pointerImg;
    private BufferedImage[] deathAnimation;
    private int selectedIndex = 0;
@@ -65,8 +66,8 @@ public class GameoverOverlay {
       this.deathAnimation = new BufferedImage[26];
       for (int i = 0; i < deathAnimation.length; i++) {
          deathAnimation[i] = deathImg.getSubimage(
-            i * 40, 0, 40, 40);
-         }
+               i * 40, 0, 40, 40);
+      }
    }
 
    private void loadFonts() {
@@ -92,7 +93,7 @@ public class GameoverOverlay {
       if (aniTick == aniTickPerFrame) {
          aniTick = 0;
          aniIndex++;
-         if (aniIndex == 30) {  // 26 images + 4 cycles of wait-time.
+         if (aniIndex == 30) { // 26 images + 4 cycles of wait-time.
             this.deathAnimationActive = false;
          }
       }
@@ -103,37 +104,30 @@ public class GameoverOverlay {
          audioPlayer.playSFX(Audio.SFX_CURSOR);
          flying.getGame().downIsPressed = false;
          goDown();
-      } 
-      else if (flying.getGame().upIsPressed) {
+      } else if (flying.getGame().upIsPressed) {
          audioPlayer.playSFX(Audio.SFX_CURSOR);
          flying.getGame().upIsPressed = false;
          goUp();
-      } 
-      else if (flying.getGame().interactIsPressed) {
+      } else if (flying.getGame().interactIsPressed) {
          flying.getGame().interactIsPressed = false;
          if (selectedIndex == RESTART_LEVEL) {
             this.cursorY = cursorMinY;
             flying.resetFlying();
             flying.resetLevel(false);
-         }
-         else if (selectedIndex == LAST_CHECKPOINT) {
+         } else if (selectedIndex == LAST_CHECKPOINT) {
             if (!flying.checkPointReached) {
                audioPlayer.playSFX(Audio.SFX_HURT);
-            }
-            else {
+            } else {
                this.cursorY = cursorMinY;
                flying.resetFlying();
                flying.resetLevel(true);
             }
-         }
-         else if (selectedIndex == MAIN_MENU) {
+         } else if (selectedIndex == MAIN_MENU) {
             // We do not need to reset the level, since the loadLevel-method will be called
             // when the player reenters flying.
             this.cursorY = cursorMinY;
-            flying.resetFlying();
-            flying.getGame().resetMainMenu();
-            Gamestate.state = Gamestate.MAIN_MENU;
-         } 
+            flying.exitToMainMenu();
+         }
       }
    }
 
@@ -158,19 +152,18 @@ public class GameoverOverlay {
    public void draw(Graphics g) {
       if (deathAnimationActive) {
          drawDeathAnimation(g);
-      }
-      else {
+      } else {
          drawMenu(g);
       }
    }
 
    private void drawDeathAnimation(Graphics g) {
-      if (aniIndex < deathAnimation.length) {   // Will draw nothing at index 26 - 30
+      if (aniIndex < deathAnimation.length) { // Will draw nothing at index 26 - 30
          g.drawImage(
-            deathAnimation[aniIndex], 
-            (int) (playerX * Game.SCALE), (int) (playerY * Game.SCALE),
-            (int) (120 * Game.SCALE),
-            (int) (120 * Game.SCALE), null);
+               deathAnimation[aniIndex],
+               (int) (playerX * Game.SCALE), (int) (playerY * Game.SCALE),
+               (int) (120 * Game.SCALE),
+               (int) (120 * Game.SCALE), null);
       }
    }
 
@@ -196,16 +189,15 @@ public class GameoverOverlay {
 
       // Cursor
       g2.drawImage(
-         pointerImg,
-         (int) (cursorX * Game.SCALE), (int) ((cursorY - 30) * Game.SCALE),
-         (int) (CURSOR_WIDTH * Game.SCALE), (int) (CURSOR_HEIGHT * Game.SCALE), null);
+            pointerImg,
+            (int) (cursorX * Game.SCALE), (int) ((cursorY - 30) * Game.SCALE),
+            (int) (CURSOR_WIDTH * Game.SCALE), (int) (CURSOR_HEIGHT * Game.SCALE), null);
    }
 
    private void setTextColor(int index, Graphics g) {
       if (index == LAST_CHECKPOINT && !this.flying.checkPointReached) {
          g.setColor(new Color(255, 255, 255, 130));
-      }
-      else {
+      } else {
          g.setColor(Color.WHITE);
       }
    }

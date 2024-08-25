@@ -1,6 +1,5 @@
 package cutscenes.cutsceneManagers;
 
-import cutscenes.Cutscene;
 import cutscenes.effects.FadeEffect;
 import cutscenes.effects.FadeHeaderEffect;
 import cutscenes.effects.FellowShipEffect;
@@ -32,5 +31,5 @@ public class CutsceneManagerFly extends DefaultCutsceneManager {
    public void clear() {
       this.clearCutscenes();
    }
-   
+
 }

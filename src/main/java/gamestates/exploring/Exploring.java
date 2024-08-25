@@ -145,6 +145,7 @@ public class Exploring extends State implements Statemethods {
 
     public void goToFlying() {
         areas.get(currentArea - 1).goToFlying(currentLevel);
+        areas.clear();
     }
 
     public void skipLevel() {

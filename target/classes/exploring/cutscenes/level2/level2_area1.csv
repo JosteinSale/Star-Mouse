@@ -52,6 +52,7 @@ endSequence
 fade;out;black;2
 endSequence
 fillScreen;black;true
+setOverlayImage;false;overlayLevel2.png
 wait;1
 endSequence
 goToFlying;2

@@ -25,15 +25,15 @@ import ui.ITextboxManager;
  */
 public class DefaultCutsceneManager {
    // Base objects all cutsceneManagers need
-   protected Gamestate state;  // Each cutsceneManager will be associated with one state
+   protected Gamestate state; // Each cutsceneManager will be associated with one state
    protected Game game;
    protected ITextboxManager textBoxManager;
    protected EventHandler eventHandler;
 
    // CutsceneEffects organized by properties
-	protected HashMap<String, CutsceneEffect> allEffects;    // Used to add and activate effects
-	protected ArrayList<UpdatableEffect> updateableEffects;  // Will be updated
-	protected ArrayList<DrawableEffect> drawableEffects;     // Will be drawn
+   protected HashMap<String, CutsceneEffect> allEffects; // Used to add and activate effects
+   protected ArrayList<UpdatableEffect> updateableEffects; // Will be updated
+   protected ArrayList<DrawableEffect> drawableEffects; // Will be drawn
 
    // Cutscenes: are organized by which kind of object triggers them
    private ArrayList<ArrayList<Cutscene>> objectCutscenes;
@@ -45,11 +45,12 @@ public class DefaultCutsceneManager {
    protected boolean canAdvance = true;
    protected boolean cutsceneJump = false;
 
-   protected int triggerType;     // object | npc | door | automatic. TODO - Use ENUM?
-   protected int elementNr;       // e.g. door #2
-   protected int cutsceneIndex;   // e.g. cutscene #1 (for door #2)
+   protected int triggerType; // object | npc | door | automatic. TODO - Use ENUM?
+   protected int elementNr; // e.g. door #2
+   protected int cutsceneIndex; // e.g. cutscene #1 (for door #2)
 
-   public DefaultCutsceneManager(Game game, EventHandler eventHandler, ITextboxManager textboxManager, Gamestate state) {
+   public DefaultCutsceneManager(Game game, EventHandler eventHandler, ITextboxManager textboxManager,
+         Gamestate state) {
       this.game = game;
       this.eventHandler = eventHandler;
       this.textBoxManager = textboxManager;
@@ -72,24 +73,35 @@ public class DefaultCutsceneManager {
 
    protected ArrayList<ArrayList<Cutscene>> getCutsceneListForTrigger(int trigger) {
       switch (trigger) {
-         case OBJECT: return objectCutscenes;
-         case DOOR: return doorCutscenes;
-         case NPC: return npcCutscenes;
-         case AUTOMATIC: return automaticCutscenes;
-         default: throw new IllegalArgumentException("No cutscene-list available for " + trigger);
+         case OBJECT:
+            return objectCutscenes;
+         case DOOR:
+            return doorCutscenes;
+         case NPC:
+            return npcCutscenes;
+         case AUTOMATIC:
+            return automaticCutscenes;
+         default:
+            throw new IllegalArgumentException("No cutscene-list available for " + trigger);
       }
    }
 
-   /** Call this method from subclass when adding the effects. 
-    * Note that effects added first will be drawn at the bottom layer, 
-    * and vice versa. */
-	protected void addEffect(CutsceneEffect e) {
-		if (!e.supportsGamestate(this.state)) {
-			throw new IllegalArgumentException(e + " does not support gamestate " + this.state);
+   /**
+    * Call this method from subclass when adding the effects.
+    * Note that effects added first will be drawn at the bottom layer,
+    * and vice versa.
+    */
+   protected void addEffect(CutsceneEffect e) {
+      if (!e.supportsGamestate(this.state)) {
+         throw new IllegalArgumentException(e + " does not support gamestate " + this.state);
       }
-		if (e instanceof UpdatableEffect) {this.updateableEffects.add((UpdatableEffect)e);}
-		if (e instanceof DrawableEffect) {this.drawableEffects.add((DrawableEffect)e);}
-		allEffects.put(e.getAssociatedEvent().getClass().toString(), e);
+      if (e instanceof UpdatableEffect) {
+         this.updateableEffects.add((UpdatableEffect) e);
+      }
+      if (e instanceof DrawableEffect) {
+         this.drawableEffects.add((DrawableEffect) e);
+      }
+      allEffects.put(e.getAssociatedEvent().getClass().toString(), e);
    }
 
    /**
@@ -115,27 +127,30 @@ public class DefaultCutsceneManager {
       return true;
    }
 
-   /** Can be called from the doReaction-method in the associated gamestate.
+   /**
+    * Can be called from the doReaction-method in the associated gamestate.
     * First it checks if the effect is included in the CutsceneManager.
     * If no, it throws an error.
     * Then it activates the effect. If it's updatable, canAdvance is set to false.
     * Note that textBoxes are not effects, and are not handled in this method.
+    * 
     * @param evt
     */
    public void activateEffect(GeneralEvent evt) {
-		if (!allEffects.containsKey(evt.getClass().toString())) {
+      if (!allEffects.containsKey(evt.getClass().toString())) {
          throw new IllegalArgumentException("No effect associated with " + evt.getClass().toString());
-      } 
-		CutsceneEffect effect = allEffects.get(evt.getClass().toString());
-		effect.activate(evt);
-      
-		if (effect instanceof UpdatableEffect) {
-			this.canAdvance = false;
+      }
+      CutsceneEffect effect = allEffects.get(evt.getClass().toString());
+      effect.activate(evt);
+
+      if (effect instanceof UpdatableEffect) {
+         this.canAdvance = false;
       }
    }
 
-   /** Activates the textBoxManager with the given evt. Depending on what the
-    * textBoxManager supports, it could be an infoBox, infoChoice, 
+   /**
+    * Activates the textBoxManager with the given evt. Depending on what the
+    * textBoxManager supports, it could be an infoBox, infoChoice,
     * small- or bigDialogueBox. The player can advance at any time.
     */
    public void activateTextbox(TextBoxEvent evt) {
@@ -145,15 +160,15 @@ public class DefaultCutsceneManager {
    /** Updates all active effects and textBoxes. */
    public void update() {
       textBoxManager.update();
-		for (UpdatableEffect effect : updateableEffects) {
-			if (effect.isActive()) {
-				effect.update();
-				if (effect instanceof AdvancableEffect) {
+      for (UpdatableEffect effect : updateableEffects) {
+         if (effect.isActive()) {
+            effect.update();
+            if (effect instanceof AdvancableEffect) {
                checkAdvance((AdvancableEffect) effect);
-            } 
+            }
          }
       }
-      if (cutsceneJump) {  // TODO - can this be done differently?
+      if (cutsceneJump) { // TODO - can this be done differently?
          this.cutsceneJump = false;
          startCutscene(elementNr, triggerType, cutsceneIndex);
       }
@@ -163,30 +178,31 @@ public class DefaultCutsceneManager {
       if (effect.shouldAdvance()) {
          effect.reset();
          this.canAdvance = true;
-			this.advance();
+         this.advance();
       }
    }
 
-   /** Advances the cutscene if canAdvance. 
+   /**
+    * Advances the cutscene if canAdvance.
     * If dialogue is in the midst of appearing, it forwards
     * the dialogue and returns. Else, it goes to the next cutscene sequence.
     */
    public void advance() {
       if (!canAdvance) {
          return;
-      }
-      else if (textBoxManager.isDialogueAppearing()) {
+      } else if (textBoxManager.isDialogueAppearing()) {
          textBoxManager.forwardDialogue();
          return;
-      }
-      else {
+      } else {
          this.goToNextSequence();
       }
    }
 
-   /** If the cutscene is at an end, it resets the cutscene
-    * (if it's resettable) and deactivates the cutsceneManager. 
-    * Also it resets the textBoxManager. */
+   /**
+    * If the cutscene is at an end, it resets the cutscene
+    * (if it's resettable) and deactivates the cutsceneManager.
+    * Also it resets the textBoxManager.
+    */
    private void goToNextSequence() {
       textBoxManager.resetBooleans();
       Cutscene cutscene = getCutsceneListForTrigger(triggerType).get(elementNr).get(cutsceneIndex);
@@ -214,19 +230,21 @@ public class DefaultCutsceneManager {
       this.resetCutscene(cutscene);
    }
 
-   /** Starting new cutscenes cannot be done directly by 
-     * triggering events in the eventHandler.
-     * Doing this seems to get the program stuck in a loop where the same 
-     * event is called multiple times.
-     * Thus this workaround method wich uses the update-method instead
+   /**
+    * Starting new cutscenes cannot be done directly by
+    * triggering events in the eventHandler.
+    * Doing this seems to get the program stuck in a loop where the same
+    * event is called multiple times.
+    * Thus this workaround method wich uses the update-method instead
     */
-    public void jumpToCutscene(int opt) {
+   public void jumpToCutscene(int opt) {
       this.advance();
       cutsceneIndex += opt;
       this.cutsceneJump = true;
    }
 
-   /** Draws all drawable effects / textBoxes that are currently active.
+   /**
+    * Draws all drawable effects / textBoxes that are currently active.
     * OBS: effects are drawn in the order they are added to the cutsceneManager.
     * Effects added first will be drawn at the bottom layer, and so forth.
     */
@@ -250,25 +268,33 @@ public class DefaultCutsceneManager {
       this.automaticCutscenes.clear();
    }
 
-   /** Usually the effects will inactivate themselves automatically, or it's done
-    * manually in a cutscene. But sometimes (e.g. when exiting a finished flying level),
-    * some effects may not be reset properly. Then you can call this method manually
-    * to reset all effects. 
+   /**
+    * Usually the effects will inactivate themselves automatically, or it's done
+    * manually in a cutscene. But sometimes (e.g. when exiting a finished flying
+    * level),
+    * some effects may not be reset properly. Then you can call this method
+    * manually
+    * to reset all effects.
     *
-    * NOTE: some effects may continue to be updated and drawn after all the cutscene
-    * sequences have been executed. E.g. the FellowShipEffect. Therefore, you shouldn't
-    * call this method in the advance()-method, as it will abort the effect too early.
+    * NOTE: some effects may continue to be updated and drawn after all the
+    * cutscene
+    * sequences have been executed. E.g. the FellowShipEffect. Therefore, you
+    * shouldn't
+    * call this method in the advance()-method, as it will abort the effect too
+    * early.
     */
-   protected void resetEffectsManually() {
+   private void resetEffectsManually() {
       for (CutsceneEffect effect : allEffects.values()) {
          effect.reset();
       }
    }
 
-   /** Resets the cutsceneManagers active status, textBoxManager, 
-    * and all cutscene effects. */
+   /**
+    * Resets the cutsceneManagers active status, textBoxManager,
+    * and all cutscene effects.
+    */
    public void reset() {
-      active = false; 
+      active = false;
       canAdvance = true;
       this.textBoxManager.resetBooleans();
       this.resetEffectsManually();

@@ -156,6 +156,8 @@ PURCHASE (check if player has enough credits)
 GO TO FLYING 
 --------------------
 [0] = goToFlying (String), [1] = level
+* Note: clear away as much drawn objects as possible, and fill the screen with black 
+  first. Or else, during the transition, wrong frames / states may be drawn.
 
 
 GO TO BOSSMODE

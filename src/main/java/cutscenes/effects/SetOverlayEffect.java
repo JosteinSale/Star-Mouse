@@ -38,10 +38,17 @@ public class SetOverlayEffect implements DrawableEffect {
 
    @Override
    public void draw(Graphics g) {
+      if (overlayImage == null) {
+         /*
+          * If the overlayImage is big, it might take an extra frame to load it.
+          * In such case it will be null when we try to draw it -> return.
+          */
+         return;
+      }
       g.drawImage(
-         overlayImage, 0, 0, 
-         (int) (overlayImage.getWidth() * scaleW * Game.SCALE), 
-         (int) (overlayImage.getHeight() * scaleH * Game.SCALE), null);
+            overlayImage, 0, 0,
+            (int) (overlayImage.getWidth() * scaleW * Game.SCALE),
+            (int) (overlayImage.getHeight() * scaleH * Game.SCALE), null);
    }
 
    @Override
@@ -53,5 +60,5 @@ public class SetOverlayEffect implements DrawableEffect {
    public void reset() {
       this.active = false;
    }
-   
+
 }

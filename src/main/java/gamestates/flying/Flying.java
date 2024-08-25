@@ -314,8 +314,8 @@ public class Flying extends State implements Statemethods {
       if (this.level != 0) {
          transferBombsToProgValues();
       }
-      this.checkPointReached = false;
       this.resetFlying();
+      this.clearImages();
       if (this.level == 0) {
          Gamestate.state = Gamestate.EXPLORING;
       } else {
@@ -324,6 +324,21 @@ public class Flying extends State implements Statemethods {
          game.saveDataToDisc();
          Gamestate.state = Gamestate.LEVEL_SELECT;
       }
+   }
+
+   /**
+    * Call if the player has chosen 'Main Menu' in the PauseOverlay /
+    * GameOverOverlay
+    */
+   public void exitToMainMenu() {
+      this.clearImages();
+      this.resetFlying();
+      game.resetMainMenu();
+      Gamestate.state = Gamestate.MAIN_MENU;
+   }
+
+   private void clearImages() {
+      this.mapManager.clear();
    }
 
    private void transferBombsToProgValues() {
@@ -355,13 +370,14 @@ public class Flying extends State implements Statemethods {
 
    /**
     * Resets all non-level-specific values in flying-mode.
-    * Should be called both when loading a new level, and when resetting the
+    * Should be called both when exiting and resetting the
     * current level.
     * (Level-specific values are set in the 'loadLevel'-method and
     * 'resetLevel'-method)
     */
    public void resetFlying() {
       pause = false;
+      checkPointReached = false;
       gamePlayActive = true;
       levelFinished = false;
       gameOver = false;
@@ -390,6 +406,8 @@ public class Flying extends State implements Statemethods {
     * like enemies, pickup-items and map-offsets.
     */
    public void resetLevel(boolean toCheckPoint) {
+      checkPointReached = toCheckPoint;
+
       // Determine resetpoints:
       float resetYPos = flyLevelInfo.getResetPoint(level);
       float songResetPos = flyLevelInfo.getSongResetPoint(level);

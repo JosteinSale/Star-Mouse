@@ -185,6 +185,9 @@ playerWalk;left;3220f;675f;80
 endSequence
 fade;out;black;3
 endSequence
+fillScreen;black;true
+wait;1
+endSequence
 goToFlying;4
 wait;1
 endSequence

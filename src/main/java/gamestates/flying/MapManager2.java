@@ -39,27 +39,31 @@ public class MapManager2 {
       BufferedImage bgImg = ResourceLoader.getFlyImageBackground("level" + Integer.toString(lvl) + "_bg.png");
       this.bgYOffset = Game.GAME_DEFAULT_HEIGHT - bgImgHeight;
       scaledClImg = clImg.getScaledInstance(
-         (int) (clImgWidth * Game.SCALE),
-         (int) (clImgHeight * Game.SCALE), Image.SCALE_SMOOTH);
+            (int) (clImgWidth * Game.SCALE),
+            (int) (clImgHeight * Game.SCALE), Image.SCALE_SMOOTH);
       scaledBgImg = bgImg.getScaledInstance(
-         (Game.GAME_WIDTH),
-         (int) (bgImgHeight * Game.SCALE), Image.SCALE_SMOOTH);
+            (Game.GAME_WIDTH),
+            (int) (bgImgHeight * Game.SCALE), Image.SCALE_SMOOTH);
    }
 
    public void drawMaps(Graphics g) {
       g.drawImage(
-         scaledBgImg, 
-         0, (int) (bgYOffset * Game.SCALE), null);
+            scaledBgImg,
+            0, (int) (bgYOffset * Game.SCALE), null);
       g.drawImage(
-         scaledClImg, 
-         (int) (-150 * Game.SCALE), 
-         (int) (clYOffset * Game.SCALE), null);
+            scaledClImg,
+            (int) (-150 * Game.SCALE),
+            (int) (clYOffset * Game.SCALE), null);
    }
 
    public void resetOffsetsTo(float skipYPos, float bgConversionRatio) {
-      clYOffset = 
-         Game.GAME_DEFAULT_HEIGHT - clImgHeight + 150 + skipYPos;
-      bgYOffset = 
-         Game.GAME_DEFAULT_HEIGHT - bgImgHeight + (skipYPos * bgConversionRatio);
+      clYOffset = Game.GAME_DEFAULT_HEIGHT - clImgHeight + 150 + skipYPos;
+      bgYOffset = Game.GAME_DEFAULT_HEIGHT - bgImgHeight + (skipYPos * bgConversionRatio);
+   }
+
+   public void clear() {
+      this.clImg.flush();
+      this.scaledBgImg.flush();
+      this.scaledClImg.flush();
    }
 }

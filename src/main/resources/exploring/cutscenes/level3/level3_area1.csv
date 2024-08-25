@@ -51,6 +51,10 @@ bigDialogue;Lt.Red;angry;3;2;Now GO!
 endSequence
 fade;out;black;3
 endSequence
+fillScreen;black;true
+clearObjects
+wait;1
+endSequence
 goToFlying;3
 wait;1
 endSequence
