@@ -38,6 +38,7 @@ import ui.GameoverOverlay2;
 import ui.PauseBoss;
 import ui.TextboxManager;
 import utils.Constants.Audio;
+import utils.ImageContainer;
 import utils.ResourceLoader;
 
 public class BossMode extends State implements Statemethods {
@@ -57,7 +58,6 @@ public class BossMode extends State implements Statemethods {
    private boolean pause = false;
    private boolean gameOver = false;
 
-
    public BossMode(Game game) {
       super(game);
       this.audioPlayer = game.getAudioPlayer();
@@ -68,11 +68,11 @@ public class BossMode extends State implements Statemethods {
       Rectangle2D.Float playerHitbox = new Rectangle2D.Float(500f, 600f, 50f, 50f);
       this.player = new PlayerBoss(game, playerHitbox);
       this.projectileHandler = new ProjectileHandler2(
-         game, 
-         game.getAudioPlayer(), 
-         player, 
-         new EnemyManager(null, null, null));
-      this.animationFactory = new AnimatedComponentFactory();
+            game,
+            game.getAudioPlayer(),
+            player,
+            new EnemyManager(null, null, null));
+      this.animationFactory = new AnimatedComponentFactory(new ImageContainer());
       this.pauseOverlay = new PauseBoss(game, this, game.getOptionsMenu());
       this.gameoverOverlay = new GameoverOverlay2(game, this);
       this.mapManager = new MapManager3();
@@ -86,44 +86,33 @@ public class BossMode extends State implements Statemethods {
    public void doReaction(GeneralEvent event) {
       if (event instanceof TextBoxEvent tbEvt) {
          this.cutsceneManager.activateTextbox(tbEvt);
-      }
-      else if (event instanceof StartSongEvent evt) {
+      } else if (event instanceof StartSongEvent evt) {
          this.shouldMusicPlay = true;
          this.audioPlayer.startSong(evt.index(), 0, true);
-      }
-      else if (event instanceof StartAmbienceEvent evt) {
+      } else if (event instanceof StartAmbienceEvent evt) {
          this.shouldAmbiencePlay = true;
          audioPlayer.startAmbienceLoop(evt.index());
-      } 
-      else if (event instanceof StopLoopsEvent) {
+      } else if (event instanceof StopLoopsEvent) {
          this.shouldAmbiencePlay = false;
          this.shouldMusicPlay = false;
          this.audioPlayer.stopAllLoops();
-      }
-      else if (event instanceof FadeOutLoopEvent) {
+      } else if (event instanceof FadeOutLoopEvent) {
          this.shouldAmbiencePlay = false;
          this.shouldMusicPlay = false;
          audioPlayer.fadeOutAllLoops();
-      }
-      else if (event instanceof PlaySFXEvent evt) {
+      } else if (event instanceof PlaySFXEvent evt) {
          audioPlayer.playSFX(evt.SFXIndex());
-      }
-      else if (event instanceof GoToFlyingEvent evt) {
+      } else if (event instanceof GoToFlyingEvent evt) {
          this.goToFlying(evt.lvl());
-      }
-      else if (event instanceof SetBossVisibleEvent evt) {
+      } else if (event instanceof SetBossVisibleEvent evt) {
          this.boss.setVisible(evt.visible());
-      }
-      else if (event instanceof ObjectMoveEvent evt) {
+      } else if (event instanceof ObjectMoveEvent evt) {
          this.cutsceneManager.moveObject(evt);
-      }
-      else if (event instanceof ClearObjectsEvent) {
+      } else if (event instanceof ClearObjectsEvent) {
          this.cutsceneManager.clearObjects();
-      }
-      else if (event instanceof SetVisibleEvent evt) {
+      } else if (event instanceof SetVisibleEvent evt) {
          this.player.setVisible(evt.visible());
-      }
-      else {
+      } else {
          this.cutsceneManager.activateEffect(event);
       }
    }
@@ -135,16 +124,19 @@ public class BossMode extends State implements Statemethods {
 
    /** Should be called from the boss-defeated-cutscene. */
    private void goToFlying(int lvl) {
-      // Bombs are first transfered to flying, 
-      // and later (when Flying :: exitFinishedLevel is called) from flying to progressValues.
+      // Bombs are first transfered to flying,
+      // and later (when Flying :: exitFinishedLevel is called) from flying to
+      // progressValues.
       game.getFlying().setBombsWhenBossIsFinished(projectileHandler.getBombsAtEndOfLevel());
       this.player.reset();
       this.pause = false;
       this.gameOver = false;
+      this.flushImages();
       Gamestate.state = Gamestate.FLYING;
    }
 
-   /** Loads the boss and prepares all objects in BossMode. 
+   /**
+    * Loads the boss and prepares all objects in BossMode.
     * Finally it starts the opening cutscene.
     */
    public void loadNewBoss(int bossNr) {
@@ -189,16 +181,13 @@ public class BossMode extends State implements Statemethods {
       checkPause();
       if (pause) {
          this.pauseOverlay.update();
-      }
-      else if (gameOver) {
+      } else if (gameOver) {
          this.gameoverOverlay.update();
-      }
-      else if (cutsceneManager.isActive()) {
+      } else if (cutsceneManager.isActive()) {
          this.player.updateOnlyFlame();
          cutsceneManager.handleKeyBoardInputs();
          cutsceneManager.update();
-      }  
-      else {
+      } else {
          this.player.update(0, 0);
          this.boss.update();
          this.projectileHandler.update(boss.getXPos(), boss.getYPos(), 0);
@@ -229,8 +218,7 @@ public class BossMode extends State implements Statemethods {
       this.cutsceneManager.draw(g);
       if (gameOver) {
          this.gameoverOverlay.draw(g);
-      }
-      else if (pause) {
+      } else if (pause) {
          this.pauseOverlay.draw(g);
       }
    }
@@ -277,8 +265,9 @@ public class BossMode extends State implements Statemethods {
       game.getAudioPlayer().playSFX(Audio.SFX_DEATH);
    }
 
-   /** Stops all sound loops, and starts the second cutscene in the cutscene sheet. 
-    * (This also inactivates the boss). Death animation and death-sfx for the boss 
+   /**
+    * Stops all sound loops, and starts the second cutscene in the cutscene sheet.
+    * (This also inactivates the boss). Death animation and death-sfx for the boss
     * should be in that cutscene.
     */
    public void killBoss() {
@@ -288,5 +277,10 @@ public class BossMode extends State implements Statemethods {
       this.projectileHandler.reset();
       this.startCutscene(1);
    }
-   
+
+   private void flushImages() {
+      mapManager.flush();
+      this.boss.flush();
+   }
+
 }

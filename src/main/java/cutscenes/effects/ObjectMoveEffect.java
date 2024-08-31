@@ -18,6 +18,8 @@ import gamestates.Gamestate;
  * 
  * Objects will move independently of any other cutscene effects.
  * NOTE: objects added first will be drawn at the bottom layer.
+ * 
+ * NOTE: use the 'clearObjects'-event after use, so that images are flushed.
  */
 public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
    private boolean active;
@@ -156,6 +158,7 @@ public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
       this.moveStatuses.clear();
       this.xSpeeds.clear();
       this.ySpeeds.clear();
+      this.animationFactory.flush();
    }
 
 }

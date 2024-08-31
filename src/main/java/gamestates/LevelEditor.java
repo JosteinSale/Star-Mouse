@@ -19,7 +19,8 @@ import utils.ResourceLoader;
 
 /**
  * Draws all entities on screen, with their hitbox represented in black.
- * Entity names, -shootTimers, -directions and -hitboxes are held in separate lists.
+ * Entity names, -shootTimers, -directions and -hitboxes are held in separate
+ * lists.
  * Thus a specific entity is only identifies by it's common index in the
  * different lists.
  * 
@@ -58,10 +59,10 @@ public class LevelEditor implements Statemethods {
    private int cursorY = 400;
    private int cursorSpeed = 10;
 
-   public LevelEditor(Game game) {
+   public LevelEditor(Game game, EntityFactory entityFactory) {
       this.game = game;
       loadMapImages(level);
-      this.entityFactory = new EntityFactory(null);
+      this.entityFactory = entityFactory;
       this.hitboxes = new ArrayList<>();
       this.shootTimers = new ArrayList<>();
       this.directions = new ArrayList<>();
@@ -85,8 +86,8 @@ public class LevelEditor implements Statemethods {
       for (String line : levelData) {
          String[] lineData = line.split(";");
          String entryName = lineData[0];
-         if (entityFactory.isEnemyRegistered(entryName) || 
-            entityFactory.isPickupItemRegistered(entryName)) {
+         if (entityFactory.isEnemyRegistered(entryName) ||
+               entityFactory.isPickupItemRegistered(entryName)) {
             // Entity successfully identified.
             int xCor = Integer.parseInt(lineData[1]);
             int yCor = Integer.parseInt(lineData[2]);
@@ -185,15 +186,15 @@ public class LevelEditor implements Statemethods {
       int typeConstant = info.typeConstant;
 
       // Handle delete, and modify + add entries.
-      switch(typeConstant) {
-         case DELETE :
+      switch (typeConstant) {
+         case DELETE:
             deleteOverlappingEntity(hitbox);
-            return;  // Abort the method.
-         case BLASTERDRONE :
+            return; // Abort the method.
+         case BLASTERDRONE:
             // Blasterdrones have a standard shootTimer of 30
             this.addModifiedEntry(info.name, x, y, direction, 30, hitbox);
             break;
-         case FLAMEDRONE :
+         case FLAMEDRONE:
             // Flamedrones have a standard shootTimer of 120
             this.addModifiedEntry(info.name, x, y, direction, 120, hitbox);
             break;
@@ -201,13 +202,13 @@ public class LevelEditor implements Statemethods {
             // Entities without shootTimer will have standard value of 0.
             this.addModifiedEntry(info.name, x, y, direction, 0, hitbox);
             break;
-         default :
-            // All other enemies: 
+         default:
+            // All other enemies:
             this.addModifiedEntry(name, x, y, direction, shootTimer, hitbox);
             break;
       }
       addedEntityNames.add(name);
-   } 
+   }
 
    private void deleteOverlappingEntity(Rectangle deleteHitbox) {
       int indexToRemove = -1;
@@ -232,8 +233,8 @@ public class LevelEditor implements Statemethods {
 
    private void addModifiedEntry(String name, int x, int y, int direction, int shootTimer, Rectangle hitbox) {
       // LevelData-string:
-      levelData.add(name + ";" + Integer.toString(x) + ";" + Integer.toString(y) + 
-      ";" + Integer.toString(direction) + ";" + Integer.toString(shootTimer));
+      levelData.add(name + ";" + Integer.toString(x) + ";" + Integer.toString(y) +
+            ";" + Integer.toString(direction) + ";" + Integer.toString(shootTimer));
 
       // Other relevant info
       hitboxes.add(hitbox);
@@ -302,10 +303,10 @@ public class LevelEditor implements Statemethods {
    private void drawCursor(Graphics g) {
       EntityInfo cursorInfo = entityFactory.getEntityInfo(selectedName);
       g.drawImage(
-         cursorInfo.getEditorImage(),
-         (int) (cursorX * Game.SCALE),
-         (int) (cursorY * Game.SCALE),
-         (int) (cursorInfo.spriteW * 3 * Game.SCALE),
-         (int) (cursorInfo.spriteH * 3 * Game.SCALE), null);
+            cursorInfo.getEditorImage(),
+            (int) (cursorX * Game.SCALE),
+            (int) (cursorY * Game.SCALE),
+            (int) (cursorInfo.spriteW * 3 * Game.SCALE),
+            (int) (cursorInfo.spriteH * 3 * Game.SCALE), null);
    }
 }

@@ -221,6 +221,9 @@ public class Area {
       audioPlayer.stopAllLoops();
       game.getFlying().loadLevel(lvl);
       game.getFlying().update();
+      if (lvl != 0) {
+         this.exploring.flushAreas();
+      }
    }
 
    private void goToCinematic(String fileName, Gamestate returnGamestate) {
@@ -493,5 +496,11 @@ public class Area {
    public void skipLevel() {
       this.cutsceneManager.reset();
       game.getExploring().goToFlying();
+   }
+
+   public void flushImages() {
+      this.mapManager.flush();
+      this.npcManager.flush();
+      this.player.flush();
    }
 }

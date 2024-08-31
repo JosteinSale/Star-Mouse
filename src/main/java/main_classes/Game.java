@@ -88,10 +88,10 @@ public class Game implements Runnable {
       this.mainMenu = new MainMenu(this, optionsMenu);
       this.textBoxManager = new TextboxManager(this);
       this.exploring = new Exploring(this);
-      this.levelSelect = new LevelSelect(this);
+      this.levelSelect = new LevelSelect(this, mainMenu.bgImg);
       this.flying = new Flying(this);
       this.bossMode = new BossMode(this);
-      this.levelEditor = new LevelEditor(this);
+      this.levelEditor = new LevelEditor(this, flying.getEntityFactory());
       this.cinematic = new Cinematic(this);
       this.drawSaving = new DrawSaving();
       this.initializeSaveData();

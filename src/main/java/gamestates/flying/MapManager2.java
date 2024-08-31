@@ -44,6 +44,7 @@ public class MapManager2 {
       scaledBgImg = bgImg.getScaledInstance(
             (Game.GAME_WIDTH),
             (int) (bgImgHeight * Game.SCALE), Image.SCALE_SMOOTH);
+      bgImg.flush();
    }
 
    public void drawMaps(Graphics g) {
@@ -61,7 +62,7 @@ public class MapManager2 {
       bgYOffset = Game.GAME_DEFAULT_HEIGHT - bgImgHeight + (skipYPos * bgConversionRatio);
    }
 
-   public void clear() {
+   public void flush() {
       this.clImg.flush();
       this.scaledBgImg.flush();
       this.scaledClImg.flush();

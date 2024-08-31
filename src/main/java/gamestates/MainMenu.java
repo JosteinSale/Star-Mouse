@@ -32,7 +32,7 @@ import utils.Constants.Audio;
 public class MainMenu extends State implements Statemethods {
 
     private AudioPlayer audioPlayer;
-    private BufferedImage bgImg;
+    public BufferedImage bgImg;
     private BufferedImage titleImg;
     private BufferedImage cursorImg;
     private Font menuFont;

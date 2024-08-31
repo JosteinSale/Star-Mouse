@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import audio.AudioPlayer;
-import data_storage.ProgressValues;
 import entities.flying.ShootingPlayer;
 import entities.flying.enemies.Enemy;
 import entities.flying.enemies.EnemyManager;

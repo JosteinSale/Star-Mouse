@@ -30,4 +30,6 @@ public interface NPC {
     public void adjustPos(float deltaX, float deltaY);
 
     public boolean inForeground();
+
+    public void flushImages();
 }

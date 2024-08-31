@@ -87,6 +87,10 @@ public class NpcManager {
     public NPC getNpc(int index) {
         return allNpcs.get(index);
     }
+
+    public void flush() {
+        for (NPC npc : allNpcs) {
+            npc.flushImages();
+        }
+    }
 }
-
-

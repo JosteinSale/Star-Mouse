@@ -315,7 +315,7 @@ public class Flying extends State implements Statemethods {
          transferBombsToProgValues();
       }
       this.resetFlying();
-      this.clearImages();
+      this.flushImages();
       if (this.level == 0) {
          Gamestate.state = Gamestate.EXPLORING;
       } else {
@@ -331,14 +331,14 @@ public class Flying extends State implements Statemethods {
     * GameOverOverlay
     */
    public void exitToMainMenu() {
-      this.clearImages();
+      this.flushImages();
       this.resetFlying();
       game.resetMainMenu();
       Gamestate.state = Gamestate.MAIN_MENU;
    }
 
-   private void clearImages() {
-      this.mapManager.clear();
+   private void flushImages() {
+      this.mapManager.flush();
    }
 
    private void transferBombsToProgValues() {
@@ -504,5 +504,9 @@ public class Flying extends State implements Statemethods {
 
    private void updateChartingY() {
       mapManager.yProgess += fgCurSpeed;
+   }
+
+   public EntityFactory getEntityFactory() {
+      return this.entityFactory;
    }
 }

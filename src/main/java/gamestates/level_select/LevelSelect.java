@@ -39,13 +39,13 @@ public class LevelSelect extends State implements Statemethods {
    private final int LEVEL1_THRESHOLD2 = 130;
    private final int LEVEL1_THRESHOLD1 = 100;
 
-   public LevelSelect(Game game) {
+   public LevelSelect(Game game, BufferedImage bgImg) {
       super(game);
-      this.progValues = game.getExploring().getProgressValues();  // OBS: initially a proxy
+      this.bgImg = bgImg;
+      this.progValues = game.getExploring().getProgressValues(); // OBS: initially a proxy
       this.levelLayouts = new ArrayList<>();
       this.levelIcons = loadLevelIcons();
       this.levelInfo = new ArrayList<>();
-      bgImg = ResourceLoader.getExpImageBackground(ResourceLoader.LEVEL_SELECT_BG);
       loadLevelInfo();
       loadLevelLayouts();
    }

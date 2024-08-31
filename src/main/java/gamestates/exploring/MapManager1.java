@@ -61,15 +61,15 @@ public class MapManager1 {
 
    public void adjustOffsets(PlayerExp player) {
       xLevelOffset = getOffset(
-         (int) player.getHitbox().x,
-         xLevelOffset,
-         xBorder,
-         maxLvlOffsetX);
+            (int) player.getHitbox().x,
+            xLevelOffset,
+            xBorder,
+            maxLvlOffsetX);
       yLevelOffset = getOffset(
-         (int) player.getHitbox().y,
-         yLevelOffset,
-         yBorder,
-         maxLvlOffsetY);
+            (int) player.getHitbox().y,
+            yLevelOffset,
+            yBorder,
+            maxLvlOffsetY);
    }
 
    private int getOffset(int playerXY, int XYOffset, int border, int maxOffset) {
@@ -91,30 +91,36 @@ public class MapManager1 {
 
    public void drawLandscape(Graphics g) {
       g.drawImage(
-         landScapeImg,
-         (int) ((0 - xLevelOffset * 0.1f) * Game.SCALE), 0,
-         landScapeImgWidth, landScapeImgHeight, null);
+            landScapeImg,
+            (int) ((0 - xLevelOffset * 0.1f) * Game.SCALE), 0,
+            landScapeImgWidth, landScapeImgHeight, null);
 
    }
 
    public void drawBackground(Graphics g) {
       g.drawImage(
-         bgImg,
-         (int) ((0 - xLevelOffset) * Game.SCALE),
-         (int) ((0 - yLevelOffset) * Game.SCALE),
-         bgImgWidth, bgImgHeight, null);
+            bgImg,
+            (int) ((0 - xLevelOffset) * Game.SCALE),
+            (int) ((0 - yLevelOffset) * Game.SCALE),
+            bgImgWidth, bgImgHeight, null);
    }
 
    public void drawForeground(Graphics g) {
       g.drawImage(
-         fgImg, 
-         (int) ((0 - xLevelOffset) * Game.SCALE), 
-         (int) ((0 - yLevelOffset) * Game.SCALE), 
-         fgImgWidth, fgImgHeight, null);
+            fgImg,
+            (int) ((0 - xLevelOffset) * Game.SCALE),
+            (int) ((0 - yLevelOffset) * Game.SCALE),
+            fgImgWidth, fgImgHeight, null);
    }
 
    public boolean cameraDeattached() {
       return cameraDeattached;
+   }
+
+   public void flush() {
+      this.bgImg.flush();
+      this.fgImg.flush();
+      this.landScapeImg.flush();
    }
 
 }

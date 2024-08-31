@@ -23,6 +23,8 @@ public class SetOverlayEffect implements DrawableEffect {
          this.overlayImage = ResourceLoader.getCutsceneImage(imgEvt.fileName());
          this.scaleW = imgEvt.scaleW();
          this.scaleH = imgEvt.ScaleH();
+      } else {
+         this.overlayImage.flush();
       }
    }
 

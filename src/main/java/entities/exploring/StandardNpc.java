@@ -13,14 +13,15 @@ public class StandardNpc extends Entity implements NPC {
     private String name;
     private BufferedImage sprite;
     private Rectangle2D.Float triggerBox;
-    private int xDrawOffset;       // = (spriteWidth - characterWidth) / 2
+    private int xDrawOffset; // = (spriteWidth - characterWidth) / 2
     private int yDrawOffset;
     private int spriteWidth;
     private int spriteHeight;
     private int startCutscene = 0;
     private boolean inForeground;
 
-    public StandardNpc(String name, Float hitbox, String fileName, int xDrawOffset, int yDrawOffset, boolean inForeground) {
+    public StandardNpc(String name, Float hitbox, String fileName, int xDrawOffset, int yDrawOffset,
+            boolean inForeground) {
         super(hitbox);
         makeTriggerBox();
         this.name = name;
@@ -39,24 +40,24 @@ public class StandardNpc extends Entity implements NPC {
     @Override
     public void draw(Graphics g, int xLevelOffset, int yLevelOffset) {
         g.drawImage(
-            sprite,
-            (int) ((hitbox.x - xDrawOffset - xLevelOffset) * Game.SCALE), 
-            (int) ((hitbox.y - yDrawOffset - yLevelOffset) * Game.SCALE), 
-            spriteWidth, spriteHeight, 
-            null);
-        
-        // TriggerBox  (hitboxes can be drawn from Area :: draw() )
+                sprite,
+                (int) ((hitbox.x - xDrawOffset - xLevelOffset) * Game.SCALE),
+                (int) ((hitbox.y - yDrawOffset - yLevelOffset) * Game.SCALE),
+                spriteWidth, spriteHeight,
+                null);
+
+        // TriggerBox (hitboxes can be drawn from Area :: draw() )
         // g.setColor(Color.CYAN);
         // g.drawRect(
-        //     (int) ((triggerBox.x - xLevelOffset) * Game.SCALE),
-        //     (int) ((triggerBox.y - yLevelOffset) * Game.SCALE),
-        //     (int) (triggerBox.width * Game.SCALE),
-        //     (int) (triggerBox.height * Game.SCALE));
+        // (int) ((triggerBox.x - xLevelOffset) * Game.SCALE),
+        // (int) ((triggerBox.y - yLevelOffset) * Game.SCALE),
+        // (int) (triggerBox.width * Game.SCALE),
+        // (int) (triggerBox.height * Game.SCALE));
     }
 
     private void makeTriggerBox() {
         this.triggerBox = new Rectangle2D.Float(
-            hitbox.x - 8, hitbox.y - 8, hitbox.width + 16, hitbox.height + 16);
+                hitbox.x - 8, hitbox.y - 8, hitbox.width + 16, hitbox.height + 16);
     }
 
     @Override
@@ -106,5 +107,10 @@ public class StandardNpc extends Entity implements NPC {
 
     public boolean inForeground() {
         return this.inForeground;
+    }
+
+    @Override
+    public void flushImages() {
+        this.sprite.flush();
     }
 }

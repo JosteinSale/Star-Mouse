@@ -17,14 +17,19 @@ public class MapManager3 {
    public void loadMap(int bossNr) {
       BufferedImage bgImg = ResourceLoader.getBossBackground("boss" + Integer.toString(bossNr) + ".png");
       scaledBgImg = bgImg.getScaledInstance(
-         Game.GAME_WIDTH,
-         Game.GAME_HEIGHT, Image.SCALE_SMOOTH);
+            Game.GAME_WIDTH,
+            Game.GAME_HEIGHT, Image.SCALE_SMOOTH);
+      bgImg.flush();
    }
 
    public void drawMap(Graphics g) {
       g.drawImage(
-         scaledBgImg, 
-         0, 0, null);
+            scaledBgImg,
+            0, 0, null);
+   }
+
+   public void flush() {
+      this.scaledBgImg.flush();
    }
 
 }
