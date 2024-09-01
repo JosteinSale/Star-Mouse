@@ -1,6 +1,6 @@
 # StarMouse
 
-StarMouse is a 2D shooter- / exploration game made by Jostein Sæle. It's currently work-in-progress.
+StarMouse is a 2D shooter- / exploration game made by Jostein Sæle. It's currently work-in-progress. See a demo of the game [here](https://youtu.be/7Hb-yztAC7Q?t=1)
 
 ## Description
 
