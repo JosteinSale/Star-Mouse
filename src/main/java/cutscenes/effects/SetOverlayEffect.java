@@ -25,6 +25,7 @@ public class SetOverlayEffect implements DrawableEffect {
          this.scaleH = imgEvt.ScaleH();
       } else {
          this.overlayImage.flush();
+         this.overlayImage = null;
       }
    }
 

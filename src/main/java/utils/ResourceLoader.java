@@ -22,7 +22,6 @@ import javax.imageio.ImageIO;
 
 import main_classes.Game;
 
-
 public class ResourceLoader {
     // Menus
     public static final String BASIC_MOUSE = "BasicMouse.png";
@@ -31,7 +30,7 @@ public class ResourceLoader {
     public static final String LEVEL_SELECT_LAYOUT1 = "levelSel_Layout1.png";
     public static final String LEVEL_SELECT_LAYOUT2 = "levelSel_Layout2.png";
     public static final String LEVEL_SELECT_LAYOUT3 = "levelSel_Layout3.png";
-    
+
     // Sprites - UI
     public static final String CURSOR_SPRITE_BLACK = "pointer_black.png";
     public static final String CURSOR_SPRITE_WHITE = "pointer_white.png";
@@ -103,7 +102,6 @@ public class ResourceLoader {
     public static final String HEATSEEKING_LAZER_SPRITE = "heatSeekingLazer.png";
     public static final String MACHINE_HEART_SPRITE = "machineHeart.png";
 
-
     // Sprites - LevelEditor
     public static final String SMALL_ENTITY_SPRITES = "sprites_all.png";
 
@@ -131,7 +129,6 @@ public class ResourceLoader {
         return getImage(fileName);
     }
 
-    
     public static BufferedImage getExpImageBackground(String fileName) {
         fileName = "/exploring/images/backgrounds/" + fileName;
         return getImage(fileName);
@@ -227,47 +224,49 @@ public class ResourceLoader {
     }
 
     public static ArrayList<List<String>> getExpCutsceneData(Integer level) {
-        File filePath = new File(System.getProperty("user.dir") + 
-            "/src/main/resources/exploring/cutscenes/level" + Integer.toString(level));
+        File filePath = new File(System.getProperty("user.dir") +
+                "/src/main/resources/exploring/cutscenes/level" + Integer.toString(level));
         return readAllCsvFilesInFolder(filePath);
     }
 
     public static List<String> getFlyCutsceneData(Integer level) {
-        File filePath = new File(System.getProperty("user.dir") + 
-            "/src/main/resources/flying/cutscenes/level" + Integer.toString(level) + ".csv");
+        File filePath = new File(System.getProperty("user.dir") +
+                "/src/main/resources/flying/cutscenes/level" + Integer.toString(level) + ".csv");
         return readCsvFile(filePath);
     }
 
     public static List<String> getBossCutsceneData(Integer bossNr) {
-        File filePath = new File(System.getProperty("user.dir") + 
-            "/src/main/resources/bossMode/cutscenes/boss" + Integer.toString(bossNr) + ".csv");
+        File filePath = new File(System.getProperty("user.dir") +
+                "/src/main/resources/bossMode/cutscenes/boss" + Integer.toString(bossNr) + ".csv");
         return readCsvFile(filePath);
     }
 
-    /** Reads from the flying-leveldata folder for a specific level. 
+    /**
+     * Reads from the flying-leveldata folder for a specific level.
      * In this folder, it locates a csv-file for a specific level.
      * It reads this csv-file, and returns a list with enemy-data as strings.
      */
     public static List<String> getFlyLevelData(Integer level) {
-        File filePath = new File(System.getProperty("user.dir") + 
-            "/src/main/resources/flying/leveldata/level" + Integer.toString(level) + ".csv");
+        File filePath = new File(System.getProperty("user.dir") +
+                "/src/main/resources/flying/leveldata/level" + Integer.toString(level) + ".csv");
         return readCsvFile(filePath);
     }
 
-    /** Reads from the exploring-leveldata folder for a specific level. 
+    /**
+     * Reads from the exploring-leveldata folder for a specific level.
      * Finds all csv-files in that folder. Each is for an area.
      * Returns a 2D-list, where the outer layer represents each area,
-     *  and the inner layer represents each object/element in that area.
+     * and the inner layer represents each object/element in that area.
      */
     public static ArrayList<List<String>> getExpLevelData(Integer level) {
-        File filePath = new File(System.getProperty("user.dir") + 
-            "/src/main/resources/exploring/leveldata/level" + Integer.toString(level));
+        File filePath = new File(System.getProperty("user.dir") +
+                "/src/main/resources/exploring/leveldata/level" + Integer.toString(level));
         return readAllCsvFilesInFolder(filePath);
     }
 
     public static List<String> getCinematicData(String fileName) {
-        File filePath = new File(System.getProperty("user.dir") + 
-            "/src/main/resources/cinematic/cutscenes/" + fileName);
+        File filePath = new File(System.getProperty("user.dir") +
+                "/src/main/resources/cinematic/cutscenes/" + fileName);
         return readCsvFile(filePath);
     }
 

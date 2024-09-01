@@ -48,6 +48,7 @@ public class StartScreen extends State implements Statemethods {
 
    private void goToMainMenu() {
       this.mouseImg.flush();
+      this.mouseImg = null;
       Gamestate.state = Gamestate.MAIN_MENU;
       audioPlayer.startSong(Audio.SONG_MAIN_MENU, 0, true);
    }

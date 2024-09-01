@@ -155,6 +155,7 @@ public class Flying extends State implements Statemethods {
       } else if (event instanceof GoToBossEvent evt) {
          transferBombsToProgValues();
          game.getBossMode().loadNewBoss(evt.bossNr());
+         this.flushImages();
          Gamestate.state = Gamestate.BOSS_MODE;
          // We do not need to do anything else, as we will return to Flying after
          // the boss, and thus exit Flying properly then.

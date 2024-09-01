@@ -229,5 +229,6 @@ public class PlayerExp extends Entity {
 
    public void flush() {
       this.collisionImg.flush();
+      this.collisionImg = null;
    }
 }

@@ -121,6 +121,9 @@ public class MapManager1 {
       this.bgImg.flush();
       this.fgImg.flush();
       this.landScapeImg.flush();
+      this.bgImg = null;
+      this.fgImg = null;
+      this.landScapeImg = null;
    }
 
 }

@@ -112,5 +112,6 @@ public class StandardNpc extends Entity implements NPC {
     @Override
     public void flushImages() {
         this.sprite.flush();
+        this.sprite = null;
     }
 }

@@ -401,6 +401,7 @@ public class Rudinger1 implements IBoss {
    @Override
    public void flush() {
       this.mainBodyImg.flush();
+      this.mainBodyImg = null;
       this.imageContainer.flushAll();
    }
 

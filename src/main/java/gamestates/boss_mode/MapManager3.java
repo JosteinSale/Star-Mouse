@@ -30,6 +30,7 @@ public class MapManager3 {
 
    public void flush() {
       this.scaledBgImg.flush();
+      this.scaledBgImg = null;
    }
 
 }

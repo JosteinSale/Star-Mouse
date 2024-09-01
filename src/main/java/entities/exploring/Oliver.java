@@ -165,6 +165,7 @@ public class Oliver extends Entity implements NPC {
    @Override
    public void flushImages() {
       this.spriteSheet.flush();
+      this.spriteSheet = null;
    }
 
 }

@@ -63,8 +63,18 @@ public class MapManager2 {
    }
 
    public void flush() {
-      this.clImg.flush();
-      this.scaledBgImg.flush();
-      this.scaledClImg.flush();
+      // Images may already have been flushed if player went into bossMode
+      if (this.clImg != null) {
+         this.clImg.flush();
+         this.clImg = null;
+      }
+      if (this.scaledBgImg != null) {
+         this.scaledBgImg.flush();
+         this.scaledBgImg = null;
+      }
+      if (this.scaledClImg != null) {
+         this.scaledClImg.flush();
+         this.scaledClImg = null;
+      }
    }
 }

@@ -25,6 +25,7 @@ public class ImageContainer {
    public void flushAll() {
       for (Image img : images) {
          img.flush();
+         img = null;
       }
    }
 }
