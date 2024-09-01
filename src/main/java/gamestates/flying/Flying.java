@@ -153,12 +153,7 @@ public class Flying extends State implements Statemethods {
       } else if (event instanceof AddProjectileEvent evt) {
          this.projectileHandler.addCustomProjectile(evt);
       } else if (event instanceof GoToBossEvent evt) {
-         transferBombsToProgValues();
-         game.getBossMode().loadNewBoss(evt.bossNr());
-         this.flushImages();
-         Gamestate.state = Gamestate.BOSS_MODE;
-         // We do not need to do anything else, as we will return to Flying after
-         // the boss, and thus exit Flying properly then.
+         goToBossMode(evt.bossNr());
       } else {
          this.cutsceneManager.activateEffect(event);
       }
@@ -345,6 +340,16 @@ public class Flying extends State implements Statemethods {
    private void transferBombsToProgValues() {
       game.getExploring().getProgressValues().setBombs(projectileHandler.getBombsAtEndOfLevel());
       game.getExploring().updatePauseInventory();
+   }
+
+   private void goToBossMode(int bossNr) {
+      transferBombsToProgValues();
+      game.getBossMode().loadNewBoss(bossNr);
+      this.flushImages();
+      Gamestate.state = Gamestate.BOSS_MODE;
+      System.gc();
+      // We do not need to do anything else, as we will return to Flying after
+      // the boss, and thus exit Flying properly then.
    }
 
    /**

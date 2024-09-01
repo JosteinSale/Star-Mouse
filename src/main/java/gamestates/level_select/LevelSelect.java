@@ -85,7 +85,9 @@ public class LevelSelect extends State implements Statemethods {
 
    /**
     * Should be called if the game is not run in testing mode.
-    * Replaces the proxy progValues with the one from the saved file.
+    * First it resets LevelSelect.
+    * Then it replaces the current progValues (proxy or real)
+    * with the one from the saved file.
     * Then it unlocks the corresponding levels.
     */
    public void transferDataFromSave() {
@@ -246,6 +248,7 @@ public class LevelSelect extends State implements Statemethods {
          game.getAudioPlayer().stopAmbience();
          this.game.getExploring().loadLevel(levelToEnter);
          this.game.getExploring().update();
+         System.gc();
       }
    }
 

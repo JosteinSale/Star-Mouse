@@ -46,6 +46,7 @@ public class Exploring extends State implements Statemethods {
     /** Can be used to load a 'save' from disc */
     public void setProgressValues(ProgressValues progValues) {
         this.progValues = progValues;
+        game.getLevelSelect().transferDataFromSave();
     }
 
     /**

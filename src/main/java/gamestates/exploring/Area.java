@@ -224,6 +224,7 @@ public class Area {
       if (lvl != 0) {
          this.exploring.flushAreas();
       }
+      System.gc();
    }
 
    private void goToCinematic(String fileName, Gamestate returnGamestate) {

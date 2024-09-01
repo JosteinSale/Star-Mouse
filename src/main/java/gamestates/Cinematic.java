@@ -127,6 +127,7 @@ public class Cinematic extends State implements Statemethods {
       this.cutsceneManager.reset();
       this.cutsceneManager.resetCurrentCutscene();
       Gamestate.state = this.returnGamestate;
+      System.gc();
    }
 
    @Override
@@ -140,8 +141,7 @@ public class Cinematic extends State implements Statemethods {
          game.pauseIsPressed = false;
          audioPlayer.stopAllLoops();
          this.exitCinematic();
-      }
-      else {
+      } else {
          this.cutsceneManager.handleKeyBoardInputs();
       }
    }
@@ -156,8 +156,8 @@ public class Cinematic extends State implements Statemethods {
       g.setColor(Color.GRAY);
       g.setFont(skipFont);
       g.drawString(
-         "ENTER to skip", 
-         (int) (30 * Game.SCALE), (int)(30 * Game.SCALE));
+            "ENTER to skip",
+            (int) (30 * Game.SCALE), (int) (30 * Game.SCALE));
    }
 
 }
