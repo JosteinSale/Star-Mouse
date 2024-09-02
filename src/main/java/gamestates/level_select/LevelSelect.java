@@ -276,7 +276,7 @@ public class LevelSelect extends State implements Statemethods {
 
    @Override
    public void draw(Graphics g) {
-      g.drawImage(bgImg, (int) bgX, 0, Game.GAME_WIDTH + 50, Game.GAME_HEIGHT + 50, null);
+      g.drawImage(bgImg, (int) bgX, 0, Game.GAME_WIDTH + 55, Game.GAME_HEIGHT + 50, null);
       levelLayouts.get(progValues.levelLayout - 1).draw(g);
 
       g.setColor(new Color(0, 0, 0, alphaFade));

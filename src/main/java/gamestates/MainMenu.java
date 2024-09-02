@@ -221,7 +221,7 @@ public class MainMenu extends State implements Statemethods {
 
         // Background
         g.drawImage(bgImg,
-                (int) bgX, 0, Game.GAME_WIDTH + 50, Game.GAME_HEIGHT + 50, null);
+                (int) bgX, 0, Game.GAME_WIDTH + 55, Game.GAME_HEIGHT + 50, null);
 
         // Text
         g.setColor(Color.WHITE);
