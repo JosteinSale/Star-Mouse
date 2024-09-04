@@ -16,31 +16,7 @@ import utils.Constants.Audio;
  * ambience.
  */
 public class AudioPlayer {
-    // Only the soundfiles included in the game.
-    // OBS: Don't change the indexes. These are coded into the Constants-class
-    private String[] SFXfileNames = {
-            "SFX - Lazer10.wav",
-            "SFX - BombShoot.wav",
-            "SFX - Teleport.wav",
-            "SFX - ShipCrash1.5.wav",
-            "SFX - SmallExplosion3.5.wav",
-            "SFX - BigExplosion2.wav",
-            "SFX - BombPickup.wav",
-            "SFX - Powerup2.wav",
-            "SFX - Powerup3.wav",
-            "SFX - Cursor1.wav",
-            "SFX - Select2.wav",
-            "SFX - MenuSound.wav",
-            "SFX - ItemPickup.wav",
-            "SFX - Success.wav",
-            "SFX - InfoBox2.wav",
-            "SFX - BigExplosion3.wav",
-            "SFX - Hurt2.wav",
-            "SFX - Death.wav",
-            "SFX - MetallicWarning.wav",
-            "SFX - Rudinger1Death.wav",
-            "SFX - CathedralShot.wav"
-    };
+    private SFXPlayer sfxPlayer;
     private String[] songFileNames = {
             "Song - Tutorial (FINISHED)3.wav",
             "Song - The Academy ver3.wav",
@@ -86,7 +62,6 @@ public class AudioPlayer {
             "VoiceClip - Raze.wav",
             "VoiceClip - Drone.wav"
     };
-    private File[] SFX;
     private File[] voiceClips;
     private File[] songs;
     private File[] ambienceTracks;
@@ -101,10 +76,9 @@ public class AudioPlayer {
     private FloatControl ambienceGainControl; // Is initially set in the StartScreen
 
     private float setSongVolume = 0.85f; // The player's selected volume
-    private float setSfxVolume = 0.91f;
     private float setAmbienceVolume = 0.91f;
     private float curSongVolume = 0.85f; // Used for fading
-    private float curSfxVolume = 0.91f;
+    private float curSfxVolume = 0.91f;  // Needed for voices
     private float curAmbienceVolume = 0.91f;
 
     private float volumeFadeSpeed = 0.05f;
@@ -113,6 +87,7 @@ public class AudioPlayer {
     private int tickPerFrame = 20;
 
     private static boolean singletonCreated = false; // Flag to determine singleton
+
 
     /** Private constructor, to ensure that we never make a new one. */
     private AudioPlayer() {
@@ -139,6 +114,9 @@ public class AudioPlayer {
     }
 
     private void loadAudio() {
+        // SFX
+        this.sfxPlayer = new SFXPlayer(0.91f);
+
         // Songs
         this.songs = new File[this.songFileNames.length];
         for (int i = 0; i < this.songs.length; i++) {
@@ -152,13 +130,6 @@ public class AudioPlayer {
             File file = new File(System.getProperty("user.dir") +
                     "/src/main/resources/audio/" + ambienceFileNames[i]);
             this.ambienceTracks[i] = file;
-        }
-        // SFX
-        this.SFX = new File[this.SFXfileNames.length];
-        for (int i = 0; i < this.SFX.length; i++) {
-            File sample = new File(System.getProperty("user.dir") +
-                    "/src/main/resources/audio/" + SFXfileNames[i]);
-            this.SFX[i] = sample;
         }
         // VoiceClips
         this.voiceClips = new File[this.voiceClipNames.length];
@@ -196,16 +167,17 @@ public class AudioPlayer {
      * @param index
      */
     public void playSFX(int index) {
-        try {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(SFX[index]);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            sfxGainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            updateSfxVolume();
-            clip.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        this.sfxPlayer.play(index);
+        // try {
+        //     AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(SFX[index]);
+        //     Clip clip = AudioSystem.getClip();
+        //     clip.open(audioInputStream);
+        //     sfxGainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        //     updateSfxVolume();
+        //     clip.start();
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
     }
 
     /**
@@ -367,7 +339,7 @@ public class AudioPlayer {
 
     /** Returns the sfx / ambience volume set by player (not currentVolume) */
     public float getSfxVolume() {
-        return this.setSfxVolume;
+        return sfxPlayer.getVolume();
     }
 
     /** Is called from the OptionsMenu */
@@ -379,9 +351,8 @@ public class AudioPlayer {
 
     /** Is called from the OptionsMenu. Goes for both ambience and sfx */
     public void setSfxVolume(float volume) {
-        this.setSfxVolume = volume;
         this.curSfxVolume = volume;
-        updateSfxVolume();
+        this.sfxPlayer.setGlobalVolume(volume);
 
         this.setAmbienceVolume = volume;
         this.curAmbienceVolume = volume;
