@@ -205,10 +205,12 @@ public class Game implements Runnable {
       long previousTime = System.nanoTime();
       double deltaU = 0; // delta UPS
       double deltaF = 0; // delta FPS
+      long sleepTime;
+      long currentTime;
 
       // Kaller repaint og update hvis riktig tidsintervall har passert
       while (true) {
-         long currentTime = System.nanoTime();
+         currentTime = System.nanoTime();
 
          deltaU += (currentTime - previousTime) / timePerUpdate;
          deltaF += (currentTime - previousTime) / timePerFrame;
@@ -224,6 +226,15 @@ public class Game implements Runnable {
             gamePanel.repaint();
          }
 
+         // Sleep to control the frame rate
+         sleepTime = (long)(previousTime + timePerFrame - System.nanoTime());
+         if (sleepTime > 0) {
+            try {
+               Thread.sleep(sleepTime / 1000000); // Convert from nanoseconds to milliseconds
+            } catch (InterruptedException e) {
+               e.printStackTrace();
+            }
+         }
       }
    }
 
