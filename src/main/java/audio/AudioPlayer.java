@@ -78,7 +78,7 @@ public class AudioPlayer {
     private float setSongVolume = 0.85f; // The player's selected volume
     private float setAmbienceVolume = 0.91f;
     private float curSongVolume = 0.85f; // Used for fading
-    private float curSfxVolume = 0.91f;  // Needed for voices
+    private float curSfxVolume = 0.91f; // Needed for voices
     private float curAmbienceVolume = 0.91f;
 
     private float volumeFadeSpeed = 0.05f;
@@ -87,7 +87,6 @@ public class AudioPlayer {
     private int tickPerFrame = 20;
 
     private static boolean singletonCreated = false; // Flag to determine singleton
-
 
     /** Private constructor, to ensure that we never make a new one. */
     private AudioPlayer() {
@@ -158,26 +157,12 @@ public class AudioPlayer {
     }
 
     /**
-     * Lager et nytt Clip-objekt hver gang metoden kalles.
-     * Av en eller annen grunn: hvis det ikke er musikk i bakgrunnen, OG frekvensen
-     * på SFX-avspillingen er lav, kommer det ikke noe lyd fra klippet.
-     * 
-     * Foreløpig justeres volum hver eneste gang et nytt klipp avspilles.
+     * Plays the SFX with the given index, using the SFXPlayer-object (see javadoc).
      * 
      * @param index
      */
     public void playSFX(int index) {
         this.sfxPlayer.play(index);
-        // try {
-        //     AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(SFX[index]);
-        //     Clip clip = AudioSystem.getClip();
-        //     clip.open(audioInputStream);
-        //     sfxGainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        //     updateSfxVolume();
-        //     clip.start();
-        // } catch (Exception e) {
-        //     e.printStackTrace();
-        // }
     }
 
     /**

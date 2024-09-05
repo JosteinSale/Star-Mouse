@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import javax.sound.sampled.Clip;
 import static audio.AudioUtils.setClipVolume;
 
-/** Class for samples that require rapid fire.
- * A single Clip-object takes some time before it can be reset (1-2 seconds).
- * Therefore, to simulate the sample being played fast, we load several copies of the
- * same sample and then play them in succesion.
+/**
+ * Class for samples that require rapid fire.
+ * A single Clip-object takes some time before it can be reset
+ * (depending on the length of the clip).
+ * Therefore, to simulate the sample being played fast, we load several copies
+ * of the same sample and then play them in succesion.
  * 
  * How many samples are needed depends on the expected rate of fire.
  * E.g. the lazerShoot might need 7, while the bombShoot might only need 2.
