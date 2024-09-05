@@ -9,14 +9,9 @@ import javax.sound.sampled.FloatControl;
 
 import utils.Constants.Audio;
 
-/**
- * Current suboptimal implementation of the following:
- * -Volume adjustment (is done every time a new clip is played)
- * -Potential memory leak if silent track isn't stopped upon playing a new
- * ambience.
- */
 public class AudioPlayer {
     private SFXPlayer sfxPlayer;
+    private VoicePlayer voicePlayer;
     private String[] songFileNames = {
             "Song - Tutorial (FINISHED)3.wav",
             "Song - The Academy ver3.wav",
@@ -40,29 +35,6 @@ public class AudioPlayer {
             "Ambience - Hangar.wav",
             "Ambience - Cave.wav"
     };
-    private String[] voiceClipNames = {
-            "VoiceClip - Max.wav",
-            "VoiceClip - Oliver.wav",
-            "VoiceClip - Lance.wav",
-            "VoiceClip - Charlotte.wav",
-            "VoiceClip - Nina.wav",
-            "VoiceClip - ShadyPilot.wav",
-            "VoiceClip - Speaker.wav",
-            "VoiceClip - Sign.wav",
-            "VoiceClip - Lt.Red.wav",
-            "VoiceClip - Russel.wav",
-            "VoiceClip - Emma.wav",
-            "VoiceClip - Nathan.wav",
-            "VoiceClip - Frida.wav",
-            "VoiceClip - Skye.wav",
-            "VoiceClip - Zack.wav",
-            "VoiceClip - Gard.wav",
-            "VoiceClip - Feno.wav",
-            "VoiceClip - Rudinger2.wav",
-            "VoiceClip - Raze.wav",
-            "VoiceClip - Drone.wav"
-    };
-    private File[] voiceClips;
     private File[] songs;
     private File[] ambienceTracks;
     private Integer curSongIndex; // Used to check if a given song is playing.
@@ -113,8 +85,8 @@ public class AudioPlayer {
     }
 
     private void loadAudio() {
-        // SFX
-        this.sfxPlayer = new SFXPlayer(0.91f);
+        this.sfxPlayer = new SFXPlayer(curSfxVolume);
+        this.voicePlayer = new VoicePlayer(curSfxVolume);
 
         // Songs
         this.songs = new File[this.songFileNames.length];
@@ -130,13 +102,7 @@ public class AudioPlayer {
                     "/src/main/resources/audio/" + ambienceFileNames[i]);
             this.ambienceTracks[i] = file;
         }
-        // VoiceClips
-        this.voiceClips = new File[this.voiceClipNames.length];
-        for (int i = 0; i < this.voiceClips.length; i++) {
-            File sample = new File(System.getProperty("user.dir") +
-                    "/src/main/resources/audio/" + voiceClipNames[i]);
-            this.voiceClips[i] = sample;
-        }
+        
     }
 
     /**
@@ -166,25 +132,12 @@ public class AudioPlayer {
     }
 
     /**
-     * Lager et nytt Clip-objekt hver gang metoden kalles.
-     * Av en eller annen grunn: hvis det ikke er musikk i bakgrunnen, OG frekvensen
-     * på SFX-avspillingen er lav, kommer det ikke noe lyd fra klippet.
-     * 
-     * Foreløpig justeres volum hver eneste gang et nytt klipp avspilles.
+     * Plays the voice clip with the given index, using the voicePlayer-object (see javadoc).
      * 
      * @param index
      */
-    public void playVoiceClip(int index) {
-        try {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(voiceClips[index]);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            sfxGainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            updateSfxVolume();
-            clip.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void playVoiceClip(String name) {
+        this.voicePlayer.play(name);
     }
 
     /**
@@ -338,6 +291,7 @@ public class AudioPlayer {
     public void setSfxVolume(float volume) {
         this.curSfxVolume = volume;
         this.sfxPlayer.setGlobalVolume(volume);
+        this.voicePlayer.setGlobalVolume(volume);
 
         this.setAmbienceVolume = volume;
         this.curAmbienceVolume = volume;
@@ -371,7 +325,6 @@ public class AudioPlayer {
         } else {
             this.curSong.start();
         }
-
     }
 
     /** Continues looping the current ambience */

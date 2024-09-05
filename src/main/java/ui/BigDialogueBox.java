@@ -17,7 +17,6 @@ import audio.AudioPlayer;
 import main_classes.Game;
 import utils.HelpMethods;
 import utils.ResourceLoader;
-import utils.Constants.Audio;
 
 public class BigDialogueBox {
     private AudioPlayer audioPlayer;
@@ -28,7 +27,6 @@ public class BigDialogueBox {
     private Color nameColor;
     private int characterIndex = 0;
     private int portraitIndex = 0;
-    private int voiceClipIndex;
     private int aniTick;
     private int aniTickPerFrame;
     private int currentLetter;
@@ -136,31 +134,6 @@ public class BigDialogueBox {
     }
 
     private void setVoiceStuff() {
-        voiceClipIndex = switch (name) {
-            case "Max" -> Audio.VOICECLIP_MAX;
-            case "Oliver" -> Audio.VOICECLIP_OLIVER;
-            case "Lance" -> Audio.VOICECLIP_LANCE;
-            case "Charlotte" -> Audio.VOICECLIP_CHARLOTTE;
-            case "Nina" -> Audio.VOICECLIP_NINA;
-            case "Shady pilot", "Mechanic" -> Audio.VOICECLIP_SHADYPILOT;
-            case "Speaker" -> Audio.VOICECLIP_SPEAKER;
-            case "Sign" -> Audio.VOICECLIP_SIGN;
-            case "Lt.Red" -> Audio.VOICECLIP_LTRED;
-            case "Russel" -> Audio.VOICECLIP_RUSSEL;
-            case "Emma" -> Audio.VOICECLIP_EMMA;
-            case "Nathan" -> Audio.VOICECLIP_NATHAN;
-            case "Frida" -> Audio.VOICECLIP_FRIDA;
-            case "Skye" -> Audio.VOICECLIP_SKYE;
-            case "Zack" -> Audio.VOICECLIP_ZACK;
-            case "Gard" -> Audio.VOICECLIP_GARD;
-            case "Feno" -> Audio.VOICECLIP_FENO;
-            case "???", "Rudinger" -> Audio.VOICECLIP_RUDINGER;
-            case "????" -> Audio.VOICECLIP_RAZE;
-            case "Drone" -> Audio.VOICECLIP_DRONE;
-            case "Acolyte" -> Audio.VOICECLIP_EMMA;
-            default -> Audio.VOICECLIP_SIGN;
-        };
-
         voiceTick = 0;
         if (aniTickPerFrame < 5) {
             voiceTickPerFrame = 5;
@@ -195,13 +168,13 @@ public class BigDialogueBox {
     private void updateVoices() {
         if (voiceTick == 0) {
             // Always play on first syllable
-            audioPlayer.playVoiceClip(voiceClipIndex);
+            audioPlayer.playVoiceClip(name);
         } else if (voiceTick % voiceTickPerFrame == 0) {
             // In order for the voices to sound less 'machine gun'-like, we don't play the
             // voiceclip
             // on spaces, and also add a bit of randomization.
             if (!(currentCharIs(' ')) && randomizerRollsTrue()) {
-                audioPlayer.playVoiceClip(voiceClipIndex);
+                audioPlayer.playVoiceClip(name);
             }
         }
         voiceTick++;

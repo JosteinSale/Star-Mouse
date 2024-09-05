@@ -179,28 +179,6 @@ public class Constants {
         // SFX - BossMode
         public static final int SFX_METALLIC_SOUND = 18;
         public static final int SFX_RUDINGER1_DEATH = 19;
-        
-        // VoiceClips
-        public static final int VOICECLIP_MAX = 0;
-        public static final int VOICECLIP_OLIVER = 1;
-        public static final int VOICECLIP_LANCE = 2;
-        public static final int VOICECLIP_CHARLOTTE = 3;
-        public static final int VOICECLIP_NINA = 4;
-        public static final int VOICECLIP_SHADYPILOT = 5;
-        public static final int VOICECLIP_SPEAKER = 6;
-        public static final int VOICECLIP_SIGN = 7;
-        public static final int VOICECLIP_LTRED = 8;
-        public static final int VOICECLIP_RUSSEL = 9;
-        public static final int VOICECLIP_EMMA = 10;
-        public static final int VOICECLIP_NATHAN = 11;
-        public static final int VOICECLIP_FRIDA = 12;
-        public static final int VOICECLIP_SKYE = 13;
-        public static final int VOICECLIP_ZACK = 14;
-        public static final int VOICECLIP_GARD = 15;
-        public static final int VOICECLIP_FENO = 16;
-        public static final int VOICECLIP_RUDINGER = 17;
-        public static final int VOICECLIP_RAZE = 18;
-        public static final int VOICECLIP_DRONE = 19;
 
         // Songs (don't change these indexes!)
         public static final int SONG_LEVEL0 = 0;
