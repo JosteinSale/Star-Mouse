@@ -8,6 +8,7 @@ import static utils.Constants.UI.FONT_SIZE_NAME;
 
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;

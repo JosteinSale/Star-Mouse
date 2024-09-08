@@ -5,13 +5,14 @@ import static main_classes.Game.GAME_WIDTH;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
 import inputs.KeyboardInputs;
 
 // Det faktiske bildet. Lytter også etter keyboardInputs.
-public class GamePanel extends JPanel {  
+public class GamePanel extends JPanel {
     private Game game;
     private KeyboardInputs keyboardInputs;
 
@@ -20,11 +21,11 @@ public class GamePanel extends JPanel {
         this.keyboardInputs = new KeyboardInputs(this, game);
         addKeyListener(keyboardInputs);
         setPanelSize(GAME_WIDTH, GAME_HEIGHT);
-        this.setFocusable(true);   // Denne linjen bør være i denne klassen
+        this.setFocusable(true); // Denne linjen bør være i denne klassen
         this.setDoubleBuffered(true);
     }
 
-    private void setPanelSize(int screen_width, int screen_height) {              // Notat 1
+    private void setPanelSize(int screen_width, int screen_height) { // Notat 1
         Dimension size = new Dimension(GAME_WIDTH, GAME_HEIGHT);
         this.setMinimumSize(size);
         this.setPreferredSize(size);
@@ -37,6 +38,7 @@ public class GamePanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        // Graphics2D g2 = (Graphics2D) g;
         game.render(g);
     }
 
@@ -46,5 +48,6 @@ public class GamePanel extends JPanel {
 
 }
 
-// 1. Å sette størrelsen inni JPanel istedenfor JFrame, sikrer at selve spillvinduet
-//   blir riktig størrelse (blir ikke påvirket av borders etc)
+// 1. Å sette størrelsen inni JPanel istedenfor JFrame, sikrer at selve
+// spillvinduet
+// blir riktig størrelse (blir ikke påvirket av borders etc)

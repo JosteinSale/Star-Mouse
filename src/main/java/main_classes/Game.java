@@ -28,14 +28,15 @@ public class Game implements Runnable {
 
    public static final int GAME_DEFAULT_WIDTH = 1050;
    public static final int GAME_DEFAULT_HEIGHT = 750;
-   public static final float SCALE = 0.8f;
-   //public static final float SCALE = SCREEN_HEIGHT / (float) GAME_DEFAULT_HEIGHT;
+   // public static final float SCALE = 0.8f;
+   public static final float SCALE = SCREEN_HEIGHT / (float) GAME_DEFAULT_HEIGHT;
 
    public static final int GAME_WIDTH = (int) (GAME_DEFAULT_WIDTH * SCALE);
    public static final int GAME_HEIGHT = (int) (GAME_DEFAULT_HEIGHT * SCALE);
 
-   public static final boolean fullScreen = false;
+   public static final boolean fullScreen = true;
 
+   private View view;
    private GameWindow gameWindow;
    private GamePanel gamePanel;
    private Thread gameThread;
@@ -95,6 +96,8 @@ public class Game implements Runnable {
       this.cinematic = new Cinematic(this);
       this.drawSaving = new DrawSaving();
       this.initializeSaveData();
+
+      this.view = new View(startScreen);
    }
 
    private void initializeSaveData() {
@@ -163,7 +166,7 @@ public class Game implements Runnable {
    public void render(Graphics g) {
       switch (Gamestate.state) {
          case START_SCREEN:
-            startScreen.draw(g);
+            view.draw(g);
             break;
          case MAIN_MENU:
             mainMenu.draw(g);
@@ -227,7 +230,7 @@ public class Game implements Runnable {
          }
 
          // Sleep to control the frame rate
-         sleepTime = (long)(previousTime + timePerFrame - System.nanoTime());
+         sleepTime = (long) (previousTime + timePerFrame - System.nanoTime());
          if (sleepTime > 0) {
             try {
                Thread.sleep(sleepTime / 1000000); // Convert from nanoseconds to milliseconds
@@ -292,6 +295,10 @@ public class Game implements Runnable {
 
    public void resetMainMenu() {
       this.mainMenu.reset();
+   }
+
+   public View getView() {
+      return this.view;
    }
 
    /*

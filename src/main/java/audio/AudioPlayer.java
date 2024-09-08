@@ -102,7 +102,7 @@ public class AudioPlayer {
                     "/src/main/resources/audio/" + ambienceFileNames[i]);
             this.ambienceTracks[i] = file;
         }
-        
+
     }
 
     /**
@@ -132,7 +132,8 @@ public class AudioPlayer {
     }
 
     /**
-     * Plays the voice clip with the given index, using the voicePlayer-object (see javadoc).
+     * Plays the voice clip with the given index, using the voicePlayer-object (see
+     * javadoc).
      * 
      * @param index
      */
