@@ -31,7 +31,7 @@ public class PauseBoss {
    private final int OPTIONS = 1;
    private final int MAIN_MENU = 2;
    private final int SKIP_LEVEL = 3;
-   private String[] menuOptions = { "Continue", "Options", "Main Menu", "Skip Level"};
+   private String[] menuOptions = { "Continue", "Options", "Main Menu", "Skip Level" };
    private BufferedImage pointerImg;
    private int selectedIndex = 0;
 
@@ -133,7 +133,7 @@ public class PauseBoss {
       g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
 
       if (optionsMenu.isActive()) {
-         optionsMenu.draw(g);
+         // optionsMenu.draw(g);
       } else {
          // Text
          g.setFont(headerFont);
@@ -142,16 +142,16 @@ public class PauseBoss {
 
          for (int i = 0; i < menuOptions.length; i++) {
             Rectangle rect = new Rectangle(
-               (int) (425 * Game.SCALE), (int) ((cursorMinY - 40 + i * menuOptionsDiff) * Game.SCALE),
-               (int) (200 * Game.SCALE), (int) (50 * Game.SCALE));
+                  (int) (425 * Game.SCALE), (int) ((cursorMinY - 40 + i * menuOptionsDiff) * Game.SCALE),
+                  (int) (200 * Game.SCALE), (int) (50 * Game.SCALE));
             DrawCenteredString(g2, menuOptions[i], rect, menuFont);
          }
 
          // Cursor
          g2.drawImage(
-            pointerImg,
-            (int) (cursorX * Game.SCALE), (int) ((cursorY - 30) * Game.SCALE),
-            (int) (CURSOR_WIDTH * Game.SCALE), (int) (CURSOR_HEIGHT * Game.SCALE), null);
+               pointerImg,
+               (int) (cursorX * Game.SCALE), (int) ((cursorY - 30) * Game.SCALE),
+               (int) (CURSOR_WIDTH * Game.SCALE), (int) (CURSOR_HEIGHT * Game.SCALE), null);
       }
    }
 

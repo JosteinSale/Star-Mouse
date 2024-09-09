@@ -89,7 +89,7 @@ public class Game implements Runnable {
       this.mainMenu = new MainMenu(this, optionsMenu);
       this.textBoxManager = new TextboxManager(this);
       this.exploring = new Exploring(this);
-      this.levelSelect = new LevelSelect(this, mainMenu.bgImg);
+      this.levelSelect = new LevelSelect(this);
       this.flying = new Flying(this);
       this.bossMode = new BossMode(this);
       this.levelEditor = new LevelEditor(this, flying.getEntityFactory());
@@ -97,7 +97,7 @@ public class Game implements Runnable {
       this.drawSaving = new DrawSaving();
       this.initializeSaveData();
 
-      this.view = new View(startScreen);
+      this.view = new View(this, startScreen, mainMenu, levelSelect);
    }
 
    private void initializeSaveData() {
@@ -165,14 +165,8 @@ public class Game implements Runnable {
 
    public void render(Graphics g) {
       switch (Gamestate.state) {
-         case START_SCREEN:
+         case START_SCREEN, MAIN_MENU, LEVEL_SELECT:
             view.draw(g);
-            break;
-         case MAIN_MENU:
-            mainMenu.draw(g);
-            break;
-         case LEVEL_SELECT:
-            levelSelect.draw(g);
             break;
          case EXPLORING:
             exploring.draw(g);
@@ -300,15 +294,4 @@ public class Game implements Runnable {
    public View getView() {
       return this.view;
    }
-
-   /*
-    * public AudioOptions getAudioOptions() {
-    * return audioOptions;
-    * }
-    * 
-    * public AudioPlayer getAudioPlayer() {
-    * return audioPlayer;
-    * }
-    * 
-    */
 }

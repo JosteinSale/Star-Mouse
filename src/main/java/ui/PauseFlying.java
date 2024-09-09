@@ -130,7 +130,7 @@ public class PauseFlying {
         g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
 
         if (optionsMenu.isActive()) {
-            optionsMenu.draw(g);
+            // optionsMenu.draw(g);
         } else {
             // Text
             g.setFont(headerFont);

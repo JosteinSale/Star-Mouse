@@ -235,7 +235,7 @@ public class PauseExploring implements Statemethods {
    @Override
    public void draw(Graphics g) {
       if (optionsMenu.isActive()) {
-         optionsMenu.draw(g);
+         // optionsMenu.draw(g);
       } else {
          Graphics2D g2 = (Graphics2D) g;
          drawBackground(g2);

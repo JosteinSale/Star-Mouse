@@ -1,10 +1,6 @@
 package gamestates.level_select;
 
-import static utils.Constants.UI.LEVEL_ICON_SIZE;
-
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import data_storage.ProgressValues;
@@ -12,7 +8,6 @@ import gamestates.Gamestate;
 import gamestates.State;
 import gamestates.Statemethods;
 import main_classes.Game;
-import utils.ResourceLoader;
 
 /**
  * OBS: we should probably wait with implementing more logic until we have more
@@ -24,27 +19,23 @@ import utils.ResourceLoader;
  */
 public class LevelSelect extends State implements Statemethods {
    private ProgressValues progValues;
-   private BufferedImage bgImg;
-   private ArrayList<ILevelLayout> levelLayouts;
-   private BufferedImage[] levelIcons;
+   private ArrayList<BaseLevelLayout> levelLayouts;
    private ArrayList<LevelInfo> levelInfo;
    private int levelToEnter = 1; // This is altered from the current layout.
 
-   private float bgX = -50;
+   public float bgX = -50;
    private int bgSlideDir = 1;
-   private int alphaFade = 255;
-   private boolean fadeInActive = true;
-   private boolean fadeOutActive = false;
+   public int alphaFade = 255;
+   public boolean fadeInActive = true;
+   public boolean fadeOutActive = false;
 
    private final int LEVEL1_THRESHOLD2 = 130;
    private final int LEVEL1_THRESHOLD1 = 100;
 
-   public LevelSelect(Game game, BufferedImage bgImg) {
+   public LevelSelect(Game game) {
       super(game);
-      this.bgImg = bgImg;
       this.progValues = game.getExploring().getProgressValues(); // OBS: initially a proxy
       this.levelLayouts = new ArrayList<>();
-      this.levelIcons = loadLevelIcons();
       this.levelInfo = new ArrayList<>();
       loadLevelInfo();
       loadLevelLayouts();
@@ -70,17 +61,6 @@ public class LevelSelect extends State implements Statemethods {
       levelInfo.add(new LevelInfo("Level 11", 100, 70, 12, 8));
       levelInfo.add(new LevelInfo("Level 12", 100, 70, 13, 9));
       levelInfo.add(new LevelInfo("Level 13", 100));
-   }
-
-   private BufferedImage[] loadLevelIcons() {
-      BufferedImage[] images = new BufferedImage[13];
-      BufferedImage img = ResourceLoader.getExpImageSprite(ResourceLoader.LEVEL_ICONS);
-      for (int i = 0; i < 13; i++) {
-         images[i] = img.getSubimage(
-               i * LEVEL_ICON_SIZE, 0,
-               LEVEL_ICON_SIZE, LEVEL_ICON_SIZE);
-      }
-      return images;
    }
 
    /**
@@ -129,8 +109,7 @@ public class LevelSelect extends State implements Statemethods {
       progValues.unlockedLevels[levelToUnlock - 1] = true;
       levelLayouts.get(progValues.levelLayout - 1).setUnlocked(
             levelToUnlock,
-            levelInfo.get(levelToUnlock - 1),
-            levelIcons[levelToUnlock - 1]);
+            levelInfo.get(levelToUnlock - 1));
    }
 
    private void updateGlobalBooleans(int finishedLevel, int killCount) {
@@ -274,12 +253,16 @@ public class LevelSelect extends State implements Statemethods {
       }
    }
 
+   public BaseLevelLayout getCurrentLayout() {
+      return this.levelLayouts.get(getLayoutNr() - 1);
+   }
+
+   public int getLayoutNr() {
+      return this.progValues.levelLayout;
+   }
+
    @Override
    public void draw(Graphics g) {
-      g.drawImage(bgImg, (int) bgX, 0, Game.GAME_WIDTH + 55, Game.GAME_HEIGHT + 50, null);
-      levelLayouts.get(progValues.levelLayout - 1).draw(g);
 
-      g.setColor(new Color(0, 0, 0, alphaFade));
-      g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
    }
 }

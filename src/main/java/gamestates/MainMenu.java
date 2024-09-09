@@ -1,21 +1,11 @@
 package gamestates;
 
-import static utils.Constants.UI.*;
-import static utils.HelpMethods.DrawCenteredString;
-
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 import audio.AudioPlayer;
 import main_classes.Game;
 import ui.LoadSaveMenu;
 import ui.OptionsMenu;
-import utils.ResourceLoader;
 import utils.Constants.Audio;
 
 /**
@@ -32,25 +22,20 @@ import utils.Constants.Audio;
 public class MainMenu extends State implements Statemethods {
 
     private AudioPlayer audioPlayer;
-    public BufferedImage bgImg;
-    private BufferedImage titleImg;
-    private BufferedImage cursorImg;
-    private Font menuFont;
     private LoadSaveMenu loadSaveMenu;
     private OptionsMenu optionsMenu;
-    private String[] alternatives = { "Testing", "New Game", "Load Save", "Level Editor", "Options", "Quit" };
-    private ArrayList<Rectangle> menuRectangles;
-    private float bgX = -50;
+    public String[] alternatives = { "Testing", "New Game", "Load Save", "Level Editor", "Options", "Quit" };
+    public float bgX = -50;
     private int bgSlideDir = 1;
     private int cursorMinY = 480;
     private int cursorMaxY = 700;
-    private int cursorX = 280;
-    private int cursorY = cursorMinY;
-    private int cursorYStep = (cursorMaxY - cursorMinY) / 5;
+    public int cursorX = 280;
+    public int cursorY = cursorMinY;
+    public int cursorYStep = (cursorMaxY - cursorMinY) / 5;
     private int selectedIndex = 0;
-    private int alphaFade = 255;
-    private boolean fadeInActive = true;
-    private boolean fadeOutActive = false;
+    public int alphaFade = 255;
+    public boolean fadeInActive = true;
+    public boolean fadeOutActive = false;
 
     private static final int TESTING = 0;
     private static final int NEW_GAME = 1;
@@ -64,21 +49,6 @@ public class MainMenu extends State implements Statemethods {
         this.optionsMenu = optionsMenu;
         this.audioPlayer = game.getAudioPlayer();
         this.loadSaveMenu = new LoadSaveMenu(game);
-        bgImg = ResourceLoader.getExpImageBackground(ResourceLoader.LEVEL_SELECT_BG);
-        cursorImg = ResourceLoader.getExpImageSprite(ResourceLoader.CURSOR_SPRITE_WHITE);
-        titleImg = ResourceLoader.getExpImageBackground(ResourceLoader.MAIN_MENU_TITLE);
-        menuFont = ResourceLoader.getNameFont();
-        makeMenuRectangles();
-    }
-
-    private void makeMenuRectangles() {
-        this.menuRectangles = new ArrayList<>();
-        for (int i = 0; i < alternatives.length; i++) {
-            Rectangle rect = new Rectangle(
-                    (int) (425 * Game.SCALE), (int) ((450 + i * cursorYStep) * Game.SCALE),
-                    (int) (200 * Game.SCALE), (int) (50 * Game.SCALE));
-            menuRectangles.add(rect);
-        }
     }
 
     private void handleKeyBoardInputs() {
@@ -211,55 +181,12 @@ public class MainMenu extends State implements Statemethods {
     private void startGame() {
         game.getLevelSelect().reset();
         game.getLevelSelect().transferDataFromSave();
-        System.gc();
         Gamestate.state = Gamestate.LEVEL_SELECT;
     }
 
     @Override
     public void draw(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
 
-        // Background
-        g.drawImage(bgImg,
-                (int) bgX, 0, Game.GAME_WIDTH + 55, Game.GAME_HEIGHT + 50, null);
-
-        // Text
-        g.setColor(Color.WHITE);
-        g.setFont(menuFont);
-        for (int i = 0; i < alternatives.length; i++) {
-            DrawCenteredString(g2, alternatives[i], menuRectangles.get(i), menuFont);
-        }
-        g.drawImage(
-                titleImg,
-                (int) (280 * Game.SCALE),
-                (int) (100 * Game.SCALE),
-                (int) (500 * Game.SCALE),
-                (int) (200 * Game.SCALE),
-                null);
-
-        // Cursor
-        g.drawImage(
-                cursorImg,
-                (int) (cursorX * Game.SCALE),
-                (int) ((cursorY - CURSOR_HEIGHT / 2) * Game.SCALE),
-                (int) (CURSOR_WIDTH * Game.SCALE),
-                (int) (CURSOR_HEIGHT * Game.SCALE),
-                null);
-
-        // Options
-        if (optionsMenu.isActive()) {
-            optionsMenu.draw(g);
-        }
-        // LoadSave Menu
-        else if (loadSaveMenu.isActive()) {
-            loadSaveMenu.draw(g);
-        }
-
-        // Fade
-        if (fadeInActive || fadeOutActive) {
-            g.setColor(new Color(0, 0, 0, alphaFade));
-            g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
-        }
     }
 
     private void increaseIndex() {
@@ -294,5 +221,13 @@ public class MainMenu extends State implements Statemethods {
         this.fadeOutActive = false;
         this.alphaFade = 255;
         audioPlayer.startSong(Audio.SONG_MAIN_MENU, 0, true);
+    }
+
+    public OptionsMenu getOptionsMenu() {
+        return this.optionsMenu;
+    }
+
+    public LoadSaveMenu getLoadSaveMenu() {
+        return this.loadSaveMenu;
     }
 }

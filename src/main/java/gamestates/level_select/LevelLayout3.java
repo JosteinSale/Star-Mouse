@@ -2,7 +2,6 @@ package gamestates.level_select;
 
 import main_classes.Game;
 import utils.Constants.Audio;
-import utils.ResourceLoader;
 
 /**
  * If the player has the first and/or the second ending, or path 3 is unlocked,
@@ -10,13 +9,12 @@ import utils.ResourceLoader;
  * Here the player can choose whichever unlocked level he wants.
  * All 3 paths are visible.
  */
-public class LevelLayout3 extends DefaultLevelLayout {
+public class LevelLayout3 extends BaseLevelLayout {
 
    public LevelLayout3(Game game) {
       super(game);
-      this.layoutImg = ResourceLoader.getExpImageBackground(ResourceLoader.LEVEL_SELECT_LAYOUT3);
-      this.layoutY = 156;
-      this.layoutH = 453;
+      this.Y = 156;
+      this.H = 453;
       this.loadSlots();
    }
 
@@ -24,27 +22,27 @@ public class LevelLayout3 extends DefaultLevelLayout {
       int startXPos = 125;
       int distanceBetweenImages = 182;
       // Level1
-      this.levelSlots.add(new LevelSlot(startXPos, 330, cursorBox, font));
+      this.levelSlots.add(new LevelSlot(startXPos, 330));
 
       // Level 2 - 5
       for (int i = 1; i < 5; i++) {
-         int yPos = 534; 
+         int yPos = 534;
          this.levelSlots.add(
-            new LevelSlot(startXPos + (i * distanceBetweenImages), yPos, cursorBox, font));
+               new LevelSlot(startXPos + (i * distanceBetweenImages), yPos));
       }
 
       // Level 6 - 9
       for (int i = 1; i < 5; i++) {
-         int yPos = 330; 
+         int yPos = 330;
          this.levelSlots.add(
-            new LevelSlot(startXPos + (i * distanceBetweenImages), yPos, cursorBox, font));
+               new LevelSlot(startXPos + (i * distanceBetweenImages), yPos));
       }
 
       // level 10 - 13
       for (int i = 1; i < 5; i++) {
-         int yPos = 126; 
+         int yPos = 126;
          this.levelSlots.add(
-            new LevelSlot(startXPos + (i * distanceBetweenImages), yPos, cursorBox, font));
+               new LevelSlot(startXPos + (i * distanceBetweenImages), yPos));
       }
    }
 
@@ -54,11 +52,17 @@ public class LevelLayout3 extends DefaultLevelLayout {
    }
 
    private void handleKeyBoardInputs() {
-      if (game.interactIsPressed) {this.handleInteractPressed();}
-      else if (game.rightIsPressed) {this.handleRightPressed();}
-      else if (game.leftIsPressed) {this.handleLeftPressed();}
-      else if (game.downIsPressed) {this.handleDownPressed();}
-      else if (game.upIsPressed) {this.handleUpPressed();}
+      if (game.interactIsPressed) {
+         this.handleInteractPressed();
+      } else if (game.rightIsPressed) {
+         this.handleRightPressed();
+      } else if (game.leftIsPressed) {
+         this.handleLeftPressed();
+      } else if (game.downIsPressed) {
+         this.handleDownPressed();
+      } else if (game.upIsPressed) {
+         this.handleUpPressed();
+      }
    }
 
    private void handleUpPressed() {
@@ -67,12 +71,11 @@ public class LevelLayout3 extends DefaultLevelLayout {
       if (selectedIndex == 0) {
          // If at first level, go up to path 3.
          selectedIndex = 9;
-      }
-      else if (selectedIndex < 9) {
+      } else if (selectedIndex < 9) {
          // If at path 1 or 2, go up to the path above
          selectedIndex += 4;
-      } 
-      
+      }
+
    }
 
    private void handleDownPressed() {
@@ -81,12 +84,11 @@ public class LevelLayout3 extends DefaultLevelLayout {
       if (selectedIndex == 0) {
          // If at first level, go down to path 1.
          selectedIndex = 1;
-      }
-      else if (selectedIndex > 4) {
+      } else if (selectedIndex > 4) {
          // If at path 2 or 3, go down to the path below
          selectedIndex -= 4;
-      } 
-      
+      }
+
    }
 
    private void handleLeftPressed() {
@@ -95,8 +97,7 @@ public class LevelLayout3 extends DefaultLevelLayout {
       if (selectedIndex == 5 || selectedIndex == 9) {
          // If at the start of path 2 or 3, go left to level 1.
          selectedIndex = 0;
-      }
-      else if (selectedIndex > 0) {
+      } else if (selectedIndex > 0) {
          // If not at the first level, go left.
          selectedIndex--;
       }
@@ -108,8 +109,7 @@ public class LevelLayout3 extends DefaultLevelLayout {
       if (selectedIndex == 0) {
          // If at first level, go right to path 2.
          selectedIndex = 5;
-      } 
-      else if (selectedIndex < 12 && selectedIndex != 8 && selectedIndex != 4) {
+      } else if (selectedIndex < 12 && selectedIndex != 8 && selectedIndex != 4) {
          // If not at the end of any path: go right.
          selectedIndex++;
       }
@@ -123,7 +123,7 @@ public class LevelLayout3 extends DefaultLevelLayout {
       if (game.getLevelSelect().canGoToLevel(selectedLvl)) {
          audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
          this.game.getLevelSelect().goToLevel(selectedLvl);
-      } 
+      }
       // 2. Else, you're not allowed to enter the level.
       else {
          audioPlayer.playSFX(Audio.SFX_HURT);
