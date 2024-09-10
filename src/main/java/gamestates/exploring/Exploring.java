@@ -97,9 +97,9 @@ public class Exploring extends State implements Statemethods {
     @Override
     public void draw(Graphics g) {
         areas.get(currentArea - 1).draw(g);
-        if (pauseOverlay.isActive()) {
-            pauseOverlay.draw(g);
-        } else if (mechanicActive) {
+        // if (pauseOverlay.isActive()) {
+        // pauseOverlay.draw(g);
+        if (mechanicActive) {
             mechanicOverlay.draw(g);
         }
     }
@@ -157,5 +157,9 @@ public class Exploring extends State implements Statemethods {
             area.flushImages();
         }
         areas.clear();
+    }
+
+    public PauseExploring getPauseOverlay() {
+        return this.pauseOverlay;
     }
 }

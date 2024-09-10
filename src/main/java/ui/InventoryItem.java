@@ -2,18 +2,15 @@ package ui;
 
 import static utils.Constants.UI.ITEM_MAX_LETTERS;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class InventoryItem {
     private String itemName;
     private ArrayList<String> itemDescription;
-    private BufferedImage itemImg;
 
-    public InventoryItem(String name, String description, BufferedImage img) {
+    public InventoryItem(String name, String description) {
         this.itemName = name;
         this.itemDescription = formatString(description);
-        this.itemImg = img;
     }
 
     private ArrayList<String> formatString(String description) {
@@ -26,22 +23,22 @@ public class InventoryItem {
             letterCount += word.length();
             breakCount += word.length();
             if ((letterCount) > ITEM_MAX_LETTERS) {
-                breakCount -= (word.length() + 1);   // Trekker fra et ord og et mellomrom
+                breakCount -= (word.length() + 1); // Trekker fra et ord og et mellomrom
                 breakPoints.add(breakCount);
-                breakCount += word.length() + 1;     // Legger til samme ord og mellomrom igjen
+                breakCount += word.length() + 1; // Legger til samme ord og mellomrom igjen
 
-                letterCount = word.length();         // 'Nullsettes'
+                letterCount = word.length(); // 'Nullsettes'
             }
-            letterCount += 1;  // +1 for mellomrom
+            letterCount += 1; // +1 for mellomrom
             breakCount += 1;
         }
-        breakPoints.add(description.length());              // Siste breakpoint
-    
+        breakPoints.add(description.length()); // Siste breakpoint
+
         int beginIndex = 0;
         for (Integer endIndex : breakPoints) {
             String line = description.substring(beginIndex, endIndex);
             formattedStrings.add(line);
-            beginIndex += (endIndex + 1 - beginIndex); 
+            beginIndex += (endIndex + 1 - beginIndex);
         }
         return formattedStrings;
     }
@@ -54,15 +51,7 @@ public class InventoryItem {
         return itemDescription;
     }
 
-    public BufferedImage getImg() {
-        return itemImg;
-    }
-
     public void setDescription(ArrayList<String> itemDescription) {
         this.itemDescription = itemDescription;
-    }
-
-    public void setImg(BufferedImage itemImg) {
-        this.itemImg = itemImg;
     }
 }

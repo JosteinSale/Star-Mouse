@@ -17,8 +17,8 @@ public class RenderStartScreen implements SwingRender {
    private int mouseImgH;
    private Font font;
 
-   public RenderStartScreen(StartScreen startScreen) {
-      this.startScreen = startScreen;
+   public RenderStartScreen(Game game) {
+      this.startScreen = game.getStartScreen();
       mouseImg = ResourceLoader.getExpImageSprite(ResourceLoader.BASIC_MOUSE);
       mouseImgW = 100 * 3;
       mouseImgH = 100 * 3;

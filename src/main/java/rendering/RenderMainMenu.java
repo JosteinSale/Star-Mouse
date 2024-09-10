@@ -26,14 +26,14 @@ public class RenderMainMenu implements SwingRender {
    private Font menuFont;
    public ArrayList<Rectangle> menuRectangles;
 
-   public RenderMainMenu(Game game, MainMenu mainMenu) {
-      this.mainMenu = mainMenu;
+   public RenderMainMenu(Game game, RenderOptionsMenu rOptionsMenu) {
+      this.mainMenu = game.getMainMenu();
+      this.rOptionsMenu = rOptionsMenu;
       bgImg = ResourceLoader.getExpImageBackground(ResourceLoader.LEVEL_SELECT_BG);
       cursorImg = ResourceLoader.getExpImageSprite(ResourceLoader.CURSOR_SPRITE_WHITE);
       titleImg = ResourceLoader.getExpImageBackground(ResourceLoader.MAIN_MENU_TITLE);
       menuFont = ResourceLoader.getNameFont();
       this.makeMenuRectangles();
-      this.rOptionsMenu = new RenderOptionsMenu(mainMenu.getOptionsMenu(), mainMenu.getOptionsMenu().getControlsMenu());
       this.rLoadSave = new RenderLoadSave(game, mainMenu.getLoadSaveMenu());
    }
 

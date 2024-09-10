@@ -3,27 +3,35 @@ package main_classes;
 import java.awt.Graphics;
 
 import gamestates.Gamestate;
-import gamestates.MainMenu;
-import gamestates.StartScreen;
-import gamestates.level_select.LevelSelect;
+import rendering.RenderExploring;
 import rendering.RenderLevelSelect;
 import rendering.RenderMainMenu;
+import rendering.RenderOptionsMenu;
+import rendering.RenderPauseExploring;
 import rendering.RenderStartScreen;
 
 /**
  * Renders all the gamestates.
- * As arguments it takes an instance of each gamestate. Then it initializes one
- * specialized render-object for each gamestate, and keeps these references.
+ * It initializes one specialized render-object for each gamestate,
+ * and keeps these references.
+ * The renderer for each state in turn keeps a reference
+ * to its respective model, + any additional renderers it may need.
  */
 public class View {
    protected RenderStartScreen rStartScreen;
    protected RenderMainMenu rMainMenu;
    protected RenderLevelSelect rLevelSelect;
+   protected RenderPauseExploring rPauseExploring;
+   protected RenderOptionsMenu rOptionsMenu;
+   protected RenderExploring rExploring;
 
-   public View(Game game, StartScreen startScreen, MainMenu mainMenu, LevelSelect levelSelect) {
-      this.rStartScreen = new RenderStartScreen(startScreen);
-      this.rMainMenu = new RenderMainMenu(game, mainMenu);
-      this.rLevelSelect = new RenderLevelSelect(levelSelect, rMainMenu.getBgImg());
+   public View(Game game) {
+      this.rStartScreen = new RenderStartScreen(game);
+      this.rOptionsMenu = new RenderOptionsMenu(game);
+      this.rMainMenu = new RenderMainMenu(game, rOptionsMenu);
+      this.rLevelSelect = new RenderLevelSelect(game, rMainMenu.getBgImg());
+      this.rPauseExploring = new RenderPauseExploring(game, rOptionsMenu);
+      this.rExploring = new RenderExploring(game, rOptionsMenu);
    }
 
    public void draw(Graphics g) {
@@ -36,6 +44,9 @@ public class View {
             break;
          case LEVEL_SELECT:
             rLevelSelect.draw(g);
+            break;
+         case EXPLORING:
+            rExploring.draw(g);
             break;
          default:
             break;
@@ -56,6 +67,9 @@ public class View {
             break;
          case LEVEL_SELECT:
             rLevelSelect.dispose();
+            break;
+         case EXPLORING:
+            rExploring.dispose();
             break;
          default:
             break;

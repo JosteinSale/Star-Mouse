@@ -136,8 +136,7 @@ public class Area {
          }
       } else if (event instanceof AddToInventoryEvent evt) {
          InventoryItem item = new InventoryItem(
-               evt.name(), evt.description(),
-               ResourceLoader.getExpImageSprite(evt.imgFileName()));
+               evt.name(), evt.description());
          this.exploring.addToInventory(item);
       } else if (event instanceof UpdateInventoryEvent evt) {
          if (evt.type().equals("bombs")) {

@@ -25,8 +25,8 @@ public class RenderLevelSelect implements SwingRender {
    protected BufferedImage cursorBox;
    private Font font;
 
-   public RenderLevelSelect(LevelSelect levelSelect, BufferedImage bgImg) {
-      this.levelSelect = levelSelect;
+   public RenderLevelSelect(Game game, BufferedImage bgImg) {
+      this.levelSelect = game.getLevelSelect();
       this.bgImg = bgImg;
       this.font = ResourceLoader.getMenuFont();
       this.levelIcons = loadLevelIcons();

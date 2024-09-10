@@ -97,7 +97,7 @@ public class Game implements Runnable {
       this.drawSaving = new DrawSaving();
       this.initializeSaveData();
 
-      this.view = new View(this, startScreen, mainMenu, levelSelect);
+      this.view = new View(this);
    }
 
    private void initializeSaveData() {
@@ -165,11 +165,8 @@ public class Game implements Runnable {
 
    public void render(Graphics g) {
       switch (Gamestate.state) {
-         case START_SCREEN, MAIN_MENU, LEVEL_SELECT:
+         case START_SCREEN, MAIN_MENU, LEVEL_SELECT, EXPLORING:
             view.draw(g);
-            break;
-         case EXPLORING:
-            exploring.draw(g);
             break;
          case FLYING:
             flying.draw(g);
