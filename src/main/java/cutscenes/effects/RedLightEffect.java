@@ -1,17 +1,13 @@
 package cutscenes.effects;
 
-import java.awt.Color;
-import java.awt.Graphics;
-
 import game_events.GeneralEvent;
 import game_events.SetRedLightEvent;
 import gamestates.Gamestate;
-import main_classes.Game;
 
 public class RedLightEffect implements UpdatableEffect, DrawableEffect {
    private boolean active;
-   private int redLightLvl = 0;
-   private int redLightDir = 1;    // 1 = opp, -1 = ned
+   public int alpha = 0;
+   private int redLightDir = 1; // 1 = opp, -1 = ned
 
    @Override
    public void activate(GeneralEvent evt) {
@@ -19,8 +15,7 @@ public class RedLightEffect implements UpdatableEffect, DrawableEffect {
       this.active = redEvt.active();
       if (active == true) {
          this.active = true;
-      }
-      else {
+      } else {
          this.active = false;
       }
    }
@@ -37,21 +32,14 @@ public class RedLightEffect implements UpdatableEffect, DrawableEffect {
 
    @Override
    public void update() {
-      redLightLvl += (2 * redLightDir);
-      if (redLightLvl < 0) {
-         redLightLvl = 0;
+      alpha += (2 * redLightDir);
+      if (alpha < 0) {
+         alpha = 0;
+         redLightDir *= -1;
+      } else if (alpha > 100) {
+         alpha = 100;
          redLightDir *= -1;
       }
-      else if (redLightLvl > 100) {
-         redLightLvl = 100;
-         redLightDir *= -1;
-      }
-   }
-
-   @Override
-   public void draw(Graphics g) {
-      g.setColor(new Color(250, 0, 0, redLightLvl));
-      g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
    }
 
    @Override
@@ -61,7 +49,7 @@ public class RedLightEffect implements UpdatableEffect, DrawableEffect {
 
    @Override
    public void reset() {
-      this.redLightLvl = 0;
+      this.alpha = 0;
       this.active = false;
    }
 }

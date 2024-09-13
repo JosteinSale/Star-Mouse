@@ -30,17 +30,17 @@ public class CutsceneManagerCinematic extends DefaultCutsceneManager {
 
    private void addCutsceneEffects() {
       this.addEffect(new WaitEffect());
-      this.addEffect(new SetOverlayEffect()); // We will use this for drawing backgrounds
+      this.addEffect(new SetOverlayEffect(game)); // We will use this for drawing backgrounds
       this.addEffect(new RedLightEffect());
-      
+
       // Effects that need to be accessible from the cutsceneManager:
-      this.objectMoveEffect = new ObjectMoveEffect();
+      this.objectMoveEffect = new ObjectMoveEffect(game);
       this.addEffect(objectMoveEffect);
 
       // Effects that need to be on the top layer
       this.addEffect(new DarkenScreenEffect());
       this.addEffect(new FillScreenEffect());
-      this.addEffect(new FadeEffect(this.eventHandler));
+      this.addEffect(new FadeEffect(this.eventHandler, this));
       this.addEffect(new FadeHeaderEffect());
    }
 
@@ -54,7 +54,6 @@ public class CutsceneManagerCinematic extends DefaultCutsceneManager {
       }
       this.automaticCutscenes.add(cutscenesForElement);
    }
-
 
    /** Will be called in the update-loop from Cinematic */
    public void handleKeyBoardInputs() {
@@ -71,5 +70,5 @@ public class CutsceneManagerCinematic extends DefaultCutsceneManager {
    public void clearObjects() {
       this.objectMoveEffect.reset();
    }
-   
+
 }

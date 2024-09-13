@@ -20,9 +20,9 @@ public class CutsceneParser {
    public static GeneralEvent parseEvent(String entryName, String[] lineData, int lineNr) {
       try {
          return parseMap.get(entryName).parseEvent(lineData);
-      }
-      catch (ArrayIndexOutOfBoundsException e) {
-         throw new IllegalArgumentException("Cutscene parsing failed. Incorrect arguments given for entry: " + entryName + " (line " + lineNr + ")");
+      } catch (ArrayIndexOutOfBoundsException e) {
+         throw new IllegalArgumentException(
+               "Cutscene parsing failed. Incorrect arguments given for entry: " + entryName + " (line " + lineNr + ")");
       }
    }
 
@@ -32,7 +32,7 @@ public class CutsceneParser {
       parseMap.put("levelFinished", CutsceneParser::parseLevelFinished);
       parseMap.put("fadeHeader", CutsceneParser::parseFadeHeader);
       parseMap.put("bigDialogue", CutsceneParser::parseBigDialogue);
-      parseMap.put("noSkipDialogue", CutsceneParser :: parseNoSkipDialogue);
+      parseMap.put("noSkipDialogue", CutsceneParser::parseNoSkipDialogue);
       parseMap.put("smallDialogue", CutsceneParser::parseSmallDialogue);
       parseMap.put("fade", CutsceneParser::parseFade);
       parseMap.put("setPlayerVisible", CutsceneParser::parseSetPlayerVisible);

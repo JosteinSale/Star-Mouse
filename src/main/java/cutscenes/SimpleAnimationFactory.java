@@ -3,12 +3,14 @@ package cutscenes;
 import java.awt.image.BufferedImage;
 
 import cutscenes.effects.SimpleAnimation;
+import main_classes.Game;
 import utils.HelpMethods2;
 import utils.ImageContainer;
 import utils.ResourceLoader;
 
 /** Can produce SimpleAnimatons. OBS: call flush after use. */
 public class SimpleAnimationFactory {
+   private Game game;
    private ImageContainer imageContainer;
 
    // Filenames
@@ -25,7 +27,8 @@ public class SimpleAnimationFactory {
    public static final String APO = "apo.png";
    public static final String WHITE_CHARGE = "white_charge.png";
 
-   public SimpleAnimationFactory() {
+   public SimpleAnimationFactory(Game game) {
+      this.game = game;
       this.imageContainer = new ImageContainer();
    }
 
@@ -67,11 +70,19 @@ public class SimpleAnimationFactory {
       return array;
    }
 
+   /**
+    * Gets the SimpleAnimation corresponding to the name, contains the image,
+    * and then adds the animation array to the RenderObjectMove-object.
+    */
    public SimpleAnimation getAnimation(String name, float xPos, float yPos, float scaleW, float scaleH,
          int aniSpeed) {
       name += ".png";
       BufferedImage[] animationArray = this.getArrayAndContainImg(name);
-      return new SimpleAnimation(animationArray, xPos, yPos, scaleW, scaleH, aniSpeed);
+      float width = animationArray[0].getWidth() * scaleW;
+      float height = animationArray[0].getHeight() * scaleH;
+      SimpleAnimation simpleAni = new SimpleAnimation(xPos, yPos, width, height, aniSpeed, animationArray.length);
+      game.getView().getRenderCutscene().getRenderObjectMove().addSimpleAnimation(simpleAni, animationArray);
+      return simpleAni;
    }
 
    public void flush() {

@@ -288,7 +288,7 @@ public class Flying extends State implements Statemethods {
          this.projectileHandler.draw(g);
       }
       if (!gameOver) {
-         this.cutsceneManager.draw(g);
+         // this.cutsceneManager.draw(g);
       }
       if (gameOver) {
          gameoverOverlay.draw(g);

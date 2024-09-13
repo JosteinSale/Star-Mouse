@@ -3,14 +3,12 @@ package cutscenes.effects;
 import static utils.Constants.Exploring.Cutscenes.FADE_IN;
 import static utils.Constants.Exploring.Cutscenes.FADE_OUT;
 
-import java.awt.Color;
-import java.awt.Graphics;
-
+import cutscenes.cutsceneManagers.CutsceneManagerExp;
+import cutscenes.cutsceneManagers.DefaultCutsceneManager;
 import game_events.EventHandler;
 import game_events.FadeEvent;
 import game_events.GeneralEvent;
 import gamestates.Gamestate;
-import main_classes.Game;
 
 /**
  * Note: in the event of standard fades, when fading out, the isActive-boolean
@@ -20,23 +18,31 @@ import main_classes.Game;
  */
 public class FadeEffect implements UpdatableEffect, DrawableEffect, AdvancableEffect {
    private EventHandler eventHandler;
+   private CutsceneManagerExp cutsceneManager;
    private String fadeDirection;
-   private Color color;
+   public String color;
    private boolean standardFade;
    private boolean isActive = false;
    private boolean shouldAdvance = false;
    private int fadeSpeed;
-   private int alphaFade;
+   public int alphaFade;
 
-   public FadeEffect(EventHandler eventHandler) {
+   /**
+    * Takes the cutsceneManager as an argument, in case of EXPLORING -> sets
+    * cutsceneManager.ative to false after a standardFade.
+    */
+   public FadeEffect(EventHandler eventHandler, DefaultCutsceneManager cutsceneManager) {
       this.eventHandler = eventHandler;
+      if (cutsceneManager instanceof CutsceneManagerExp cm) {
+         this.cutsceneManager = cm;
+      }
    }
 
    @Override
    public void activate(GeneralEvent evt) {
       FadeEvent fadeEvt = (FadeEvent) evt;
       this.fadeDirection = fadeEvt.in_out();
-      this.color = this.getColor(fadeEvt.color());
+      this.color = fadeEvt.color();
       this.fadeSpeed = fadeEvt.speed();
       this.standardFade = fadeEvt.standardFade();
       this.isActive = true;
@@ -44,17 +50,6 @@ public class FadeEffect implements UpdatableEffect, DrawableEffect, AdvancableEf
          alphaFade = 255;
       } else {
          alphaFade = 0;
-      }
-   }
-
-   private Color getColor(String string) {
-      switch (string) {
-         case "black":
-            return Color.BLACK;
-         case "white":
-            return Color.WHITE;
-         default:
-            throw new IllegalArgumentException("No color available for: " + string);
       }
    }
 
@@ -73,6 +68,7 @@ public class FadeEffect implements UpdatableEffect, DrawableEffect, AdvancableEf
          alphaFade = 255;
          if (standardFade) {
             eventHandler.triggerEvents();
+            cutsceneManager.setActive(false);
          } else {
             this.isActive = false;
             this.shouldAdvance = true;
@@ -85,6 +81,7 @@ public class FadeEffect implements UpdatableEffect, DrawableEffect, AdvancableEf
       if (this.alphaFade < 0) {
          alphaFade = 0;
          this.isActive = false;
+         this.cutsceneManager.setActive(false);
          if (!standardFade) {
             this.shouldAdvance = true;
          }
@@ -109,13 +106,6 @@ public class FadeEffect implements UpdatableEffect, DrawableEffect, AdvancableEf
    public void reset() {
       this.shouldAdvance = false;
       this.isActive = false;
-   }
-
-   @Override
-   public void draw(Graphics g) {
-      g.setColor(
-            new Color(color.getRed(), color.getGreen(), color.getBlue(), alphaFade));
-      g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
    }
 
    @Override

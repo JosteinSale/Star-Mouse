@@ -215,7 +215,7 @@ public class BossMode extends State implements Statemethods {
       this.player.draw(g);
       this.boss.draw(g);
       this.projectileHandler.draw(g);
-      this.cutsceneManager.draw(g);
+      // this.cutsceneManager.draw(g);
       if (gameOver) {
          this.gameoverOverlay.draw(g);
       } else if (pause) {

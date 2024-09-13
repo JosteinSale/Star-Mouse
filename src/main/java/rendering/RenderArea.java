@@ -1,15 +1,10 @@
 package rendering;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import entities.exploring.AutomaticTrigger;
-import entities.exploring.Door;
-import entities.exploring.InteractableObject;
 import entities.exploring.PlayerExp;
-import entities.exploring.Portal;
 import gamestates.exploring.Area;
 import main_classes.Game;
 import utils.HelpMethods2;
@@ -82,10 +77,6 @@ public class RenderArea implements SwingRender {
 
       // Hitboxes
       // drawHitboxes(g, mapManager.xLevelOffset, mapManager.yLevelOffset);
-
-      // Cutscenes
-      // cutsceneManager.draw(g); // Alt som ikke allerede er tegnet, f.ex
-      // overlay-effekter.
    }
 
    public void drawPlayer(Graphics g, int xLevelOffset, int yLevelOffset) {

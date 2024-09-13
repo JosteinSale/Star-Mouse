@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import audio.AudioPlayer;
+import cutscenes.cutsceneManagers.DefaultCutsceneManager;
 import data_storage.ProgressValues;
 import gamestates.State;
 import gamestates.Statemethods;
@@ -67,6 +68,8 @@ public class Exploring extends State implements Statemethods {
             System.out.println("Area " + (i + 1) + " succesfully loaded.");
         }
         game.getView().getRenderExploring().loadLevel(level);
+        DefaultCutsceneManager cm = areas.get(currentArea - 1).getCutsceneManager();
+        game.getView().getRenderCutscene().setCutsceneManager(cm);
     }
 
     private void checkPause() {

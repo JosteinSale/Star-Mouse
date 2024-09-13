@@ -1,6 +1,5 @@
 package cutscenes.effects;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -9,6 +8,7 @@ import game_events.AddObjectEvent;
 import game_events.GeneralEvent;
 import game_events.ObjectMoveEvent;
 import gamestates.Gamestate;
+import main_classes.Game;
 
 /**
  * Keeps a list of SimpleAnimation-objects. These can be added with the
@@ -22,6 +22,7 @@ import gamestates.Gamestate;
  * NOTE: use the 'clearObjects'-event after use, so that images are flushed.
  */
 public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
+   private Game game;
    private boolean active;
    private SimpleAnimationFactory animationFactory;
    private ArrayList<SimpleAnimation> objects; // Need arraylist because of sorting, to ensure correct layering
@@ -32,8 +33,9 @@ public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
    private HashMap<String, Float> xSpeeds;
    private HashMap<String, Float> ySpeeds;
 
-   public ObjectMoveEffect() {
-      this.animationFactory = new SimpleAnimationFactory();
+   public ObjectMoveEffect(Game game) {
+      this.game = game;
+      this.animationFactory = new SimpleAnimationFactory(game);
       this.objects = new ArrayList<>();
       this.nameToIndexMap = new HashMap<>();
       this.moveStatuses = new HashMap<>();
@@ -135,15 +137,6 @@ public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
    }
 
    @Override
-   public void draw(Graphics g) {
-      // ConcurrentModificationException - make a copy
-      ArrayList<SimpleAnimation> copy = new ArrayList<>(objects);
-      for (SimpleAnimation object : copy) {
-         object.draw(g);
-      }
-   }
-
-   @Override
    public boolean isActive() {
       return this.active;
    }
@@ -159,6 +152,7 @@ public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
       this.xSpeeds.clear();
       this.ySpeeds.clear();
       this.animationFactory.flush();
+      this.game.getView().getRenderCutscene().getRenderObjectMove().dispose();
    }
 
 }

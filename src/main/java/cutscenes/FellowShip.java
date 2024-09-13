@@ -1,30 +1,20 @@
 package cutscenes;
 
-import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_HEIGHT;
-import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_WIDTH;
-
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-
 import entities.flying.ShipFlame;
-import main_classes.Game;
 
-/* TODO - migrate this into an Updatable and Drawable CutsceneEffect-object */
 public class FellowShip {
-   private BufferedImage shipImg;
-   private ShipFlame flame;   // A bit wasteful in terms of memory usage.
-   private float xPos;
-   private float yPos;
+   public ShipFlame flame;
+   public float xPos;
+   public float yPos;
    private boolean onScreen = true;
    private int framesBeforeTakeOff;
-   private int shipHeight = 50;
+   public int height = 50;
    private int speed = 3;
 
-   public FellowShip(float x, float y, int framesBeforeTakeOff, BufferedImage shipImg) {
+   public FellowShip(float x, float y, int framesBeforeTakeOff) {
       this.xPos = x;
       this.yPos = y;
       this.framesBeforeTakeOff = framesBeforeTakeOff;
-      this.shipImg = shipImg;
       this.flame = new ShipFlame();
    }
 
@@ -32,24 +22,12 @@ public class FellowShip {
       this.flame.update();
       if (framesBeforeTakeOff > 0) {
          framesBeforeTakeOff--;
-      } 
-      else {
+      } else {
          yPos -= speed;
-         if ((yPos + shipHeight) < -45) {
+         if ((yPos + height) < -45) {
             onScreen = false;
          }
       }
-   }
-
-   public void draw(Graphics g) {
-      g.drawImage(
-         shipImg, 
-         (int) ((xPos - 20) * Game.SCALE), 
-         (int) ((yPos - 20) * Game.SCALE),
-         (int) (SHIP_SPRITE_WIDTH * 3 * Game.SCALE),
-         (int) (SHIP_SPRITE_HEIGHT * 3 * Game.SCALE), null);
-
-      flame.draw(g, xPos + 2.5f, yPos + shipHeight);
    }
 
    public boolean isOnScreen() {

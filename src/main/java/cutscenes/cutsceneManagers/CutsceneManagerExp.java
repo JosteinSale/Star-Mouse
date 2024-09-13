@@ -36,7 +36,7 @@ public class CutsceneManagerExp extends DefaultCutsceneManager {
    /* OBS: drawable effects will be drawn in the order they are added */
    private void addCutsceneEffects() {
       this.addEffect(new WaitEffect());
-      this.addEffect(new SetOverlayEffect());
+      this.addEffect(new SetOverlayEffect(game));
       this.addEffect(new FadeHeaderEffect());
       this.addEffect(new PlayerWalkEffect(this.player));
       this.addEffect(new NPCWalkEffect(this.npcManager));
@@ -46,9 +46,9 @@ public class CutsceneManagerExp extends DefaultCutsceneManager {
       this.addEffect(new DarkenScreenEffect());
 
       // Effects that need to be accessible from the cutsceneManager:
-      this.objectMoveEffect = new ObjectMoveEffect();
+      this.objectMoveEffect = new ObjectMoveEffect(game);
       this.shakeEffect = new ScreenShakeEffect(this.area);
-      this.fadeEffect = new FadeEffect(this.eventHandler);
+      this.fadeEffect = new FadeEffect(this.eventHandler, this);
       this.addEffect(objectMoveEffect);
       this.addEffect(fadeEffect);
       this.addEffect(shakeEffect);
@@ -108,6 +108,7 @@ public class CutsceneManagerExp extends DefaultCutsceneManager {
     */
    public void startStandardFade(String in_out) {
       FadeEvent evt = new FadeEvent(in_out, "black", 10, true);
+      this.active = true;
       this.fadeEffect.activate(evt);
    }
 
@@ -127,6 +128,18 @@ public class CutsceneManagerExp extends DefaultCutsceneManager {
 
    public void clearObjects() {
       this.objectMoveEffect.reset();
+   }
+
+   public NumberDisplay getNumberDisplay() {
+      return this.numberDisplay;
+   }
+
+   /**
+    * In the event of standard fades, the FadeEffect sets the active-status after
+    * it's completed. (Because standard fades don't active the cutscene-machinery)
+    */
+   public void setActive(boolean active) {
+      this.active = active;
    }
 
 }

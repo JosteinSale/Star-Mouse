@@ -411,7 +411,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
 
          // Flame
          if (!game.downIsPressed) {
-            flame.draw(g, hitbox.x + 2.5f, hitbox.y + hitbox.height);
+            // flame.draw(g, hitbox.x + 2.5f, hitbox.y + hitbox.height);
          }
 
          // Player

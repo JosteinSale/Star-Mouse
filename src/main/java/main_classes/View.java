@@ -3,6 +3,7 @@ package main_classes;
 import java.awt.Graphics;
 
 import gamestates.Gamestate;
+import rendering.RenderCutscene;
 import rendering.RenderExploring;
 import rendering.RenderLevelSelect;
 import rendering.RenderMainMenu;
@@ -24,6 +25,7 @@ public class View {
    protected RenderPauseExploring rPauseExploring;
    protected RenderOptionsMenu rOptionsMenu;
    protected RenderExploring rExploring;
+   protected RenderCutscene rCutscene;
 
    public View(Game game) {
       this.rStartScreen = new RenderStartScreen(game);
@@ -31,7 +33,8 @@ public class View {
       this.rMainMenu = new RenderMainMenu(game, rOptionsMenu);
       this.rLevelSelect = new RenderLevelSelect(game, rMainMenu.getBgImg());
       this.rPauseExploring = new RenderPauseExploring(game, rOptionsMenu);
-      this.rExploring = new RenderExploring(game, rOptionsMenu);
+      this.rCutscene = new RenderCutscene();
+      this.rExploring = new RenderExploring(game, rOptionsMenu, rCutscene);
    }
 
    public void draw(Graphics g) {
@@ -79,6 +82,11 @@ public class View {
    /** Is needed to load new renderers when we load a new level */
    public RenderExploring getRenderExploring() {
       return this.rExploring;
+   }
+
+   /** Is needed to load new SimpleAnimation-spriteArrays for ObjectMove */
+   public RenderCutscene getRenderCutscene() {
+      return this.rCutscene;
    }
 
 }

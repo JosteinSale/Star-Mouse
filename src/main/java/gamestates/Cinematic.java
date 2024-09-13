@@ -148,7 +148,7 @@ public class Cinematic extends State implements Statemethods {
 
    @Override
    public void draw(Graphics g) {
-      this.cutsceneManager.draw(g);
+      // this.cutsceneManager.draw(g);
       this.drawSkipText(g);
    }
 

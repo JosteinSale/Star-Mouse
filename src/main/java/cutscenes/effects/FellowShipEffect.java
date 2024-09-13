@@ -1,22 +1,17 @@
 package cutscenes.effects;
 
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import cutscenes.FellowShip;
 import game_events.FellowShipEvent;
 import game_events.GeneralEvent;
 import gamestates.Gamestate;
-import utils.ResourceLoader;
 
 public class FellowShipEffect implements UpdatableEffect, DrawableEffect {
    private boolean active;
-   private BufferedImage shipImg;
-   private ArrayList<FellowShip> fellowShips;
+   public ArrayList<FellowShip> fellowShips;
 
    public FellowShipEffect() {
-      this.shipImg = ResourceLoader.getFlyImageSprite(ResourceLoader.FELLOWSHIP_SPRITES);
       this.fellowShips = new ArrayList<>();
    }
 
@@ -28,7 +23,7 @@ public class FellowShipEffect implements UpdatableEffect, DrawableEffect {
       int[] takeOffTimers = fEvt.takeOffTimers();
 
       for (int i = 0; i < xPositions.length; i++) {
-         FellowShip ship = new FellowShip(xPositions[i], yPositions[i], takeOffTimers[i], shipImg);
+         FellowShip ship = new FellowShip(xPositions[i], yPositions[i], takeOffTimers[i]);
          fellowShips.add(ship);
       }
       this.active = true;
@@ -61,15 +56,6 @@ public class FellowShipEffect implements UpdatableEffect, DrawableEffect {
       }
       if (allShipsDone) {
          this.active = false;
-      }
-   }
-
-   @Override
-   public void draw(Graphics g) {
-      for (FellowShip ship : fellowShips) {
-         if (ship.isOnScreen()) {
-            ship.draw(g);
-         }
       }
    }
 

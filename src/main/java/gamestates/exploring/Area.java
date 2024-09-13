@@ -11,6 +11,7 @@ import java.util.List;
 import audio.AudioPlayer;
 import cutscenes.Cutscene;
 import cutscenes.cutsceneManagers.CutsceneManagerExp;
+import cutscenes.cutsceneManagers.DefaultCutsceneManager;
 import entities.exploring.*;
 import game_events.*;
 import gamestates.Gamestate;
@@ -190,6 +191,8 @@ public class Area {
       player.adjustReenterPos(reenterDir);
       player.resetAll();
       this.justEntered = true;
+      DefaultCutsceneManager newCm = this.exploring.getArea(newArea).getCutsceneManager();
+      game.getView().getRenderCutscene().setCutsceneManager(newCm);
       exploring.goToArea(newArea);
    }
 
@@ -464,5 +467,9 @@ public class Area {
 
    public NpcManager getNpcManager() {
       return this.npcManager;
+   }
+
+   public DefaultCutsceneManager getCutsceneManager() {
+      return this.cutsceneManager;
    }
 }

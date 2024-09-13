@@ -20,13 +20,13 @@ public class CutsceneManagerBoss extends DefaultCutsceneManager {
 
    /* OBS: drawable effects will be drawn in the order they are added */
    private void addCutsceneEffects() {
-      this.objectMoveEffect = new ObjectMoveEffect();
+      this.objectMoveEffect = new ObjectMoveEffect(game);
       this.addEffect(objectMoveEffect);
       this.addEffect(new WaitEffect());
       this.addEffect(new FillScreenEffect());
-      this.addEffect(new FadeEffect(this.eventHandler));
-      //this.shakeEffect = new ScreenShakeEffect(this.area);
-      //this.addEffect(new SetOverlayEffect());   // We might not need it?
+      this.addEffect(new FadeEffect(this.eventHandler, this));
+      // this.shakeEffect = new ScreenShakeEffect(this.area);
+      // this.addEffect(new SetOverlayEffect()); // We might not need it?
    }
 
    /** Is called from the state's update-loop if the cutsceneManager is active */
@@ -49,5 +49,5 @@ public class CutsceneManagerBoss extends DefaultCutsceneManager {
    public void clearObjects() {
       this.objectMoveEffect.reset();
    }
-   
+
 }

@@ -1,6 +1,5 @@
 package cutscenes.cutsceneManagers;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -33,7 +32,7 @@ public class DefaultCutsceneManager {
    // CutsceneEffects organized by properties
    protected HashMap<String, CutsceneEffect> allEffects; // Used to add and activate effects
    protected ArrayList<UpdatableEffect> updateableEffects; // Will be updated
-   protected ArrayList<DrawableEffect> drawableEffects; // Will be drawn
+   public ArrayList<DrawableEffect> drawableEffects; // Will be drawn
 
    // Cutscenes: are organized by which kind of object triggers them
    private ArrayList<ArrayList<Cutscene>> objectCutscenes;
@@ -159,6 +158,7 @@ public class DefaultCutsceneManager {
 
    /** Updates all active effects and textBoxes. */
    public void update() {
+      System.out.println(active);
       textBoxManager.update();
       for (UpdatableEffect effect : updateableEffects) {
          if (effect.isActive()) {
@@ -241,20 +241,6 @@ public class DefaultCutsceneManager {
       this.advance();
       cutsceneIndex += opt;
       this.cutsceneJump = true;
-   }
-
-   /**
-    * Draws all drawable effects / textBoxes that are currently active.
-    * OBS: effects are drawn in the order they are added to the cutsceneManager.
-    * Effects added first will be drawn at the bottom layer, and so forth.
-    */
-   public void draw(Graphics g) {
-      for (DrawableEffect effect : drawableEffects) {
-         if (effect.isActive()) {
-            effect.draw(g);
-         }
-      }
-      textBoxManager.draw(g);
    }
 
    public boolean isActive() {
