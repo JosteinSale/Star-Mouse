@@ -68,10 +68,10 @@ public class HelpMethods {
         return hitbox;
     }
 
-    public static PlayerExp GetPlayer(Game game, String[] lineData, BufferedImage clImg) {
+    public static PlayerExp GetPlayer(Game game, String[] lineData, int level, int area) {
         Rectangle2D.Float hitbox = CreateHitbox(lineData);
         Integer direction = Integer.parseInt(lineData[5]);
-        PlayerExp player = new PlayerExp(game, hitbox, direction, clImg);
+        PlayerExp player = new PlayerExp(game, hitbox, direction, level, area);
         return player;
     }
 
@@ -94,12 +94,11 @@ public class HelpMethods {
     public static StandardNpc GetStandardNpc(String[] lineData) {
         Rectangle2D.Float hitbox = CreateHitbox(lineData);
         String name = lineData[5];
-        String spriteFileName = lineData[6];
-        Integer xDrawOffset = Integer.parseInt(lineData[7]);
-        Integer yDrawOffset = Integer.parseInt(lineData[8]);
-        Boolean inForeground = Boolean.parseBoolean(lineData[9]);
+        Integer xDrawOffset = Integer.parseInt(lineData[6]);
+        Integer yDrawOffset = Integer.parseInt(lineData[7]);
+        Boolean inForeground = Boolean.parseBoolean(lineData[8]);
         StandardNpc npc = new StandardNpc(
-                name, hitbox, spriteFileName, xDrawOffset, yDrawOffset, inForeground);
+                name, hitbox, xDrawOffset, yDrawOffset, inForeground);
         return npc;
     }
 

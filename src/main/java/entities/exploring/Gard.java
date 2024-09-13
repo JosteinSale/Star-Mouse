@@ -1,24 +1,15 @@
 package entities.exploring;
 
-import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
-import java.awt.image.BufferedImage;
 
 import entities.Entity;
-import main_classes.Game;
-import utils.HelpMethods2;
-import utils.ResourceLoader;
-import static utils.Constants.Exploring.Sprites.STANDARD_SPRITE_WIDTH;
-import static utils.Constants.Exploring.Sprites.STANDARD_SPRITE_HEIGHT;
 
 public class Gard extends Entity implements NPC {
    private String name = "Gard";
    private Rectangle2D.Float triggerBox;
-   private BufferedImage spriteSheet;
-   private BufferedImage[][] animations;
-   private int spriteWidth;
-   private int spriteHeight;
+   private int xDrawOffset = 80;
+   private int yDrawOffset = 30;
    private int startCutscene = 0;
    private boolean inForeground;
    private boolean poseActive = false;
@@ -44,27 +35,12 @@ public class Gard extends Entity implements NPC {
       super(hitbox);
       this.direction = direction;
       this.inForeground = inForeground;
-      loadSprites();
-      adjustImageSizes();
       makeTriggerBox();
    }
 
    private void makeTriggerBox() {
       this.triggerBox = new Rectangle2D.Float(
             hitbox.x - 8, hitbox.y, hitbox.width + 16, hitbox.height + 8);
-   }
-
-   private void loadSprites() {
-      this.spriteSheet = ResourceLoader.getExpImageSprite(ResourceLoader.GARD_SPRITES);
-      this.animations = HelpMethods2.GetAnimationArray(
-            spriteSheet,
-            3, 4,
-            STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
-   }
-
-   private void adjustImageSizes() {
-      spriteWidth = (int) (STANDARD_SPRITE_WIDTH * Game.SCALE * 3);
-      spriteHeight = (int) (STANDARD_SPRITE_HEIGHT * Game.SCALE * 3);
    }
 
    @Override
@@ -103,16 +79,6 @@ public class Gard extends Entity implements NPC {
       this.hitbox.y += deltaY;
       this.triggerBox.x += deltaX;
       this.triggerBox.y += deltaY;
-   }
-
-   @Override
-   public void draw(Graphics g, int xLevelOffset, int yLevelOffset) {
-      g.drawImage(
-            animations[action][aniIndex],
-            (int) ((hitbox.x - 80 - xLevelOffset) * Game.SCALE),
-            (int) ((hitbox.y - 30 - yLevelOffset) * Game.SCALE),
-            spriteWidth, spriteHeight,
-            null);
    }
 
    @Override
@@ -167,9 +133,23 @@ public class Gard extends Entity implements NPC {
    }
 
    @Override
-   public void flushImages() {
-      this.spriteSheet.flush();
-      this.spriteSheet = null;
+   public float getXDrawOffset() {
+      return this.xDrawOffset;
+   }
+
+   @Override
+   public float getYDrawOffset() {
+      return this.yDrawOffset;
+   }
+
+   @Override
+   public int getAction() {
+      return this.action;
+   }
+
+   @Override
+   public int getAniIndex() {
+      return this.aniIndex;
    }
 
 }

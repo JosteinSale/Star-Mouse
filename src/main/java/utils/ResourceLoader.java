@@ -58,6 +58,7 @@ public class ResourceLoader {
     public static final String LT_RED_PORTRAITS = "portraits_lt_red.png";
     public static final String RUDINGER_PORTRAITS = "portraits_rudinger.png";
     public static final String NPC_PORTRAITS = "portraits_npc.png";
+    public static final String STANDARD_NPC_SPRITES = "sprites_npcs.png";
 
     // Sprites - Flying
     public static final String SHIP_SPRITES = "sprites_ship.png";

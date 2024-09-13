@@ -1,24 +1,17 @@
 package entities.exploring;
 
 import static utils.Constants.Exploring.DirectionConstants.*;
-import static utils.Constants.Exploring.Sprites.*;
 
-import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
-import java.awt.image.BufferedImage;
 
 import entities.Entity;
-import main_classes.Game;
-import utils.ResourceLoader;
 
 public class Oliver extends Entity implements NPC {
    private String name = "Oliver";
    private Rectangle2D.Float triggerBox;
-   private BufferedImage spriteSheet;
-   private BufferedImage[][] oliverSprites;
-   private int spriteWidth;
-   private int spriteHeight;
+   private int xDrawOffset = 80;
+   private int yDrawOffset = 30;
    private int startCutscene = 0;
    private boolean inForeground;
 
@@ -34,32 +27,12 @@ public class Oliver extends Entity implements NPC {
       super(hitbox);
       this.oliverDirection = direction;
       this.inForeground = inForeground;
-      loadSprites();
-      adjustImageSizes();
       makeTriggerBox();
    }
 
    private void makeTriggerBox() {
       this.triggerBox = new Rectangle2D.Float(
             hitbox.x - 8, hitbox.y, hitbox.width + 16, hitbox.height + 8);
-   }
-
-   private void loadSprites() {
-      spriteSheet = ResourceLoader.getExpImageSprite(ResourceLoader.OLIVER_SPRITES);
-      oliverSprites = new BufferedImage[6][4];
-      for (int j = 0; j < oliverSprites.length; j++) {
-         for (int i = 0; i < oliverSprites[j].length; i++) {
-            oliverSprites[j][i] = spriteSheet.getSubimage(
-                  i * STANDARD_SPRITE_WIDTH,
-                  j * STANDARD_SPRITE_HEIGHT,
-                  STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
-         }
-      }
-   }
-
-   private void adjustImageSizes() {
-      spriteWidth = (int) (STANDARD_SPRITE_WIDTH * Game.SCALE * 3);
-      spriteHeight = (int) (STANDARD_SPRITE_HEIGHT * Game.SCALE * 3);
    }
 
    @Override
@@ -89,26 +62,6 @@ public class Oliver extends Entity implements NPC {
       this.hitbox.y += deltaY;
       this.triggerBox.x += deltaX;
       this.triggerBox.y += deltaY;
-   }
-
-   @Override
-   public void draw(Graphics g, int xLevelOffset, int yLevelOffset) {
-      g.drawImage(
-            oliverSprites[oliverAction][aniIndex],
-            (int) ((hitbox.x - 80 - xLevelOffset) * Game.SCALE),
-            (int) ((hitbox.y - 30 - yLevelOffset) * Game.SCALE),
-            spriteWidth, spriteHeight,
-            null);
-
-      // Triggerbox
-      /*
-       * g.setColor(Color.CYAN);
-       * g.drawRect(
-       * (int) ((triggerBox.x - xLevelOffset) * Game.SCALE),
-       * (int) ((triggerBox.y - yLevelOffset) * Game.SCALE),
-       * (int) (triggerBox.width * Game.SCALE),
-       * (int) (triggerBox.height * Game.SCALE));
-       */
    }
 
    @Override
@@ -163,9 +116,23 @@ public class Oliver extends Entity implements NPC {
    }
 
    @Override
-   public void flushImages() {
-      this.spriteSheet.flush();
-      this.spriteSheet = null;
+   public float getXDrawOffset() {
+      return this.xDrawOffset;
+   }
+
+   @Override
+   public float getYDrawOffset() {
+      return this.yDrawOffset;
+   }
+
+   @Override
+   public int getAction() {
+      return this.oliverAction;
+   }
+
+   @Override
+   public int getAniIndex() {
+      return this.aniIndex;
    }
 
 }

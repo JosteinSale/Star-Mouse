@@ -17,7 +17,6 @@ import gamestates.Gamestate;
 import main_classes.Game;
 import ui.InventoryItem;
 import ui.TextboxManager;
-import utils.ResourceLoader;
 
 public class Area {
    private Game game;
@@ -44,14 +43,14 @@ public class Area {
       this.game = game;
       this.exploring = exploring;
       this.audioPlayer = audioPlayer;
-      constructMapManager(levelIndex, areaIndex);
+      this.mapManager = new MapManager1();
       interactableObject = new ArrayList<>();
       doors = new ArrayList<>();
       portals = new ArrayList<>();
       npcManager = new NpcManager();
       automaticTriggers = new ArrayList<>();
       this.eventHandler = new EventHandler();
-      loadAreaData(areaData);
+      loadAreaData(areaData, levelIndex, areaIndex);
       TextboxManager textboxManager = game.getTextboxManager();
       this.cutsceneManager = new CutsceneManagerExp(
             Gamestate.EXPLORING, game, this, eventHandler, textboxManager, player, npcManager);
@@ -59,11 +58,7 @@ public class Area {
       loadCutscenes(cutsceneData);
    }
 
-   private void constructMapManager(Integer levelIndex, Integer areaIndex) {
-      this.mapManager = new MapManager1(levelIndex, areaIndex);
-   }
-
-   private void loadAreaData(List<String> areaData) {
+   private void loadAreaData(List<String> areaData, int levelIndex, int areaIndex) {
       for (String line : areaData) {
          String[] lineData = line.split(";");
          if (lineData[0].equals("ambience")) {
@@ -72,7 +67,7 @@ public class Area {
             this.song = Integer.parseInt(lineData[1]);
             this.musicEnabled = Boolean.parseBoolean(lineData[2]);
          } else if (lineData[0].equals("player")) {
-            player = GetPlayer(game, lineData, mapManager.clImg);
+            player = GetPlayer(game, lineData, levelIndex, areaIndex);
          } else if (lineData[0].equals("object")) {
             InteractableObject object = GetInteractableObject(lineData);
             interactableObject.add(object);
@@ -389,45 +384,6 @@ public class Area {
       }
    }
 
-   public void draw(Graphics g) {
-      mapManager.drawLandscape(g);
-      mapManager.drawBackground(g);
-
-      // Entities
-      npcManager.drawBgNpcs(g, mapManager.xLevelOffset, mapManager.yLevelOffset);
-      player.draw(g, mapManager.xLevelOffset, mapManager.yLevelOffset);
-
-      // Foreground
-      npcManager.drawFgNpcs(g, mapManager.xLevelOffset, mapManager.yLevelOffset);
-      mapManager.drawForeground(g);
-
-      // Hitboxes
-      // drawHitboxes(g, mapManager.xLevelOffset, mapManager.yLevelOffset);
-
-      // Cutscenes
-      cutsceneManager.draw(g); // Alt som ikke allerede er tegnet, f.ex overlay-effekter.
-   }
-
-   private void drawHitboxes(Graphics g, int xLevelOffset, int yLevelOffset) {
-      g.setColor(Color.RED);
-      player.drawHitbox(g, xLevelOffset, yLevelOffset);
-
-      for (InteractableObject ob : interactableObject) {
-         ob.drawHitbox(g, xLevelOffset, yLevelOffset);
-      }
-      for (Door door : doors) {
-         door.drawHitbox(g, xLevelOffset, yLevelOffset);
-      }
-      for (Portal portal : portals) {
-         portal.drawHitbox(g, xLevelOffset, yLevelOffset);
-      }
-      npcManager.drawHitboxes(g, xLevelOffset, yLevelOffset);
-
-      for (AutomaticTrigger trigger : automaticTriggers) {
-         trigger.drawHitbox(g, xLevelOffset, yLevelOffset);
-      }
-   }
-
    private void setNewStartingCutscene(int triggerObject, int elementNr, int cutsceneIndex) {
       switch (triggerObject) {
          case OBJECT:
@@ -498,9 +454,15 @@ public class Area {
       game.getExploring().goToFlying();
    }
 
+   public MapManager1 getMapManager() {
+      return this.mapManager;
+   }
+
    public void flushImages() {
-      this.mapManager.flush();
-      this.npcManager.flush();
       this.player.flush();
+   }
+
+   public NpcManager getNpcManager() {
+      return this.npcManager;
    }
 }

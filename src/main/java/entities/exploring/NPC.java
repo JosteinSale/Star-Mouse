@@ -1,15 +1,10 @@
 package entities.exploring;
 
-import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 
 public interface NPC {
 
     public void update();
-
-    public void draw(Graphics g, int xLevelOffset, int yLevelOffset);
-
-    public void drawHitbox(Graphics g, int xLevelOffset, int yLevelOffset);
 
     public Rectangle2D.Float getHitbox();
 
@@ -31,5 +26,11 @@ public interface NPC {
 
     public boolean inForeground();
 
-    public void flushImages();
+    public float getXDrawOffset();
+
+    public float getYDrawOffset();
+
+    public int getAction();
+
+    public int getAniIndex();
 }

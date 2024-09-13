@@ -76,4 +76,9 @@ public class View {
       }
    }
 
+   /** Is needed to load new renderers when we load a new level */
+   public RenderExploring getRenderExploring() {
+      return this.rExploring;
+   }
+
 }

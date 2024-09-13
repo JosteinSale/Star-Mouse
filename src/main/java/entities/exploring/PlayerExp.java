@@ -1,12 +1,9 @@
 package entities.exploring;
 
 import static utils.Constants.Exploring.DirectionConstants.*;
-import static utils.Constants.Exploring.Sprites.STANDARD_SPRITE_HEIGHT;
-import static utils.Constants.Exploring.Sprites.STANDARD_SPRITE_WIDTH;
 import static utils.HelpMethods.CollidesWithMap;
 import static utils.HelpMethods.CollidesWithNpc;
 
-import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
@@ -15,61 +12,31 @@ import java.util.ArrayList;
 
 import entities.Entity;
 import main_classes.Game;
-import utils.HelpMethods2;
 import utils.ResourceLoader;
 
 public class PlayerExp extends Entity {
    private Game game;
    private BufferedImage collisionImg;
-   private int playerSpriteWidth;
-   private int playerSpriteHeight;
-
-   // Sprite sheets
-   private static ArrayList<BufferedImage[][]> playerSprites;
-   private final int NORMAL_SPRITE = 0;
-   private final int NAKED_SPRITE = 1;
-   private final int SAD_SPRITE = 2;
 
    private boolean poseActive = false;
-   private int playerAction;
+   public int playerAction;
    private int playerDirection = LEFT;
-   private static int CURRENT_SPRITE_SHEET = 0;
    private float playerSpeed = 5f;
-   private boolean visible = true;
+   public boolean visible = true;
 
+   public static int CURRENT_SPRITE_SHEET = 0;
    private int aniTick = 0;
    private int aniTickPerFrame = 8; // Antall ticks per gang animasjonen oppdateres
-   private int aniIndex = 0;
+   public int aniIndex = 0;
 
-   public PlayerExp(Game game, Float hitbox, int direction, BufferedImage collisionImg) {
+   public PlayerExp(Game game, Float hitbox, int direction, Integer level, Integer area) {
       super(hitbox);
       this.game = game;
       this.playerDirection = direction;
       playerAction = STANDING;
-      this.collisionImg = collisionImg;
-      adjustImageSizes();
-   }
+      String imgName = "level" + level.toString() + "_area" + area.toString();
+      this.collisionImg = ResourceLoader.getExpImageCollision(imgName + "_cl.png");
 
-   /** Add sprites according to the indexes given at the top */
-   static {
-      playerSprites = new ArrayList<>();
-      BufferedImage[][] normalSprites = HelpMethods2.GetAnimationArray(
-            ResourceLoader.getExpImageSprite(ResourceLoader.PLAYER_EXP_SPRITES),
-            6, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
-      BufferedImage[][] nakedSprites = HelpMethods2.GetAnimationArray(
-            ResourceLoader.getExpImageSprite(ResourceLoader.PLAYER_EXP_SPRITES_NAKED),
-            5, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
-      BufferedImage[][] sadSprites = HelpMethods2.GetAnimationArray(
-            ResourceLoader.getExpImageSprite(ResourceLoader.PLAYER_EXP_SPRITES_SAD),
-            5, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
-      playerSprites.add(normalSprites);
-      playerSprites.add(nakedSprites);
-      playerSprites.add(sadSprites);
-   }
-
-   private void adjustImageSizes() {
-      playerSpriteWidth = (int) (STANDARD_SPRITE_WIDTH * Game.SCALE * 3);
-      playerSpriteHeight = (int) (STANDARD_SPRITE_HEIGHT * Game.SCALE * 3);
    }
 
    public void keyPressed(KeyEvent e) {
@@ -156,18 +123,6 @@ public class PlayerExp extends Entity {
       this.playerAction = STANDING;
       this.aniTick = 0;
       this.aniIndex = 0;
-   }
-
-   public void draw(Graphics g, int xLevelOffset, int yLevelOffset) {
-      if (visible) {
-         // drawShadow(g, xLevelOffset, yLevelOffset);
-         g.drawImage(
-               playerSprites.get(CURRENT_SPRITE_SHEET)[playerAction][aniIndex],
-               (int) ((hitbox.x - 113 - xLevelOffset) * Game.SCALE),
-               (int) ((hitbox.y - 135 - yLevelOffset) * Game.SCALE),
-               playerSpriteWidth, playerSpriteHeight,
-               null);
-      }
    }
 
    public Rectangle2D.Float getHitbox() {

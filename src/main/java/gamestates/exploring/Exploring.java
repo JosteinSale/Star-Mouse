@@ -17,7 +17,7 @@ import utils.ResourceLoader;
 public class Exploring extends State implements Statemethods {
     private AudioPlayer audioPlayer;
     private int currentLevel;
-    private int currentArea; // Is set in the loadLevel-method. Can be altered for testing purposes.
+    public int currentArea; // Is set in the loadLevel-method. Can be altered for testing purposes.
     private ArrayList<Area> areas;
     private PauseExploring pauseOverlay;
     private ProgressValues progValues; // Is the only instance in the code base (except LevelSelect)
@@ -66,6 +66,7 @@ public class Exploring extends State implements Statemethods {
             areas.add(area);
             System.out.println("Area " + (i + 1) + " succesfully loaded.");
         }
+        game.getView().getRenderExploring().loadLevel(level);
     }
 
     private void checkPause() {
@@ -96,7 +97,7 @@ public class Exploring extends State implements Statemethods {
 
     @Override
     public void draw(Graphics g) {
-        areas.get(currentArea - 1).draw(g);
+        // areas.get(currentArea - 1).draw(g);
         // if (pauseOverlay.isActive()) {
         // pauseOverlay.draw(g);
         if (mechanicActive) {
@@ -161,5 +162,9 @@ public class Exploring extends State implements Statemethods {
 
     public PauseExploring getPauseOverlay() {
         return this.pauseOverlay;
+    }
+
+    public ArrayList<Area> getAreas() {
+        return this.areas;
     }
 }
