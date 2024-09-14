@@ -326,9 +326,9 @@ public class MechanicOverlay {
             (int) (560 * Game.SCALE), (int) (400 * Game.SCALE));
 
       if (infoBoxActive) {
-         infoBox.draw(g);
+         // infoBox.draw(g);
       } else if (infoChoiceActive) {
-         infoChoice.draw(g);
+         // infoChoice.draw(g);
       }
    }
 

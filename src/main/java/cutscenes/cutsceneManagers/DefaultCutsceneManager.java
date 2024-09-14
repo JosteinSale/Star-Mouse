@@ -158,7 +158,6 @@ public class DefaultCutsceneManager {
 
    /** Updates all active effects and textBoxes. */
    public void update() {
-      System.out.println(active);
       textBoxManager.update();
       for (UpdatableEffect effect : updateableEffects) {
          if (effect.isActive()) {

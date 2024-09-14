@@ -1,88 +1,42 @@
 package ui;
 
-import static utils.Constants.UI.DIALOGUEBOX_HEIGHT;
-import static utils.Constants.UI.DIALOGUEBOX_WIDTH;
 import static utils.Constants.UI.DIALOGUE_MAX_LETTERS;
-import static utils.Constants.UI.PORTRAIT_SIZE;
 import static utils.HelpMethods.GetCharacterIndex;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
 import audio.AudioPlayer;
 import main_classes.Game;
-import utils.HelpMethods;
-import utils.ResourceLoader;
 
 public class BigDialogueBox {
+    private Game game;
     private AudioPlayer audioPlayer;
-    private BufferedImage dialogueBoxImg;
-    private BufferedImage[][] portraits;
-
-    private String name;
-    private Color nameColor;
-    private int characterIndex = 0;
-    private int portraitIndex = 0;
+    public String name;
+    public int characterIndex = 0;
+    public int portraitIndex = 0;
     private int aniTick;
     private int aniTickPerFrame;
-    private int currentLetter;
-    private int currentLine = 0;
+    public int currentLetter;
+    public int currentLine = 0;
     private int voiceTick;
     private int voiceTickPerFrame;
     private boolean allLettersAppeared = false;
     private Random rand;
 
-    private Font dialogueFont;
-    private Font nameFont;
     private ArrayList<Integer> breakPoints;
-    private ArrayList<String> formattedStrings;
-    private int X = (int) ((Game.GAME_DEFAULT_WIDTH / 2 - DIALOGUEBOX_WIDTH / 2) * Game.SCALE);
-    private int Y = (int) (550 * Game.SCALE);
+    public ArrayList<String> formattedStrings;
 
     public BigDialogueBox(Game game) {
+        this.game = game;
         this.audioPlayer = game.getAudioPlayer();
         this.rand = new Random();
-        dialogueBoxImg = ResourceLoader.getExpImageSprite(ResourceLoader.DIALOGUE_BOX);
-        dialogueFont = ResourceLoader.getInfoFont();
-        nameFont = ResourceLoader.getNameFont();
         this.breakPoints = new ArrayList<>();
         this.formattedStrings = new ArrayList<>();
-        this.portraits = BigDialogueBox.getAllPortraits();
-    }
-
-    public static BufferedImage[][] getAllPortraits() {
-        BufferedImage[][] portraits;
-        int nrOfSpecialCharacters = 4;
-        int nrOfNpcs = 17;
-        int maxAmountOfPortraits = 15;
-        int nrOfCharacters = nrOfSpecialCharacters + nrOfNpcs;
-        portraits = new BufferedImage[nrOfCharacters][maxAmountOfPortraits];
-        portraits[0] = getPortraits(ResourceLoader.MAX_PORTRAITS, 15, 0);
-        portraits[1] = getPortraits(ResourceLoader.OLIVER_PORTRAITS, 9, 0);
-        portraits[2] = getPortraits(ResourceLoader.LT_RED_PORTRAITS, 6, 0);
-        portraits[3] = getPortraits(ResourceLoader.RUDINGER_PORTRAITS, 7, 0);
-        for (int i = 0; i < nrOfNpcs; i++) {
-            portraits[i + nrOfSpecialCharacters] = getPortraits(ResourceLoader.NPC_PORTRAITS, 4, i);
-        }
-        return portraits;
-    }
-
-    private static BufferedImage[] getPortraits(String portraitName, int length, int rowIndex) {
-        BufferedImage img = ResourceLoader.getExpImageSprite(portraitName);
-        BufferedImage[] portraits = new BufferedImage[length];
-        for (int i = 0; i < portraits.length; i++) {
-            portraits[i] = img.getSubimage(
-                    i * PORTRAIT_SIZE, rowIndex * PORTRAIT_SIZE,
-                    PORTRAIT_SIZE, PORTRAIT_SIZE);
-        }
-        return portraits;
     }
 
     public void setDialogue(String name, int speed, String text, int portraitIndex) {
+        this.game.getView().getRenderCutscene().setDialogue(name);
         this.allLettersAppeared = false;
         this.breakPoints.clear();
         this.formattedStrings.clear();
@@ -93,7 +47,6 @@ public class BigDialogueBox {
         this.aniTickPerFrame = speed;
         formatStrings(text);
         this.characterIndex = GetCharacterIndex(name);
-        this.nameColor = HelpMethods.GetNameColor(name);
         this.portraitIndex = portraitIndex;
         this.setVoiceStuff();
     }
@@ -194,48 +147,6 @@ public class BigDialogueBox {
 
     private boolean currentCharIs(char c) {
         return formattedStrings.get(currentLine).charAt(currentLetter) == c;
-    }
-
-    public void draw(Graphics g) {
-        g.drawImage(
-                dialogueBoxImg, X, Y,
-                (int) (DIALOGUEBOX_WIDTH * Game.SCALE),
-                (int) (DIALOGUEBOX_HEIGHT * Game.SCALE), null);
-
-        g.drawImage(
-                portraits[characterIndex][portraitIndex],
-                X + (int) (12 * Game.SCALE), Y + (int) (12 * Game.SCALE),
-                (int) (PORTRAIT_SIZE * 3 * Game.SCALE), (int) (PORTRAIT_SIZE * 3 * Game.SCALE), null);
-
-        g.setColor(nameColor);
-        g.setFont(nameFont); // Er allerede justert ift Game.SCALE
-        g.drawString(
-                name,
-                X + (int) (200 * Game.SCALE),
-                Y + (int) (60 * Game.SCALE));
-
-        g.setColor(Color.WHITE);
-        g.setFont(dialogueFont);
-
-        drawText(g);
-    }
-
-    private void drawText(Graphics g) {
-        for (int i = 0; i < (currentLine + 1); i++) {
-            int endLetter = formattedStrings.get(i).length();
-            if (i == currentLine) {
-                endLetter = currentLetter + 1;
-            }
-            drawPartialSentence(g, formattedStrings.get(i),
-                    endLetter,
-                    X + (int) (200 * Game.SCALE), Y + (int) ((i * 35 + 100) * Game.SCALE));
-        }
-    }
-
-    // Vi kunne forbedret kjøretiden ved å bruke stringBuilder.
-    private void drawPartialSentence(Graphics g, String s, int currentLetter, int x, int y) {
-        g.drawString(
-                s.substring(0, currentLetter), x, y);
     }
 
     public boolean allLettersAppeared() {

@@ -33,6 +33,7 @@ public class RenderCutscene implements SwingRender {
    private DefaultCutsceneManager cutsceneManager;
    private RenderNumberDisplay rNumberDisplay;
    private RenderObjectMove rObjectMove;
+   private RenderTextBox rTextBox;
    private static Font headerFont;
    private static BufferedImage shipImg;
    private static BufferedImage[] flameAnimations; // For the fellowships
@@ -48,9 +49,10 @@ public class RenderCutscene implements SwingRender {
             2, 15, 15);
    }
 
-   public RenderCutscene() {
+   public RenderCutscene(Game game) {
       this.rNumberDisplay = new RenderNumberDisplay();
       this.rObjectMove = new RenderObjectMove();
+      this.rTextBox = new RenderTextBox(game.getTextboxManager());
    }
 
    public void setCutsceneManager(DefaultCutsceneManager cutsceneManager) {
@@ -82,7 +84,7 @@ public class RenderCutscene implements SwingRender {
             this.drawEffect(g, effect);
          }
       }
-      // textBoxManager.draw(g);
+      rTextBox.draw(g);
    }
 
    /*
@@ -191,6 +193,10 @@ public class RenderCutscene implements SwingRender {
 
    public RenderObjectMove getRenderObjectMove() {
       return this.rObjectMove;
+   }
+
+   public void setDialogue(String name) {
+      this.rTextBox.setDialogue(name);
    }
 
 }

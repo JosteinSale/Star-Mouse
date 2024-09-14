@@ -1,48 +1,21 @@
 package ui;
 
 import static utils.Constants.UI.*;
-import static utils.HelpMethods.DrawCenteredString;
-
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
 
 import main_classes.Game;
-import utils.ResourceLoader;
 
 public class InfoChoice {
-    private Font infoFont;
-    private Rectangle questionRect;
-    private String question;
-    private String leftChoice;
-    private String rightChoice;
-    private BufferedImage infoBoxImg;
-    private BufferedImage cursor;
-    private int selectedOption = 1;          // 1 = left, 2 = right
-    private int cursorX;
-    private int cursorY;
-    private int cursorW;
-    private int cursorH;
-    private int X = (int) ((Game.GAME_DEFAULT_WIDTH/2 -  INFOBOX_WIDTH/2) * Game.SCALE);
-    private int Y = (int) (580 * Game.SCALE);
+
+    public String question;
+    public String leftChoice;
+    public String rightChoice;
+    private int selectedOption = 1; // 1 = left, 2 = right
+    public int infoChX;
+    public int cursorX;
 
     public InfoChoice() {
-        infoBoxImg = ResourceLoader.getExpImageSprite(ResourceLoader.INFO_BOX);
-        infoFont = ResourceLoader.getInfoFont();
-        this.cursor = ResourceLoader.getExpImageSprite(ResourceLoader.CURSOR_SPRITE_BLACK);
-        this.cursorX = X + (int) (80 * Game.SCALE);
-        this.cursorY = Y + (int) (90 * Game.SCALE);
-        this.cursorW = (int) (CURSOR_WIDTH * 0.6f * Game.SCALE);
-        this.cursorH = (int) (CURSOR_HEIGHT * 0.6f * Game.SCALE);
-        this.createQuestionRect();
-    }
-
-    private void createQuestionRect() {
-        this.questionRect = new Rectangle(
-            X, (int) (Y + (20 * Game.SCALE)), 
-            (int) (INFOBOX_WIDTH * Game.SCALE), (int) (50 * Game.SCALE));
+        this.infoChX = (int) ((Game.GAME_DEFAULT_WIDTH / 2 - INFOBOX_WIDTH / 2) * Game.SCALE);
+        this.cursorX = infoChX + (int) (80 * Game.SCALE);
     }
 
     public void setText(String question, String leftChoice, String rightChoice) {
@@ -56,27 +29,8 @@ public class InfoChoice {
         this.cursorX += (int) (250 * Game.SCALE);
         if (selectedOption > 2) {
             selectedOption = 1;
-            this.cursorX = X + (int) (80 * Game.SCALE);
+            this.cursorX = infoChX + (int) (80 * Game.SCALE);
         }
-    }
-
-    public void draw(Graphics g) {
-        g.drawImage(
-            infoBoxImg, X, Y, 
-            (int) (INFOBOX_WIDTH * Game.SCALE), 
-            (int) (INFOBOX_HEIGHT * Game.SCALE), null);
-
-        g.setColor(Color.BLACK);
-        g.setFont(infoFont);
-        DrawCenteredString(g, question, questionRect, infoFont);
-        g.drawString(leftChoice, 
-            X + (int) (150 * Game.SCALE), 
-            Y + (int) (110 * Game.SCALE));
-        g.drawString(rightChoice, 
-            X + (int) (400 * Game.SCALE), 
-            Y + (int) (110 * Game.SCALE));
-
-        g.drawImage(cursor, cursorX, cursorY, cursorW, cursorH, null);
     }
 
     /** Selected option is an int that is 1 (left choice) or 2 (right choice) */
@@ -84,4 +38,3 @@ public class InfoChoice {
         return this.selectedOption;
     }
 }
-

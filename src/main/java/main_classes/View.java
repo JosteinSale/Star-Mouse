@@ -33,7 +33,7 @@ public class View {
       this.rMainMenu = new RenderMainMenu(game, rOptionsMenu);
       this.rLevelSelect = new RenderLevelSelect(game, rMainMenu.getBgImg());
       this.rPauseExploring = new RenderPauseExploring(game, rOptionsMenu);
-      this.rCutscene = new RenderCutscene();
+      this.rCutscene = new RenderCutscene(game);
       this.rExploring = new RenderExploring(game, rOptionsMenu, rCutscene);
    }
 
