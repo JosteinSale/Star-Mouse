@@ -23,6 +23,7 @@ import cutscenes.effects.ObjectMoveEffect;
 import cutscenes.effects.RedLightEffect;
 import cutscenes.effects.SetOverlayEffect;
 import main_classes.Game;
+import ui.TextboxManager;
 import utils.HelpMethods2;
 import utils.ResourceLoader;
 
@@ -49,10 +50,10 @@ public class RenderCutscene implements SwingRender {
             2, 15, 15);
    }
 
-   public RenderCutscene(Game game) {
+   public RenderCutscene(TextboxManager tbM, RenderInfoBox rInfoBox, RenderInfoChoice rInfoChoice) {
       this.rNumberDisplay = new RenderNumberDisplay();
       this.rObjectMove = new RenderObjectMove();
-      this.rTextBox = new RenderTextBox(game.getTextboxManager());
+      this.rTextBox = new RenderTextBox(tbM, rInfoBox, rInfoChoice);
    }
 
    public void setCutsceneManager(DefaultCutsceneManager cutsceneManager) {

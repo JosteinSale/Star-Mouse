@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import gamestates.Gamestate;
 import rendering.RenderCutscene;
 import rendering.RenderExploring;
+import rendering.RenderInfoBox;
+import rendering.RenderInfoChoice;
 import rendering.RenderLevelSelect;
 import rendering.RenderMainMenu;
 import rendering.RenderOptionsMenu;
@@ -14,12 +16,15 @@ import rendering.RenderStartScreen;
 /**
  * Renders all the gamestates.
  * It initializes one specialized render-object for each gamestate,
- * and keeps these references.
+ * and keeps these references. Additional renderers that are re-used in various
+ * parts of the game are also initialized here.
  * The renderer for each state in turn keeps a reference
  * to its respective model, + any additional renderers it may need.
  */
 public class View {
    protected RenderStartScreen rStartScreen;
+   protected RenderInfoBox rInfoBox;
+   protected RenderInfoChoice rInfoChoice;
    protected RenderMainMenu rMainMenu;
    protected RenderLevelSelect rLevelSelect;
    protected RenderPauseExploring rPauseExploring;
@@ -28,12 +33,17 @@ public class View {
    protected RenderCutscene rCutscene;
 
    public View(Game game) {
-      this.rStartScreen = new RenderStartScreen(game);
-      this.rOptionsMenu = new RenderOptionsMenu(game);
-      this.rMainMenu = new RenderMainMenu(game, rOptionsMenu);
+      this.rStartScreen = new RenderStartScreen(game.getStartScreen());
+      this.rInfoBox = new RenderInfoBox(game.getTextboxManager().getInfoBox());
+      this.rInfoChoice = new RenderInfoChoice(
+            game.getTextboxManager().getInfoChoice(),
+            rInfoBox.getBackground(),
+            rInfoBox.getFont());
+      this.rOptionsMenu = new RenderOptionsMenu(game.getOptionsMenu(), game.getOptionsMenu().getControlsMenu());
+      this.rMainMenu = new RenderMainMenu(game, rOptionsMenu, rInfoChoice);
       this.rLevelSelect = new RenderLevelSelect(game, rMainMenu.getBgImg());
       this.rPauseExploring = new RenderPauseExploring(game, rOptionsMenu);
-      this.rCutscene = new RenderCutscene(game);
+      this.rCutscene = new RenderCutscene(game.getTextboxManager(), this.rInfoBox, this.rInfoChoice);
       this.rExploring = new RenderExploring(game, rOptionsMenu, rCutscene);
    }
 

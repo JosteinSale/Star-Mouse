@@ -1,10 +1,8 @@
 package rendering;
 
 import java.awt.Graphics;
-import java.awt.Rectangle;
 
 import ui.BigDialogueBox;
-import ui.InfoChoice;
 import ui.SmallDialogueBox;
 import ui.TextboxManager;
 import utils.HelpMethods;
@@ -12,11 +10,8 @@ import utils.ResourceLoader;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-
-import static utils.HelpMethods.DrawCenteredString;
 
 import static utils.Constants.UI.*;
 
@@ -26,18 +21,10 @@ public class RenderTextBox implements SwingRender {
    private TextboxManager tbM;
 
    // Infobox
-   private Font infoFont;
-   private BufferedImage infoBoxImg;
-   private int infoX = (int) ((Game.GAME_DEFAULT_WIDTH / 2 - INFOBOX_WIDTH / 2) * Game.SCALE);
-   private int infoY = (int) (580 * Game.SCALE);
+   private RenderInfoBox rInfoBox;
 
    // InfoChoice
-   private Rectangle questionRect;
-   private int infoChY;
-   private BufferedImage cursorImg;
-   private int cursorY;
-   private int cursorW;
-   private int cursorH;
+   private RenderInfoChoice rInfoChoice;
 
    // Big dialogue box
    private BufferedImage bigDialogueBoxImg;
@@ -53,34 +40,22 @@ public class RenderTextBox implements SwingRender {
    private int sDialogueX = (int) (40 * Game.SCALE);
    private int sDialogueY = (int) (600 * Game.SCALE);
 
-   public RenderTextBox(TextboxManager textBoxManager) {
+   public RenderTextBox(TextboxManager textBoxManager, RenderInfoBox rInfoBox, RenderInfoChoice rInfoChoice) {
       this.tbM = textBoxManager;
+      this.rInfoBox = rInfoBox;
+      this.rInfoChoice = rInfoChoice;
       this.loadImages();
       this.loadFonts();
-      this.calcInfoChoiceValues();
    }
 
    private void loadFonts() {
-      infoFont = ResourceLoader.getInfoFont();
       dialogueFont = ResourceLoader.getInfoFont();
       nameFont = ResourceLoader.getNameFont();
    }
 
    private void loadImages() {
-      infoBoxImg = ResourceLoader.getExpImageSprite(ResourceLoader.INFO_BOX);
-      cursorImg = ResourceLoader.getExpImageSprite(ResourceLoader.CURSOR_SPRITE_BLACK);
       bigDialogueBoxImg = ResourceLoader.getExpImageSprite(ResourceLoader.DIALOGUE_BOX);
       portraits = this.getAllPortraits();
-   }
-
-   private void calcInfoChoiceValues() {
-      this.infoChY = (int) (580 * Game.SCALE);
-      this.cursorY = infoChY + (int) (90 * Game.SCALE);
-      this.cursorW = (int) (CURSOR_WIDTH * 0.6f * Game.SCALE);
-      this.cursorH = (int) (CURSOR_HEIGHT * 0.6f * Game.SCALE);
-      this.questionRect = new Rectangle(
-            tbM.getInfoChoice().infoChX, (int) (infoChY + (20 * Game.SCALE)),
-            (int) (INFOBOX_WIDTH * Game.SCALE), (int) (50 * Game.SCALE));
    }
 
    private BufferedImage[][] getAllPortraits() {
@@ -111,6 +86,7 @@ public class RenderTextBox implements SwingRender {
       return portraits;
    }
 
+   /** Must be set to get the correct name color */
    public void setDialogue(String name) {
       this.nameColor = HelpMethods.GetNameColor(name);
    }
@@ -118,56 +94,14 @@ public class RenderTextBox implements SwingRender {
    @Override
    public void draw(Graphics g) {
       if (tbM.infoActive) {
-         this.drawInfoBox(g);
+         this.rInfoBox.draw(g);
       } else if (tbM.infoChoiceActive) {
-         this.drawInfoChoice(g);
+         this.rInfoChoice.draw(g);
       } else if (tbM.bigDialogueActive) {
          this.drawBigDialogue(g);
       } else if (tbM.smallDialogueActive) {
          this.drawSmallDialogue(g);
       }
-   }
-
-   public void drawInfoBox(Graphics g) {
-      // Background
-      g.drawImage(
-            infoBoxImg, infoX, infoY,
-            (int) (INFOBOX_WIDTH * Game.SCALE),
-            (int) (INFOBOX_HEIGHT * Game.SCALE), null);
-
-      // Text
-      g.setColor(Color.BLACK);
-      g.setFont(infoFont);
-      for (int i = 0; i < tbM.getInfoBoxText().size(); i++) {
-         g.drawString(
-               tbM.getInfoBoxText().get(i),
-               infoX + (int) (60 * Game.SCALE),
-               infoY + (int) (60 * Game.SCALE) + (int) ((i * 40) * Game.SCALE));
-      }
-   }
-
-   private void drawInfoChoice(Graphics g) {
-      InfoChoice ic = tbM.getInfoChoice();
-
-      // Background
-      g.drawImage(
-            infoBoxImg, ic.infoChX, infoChY,
-            (int) (INFOBOX_WIDTH * Game.SCALE),
-            (int) (INFOBOX_HEIGHT * Game.SCALE), null);
-
-      // Text - Question, left choice and right choice
-      g.setColor(Color.BLACK);
-      g.setFont(infoFont);
-      DrawCenteredString(g, ic.question, questionRect, infoFont);
-      g.drawString(ic.leftChoice,
-            ic.infoChX + (int) (150 * Game.SCALE),
-            infoChY + (int) (110 * Game.SCALE));
-      g.drawString(ic.rightChoice,
-            ic.infoChX + (int) (400 * Game.SCALE),
-            infoChY + (int) (110 * Game.SCALE));
-
-      // Cursor
-      g.drawImage(cursorImg, ic.cursorX, cursorY, cursorW, cursorH, null);
    }
 
    private void drawBigDialogue(Graphics g) {

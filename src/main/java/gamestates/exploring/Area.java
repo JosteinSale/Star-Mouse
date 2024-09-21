@@ -3,8 +3,6 @@ package gamestates.exploring;
 import static utils.Constants.Exploring.Cutscenes.*;
 import static utils.HelpMethods.*;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 

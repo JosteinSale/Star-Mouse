@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * Contains a single listener, which is a method that can react to all events.
- * Contains a list of GeneralEvents, that can be stored and triggered 
+ * Contains a list of GeneralEvents, that can be stored and triggered
  * in response to a specific event.
  * All events are cleared out after they are triggered.
  */

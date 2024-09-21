@@ -13,12 +13,12 @@ import game_events.GeneralEvent;
  * to the eventhandler. There, all events will be triggered at once.
  * Events must implement the GeneralEvent interface.
  * 
- * Trigger-variable: the element which triggers the cutscene 
+ * Trigger-variable: the element which triggers the cutscene
  * (objects / doors / npc's / automatic triggerboxes).
  */
 public class Cutscene {
     private ArrayList<ArrayList<GeneralEvent>> sequences;
-    private int sequenceIndex = 0;
+    private int curSequence = 0;
     private int trigger;
     private boolean canReset = true;
     private boolean hasPlayed = false;
@@ -40,12 +40,13 @@ public class Cutscene {
     }
 
     public boolean hasMoreSequences() {
-        return sequenceIndex < (sequences.size() - 1);
+        int finalSequence = sequences.size() - 1;
+        return curSequence < finalSequence;
     }
 
     public ArrayList<GeneralEvent> getNextSequence() {
-        sequenceIndex += 1;
-        return sequences.get(sequenceIndex);
+        curSequence += 1;
+        return sequences.get(curSequence);
     }
 
     public ArrayList<GeneralEvent> getFirstSequence() {
@@ -57,7 +58,7 @@ public class Cutscene {
     }
 
     public void reset() {
-        this.sequenceIndex = 0;
+        this.curSequence = 0;
     }
 
     public boolean hasPlayed() {
@@ -72,4 +73,3 @@ public class Cutscene {
         return this.trigger;
     }
 }
-

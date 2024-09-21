@@ -1,7 +1,5 @@
 package ui;
 
-import java.util.ArrayList;
-
 import game_events.BigDialogueEvent;
 import game_events.InfoBoxEvent;
 import game_events.InfoChoiceEvent;
@@ -114,12 +112,12 @@ public class TextboxManager implements ITextboxManager {
       return this.infoChoiceActive;
    }
 
-   public ArrayList<String> getInfoBoxText() {
-      return this.infoBox.formattedStrings;
-   }
-
    public InfoChoice getInfoChoice() {
       return this.infoChoice;
+   }
+
+   public InfoBox getInfoBox() {
+      return this.infoBox;
    }
 
    public BigDialogueBox getBigDialogueBox() {

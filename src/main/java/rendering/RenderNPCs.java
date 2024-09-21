@@ -28,7 +28,7 @@ public class RenderNPCs implements SwingRender {
       gardSprites = ResourceLoader.getExpImageSprite(ResourceLoader.GARD_SPRITES);
       oliverSprites = ResourceLoader.getExpImageSprite(ResourceLoader.OLIVER_SPRITES);
       gardAnimations = HelpMethods2.GetAnimationArray(gardSprites, 3, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
-      oliverAnimations = HelpMethods2.GetAnimationArray(oliverSprites, 5, 4, STANDARD_SPRITE_WIDTH,
+      oliverAnimations = HelpMethods2.GetAnimationArray(oliverSprites, 6, 4, STANDARD_SPRITE_WIDTH,
             STANDARD_SPRITE_HEIGHT);
    }
    private int drawWidth;

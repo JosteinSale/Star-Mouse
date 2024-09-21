@@ -19,7 +19,7 @@ public class LoadSaveMenu {
    private Game game;
    private AudioPlayer audioPlayer;
    private InfoChoice infoChoice;
-   private boolean infoChoiceActive;
+   public boolean infoChoiceActive;
 
    // The two 'states' this menu can be in, is loadSave, and newGame:
    public static final String LOAD_SAVE = "LOAD SAVE";
@@ -38,10 +38,10 @@ public class LoadSaveMenu {
    public int cursorY = cursorMinY;
    public int menuOptionsDiff = (cursorMaxY - cursorMinY) / 3;
 
-   public LoadSaveMenu(Game game) {
+   public LoadSaveMenu(Game game, InfoChoice infoChoice) {
       this.game = game;
       this.audioPlayer = game.getAudioPlayer();
-      this.infoChoice = new InfoChoice();
+      this.infoChoice = infoChoice;
    }
 
    public void update() {

@@ -48,7 +48,7 @@ public class MainMenu extends State implements Statemethods {
         super(game);
         this.optionsMenu = optionsMenu;
         this.audioPlayer = game.getAudioPlayer();
-        this.loadSaveMenu = new LoadSaveMenu(game);
+        this.loadSaveMenu = new LoadSaveMenu(game, game.getTextboxManager().getInfoChoice());
     }
 
     private void handleKeyBoardInputs() {

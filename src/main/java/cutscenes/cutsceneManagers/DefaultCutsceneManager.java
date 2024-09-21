@@ -12,6 +12,7 @@ import cutscenes.effects.UpdatableEffect;
 import static utils.Constants.Exploring.Cutscenes.*;
 
 import game_events.EventHandler;
+import game_events.FillScreenEvent;
 import game_events.GeneralEvent;
 import game_events.TextBoxEvent;
 import gamestates.Gamestate;

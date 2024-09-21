@@ -26,7 +26,7 @@ public class RenderMainMenu implements SwingRender {
    private Font menuFont;
    public ArrayList<Rectangle> menuRectangles;
 
-   public RenderMainMenu(Game game, RenderOptionsMenu rOptionsMenu) {
+   public RenderMainMenu(Game game, RenderOptionsMenu rOptionsMenu, RenderInfoChoice rInfoChoice) {
       this.mainMenu = game.getMainMenu();
       this.rOptionsMenu = rOptionsMenu;
       bgImg = ResourceLoader.getExpImageBackground(ResourceLoader.LEVEL_SELECT_BG);
@@ -34,7 +34,7 @@ public class RenderMainMenu implements SwingRender {
       titleImg = ResourceLoader.getExpImageBackground(ResourceLoader.MAIN_MENU_TITLE);
       menuFont = ResourceLoader.getNameFont();
       this.makeMenuRectangles();
-      this.rLoadSave = new RenderLoadSave(game, mainMenu.getLoadSaveMenu());
+      this.rLoadSave = new RenderLoadSave(game, mainMenu.getLoadSaveMenu(), rInfoChoice);
    }
 
    private void makeMenuRectangles() {

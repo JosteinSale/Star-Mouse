@@ -21,6 +21,7 @@ import utils.ResourceLoader;
 public class RenderLoadSave implements SwingRender {
    private Game game;
    private LoadSaveMenu menu;
+   private RenderInfoChoice rInfoChoice;
    private Rectangle headerRect;
    private Color bgColor = new Color(0, 0, 0, 230);
    private BufferedImage pointerImg;
@@ -35,9 +36,10 @@ public class RenderLoadSave implements SwingRender {
    private int optionsX = 250;
    private int optionsY = 330;
 
-   public RenderLoadSave(Game game, LoadSaveMenu menu) {
+   public RenderLoadSave(Game game, LoadSaveMenu menu, RenderInfoChoice rInfoChoice) {
       this.game = game;
       this.menu = menu;
+      this.rInfoChoice = rInfoChoice;
       calcDrawValues();
       loadFonts();
       loadImages();
@@ -118,11 +120,9 @@ public class RenderLoadSave implements SwingRender {
                   (int) (xPos * Game.SCALE), (int) ((optionsY + i * menu.menuOptionsDiff) * Game.SCALE));
          }
       }
-
-      // TODO - Render infochoice
-      // if (infoChoiceActive) {
-      // this.infoChoice.draw(g);
-      // }
+      if (menu.infoChoiceActive) {
+         this.rInfoChoice.draw(g);
+      }
    }
 
    @Override

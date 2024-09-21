@@ -81,8 +81,9 @@ public class FadeEffect implements UpdatableEffect, DrawableEffect, AdvancableEf
       if (this.alphaFade < 0) {
          alphaFade = 0;
          this.isActive = false;
-         this.cutsceneManager.setActive(false);
-         if (!standardFade) {
+         if (standardFade) {
+            this.cutsceneManager.setActive(false);
+         } else {
             this.shouldAdvance = true;
          }
       }
