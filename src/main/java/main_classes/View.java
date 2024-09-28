@@ -43,8 +43,8 @@ public class View {
       this.rMainMenu = new RenderMainMenu(game, rOptionsMenu, rInfoChoice);
       this.rLevelSelect = new RenderLevelSelect(game, rMainMenu.getBgImg());
       this.rPauseExploring = new RenderPauseExploring(game, rOptionsMenu);
-      this.rCutscene = new RenderCutscene(game.getTextboxManager(), this.rInfoBox, this.rInfoChoice);
-      this.rExploring = new RenderExploring(game, rOptionsMenu, rCutscene);
+      this.rCutscene = new RenderCutscene(game.getTextboxManager(), rInfoBox, rInfoChoice);
+      this.rExploring = new RenderExploring(game, rOptionsMenu, rCutscene, rInfoBox, rInfoChoice);
    }
 
    public void draw(Graphics g) {

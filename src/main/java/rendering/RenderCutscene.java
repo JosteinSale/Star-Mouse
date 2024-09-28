@@ -56,6 +56,10 @@ public class RenderCutscene implements SwingRender {
       this.rTextBox = new RenderTextBox(tbM, rInfoBox, rInfoChoice);
    }
 
+   /**
+    * Call whenever you enter EXPLORING, FLYING, BOSSMODE, CINEMATIC, or
+    * another area within EXPLORING
+    */
    public void setCutsceneManager(DefaultCutsceneManager cutsceneManager) {
       this.cutsceneManager = cutsceneManager;
       if (cutsceneManager instanceof CutsceneManagerExp cmExp) {

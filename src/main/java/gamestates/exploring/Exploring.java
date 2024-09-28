@@ -23,7 +23,6 @@ public class Exploring extends State implements Statemethods {
     private PauseExploring pauseOverlay;
     private ProgressValues progValues; // Is the only instance in the code base (except LevelSelect)
     private MechanicOverlay mechanicOverlay;
-    private boolean mechanicActive = false;
 
     public Exploring(Game game) {
         super(game);
@@ -31,7 +30,10 @@ public class Exploring extends State implements Statemethods {
         initProxyProgValues();
         areas = new ArrayList<>();
         pauseOverlay = new PauseExploring(game, audioPlayer, game.getOptionsMenu());
-        mechanicOverlay = new MechanicOverlay(game);
+        mechanicOverlay = new MechanicOverlay(
+                game,
+                game.getTextboxManager().getInfoBox(),
+                game.getTextboxManager().getInfoChoice());
     }
 
     /**
@@ -84,7 +86,7 @@ public class Exploring extends State implements Statemethods {
         if (pauseOverlay.isActive()) {
             checkPause();
             pauseOverlay.update();
-        } else if (mechanicActive) {
+        } else if (mechanicOverlay.isActive()) {
             mechanicOverlay.update();
         } else {
             checkPause();
@@ -100,12 +102,6 @@ public class Exploring extends State implements Statemethods {
 
     @Override
     public void draw(Graphics g) {
-        // areas.get(currentArea - 1).draw(g);
-        // if (pauseOverlay.isActive()) {
-        // pauseOverlay.draw(g);
-        if (mechanicActive) {
-            mechanicOverlay.draw(g);
-        }
     }
 
     public void resetDirBooleans() {
@@ -132,7 +128,7 @@ public class Exploring extends State implements Statemethods {
     }
 
     public void setMechanicActive(boolean active) {
-        this.mechanicActive = active;
+        this.mechanicOverlay.setActive(active);
         this.mechanicOverlay.onOpen();
     }
 
@@ -169,5 +165,13 @@ public class Exploring extends State implements Statemethods {
 
     public ArrayList<Area> getAreas() {
         return this.areas;
+    }
+
+    public boolean isMechanicActive() {
+        return mechanicOverlay.isActive();
+    }
+
+    public MechanicOverlay getMechanicOverlay() {
+        return this.mechanicOverlay;
     }
 }

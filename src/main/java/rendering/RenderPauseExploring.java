@@ -49,7 +49,7 @@ public class RenderPauseExploring implements SwingRender {
 
    /**
     * This assumes that the optionsMenu used for PauseExploring is the same
-    * optionsMenu used in the the main menu.
+    * optionsMenu used in the main menu.
     */
    public RenderPauseExploring(Game game, RenderOptionsMenu rOptionsMenu) {
       this.pause = game.getExploring().getPauseOverlay();
