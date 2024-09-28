@@ -3,15 +3,15 @@ package main_classes;
 import java.awt.Graphics;
 
 import gamestates.Gamestate;
-import rendering.RenderCutscene;
-import rendering.RenderExploring;
-import rendering.RenderInfoBox;
-import rendering.RenderInfoChoice;
-import rendering.RenderLevelSelect;
-import rendering.RenderMainMenu;
-import rendering.RenderOptionsMenu;
-import rendering.RenderPauseExploring;
-import rendering.RenderStartScreen;
+import rendering.root_renders.RenderCutscene;
+import rendering.root_renders.RenderExploring;
+import rendering.root_renders.RenderFlying;
+import rendering.root_renders.RenderInfoBox;
+import rendering.root_renders.RenderInfoChoice;
+import rendering.root_renders.RenderLevelSelect;
+import rendering.root_renders.RenderMainMenu;
+import rendering.root_renders.RenderOptionsMenu;
+import rendering.root_renders.RenderStartScreen;
 
 /**
  * Renders all the gamestates.
@@ -22,15 +22,15 @@ import rendering.RenderStartScreen;
  * to its respective model, + any additional renderers it may need.
  */
 public class View {
-   protected RenderStartScreen rStartScreen;
-   protected RenderInfoBox rInfoBox;
-   protected RenderInfoChoice rInfoChoice;
-   protected RenderMainMenu rMainMenu;
-   protected RenderLevelSelect rLevelSelect;
-   protected RenderPauseExploring rPauseExploring;
-   protected RenderOptionsMenu rOptionsMenu;
-   protected RenderExploring rExploring;
-   protected RenderCutscene rCutscene;
+   private RenderStartScreen rStartScreen;
+   private RenderInfoBox rInfoBox;
+   private RenderInfoChoice rInfoChoice;
+   private RenderMainMenu rMainMenu;
+   private RenderLevelSelect rLevelSelect;
+   private RenderOptionsMenu rOptionsMenu;
+   private RenderExploring rExploring;
+   private RenderCutscene rCutscene;
+   private RenderFlying rFlying;
 
    public View(Game game) {
       this.rStartScreen = new RenderStartScreen(game.getStartScreen());
@@ -42,9 +42,9 @@ public class View {
       this.rOptionsMenu = new RenderOptionsMenu(game.getOptionsMenu(), game.getOptionsMenu().getControlsMenu());
       this.rMainMenu = new RenderMainMenu(game, rOptionsMenu, rInfoChoice);
       this.rLevelSelect = new RenderLevelSelect(game, rMainMenu.getBgImg());
-      this.rPauseExploring = new RenderPauseExploring(game, rOptionsMenu);
       this.rCutscene = new RenderCutscene(game.getTextboxManager(), rInfoBox, rInfoChoice);
       this.rExploring = new RenderExploring(game, rOptionsMenu, rCutscene, rInfoBox, rInfoChoice);
+      this.rFlying = new RenderFlying();
    }
 
    public void draw(Graphics g) {
@@ -61,6 +61,8 @@ public class View {
          case EXPLORING:
             rExploring.draw(g);
             break;
+         case FLYING:
+            rFlying.draw(g);
          default:
             break;
       }
@@ -83,6 +85,9 @@ public class View {
             break;
          case EXPLORING:
             rExploring.dispose();
+            break;
+         case FLYING:
+            rFlying.dispose();
             break;
          default:
             break;

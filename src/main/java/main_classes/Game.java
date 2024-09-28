@@ -166,11 +166,8 @@ public class Game implements Runnable {
 
    public void render(Graphics g) {
       switch (Gamestate.state) {
-         case START_SCREEN, MAIN_MENU, LEVEL_SELECT, EXPLORING:
+         case START_SCREEN, MAIN_MENU, LEVEL_SELECT, EXPLORING, FLYING:
             view.draw(g);
-            break;
-         case FLYING:
-            flying.draw(g);
             break;
          case BOSS_MODE:
             bossMode.draw(g);
