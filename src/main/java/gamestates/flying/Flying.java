@@ -52,16 +52,16 @@ public class Flying extends State implements Statemethods {
    private CutsceneManagerFly cutsceneManager;
    private EventHandler eventHandler;
    private ArrayList<AutomaticTrigger> automaticTriggers;
-   private ArrayList<PickupItem> pickupItems;
+   public ArrayList<PickupItem> pickupItems;
 
    private Integer level;
    private int song;
-   private boolean shouldSongLoop;
-   private boolean pause = false;
-   private boolean gamePlayActive = true;
-   private boolean levelFinished = false;
+   public boolean shouldSongLoop;
+   public boolean pause = false;
+   public boolean gamePlayActive = true;
+   public boolean levelFinished = false;
    public boolean checkPointReached = false;
-   private boolean gameOver = false;
+   public boolean gameOver = false;
    private float fgNormalSpeed = 2f;
    private float bgNormalSpeed = 0.7f;
    private float fgCurSpeed = fgNormalSpeed;
@@ -88,20 +88,27 @@ public class Flying extends State implements Statemethods {
       this.levelFinishedOverlay = new LevelFinishedOverlay(game, this);
       this.gameoverOverlay = new GameoverOverlay(this);
       this.flyLevelInfo = new FlyLevelInfo();
+      this.mapManager = new MapManager2();
    }
 
-   public void loadLevel(int level) {
-      this.level = level;
-      this.song = Audio.GetFlyLevelSong(level);
-      mapManager = new MapManager2(level, flyLevelInfo.getBgImgHeight(level));
+   public void loadLevel(int lvl) {
+      this.level = lvl;
+      this.song = Audio.GetFlyLevelSong(lvl);
+      mapManager.loadNewMap(lvl, flyLevelInfo.getBgImgHeight(lvl));
       player.setClImg(mapManager.clImg);
       projectileHandler.setClImg(mapManager.clImg);
       projectileHandler.setBombs(game.getExploring().getProgressValues().getBombs());
-      enemyManager.loadEnemiesForLvl(level);
-      loadPickupItems(level);
-      loadCutscenes(level);
+      enemyManager.loadEnemiesForLvl(lvl);
+      loadPickupItems(lvl);
+      loadCutscenes(lvl);
       player.setKilledEnemies(0);
+      this.setRendersForLevel(lvl, flyLevelInfo.getBgImgHeight(lvl));
       // startAt(-20000); // For testing purposes
+   }
+
+   /** Sets all Flying-renders for this level */
+   private void setRendersForLevel(int lvl, int bgImgHeight) {
+      game.getView().getRenderFlying().loadLevel(lvl, bgImgHeight);
    }
 
    private void loadPickupItems(Integer level) {
@@ -280,29 +287,23 @@ public class Flying extends State implements Statemethods {
 
    @Override
    public void draw(Graphics g) {
-      if (!levelFinished) {
-         mapManager.drawMaps(g);
-         drawPickupItems(g);
-         this.player.draw(g);
-         this.enemyManager.draw(g);
-         this.projectileHandler.draw(g);
-      }
-      if (!gameOver) {
-         // this.cutsceneManager.draw(g);
-      }
-      if (gameOver) {
-         gameoverOverlay.draw(g);
-      } else if (pause) {
-         pauseOverlay.draw(g);
-      } else if (levelFinished) {
-         levelFinishedOverlay.draw(g);
-      }
-   }
-
-   private void drawPickupItems(Graphics g) {
-      for (PickupItem p : pickupItems) {
-         p.draw(g);
-      }
+      // if (!levelFinished) {
+      // mapManager.drawMaps(g);
+      // drawPickupItems(g);
+      // this.player.draw(g);
+      // this.enemyManager.draw(g);
+      // this.projectileHandler.draw(g);
+      // }
+      // if (!gameOver) {
+      // // this.cutsceneManager.draw(g);
+      // }
+      // if (gameOver) {
+      // gameoverOverlay.draw(g);
+      // } else if (pause) {
+      // pauseOverlay.draw(g);
+      // } else if (levelFinished) {
+      // levelFinishedOverlay.draw(g);
+      // }
    }
 
    public void exitFinishedLevel() {
@@ -311,7 +312,6 @@ public class Flying extends State implements Statemethods {
          transferBombsToProgValues();
       }
       this.resetFlying();
-      this.flushImages();
       if (this.level == 0) {
          Gamestate.state = Gamestate.EXPLORING;
       } else {
@@ -327,14 +327,9 @@ public class Flying extends State implements Statemethods {
     * GameOverOverlay
     */
    public void exitToMainMenu() {
-      this.flushImages();
       this.resetFlying();
       game.resetMainMenu();
       Gamestate.state = Gamestate.MAIN_MENU;
-   }
-
-   private void flushImages() {
-      this.mapManager.flush();
    }
 
    private void transferBombsToProgValues() {
@@ -345,7 +340,6 @@ public class Flying extends State implements Statemethods {
    private void goToBossMode(int bossNr) {
       transferBombsToProgValues();
       game.getBossMode().loadNewBoss(bossNr);
-      this.flushImages();
       Gamestate.state = Gamestate.BOSS_MODE;
       System.gc();
       // We do not need to do anything else, as we will return to Flying after
@@ -514,5 +508,21 @@ public class Flying extends State implements Statemethods {
 
    public EntityFactory getEntityFactory() {
       return this.entityFactory;
+   }
+
+   public MapManager2 getMapManager() {
+      return this.mapManager;
+   }
+
+   public PlayerFly getPlayer() {
+      return this.player;
+   }
+
+   public EnemyManager getEnemyManager() {
+      return this.enemyManager;
+   }
+
+   public ProjectileHandler getProjectileHandler() {
+      return this.projectileHandler;
    }
 }

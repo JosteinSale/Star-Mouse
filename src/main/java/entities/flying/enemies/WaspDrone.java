@@ -1,6 +1,5 @@
 package entities.flying.enemies;
 
-import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 
 import entities.Entity;
@@ -9,7 +8,7 @@ import main_classes.Game;
 
 public class WaspDrone extends Entity implements Enemy {
    private EntityInfo info;
-   
+
    private static final int IDLE = 1;
    private static final int TAKING_DAMAGE = 0;
 
@@ -96,9 +95,9 @@ public class WaspDrone extends Entity implements Enemy {
    }
 
    @Override
-    public void takeCollisionDamage(int damage) {
-        this.takeShootDamage(damage);
-    }
+   public void takeCollisionDamage(int damage) {
+      this.takeShootDamage(damage);
+   }
 
    @Override
    public boolean isDead() {
@@ -118,30 +117,6 @@ public class WaspDrone extends Entity implements Enemy {
    @Override
    public int getDir() {
       return this.direction;
-   }
-
-   @Override
-   public void drawHitbox(Graphics g) {
-      this.drawHitbox(g, 0, 0);
-   }
-
-   @Override
-   public void draw(Graphics g) {
-      //drawHitbox(g);
-      g.drawImage(
-            info.animation[action][aniIndex],
-            (int) ((hitbox.x - info.drawOffsetX + getFlipX()) * Game.SCALE),
-            (int) ((hitbox.y - info.drawOffsetY) * Game.SCALE),
-            (int) (info.spriteW * 3 * direction * Game.SCALE),
-            (int) (info.spriteH * 3 * Game.SCALE), null);
-   }
-
-   private float getFlipX() {
-      if (direction == 1) {
-         return 0;
-      } else {
-         return (hitbox.width + 33);
-      }
    }
 
    private int getSpriteAmount() {
@@ -171,6 +146,21 @@ public class WaspDrone extends Entity implements Enemy {
       aniIndex = 0;
       damageTick = 0;
       shootTick = 0;
+   }
+
+   @Override
+   public EntityInfo getInfo() {
+      return info;
+   }
+
+   @Override
+   public int getAction() {
+      return action;
+   }
+
+   @Override
+   public int getAniIndex() {
+      return aniIndex;
    }
 
 }

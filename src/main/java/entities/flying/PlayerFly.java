@@ -1,11 +1,8 @@
 package entities.flying;
 
 import static utils.Constants.Flying.ActionConstants.*;
-import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_HEIGHT;
-import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_WIDTH;
 import static utils.HelpMethods.IsSolid;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
@@ -18,30 +15,27 @@ import entities.Entity;
 import entities.flying.enemies.Enemy;
 import main_classes.Game;
 import ui.StatusDisplay;
-import utils.ResourceLoader;
 import utils.Constants.Audio;
 
 public class PlayerFly extends Entity implements ShootingPlayer {
    protected Game game;
    protected AudioPlayer audioPlayer;
    protected BufferedImage clImg;
-   protected BufferedImage[][] animations;
-   protected BufferedImage tpShadowImg;
-   protected ShipFlame flame;
+   public ShipFlame flame;
    protected StatusDisplay statusDisplay;
    protected Rectangle2D.Float teleportHitbox;
 
-   protected int planeAction;
+   public int planeAction;
    protected float xSpeed = 0;
    protected float ySpeed = 0;
    protected float acceleration = 1.0f;
    protected float playerMaxSpeed = 8f;
-   protected boolean visible = true;
+   public boolean visible = true;
    protected float[] collisionXs = new float[9];
    protected float[] collisionYs = new float[9];
    protected int edgeDist = 20;
    protected int pushDistance = 40;
-   protected int teleportDistance = 250;
+   public int teleportDistance = 250;
    protected int teleportKillWidth = 100;
    protected int teleportKillOffset; // The distance between the players hitbox and the teleport hitbox
    protected int maxHP;
@@ -51,11 +45,11 @@ public class PlayerFly extends Entity implements ShootingPlayer {
 
    protected int aniTick = 0;
    protected int aniTickPerFrame = 3; // Antall ticks per gang animasjonen oppdateres
-   protected int aniIndex = 0;
+   public int aniIndex = 0;
 
    protected int iFrames = 20;
    protected int iFrameCount = 0;
-   protected int teleportBuffer = 0;
+   public int teleportBuffer = 0;
    protected int teleportCoolDown = 10;
 
    public PlayerFly(Game game, Float hitbox) {
@@ -64,8 +58,6 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       this.maxHP = game.getExploring().getProgressValues().getMaxHP();
       this.HP = maxHP;
       this.audioPlayer = game.getAudioPlayer();
-      this.tpShadowImg = ResourceLoader.getFlyImageSprite(ResourceLoader.TELEPORT_SHADOW);
-      loadAnimations();
       updateCollisionPixels();
       this.flame = new ShipFlame();
       this.teleportHitbox = new Rectangle2D.Float(
@@ -74,18 +66,6 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       this.statusDisplay = new StatusDisplay();
       this.statusDisplay.setMaxHP(maxHP);
       this.statusDisplay.setHP(maxHP);
-   }
-
-   private void loadAnimations() {
-      BufferedImage img = ResourceLoader.getFlyImageSprite(ResourceLoader.SHIP_SPRITES);
-      this.animations = new BufferedImage[7][6];
-      for (int j = 0; j < animations.length; j++) {
-         for (int i = 0; i < animations[0].length; i++) {
-            animations[j][i] = img.getSubimage(
-                  i * SHIP_SPRITE_WIDTH,
-                  j * SHIP_SPRITE_HEIGHT, SHIP_SPRITE_WIDTH, SHIP_SPRITE_HEIGHT);
-         }
-      }
    }
 
    protected void updateCollisionPixels() {
@@ -401,56 +381,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
    }
 
    public void draw(Graphics g) {
-      if (visible) {
-         // Teleport shadows
-         if (game.teleportIsPressed) {
-            g.setColor(Color.LIGHT_GRAY);
-            drawShadow(g, teleportDistance);
-            drawShadow(g, -teleportDistance);
-         }
-
-         // Flame
-         if (!game.downIsPressed) {
-            // flame.draw(g, hitbox.x + 2.5f, hitbox.y + hitbox.height);
-         }
-
-         // Player
-         int actionIndex = planeAction;
-         if ((teleportBuffer > 5) && (planeAction != TAKING_COLLISION_DAMAGE)) {
-            actionIndex = TELEPORTING_RIGHT;
-         }
-         // Gir oss et par ekstra frames med teleport-animation
-
-         g.drawImage(
-               animations[actionIndex][aniIndex],
-               (int) ((hitbox.x - 20) * Game.SCALE),
-               (int) ((hitbox.y - 20) * Game.SCALE),
-               (int) (SHIP_SPRITE_WIDTH * 3 * Game.SCALE),
-               (int) (SHIP_SPRITE_HEIGHT * 3 * Game.SCALE), null);
-
-         statusDisplay.draw(g);
-         g.setColor(Color.RED);
-         // this.drawHitbox(g, 0, 0);
-
-         // Teleport hitbox
-         /*
-          * g.setColor(Color.RED);
-          * g.drawRect(
-          * (int) (teleportHitbox.x * Game.SCALE),
-          * (int) (teleportHitbox.y * Game.SCALE),
-          * (int) (teleportHitbox.width * Game.SCALE),
-          * (int) (teleportHitbox.height * Game.SCALE));
-          */
-      }
-   }
-
-   private void drawShadow(Graphics g, int teleportDistance) {
-      g.drawImage(
-            tpShadowImg,
-            (int) ((hitbox.x - 20 - teleportDistance) * Game.SCALE),
-            (int) ((hitbox.y - 20) * Game.SCALE),
-            (int) (SHIP_SPRITE_WIDTH * 3 * Game.SCALE),
-            (int) (SHIP_SPRITE_HEIGHT * 3 * Game.SCALE), null);
+      // Do nothing (delete later)
    }
 
    public void resetSpeed() {

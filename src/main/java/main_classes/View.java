@@ -44,7 +44,7 @@ public class View {
       this.rLevelSelect = new RenderLevelSelect(game, rMainMenu.getBgImg());
       this.rCutscene = new RenderCutscene(game.getTextboxManager(), rInfoBox, rInfoChoice);
       this.rExploring = new RenderExploring(game, rOptionsMenu, rCutscene, rInfoBox, rInfoChoice);
-      this.rFlying = new RenderFlying();
+      this.rFlying = new RenderFlying(game, game.getFlying());
    }
 
    public void draw(Graphics g) {
@@ -102,6 +102,10 @@ public class View {
    /** Is needed to load new SimpleAnimation-spriteArrays for ObjectMove */
    public RenderCutscene getRenderCutscene() {
       return this.rCutscene;
+   }
+
+   public RenderFlying getRenderFlying() {
+      return this.rFlying;
    }
 
 }

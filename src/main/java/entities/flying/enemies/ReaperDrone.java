@@ -1,14 +1,13 @@
 package entities.flying.enemies;
 
-import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 import entities.Entity;
 import entities.flying.EntityInfo;
 import main_classes.Game;
 
-/** The ReaperDrone shoots 3 wide, fast projectiles in fast succession.
+/**
+ * The ReaperDrone shoots 3 wide, fast projectiles in fast succession.
  * They are not hard to dodge or kill, but has an imposing effect.
  */
 public class ReaperDrone extends Entity implements Enemy {
@@ -20,7 +19,7 @@ public class ReaperDrone extends Entity implements Enemy {
     private float startY;
     private int maxHP = 150;
     private int HP = maxHP;
-    private boolean onScreen = false;   
+    private boolean onScreen = false;
     private boolean dead = false;
 
     private int action = IDLE;
@@ -54,13 +53,13 @@ public class ReaperDrone extends Entity implements Enemy {
         aniTick++;
         if (aniTick >= aniTickPerFrame) {
             aniTick = 0;
-            aniIndex ++;
+            aniIndex++;
             if (aniIndex >= getDroneSpriteAmount()) {
                 aniIndex = 0;
             }
         }
         if (action == TAKING_DAMAGE) {
-            damageTick --;
+            damageTick--;
             if (damageTick <= 0) {
                 action = IDLE;
             }
@@ -68,15 +67,13 @@ public class ReaperDrone extends Entity implements Enemy {
     }
 
     private void updateShootTick() {
-        shootTick ++;
+        shootTick++;
     }
 
     public boolean canShoot() {
-        return (
-            shootTick == shootInterval || 
-            shootTick == (shootInterval + 20) || 
-            shootTick == (shootInterval + 40)
-            );
+        return (shootTick == shootInterval ||
+                shootTick == (shootInterval + 20) ||
+                shootTick == (shootInterval + 40));
     }
 
     @Override
@@ -121,32 +118,17 @@ public class ReaperDrone extends Entity implements Enemy {
 
     @Override
     public int getDir() {
-        return 0; // No dir
+        return 1; // Only one dir
     }
 
     public void resetShootTick() {
         // Do nothing
     }
 
-    @Override
-    public void drawHitbox(Graphics g) {
-        this.drawHitbox(g, 0, 0);
-    }
-
-    @Override
-    public void draw(Graphics g) {
-        g.drawImage(
-            info.animation[action][aniIndex], 
-            (int) ((hitbox.x - info.drawOffsetX) * Game.SCALE), 
-            (int) ((hitbox.y - info.drawOffsetY)* Game.SCALE), 
-            (int) (info.spriteW * 3 * Game.SCALE), 
-            (int) (info.spriteH* 3 * Game.SCALE), null);
-    }
-
     private int getDroneSpriteAmount() {
         switch (action) {
-            case TAKING_DAMAGE:     
-                return 3;     
+            case TAKING_DAMAGE:
+                return 3;
             case IDLE:
             default:
                 return 1;
@@ -154,15 +136,30 @@ public class ReaperDrone extends Entity implements Enemy {
     }
 
     @Override
-   public void resetTo(float y) {
-      hitbox.y = startY + y;
-      action = IDLE;
-      HP = maxHP;
-      onScreen = false;
-      dead = false;
-      aniTick = 0;
-      aniIndex = 0;
-      damageTick = 0;
-      shootTick = 0;
-   }
+    public void resetTo(float y) {
+        hitbox.y = startY + y;
+        action = IDLE;
+        HP = maxHP;
+        onScreen = false;
+        dead = false;
+        aniTick = 0;
+        aniIndex = 0;
+        damageTick = 0;
+        shootTick = 0;
+    }
+
+    @Override
+    public EntityInfo getInfo() {
+        return info;
+    }
+
+    @Override
+    public int getAction() {
+        return action;
+    }
+
+    @Override
+    public int getAniIndex() {
+        return aniIndex;
+    }
 }

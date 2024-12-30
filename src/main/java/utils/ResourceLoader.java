@@ -102,6 +102,7 @@ public class ResourceLoader {
     public static final String ENERGY_BALL_SPRITE = "energyBall.png";
     public static final String HEATSEEKING_LAZER_SPRITE = "heatSeekingLazer.png";
     public static final String MACHINE_HEART_SPRITE = "machineHeart.png";
+    public static final String BOSS_PROJECTILE1 = "bossProjectile1.png";
 
     // Sprites - LevelEditor
     public static final String SMALL_ENTITY_SPRITES = "sprites_all.png";

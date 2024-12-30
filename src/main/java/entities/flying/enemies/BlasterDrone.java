@@ -1,6 +1,5 @@
 package entities.flying.enemies;
 
-import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 
 import entities.Entity;
@@ -19,7 +18,7 @@ public class BlasterDrone extends Entity implements Enemy {
    private boolean onScreen = false;
    private boolean dead = false;
 
-   private int action = IDLE;
+   public int action = IDLE;
    private int aniIndex = 0;
    private int aniTick;
    private int aniTickPerFrame = 3;
@@ -114,7 +113,7 @@ public class BlasterDrone extends Entity implements Enemy {
 
    @Override
    public int getDir() {
-      return 0;  // No dir
+      return 1; // Only one direction
    }
 
    @Override
@@ -124,21 +123,6 @@ public class BlasterDrone extends Entity implements Enemy {
 
    public void resetShootTick() {
       this.shootTick = 0;
-   }
-
-   @Override
-   public void drawHitbox(Graphics g) {
-      this.drawHitbox(g, 0, 0);
-   }
-
-   @Override
-   public void draw(Graphics g) {
-      g.drawImage(
-            info.animation[action][aniIndex],
-            (int) ((hitbox.x - info.drawOffsetX) * Game.SCALE),
-            (int) (hitbox.y * Game.SCALE),
-            (int) (info.spriteW * 3 * Game.SCALE),
-            (int) (info.spriteH * 3 * Game.SCALE), null);
    }
 
    private int getDroneSpriteAmount() {
@@ -162,5 +146,20 @@ public class BlasterDrone extends Entity implements Enemy {
       aniIndex = 0;
       damageTick = 0;
       shootTick = 0;
+   }
+
+   @Override
+   public EntityInfo getInfo() {
+      return this.info;
+   }
+
+   @Override
+   public int getAction() {
+      return this.action;
+   }
+
+   @Override
+   public int getAniIndex() {
+      return aniIndex;
    }
 }

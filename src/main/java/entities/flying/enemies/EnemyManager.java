@@ -2,19 +2,16 @@ package entities.flying.enemies;
 
 import static entities.flying.EntityFactory.TypeConstants.BURNING_FRAGMENT;
 import static entities.flying.EntityFactory.TypeConstants.SMALL_ASTEROID;
-import static utils.Constants.Flying.SpriteSizes.*;
+import static utils.Constants.Flying.SpriteSizes.EXPLOSION_SPRITE_SIZE;
 
-import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
 import audio.AudioPlayer;
 import entities.flying.EntityFactory;
 import entities.flying.PlayerFly;
-import main_classes.Game;
 import projectiles.Explosion;
 import utils.ResourceLoader;
 import utils.Constants.Audio;
@@ -24,9 +21,8 @@ public class EnemyManager {
    private EntityFactory entityFactory;
    private AudioPlayer audioPlayer;
    private ArrayList<Enemy> allEnemies;
-   private ArrayList<Enemy> activeEnemiesOnScreen;
-   private BufferedImage[] explosionAnimation;
-   private ArrayList<Explosion> explosions;
+   public ArrayList<Enemy> activeEnemiesOnScreen;
+   public ArrayList<Explosion> explosions;
    private int collisionDmg = 10;
    private int teleportDmg = 80;
    private ArrayList<Integer> killedEnemies; // Contains the enemyTypes
@@ -36,21 +32,11 @@ public class EnemyManager {
       this.player = player;
       this.audioPlayer = audioPlayer;
       this.entityFactory = entityFactory;
-      this.loadImgs();
       allEnemies = new ArrayList<>();
       activeEnemiesOnScreen = new ArrayList<>();
       this.explosions = new ArrayList<>();
       this.killedEnemies = new ArrayList<>();
       this.killedEnemiesAtCheckpoint = new ArrayList<>();
-   }
-
-   private void loadImgs() {
-      this.explosionAnimation = new BufferedImage[5];
-      BufferedImage explosionImg = ResourceLoader.getFlyImageSprite(ResourceLoader.EXPLOSION);
-      for (int i = 0; i < explosionAnimation.length; i++) {
-         explosionAnimation[i] = explosionImg.getSubimage(
-               i * EXPLOSION_SPRITE_SIZE, 0, EXPLOSION_SPRITE_SIZE, EXPLOSION_SPRITE_SIZE);
-      }
    }
 
    public void loadEnemiesForLvl(int lvl) {
@@ -135,24 +121,6 @@ public class EnemyManager {
       float x = (hb.x + hb.width / 2) - (size / 2);
       float y = (hb.y + hb.height / 2) - (size / 2);
       explosions.add(new Explosion((int) x, (int) y, size));
-   }
-
-   public void draw(Graphics g) {
-      ArrayList<Enemy> copy = new ArrayList<>(activeEnemiesOnScreen);
-      for (Enemy enemy : copy) {
-         enemy.draw(g);
-         // enemy.drawHitbox(g);
-      }
-      for (Explosion ex : explosions) { // ConcurrentModificationException
-         g.drawImage(
-               explosionAnimation[ex.getAniIndex()],
-               (int) (ex.getX() * Game.SCALE),
-               (int) (ex.getY() * Game.SCALE),
-               (int) (ex.getSize() * Game.SCALE),
-               (int) (ex.getSize() * Game.SCALE),
-               null);
-
-      }
    }
 
    public ArrayList<Enemy> getActiveEnemiesOnScreen() {

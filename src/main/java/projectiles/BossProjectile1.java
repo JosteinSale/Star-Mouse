@@ -1,15 +1,14 @@
 package projectiles;
 
-import java.awt.Graphics;
 import java.awt.geom.Rectangle2D.Float;
 import java.awt.image.BufferedImage;
 
 import entities.Entity;
-import main_classes.Game;
 
 import static utils.Constants.Flying.TypeConstants.BOSS_PROJECTILE1;
 
-/** The bossProjectile differs from a regular projectile in that it
+/**
+ * The bossProjectile differs from a regular projectile in that it
  * doesn't update collisionPixels, and instead returns null when
  * getCollisionPixels() is called. Also xSpeed and ySpeed is not
  * hard coded into the object, but rather taken as arguments.
@@ -59,21 +58,6 @@ public class BossProjectile1 extends Entity implements Projectile {
    }
 
    @Override
-   public void drawHitbox(Graphics g) {
-      super.drawHitbox(g, 0, 0);
-   }
-
-   @Override
-   public void draw(Graphics g) {
-      g.drawImage(
-         img, 
-         (int) (hitbox.x * Game.SCALE), 
-         (int) (hitbox.y * Game.SCALE), 
-         (int) (hitbox.width * Game.SCALE),
-         (int) (hitbox.height * Game.SCALE), null);
-   }
-
-   @Override
    public int getType() {
       return BOSS_PROJECTILE1;
    }
@@ -87,5 +71,5 @@ public class BossProjectile1 extends Entity implements Projectile {
    public boolean isActive() {
       return isActive;
    }
-   
+
 }

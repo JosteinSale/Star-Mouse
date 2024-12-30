@@ -1,17 +1,17 @@
 package entities.flying.enemies;
 
-import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 
 import entities.Entity;
 import entities.flying.EntityInfo;
 import main_classes.Game;
 
-/** The big asteroid uses the same logic as SmallAsteroid to extract 
+/**
+ * The big asteroid uses the same logic as SmallAsteroid to extract
  * xSpeed and ySpeed, see the documentation for SmallAsteroid for explanation.
  * This is a big enemy, which cannot be teleport-killed.
  * Also it cannot take damage, and thus has no damage animation.
- * If the player collides with it, the speed is reduced by 1 unit.
+ * If the player collides with it, the asteroid's speed is reduced by 1 unit.
  */
 public class BigAsteroid extends Entity implements Enemy {
    private EntityInfo info;
@@ -24,7 +24,6 @@ public class BigAsteroid extends Entity implements Enemy {
    private float curYSpeed;
    private boolean onScreen = false;
 
-
    public BigAsteroid(Rectangle2D.Float hitbox, EntityInfo info, int shootInterval, int direction) {
       super(hitbox);
       startY = hitbox.y;
@@ -36,11 +35,13 @@ public class BigAsteroid extends Entity implements Enemy {
       this.curYSpeed = startYSpeed;
    }
 
-   /** Will use the shootInterval and direction to extract x- and y-Speed.
+   /**
+    * Will use the shootInterval and direction to extract x- and y-Speed.
     * The first digit will be y-speed. The second will be x-speed.
     * If the direction is negative, the x-speed will be negative.
-    * (Sadly we can't have negative y-speed, because currently we can't 
+    * (Sadly we can't have negative y-speed, because currently we can't
     * spawn enemies at the bottom of the screen).
+    * 
     * @param shootInterval
     * @param direction
     */
@@ -88,11 +89,11 @@ public class BigAsteroid extends Entity implements Enemy {
 
    private void reduceAsteroidSpeed() {
       if (Math.abs(curXSpeed) > 0) {
-         int decrement = (int) (curXSpeed / Math.abs(curXSpeed));  // will be +1 or -1
+         int decrement = (int) (curXSpeed / Math.abs(curXSpeed)); // will be +1 or -1
          curXSpeed -= decrement;
       }
       if (Math.abs(curYSpeed) > 0) {
-         int decrement = (int) (curYSpeed / Math.abs(curYSpeed));  // will be +1 or -1
+         int decrement = (int) (curYSpeed / Math.abs(curYSpeed)); // will be +1 or -1
          curYSpeed -= decrement;
       }
    }
@@ -122,28 +123,27 @@ public class BigAsteroid extends Entity implements Enemy {
    }
 
    @Override
-   public void drawHitbox(Graphics g) {
-      this.drawHitbox(g, 0, 0);
-   }
-
-   @Override
-   public void draw(Graphics g) {
-      g.drawImage(
-         info.animation[0][0],
-         (int) ((hitbox.x - info.drawOffsetX) * Game.SCALE),
-         (int) ((hitbox.y - info.drawOffsetY) * Game.SCALE),
-         (int) (info.spriteW * 3 * Game.SCALE),
-         (int) (info.spriteH * 3 * Game.SCALE), null);
-   }
-
-
-   @Override
    public void resetTo(float y) {
       hitbox.y = startY + y;
       hitbox.x = startX;
       curXSpeed = startXSpeed;
       curYSpeed = startYSpeed;
       onScreen = false;
+   }
+
+   @Override
+   public EntityInfo getInfo() {
+      return this.info;
+   }
+
+   @Override
+   public int getAction() {
+      return 0; // Only one action
+   }
+
+   @Override
+   public int getAniIndex() {
+      return 0; // Only one image in animation
    }
 
 }

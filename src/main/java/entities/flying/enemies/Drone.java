@@ -1,8 +1,6 @@
 package entities.flying.enemies;
 
-import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 import entities.Entity;
 import entities.flying.EntityInfo;
@@ -10,14 +8,14 @@ import main_classes.Game;
 
 public class Drone extends Entity implements Enemy {
     private EntityInfo info;
-    
+
     private static final int IDLE = 1;
     private static final int TAKING_DAMAGE = 0;
 
     private float startY;
     private int maxHP = 60;
     private int HP = maxHP;
-    private boolean onScreen = false;   
+    private boolean onScreen = false;
     private boolean dead = false;
 
     private int action = IDLE;
@@ -51,24 +49,25 @@ public class Drone extends Entity implements Enemy {
         aniTick++;
         if (aniTick >= aniTickPerFrame) {
             aniTick = 0;
-            aniIndex ++;
+            aniIndex++;
             if (aniIndex >= getDroneSpriteAmount()) {
                 aniIndex = 0;
             }
         }
         if (action == TAKING_DAMAGE) {
-            damageTick --;
+            damageTick--;
             if (damageTick <= 0) {
                 action = IDLE;
             }
         }
     }
 
-    /** Later: we might want to customize shootInterval so that each enemy
+    /**
+     * Later: we might want to customize shootInterval so that each enemy
      * has a specific shootinterval, and the tick starts when enemy is onScreen.
      */
     private void updateShootTick() {
-        shootTick ++;
+        shootTick++;
         if (shootTick > shootInterval) {
             shootTick = 0;
         }
@@ -105,7 +104,7 @@ public class Drone extends Entity implements Enemy {
 
     @Override
     public int getDir() {
-        return 0; // No dir
+        return 1; // Only one dir
     }
 
     @Override
@@ -115,32 +114,17 @@ public class Drone extends Entity implements Enemy {
 
     @Override
     public boolean isSmall() {
-      return true;
+        return true;
     }
 
     public void resetShootTick() {
         this.shootTick = 0;
     }
 
-    @Override
-    public void drawHitbox(Graphics g) {
-        this.drawHitbox(g, 0, 0);
-    }
-
-    @Override
-    public void draw(Graphics g) {
-        g.drawImage(
-            info.animation[action][aniIndex], 
-            (int) ((hitbox.x - info.drawOffsetX) * Game.SCALE), 
-            (int) ((hitbox.y - info.drawOffsetY)* Game.SCALE), 
-            (int) (info.spriteW * 3 * Game.SCALE), 
-            (int) (info.spriteH * 3 * Game.SCALE), null);
-    }
-
     private int getDroneSpriteAmount() {
         switch (action) {
-            case TAKING_DAMAGE:     
-                return 3;     
+            case TAKING_DAMAGE:
+                return 3;
             case IDLE:
             default:
                 return 1;
@@ -148,20 +132,35 @@ public class Drone extends Entity implements Enemy {
     }
 
     @Override
-   public void resetTo(float y) {
-      hitbox.y = startY + y;
-      action = IDLE;
-      HP = maxHP;
-      onScreen = false;
-      dead = false;
-      aniTick = 0;
-      aniIndex = 0;
-      damageTick = 0;
-      shootTick = 0;
-   }
+    public void resetTo(float y) {
+        hitbox.y = startY + y;
+        action = IDLE;
+        HP = maxHP;
+        onScreen = false;
+        dead = false;
+        aniTick = 0;
+        aniIndex = 0;
+        damageTick = 0;
+        shootTick = 0;
+    }
 
     @Override
     public void takeCollisionDamage(int damage) {
         this.takeShootDamage(damage);
+    }
+
+    @Override
+    public EntityInfo getInfo() {
+        return this.info;
+    }
+
+    @Override
+    public int getAction() {
+        return this.action;
+    }
+
+    @Override
+    public int getAniIndex() {
+        return this.aniIndex;
     }
 }

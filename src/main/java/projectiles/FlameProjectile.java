@@ -1,15 +1,11 @@
 package projectiles;
 
-import static utils.Constants.Flying.SpriteSizes.FLAME_PRJT_SPRITE_H;
-import static utils.Constants.Flying.SpriteSizes.FLAME_PRJT_SPRITE_W;
 import static utils.Constants.Flying.TypeConstants.FLAME_PROJECTILE;
 
-import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import entities.Entity;
-import main_classes.Game;
 
 public class FlameProjectile extends Entity implements Projectile {
    BufferedImage img;
@@ -17,13 +13,11 @@ public class FlameProjectile extends Entity implements Projectile {
    private int xSpeed = 0;
    private int ySpeed = 4;
    private int[][] collisionPixels = new int[1][2];
-   private boolean justShot = true;
 
    private boolean active = true;
 
-   public FlameProjectile(Rectangle2D.Float hitbox, BufferedImage img) {
+   public FlameProjectile(Rectangle2D.Float hitbox) {
       super(hitbox);
-      this.img = img;
    }
 
    @Override
@@ -63,11 +57,6 @@ public class FlameProjectile extends Entity implements Projectile {
    }
 
    @Override
-   public void drawHitbox(Graphics g) {
-      this.drawHitbox(g, 0, 0);
-   }
-
-   @Override
    public int getType() {
       return FLAME_PROJECTILE;
    }
@@ -80,15 +69,5 @@ public class FlameProjectile extends Entity implements Projectile {
    @Override
    public boolean isActive() {
       return this.active;
-   }
-
-   @Override
-   public void draw(Graphics g) {
-      g.drawImage(
-         img,
-         (int) ((hitbox.x - 36) * Game.SCALE),
-         (int) ((hitbox.y - 35) * Game.SCALE),
-         (int) (FLAME_PRJT_SPRITE_W * 3 * Game.SCALE),
-         (int) (FLAME_PRJT_SPRITE_H * 3 * Game.SCALE), null);
    }
 }

@@ -1,6 +1,5 @@
 package projectiles;
 
-import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -11,7 +10,6 @@ import entities.flying.enemies.Enemy;
 import entities.flying.enemies.EnemyManager;
 import game_events.AddProjectileEvent;
 import main_classes.Game;
-import utils.ResourceLoader;
 
 import static utils.Constants.Flying.SpriteSizes.*;
 import static utils.Constants.Flying.TypeConstants.BOMB_PROJECTILE;
@@ -25,21 +23,13 @@ public class ProjectileHandler {
    protected AudioPlayer audioPlayer;
    protected ShootingPlayer player;
    protected EnemyManager enemyManager;
-   protected ArrayList<Projectile> allProjectiles; // projectiles on screen
+   public ArrayList<Projectile> allProjectiles; // projectiles on screen
    protected ArrayList<Integer> projectilesToRemove;
-   protected ArrayList<ProjectileHit> projectileHits;
-   protected ArrayList<BombExplosion> bombExplosions;
+   public ArrayList<ProjectileHit> projectileHits;
+   public ArrayList<BombExplosion> bombExplosions;
    protected Rectangle2D.Float screenBox;
 
    protected BufferedImage clImg;
-   protected BufferedImage[] plPrjctImgs; // 0 = BLUE, 1 = GREEN
-   protected BufferedImage bombImg;
-   protected BufferedImage dronePrjctImg;
-   protected BufferedImage octadronePrjctImg;
-   protected BufferedImage reaperdronePrjctImg;
-   protected BufferedImage flamedronePrjctImg;
-   protected BufferedImage[] hitAnimation;
-   protected BufferedImage[] bombExplosionAnimation;
 
    protected boolean powerUp = false;
    protected int lazerShootTick = 0;
@@ -59,36 +49,11 @@ public class ProjectileHandler {
       this.audioPlayer = audioPlayer;
       this.player = player;
       this.enemyManager = enemyManager;
-      loadImgs();
       this.allProjectiles = new ArrayList<>();
       this.projectilesToRemove = new ArrayList<>();
       this.projectileHits = new ArrayList<>();
       this.bombExplosions = new ArrayList<>();
       this.screenBox = new Rectangle2D.Float(0, 0, Game.GAME_DEFAULT_WIDTH, Game.GAME_DEFAULT_HEIGHT);
-   }
-
-   private void loadImgs() {
-      this.plPrjctImgs = new BufferedImage[2];
-      this.plPrjctImgs[0] = ResourceLoader.getFlyImageSprite(ResourceLoader.PLAYER_PROJECTILE_BLUE);
-      this.plPrjctImgs[1] = ResourceLoader.getFlyImageSprite(ResourceLoader.PLAYER_PROJECTILE_GREEN);
-      this.bombImg = ResourceLoader.getFlyImageSprite(ResourceLoader.BOMB_SPRITE);
-      this.dronePrjctImg = ResourceLoader.getFlyImageSprite(ResourceLoader.DRONE_PROJECTILE);
-      this.octadronePrjctImg = ResourceLoader.getFlyImageSprite(ResourceLoader.OCTADRONE_PROJECTILE);
-      this.reaperdronePrjctImg = ResourceLoader.getFlyImageSprite(ResourceLoader.REAPERDRONE_PROJECTILE);
-      this.flamedronePrjctImg = ResourceLoader.getFlyImageSprite(ResourceLoader.FLAME_PROJECTILE);
-
-      this.hitAnimation = new BufferedImage[4];
-      BufferedImage hitImg = ResourceLoader.getFlyImageSprite(ResourceLoader.PROJECTILE_HIT);
-      for (int i = 0; i < hitAnimation.length; i++) {
-         hitAnimation[i] = hitImg.getSubimage(
-               i * PRJT_HIT_SPRITE_SIZE, 0, PRJT_HIT_SPRITE_SIZE, PRJT_HIT_SPRITE_SIZE);
-      }
-      this.bombExplosionAnimation = new BufferedImage[11];
-      BufferedImage explosionImg = ResourceLoader.getFlyImageSprite(ResourceLoader.BOMB_EXPLOSION_SPRITE);
-      for (int i = 0; i < bombExplosionAnimation.length; i++) {
-         bombExplosionAnimation[i] = explosionImg.getSubimage(
-               i * BOMBEXPLOSION_SPRITE_WIDTH, 0, BOMBEXPLOSION_SPRITE_WIDTH, BOMBEXPLOSION_SPRITE_HEIGHT);
-      }
    }
 
    public void update(float yLevelOffset, float xLevelOffset, float fgCurSpeed) {
@@ -123,16 +88,10 @@ public class ProjectileHandler {
             xPos - 8, yPos - 30, PLAYER_PRJT_SPRITE_W, PLAYER_PRJT_SPRITE_H);
       Rectangle2D.Float hitbox2 = new Rectangle2D.Float(
             xPos + 43, yPos - 30, PLAYER_PRJT_SPRITE_W, PLAYER_PRJT_SPRITE_H);
-      int imgSelection = 0;
-      if (powerUp) {
-         imgSelection = 1;
-      }
       this.allProjectiles.add(
-            new PlayerProjectile(hitbox1, powerUp, game.getExploring().getProgressValues().getLazerDmg(),
-                  plPrjctImgs[imgSelection]));
+            new PlayerProjectile(hitbox1, powerUp, game.getExploring().getProgressValues().getLazerDmg()));
       this.allProjectiles.add(
-            new PlayerProjectile(hitbox2, powerUp, game.getExploring().getProgressValues().getLazerDmg(),
-                  plPrjctImgs[imgSelection]));
+            new PlayerProjectile(hitbox2, powerUp, game.getExploring().getProgressValues().getLazerDmg()));
    }
 
    protected void addBombProjectile(float xPos, float yPos) {
@@ -141,7 +100,7 @@ public class ProjectileHandler {
             yPos - 50,
             BOMB_PRJT_SPRITE_SIZE,
             BOMB_PRJT_SPRITE_SIZE);
-      this.allProjectiles.add(new BombProjectile(hitbox, bombImg));
+      this.allProjectiles.add(new BombProjectile(hitbox));
    }
 
    private void checkEnemeyShoot() {
@@ -157,11 +116,11 @@ public class ProjectileHandler {
       if (type == DRONE) {
          Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
                hitbox.x + 25, hitbox.y + 66, 32, 33);
-         this.allProjectiles.add(new DroneProjectile(prjctHitbox, dronePrjctImg));
+         this.allProjectiles.add(new DroneProjectile(prjctHitbox));
       } else if (type == BLASTERDRONE) {
          Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
                hitbox.x + 15, hitbox.y + 90, 32, 33);
-         this.allProjectiles.add(new DroneProjectile(prjctHitbox, dronePrjctImg));
+         this.allProjectiles.add(new DroneProjectile(prjctHitbox));
       } else if (type == OCTADRONE) {
          double radius = hitbox.getWidth();
          for (int i = 0; i < 8; i++) {
@@ -171,30 +130,30 @@ public class ProjectileHandler {
             int xSpeed = (int) (Math.cos(angle) * 4);
             int ySpeed = (int) ((Math.sin(angle) * 4) + fgSpeed);
             Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
-                  (float) x, (float) y, OCTADRONE_PRJT_SPRITE_SIZE - 3, OCTADRONE_PRJT_SPRITE_SIZE - 3);
-            this.allProjectiles.add(new OctaProjectile(prjctHitbox, octadronePrjctImg, xSpeed, ySpeed));
+                  (float) x, (float) y, 25, 25);
+            this.allProjectiles.add(new OctaProjectile(prjctHitbox, xSpeed, ySpeed));
          }
       } else if (type == REAPERDRONE) {
          Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
                hitbox.x + 85, hitbox.y + 160, 300, 24);
-         this.allProjectiles.add(new ReaperProjectile(prjctHitbox, reaperdronePrjctImg));
+         this.allProjectiles.add(new ReaperProjectile(prjctHitbox));
       } else if (type == FLAMEDRONE) {
          Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
                (hitbox.x - 130), (hitbox.y + 160), 378, 195);
-         this.allProjectiles.add(new FlameProjectile(prjctHitbox, flamedronePrjctImg));
+         this.allProjectiles.add(new FlameProjectile(prjctHitbox));
       } else if (type == WASPDRONE) {
          if (dir == 1) { // Facing right
             int xSpeed = 3;
             int ySpeed = 4;
             Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
                   hitbox.x + 75, hitbox.y + 95, 28, 28);
-            this.allProjectiles.add(new OctaProjectile(prjctHitbox, octadronePrjctImg, xSpeed, ySpeed));
+            this.allProjectiles.add(new OctaProjectile(prjctHitbox, xSpeed, ySpeed));
          } else { // Facing left
             int xSpeed = -3;
             int ySpeed = 4;
             Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
                   hitbox.x + 5, hitbox.y + 95, 28, 28);
-            this.allProjectiles.add(new OctaProjectile(prjctHitbox, octadronePrjctImg, xSpeed, ySpeed));
+            this.allProjectiles.add(new OctaProjectile(prjctHitbox, xSpeed, ySpeed));
          }
       }
    }
@@ -311,8 +270,7 @@ public class ProjectileHandler {
    }
 
    protected void addBombExplosion(Rectangle2D.Float prjctHb) {
-      bombExplosions.add(new BombExplosion(
-            bombExplosionAnimation, (int) (prjctHb.x + 5), (int) (prjctHb.y + 5)));
+      bombExplosions.add(new BombExplosion((int) (prjctHb.x + 5), (int) (prjctHb.y + 5)));
    }
 
    protected void updateBombExplosions(float fgSpeed) {
@@ -350,39 +308,6 @@ public class ProjectileHandler {
       while (toRemove > 0) {
          projectileHits.remove(0);
          toRemove -= 1;
-      }
-   }
-
-   public void draw(Graphics g) {
-      ArrayList<Projectile> copy = new ArrayList<>(allProjectiles);
-      for (Projectile p : copy) {
-         if (p.isActive()) {
-            p.draw(g);
-            // p.drawHitbox(g);
-         }
-      }
-      for (ProjectileHit ph : projectileHits) { // concurrentModificationException
-         if (ph.getType() == 0) { // Hitting the map
-            g.drawImage(
-                  hitAnimation[ph.getAniIndex()],
-                  (int) (ph.getX() * Game.SCALE),
-                  (int) (ph.getY() * Game.SCALE),
-                  (int) (PRJT_HIT_SPRITE_SIZE * 3 * Game.SCALE),
-                  (int) (PRJT_HIT_SPRITE_SIZE * 3 * Game.SCALE),
-                  null);
-         } else if (ph.getType() == 1) { // Hitting player
-            g.drawImage(
-                  hitAnimation[ph.getAniIndex()],
-                  (int) (ph.getX() * Game.SCALE),
-                  (int) (ph.getY() * Game.SCALE),
-                  (int) (PRJT_HIT_SPRITE_SIZE * 5 * Game.SCALE),
-                  (int) (PRJT_HIT_SPRITE_SIZE * 5 * Game.SCALE),
-                  null);
-         }
-      }
-      ArrayList<BombExplosion> copy2 = new ArrayList<>(bombExplosions);
-      for (BombExplosion b : copy2) {
-         b.draw(g);
       }
    }
 
@@ -440,7 +365,7 @@ public class ProjectileHandler {
          case DRONE_PROJECTILE:
             Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
                   evt.xPos(), evt.yPos(), 32, 33);
-            this.allProjectiles.add(new DroneProjectile(prjctHitbox, dronePrjctImg, evt.xSpeed(), evt.ySpeed()));
+            this.allProjectiles.add(new DroneProjectile(prjctHitbox, evt.xSpeed(), evt.ySpeed()));
             break;
          default:
             throw new IllegalArgumentException("Projectile type " + evt.type() + " is not supported yet.");

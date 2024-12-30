@@ -1,18 +1,12 @@
 package projectiles;
 
-import static utils.Constants.Flying.SpriteSizes.REAPERDRONE_PRJT_SPRITE_H;
-import static utils.Constants.Flying.SpriteSizes.REAPERDRONE_PRJT_SPRITE_W;
 import static utils.Constants.Flying.TypeConstants.REAPER_PROJECTILE;
 
-import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 import entities.Entity;
-import main_classes.Game;
 
 public class ReaperProjectile extends Entity implements Projectile {
-   BufferedImage img;
    private int damage = 10;
    private int xSpeed = 0;
    private int ySpeed = 8;
@@ -20,9 +14,8 @@ public class ReaperProjectile extends Entity implements Projectile {
 
    private boolean active = true;
 
-   public ReaperProjectile(Rectangle2D.Float hitbox, BufferedImage img) {
+   public ReaperProjectile(Rectangle2D.Float hitbox) {
       super(hitbox);
-      this.img = img;
    }
 
    @Override
@@ -47,8 +40,8 @@ public class ReaperProjectile extends Entity implements Projectile {
 
    @Override
    public void updateCollisionPixels() {
-      collisionPixels[0][0] = (int) (hitbox.x + hitbox.width / 2) / 3;   // x - the middle
-      collisionPixels[0][1] = (int) (hitbox.y + hitbox.height) / 3;     // y - the bottom
+      collisionPixels[0][0] = (int) (hitbox.x + hitbox.width / 2) / 3; // x - the middle
+      collisionPixels[0][1] = (int) (hitbox.y + hitbox.height) / 3; // y - the bottom
    }
 
    @Override
@@ -58,11 +51,6 @@ public class ReaperProjectile extends Entity implements Projectile {
     */
    public int[][] getCollisionPixels() {
       return this.collisionPixels;
-   }
-
-   @Override
-   public void drawHitbox(Graphics g) {
-      this.drawHitbox(g, 0, 0);
    }
 
    @Override
@@ -78,15 +66,5 @@ public class ReaperProjectile extends Entity implements Projectile {
    @Override
    public boolean isActive() {
       return this.active;
-   }
-
-   @Override
-   public void draw(Graphics g) {
-      g.drawImage(
-         img,
-         (int) (hitbox.x * Game.SCALE),
-         (int) (hitbox.y * Game.SCALE),
-         (int) (REAPERDRONE_PRJT_SPRITE_W * 3 * Game.SCALE),
-         (int) (REAPERDRONE_PRJT_SPRITE_H * 3 * Game.SCALE), null);
    }
 }

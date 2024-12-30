@@ -2,16 +2,11 @@ package projectiles;
 
 import static utils.Constants.Flying.TypeConstants.DRONE_PROJECTILE;
 
-import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Float;
-import java.awt.image.BufferedImage;
 
 import entities.Entity;
-import main_classes.Game;
 
 public class DroneProjectile extends Entity implements Projectile {
-    BufferedImage img;
     private int damage = 20;
     private int xSpeed = 0;
     private int ySpeed = 5;
@@ -19,20 +14,20 @@ public class DroneProjectile extends Entity implements Projectile {
 
     private boolean active = true;
 
-    /** This constructor can be used in case of standard drones.
+    /**
+     * This constructor can be used in case of standard drones.
      * The x- and y-speed will have default values.
+     * 
      * @param hitbox
      * @param img
      */
-    public DroneProjectile(Rectangle2D.Float hitbox, BufferedImage img) {
+    public DroneProjectile(Rectangle2D.Float hitbox) {
         super(hitbox);
-        this.img = img;
     }
 
     /** This constructor can be used if a custom x- and y-speed is needed. */
-    public DroneProjectile(Rectangle2D.Float hitbox, BufferedImage img, int xSpeed, int ySpeed) {
+    public DroneProjectile(Rectangle2D.Float hitbox, int xSpeed, int ySpeed) {
         super(hitbox);
-        this.img = img;
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
     }
@@ -59,22 +54,18 @@ public class DroneProjectile extends Entity implements Projectile {
 
     @Override
     public void updateCollisionPixels() {
-        collisionPixels[0][0] = (int) (hitbox.x + hitbox.width/2) / 3;    // x - ned i sentrum
-        collisionPixels[0][1] = (int) (hitbox.y + hitbox.height) / 3;    // y - ned i sentrum
+        collisionPixels[0][0] = (int) (hitbox.x + hitbox.width / 2) / 3; // x - ned i sentrum
+        collisionPixels[0][1] = (int) (hitbox.y + hitbox.height) / 3; // y - ned i sentrum
 
     }
 
     @Override
-    /** Returns a 2D-array of collisionPixels. In the inner layer: 0 = x, and 1 = y.
+    /**
+     * Returns a 2D-array of collisionPixels. In the inner layer: 0 = x, and 1 = y.
      * The collisionPixels are already adjusted to 1/3 size.
-    */
+     */
     public int[][] getCollisionPixels() {
         return this.collisionPixels;
-    }
-
-    @Override
-    public void drawHitbox(Graphics g) {
-        this.drawHitbox(g, 0, 0);
     }
 
     @Override
@@ -90,15 +81,5 @@ public class DroneProjectile extends Entity implements Projectile {
     @Override
     public boolean isActive() {
         return this.active;
-    }
-
-    @Override
-    public void draw(Graphics g) {
-        g.drawImage(
-            img, 
-            (int) (hitbox.x * Game.SCALE), 
-            (int) (hitbox.y * Game.SCALE), 
-            (int) (32 * Game.SCALE),
-            (int) (32 * Game.SCALE), null);
     }
 }

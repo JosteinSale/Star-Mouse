@@ -1,6 +1,5 @@
 package entities.flying.enemies;
 
-import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 
 import entities.Entity;
@@ -29,7 +28,7 @@ public class KamikazeDrone extends Entity implements Enemy {
    private int damageFrames = 10;
    private int damageTick = 0;
 
-   private int playerCollisions = 0;    // When the drone has collided 3 times, it explodes
+   private int playerCollisions = 0; // When the drone has collided 3 times, it explodes
 
    public KamikazeDrone(Rectangle2D.Float hitbox, EntityInfo info) {
       super(hitbox);
@@ -38,7 +37,10 @@ public class KamikazeDrone extends Entity implements Enemy {
       this.info = info;
    }
 
-   /** The kamikazedrone follows the player's position, so it needs access to the player */
+   /**
+    * The kamikazedrone follows the player's position, so it needs access to the
+    * player
+    */
    public void setPlayer(PlayerFly player) {
       this.player = player;
    }
@@ -55,14 +57,13 @@ public class KamikazeDrone extends Entity implements Enemy {
    }
 
    private void moveTowardsPlayer() {
-      if (Math.abs(player.getHitbox().x - hitbox.x) < 5) {  // To avoid jittering
+      if (Math.abs(player.getHitbox().x - hitbox.x) < 5) { // To avoid jittering
          return;
       }
-      if (player.getHitbox().x > hitbox.x) {  // Player is to the right of the drone
+      if (player.getHitbox().x > hitbox.x) { // Player is to the right of the drone
          this.hitbox.x += xSpeed;
-      }
-      else {
-         this.hitbox.x -= xSpeed;   // Player is to the left of the drone
+      } else {
+         this.hitbox.x -= xSpeed; // Player is to the left of the drone
       }
    }
 
@@ -113,7 +114,7 @@ public class KamikazeDrone extends Entity implements Enemy {
       this.HP -= damage;
       if (playerCollisions == 3) {
          // The drone explodes after 3 collisions
-         this.HP = 0;  
+         this.HP = 0;
          dead = true;
       }
    }
@@ -139,22 +140,7 @@ public class KamikazeDrone extends Entity implements Enemy {
 
    @Override
    public int getDir() {
-      return 0;  // No dir
-   }
-
-   @Override
-   public void drawHitbox(Graphics g) {
-      this.drawHitbox(g, 0, 0);
-   }
-
-   @Override
-   public void draw(Graphics g) {
-      g.drawImage(
-         info.animation[action][aniIndex],
-         (int) ((hitbox.x - info.drawOffsetX) * Game.SCALE),
-         (int) ((hitbox.y - info.drawOffsetY) * Game.SCALE),
-         (int) (info.spriteW * 3 * Game.SCALE),
-         (int) (info.spriteH * 3 * Game.SCALE), null);
+      return 1; // Only one dir
    }
 
    private int getSpriteAmount() {
@@ -179,5 +165,20 @@ public class KamikazeDrone extends Entity implements Enemy {
       aniIndex = 0;
       damageTick = 0;
       this.playerCollisions = 0;
+   }
+
+   @Override
+   public EntityInfo getInfo() {
+      return info;
+   }
+
+   @Override
+   public int getAction() {
+      return action;
+   }
+
+   @Override
+   public int getAniIndex() {
+      return aniIndex;
    }
 }

@@ -1,14 +1,15 @@
 package entities.flying.enemies;
 
-import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 
 import entities.Entity;
 import entities.flying.EntityInfo;
 import main_classes.Game;
 
-/** The BurningFragment has a lot of the same behavior as the SmallAsteroid,
- * except that it only has an ySpeed and not an xSpeed. I.e the first digit in the 
+/**
+ * The BurningFragment has a lot of the same behavior as the SmallAsteroid,
+ * except that it only has an ySpeed and not an xSpeed. I.e the first digit in
+ * the
  * shootInterval will be the ySpeed.
  */
 public class BurningFragment extends Entity implements Enemy {
@@ -41,8 +42,9 @@ public class BurningFragment extends Entity implements Enemy {
       this.extractYSpeed(shootInterval);
    }
 
-   /** 
-    * The first digit in the shootinterval will be y-speed. 
+   /**
+    * The first digit in the shootinterval will be y-speed.
+    * 
     * @param shootInterval
     */
    private void extractYSpeed(int shootInterval) {
@@ -83,7 +85,6 @@ public class BurningFragment extends Entity implements Enemy {
       }
    }
 
-
    public boolean canShoot() {
       return false;
    }
@@ -111,7 +112,7 @@ public class BurningFragment extends Entity implements Enemy {
    @Override
    public void takeCollisionDamage(int damage) {
       // The asteroid explodes immediately upon colliding with the player.
-      dead = true; 
+      dead = true;
    }
 
    @Override
@@ -139,21 +140,6 @@ public class BurningFragment extends Entity implements Enemy {
    }
 
    @Override
-   public void drawHitbox(Graphics g) {
-      this.drawHitbox(g, 0, 0);
-   }
-
-   @Override
-   public void draw(Graphics g) {
-      g.drawImage(
-            info.animation[action][aniIndex],
-            (int) ((hitbox.x - info.drawOffsetX) * Game.SCALE),
-            (int) ((hitbox.y - info.drawOffsetY) * Game.SCALE),
-            (int) (info.spriteW * 3 * Game.SCALE),
-            (int) (info.spriteH * 3 * Game.SCALE), null);
-   }
-
-   @Override
    public void resetTo(float y) {
       hitbox.y = startY + y;
       action = IDLE;
@@ -163,5 +149,20 @@ public class BurningFragment extends Entity implements Enemy {
       aniTick = 0;
       aniIndex = 0;
       damageTick = 0;
+   }
+
+   @Override
+   public EntityInfo getInfo() {
+      return this.info;
+   }
+
+   @Override
+   public int getAction() {
+      return this.action;
+   }
+
+   @Override
+   public int getAniIndex() {
+      return this.aniIndex;
    }
 }

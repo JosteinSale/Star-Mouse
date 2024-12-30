@@ -1,6 +1,5 @@
 package entities.flying.enemies;
 
-import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 
 import entities.Entity;
@@ -83,9 +82,9 @@ public class TankDrone extends Entity implements Enemy {
    }
 
    @Override
-    public void takeCollisionDamage(int damage) {
-        this.takeShootDamage(damage);
-    }
+   public void takeCollisionDamage(int damage) {
+      this.takeShootDamage(damage);
+   }
 
    @Override
    public boolean isDead() {
@@ -104,24 +103,10 @@ public class TankDrone extends Entity implements Enemy {
 
    @Override
    public int getDir() {
-      return 0;  // No dir
+      return 1; // Only one dir
    }
 
-   public void resetShootTick() {}
-
-   @Override
-   public void drawHitbox(Graphics g) {
-      this.drawHitbox(g, 0, 0);
-   }
-
-   @Override
-   public void draw(Graphics g) {
-      g.drawImage(
-            info.animation[action][aniIndex],
-            (int) ((hitbox.x - info.drawOffsetX) * Game.SCALE),
-            (int) (hitbox.y * Game.SCALE),
-            (int) (info.spriteW * 3 * Game.SCALE),
-            (int) (info.spriteH * 3 * Game.SCALE), null);
+   public void resetShootTick() {
    }
 
    private int getDroneSpriteAmount() {
@@ -144,5 +129,20 @@ public class TankDrone extends Entity implements Enemy {
       aniTick = 0;
       aniIndex = 0;
       damageTick = 0;
+   }
+
+   @Override
+   public EntityInfo getInfo() {
+      return info;
+   }
+
+   @Override
+   public int getAction() {
+      return action;
+   }
+
+   @Override
+   public int getAniIndex() {
+      return aniIndex;
    }
 }

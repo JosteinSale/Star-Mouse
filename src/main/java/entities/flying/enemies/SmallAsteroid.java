@@ -1,6 +1,5 @@
 package entities.flying.enemies;
 
-import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
@@ -8,11 +7,12 @@ import entities.Entity;
 import entities.flying.EntityInfo;
 import main_classes.Game;
 
-/** The SmallAsteroid will use the shootInterval and direction 
+/**
+ * The SmallAsteroid will use the shootInterval and direction
  * from the levelData-sheet to extract x- and y-Speed.
  * The first digit will be y-speed. The second will be x-speed.
  * If the direction is negative, the x-speed will be negative.
- * (Sadly we can't have negative y-speed, because currently we can't 
+ * (Sadly we can't have negative y-speed, because currently we can't
  * spawn enemies at the bottom of the screen).
  * 
  * If it makes contact with player, it explodes.
@@ -20,7 +20,7 @@ import main_classes.Game;
 public class SmallAsteroid extends Entity implements Enemy {
    private EntityInfo info;
 
-   private int VARIANT_INDEX;   // Each asteroid will be randomized to look like 1 of 4 variants.
+   private int VARIANT_INDEX; // Each asteroid will be randomized to look like 1 of 4 variants.
    private static final int IDLE = 0;
    private static final int TAKING_DAMAGE = 1;
 
@@ -55,11 +55,13 @@ public class SmallAsteroid extends Entity implements Enemy {
       this.extractXandYSpeed(shootInterval, direction);
    }
 
-   /** Will use the shootInterval and direction to extract x- and y-Speed.
+   /**
+    * Will use the shootInterval and direction to extract x- and y-Speed.
     * The first digit will be y-speed. The second will be x-speed.
     * If the direction is negative, the x-speed will be negative.
-    * (Sadly we can't have negative y-speed, because currently we can't 
+    * (Sadly we can't have negative y-speed, because currently we can't
     * spawn enemies at the bottom of the screen).
+    * 
     * @param shootInterval
     * @param direction
     */
@@ -103,7 +105,6 @@ public class SmallAsteroid extends Entity implements Enemy {
       }
    }
 
-
    public boolean canShoot() {
       return false;
    }
@@ -131,7 +132,7 @@ public class SmallAsteroid extends Entity implements Enemy {
    @Override
    public void takeCollisionDamage(int damage) {
       // The asteroid explodes immediately upon colliding with the player.
-      dead = true; 
+      dead = true;
    }
 
    @Override
@@ -141,7 +142,7 @@ public class SmallAsteroid extends Entity implements Enemy {
 
    @Override
    public int getDir() {
-      return 0; // No dir
+      return 1; // Only one dir
    }
 
    @Override
@@ -159,21 +160,6 @@ public class SmallAsteroid extends Entity implements Enemy {
    }
 
    @Override
-   public void drawHitbox(Graphics g) {
-      this.drawHitbox(g, 0, 0);
-   }
-
-   @Override
-   public void draw(Graphics g) {
-      g.drawImage(
-            info.animation[action + (VARIANT_INDEX * 2)][aniIndex],
-            (int) ((hitbox.x - info.drawOffsetX) * Game.SCALE),
-            (int) ((hitbox.y - info.drawOffsetY) * Game.SCALE),
-            (int) (info.spriteW * 3 * Game.SCALE),
-            (int) (info.spriteH * 3 * Game.SCALE), null);
-   }
-
-   @Override
    public void resetTo(float y) {
       hitbox.y = startY + y;
       hitbox.x = startX;
@@ -184,5 +170,20 @@ public class SmallAsteroid extends Entity implements Enemy {
       aniTick = 0;
       aniIndex = 0;
       damageTick = 0;
+   }
+
+   @Override
+   public EntityInfo getInfo() {
+      return info;
+   }
+
+   @Override
+   public int getAction() {
+      return action + (VARIANT_INDEX * 2);
+   }
+
+   @Override
+   public int getAniIndex() {
+      return aniIndex;
    }
 }

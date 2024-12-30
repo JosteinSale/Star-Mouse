@@ -1,8 +1,6 @@
 package entities.flying.enemies;
 
-import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 import entities.Entity;
 import entities.flying.EntityInfo;
@@ -17,7 +15,7 @@ public class OctaDrone extends Entity implements Enemy {
     private float startY;
     private int maxHP = 85;
     private int HP = maxHP;
-    private boolean onScreen = false;   
+    private boolean onScreen = false;
     private boolean dead = false;
 
     private int action = IDLE;
@@ -51,27 +49,27 @@ public class OctaDrone extends Entity implements Enemy {
         aniTick++;
         if (aniTick >= aniTickPerFrame) {
             aniTick = 0;
-            aniIndex ++;
+            aniIndex++;
             if (aniIndex >= getDroneSpriteAmount()) {
                 aniIndex = 0;
             }
         }
         if (action == TAKING_DAMAGE) {
-            damageTick --;
+            damageTick--;
             if (damageTick <= 0) {
                 action = IDLE;
             }
         }
     }
 
-    /** 
+    /**
      * This enemy can only shoot once in its lifetime
      */
     private void updateShootTick() {
-        shootTick ++;
+        shootTick++;
     }
 
-    /** 
+    /**
      * This enemy can only shoot once in its lifetime
      */
     public boolean canShoot() {
@@ -99,9 +97,9 @@ public class OctaDrone extends Entity implements Enemy {
     }
 
     @Override
-   public void takeCollisionDamage(int damage) {
-      this.takeShootDamage(damage);
-   }
+    public void takeCollisionDamage(int damage) {
+        this.takeShootDamage(damage);
+    }
 
     @Override
     public boolean isDead() {
@@ -115,35 +113,21 @@ public class OctaDrone extends Entity implements Enemy {
 
     @Override
     public boolean isSmall() {
-      return true;
+        return true;
     }
 
     @Override
     public int getDir() {
-        return 0; // No dir
+        return 1; // Only one dir
     }
 
-    public void resetShootTick() {}
-
-    @Override
-    public void drawHitbox(Graphics g) {
-        this.drawHitbox(g, 0, 0);
-    }
-
-    @Override
-    public void draw(Graphics g) {
-        g.drawImage(
-        info.animation[action][aniIndex], 
-        (int) ((hitbox.x - info.drawOffsetX) * Game.SCALE), 
-        (int) ((hitbox.y - info.drawOffsetY) * Game.SCALE), 
-        (int) (info.spriteW * 3 * Game.SCALE), 
-        (int) (info.spriteH * 3 * Game.SCALE), null);
+    public void resetShootTick() {
     }
 
     private int getDroneSpriteAmount() {
         switch (action) {
-            case TAKING_DAMAGE:     
-                return 4;     
+            case TAKING_DAMAGE:
+                return 4;
             case IDLE:
             default:
                 return 1;
@@ -151,15 +135,30 @@ public class OctaDrone extends Entity implements Enemy {
     }
 
     @Override
-   public void resetTo(float y) {
-      hitbox.y = startY + y;
-      action = IDLE;
-      HP = maxHP;
-      onScreen = false;
-      dead = false;
-      aniTick = 0;
-      aniIndex = 0;
-      damageTick = 0;
-      shootTick = 0;
-   }
+    public void resetTo(float y) {
+        hitbox.y = startY + y;
+        action = IDLE;
+        HP = maxHP;
+        onScreen = false;
+        dead = false;
+        aniTick = 0;
+        aniIndex = 0;
+        damageTick = 0;
+        shootTick = 0;
+    }
+
+    @Override
+    public EntityInfo getInfo() {
+        return info;
+    }
+
+    @Override
+    public int getAction() {
+        return action;
+    }
+
+    @Override
+    public int getAniIndex() {
+        return aniIndex;
+    }
 }
