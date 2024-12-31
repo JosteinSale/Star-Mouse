@@ -16,7 +16,6 @@ import java.awt.image.BufferedImage;
 import data_storage.SaveData;
 import main_classes.Game;
 import rendering.SwingRender;
-import rendering.root_renders.RenderInfoChoice;
 import ui.LoadSaveMenu;
 import utils.ResourceLoader;
 

@@ -113,7 +113,7 @@ public class MainMenu extends State implements Statemethods {
         // Gamestate.state = Gamestate.EXPLORING;
 
         // FLYING - Uncomment to only test one level in flying.
-        game.getFlying().loadLevel(2);
+        game.getFlying().loadLevel(4);
         game.getFlying().update();
         Gamestate.state = Gamestate.FLYING;
 

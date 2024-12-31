@@ -17,8 +17,6 @@ import static utils.Constants.UI.*;
 
 import main_classes.Game;
 import rendering.SwingRender;
-import rendering.root_renders.RenderInfoBox;
-import rendering.root_renders.RenderInfoChoice;
 
 public class RenderTextBox implements SwingRender {
    private TextboxManager tbM;

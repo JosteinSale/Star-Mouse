@@ -122,7 +122,7 @@ public class BurningFragment extends Entity implements Enemy {
 
    @Override
    public int getDir() {
-      return 0; // No dir
+      return 1; // Only one dir
    }
 
    @Override

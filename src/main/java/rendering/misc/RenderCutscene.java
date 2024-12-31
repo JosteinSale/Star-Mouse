@@ -1,4 +1,4 @@
-package rendering.root_renders;
+package rendering.misc;
 
 import static utils.HelpMethods.DrawCenteredString;
 
@@ -25,8 +25,6 @@ import cutscenes.effects.SetOverlayEffect;
 import main_classes.Game;
 import rendering.SwingRender;
 import rendering.exploring.RenderNumberDisplay;
-import rendering.misc.RenderObjectMove;
-import rendering.misc.RenderTextBox;
 import ui.TextboxManager;
 import utils.HelpMethods2;
 import utils.ResourceLoader;
@@ -34,6 +32,19 @@ import utils.ResourceLoader;
 import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_HEIGHT;
 import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_WIDTH;
 
+/**
+ * There are multiple cutsceneManagers, but only one RenderCutscene.
+ * This is because each cutsceneManager will hold individual cutscenes and
+ * states, but the RenderCutscene can draw them all using the same logic.
+ * It will also save resources, since images and fonts only need to be loaded
+ * once.
+ * 
+ * NOTE: this object holds a reference to a cutsceneManager. Since we will be
+ * drawing many different cutsceneManagers, this reference will need to be
+ * replaced with a new one every time we transition between states.
+ * Call the setCutsceneManager-method to do this.
+ * 
+ */
 public class RenderCutscene implements SwingRender {
    private DefaultCutsceneManager cutsceneManager;
    private RenderNumberDisplay rNumberDisplay;
@@ -139,9 +150,9 @@ public class RenderCutscene implements SwingRender {
             // Ship flame
             g.drawImage(
                   flameAnimations[ship.flame.aniIndex],
-                  (int) ((ship.xPos + 2.5f) * Game.SCALE),
+                  (int) ((ship.xPos + 3.5f) * Game.SCALE),
                   (int) ((ship.yPos + ship.height) * Game.SCALE),
-                  (int) (30 * 3 * Game.SCALE),
+                  (int) (15 * 3 * Game.SCALE),
                   (int) (15 * 3 * Game.SCALE),
                   null);
          }

@@ -16,8 +16,8 @@ fillScreen;black;false
 fade;in;black;10
 startSong;8;true
 endSequence
-
-cutscene;true;automatic;1
+wait;200
+endSequence
 smallDialogue;Lt.Red;serious;0;2;Alright everyone, look sharp!
 wait;180
 endSequence
@@ -27,12 +27,12 @@ smallDialogue;Zack;scared;2;2;Incoming!
 wait;180
 endSequence
 
-cutscene;true;automatic;2
+cutscene;true;automatic;1
 smallDialogue;Nathan;angry;1;2;Shoot them down!
 wait;180
 endSequence
 
-cutscene;true;automatic;3
+cutscene;true;automatic;2
 smallDialogue;Lt.Red;serious;0;2;Watch your six!
 wait;120
 endSequence
@@ -62,7 +62,7 @@ addProjectile;1;800;750;0;-4
 wait;60
 endSequence
 
-cutscene;true;automatic;4
+cutscene;true;automatic;3
 addProjectile;1;300;750;0;-4
 wait;60
 endSequence
@@ -86,7 +86,7 @@ addProjectile;1;800;750;0;-4
 wait;60
 endSequence
 
-cutscene;true;automatic;5
+cutscene;true;automatic;4
 smallDialogue;Lt.Red;serious;0;2;Everyone ok?
 wait;160
 endSequence
@@ -101,7 +101,7 @@ smallDialogue;Gard;serious;0;2;Big boulders ahead!
 wait;160
 endSequence
 
-cutscene;true;automatic;6
+cutscene;true;automatic;5
 fadeHeader;in;350;60;Checkpoint reached
 wait;150
 endSequence
@@ -109,7 +109,7 @@ fadeHeader;out;350;60;Checkpoint reached
 wait;5
 endSequence
 
-cutscene;true;automatic;7
+cutscene;true;automatic;6
 smallDialogue;Zack;scared;2;2;Watch your backs!
 wait;180
 endSequence
@@ -150,7 +150,7 @@ addProjectile;1;200;750;0;-4
 wait;20
 endSequence
 
-cutscene;true;automatic;8
+cutscene;true;automatic;7
 smallDialogue;Zack;scared;2;2;AAH, I'M HIT!
 wait;180
 endSequence
@@ -158,12 +158,12 @@ smallDialogue;Lt.Red;scared;3;2;Zack!
 wait;180
 endSequence
 
-cutscene;true;automatic;9
+cutscene;true;automatic;8
 smallDialogue;Gard;normal;0;2;Use teleport to get through!
 wait;240
 endSequence
 
-cutscene;true;automatic;10
+cutscene;true;automatic;9
 smallDialogue;Frida;scared;1;2;HELP!
 wait;180
 endSequence
@@ -173,7 +173,7 @@ smallDialogue;Gard;angry;1;2;Frida, no!
 wait;180
 endSequence
 
-cutscene;true;automatic;11
+cutscene;true;automatic;10
 smallDialogue;Skye;angry;1;2;The enemy hasn't given up yet!
 wait;180
 endSequence
@@ -217,7 +217,7 @@ addProjectile;1;200;750;0;-4
 wait;30
 endSequence
 
-cutscene;true;automatic;12
+cutscene;true;automatic;11
 smallDialogue;Nathan;scared;1;2;MY SHIELD IS DOWN!
 wait;180
 endSequence
@@ -227,7 +227,7 @@ smallDialogue;Nathan;normal;0;2;Sorry guys
 wait;120
 endSequence
 
-cutscene;true;automatic;13
+cutscene;true;automatic;12
 addProjectile;1;100;750;0;-4
 wait;30
 endSequence
@@ -268,7 +268,7 @@ addProjectile;1;500;750;0;-4
 wait;30
 endSequence
 
-cutscene;true;automatic;14
+cutscene;true;automatic;13
 smallDialogue;Lt.Red;nervous;4;2;We have to find shelter!
 wait;180
 endSequence
@@ -278,7 +278,7 @@ smallDialogue;Gard;normal;0;2;Up ahead, into the huge asteroid!
 wait;180
 endSequence
 
-cutscene;true;automatic;15
+cutscene;true;automatic;14
 addProjectile;1;100;750;0;-4
 wait;30
 endSequence
@@ -316,7 +316,7 @@ addProjectile;1;900;750;0;-4
 wait;30
 endSequence
 
-cutscene;true;automatic;16
+cutscene;true;automatic;15
 smallDialogue;Skye;scared;2;2;I'm loosing control of the ship!
 wait;180
 endSequence
@@ -325,7 +325,7 @@ wait;120
 fadeOutLoops
 endSequence
 
-cutscene;true;automatic;17
+cutscene;true;automatic;16
 fade;out;black;5
 endSequence
 setGameplayActive;false

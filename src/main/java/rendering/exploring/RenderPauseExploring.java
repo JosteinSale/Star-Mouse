@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 import main_classes.Game;
 import rendering.SwingRender;
-import rendering.root_renders.RenderOptionsMenu;
+import rendering.misc.RenderOptionsMenu;
 import ui.OptionsMenu;
 import ui.PauseExploring;
 import utils.ResourceLoader;

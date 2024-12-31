@@ -16,31 +16,33 @@ fillScreen;black;false
 fade;in;black;10
 startSong;2;true
 endSequence
-
-cutscene;true;automatic;1
+wait;100
+endSequence
 smallDialogue;Lt.Red;serious;0;2;All ships enter attack positions.
 wait;240
 endSequence
 smallDialogue;Lt.Red;serious;0;2;Prepare to engage the enemy!
 wait;180
 endSequence
+wait;160;    // Wait for fellowships to exit screen
+endSequence
 
-cutscene;true;automatic;2
+cutscene;true;automatic;1
 smallDialogue;Russel;serious;0;2;We're approaching the city.
 wait;240
 endSequence
 
-cutscene;true;automatic;3
+cutscene;true;automatic;2
 smallDialogue;Nathan;angry;1;2;Nooo!
 wait;200
 endSequence
 
-cutscene;true;automatic;4
+cutscene;true;automatic;3
 smallDialogue;Po;screaming;0;2;HELP!
 wait;200
 endSequence
 
-cutscene;true;automatic;5
+cutscene;true;automatic;4
 fadeHeader;in;350;60;Checkpoint reached
 wait;150
 endSequence
@@ -48,7 +50,7 @@ fadeHeader;out;350;60;Checkpoint reached
 wait;5
 endSequence
 
-cutscene;true;automatic;6;      // TODO - Make this cutscene depend on amount of ships destroyed
+cutscene;true;automatic;5;      // TODO - Make this cutscene depend on amount of ships destroyed
 smallDialogue;Lt.Red;serious;0;2;The city is lost!
 wait;180
 endSequence
@@ -59,12 +61,12 @@ smallDialogue;Lt.Red;serious;0;2;We'll regroup on Vyke.
 wait;180
 endSequence
 
-cutscene;true;automatic;7
+cutscene;true;automatic;6
 fadeOutLoops
 wait;1
 endSequence
 
-cutscene;true;automatic;8
+cutscene;true;automatic;7
 fade;out;black;5
 endSequence
 setGameplayActive;false

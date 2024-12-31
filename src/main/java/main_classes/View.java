@@ -3,14 +3,14 @@ package main_classes;
 import java.awt.Graphics;
 
 import gamestates.Gamestate;
-import rendering.root_renders.RenderCutscene;
+import rendering.misc.RenderCutscene;
+import rendering.misc.RenderInfoBox;
+import rendering.misc.RenderInfoChoice;
+import rendering.misc.RenderOptionsMenu;
 import rendering.root_renders.RenderExploring;
 import rendering.root_renders.RenderFlying;
-import rendering.root_renders.RenderInfoBox;
-import rendering.root_renders.RenderInfoChoice;
 import rendering.root_renders.RenderLevelSelect;
 import rendering.root_renders.RenderMainMenu;
-import rendering.root_renders.RenderOptionsMenu;
 import rendering.root_renders.RenderStartScreen;
 
 /**
@@ -44,7 +44,7 @@ public class View {
       this.rLevelSelect = new RenderLevelSelect(game, rMainMenu.getBgImg());
       this.rCutscene = new RenderCutscene(game.getTextboxManager(), rInfoBox, rInfoChoice);
       this.rExploring = new RenderExploring(game, rOptionsMenu, rCutscene, rInfoBox, rInfoChoice);
-      this.rFlying = new RenderFlying(game, game.getFlying());
+      this.rFlying = new RenderFlying(game, game.getFlying(), rCutscene);
    }
 
    public void draw(Graphics g) {
@@ -99,7 +99,6 @@ public class View {
       return this.rExploring;
    }
 
-   /** Is needed to load new SimpleAnimation-spriteArrays for ObjectMove */
    public RenderCutscene getRenderCutscene() {
       return this.rCutscene;
    }

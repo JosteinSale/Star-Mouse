@@ -17,6 +17,7 @@ import java.util.List;
 import audio.AudioPlayer;
 import cutscenes.Cutscene;
 import cutscenes.cutsceneManagers.CutsceneManagerFly;
+import cutscenes.cutsceneManagers.DefaultCutsceneManager;
 import data_storage.ProgressValues;
 import entities.exploring.AutomaticTrigger;
 import entities.flying.EntityFactory;
@@ -524,5 +525,9 @@ public class Flying extends State implements Statemethods {
 
    public ProjectileHandler getProjectileHandler() {
       return this.projectileHandler;
+   }
+
+   public DefaultCutsceneManager getCutsceneManager() {
+      return this.cutsceneManager;
    }
 }

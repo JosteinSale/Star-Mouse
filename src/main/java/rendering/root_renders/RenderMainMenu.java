@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import gamestates.MainMenu;
 import main_classes.Game;
 import rendering.SwingRender;
+import rendering.misc.RenderInfoChoice;
 import rendering.misc.RenderLoadSave;
+import rendering.misc.RenderOptionsMenu;
 import utils.ResourceLoader;
 
 import static utils.Constants.UI.*;

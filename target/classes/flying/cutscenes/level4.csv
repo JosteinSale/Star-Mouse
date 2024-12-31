@@ -27,6 +27,8 @@ endSequence
 smallDialogue;Gard;normal;0;2;Alright.
 wait;120
 endSequence
+wait;200;     // Wait for Gard's ship to exit the screen
+endSequence
 
 cutscene;true;automatic;1
 smallDialogue;Gard;angry;1;2;There they are!

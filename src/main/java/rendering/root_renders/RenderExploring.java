@@ -11,6 +11,10 @@ import rendering.SwingRender;
 import rendering.exploring.RenderArea;
 import rendering.exploring.RenderMechanic;
 import rendering.exploring.RenderPauseExploring;
+import rendering.misc.RenderCutscene;
+import rendering.misc.RenderInfoBox;
+import rendering.misc.RenderInfoChoice;
+import rendering.misc.RenderOptionsMenu;
 import ui.PauseExploring;
 
 public class RenderExploring implements SwingRender {

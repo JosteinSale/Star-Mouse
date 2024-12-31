@@ -11,6 +11,7 @@ import rendering.flying.RenderEnemies;
 import rendering.flying.RenderMap2;
 import rendering.flying.RenderPlayerFly;
 import rendering.flying.RenderProjectiles;
+import rendering.misc.RenderCutscene;
 
 public class RenderFlying implements SwingRender {
    private Flying flying;
@@ -18,13 +19,16 @@ public class RenderFlying implements SwingRender {
    private RenderPlayerFly rPlayer;
    private RenderEnemies rEnemyManager;
    private RenderProjectiles rProjectiles;
+   private RenderCutscene rCutscene;
 
-   public RenderFlying(Game game, Flying flying) {
+   public RenderFlying(Game game, Flying flying, RenderCutscene rCutscene) {
       this.flying = flying;
       this.rMap = new RenderMap2(flying.getMapManager());
       this.rPlayer = new RenderPlayerFly(game, flying.getPlayer());
       this.rEnemyManager = new RenderEnemies(flying.getEnemyManager());
       this.rProjectiles = new RenderProjectiles(flying.getProjectileHandler());
+      this.rCutscene = rCutscene;
+      this.rCutscene.setCutsceneManager(game.getFlying().getCutsceneManager());
    }
 
    @Override
@@ -37,7 +41,7 @@ public class RenderFlying implements SwingRender {
          rProjectiles.draw(g);
       }
       if (!flying.gameOver) {
-         // this.cutsceneManager.draw(g);
+         rCutscene.draw(g);
       }
       if (flying.gameOver) {
          // gameoverOverlay.draw(g);

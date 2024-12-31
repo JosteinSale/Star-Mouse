@@ -138,7 +138,7 @@ public class RenderProjectiles {
             (int) (bombExplInfo.drawHeight * Game.SCALE), null);
    }
 
-   /** Matches the projectile type with a specific image */
+   /** Matches the projectile type with a ProjectileDrawInfo */
    private ProjectileDrawInfo getInfoForProjectile(Projectile p) {
       switch (p.getType()) {
          case PLAYER_PROJECTILE:

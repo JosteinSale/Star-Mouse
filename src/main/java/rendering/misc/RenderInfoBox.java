@@ -1,4 +1,4 @@
-package rendering.root_renders;
+package rendering.misc;
 
 import java.awt.Color;
 import java.awt.Font;

@@ -16,13 +16,13 @@ fillScreen;black;false
 fade;in;black;10
 startSong;5;true
 endSequence
-
-cutscene;true;automatic;1
+wait;100
+endSequence
 smallDialogue;Lt.Red;serious;0;2;We're heading out!
 wait;200
 endSequence
 
-cutscene;true;automatic;2
+cutscene;true;automatic;1
 smallDialogue;Lt.Red;suspicious;2;2;Wait, something's wrong...
 wait;180
 endSequence
@@ -30,7 +30,7 @@ smallDialogue;Lt.Red;shocked;3;2;It's the enemy! IT'S AN AMBUSH!
 wait;200
 endSequence
 
-cutscene;true;automatic;3
+cutscene;true;automatic;2
 fadeHeader;in;350;60;Checkpoint reached
 wait;150
 endSequence
@@ -38,17 +38,17 @@ fadeHeader;out;350;60;Checkpoint reached
 wait;5
 endSequence
 
-cutscene;true;automatic;4
+cutscene;true;automatic;3
 smallDialogue;???;Rüdinger;0;5;...Send in the flame-drones.
 wait;280
 endSequence
 
-cutscene;true;automatic;5
+cutscene;true;automatic;4
 smallDialogue;Max;serious;8;2;Who was that?
 wait;180
 endSequence
 
-cutscene;true;automatic;6
+cutscene;true;automatic;5
 smallDialogue;Russel;serious;0;2;I think we made it!
 wait;180
 endSequence
@@ -62,7 +62,7 @@ fadeOutLoops
 wait;1
 endSequence
 
-cutscene;true;automatic;7
+cutscene;true;automatic;6
 fade;out;black;5
 endSequence
 setGameplayActive;false

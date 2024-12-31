@@ -13,8 +13,8 @@ import java.awt.image.BufferedImage;
 
 import main_classes.Game;
 import rendering.SwingRender;
-import rendering.root_renders.RenderInfoBox;
-import rendering.root_renders.RenderInfoChoice;
+import rendering.misc.RenderInfoBox;
+import rendering.misc.RenderInfoChoice;
 import ui.MechanicOverlay;
 import utils.ResourceLoader;
 

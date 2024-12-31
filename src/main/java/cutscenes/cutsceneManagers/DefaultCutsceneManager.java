@@ -12,7 +12,6 @@ import cutscenes.effects.UpdatableEffect;
 import static utils.Constants.Exploring.Cutscenes.*;
 
 import game_events.EventHandler;
-import game_events.FillScreenEvent;
 import game_events.GeneralEvent;
 import game_events.TextBoxEvent;
 import gamestates.Gamestate;
@@ -157,7 +156,9 @@ public class DefaultCutsceneManager {
       this.textBoxManager.activateTextbox(evt);
    }
 
-   /** Updates all active effects and textBoxes. */
+   /**
+    * Updates all active effects and textBoxes.
+    */
    public void update() {
       textBoxManager.update();
       for (UpdatableEffect effect : updateableEffects) {
