@@ -212,7 +212,7 @@ public class BossMode extends State implements Statemethods {
    @Override
    public void draw(Graphics g) {
       this.mapManager.drawMap(g);
-      this.player.draw(g);
+      // this.player.draw(g);
       this.boss.draw(g);
       // this.projectileHandler.draw(g);
       // this.cutsceneManager.draw(g);

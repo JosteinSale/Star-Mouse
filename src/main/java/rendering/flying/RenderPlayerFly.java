@@ -1,5 +1,7 @@
 package rendering.flying;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -21,6 +23,22 @@ public class RenderPlayerFly implements SwingRender {
    private BufferedImage[][] animations;
    private BufferedImage[] flameAnimations;
    private BufferedImage tpShadowImg;
+
+   // Status display
+   private BufferedImage bombImg;
+   private BufferedImage enemyCounterImg;
+   private Font statusFont;
+   private int statusX = Game.GAME_DEFAULT_WIDTH - 150;
+   private int bombY = Game.GAME_DEFAULT_HEIGHT - 120;
+   private int bombImgW;
+   private int bombImgH;
+   private int enemyCounterY = Game.GAME_DEFAULT_HEIGHT - 70;
+   private int enemyCounterW;
+   private int enemyCounterH;
+   private int HPbarX = Game.GAME_DEFAULT_WIDTH - 180;
+   private int HPbarY = Game.GAME_DEFAULT_HEIGHT - 50;
+   private int HPbarH = 10;
+   private Color HPbarBgColor = new Color(97, 0, 15, 180);
 
    public RenderPlayerFly(Game game, PlayerFly player) {
       this.game = game;
@@ -47,6 +65,15 @@ public class RenderPlayerFly implements SwingRender {
                   j * SHIP_SPRITE_HEIGHT, SHIP_SPRITE_WIDTH, SHIP_SPRITE_HEIGHT);
          }
       }
+
+      // Status display
+      this.bombImg = ResourceLoader.getFlyImageSprite(ResourceLoader.BOMB_SPRITE);
+      this.enemyCounterImg = ResourceLoader.getFlyImageSprite(ResourceLoader.ENEMYCOUNTER_SPRITE);
+      this.bombImgW = bombImg.getWidth() * 2;
+      this.bombImgH = bombImg.getHeight() * 2;
+      this.enemyCounterW = enemyCounterImg.getWidth() * 2;
+      this.enemyCounterH = enemyCounterImg.getHeight() * 2;
+      this.statusFont = ResourceLoader.getInfoFont();
    }
 
    @Override
@@ -54,7 +81,6 @@ public class RenderPlayerFly implements SwingRender {
       if (player.visible) {
          // Teleport shadows
          if (game.teleportIsPressed) {
-            // g.setColor(Color.LIGHT_GRAY);
             drawShadow(g, player.teleportDistance);
             drawShadow(g, -player.teleportDistance);
          }
@@ -94,7 +120,41 @@ public class RenderPlayerFly implements SwingRender {
    }
 
    private void drawStatusDisplay(Graphics g) {
+      // Images
+      g.drawImage(
+            bombImg,
+            (int) (statusX * Game.SCALE), (int) (bombY * Game.SCALE),
+            (int) (bombImgW * Game.SCALE), (int) (bombImgH * Game.SCALE), null);
+      g.drawImage(
+            enemyCounterImg,
+            (int) (statusX * Game.SCALE), (int) (enemyCounterY * Game.SCALE),
+            (int) (enemyCounterW * Game.SCALE), (int) (enemyCounterH * Game.SCALE), null);
 
+      // Healthbar
+      g.setColor(HPbarBgColor);
+      g.fillRect(
+            (int) ((HPbarX - player.statusDisplay.HPbarMaxW) * Game.SCALE), (int) (HPbarY * Game.SCALE),
+            (int) (player.statusDisplay.HPbarMaxW * Game.SCALE), (int) (HPbarH * Game.SCALE));
+      if (player.statusDisplay.blinkTimer % 4 == 0) {
+         g.setColor(Color.RED);
+      } else {
+         g.setColor(Color.WHITE);
+      }
+      g.fillRect(
+            (int) ((HPbarX - player.statusDisplay.HPbarCurW) * Game.SCALE), (int) (HPbarY * Game.SCALE),
+            (int) (player.statusDisplay.HPbarCurW * Game.SCALE), (int) (HPbarH * Game.SCALE));
+
+      // Text
+      g.setFont(statusFont);
+      g.setColor(Color.WHITE);
+      g.drawString(
+            "x " + Integer.toString(player.statusDisplay.bombs),
+            (int) ((statusX + 60) * Game.SCALE),
+            (int) ((bombY + 30) * Game.SCALE));
+      g.drawString(
+            "x " + Integer.toString(player.statusDisplay.killedEnemies),
+            (int) ((statusX + 60) * Game.SCALE),
+            (int) ((enemyCounterY + 30) * Game.SCALE));
    }
 
    private void drawShadow(Graphics g, int teleportDistance) {

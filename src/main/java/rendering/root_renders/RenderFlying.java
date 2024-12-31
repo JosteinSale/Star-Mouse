@@ -8,10 +8,14 @@ import gamestates.flying.Flying;
 import main_classes.Game;
 import rendering.SwingRender;
 import rendering.flying.RenderEnemies;
+import rendering.flying.RenderGameOver;
+import rendering.flying.RenderLevelFinished;
 import rendering.flying.RenderMap2;
+import rendering.flying.RenderPauseFly;
 import rendering.flying.RenderPlayerFly;
 import rendering.flying.RenderProjectiles;
 import rendering.misc.RenderCutscene;
+import rendering.misc.RenderOptionsMenu;
 
 public class RenderFlying implements SwingRender {
    private Flying flying;
@@ -20,8 +24,12 @@ public class RenderFlying implements SwingRender {
    private RenderEnemies rEnemyManager;
    private RenderProjectiles rProjectiles;
    private RenderCutscene rCutscene;
+   private RenderGameOver rGameOver;
+   private RenderPauseFly rPause;
+   private RenderLevelFinished rLevelFinished;
 
-   public RenderFlying(Game game, Flying flying, RenderCutscene rCutscene) {
+   public RenderFlying(Game game, Flying flying, RenderCutscene rCutscene,
+         RenderOptionsMenu rOptions) {
       this.flying = flying;
       this.rMap = new RenderMap2(flying.getMapManager());
       this.rPlayer = new RenderPlayerFly(game, flying.getPlayer());
@@ -29,6 +37,9 @@ public class RenderFlying implements SwingRender {
       this.rProjectiles = new RenderProjectiles(flying.getProjectileHandler());
       this.rCutscene = rCutscene;
       this.rCutscene.setCutsceneManager(game.getFlying().getCutsceneManager());
+      this.rGameOver = new RenderGameOver(flying.getGameOverOverlay());
+      this.rPause = new RenderPauseFly(flying.getPauseMenu(), rOptions);
+      this.rLevelFinished = new RenderLevelFinished(flying.getLevelFinishedOverlay());
    }
 
    @Override
@@ -44,11 +55,11 @@ public class RenderFlying implements SwingRender {
          rCutscene.draw(g);
       }
       if (flying.gameOver) {
-         // gameoverOverlay.draw(g);
+         rGameOver.draw(g);
       } else if (flying.pause) {
-         // pauseOverlay.draw(g);
+         rPause.draw(g);
       } else if (flying.levelFinished) {
-         // levelFinishedOverlay.draw(g);
+         rLevelFinished.draw(g);
       }
    }
 

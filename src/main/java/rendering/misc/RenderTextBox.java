@@ -178,7 +178,10 @@ public class RenderTextBox implements SwingRender {
       // Text - Dialogue
       g.setColor(Color.WHITE);
       g.setFont(dialogueFont);
-      drawPartialSentence(g, dialogue.text, dialogue.currentLetter, sDialogueX, sDialogueY);
+      drawPartialSentence(
+            g, dialogue.text, dialogue.currentLetter,
+            sDialogueX + (int) (130 * Game.SCALE),
+            sDialogueY + (int) (80 * Game.SCALE));
    }
 
    @Override

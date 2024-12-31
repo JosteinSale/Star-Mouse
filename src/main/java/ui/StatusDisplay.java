@@ -1,125 +1,51 @@
 package ui;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-
-import main_classes.Game;
-import utils.ResourceLoader;
-
 public class StatusDisplay {
-    private BufferedImage bombImg;
-    private BufferedImage enemyCounterImg;
 
-    private Font font;
-    private Color HPbgColor = new Color(97, 0, 15, 180);
+   private int HP;
+   private int maxHP = 100;
+   public int bombs;
+   public int killedEnemies = 0;
+   public int blinkTimer = 0;
+   private int blinkFrames = 20;
 
-    private int HP;
-    private int maxHP = 100;
-    private int bombs;
-    private int killedEnemies = 0;
-    private int blinkTimer = 0;
-    private int blinkFrames = 20;
+   public int HPbarMaxW = 300; // Increases as the player upgrades the ship
+   public int HPbarCurW = (int) (((float) HP / maxHP) * HPbarMaxW);
 
-    private int statusX = Game.GAME_DEFAULT_WIDTH - 150;
-    private int bombY = Game.GAME_DEFAULT_HEIGHT - 120;
-    private int bombW;
-    private int bombH;
-    private int enemyCounterY = Game.GAME_DEFAULT_HEIGHT - 70;
-    private int enemyCounterW;
-    private int enemyCounterH;
-    private int HPbarX = Game.GAME_DEFAULT_WIDTH - 180;
-    private int HPbarY = Game.GAME_DEFAULT_HEIGHT - 50;
-    private int HPbarMaxW = 300;             // Denne kan endres senere med en egen metode
-    private int HPbarH = 10;
-    private int HPbarCurW;
+   public void update() {
+      updateBlinking();
+   }
 
-    public StatusDisplay() {
-        this.bombImg = ResourceLoader.getFlyImageSprite(ResourceLoader.BOMB_SPRITE);
-        this.enemyCounterImg = ResourceLoader.getFlyImageSprite(ResourceLoader.ENEMYCOUNTER_SPRITE);
-        this.bombW = bombImg.getWidth() * 2;
-        this.bombH = bombImg.getHeight() * 2;
-        this.enemyCounterW = enemyCounterImg.getWidth() * 2;
-        this.enemyCounterH = enemyCounterImg.getHeight() * 2;
+   private void updateBlinking() {
+      if (blinkTimer != 0) {
+         blinkTimer--;
+      }
+   }
 
-        this.font = ResourceLoader.getInfoFont();
-        this.HPbarCurW = (int) (((float) HP / maxHP) * HPbarMaxW);
-    }
+   public void setHP(int HP) {
+      this.HP = HP;
+      this.HPbarCurW = (int) (((float) this.HP / maxHP) * HPbarMaxW);
+   }
 
-    public void update() {
-        updateBlinking();
-    }
+   public void setMaxHP(int maxHP) {
+      this.maxHP = maxHP;
+      // TODO - Adjust how long the bar is
+   }
 
-    private void updateBlinking() {
-        if (blinkTimer != 0) {
-            blinkTimer--;
-        }
-    }
+   public void setBombs(int bombs) {
+      this.bombs = bombs;
+   }
 
-    public void draw(Graphics g) {
-        // Images
-        g.drawImage(
-            bombImg, 
-            (int) (statusX * Game.SCALE), (int) (bombY * Game.SCALE), 
-            (int) (bombW * Game.SCALE), (int) (bombH * Game.SCALE), null);
-        g.drawImage(
-            enemyCounterImg, 
-            (int) (statusX * Game.SCALE), (int) (enemyCounterY * Game.SCALE), 
-            (int) (enemyCounterW * Game.SCALE), (int) (enemyCounterH * Game.SCALE), null);
+   public void setKilledEnemies(int killedEnemies) {
+      this.killedEnemies = killedEnemies;
+   }
 
-        // Healthbar
-        g.setColor(HPbgColor);
-        g.fillRect(
-            (int) ((HPbarX - HPbarMaxW)* Game.SCALE), (int) (HPbarY * Game.SCALE), 
-            (int) (HPbarMaxW * Game.SCALE), (int) (HPbarH * Game.SCALE));
-        if (blinkTimer % 4 == 0) {
-            g.setColor(Color.RED);
-        } else {
-            g.setColor(Color.WHITE);
-        }
-        g.fillRect(
-            (int) ((HPbarX - HPbarCurW)* Game.SCALE), (int) (HPbarY * Game.SCALE), 
-            (int) (HPbarCurW * Game.SCALE), (int) (HPbarH * Game.SCALE));
-
-        // Text
-        g.setFont(font);
-        g.setColor(Color.WHITE);
-        g.drawString(
-            "x " + Integer.toString(bombs), 
-            (int) ((statusX + 60) * Game.SCALE), 
-            (int) ((bombY + 30) * Game.SCALE));
-        g.drawString(
-            "x " + Integer.toString(killedEnemies), 
-            (int) ((statusX + 60) * Game.SCALE), 
-            (int) ((enemyCounterY + 30) * Game.SCALE));
-    }
-
-    public void setHP(int HP) {
-        this.HP = HP;
-        this.HPbarCurW = (int) (((float) this.HP / maxHP) * HPbarMaxW);
-    }
-
-    public void setMaxHP(int maxHP) {
-        this.maxHP = maxHP;
-        // TODO - Adjust how long the bar is
-    }
-
-    public void setBombs(int bombs) {
-        this.bombs = bombs;
-    }
-
-    public void setKilledEnemies(int killedEnemies) {
-        this.killedEnemies = killedEnemies;
-    }
-
-    public void setBlinking(boolean active) {
-        if (active) {
-            this.blinkTimer = blinkFrames;
-        }
-        else {
-            this.blinkTimer = 0;  // reset
-        }
-    }
+   public void setBlinking(boolean active) {
+      if (active) {
+         this.blinkTimer = blinkFrames;
+      } else {
+         this.blinkTimer = 0; // reset
+      }
+   }
 
 }

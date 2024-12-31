@@ -14,11 +14,15 @@ import rendering.root_renders.RenderMainMenu;
 import rendering.root_renders.RenderStartScreen;
 
 /**
- * Renders all the gamestates.
- * It initializes one specialized render-object for each gamestate,
- * and keeps these references. Additional renderers that are re-used in various
- * parts of the game are also initialized here.
- * The renderer for each state in turn keeps a reference
+ * The View initializes one specialized render-object for each gamestate,
+ * and calls the draw-method on them.
+ * NOTE: All renders are supposed to be treated like singleton-objects.
+ * (We should enforce this later).
+ * 
+ * Some rendering tasks can be re-used, and are thus split up into smaller
+ * objects that can be passed along to the root-renders that need them.
+ * 
+ * The renderer for each state keeps a reference
  * to its respective model, + any additional renderers it may need.
  */
 public class View {
@@ -44,7 +48,7 @@ public class View {
       this.rLevelSelect = new RenderLevelSelect(game, rMainMenu.getBgImg());
       this.rCutscene = new RenderCutscene(game.getTextboxManager(), rInfoBox, rInfoChoice);
       this.rExploring = new RenderExploring(game, rOptionsMenu, rCutscene, rInfoBox, rInfoChoice);
-      this.rFlying = new RenderFlying(game, game.getFlying(), rCutscene);
+      this.rFlying = new RenderFlying(game, game.getFlying(), rCutscene, rOptionsMenu);
    }
 
    public void draw(Graphics g) {

@@ -3,7 +3,6 @@ package entities.flying;
 import static utils.Constants.Flying.ActionConstants.*;
 import static utils.HelpMethods.IsSolid;
 
-import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
@@ -22,7 +21,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
    protected AudioPlayer audioPlayer;
    protected BufferedImage clImg;
    public ShipFlame flame;
-   protected StatusDisplay statusDisplay;
+   public StatusDisplay statusDisplay;
    protected Rectangle2D.Float teleportHitbox;
 
    public int planeAction;
@@ -378,10 +377,6 @@ public class PlayerFly extends Entity implements ShootingPlayer {
             aniIndex = GetPlayerSpriteAmount(planeAction) - 1;
          }
       }
-   }
-
-   public void draw(Graphics g) {
-      // Do nothing (delete later)
    }
 
    public void resetSpeed() {

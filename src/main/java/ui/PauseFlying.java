@@ -1,30 +1,13 @@
 package ui;
 
-import static utils.Constants.UI.CURSOR_HEIGHT;
-import static utils.Constants.UI.CURSOR_WIDTH;
-import static utils.HelpMethods.DrawCenteredString;
-
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-
 import audio.AudioPlayer;
-import gamestates.Gamestate;
 import gamestates.flying.Flying;
-import main_classes.Game;
-import utils.ResourceLoader;
 import utils.Constants.Audio;
 
 public class PauseFlying {
     private AudioPlayer audioPlayer;
     private Flying flying;
-    private OptionsMenu optionsMenu;
-    private Color bgColor = new Color(0, 0, 0, 140);
-    private Font headerFont;
-    private Font menuFont;
+    public OptionsMenu optionsMenu;
 
     private final int CONTINUE = 0;
     private final int OPTIONS = 1;
@@ -33,32 +16,21 @@ public class PauseFlying {
     private final int PLUS10_ENEMIES = 4;
     private final int MINUS10_ENEMIES = 5;
     private final int DIE = 6;
-    private String[] menuOptions = { "Continue", "Options", "Main Menu", "Skip Level", "+10 Enemies", "-10 Enemies",
+    public String[] menuOptions = { "Continue", "Options", "Main Menu", "Skip Level", "+10 Enemies", "-10 Enemies",
             "Die (lol)" };
-    private BufferedImage pointerImg;
+
     private int selectedIndex = 0;
 
-    private int cursorX = 320;
-    private int cursorMinY = 290;
+    public int cursorX = 320;
+    public int cursorMinY = 290;
     private int cursorMaxY = 650;
-    private int cursorY = cursorMinY;
-    private int menuOptionsDiff = (cursorMaxY - cursorMinY) / 6;
+    public int cursorY = cursorMinY;
+    public int menuOptionsDiff = (cursorMaxY - cursorMinY) / 6;
 
     public PauseFlying(Flying flying, OptionsMenu optionsMenu) {
         this.audioPlayer = flying.getGame().getAudioPlayer();
         this.flying = flying;
         this.optionsMenu = optionsMenu;
-        loadImages();
-        loadFonts();
-    }
-
-    private void loadImages() {
-        this.pointerImg = ResourceLoader.getExpImageSprite(ResourceLoader.CURSOR_SPRITE_WHITE);
-    }
-
-    private void loadFonts() {
-        this.headerFont = ResourceLoader.getHeaderFont();
-        this.menuFont = ResourceLoader.getNameFont();
     }
 
     public void update() {
@@ -120,35 +92,6 @@ public class PauseFlying {
         if (selectedIndex < 0) {
             selectedIndex = 6;
             cursorY = cursorMaxY;
-        }
-    }
-
-    public void draw(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
-        // Background
-        g.setColor(bgColor);
-        g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
-
-        if (optionsMenu.isActive()) {
-            // optionsMenu.draw(g);
-        } else {
-            // Text
-            g.setFont(headerFont);
-            g.setColor(Color.WHITE);
-            g.drawString("PAUSE", (int) (450 * Game.SCALE), (int) (200 * Game.SCALE));
-
-            for (int i = 0; i < menuOptions.length; i++) {
-                Rectangle rect = new Rectangle(
-                        (int) (425 * Game.SCALE), (int) ((cursorMinY - 40 + i * menuOptionsDiff) * Game.SCALE),
-                        (int) (200 * Game.SCALE), (int) (50 * Game.SCALE));
-                DrawCenteredString(g2, menuOptions[i], rect, menuFont);
-            }
-
-            // Cursor
-            g2.drawImage(
-                    pointerImg,
-                    (int) (cursorX * Game.SCALE), (int) ((cursorY - 30) * Game.SCALE),
-                    (int) (CURSOR_WIDTH * Game.SCALE), (int) (CURSOR_HEIGHT * Game.SCALE), null);
         }
     }
 }

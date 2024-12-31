@@ -1,47 +1,33 @@
 package ui;
 
-import static utils.Constants.UI.CURSOR_HEIGHT;
-import static utils.Constants.UI.CURSOR_WIDTH;
 import static entities.flying.EntityFactory.TypeConstants.*;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import gamestates.Statemethods;
 import gamestates.flying.Flying;
 import main_classes.Game;
-import utils.ResourceLoader;
 import utils.Constants.Audio;
 
 public class LevelFinishedOverlay implements Statemethods {
    private Game game;
    private Flying flying;
-   private Font infoFont;
-   private Font continueFont;
-   private BufferedImage cursorImg;
-   private String[] statusText = { "Targets destroyed:", "Credits earned:", "Total credits:" };
+
+   public String[] statusText = { "Targets destroyed:", "Credits earned:", "Total credits:" };
    private int[] statusValues = { 0, 0, 0 };
    private ArrayList<Integer> enemiesKilled; // Contains killed enemyTypes for a level
    private int totalCredits;
    private int creditsEarned;
 
-   private int statusX = 330;
-   private int statusY = 390;
-   private int yDiff = 50;
-   private int lettersPerLine = 22;
-   private int currentLetter = 0;
-   private int linesToDraw = 0;
+   public int lettersPerLine = 22;
+   public int currentLetter = 0;
+   public int linesToDraw = 0;
 
    public LevelFinishedOverlay(Game game, Flying flying) {
       this.game = game;
       this.flying = flying;
       this.enemiesKilled = new ArrayList<>();
-      this.infoFont = ResourceLoader.getInfoFont();
-      this.continueFont = ResourceLoader.getNameFont();
-      this.cursorImg = ResourceLoader.getExpImageSprite(ResourceLoader.CURSOR_SPRITE_WHITE);
    }
 
    @Override
@@ -122,38 +108,7 @@ public class LevelFinishedOverlay implements Statemethods {
 
    @Override
    public void draw(Graphics g) {
-      g.setColor(Color.WHITE);
-      g.setFont(infoFont);
-      for (int i = 0; i < linesToDraw; i++) {
-         int endLetter = lettersPerLine;
-         if ((i + 1) == linesToDraw) {
-            endLetter = currentLetter - (i * lettersPerLine);
-         }
-         drawPartialSentence(
-               g, statusText[i], endLetter,
-               (int) (statusX * Game.SCALE),
-               (int) ((statusY + i * yDiff) * Game.SCALE));
-      }
-
-      // Draws 'Continue' with cursor if all text has appeared
-      if (currentLetter == (lettersPerLine * 3)) {
-         g.setFont(continueFont);
-         g.drawString(
-               "Continue",
-               (int) (420 * Game.SCALE),
-               (int) (600 * Game.SCALE));
-         g.drawImage(
-               cursorImg,
-               (int) (330 * Game.SCALE),
-               (int) (570 * Game.SCALE),
-               (int) (CURSOR_WIDTH * Game.SCALE),
-               (int) (CURSOR_HEIGHT * Game.SCALE), null);
-      }
-   }
-
-   private void drawPartialSentence(Graphics g, String s, int endLetter, int x, int y) {
-      g.drawString(
-            s.substring(0, endLetter), x, y);
+      System.out.println("Deprecated draw method called - Delete later");
    }
 
 }

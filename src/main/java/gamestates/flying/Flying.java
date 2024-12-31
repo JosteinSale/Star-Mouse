@@ -530,4 +530,16 @@ public class Flying extends State implements Statemethods {
    public DefaultCutsceneManager getCutsceneManager() {
       return this.cutsceneManager;
    }
+
+   public GameoverOverlay getGameOverOverlay() {
+      return this.gameoverOverlay;
+   }
+
+   public PauseFlying getPauseMenu() {
+      return this.pauseOverlay;
+   }
+
+   public LevelFinishedOverlay getLevelFinishedOverlay() {
+      return this.levelFinishedOverlay;
+   }
 }
