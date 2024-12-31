@@ -28,7 +28,7 @@ public class Game implements Runnable {
 
    public static final int GAME_DEFAULT_WIDTH = 1050;
    public static final int GAME_DEFAULT_HEIGHT = 750;
-   public static final float SCALE = 0.8f;
+   public static final float SCALE = 0.9f;
    // public static final float SCALE = SCREEN_HEIGHT / (float)
    // GAME_DEFAULT_HEIGHT;
 
@@ -166,14 +166,11 @@ public class Game implements Runnable {
 
    public void render(Graphics g) {
       switch (Gamestate.state) {
-         case START_SCREEN, MAIN_MENU, LEVEL_SELECT, EXPLORING, FLYING:
+         case START_SCREEN, MAIN_MENU, LEVEL_SELECT, EXPLORING, FLYING, CINEMATIC:
             view.draw(g);
             break;
          case BOSS_MODE:
             bossMode.draw(g);
-            break;
-         case CINEMATIC:
-            cinematic.draw(g);
             break;
          case LEVEL_EDITOR:
             levelEditor.draw(g);

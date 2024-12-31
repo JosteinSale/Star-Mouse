@@ -103,13 +103,17 @@ public class Flying extends State implements Statemethods {
       loadPickupItems(lvl);
       loadCutscenes(lvl);
       player.setKilledEnemies(0);
-      this.setRendersForLevel(lvl, flyLevelInfo.getBgImgHeight(lvl));
+      this.setRenders(lvl, flyLevelInfo.getBgImgHeight(lvl));
       // startAt(-20000); // For testing purposes
    }
 
-   /** Sets all Flying-renders for this level */
-   private void setRendersForLevel(int lvl, int bgImgHeight) {
+   /**
+    * Sets all Flying-renders for this level, as well as sets the
+    * cutsceneManager for RenderCutscene.
+    */
+   private void setRenders(int lvl, int bgImgHeight) {
       game.getView().getRenderFlying().loadLevel(lvl, bgImgHeight);
+      game.getView().getRenderCutscene().setCutsceneManager(cutsceneManager);
    }
 
    private void loadPickupItems(Integer level) {
@@ -288,23 +292,7 @@ public class Flying extends State implements Statemethods {
 
    @Override
    public void draw(Graphics g) {
-      // if (!levelFinished) {
-      // mapManager.drawMaps(g);
-      // drawPickupItems(g);
-      // this.player.draw(g);
-      // this.enemyManager.draw(g);
-      // this.projectileHandler.draw(g);
-      // }
-      // if (!gameOver) {
-      // // this.cutsceneManager.draw(g);
-      // }
-      // if (gameOver) {
-      // gameoverOverlay.draw(g);
-      // } else if (pause) {
-      // pauseOverlay.draw(g);
-      // } else if (levelFinished) {
-      // levelFinishedOverlay.draw(g);
-      // }
+      System.out.println("Deprecated draw method");
    }
 
    public void exitFinishedLevel() {

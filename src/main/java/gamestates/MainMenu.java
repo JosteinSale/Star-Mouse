@@ -100,22 +100,22 @@ public class MainMenu extends State implements Statemethods {
         game.testingMode = true;
 
         // UNLOCK LEVELS
-        game.getLevelSelect().unlockAllLevelsUpTo(2);
+        game.getLevelSelect().unlockAllLevelsUpTo(4);
 
         // LEVEL SELECT
-        // game.getLevelSelect().reset();
-        // Gamestate.state = Gamestate.LEVEL_SELECT;
+        game.getLevelSelect().reset();
+        Gamestate.state = Gamestate.LEVEL_SELECT;
 
         // EXPLORING - Uncomment to only test one level in exploring.
-        // game.getExploring().loadLevel(1); // Area is currently specified in that
-        // method.
+        // game.getExploring().loadLevel(4); // Area is currently specified in that
+        // method
         // game.getExploring().update();
         // Gamestate.state = Gamestate.EXPLORING;
 
         // FLYING - Uncomment to only test one level in flying.
-        game.getFlying().loadLevel(4);
-        game.getFlying().update();
-        Gamestate.state = Gamestate.FLYING;
+        // game.getFlying().loadLevel(1);
+        // game.getFlying().update();
+        // Gamestate.state = Gamestate.FLYING;
 
         // BOSSMODE - Uncomment to only test one boss.
         // game.getBossMode().loadNewBoss(1);

@@ -3,8 +3,6 @@ package gamestates;
 import static utils.HelpMethods.GetCutscenes;
 import static utils.Constants.Exploring.Cutscenes.AUTOMATIC;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,8 +40,6 @@ public class Cinematic extends State implements Statemethods {
 
    public static final String CINEMATICS_FILE_PATH = "/src/main/resources/cinematic/cutscenes";
 
-   private Font skipFont;
-
    private EventHandler eventHandler;
    private AudioPlayer audioPlayer;
    private CutsceneManagerCinematic cutsceneManager;
@@ -59,7 +55,6 @@ public class Cinematic extends State implements Statemethods {
       this.cutsceneManager = new CutsceneManagerCinematic(
             game, eventHandler, game.getTextboxManager(), Gamestate.CINEMATIC);
       this.indexMap = new HashMap<>();
-      this.skipFont = ResourceLoader.getInfoFont();
       this.loadEventReactions();
    }
 
@@ -111,6 +106,7 @@ public class Cinematic extends State implements Statemethods {
 
    /**
     * Loads and starts the cutscene with the given file name.
+    * Also sets the DefaultCutsceneManager for RenderCutscene.
     * After the cutscene is done, it returns to the given gamestate.
     * This will mostly be the calling gamestate
     * (since mechanisms for handling transitions are already implemented here).
@@ -119,6 +115,7 @@ public class Cinematic extends State implements Statemethods {
    public void startCutscene(String fileName, Gamestate returnGamestate) {
       this.returnGamestate = returnGamestate;
       this.loadCutscene(fileName);
+      game.getView().getRenderCutscene().setCutsceneManager(cutsceneManager);
       this.cutsceneManager.startCutscene(
             indexMap.get(fileName), AUTOMATIC, 0);
    }
@@ -148,16 +145,7 @@ public class Cinematic extends State implements Statemethods {
 
    @Override
    public void draw(Graphics g) {
-      // this.cutsceneManager.draw(g);
-      this.drawSkipText(g);
-   }
-
-   private void drawSkipText(Graphics g) {
-      g.setColor(Color.GRAY);
-      g.setFont(skipFont);
-      g.drawString(
-            "ENTER to skip",
-            (int) (30 * Game.SCALE), (int) (30 * Game.SCALE));
+      System.out.println("Deprecated draw method");
    }
 
 }

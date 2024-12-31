@@ -7,6 +7,7 @@ import rendering.misc.RenderCutscene;
 import rendering.misc.RenderInfoBox;
 import rendering.misc.RenderInfoChoice;
 import rendering.misc.RenderOptionsMenu;
+import rendering.root_renders.RenderCinematic;
 import rendering.root_renders.RenderExploring;
 import rendering.root_renders.RenderFlying;
 import rendering.root_renders.RenderLevelSelect;
@@ -35,6 +36,7 @@ public class View {
    private RenderExploring rExploring;
    private RenderCutscene rCutscene;
    private RenderFlying rFlying;
+   private RenderCinematic rCinematic;
 
    public View(Game game) {
       this.rStartScreen = new RenderStartScreen(game.getStartScreen());
@@ -49,6 +51,7 @@ public class View {
       this.rCutscene = new RenderCutscene(game.getTextboxManager(), rInfoBox, rInfoChoice);
       this.rExploring = new RenderExploring(game, rOptionsMenu, rCutscene, rInfoBox, rInfoChoice);
       this.rFlying = new RenderFlying(game, game.getFlying(), rCutscene, rOptionsMenu);
+      this.rCinematic = new RenderCinematic(game.getCinematic(), rCutscene);
    }
 
    public void draw(Graphics g) {
@@ -67,6 +70,8 @@ public class View {
             break;
          case FLYING:
             rFlying.draw(g);
+         case CINEMATIC:
+            rCinematic.draw(g);
          default:
             break;
       }
@@ -93,6 +98,8 @@ public class View {
          case FLYING:
             rFlying.dispose();
             break;
+         case CINEMATIC:
+            rCinematic.dispose();
          default:
             break;
       }

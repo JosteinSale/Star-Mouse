@@ -36,7 +36,6 @@ public class RenderFlying implements SwingRender {
       this.rEnemyManager = new RenderEnemies(flying.getEnemyManager());
       this.rProjectiles = new RenderProjectiles(flying.getProjectileHandler());
       this.rCutscene = rCutscene;
-      this.rCutscene.setCutsceneManager(game.getFlying().getCutsceneManager());
       this.rGameOver = new RenderGameOver(flying.getGameOverOverlay());
       this.rPause = new RenderPauseFly(flying.getPauseMenu(), rOptions);
       this.rLevelFinished = new RenderLevelFinished(flying.getLevelFinishedOverlay());

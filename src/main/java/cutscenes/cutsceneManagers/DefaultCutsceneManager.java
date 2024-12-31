@@ -21,6 +21,8 @@ import ui.ITextboxManager;
 /**
  * A non-gamestate-specific cutsceneManager that can be used as a base
  * for other, gamestate-specific cutsceneManagers.
+ * 
+ * NOTE: effects will only be drawn if the cutscene manager is active.
  */
 public class DefaultCutsceneManager {
    // Base objects all cutsceneManagers need
