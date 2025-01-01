@@ -9,6 +9,12 @@ import rendering.SwingRender;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * Renders simple animations using the numerical SimpleAnimation-objects
+ * and their corresponding sprite-arrays.
+ * These objects and arrays are provided by the SimpleAnimationManager,
+ * which in turn is controlled by the ObjectMoveEffect.
+ */
 public class RenderObjectMove implements SwingRender {
    private ArrayList<SimpleAnimation> simpleAnimations;
    private ArrayList<BufferedImage[]> spriteArrays; // The sprite arrays corresponding to the simpleAnimations
@@ -32,6 +38,7 @@ public class RenderObjectMove implements SwingRender {
                (int) (sa.xPos * Game.SCALE), (int) (sa.yPos * Game.SCALE),
                (int) (sa.width * Game.SCALE), (int) (sa.height * Game.SCALE),
                null);
+         index++;
       }
    }
 

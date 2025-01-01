@@ -5,7 +5,6 @@ import static utils.Constants.Exploring.Cutscenes.AUTOMATIC;
 import java.util.ArrayList;
 
 import cutscenes.Cutscene;
-import cutscenes.effects.DarkenScreenEffect;
 import cutscenes.effects.FadeEffect;
 import cutscenes.effects.FadeHeaderEffect;
 import cutscenes.effects.FillScreenEffect;
@@ -38,7 +37,6 @@ public class CutsceneManagerCinematic extends DefaultCutsceneManager {
       this.addEffect(objectMoveEffect);
 
       // Effects that need to be on the top layer
-      this.addEffect(new DarkenScreenEffect());
       this.addEffect(new FillScreenEffect());
       this.addEffect(new FadeEffect(this.eventHandler, this));
       this.addEffect(new FadeHeaderEffect());

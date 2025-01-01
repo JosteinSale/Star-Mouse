@@ -43,7 +43,6 @@ public class CutsceneManagerExp extends DefaultCutsceneManager {
       this.addEffect(new NumberDisplayEffect(numberDisplay));
       this.addEffect(new RedLightEffect());
       this.addEffect(new MoveCameraEffect(area));
-      this.addEffect(new DarkenScreenEffect());
 
       // Effects that need to be accessible from the cutsceneManager:
       this.objectMoveEffect = new ObjectMoveEffect(game);

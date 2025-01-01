@@ -53,7 +53,6 @@ endSequence
 wait;60
 endSequence
 fillScreen;black;false
-darken;80;true
 fade;in;black;5
 startAmbience;5;   // is needed because we override the justEntered-method with a cutscene.
 endSequence

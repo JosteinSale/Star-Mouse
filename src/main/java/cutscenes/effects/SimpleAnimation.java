@@ -1,7 +1,7 @@
 package cutscenes.effects;
 
 /**
- * Contains one animation that loops back to start when finished.
+ * Contains the numerical values needed to represent an animation.
  * It differs from AnimatedComponent in that it's simpler to construct,
  * and only has 1 animation, that always loops.
  * 

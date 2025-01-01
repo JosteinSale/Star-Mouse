@@ -11,6 +11,7 @@ import java.util.List;
 import audio.AudioPlayer;
 import cutscenes.Cutscene;
 import cutscenes.cutsceneManagers.CutsceneManagerCinematic;
+import cutscenes.cutsceneManagers.DefaultCutsceneManager;
 import game_events.ClearObjectsEvent;
 import game_events.EventHandler;
 import game_events.ExitCinematicEvent;
@@ -123,8 +124,23 @@ public class Cinematic extends State implements Statemethods {
    public void exitCinematic() {
       this.cutsceneManager.reset();
       this.cutsceneManager.resetCurrentCutscene();
+      setCutsceneManager(returnGamestate);
       Gamestate.state = this.returnGamestate;
       System.gc();
+   }
+
+   /**
+    * Sets the cutsceneManager for RenderCutscene depending on the
+    * return gamestate.
+    */
+   private void setCutsceneManager(Gamestate rGamestate) {
+      DefaultCutsceneManager cm = switch (rGamestate.name()) {
+         case "EXPLORING" -> game.getExploring().getCurrentCutsceneManager();
+         case "FLYING" -> game.getFlying().getCutsceneManager();
+         case "BOSS_MODE" -> game.getBossMode().getCutsceneManager();
+         default -> throw new IllegalArgumentException("No case defined for " + rGamestate);
+      };
+      game.getView().getRenderCutscene().setCutsceneManager(cm);
    }
 
    @Override

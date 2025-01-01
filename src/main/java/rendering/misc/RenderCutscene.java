@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import cutscenes.FellowShip;
 import cutscenes.cutsceneManagers.CutsceneManagerExp;
 import cutscenes.cutsceneManagers.DefaultCutsceneManager;
-import cutscenes.effects.DarkenScreenEffect;
 import cutscenes.effects.DrawableEffect;
 import cutscenes.effects.FadeEffect;
 import cutscenes.effects.FadeHeaderEffect;
@@ -112,9 +111,7 @@ public class RenderCutscene implements SwingRender {
     * be ~3 effects drawn at once. Usually 1 or 2. So I think it's ok.
     */
    private void drawEffect(Graphics g, DrawableEffect effect) {
-      if (effect instanceof DarkenScreenEffect e) {
-         this.fillScreen(g, new Color(0, 0, 0, e.alpha));
-      } else if (effect instanceof FadeEffect e) {
+      if (effect instanceof FadeEffect e) {
          Color color = this.getTransparentColor(e.color, e.alphaFade);
          this.fillScreen(g, color);
       } else if (effect instanceof FadeHeaderEffect e) {

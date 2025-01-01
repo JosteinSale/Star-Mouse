@@ -174,4 +174,8 @@ public class Exploring extends State implements Statemethods {
     public MechanicOverlay getMechanicOverlay() {
         return this.mechanicOverlay;
     }
+
+    public DefaultCutsceneManager getCurrentCutsceneManager() {
+        return areas.get(currentArea - 1).getCutsceneManager();
+    }
 }

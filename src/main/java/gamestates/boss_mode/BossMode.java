@@ -11,6 +11,7 @@ import java.util.List;
 import audio.AudioPlayer;
 import cutscenes.Cutscene;
 import cutscenes.cutsceneManagers.CutsceneManagerBoss;
+import cutscenes.cutsceneManagers.DefaultCutsceneManager;
 import entities.bossmode.PlayerBoss;
 import entities.bossmode.rudinger1.Rudinger1;
 import entities.bossmode.AnimatedComponentFactory;
@@ -281,6 +282,10 @@ public class BossMode extends State implements Statemethods {
    private void flushImages() {
       mapManager.flush();
       this.boss.flush();
+   }
+
+   public DefaultCutsceneManager getCutsceneManager() {
+      return this.cutsceneManager;
    }
 
 }

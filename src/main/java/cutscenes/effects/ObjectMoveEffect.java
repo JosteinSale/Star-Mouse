@@ -3,7 +3,7 @@ package cutscenes.effects;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import cutscenes.SimpleAnimationFactory;
+import cutscenes.SimpleAnimationManager;
 import game_events.AddObjectEvent;
 import game_events.GeneralEvent;
 import game_events.ObjectMoveEvent;
@@ -11,8 +11,8 @@ import gamestates.Gamestate;
 import main_classes.Game;
 
 /**
- * Keeps a list of SimpleAnimation-objects. These can be added with the
- * activate-method. Once added they will be drawn and updated.
+ * Keeps a list of numerical SimpleAnimation-objects. These can be added with
+ * the activate-method. Once added they will be drawn and updated.
  * They can be moved with the moveObject-method.
  * The effect can only be inactivated with the reset-method.
  * 
@@ -24,7 +24,7 @@ import main_classes.Game;
 public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
    private Game game;
    private boolean active;
-   private SimpleAnimationFactory animationFactory;
+   private SimpleAnimationManager animationManager;
    private ArrayList<SimpleAnimation> objects; // Need arraylist because of sorting, to ensure correct layering
    private HashMap<String, Integer> nameToIndexMap; // Needed to associate the identifier with the correct index
    private HashMap<String, Boolean> moveStatuses;
@@ -35,7 +35,7 @@ public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
 
    public ObjectMoveEffect(Game game) {
       this.game = game;
-      this.animationFactory = new SimpleAnimationFactory(game);
+      this.animationManager = new SimpleAnimationManager(game);
       this.objects = new ArrayList<>();
       this.nameToIndexMap = new HashMap<>();
       this.moveStatuses = new HashMap<>();
@@ -62,7 +62,7 @@ public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
       if (this.nameToIndexMap.containsKey(addEvt.identifier())) {
          throw new IllegalArgumentException("Identifier already registered: " + addEvt.identifier());
       }
-      SimpleAnimation animation = animationFactory.getAnimation(
+      SimpleAnimation animation = animationManager.getAnimation(
             addEvt.objectName(), addEvt.xPos(), addEvt.yPos(), addEvt.scaleW(), addEvt.scaleH(), addEvt.aniSpeed());
       this.addNewEmptyEntry(addEvt.identifier(), animation);
    }
@@ -151,7 +151,7 @@ public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
       this.moveStatuses.clear();
       this.xSpeeds.clear();
       this.ySpeeds.clear();
-      this.animationFactory.flush();
+      this.animationManager.flush();
       this.game.getView().getRenderCutscene().getRenderObjectMove().dispose();
    }
 

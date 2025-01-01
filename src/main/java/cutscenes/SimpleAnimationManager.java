@@ -8,8 +8,21 @@ import utils.HelpMethods2;
 import utils.ImageContainer;
 import utils.ResourceLoader;
 
-/** Can produce SimpleAnimatons. OBS: call flush after use. */
-public class SimpleAnimationFactory {
+/**
+ * This objects is only intended to be used with Cutscens, and does several
+ * things:
+ * 
+ * .1 - Produce numerical SimpleAnimation-objects for the ObjectMove
+ * cutscene-effect and RenderObjectMove.
+ * 
+ * .2 - Load the corresponding images on demand, keep references,
+ * and enable them to be flushed after use.
+ * 
+ * .3 - Make sprite arrays of the images and add them to the RenderObjectMove.
+ * (These arrays will be flushed by the ObjectMove-effect upon cutscene
+ * completion)
+ */
+public class SimpleAnimationManager {
    private Game game;
    private ImageContainer imageContainer;
 
@@ -27,15 +40,25 @@ public class SimpleAnimationFactory {
    public static final String APO = "apo.png";
    public static final String WHITE_CHARGE = "white_charge.png";
 
-   public SimpleAnimationFactory(Game game) {
+   public SimpleAnimationManager(Game game) {
       this.game = game;
       this.imageContainer = new ImageContainer();
    }
 
    /**
-    * Gets the animation array corresponding to the name, and also adds the
-    * image into the imageContainer for later flushing.
+    * This method has side effect, see class documentation
     */
+   public SimpleAnimation getAnimation(String name, float xPos, float yPos, float scaleW, float scaleH,
+         int aniSpeed) {
+      name += ".png";
+      BufferedImage[] animationArray = this.getArrayAndContainImg(name);
+      float width = animationArray[0].getWidth() * scaleW;
+      float height = animationArray[0].getHeight() * scaleH;
+      SimpleAnimation simpleAni = new SimpleAnimation(xPos, yPos, width, height, aniSpeed, animationArray.length);
+      game.getView().getRenderCutscene().getRenderObjectMove().addSimpleAnimation(simpleAni, animationArray);
+      return simpleAni;
+   }
+
    private BufferedImage[] getArrayAndContainImg(String imgName) {
       BufferedImage img = ResourceLoader.getCutsceneImage(imgName);
       imageContainer.addImage(img);
@@ -68,21 +91,6 @@ public class SimpleAnimationFactory {
          default -> throw new IllegalArgumentException("No animation available for: " + imgName);
       };
       return array;
-   }
-
-   /**
-    * Gets the SimpleAnimation corresponding to the name, contains the image,
-    * and then adds the animation array to the RenderObjectMove-object.
-    */
-   public SimpleAnimation getAnimation(String name, float xPos, float yPos, float scaleW, float scaleH,
-         int aniSpeed) {
-      name += ".png";
-      BufferedImage[] animationArray = this.getArrayAndContainImg(name);
-      float width = animationArray[0].getWidth() * scaleW;
-      float height = animationArray[0].getHeight() * scaleH;
-      SimpleAnimation simpleAni = new SimpleAnimation(xPos, yPos, width, height, aniSpeed, animationArray.length);
-      game.getView().getRenderCutscene().getRenderObjectMove().addSimpleAnimation(simpleAni, animationArray);
-      return simpleAni;
    }
 
    public void flush() {

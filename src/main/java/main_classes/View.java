@@ -51,7 +51,7 @@ public class View {
       this.rCutscene = new RenderCutscene(game.getTextboxManager(), rInfoBox, rInfoChoice);
       this.rExploring = new RenderExploring(game, rOptionsMenu, rCutscene, rInfoBox, rInfoChoice);
       this.rFlying = new RenderFlying(game, game.getFlying(), rCutscene, rOptionsMenu);
-      this.rCinematic = new RenderCinematic(game.getCinematic(), rCutscene);
+      this.rCinematic = new RenderCinematic(rCutscene);
    }
 
    public void draw(Graphics g) {
@@ -70,8 +70,10 @@ public class View {
             break;
          case FLYING:
             rFlying.draw(g);
+            break;
          case CINEMATIC:
             rCinematic.draw(g);
+            break;
          default:
             break;
       }

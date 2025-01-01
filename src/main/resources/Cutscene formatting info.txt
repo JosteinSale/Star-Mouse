@@ -253,11 +253,6 @@ CLEAR ANIMATED OBJECTS
 [0] = clearObjects (string)
 
 
-DARKEN SCREEN
---------------------
-[0] = darken (String), [1] = alpha (int), [2] = active (boolean)
-
-
 START CINEMATIC
 --------------------
 [0] = startCinematic (String), [1] = fileName (String), [2] = returnGamestate (Gamestate)
