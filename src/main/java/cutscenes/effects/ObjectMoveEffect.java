@@ -3,7 +3,6 @@ package cutscenes.effects;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import cutscenes.SimpleAnimationManager;
 import game_events.AddObjectEvent;
 import game_events.GeneralEvent;
 import game_events.ObjectMoveEvent;
@@ -24,7 +23,6 @@ import main_classes.Game;
 public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
    private Game game;
    private boolean active;
-   private SimpleAnimationManager animationManager;
    private ArrayList<SimpleAnimation> objects; // Need arraylist because of sorting, to ensure correct layering
    private HashMap<String, Integer> nameToIndexMap; // Needed to associate the identifier with the correct index
    private HashMap<String, Boolean> moveStatuses;
@@ -35,7 +33,6 @@ public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
 
    public ObjectMoveEffect(Game game) {
       this.game = game;
-      this.animationManager = new SimpleAnimationManager(game);
       this.objects = new ArrayList<>();
       this.nameToIndexMap = new HashMap<>();
       this.moveStatuses = new HashMap<>();
@@ -62,9 +59,11 @@ public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
       if (this.nameToIndexMap.containsKey(addEvt.identifier())) {
          throw new IllegalArgumentException("Identifier already registered: " + addEvt.identifier());
       }
-      SimpleAnimation animation = animationManager.getAnimation(
-            addEvt.objectName(), addEvt.xPos(), addEvt.yPos(), addEvt.scaleW(), addEvt.scaleH(), addEvt.aniSpeed());
+      SimpleAnimation animation = new SimpleAnimation(
+            addEvt.xPos(), addEvt.yPos(),
+            addEvt.scaleW(), addEvt.scaleH(), addEvt.aniSpeed(), addEvt.aniLength());
       this.addNewEmptyEntry(addEvt.identifier(), animation);
+      game.getView().getRenderCutscene().getRenderObjectMove().addAnimation(addEvt.objectName(), animation);
    }
 
    private void addNewEmptyEntry(String identifier, SimpleAnimation animation) {
@@ -98,7 +97,7 @@ public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
 
    @Override
    public GeneralEvent getAssociatedEvent() {
-      return new AddObjectEvent(null, null, 0, 0, 0f, 0f, 0);
+      return new AddObjectEvent(null, null, 0, 0, 0f, 0f, 0, 0);
    }
 
    @Override
@@ -151,7 +150,6 @@ public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
       this.moveStatuses.clear();
       this.xSpeeds.clear();
       this.ySpeeds.clear();
-      this.animationManager.flush();
       this.game.getView().getRenderCutscene().getRenderObjectMove().dispose();
    }
 

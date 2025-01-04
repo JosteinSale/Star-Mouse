@@ -14,14 +14,14 @@ public class SimpleAnimation {
    public int aniLength;
    public float xPos;
    public float yPos;
-   public float width;
-   public float height;
+   public float scaleW;
+   public float scaleH;
 
-   public SimpleAnimation(float xPos, float yPos, float width, float height, int aniSpeed, int aniLength) {
+   public SimpleAnimation(float xPos, float yPos, float scaleW, float scaleH, int aniSpeed, int aniLength) {
       this.xPos = xPos;
       this.yPos = yPos;
-      this.width = width;
-      this.height = height;
+      this.scaleW = scaleW;
+      this.scaleH = scaleH;
       this.aniSpeed = aniSpeed;
       this.aniLength = aniLength;
    }

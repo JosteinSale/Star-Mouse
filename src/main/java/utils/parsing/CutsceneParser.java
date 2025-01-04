@@ -333,7 +333,8 @@ public class CutsceneParser {
       Float scaleW = Float.parseFloat(lineData[5]);
       Float scaleH = Float.parseFloat(lineData[6]);
       Integer aniSpeed = Integer.parseInt(lineData[7]);
-      return new AddObjectEvent(objectName, identifier, xPos, yPos, scaleW, scaleH, aniSpeed);
+      Integer aniLength = Integer.parseInt(lineData[8]);
+      return new AddObjectEvent(objectName, identifier, xPos, yPos, scaleW, scaleH, aniSpeed, aniLength);
    }
 
    private static ObjectMoveEvent parseMoveObject(String[] lineData) {

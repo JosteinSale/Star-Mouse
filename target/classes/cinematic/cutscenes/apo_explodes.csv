@@ -1,11 +1,11 @@
 cutscene;true;automatic;0
 fillScreen;black;true
 setOverlayImage;true;apo_explodes_bg.png;1;1
-addObject;cathedral;cathedral;250;100;3;3;3
-addObject;white_charge;charge;1050;200;3;3;5
-addObject;apo;apo;200;60;2;2;4
-addObject;rudingerShip;rudingerShip;300;-150;3;3;3
-addObject;raze_shadow;raze;260;120;3;3;12
+addObject;cathedral;cathedral;250;100;3;3;3;2
+addObject;white_charge;charge;1050;200;3;3;5;5
+addObject;apo;apo;200;60;2;2;4;1
+addObject;rudingerShip;rudingerShip;300;-150;3;3;3;2
+addObject;raze_shadow;raze;260;120;3;3;12;4
 wait;60
 endSequence
 startSong;9;false

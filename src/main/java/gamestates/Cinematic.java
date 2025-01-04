@@ -124,7 +124,7 @@ public class Cinematic extends State implements Statemethods {
    public void exitCinematic() {
       this.cutsceneManager.reset();
       this.cutsceneManager.resetCurrentCutscene();
-      setCutsceneManager(returnGamestate);
+      setReturnCutsceneManager(returnGamestate);
       Gamestate.state = this.returnGamestate;
       System.gc();
    }
@@ -133,7 +133,7 @@ public class Cinematic extends State implements Statemethods {
     * Sets the cutsceneManager for RenderCutscene depending on the
     * return gamestate.
     */
-   private void setCutsceneManager(Gamestate rGamestate) {
+   private void setReturnCutsceneManager(Gamestate rGamestate) {
       DefaultCutsceneManager cm = switch (rGamestate.name()) {
          case "EXPLORING" -> game.getExploring().getCurrentCutsceneManager();
          case "FLYING" -> game.getFlying().getCutsceneManager();
