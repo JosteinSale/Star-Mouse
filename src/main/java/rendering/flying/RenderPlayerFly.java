@@ -181,4 +181,14 @@ public class RenderPlayerFly implements SwingRender {
 
    }
 
+   /**
+    * Flying and BossMode uses different player-objects in their model,
+    * but they have the same render. Use this method to set the correct model.
+    * 
+    * @param player
+    */
+   public void setPlayer(PlayerFly player) {
+      this.player = player;
+   }
+
 }

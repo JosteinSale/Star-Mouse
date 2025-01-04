@@ -7,6 +7,7 @@ import rendering.misc.RenderCutscene;
 import rendering.misc.RenderInfoBox;
 import rendering.misc.RenderInfoChoice;
 import rendering.misc.RenderOptionsMenu;
+import rendering.root_renders.RenderBossMode;
 import rendering.root_renders.RenderCinematic;
 import rendering.root_renders.RenderExploring;
 import rendering.root_renders.RenderFlying;
@@ -36,6 +37,7 @@ public class View {
    private RenderExploring rExploring;
    private RenderCutscene rCutscene;
    private RenderFlying rFlying;
+   private RenderBossMode rBossMode;
    private RenderCinematic rCinematic;
 
    public View(Game game) {
@@ -51,6 +53,7 @@ public class View {
       this.rCutscene = new RenderCutscene(game.getTextboxManager(), rInfoBox, rInfoChoice);
       this.rExploring = new RenderExploring(game, rOptionsMenu, rCutscene, rInfoBox, rInfoChoice);
       this.rFlying = new RenderFlying(game, game.getFlying(), rCutscene, rOptionsMenu);
+      this.rBossMode = new RenderBossMode(game, rCutscene, rFlying.getRenderPlayer(), rFlying.getRenderProjectiles());
       this.rCinematic = new RenderCinematic(rCutscene);
    }
 
@@ -70,6 +73,9 @@ public class View {
             break;
          case FLYING:
             rFlying.draw(g);
+            break;
+         case BOSS_MODE:
+            rBossMode.draw(g);
             break;
          case CINEMATIC:
             rCinematic.draw(g);
@@ -107,7 +113,7 @@ public class View {
       }
    }
 
-   /** Is needed to load new renderers when we load a new level */
+   /** Getters - Are needed to load new renderers when we load a new level */
    public RenderExploring getRenderExploring() {
       return this.rExploring;
    }
@@ -118,6 +124,10 @@ public class View {
 
    public RenderFlying getRenderFlying() {
       return this.rFlying;
+   }
+
+   public RenderBossMode getRenderBossMode() {
+      return this.rBossMode;
    }
 
 }

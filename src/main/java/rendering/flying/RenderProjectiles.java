@@ -72,7 +72,7 @@ public class RenderProjectiles {
             FLAME_PRJT_SPRITE_W * 3, FLAME_PRJT_SPRITE_H * 3, 36, 35);
       this.bossProjct1 = new ProjectileDrawInfo(
             ResourceLoader.getBossSprite(ResourceLoader.BOSS_PROJECTILE1),
-            60, 60, 0, 0);
+            70, 70, 0, 0);
 
       // Hit animation, bomb explosion animation
       this.hitAnimation = HelpMethods2.GetSimpleAnimationArray(
@@ -158,10 +158,20 @@ public class RenderProjectiles {
             return reaperdronePrjct;
          case FLAME_PROJECTILE:
             return flamedronPrjct;
+         case BOSS_PROJECTILE1:
+            return bossProjct1;
          default:
             throw new IllegalArgumentException(
                   "No image available for projectile type: " + p.getType());
       }
-
    }
+
+   /**
+    * Flying and Bossmode have separate projectileHandlers, but uses the
+    * same render. Use this method to set the projectileHandler.
+    */
+   public void setProjectileHandler(ProjectileHandler projectileHandler) {
+      this.projectileHandler = projectileHandler;
+   }
+
 }

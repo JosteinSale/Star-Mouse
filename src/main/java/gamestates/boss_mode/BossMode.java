@@ -34,6 +34,7 @@ import gamestates.Gamestate;
 import gamestates.State;
 import gamestates.Statemethods;
 import main_classes.Game;
+import projectiles.ProjectileHandler;
 import projectiles.ProjectileHandler2;
 import ui.GameoverOverlay2;
 import ui.PauseBoss;
@@ -48,7 +49,6 @@ public class BossMode extends State implements Statemethods {
    private AnimatedComponentFactory animationFactory;
    private AudioPlayer audioPlayer;
    private CutsceneManagerBoss cutsceneManager;
-   private MapManager3 mapManager;
    private IBoss boss;
    private int bossNr;
 
@@ -76,7 +76,6 @@ public class BossMode extends State implements Statemethods {
       this.animationFactory = new AnimatedComponentFactory(new ImageContainer());
       this.pauseOverlay = new PauseBoss(game, this, game.getOptionsMenu());
       this.gameoverOverlay = new GameoverOverlay2(game, this);
-      this.mapManager = new MapManager3();
 
       EventHandler eventHandler = new EventHandler();
       eventHandler.addEventListener(this::doReaction);
@@ -125,26 +124,31 @@ public class BossMode extends State implements Statemethods {
 
    /** Should be called from the boss-defeated-cutscene. */
    private void goToFlying(int lvl) {
-      // Bombs are first transfered to flying,
-      // and later (when Flying :: exitFinishedLevel is called) from flying to
-      // progressValues.
       game.getFlying().setBombsWhenBossIsFinished(projectileHandler.getBombsAtEndOfLevel());
+
+      // Render stuff
+      game.getView().getRenderCutscene().setCutsceneManager(game.getFlying().getCutsceneManager());
+      game.getView().getRenderFlying().getRenderProjectiles()
+            .setProjectileHandler(game.getFlying().getProjectileHandler());
+      game.getView().getRenderBossMode().dispose();
+
       this.player.reset();
       this.pause = false;
       this.gameOver = false;
-      this.flushImages();
+
       Gamestate.state = Gamestate.FLYING;
    }
 
    /**
     * Loads the boss and prepares all objects in BossMode.
+    * Also loads the renders for the boss.
     * Finally it starts the opening cutscene.
     */
    public void loadNewBoss(int bossNr) {
       this.bossNr = bossNr;
       loadBoss(bossNr);
       setPlayerBossParts();
-      loadBackground(bossNr);
+      game.getView().getRenderBossMode().loadBoss(bossNr);
       loadCutscenes(bossNr);
       projectileHandler.setBoss(bossNr, boss);
       this.startCutscene(0);
@@ -161,10 +165,6 @@ public class BossMode extends State implements Statemethods {
       for (ArrayList<Cutscene> cutscenesForTrigger : cutscenes) {
          cutsceneManager.addCutscene(cutscenesForTrigger);
       }
-   }
-
-   private void loadBackground(int bossNr) {
-      this.mapManager.loadMap(bossNr);
    }
 
    private void loadBoss(int bossNr) {
@@ -212,16 +212,7 @@ public class BossMode extends State implements Statemethods {
 
    @Override
    public void draw(Graphics g) {
-      this.mapManager.drawMap(g);
-      // this.player.draw(g);
-      this.boss.draw(g);
-      // this.projectileHandler.draw(g);
-      // this.cutsceneManager.draw(g);
-      if (gameOver) {
-         this.gameoverOverlay.draw(g);
-      } else if (pause) {
-         this.pauseOverlay.draw(g);
-      }
+      System.out.println("Deprecated method");
    }
 
    /** Needed for the pauseOverlay */
@@ -279,13 +270,16 @@ public class BossMode extends State implements Statemethods {
       this.startCutscene(1);
    }
 
-   private void flushImages() {
-      mapManager.flush();
-      this.boss.flush();
-   }
-
    public DefaultCutsceneManager getCutsceneManager() {
       return this.cutsceneManager;
+   }
+
+   public PlayerBoss getPlayer() {
+      return this.player;
+   }
+
+   public ProjectileHandler getProjectileHandler() {
+      return this.projectileHandler;
    }
 
 }

@@ -80,10 +80,19 @@ public class RenderFlying implements SwingRender {
    /** Loads all resources for the given level */
    public void loadLevel(int lvl, int bgImgHeight) {
       this.rMap.loadNewMap(lvl, bgImgHeight);
+      this.rPlayer.setPlayer(flying.getPlayer());
    }
 
    @Override
    public void dispose() {
+   }
+
+   public RenderPlayerFly getRenderPlayer() {
+      return this.rPlayer;
+   }
+
+   public RenderProjectiles getRenderProjectiles() {
+      return this.rProjectiles;
    }
 
 }
