@@ -8,7 +8,8 @@ import entities.bossmode.AnimatedComponentFactory;
 import projectiles.ProjectileHandler2;
 import static utils.Constants.Flying.TypeConstants.BOSS_PROJECTILE1;
 
-/** Shoots 6 projectiles at once in a fan pattern, downwards.
+/**
+ * Shoots 6 projectiles at once in a fan pattern, downwards.
  * There are accompanying charge- and shoot animations at the gunPoint.
  */
 public class FanPattern extends DefaultShootPattern {
@@ -16,33 +17,33 @@ public class FanPattern extends DefaultShootPattern {
    private AnimatedComponent chargeAnimation;
    private float projectileSpeed = 4f;
    private int nrOfProjectiles = 6;
-   private double fanWidth = 140;   // The fan spans 140 degrees
+   private double fanWidth = 140; // The fan spans 140 degrees
 
    public FanPattern(
-      ProjectileHandler2 projectileHandler, Point gunPoint, AnimatedComponentFactory animationFactory, 
-      int chargeTime, int startDelay, int shootInterval) {
+         ProjectileHandler2 projectileHandler, Point gunPoint, AnimatedComponentFactory animationFactory,
+         int chargeTime, int startDelay, int shootInterval) {
       super(projectileHandler, gunPoint, chargeTime, startDelay, shootInterval);
       this.shootAnimation = animationFactory.getPinkShootAnimation(
-         (int)gunPoint.getX() - 150, (int)gunPoint.getY() - 150);
+            (int) gunPoint.getX() - 150, (int) gunPoint.getY() - 150);
       this.chargeAnimation = animationFactory.getPinkEnergyBall(
-         (int)gunPoint.getX() - 90, (int)gunPoint.getY() - 90);
+            (int) gunPoint.getX() - 90, (int) gunPoint.getY() - 90);
    }
 
    @Override
    public void shoot() {
-      double anglePerProjectile = ((double)1 / (nrOfProjectiles - 1)) * fanWidth;
-      double startAngle = 180 + (180 - fanWidth)/2;
-      
+      double anglePerProjectile = ((double) 1 / (nrOfProjectiles - 1)) * fanWidth;
+      double startAngle = 180 + (180 - fanWidth) / 2;
+
       for (int i = 0; i < nrOfProjectiles; i++) {
          double angle = Math.toRadians(startAngle + i * anglePerProjectile);
          float xSpeed = (float) (Math.cos(angle) * projectileSpeed);
          float ySpeed = (float) (Math.sin(angle) * -projectileSpeed);
 
          this.projectileHandler.addBossProjectile(
-            BOSS_PROJECTILE1, 
-            (float) gunPoint.getX() - 35,   // 35 is the width of the projectile/2
-            (float) gunPoint.getY(), 
-            xSpeed, ySpeed);
+               BOSS_PROJECTILE1,
+               (float) gunPoint.getX() - 35, // 35 is the width of the projectile/2
+               (float) gunPoint.getY(),
+               xSpeed, ySpeed);
       }
    }
 
@@ -56,12 +57,10 @@ public class FanPattern extends DefaultShootPattern {
    @Override
    public void drawShootAnimations(Graphics g) {
       if (isCharging) {
-         chargeAnimation.draw(g);
-      }
-      else if (shootPhase) {
-         shootAnimation.draw(g);
+         AnimatedComponent.draw(g, chargeAnimation);
+      } else if (shootPhase) {
+         AnimatedComponent.draw(g, chargeAnimation);
       }
    }
 
-   
 }

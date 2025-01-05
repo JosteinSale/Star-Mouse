@@ -71,9 +71,6 @@ fade;out;black;5
 endSequence
 setGameplayActive;false
 fillScreen;black;true
-wait;40
-endSequence
-fadeHeader;in;200;10;Level finished
 wait;60
 endSequence
 levelFinished

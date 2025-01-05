@@ -1,5 +1,6 @@
 package entities.bossmode;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -11,15 +12,17 @@ import java.awt.image.BufferedImage;
 
 import main_classes.Game;
 
-/** 
- * A BossPart represents an animated part of a boss that can be rotated, moved around,
+/**
+ * A BossPart represents an animated part of a boss that can be rotated, moved
+ * around,
  * perform actions, and collide with player.
  * 
  * The defaultBossPart is a default implementation of the IBossPart-interface.
  * See the interface for explanation of each provided method.
- * OBS: The given hitbox will be used to represent the x- and y-coordinate, as well
+ * OBS: The given hitbox will be used to represent the x- and y-coordinate, as
+ * well
  * as the dimensions of the hitbox, but it's NOT used for collision detection.
-*/
+ */
 abstract public class DefaultBossPart implements IBossPart {
    protected Rectangle2D.Float nonRotatedHitbox;
    protected Area rotatedArea; // Is used to check collision
@@ -33,7 +36,7 @@ abstract public class DefaultBossPart implements IBossPart {
 
    /**
     * Constructs a new BossPart with the given hitbox and spriteSheet.
-    * NOTE: the width/height of individual sprites will be scaled up x3. 
+    * NOTE: the width/height of individual sprites will be scaled up x3.
     * So the hitbox should be about 3x the size of each individual sprite.
     * The sprites will always be drawn in the dead center of the hitbox.
     * 
@@ -59,8 +62,8 @@ abstract public class DefaultBossPart implements IBossPart {
       for (int r = 0; r < aniRows; r++) {
          for (int c = 0; c < aniCols; c++) {
             animations[r][c] = img.getSubimage(
-               c * spriteW,
-               r * spriteH, spriteW, spriteH).getScaledInstance(scaledSpriteW, scaledSpriteH, 0);
+                  c * spriteW,
+                  r * spriteH, spriteW, spriteH).getScaledInstance(scaledSpriteW, scaledSpriteH, 0);
          }
       }
       return animations;
@@ -107,25 +110,13 @@ abstract public class DefaultBossPart implements IBossPart {
       return rotatedArea.intersects(hb);
    }
 
-   @Override
-   public void draw(Graphics g) {
-      if (!rotatedImgVisible) {
-         return;
-      }
-      Graphics2D g2 = (Graphics2D) g;
-      // Draw hitbox. OBS: NOT SCALED TO Game.SCALE!
-      // (We would need to create a new Area-object, which is expensive)
-      //g2.setColor(Color.BLACK);
-      //g2.draw(rotatedArea);
-
-      // Draw nonRotatedHitbox. OBS: NOT SCALED TO Game.SCALE!
-      // g2.draw(nonRotatedHitbox);
-
-      // Draw the rotated image
-      utils.Inf101Graphics.drawCenteredImage(
-         g2, imgs[animAction][aniIndex],
-         nonRotatedHitbox.getCenterX() * Game.SCALE,
-         nonRotatedHitbox.getCenterY() * Game.SCALE, Game.SCALE, this.rotation);
+   /**
+    * Draw rotated hitbox. OBS: NOT SCALED TO Game.SCALE!
+    * (We would need to create a new Area-object, which is expensive)
+    */
+   public void drawRotatedHitbox(Graphics2D g2) {
+      g2.setColor(Color.BLACK);
+      g2.draw(rotatedArea);
    }
 
    @Override

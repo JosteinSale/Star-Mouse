@@ -10,6 +10,10 @@ import gamestates.flying.Flying;
 import main_classes.Game;
 import utils.Constants.Audio;
 
+/**
+ * Fades in "Level Finished" header, draws level stats in a sexy way,
+ * then displays "Continue". Player can exit this screen at any time.
+ */
 public class LevelFinishedOverlay implements Statemethods {
    private Game game;
    private Flying flying;
@@ -24,6 +28,10 @@ public class LevelFinishedOverlay implements Statemethods {
    public int currentLetter = 0;
    public int linesToDraw = 0;
 
+   // Timers
+   private int tick = 0;
+   public int headerAlpha = 0;
+
    public LevelFinishedOverlay(Game game, Flying flying) {
       this.game = game;
       this.flying = flying;
@@ -32,12 +40,27 @@ public class LevelFinishedOverlay implements Statemethods {
 
    @Override
    public void update() {
+      tick++;
       handleKeyboardInputs();
+      updateHeaderAppearing();
+      if (areLettersAppearing()) {
+         updateLettersAppearing();
+      }
+   }
+
+   private void updateLettersAppearing() {
       if (currentLetter < (lettersPerLine * 3)) {
          if (currentLetter % lettersPerLine == 0) {
             this.linesToDraw += 1;
          }
          currentLetter++;
+      }
+   }
+
+   private void updateHeaderAppearing() {
+      headerAlpha += 5;
+      if (headerAlpha > 255) {
+         headerAlpha = 255;
       }
    }
 
@@ -50,6 +73,8 @@ public class LevelFinishedOverlay implements Statemethods {
    }
 
    public void setLevelStats(ArrayList<Integer> enemiesKilled) {
+      this.tick = 0;
+      this.headerAlpha = 0;
       this.currentLetter = 0;
       this.linesToDraw = 0;
       this.totalCredits = game.getExploring().getProgressValues().getCredits();
@@ -109,6 +134,14 @@ public class LevelFinishedOverlay implements Statemethods {
    @Override
    public void draw(Graphics g) {
       System.out.println("Deprecated draw method called - Delete later");
+   }
+
+   public boolean areLettersAppearing() {
+      return tick > 60;
+   }
+
+   public boolean hasContinueAppeared() {
+      return currentLetter == (lettersPerLine * 3);
    }
 
 }

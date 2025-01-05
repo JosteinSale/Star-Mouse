@@ -8,16 +8,19 @@ import java.awt.image.BufferedImage;
 import java.awt.geom.Line2D;
 
 import entities.bossmode.DefaultBossPart;
+import entities.bossmode.IBossPart;
 import entities.bossmode.PlayerBoss;
 import main_classes.Game;
 
-/** Follows the player and shoots at regular intervals.
- * Currently each shoot-cycle takes 180 frames */
+/**
+ * Follows the player and shoots at regular intervals.
+ * Currently each shoot-cycle takes 180 frames
+ */
 public class HeatSeekingLazer extends DefaultBossPart {
    private PlayerBoss player;
-   private Line2D lazerLine;  // For debugging
+   private Line2D lazerLine; // For debugging
    private Point gunCenter;
-   private double imgDistanceFromCenter;   // The image is always drawn from the hitbox center, thus we need this.
+   private double imgDistanceFromCenter; // The image is always drawn from the hitbox center, thus we need this.
 
    private final int CHARGING_ANIM = 0;
    private final int VISUALWARNING_ANIM = 2;
@@ -33,11 +36,11 @@ public class HeatSeekingLazer extends DefaultBossPart {
    private int aniSpeed = 3;
 
    public HeatSeekingLazer(
-         Float hitbox, BufferedImage img, int aniRows, int aniCols, int spriteW, int spriteH, 
+         Float hitbox, BufferedImage img, int aniRows, int aniCols, int spriteW, int spriteH,
          PlayerBoss player, Point gunCenter) {
       super(hitbox, img, aniRows, aniCols, spriteW, spriteH);
       this.player = player;
-      this.imgDistanceFromCenter = hitbox.height/2;
+      this.imgDistanceFromCenter = hitbox.height / 2;
       this.gunCenter = gunCenter;
       this.lazerLine = new Line2D.Double();
    }
@@ -52,8 +55,7 @@ public class HeatSeekingLazer extends DefaultBossPart {
    public void updateBehavior() {
       if (isCharging) {
          updateChargingFase();
-      }
-      else {
+      } else {
          updateShootingFase();
       }
       this.updateAnimations();
@@ -64,11 +66,9 @@ public class HeatSeekingLazer extends DefaultBossPart {
       if (behaviorTick < visualWarningPoint) {
          pointLazerAtPlayer();
          this.animAction = CHARGING_ANIM;
-      }
-      else if (behaviorTick >= visualWarningPoint && behaviorTick < chargeDuration) {
+      } else if (behaviorTick >= visualWarningPoint && behaviorTick < chargeDuration) {
          this.animAction = VISUALWARNING_ANIM;
-      }
-      else { // Shoot starts
+      } else { // Shoot starts
          this.isCharging = false;
          this.animAction = SHOOTING_ANIM;
          this.collisionEnabled = true;
@@ -104,9 +104,9 @@ public class HeatSeekingLazer extends DefaultBossPart {
       double newY = gunCenter.getY() + dy * imgDistanceFromCenter;
 
       // Extract the rotation of the vector
-      double newRotation = Math.atan2(dy, dx) - Math.PI/2;
+      double newRotation = Math.atan2(dy, dx) - Math.PI / 2;
 
-      this.setPosition((int) newX, (int) newY,newRotation);
+      this.setPosition((int) newX, (int) newY, newRotation);
    }
 
    @Override
@@ -114,7 +114,7 @@ public class HeatSeekingLazer extends DefaultBossPart {
       aniTick++;
       if (aniTick > aniSpeed) {
          aniTick = 0;
-         aniIndex ++;
+         aniIndex++;
          if (aniIndex > 3) {
             aniIndex = 0;
          }
@@ -143,28 +143,27 @@ public class HeatSeekingLazer extends DefaultBossPart {
       this.behaviorTick = 0;
    }
 
-   @Override
    public void draw(Graphics g) {
-      super.draw(g);
+      IBossPart.draw(g, this);
    }
 
    // Can be used for debugging
    private void drawLazerLine(Graphics g) {
       Graphics2D g2 = (Graphics2D) g;
       g2.drawLine(
-         (int) (lazerLine.getX1() * Game.SCALE), 
-         (int) (lazerLine.getY1()* Game.SCALE),
-         (int) (lazerLine.getX2() * Game.SCALE), 
-         (int) (lazerLine.getY2() * Game.SCALE));
+            (int) (lazerLine.getX1() * Game.SCALE),
+            (int) (lazerLine.getY1() * Game.SCALE),
+            (int) (lazerLine.getX2() * Game.SCALE),
+            (int) (lazerLine.getY2() * Game.SCALE));
    }
 
    // Include in this update method to update debugLazer
    private void updateLazerLine() {
       // We start by making a line representing the lazer angle.
       this.lazerLine = new Line2D.Double(
-         // From:
-         gunCenter.getX(), gunCenter.getY(),  
-         // To:
-         player.getHitbox().getCenterX(), player.getHitbox().getCenterY()); 
+            // From:
+            gunCenter.getX(), gunCenter.getY(),
+            // To:
+            player.getHitbox().getCenterX(), player.getHitbox().getCenterY());
    }
 }

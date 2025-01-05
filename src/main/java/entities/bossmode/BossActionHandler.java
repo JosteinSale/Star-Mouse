@@ -5,17 +5,19 @@ import java.util.ArrayList;
 
 import projectiles.shootPatterns.ShootPattern;
 
-/** A class which keeps track of which actions a boss can have.
+/**
+ * A class which keeps track of which actions a boss can have.
  * Register new actions with the registerAction()-method.
  * The actions will then be added in that order.
  * Each action will have:
- *    - A name
- *    - A duration
- *    - A list of bossParts
- *    - A list of shootPatterns
+ * - A name
+ * - A duration
+ * - A list of bossParts
+ * - A list of shootPatterns
  * 
  * Use the getName() and getDuration() to access info about the action
- * Call startAction(), updateAction() and finishAction() to coordinate the behavior.
+ * Call startAction(), updateAction() and finishAction() to coordinate the
+ * behavior.
  */
 public class BossActionHandler {
    // Each property of the attack will be linked to one common index for all lists.
@@ -32,14 +34,17 @@ public class BossActionHandler {
    }
 
    /** Use this constructor if the action has a globally controlled duration */
-   public void registerAction(int name, int duration, ArrayList<IBossPart> bossParts, ArrayList<ShootPattern> shootPatterns) {
+   public void registerAction(int name, int duration, ArrayList<IBossPart> bossParts,
+         ArrayList<ShootPattern> shootPatterns) {
       this.actionNames.add(name);
       this.durations.add(duration);
       this.bossParts.add(bossParts);
       this.shootPatterns.add(shootPatterns);
    }
 
-    /** Use this constructor if the action doesn't have a globally controled duration */
+   /**
+    * Use this constructor if the action doesn't have a globally controled duration
+    */
    public void registerAction(int name, ArrayList<IBossPart> actionParts, ArrayList<ShootPattern> shootPatterns) {
       this.actionNames.add(name);
       this.durations.add(0);
@@ -47,8 +52,10 @@ public class BossActionHandler {
       this.shootPatterns.add(shootPatterns);
    }
 
-   /** Loops through the bossParts and shootPatters for the specific action, 
-    * and finishes them */
+   /**
+    * Loops through the bossParts and shootPatters for the specific action,
+    * and finishes them
+    */
    public void finishAction(int index) {
       for (IBossPart part : bossParts.get(index)) {
          part.finishAttack();
@@ -58,16 +65,20 @@ public class BossActionHandler {
       }
    }
 
-   /** Loops through the bossParts for the specific action
-    * and starts them */
+   /**
+    * Loops through the bossParts for the specific action
+    * and starts them
+    */
    public void startAction(int index) {
       for (IBossPart part : bossParts.get(index)) {
          part.startAttack();
       }
    }
 
-   /** Loops through the bossParts and shootPatters for the specific action, 
-    * and updates them */
+   /**
+    * Loops through the bossParts and shootPatters for the specific action,
+    * and updates them
+    */
    public void updateAction(int index) {
       for (IBossPart part : bossParts.get(index)) {
          part.updateBehavior();
@@ -100,7 +111,7 @@ public class BossActionHandler {
       // We loop through all bossParts since some may be visible, even if inactive.
       for (ArrayList<IBossPart> partList : bossParts) {
          for (IBossPart part : partList) {
-            part.draw(g);
+            IBossPart.draw(g, (DefaultBossPart) part); // casting: >:c
          }
       }
       for (ShootPattern pattern : shootPatterns.get(index)) {
@@ -108,7 +119,8 @@ public class BossActionHandler {
       }
    }
 
-   /** Checks all bossParts pertaining to the currentAction, and checks
+   /**
+    * Checks all bossParts pertaining to the currentAction, and checks
     * if any of them is currently in a charging fase.
     */
    public boolean isActionCharging(int index) {
@@ -125,8 +137,9 @@ public class BossActionHandler {
       return false;
    }
 
-   /** Checks all bossParts pertaining to the currentAction, and checks
-    * if any of them is currently in a charging fase.
+   /**
+    * Checks all bossParts pertaining to the currentAction, and checks
+    * if any of them is currently in a cooldown fase.
     */
    public boolean isActionCoolingDown(int index) {
       for (IBossPart part : bossParts.get(index)) {

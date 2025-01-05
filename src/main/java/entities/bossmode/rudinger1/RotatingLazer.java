@@ -9,6 +9,7 @@ import java.util.Arrays;
 import entities.bossmode.AnimatedComponent;
 import entities.bossmode.AnimationInfo;
 import entities.bossmode.DefaultBossPart;
+import entities.bossmode.IBossPart;
 import main_classes.Game;
 import utils.ResourceLoader;
 
@@ -16,7 +17,7 @@ public class RotatingLazer extends DefaultBossPart {
    private Double rotationSpeed = 0.013;
    private Double initialRotation;
    private boolean isCharging = false;
-   private boolean shouldDrawCharge = false;   // There are two lazers, but only one needs to draw the charging.
+   private boolean shouldDrawCharge = false; // There are two lazers, but only one needs to draw the charging.
    private int chargeTick = 0;
    private int chargeDuration = 140;
    private int visualWarningPoint = 100;
@@ -31,7 +32,7 @@ public class RotatingLazer extends DefaultBossPart {
    // aniIndex inherited from super class
 
    public RotatingLazer(
-         Float hitbox, BufferedImage img, int aniRows, int aniCols, int spriteW, int spriteH, 
+         Float hitbox, BufferedImage img, int aniRows, int aniCols, int spriteW, int spriteH,
          double startRotation, boolean shouldDrawCharge) {
       super(hitbox, img, aniRows, aniCols, spriteW, spriteH);
       this.initialRotation = startRotation;
@@ -40,14 +41,13 @@ public class RotatingLazer extends DefaultBossPart {
 
       if (shouldDrawCharge) {
          this.chargeAnimation = new AnimatedComponent(
-            ResourceLoader.getBossSprite(ResourceLoader.LAZER_CHARGE_SPRITE1),
-            100, 100, 1, 5,
-            new ArrayList<>(Arrays.asList(
-               new AnimationInfo("CHARGE", 0, 5, 3, 0, false)
-            )),
-            Game.GAME_DEFAULT_WIDTH/2 - 150,
-            Game.GAME_DEFAULT_HEIGHT/2 - 170);
-         }
+               ResourceLoader.getBossSprite(ResourceLoader.LAZER_CHARGE_SPRITE1),
+               100, 100, 1, 5,
+               new ArrayList<>(Arrays.asList(
+                     new AnimationInfo("CHARGE", 0, 5, 3, 0, false))),
+               Game.GAME_DEFAULT_WIDTH / 2 - 150,
+               Game.GAME_DEFAULT_HEIGHT / 2 - 170);
+      }
    }
 
    @Override
@@ -59,8 +59,7 @@ public class RotatingLazer extends DefaultBossPart {
    public void updateBehavior() {
       if (isCharging) {
          updateChargingFase();
-      }
-      else { // The active fase
+      } else { // The active fase
          this.updatePosition(0, 0, rotationSpeed);
       }
       this.updateAnimations();
@@ -72,8 +71,7 @@ public class RotatingLazer extends DefaultBossPart {
       if (chargeTick >= visualWarningPoint && chargeTick < chargeDuration) {
          this.rotatedImgVisible = true;
          this.animAction = VISUALWARNING_ANIM;
-      }
-      else if (chargeTick >= chargeDuration) {
+      } else if (chargeTick >= chargeDuration) {
          this.animAction = SHOOTING_ANIM;
          this.isCharging = false;
          this.collisionEnabled = true;
@@ -86,13 +84,16 @@ public class RotatingLazer extends DefaultBossPart {
       aniTick++;
       if (aniTick > aniSpeed) {
          aniTick = 0;
-         aniIndex ++;
+         aniIndex++;
          if (aniIndex > 2) {
             aniIndex = 0;
          }
       }
       // Charging animation
-      if (shouldDrawCharge) {chargeAnimation.updateAnimations();};
+      if (shouldDrawCharge) {
+         chargeAnimation.updateAnimations();
+      }
+      ;
    }
 
    @Override
@@ -115,19 +116,18 @@ public class RotatingLazer extends DefaultBossPart {
       this.collisionEnabled = false;
       this.rotatedImgVisible = false;
       this.chargeTick = 0;
-      this.setPosition(   // Resets to start position
-         (int) nonRotatedHitbox.getCenterX(), 
-         (int) nonRotatedHitbox.getCenterY(), 
-         initialRotation); 
+      this.setPosition( // Resets to start position
+            (int) nonRotatedHitbox.getCenterX(),
+            (int) nonRotatedHitbox.getCenterY(),
+            initialRotation);
    }
 
-   @Override
    public void draw(Graphics g) {
-      if (isCharging && shouldDrawCharge) { 
-         chargeAnimation.draw(g);
+      if (isCharging && shouldDrawCharge) {
+         AnimatedComponent.draw(g, chargeAnimation);
       }
       if (animAction == VISUALWARNING_ANIM || !isCharging) {
-         super.draw(g);
+         IBossPart.draw(g, this);
       }
    }
 }

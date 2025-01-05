@@ -8,13 +8,14 @@ import java.awt.geom.Rectangle2D.Float;
 import java.awt.image.BufferedImage;
 
 import entities.bossmode.DefaultBossPart;
+import entities.bossmode.IBossPart;
 import entities.bossmode.PlayerBoss;
 
 /**
- * The MachineHeart starts by exiting its docking-point. 
+ * The MachineHeart starts by exiting its docking-point.
  * Then it goes into a state where it follows player.
- * It will do so for A) a specific duration, or B) as long as 
- * less than 4 player-collisions are registered. 
+ * It will do so for A) a specific duration, or B) as long as
+ * less than 4 player-collisions are registered.
  * Once it exits this state, it returns to its docking-point, and lastly
  * activates the 'abortAttack'-boolean.
  * 
@@ -23,7 +24,7 @@ import entities.bossmode.PlayerBoss;
 public class MachineHeart extends DefaultBossPart {
    private PlayerBoss player;
    private Point dockingPoint;
-   private Point midwayPoint;       // Midway point for start-docking
+   private Point midwayPoint; // Midway point for start-docking
    private double dockingSpeed = 3.0;
    private double followSpeed = 5.0;
 
@@ -32,8 +33,8 @@ public class MachineHeart extends DefaultBossPart {
 
    private boolean startDocking;
    private boolean endDocking;
-   private boolean abortAttack;     // Becomes true if endDocking is finished.
-   private int nrOfCollisions = 0;  // Collisions with player
+   private boolean abortAttack; // Becomes true if endDocking is finished.
+   private int nrOfCollisions = 0; // Collisions with player
    private int behaviorTick = 0;
    private int followDuration = 500;
 
@@ -46,13 +47,13 @@ public class MachineHeart extends DefaultBossPart {
    private int aniSpeed = 2;
 
    public MachineHeart(
-         Float hitbox, BufferedImage img, int aniRows, int aniCols, int spriteW, int spriteH, 
-         PlayerBoss player, Point startPoint) { 
+         Float hitbox, BufferedImage img, int aniRows, int aniCols, int spriteW, int spriteH,
+         PlayerBoss player, Point startPoint) {
       super(hitbox, img, aniRows, aniCols, spriteW, spriteH);
       this.player = player;
       this.dockingPoint = startPoint;
       this.midwayPoint = new Point(
-         (int)this.dockingPoint.getX(), (int)this.dockingPoint.getY() + 200);
+            (int) this.dockingPoint.getX(), (int) this.dockingPoint.getY() + 200);
    }
 
    @Override
@@ -68,11 +69,9 @@ public class MachineHeart extends DefaultBossPart {
 
       if (startDocking) {
          updateStartDocking();
-      }
-      else if (endDocking) {
+      } else if (endDocking) {
          updateEndDocking();
-      }
-      else {
+      } else {
          updateFollowBehavior();
       }
    }
@@ -81,8 +80,10 @@ public class MachineHeart extends DefaultBossPart {
       behaviorTick++;
       // Start by standing still for 120 frames while boss-animation plays
       if (behaviorTick < 120) {
-         if (behaviorTick > 70) {this.rotatedImgVisible = true;} // Syncronizing with mouth animation
-         return; 
+         if (behaviorTick > 70) {
+            this.rotatedImgVisible = true;
+         } // Syncronizing with mouth animation
+         return;
       }
       // Then move towards midway docking-point
       collisionEnabled = true;
@@ -95,16 +96,16 @@ public class MachineHeart extends DefaultBossPart {
 
    private void updateFollowBehavior() {
       // If has collided
-      if (collisionTick > 0) {   
+      if (collisionTick > 0) {
          collisionTick--;
       }
       // If not taking damage and hasn't collided
-      if (this.collisionTick == 0 && this.damageTick == 0) { 
-         this.moveTowardsPoint(  // Move towards player
-            (int)player.getHitbox().getCenterX(), 
-            (int)player.getHitbox().getCenterY(),
-            followSpeed);
-      }  
+      if (this.collisionTick == 0 && this.damageTick == 0) {
+         this.moveTowardsPoint( // Move towards player
+               (int) player.getHitbox().getCenterX(),
+               (int) player.getHitbox().getCenterY(),
+               followSpeed);
+      }
       // Check if the follow phase is over
       this.behaviorTick++;
       if ((this.behaviorTick > followDuration) || nrOfCollisions >= 4) {
@@ -117,28 +118,28 @@ public class MachineHeart extends DefaultBossPart {
       // First move to endpoint
       if (isNotAtDockingPoint()) {
          moveTowardsPoint(
-            (int) dockingPoint.getX(), 
-            (int) dockingPoint.getY(),
-            dockingSpeed);
+               (int) dockingPoint.getX(),
+               (int) dockingPoint.getY(),
+               dockingSpeed);
       }
       // Then stand still for 120 frames while boss-animation plays
       else {
          this.behaviorTick++;
          this.collisionEnabled = false;
-         if (behaviorTick > 50) {this.rotatedImgVisible = false;} // Syncronizing with mouth animation
+         if (behaviorTick > 50) {
+            this.rotatedImgVisible = false;
+         } // Syncronizing with mouth animation
          // Then abort the attack
          if (this.behaviorTick >= 120) {
             this.endDocking = false;
-            this.abortAttack = true; 
+            this.abortAttack = true;
          }
       }
    }
 
    private boolean isNotAtDockingPoint() {
-      return (
-         Math.abs(this.getNonRotatedHitbox().getCenterY() - this.dockingPoint.y) > 4) ||
-         (Math.abs(this.getNonRotatedHitbox().getCenterX() - this.dockingPoint.x) > 4
-         );
+      return (Math.abs(this.getNonRotatedHitbox().getCenterY() - this.dockingPoint.y) > 4) ||
+            (Math.abs(this.getNonRotatedHitbox().getCenterX() - this.dockingPoint.x) > 4);
    }
 
    private void moveTowardsPoint(int x, int y, double speed) {
@@ -161,7 +162,7 @@ public class MachineHeart extends DefaultBossPart {
       aniTick++;
       if (aniTick > aniSpeed) {
          aniTick = 0;
-         aniIndex ++;
+         aniIndex++;
          if (aniIndex > 1) {
             aniIndex = 0;
          }
@@ -170,7 +171,7 @@ public class MachineHeart extends DefaultBossPart {
 
    private void updateDamageTick() {
       // If has taking damage
-      if (damageTick > 0) {  
+      if (damageTick > 0) {
          damageTick--;
          if (damageTick == 0) {
             this.animAction = IDLE;
@@ -181,9 +182,8 @@ public class MachineHeart extends DefaultBossPart {
    @Override
    public void onPlayerCollision() {
       if (endDocking || startDocking) {
-         return;  // No behavior
-      }
-      else {
+         return; // No behavior
+      } else {
          this.collisionTick = this.collisionWaitDuration;
          this.nrOfCollisions++;
          checkIf4Collisions();
@@ -193,9 +193,8 @@ public class MachineHeart extends DefaultBossPart {
    @Override
    public void onTeleportHit() {
       if (endDocking || startDocking) {
-         return;  // No Behavior
-      }
-      else {
+         return; // No Behavior
+      } else {
          this.damageTick = damageDuration;
          this.animAction = DAMAGE_ANIM;
          this.nrOfCollisions++;
@@ -204,12 +203,11 @@ public class MachineHeart extends DefaultBossPart {
    }
 
    private void checkIf4Collisions() {
-      if (nrOfCollisions >= 4)  {
+      if (nrOfCollisions >= 4) {
          this.endDocking = true;
          this.behaviorTick = 0;
       }
    }
-
 
    @Override
    public boolean isCharging() {
@@ -218,12 +216,12 @@ public class MachineHeart extends DefaultBossPart {
 
    @Override
    public boolean isCoolingDown() {
-      return endDocking && behaviorTick > 40;  // Syncronized with animations
+      return endDocking && behaviorTick > 40; // Syncronized with animations
    }
 
    @Override
    public void finishAttack() {
-      this.setPosition((int)dockingPoint.getX(), (int)dockingPoint.getY(), 0.0);
+      this.setPosition((int) dockingPoint.getX(), (int) dockingPoint.getY(), 0.0);
       this.endDocking = false;
       this.collisionEnabled = false;
       this.rotatedImgVisible = false;
@@ -242,9 +240,8 @@ public class MachineHeart extends DefaultBossPart {
       return true;
    }
 
-   @Override
    public void draw(Graphics g) {
-      super.draw(g);
+      IBossPart.draw(g, this);
    }
-   
+
 }

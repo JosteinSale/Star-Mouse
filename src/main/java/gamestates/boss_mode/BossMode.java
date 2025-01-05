@@ -246,6 +246,7 @@ public class BossMode extends State implements Statemethods {
    /** Is called from the pauseOverlay */
    public void skipBossMode() {
       this.resetBossMode();
+      game.getView().getRenderCutscene().setCutsceneManager(game.getFlying().getCutsceneManager());
       Gamestate.state = Gamestate.FLYING;
    }
 
@@ -276,6 +277,10 @@ public class BossMode extends State implements Statemethods {
 
    public PlayerBoss getPlayer() {
       return this.player;
+   }
+
+   public IBoss getBoss() {
+      return this.boss;
    }
 
    public ProjectileHandler getProjectileHandler() {

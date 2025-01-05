@@ -8,14 +8,17 @@ import entities.bossmode.AnimatedComponent;
 import entities.bossmode.AnimationInfo;
 import main_classes.Game;
 
-/** The AnimatedMouth handles animations pertaining to the mouth of Rudinger1.
+/**
+ * The AnimatedMouth handles animations pertaining to the mouth of Rudinger1.
  * It's distinct from an AnimatedComponent in that it has a separate
- * damageAnimation()-method, that should be called whenever the boss takes damage.
+ * damageAnimation()-method, that should be called whenever the boss takes
+ * damage.
  * The damage animation is drawn ontop of whatever animation is beneath, to
  * avoid messing with the animation state.
  */
-public class AnimatedMouth extends AnimatedComponent  {
+public class AnimatedMouth extends AnimatedComponent {
    private boolean isBlinking = false;
+   private boolean drawBlink = false;
    private int blinkTick = 0;
    private int blinkDuration = 20;
 
@@ -44,20 +47,26 @@ public class AnimatedMouth extends AnimatedComponent  {
             isBlinking = false;
          }
       }
-   }
-
-   @Override
-   public void draw(Graphics g) {
-      super.draw(g);   // Draws regular animations
-
       if (isBlinking && (blinkTick % 8 > 3)) {
-         g.drawImage(
-         this.animations[1][0], // The blink image
-         (int) (xPos * Game.SCALE), 
-         (int) (yPos* Game.SCALE) , 
-         (int) (spriteW * 3 * Game.SCALE),
-         (int) (spriteH * 3 * Game.SCALE), null);
+         this.aniAction = 1;
+         this.aniIndex = 0;
+         drawBlink = true;
+      } else {
+         drawBlink = false;
       }
    }
-   
+
+   // OBS: We altered the drawing logic, but haven't tested if it works yet.
+
+   // public void drawBlinking(Graphics g) {
+   // if (isBlinking && (blinkTick % 8 > 3)) {
+   // g.drawImage(
+   // this.animations[1][0], // The blink image
+   // (int) (xPos * Game.SCALE),
+   // (int) (yPos * Game.SCALE),
+   // (int) (spriteW * 3 * Game.SCALE),
+   // (int) (spriteH * 3 * Game.SCALE), null);
+   // }
+   // }
+
 }

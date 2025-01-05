@@ -22,7 +22,8 @@ import ui.ITextboxManager;
  * A non-gamestate-specific cutsceneManager that can be used as a base
  * for other, gamestate-specific cutsceneManagers.
  * 
- * NOTE: effects will only be drawn if the cutscene manager is active.
+ * OBS: effects will only be drawn if the cutsceneManager is active.
+ * (Note: an active textboxManager keeps the cutsceneManager as active).
  */
 public class DefaultCutsceneManager {
    // Base objects all cutsceneManagers need
@@ -260,17 +261,13 @@ public class DefaultCutsceneManager {
    /**
     * Usually the effects will inactivate themselves automatically, or it's done
     * manually in a cutscene. But sometimes (e.g. when exiting a finished flying
-    * level),
-    * some effects may not be reset properly. Then you can call this method
-    * manually
-    * to reset all effects.
+    * level), some effects may not be reset properly. Then you can call this method
+    * manuallyto reset all effects.
     *
     * NOTE: some effects may continue to be updated and drawn after all the
-    * cutscene
-    * sequences have been executed. E.g. the FellowShipEffect. Therefore, you
-    * shouldn't
-    * call this method in the advance()-method, as it will abort the effect too
-    * early.
+    * cutscene sequences have been executed. E.g. the FellowShipEffect. Therefore,
+    * you shouldn't call this method in the advance()-method, as it will abort the
+    * effect too early.
     */
    private void resetEffectsManually() {
       for (CutsceneEffect effect : allEffects.values()) {

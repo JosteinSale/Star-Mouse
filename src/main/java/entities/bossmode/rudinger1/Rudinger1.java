@@ -22,22 +22,21 @@ import utils.ImageContainer;
 import utils.ResourceLoader;
 
 public class Rudinger1 implements IBoss {
-   private BossActionHandler actionHandler;
+   public BossActionHandler actionHandler;
    private AnimatedComponentFactory animationFactory;
    private BossHealthDisplay healthDisplay;
    private ImageContainer imageContainer;
-   private boolean visible;
+   public boolean visible;
 
    // Coordinates
-   private float mainBodyXPos;
-   private float mainBodyYPos;
+   public float mainBodyXPos;
+   public float mainBodyYPos;
    private final Point mainGunPoint = new Point(Game.GAME_DEFAULT_WIDTH / 2, 350);
    private final Point heartDockingPoint = new Point(Game.GAME_DEFAULT_WIDTH / 2 - 1, 240);
 
    // Animations
-   private BufferedImage mainBodyImg;
-   private ReaperEyes eyes;
-   private AnimatedMouth mouth;
+   public ReaperEyes eyes;
+   public AnimatedMouth mouth;
 
    // BossParts
    private IBossPart horizontalLazer;
@@ -62,7 +61,7 @@ public class Rudinger1 implements IBoss {
 
    // Global timer
    private int tick = 0;
-   private int currentAction = 0;
+   public int currentAction = 0;
 
    // Damage
    private int maxHP = 3000;
@@ -114,7 +113,6 @@ public class Rudinger1 implements IBoss {
    }
 
    private void constructMainBody() {
-      this.mainBodyImg = ResourceLoader.getBossSprite("boss1_body2.png");
       this.mainBodyXPos = 0;
       this.mainBodyYPos = -50;
    }
@@ -280,36 +278,14 @@ public class Rudinger1 implements IBoss {
    }
 
    private void updateAnimatedComponents() {
-      this.eyes.update();
-      this.mouth.updateAnimations();
+      setEyeAnimations();
+      setMouthAnimations();
+
+      eyes.update();
+      mouth.updateAnimations();
    }
 
-   @Override
-   public ArrayList<IBossPart> getBossParts() {
-      ArrayList<IBossPart> bossParts = new ArrayList<>();
-      bossParts.add(verticalLazer);
-      bossParts.add(horizontalLazer);
-      bossParts.add(heatSeekingLazer);
-      bossParts.add(machineHeart);
-      bossParts.add(vulnerableComponent);
-      return bossParts;
-   }
-
-   @Override
-   public void draw(Graphics g) {
-      if (!visible) {
-         return;
-      } else {
-         drawEyeAnimations(g);
-         drawStaticBossImages(g);
-         drawMouthAnimations(g);
-         healthDisplay.draw(g);
-         // Draw all animations pertaining to individual bossParts and shootPatterns
-         this.actionHandler.draw(g, currentAction);
-      }
-   }
-
-   private void drawMouthAnimations(Graphics g) {
+   private void setMouthAnimations() {
       int action = this.actionHandler.getName(currentAction);
       if (action == MACHINE_HEART) {
          if (actionHandler.isActionCharging(currentAction)) {
@@ -320,10 +296,9 @@ public class Rudinger1 implements IBoss {
       } else {
          mouth.setAnimation(0);
       }
-      this.mouth.draw(g);
    }
 
-   private void drawEyeAnimations(Graphics g) {
+   private void setEyeAnimations() {
       int action = this.actionHandler.getName(currentAction);
       if (action == MACHINE_HEART) {
          if (actionHandler.isActionCharging(currentAction)) {
@@ -340,16 +315,22 @@ public class Rudinger1 implements IBoss {
       } else {
          eyes.setAnimation(0);
       }
-      this.eyes.draw(g);
    }
 
-   private void drawStaticBossImages(Graphics g) {
-      g.drawImage(
-            mainBodyImg,
-            (int) (mainBodyXPos * Game.SCALE),
-            (int) (mainBodyYPos * Game.SCALE),
-            (int) (mainBodyImg.getWidth() * 3 * Game.SCALE),
-            (int) (mainBodyImg.getHeight() * 3 * Game.SCALE), null);
+   @Override
+   public ArrayList<IBossPart> getBossParts() {
+      ArrayList<IBossPart> bossParts = new ArrayList<>();
+      bossParts.add(verticalLazer);
+      bossParts.add(horizontalLazer);
+      bossParts.add(heatSeekingLazer);
+      bossParts.add(machineHeart);
+      bossParts.add(vulnerableComponent);
+      return bossParts;
+   }
+
+   @Override
+   public void draw(Graphics g) {
+      System.out.println("Deprecated method");
    }
 
    @Override
@@ -400,8 +381,6 @@ public class Rudinger1 implements IBoss {
 
    @Override
    public void flush() {
-      this.mainBodyImg.flush();
-      this.mainBodyImg = null;
       this.imageContainer.flushAll();
    }
 

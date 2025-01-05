@@ -235,7 +235,9 @@ public class Area {
       if (justEntered) {
          handleJustEntered();
       }
-      cutsceneManager.update();
+      if (cutsceneManager.isActive()) {
+         cutsceneManager.update();
+      }
       player.update(
             npcManager.getHitboxes(),
             cutsceneManager.isActive(),

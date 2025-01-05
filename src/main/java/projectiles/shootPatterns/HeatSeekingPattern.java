@@ -9,7 +9,8 @@ import entities.bossmode.PlayerBoss;
 import projectiles.ProjectileHandler2;
 import static utils.Constants.Flying.TypeConstants.BOSS_PROJECTILE1;
 
-/** Shoots a single projectiles directed at the player.
+/**
+ * Shoots a single projectiles directed at the player.
  * There are accompanying charge- and shoot animations at the gunPoint.
  */
 public class HeatSeekingPattern extends DefaultShootPattern {
@@ -18,15 +19,16 @@ public class HeatSeekingPattern extends DefaultShootPattern {
    private float projectileSpeed = 4f;
    private PlayerBoss player;
 
-   public HeatSeekingPattern (
-      ProjectileHandler2 projectileHandler, Point gunPoint, AnimatedComponentFactory animationFactory, PlayerBoss player, 
-      int chargeTime, int startDelay, int shootInterval) {
+   public HeatSeekingPattern(
+         ProjectileHandler2 projectileHandler, Point gunPoint, AnimatedComponentFactory animationFactory,
+         PlayerBoss player,
+         int chargeTime, int startDelay, int shootInterval) {
       super(projectileHandler, gunPoint, chargeTime, startDelay, shootInterval);
       this.player = player;
       this.shootAnimation = animationFactory.getPinkShootAnimation(
-         (int)gunPoint.getX() - 140, (int)gunPoint.getY() - 140);
+            (int) gunPoint.getX() - 140, (int) gunPoint.getY() - 140);
       this.chargeAnimation = animationFactory.getPinkEnergyBall(
-         (int)gunPoint.getX() - 90, (int)gunPoint.getY() - 90);
+            (int) gunPoint.getX() - 90, (int) gunPoint.getY() - 90);
    }
 
    @Override
@@ -35,10 +37,10 @@ public class HeatSeekingPattern extends DefaultShootPattern {
       float xSpeed = (float) shootVector.getX();
       float ySpeed = (float) shootVector.getY();
       this.projectileHandler.addBossProjectile(
-         BOSS_PROJECTILE1,
-         (float) gunPoint.getX(),
-         (float) gunPoint.getY(),
-         xSpeed, ySpeed);
+            BOSS_PROJECTILE1,
+            (float) gunPoint.getX(),
+            (float) gunPoint.getY(),
+            xSpeed, ySpeed);
    }
 
    private Point.Float getShootVector() {
@@ -53,12 +55,12 @@ public class HeatSeekingPattern extends DefaultShootPattern {
       dx /= lineLength;
       dy /= lineLength;
 
-      // Make a Point representing the vector. 
+      // Make a Point representing the vector.
       // Multiply the normalized dx/dy with projectileSpeed.
       Point.Float shootVector = new Point.Float(
-         (float) dx * projectileSpeed, 
-         (float) dy * projectileSpeed);
-      
+            (float) dx * projectileSpeed,
+            (float) dy * projectileSpeed);
+
       return shootVector;
    }
 
@@ -72,12 +74,10 @@ public class HeatSeekingPattern extends DefaultShootPattern {
    @Override
    public void drawShootAnimations(Graphics g) {
       if (isCharging) {
-         chargeAnimation.draw(g);
-      }
-      else if (shootPhase) {
-         shootAnimation.draw(g);
+         AnimatedComponent.draw(g, chargeAnimation);
+      } else if (shootPhase) {
+         AnimatedComponent.draw(g, shootAnimation);
       }
    }
 
-   
 }
