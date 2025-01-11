@@ -24,12 +24,13 @@ import utils.ResourceLoader;
  * Thus a specific entity is only identifies by it's common index in the
  * different lists.
  * 
+ * Set the level variable to the desired level.
  * When the levelEditor is started, it loads levelData from the specified level.
  * 
  * See comments in keyPressed-method for controls.
  * When you're satisfied with the placement of enemies, you can print the data
  * to the console, and copy-paste it into the levelData-file (overwriting the
- * entity entries).
+ * entity entries). See the 'handleKeyboardInputs'-method for controls.
  */
 public class LevelEditor implements Statemethods {
    private Game game;

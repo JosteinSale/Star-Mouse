@@ -56,8 +56,8 @@ public class BossMode extends State implements Statemethods {
    private GameoverOverlay2 gameoverOverlay;
    public boolean shouldAmbiencePlay = false;
    public boolean shouldMusicPlay = false;
-   private boolean pause = false;
-   private boolean gameOver = false;
+   public boolean pause = false;
+   public boolean gameOver = false;
 
    public BossMode(Game game) {
       super(game);
@@ -285,6 +285,14 @@ public class BossMode extends State implements Statemethods {
 
    public ProjectileHandler getProjectileHandler() {
       return this.projectileHandler;
+   }
+
+   public PauseBoss getPauseOverlay() {
+      return this.pauseOverlay;
+   }
+
+   public GameoverOverlay2 getGameOverOverlay() {
+      return this.gameoverOverlay;
    }
 
 }

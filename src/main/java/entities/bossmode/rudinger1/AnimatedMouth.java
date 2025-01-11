@@ -18,7 +18,7 @@ import main_classes.Game;
  */
 public class AnimatedMouth extends AnimatedComponent {
    private boolean isBlinking = false;
-   private boolean drawBlink = false;
+   public boolean shouldDrawBlink = false;
    private int blinkTick = 0;
    private int blinkDuration = 20;
 
@@ -48,25 +48,19 @@ public class AnimatedMouth extends AnimatedComponent {
          }
       }
       if (isBlinking && (blinkTick % 8 > 3)) {
-         this.aniAction = 1;
-         this.aniIndex = 0;
-         drawBlink = true;
+         shouldDrawBlink = true;
       } else {
-         drawBlink = false;
+         shouldDrawBlink = false;
       }
    }
 
-   // OBS: We altered the drawing logic, but haven't tested if it works yet.
-
-   // public void drawBlinking(Graphics g) {
-   // if (isBlinking && (blinkTick % 8 > 3)) {
-   // g.drawImage(
-   // this.animations[1][0], // The blink image
-   // (int) (xPos * Game.SCALE),
-   // (int) (yPos * Game.SCALE),
-   // (int) (spriteW * 3 * Game.SCALE),
-   // (int) (spriteH * 3 * Game.SCALE), null);
-   // }
-   // }
+   public void drawBlinking(Graphics g) {
+      g.drawImage(
+            this.animations[1][0], // The blink image
+            (int) (xPos * Game.SCALE),
+            (int) (yPos * Game.SCALE),
+            (int) (spriteW * 3 * Game.SCALE),
+            (int) (spriteH * 3 * Game.SCALE), null);
+   }
 
 }

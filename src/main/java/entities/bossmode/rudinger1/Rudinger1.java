@@ -384,4 +384,8 @@ public class Rudinger1 implements IBoss {
       this.imageContainer.flushAll();
    }
 
+   public BossHealthDisplay getHealthDisplay() {
+      return this.healthDisplay;
+   }
+
 }

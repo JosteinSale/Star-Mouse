@@ -53,7 +53,9 @@ public class View {
       this.rCutscene = new RenderCutscene(game.getTextboxManager(), rInfoBox, rInfoChoice);
       this.rExploring = new RenderExploring(game, rOptionsMenu, rCutscene, rInfoBox, rInfoChoice);
       this.rFlying = new RenderFlying(game, game.getFlying(), rCutscene, rOptionsMenu);
-      this.rBossMode = new RenderBossMode(game, rCutscene, rFlying.getRenderPlayer(), rFlying.getRenderProjectiles());
+      this.rBossMode = new RenderBossMode(
+            game, rCutscene, rOptionsMenu,
+            rFlying.getRenderPlayer(), rFlying.getRenderProjectiles());
       this.rCinematic = new RenderCinematic(rCutscene);
    }
 

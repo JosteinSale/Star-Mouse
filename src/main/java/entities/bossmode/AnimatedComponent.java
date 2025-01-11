@@ -23,7 +23,7 @@ import main_classes.Game;
  */
 public class AnimatedComponent {
    protected BufferedImage[][] animations;
-   private ArrayList<AnimationInfo> aniInfo;
+   private ArrayList<AnimationInfo> aniInfos;
    protected int aniIndex;
    private int aniTick;
    protected int aniAction;
@@ -36,7 +36,7 @@ public class AnimatedComponent {
          BufferedImage spriteSheet, int spriteW, int spriteH, int rows, int cols,
          ArrayList<AnimationInfo> aniInfo, float xPos, float yPos) {
       this.animations = GetAnimationArray(spriteSheet, rows, cols, spriteW, spriteH);
-      this.aniInfo = aniInfo;
+      this.aniInfos = aniInfo;
       this.xPos = xPos;
       this.yPos = yPos;
       this.spriteH = spriteH;
@@ -50,9 +50,9 @@ public class AnimatedComponent {
          // Reset aniTick
          this.aniTick = 0;
          // If it should reverse
-         if (aniInfo.get(newAction).reverse) {
+         if (aniInfos.get(newAction).reverse) {
             // Set aniIndex to last in animation.
-            this.aniIndex = aniInfo.get(newAction).nrOfFrames - 1;
+            this.aniIndex = aniInfos.get(newAction).nrOfFrames - 1;
          } else {
             // Set aniIndex to 0
             this.aniIndex = 0;
@@ -62,7 +62,7 @@ public class AnimatedComponent {
    }
 
    public void updateAnimations() {
-      AnimationInfo animation = aniInfo.get(aniAction);
+      AnimationInfo animation = aniInfos.get(aniAction);
       if (animation.reverse) {
          this.reverseAnimatiom(animation);
       } else {
@@ -93,7 +93,7 @@ public class AnimatedComponent {
    }
 
    public static void draw(Graphics g, AnimatedComponent ac) {
-      int row = ac.aniInfo.get(ac.aniAction).aniRow;
+      int row = ac.aniInfos.get(ac.aniAction).aniRow;
       g.drawImage(
             ac.animations[row][ac.aniIndex],
             (int) (ac.xPos * Game.SCALE),

@@ -11,10 +11,13 @@ import utils.ResourceLoader;
 public class RenderRudinger1 implements IRenderBoss {
    private Rudinger1 rudinger;
    private BufferedImage mainBodyImg;
+   private RenderBossHealth rBossHealth;
 
-   public RenderRudinger1(Rudinger1 rudinger) {
+   public RenderRudinger1(Rudinger1 rudinger, RenderBossHealth rBossHealth) {
       this.rudinger = rudinger;
       this.mainBodyImg = ResourceLoader.getBossSprite("boss1_body2.png");
+      this.rBossHealth = rBossHealth;
+      rBossHealth.setNew(rudinger.getHealthDisplay());
    }
 
    @Override
@@ -24,10 +27,16 @@ public class RenderRudinger1 implements IRenderBoss {
       } else {
          AnimatedComponent.draw(g, rudinger.eyes);
          drawStaticBossImages(g);
-         AnimatedComponent.draw(g, rudinger.mouth);
-         // healthDisplay.draw(g);
-         // Draw all animations pertaining to individual bossParts and shootPatterns
+         drawRudingerMouth(g);
          rudinger.actionHandler.draw(g, rudinger.currentAction);
+         rBossHealth.draw(g);
+      }
+   }
+
+   private void drawRudingerMouth(Graphics g) {
+      AnimatedComponent.draw(g, rudinger.mouth);
+      if (rudinger.mouth.shouldDrawBlink) {
+         rudinger.mouth.drawBlinking(g);
       }
    }
 
