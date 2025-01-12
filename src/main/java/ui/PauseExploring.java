@@ -1,15 +1,13 @@
 package ui;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
 
 import audio.AudioPlayer;
 import gamestates.Gamestate;
-import gamestates.Statemethods;
 import main_classes.Game;
 import utils.Constants.Audio;
 
-public class PauseExploring implements Statemethods {
+public class PauseExploring {
    private Game game;
    private AudioPlayer audioPlayer;
    private OptionsMenu optionsMenu;
@@ -43,7 +41,6 @@ public class PauseExploring implements Statemethods {
       this.statusValues[1] = game.getExploring().getProgressValues().getBombs();
    }
 
-   @Override
    public void update() {
       if (optionsMenu.isActive()) {
          optionsMenu.update();
@@ -162,10 +159,6 @@ public class PauseExploring implements Statemethods {
             cursorY = cursorMaxY;
          }
       }
-   }
-
-   @Override
-   public void draw(Graphics g) {
    }
 
    public void flipActive() {

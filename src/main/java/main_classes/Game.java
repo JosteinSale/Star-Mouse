@@ -155,8 +155,7 @@ public class Game implements Runnable {
             cinematic.update();
             break;
          case LEVEL_EDITOR:
-            levelEditor.update();
-            break;
+            break; // No update method
          case QUIT:
          default:
             System.exit(0);

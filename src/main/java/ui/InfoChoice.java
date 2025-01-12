@@ -5,7 +5,6 @@ import static utils.Constants.UI.*;
 import main_classes.Game;
 
 public class InfoChoice {
-
     public String question;
     public String leftChoice;
     public String rightChoice;
@@ -14,8 +13,8 @@ public class InfoChoice {
     public int cursorX;
 
     public InfoChoice() {
-        this.infoChX = (int) ((Game.GAME_DEFAULT_WIDTH / 2 - INFOBOX_WIDTH / 2) * Game.SCALE);
-        this.cursorX = infoChX + (int) (80 * Game.SCALE);
+        this.infoChX = Game.GAME_DEFAULT_WIDTH / 2 - INFOBOX_WIDTH / 2;
+        this.cursorX = infoChX + 80;
     }
 
     public void setText(String question, String leftChoice, String rightChoice) {
@@ -26,10 +25,10 @@ public class InfoChoice {
 
     public void toggle() {
         this.selectedOption += 1;
-        this.cursorX += (int) (250 * Game.SCALE);
+        this.cursorX += 250;
         if (selectedOption > 2) {
             selectedOption = 1;
-            this.cursorX = infoChX + (int) (80 * Game.SCALE);
+            this.cursorX = infoChX + 80;
         }
     }
 

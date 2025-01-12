@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import data_storage.ProgressValues;
 import gamestates.Gamestate;
 import gamestates.State;
-import gamestates.Statemethods;
 import main_classes.Game;
 
 /**
@@ -17,7 +16,7 @@ import main_classes.Game;
  * Handles most of the logic regarding levelInfo, killCount and unlocked levels.
  * Keeps the nescessary images, and passes references to the LevelLayouts.
  */
-public class LevelSelect extends State implements Statemethods {
+public class LevelSelect extends State {
    private ProgressValues progValues;
    private ArrayList<BaseLevelLayout> levelLayouts;
    private ArrayList<LevelInfo> levelInfo;
@@ -75,7 +74,6 @@ public class LevelSelect extends State implements Statemethods {
       this.transferUnlockedLevelsToLayout(progValues.levelLayout);
    }
 
-   @Override
    public void update() {
       moveBackGround();
       if (fadeInActive) {
@@ -259,10 +257,5 @@ public class LevelSelect extends State implements Statemethods {
 
    public int getLayoutNr() {
       return this.progValues.levelLayout;
-   }
-
-   @Override
-   public void draw(Graphics g) {
-
    }
 }

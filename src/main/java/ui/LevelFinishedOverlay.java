@@ -2,10 +2,8 @@ package ui;
 
 import static entities.flying.EntityFactory.TypeConstants.*;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
 
-import gamestates.Statemethods;
 import gamestates.flying.Flying;
 import main_classes.Game;
 import utils.Constants.Audio;
@@ -14,7 +12,7 @@ import utils.Constants.Audio;
  * Fades in "Level Finished" header, draws level stats in a sexy way,
  * then displays "Continue". Player can exit this screen at any time.
  */
-public class LevelFinishedOverlay implements Statemethods {
+public class LevelFinishedOverlay {
    private Game game;
    private Flying flying;
 
@@ -38,7 +36,6 @@ public class LevelFinishedOverlay implements Statemethods {
       this.enemiesKilled = new ArrayList<>();
    }
 
-   @Override
    public void update() {
       tick++;
       handleKeyboardInputs();
@@ -129,11 +126,6 @@ public class LevelFinishedOverlay implements Statemethods {
          spaces += " ";
       }
       return spaces;
-   }
-
-   @Override
-   public void draw(Graphics g) {
-      System.out.println("Deprecated draw method called - Delete later");
    }
 
    public boolean areLettersAppearing() {

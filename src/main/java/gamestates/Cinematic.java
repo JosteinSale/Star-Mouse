@@ -3,7 +3,6 @@ package gamestates;
 import static utils.HelpMethods.GetCutscenes;
 import static utils.Constants.Exploring.Cutscenes.AUTOMATIC;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +36,7 @@ import utils.ResourceLoader;
  * cutscene,
  * and then starts it. Afterwards it returns to the given gamestate.
  */
-public class Cinematic extends State implements Statemethods {
+public class Cinematic extends State {
 
    public static final String CINEMATICS_FILE_PATH = "/src/main/resources/cinematic/cutscenes";
 
@@ -143,7 +142,6 @@ public class Cinematic extends State implements Statemethods {
       game.getView().getRenderCutscene().setCutsceneManager(cm);
    }
 
-   @Override
    public void update() {
       this.handleKeyBoardInputs();
       this.cutsceneManager.update();
@@ -158,10 +156,4 @@ public class Cinematic extends State implements Statemethods {
          this.cutsceneManager.handleKeyBoardInputs();
       }
    }
-
-   @Override
-   public void draw(Graphics g) {
-      System.out.println("Deprecated draw method");
-   }
-
 }

@@ -7,7 +7,6 @@ import static utils.Constants.UI.OPTIONS_WIDTH;
 import static utils.HelpMethods.DrawCenteredString;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -17,6 +16,7 @@ import data_storage.SaveData;
 import main_classes.Game;
 import rendering.SwingRender;
 import ui.LoadSaveMenu;
+import utils.DrawUtils;
 import utils.ResourceLoader;
 
 public class RenderLoadSave implements SwingRender {
@@ -26,8 +26,6 @@ public class RenderLoadSave implements SwingRender {
    private Rectangle headerRect;
    private Color bgColor = new Color(0, 0, 0, 230);
    private BufferedImage pointerImg;
-   private Font headerFont;
-   private Font menuFont;
 
    private int bgW;
    private int bgH;
@@ -42,7 +40,6 @@ public class RenderLoadSave implements SwingRender {
       this.menu = menu;
       this.rInfoChoice = rInfoChoice;
       calcDrawValues();
-      loadFonts();
       loadImages();
       constructRectangles();
    }
@@ -55,12 +52,8 @@ public class RenderLoadSave implements SwingRender {
    }
 
    private void loadImages() {
-      this.pointerImg = ResourceLoader.getExpImageSprite(ResourceLoader.CURSOR_SPRITE_WHITE);
-   }
-
-   private void loadFonts() {
-      this.headerFont = ResourceLoader.getHeaderFont();
-      this.menuFont = ResourceLoader.getMenuFont();
+      this.pointerImg = ResourceLoader.getExpImageSprite(
+            ResourceLoader.CURSOR_SPRITE_WHITE);
    }
 
    private void constructRectangles() {
@@ -72,53 +65,55 @@ public class RenderLoadSave implements SwingRender {
    @Override
    public void draw(Graphics g) {
       Graphics2D g2 = (Graphics2D) g;
-      // Background
-      g.setColor(bgColor);
-      g.fillRect(
-            (int) (bgX * Game.SCALE), (int) (bgY * Game.SCALE),
-            (int) (bgW * Game.SCALE), (int) (bgH * Game.SCALE));
 
-      g2.setColor(Color.WHITE);
-      g2.drawRect(
-            (int) ((bgX + 10) * Game.SCALE), (int) ((bgY + 10) * Game.SCALE),
-            (int) ((bgW - 20) * Game.SCALE), (int) ((bgH - 20) * Game.SCALE));
+      // Background
+      DrawUtils.fillRect(
+            g2, bgColor,
+            bgX, bgY,
+            bgW, bgH);
+      DrawUtils.drawRect(
+            g2, Color.WHITE,
+            bgX + 10, bgY + 10,
+            bgW - 20, bgH - 20);
 
       // Header text
       g.setColor(Color.WHITE);
-      DrawCenteredString(g, menu.currentMenu, headerRect, headerFont);
+      DrawCenteredString(g, menu.currentMenu, headerRect, DrawUtils.headerFont);
 
       // Menu Options
-      this.drawMenuOptions(g);
+      drawMenuOptions(g);
 
       // Cursor
-      g2.drawImage(
-            pointerImg,
-            (int) (cursorX * Game.SCALE), (int) ((menu.cursorY - 30) * Game.SCALE),
-            (int) (CURSOR_WIDTH * Game.SCALE), (int) (CURSOR_HEIGHT * Game.SCALE), null);
-
+      DrawUtils.drawImage(
+            g2, pointerImg,
+            cursorX, menu.cursorY - 30,
+            CURSOR_WIDTH, CURSOR_HEIGHT);
    }
 
    private void drawMenuOptions(Graphics g) {
       SaveData saveData = game.getSaveData();
-      g.setFont(menuFont);
+
       // Left side: draw the menu options
       for (int i = 0; i < menu.menuOptions.length; i++) {
-         g.drawString(
+         DrawUtils.drawText(
+               g, Color.WHITE, DrawUtils.menuFont,
                menu.menuOptions[i],
-               (int) (optionsX * Game.SCALE), (int) ((optionsY + i * menu.menuOptionsDiff) * Game.SCALE));
+               optionsX, optionsY + i * menu.menuOptionsDiff);
       }
       // Right side: if the save is started, draw the date and time. Else, draw
       // [empty]
       int xPos = optionsX + 200;
       for (int i = 0; i < 3; i++) {
          if (saveData.getProgValuesFor(i + 1).saveStarted) {
-            g.drawString(
+            DrawUtils.drawText(
+                  g, Color.WHITE, DrawUtils.menuFont,
                   saveData.getProgValuesFor(i + 1).lastUsed,
-                  (int) (xPos * Game.SCALE), (int) ((optionsY + i * menu.menuOptionsDiff) * Game.SCALE));
+                  xPos, optionsY + i * menu.menuOptionsDiff);
          } else {
-            g.drawString(
+            DrawUtils.drawText(
+                  g, Color.WHITE, DrawUtils.menuFont,
                   "[EMPTY]",
-                  (int) (xPos * Game.SCALE), (int) ((optionsY + i * menu.menuOptionsDiff) * Game.SCALE));
+                  xPos, optionsY + i * menu.menuOptionsDiff);
          }
       }
       if (menu.infoChoiceActive) {

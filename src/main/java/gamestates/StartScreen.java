@@ -1,12 +1,10 @@
 package gamestates;
 
-import java.awt.Graphics;
-
 import audio.AudioPlayer;
 import main_classes.Game;
 import utils.Constants.Audio;
 
-public class StartScreen extends State implements Statemethods {
+public class StartScreen extends State {
    public int alphaFade = 0;
    public boolean fadeActive = false;
    private AudioPlayer audioPlayer;
@@ -16,7 +14,6 @@ public class StartScreen extends State implements Statemethods {
       this.audioPlayer = game.getAudioPlayer();
    }
 
-   @Override
    public void update() {
       if (fadeActive) {
          updateFade();
@@ -46,10 +43,4 @@ public class StartScreen extends State implements Statemethods {
          audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
       }
    }
-
-   // TODO - Delete when ready
-   @Override
-   public void draw(Graphics g) {
-   }
-
 }

@@ -1,6 +1,5 @@
 package gamestates.exploring;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,14 +7,13 @@ import audio.AudioPlayer;
 import cutscenes.cutsceneManagers.DefaultCutsceneManager;
 import data_storage.ProgressValues;
 import gamestates.State;
-import gamestates.Statemethods;
 import main_classes.Game;
 import ui.InventoryItem;
 import ui.MechanicOverlay;
 import ui.PauseExploring;
 import utils.ResourceLoader;
 
-public class Exploring extends State implements Statemethods {
+public class Exploring extends State {
     private AudioPlayer audioPlayer;
     private int currentLevel;
     public int currentArea; // Is set in the loadLevel-method. Can be altered for testing purposes.
@@ -81,7 +79,6 @@ public class Exploring extends State implements Statemethods {
         }
     }
 
-    @Override
     public void update() {
         if (pauseOverlay.isActive()) {
             checkPause();
@@ -98,10 +95,6 @@ public class Exploring extends State implements Statemethods {
         this.currentArea = area;
         areas.get(currentArea - 1).update();
         // The new area needs to be updated before we can draw it.
-    }
-
-    @Override
-    public void draw(Graphics g) {
     }
 
     public void resetDirBooleans() {

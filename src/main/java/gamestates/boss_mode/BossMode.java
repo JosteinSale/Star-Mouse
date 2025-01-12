@@ -3,7 +3,6 @@ package gamestates.boss_mode;
 import static utils.Constants.Exploring.Cutscenes.AUTOMATIC;
 import static utils.HelpMethods.GetCutscenes;
 
-import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,6 @@ import game_events.StopLoopsEvent;
 import game_events.TextBoxEvent;
 import gamestates.Gamestate;
 import gamestates.State;
-import gamestates.Statemethods;
 import main_classes.Game;
 import projectiles.ProjectileHandler;
 import projectiles.ProjectileHandler2;
@@ -43,7 +41,7 @@ import utils.Constants.Audio;
 import utils.ImageContainer;
 import utils.ResourceLoader;
 
-public class BossMode extends State implements Statemethods {
+public class BossMode extends State {
    private PlayerBoss player;
    private ProjectileHandler2 projectileHandler;
    private AnimatedComponentFactory animationFactory;
@@ -177,7 +175,6 @@ public class BossMode extends State implements Statemethods {
       }
    }
 
-   @Override
    public void update() {
       checkPause();
       if (pause) {
@@ -208,11 +205,6 @@ public class BossMode extends State implements Statemethods {
          game.getAudioPlayer().stopAllLoops();
          this.flipPause();
       }
-   }
-
-   @Override
-   public void draw(Graphics g) {
-      System.out.println("Deprecated method");
    }
 
    /** Needed for the pauseOverlay */

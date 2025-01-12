@@ -1,7 +1,6 @@
 package rendering.root_renders;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -14,6 +13,7 @@ import rendering.SwingRender;
 import rendering.misc.RenderInfoChoice;
 import rendering.misc.RenderLoadSave;
 import rendering.misc.RenderOptionsMenu;
+import utils.DrawUtils;
 import utils.ResourceLoader;
 
 import static utils.Constants.UI.*;
@@ -27,26 +27,30 @@ public class RenderMainMenu implements SwingRender {
    public BufferedImage bgImg;
    private BufferedImage titleImg;
    private BufferedImage cursorImg;
-   private Font menuFont;
    public ArrayList<Rectangle> menuRectangles;
 
    public RenderMainMenu(Game game, RenderOptionsMenu rOptionsMenu, RenderInfoChoice rInfoChoice) {
       this.mainMenu = game.getMainMenu();
       this.rOptionsMenu = rOptionsMenu;
-      bgImg = ResourceLoader.getExpImageBackground(ResourceLoader.LEVEL_SELECT_BG);
-      cursorImg = ResourceLoader.getExpImageSprite(ResourceLoader.CURSOR_SPRITE_WHITE);
-      titleImg = ResourceLoader.getExpImageBackground(ResourceLoader.MAIN_MENU_TITLE);
-      menuFont = ResourceLoader.getNameFont();
+      bgImg = ResourceLoader.getExpImageBackground(
+            ResourceLoader.LEVEL_SELECT_BG);
+      cursorImg = ResourceLoader.getExpImageSprite(
+            ResourceLoader.CURSOR_SPRITE_WHITE);
+      titleImg = ResourceLoader.getExpImageBackground(
+            ResourceLoader.MAIN_MENU_TITLE);
       this.makeMenuRectangles();
-      this.rLoadSave = new RenderLoadSave(game, mainMenu.getLoadSaveMenu(), rInfoChoice);
+      this.rLoadSave = new RenderLoadSave(
+            game, mainMenu.getLoadSaveMenu(), rInfoChoice);
    }
 
    private void makeMenuRectangles() {
       this.menuRectangles = new ArrayList<>();
       for (int i = 0; i < mainMenu.alternatives.length; i++) {
          Rectangle rect = new Rectangle(
-               (int) (425 * Game.SCALE), (int) ((450 + i * mainMenu.cursorYStep) * Game.SCALE),
-               (int) (200 * Game.SCALE), (int) (50 * Game.SCALE));
+               (int) (425 * Game.SCALE),
+               (int) ((450 + i * mainMenu.cursorYStep) * Game.SCALE),
+               (int) (200 * Game.SCALE),
+               (int) (50 * Game.SCALE));
          menuRectangles.add(rect);
       }
    }
@@ -55,32 +59,8 @@ public class RenderMainMenu implements SwingRender {
    public void draw(Graphics g) {
       Graphics2D g2 = (Graphics2D) g;
 
-      // Background
-      g.drawImage(bgImg,
-            (int) mainMenu.bgX, 0, Game.GAME_WIDTH + 55, Game.GAME_HEIGHT + 50, null);
-
-      // Text
-      g.setColor(Color.WHITE);
-      g.setFont(menuFont);
-      for (int i = 0; i < mainMenu.alternatives.length; i++) {
-         DrawCenteredString(g2, mainMenu.alternatives[i], menuRectangles.get(i), menuFont);
-      }
-      g.drawImage(
-            titleImg,
-            (int) (280 * Game.SCALE),
-            (int) (100 * Game.SCALE),
-            (int) (500 * Game.SCALE),
-            (int) (200 * Game.SCALE),
-            null);
-
-      // Cursor
-      g.drawImage(
-            cursorImg,
-            (int) (mainMenu.cursorX * Game.SCALE),
-            (int) ((mainMenu.cursorY - CURSOR_HEIGHT / 2) * Game.SCALE),
-            (int) (CURSOR_WIDTH * Game.SCALE),
-            (int) (CURSOR_HEIGHT * Game.SCALE),
-            null);
+      // Render the main menu at the bottom, regardless of what is ontop
+      drawMainMenu(g2);
 
       // Options
       if (mainMenu.getOptionsMenu().isActive()) {
@@ -93,9 +73,36 @@ public class RenderMainMenu implements SwingRender {
 
       // Fade
       if (mainMenu.fadeInActive || mainMenu.fadeOutActive) {
-         g.setColor(new Color(0, 0, 0, mainMenu.alphaFade));
-         g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
+         DrawUtils.fillRect(
+               g2, new Color(0, 0, 0, mainMenu.alphaFade),
+               0, 0, Game.GAME_DEFAULT_WIDTH, Game.GAME_DEFAULT_HEIGHT);
       }
+   }
+
+   private void drawMainMenu(Graphics g2) {
+      // Background
+      DrawUtils.drawImage(
+            g2, bgImg,
+            (int) mainMenu.bgX, 0,
+            Game.GAME_DEFAULT_WIDTH + 55, Game.GAME_DEFAULT_HEIGHT + 50);
+
+      // Text
+      g2.setColor(Color.WHITE);
+      for (int i = 0; i < mainMenu.alternatives.length; i++) {
+         DrawCenteredString(
+               g2, mainMenu.alternatives[i],
+               menuRectangles.get(i), DrawUtils.menuFont);
+      }
+      DrawUtils.drawImage(
+            g2, titleImg,
+            280, 100,
+            500, 200);
+
+      // Cursor
+      DrawUtils.drawImage(
+            g2, cursorImg,
+            mainMenu.cursorX, mainMenu.cursorY - CURSOR_HEIGHT / 2,
+            CURSOR_WIDTH, CURSOR_HEIGHT);
    }
 
    @Override
@@ -103,6 +110,7 @@ public class RenderMainMenu implements SwingRender {
       // Do nothing
    }
 
+   /** The bgImg can be used in LevelSelect as well */
    public BufferedImage getBgImg() {
       return this.bgImg;
    }

@@ -3,7 +3,6 @@ package gamestates;
 import static entities.flying.EntityFactory.TypeConstants.*;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
@@ -15,6 +14,7 @@ import java.util.List;
 import entities.flying.EntityFactory;
 import entities.flying.EntityInfo;
 import main_classes.Game;
+import utils.DrawUtils;
 import utils.ResourceLoader;
 
 /**
@@ -32,7 +32,7 @@ import utils.ResourceLoader;
  * to the console, and copy-paste it into the levelData-file (overwriting the
  * entity entries). See the 'handleKeyboardInputs'-method for controls.
  */
-public class LevelEditor implements Statemethods {
+public class LevelEditor {
    private Game game;
    private Integer level = 4;
    private BufferedImage clImg;
@@ -55,7 +55,6 @@ public class LevelEditor implements Statemethods {
 
    private int curDirection = 1; // 1 = right, -1 = left
    private int shootTimer = 100; // Drones : 100 - 160, Octadrones : 60 - 180
-   private Font font = ResourceLoader.getInfoFont();
    private int cursorX = 500;
    private int cursorY = 400;
    private int cursorSpeed = 10;
@@ -75,11 +74,12 @@ public class LevelEditor implements Statemethods {
    }
 
    private void loadMapImages(int lvl) {
-      this.clImg = ResourceLoader.getFlyImageCollision("level" + Integer.toString(lvl) + "_cl.png");
+      this.clImg = ResourceLoader.getFlyImageCollision(
+            "level" + Integer.toString(lvl) + "_cl.png");
       this.clImgHeight = clImg.getHeight() * 3;
       this.clImgWidth = clImg.getWidth() * 3;
       this.clYOffset = Game.GAME_DEFAULT_HEIGHT - clImgHeight + 150;
-      this.clXOffset = 150;
+      this.clXOffset = -150;
    }
 
    private void loadLevelData(Integer level) {
@@ -97,10 +97,6 @@ public class LevelEditor implements Statemethods {
             addEntityToList(false, entryName, xCor, yCor, dir, shootTimer);
          }
       }
-   }
-
-   @Override
-   public void update() {
    }
 
    /**
@@ -232,7 +228,8 @@ public class LevelEditor implements Statemethods {
       shootTimers.remove(indexToRemove);
    }
 
-   private void addModifiedEntry(String name, int x, int y, int direction, int shootTimer, Rectangle hitbox) {
+   private void addModifiedEntry(
+         String name, int x, int y, int direction, int shootTimer, Rectangle hitbox) {
       // LevelData-string:
       levelData.add(name + ";" + Integer.toString(x) + ";" + Integer.toString(y) +
             ";" + Integer.toString(direction) + ";" + Integer.toString(shootTimer));
@@ -243,7 +240,6 @@ public class LevelEditor implements Statemethods {
       directions.add(direction);
    }
 
-   @Override
    public void draw(Graphics g) {
       drawMapAndText(g);
       drawEntities(g);
@@ -252,19 +248,24 @@ public class LevelEditor implements Statemethods {
 
    private void drawMapAndText(Graphics g) {
       // Map
-      g.drawImage(
-            clImg,
-            (int) (-clXOffset * Game.SCALE),
-            (int) (clYOffset * Game.SCALE),
-            (int) (clImgWidth * Game.SCALE),
-            (int) (clImgHeight * Game.SCALE), null);
+      DrawUtils.drawImage(
+            g, clImg,
+            (int) clXOffset, clYOffset,
+            clImgWidth, clImgHeight);
 
       // Top text
-      g.setColor(Color.BLACK);
-      g.setFont(font);
-      g.drawString("direction : " + Integer.toString(curDirection), 20, 20);
-      g.drawString("shootTimer : " + Integer.toString(shootTimer), 20, 50);
-      g.drawString("y :" + Integer.toString(mapYOffset), 700, 20);
+      DrawUtils.drawText(
+            g, Color.BLACK, DrawUtils.infoFont,
+            "direction : " + Integer.toString(curDirection),
+            20, 20);
+      DrawUtils.drawText(
+            g, Color.BLACK, DrawUtils.infoFont,
+            "shootTimer : " + Integer.toString(shootTimer),
+            20, 50);
+      DrawUtils.drawText(
+            g, Color.BLACK, DrawUtils.infoFont,
+            "y :" + Integer.toString(mapYOffset),
+            700, 20);
    }
 
    private void drawEntities(Graphics g) {
@@ -272,17 +273,17 @@ public class LevelEditor implements Statemethods {
          EntityInfo info = entityFactory.getEntityInfo(addedEntityNames.get(i));
          Rectangle2D hitbox = hitboxes.get(i);
          // Text
-         g.drawString(
+         DrawUtils.drawText(
+               g, Color.black, DrawUtils.infoFont,
                Integer.toString(shootTimers.get(i)),
-               (int) (hitbox.getX() * Game.SCALE),
-               (int) ((hitbox.getY() - mapYOffset - 20) * Game.SCALE));
+               (int) hitbox.getX(),
+               (int) (hitbox.getY() - mapYOffset - 20));
 
          // Hitbox
-         g.fillRect(
-               (int) (hitbox.getX() * Game.SCALE),
-               (int) ((hitbox.getY() - mapYOffset) * Game.SCALE),
-               (int) (hitbox.getWidth() * Game.SCALE),
-               (int) (hitbox.getHeight() * Game.SCALE));
+         DrawUtils.fillRect(
+               g, Color.black,
+               hitbox.getX(), hitbox.getY() - mapYOffset,
+               hitbox.getWidth(), hitbox.getHeight());
          // Image
          int dir = directions.get(i);
          int xOffset = info.drawOffsetX;
@@ -292,22 +293,20 @@ public class LevelEditor implements Statemethods {
          if (dir == -1) {
             xOffset -= 3 * spriteW;
          }
-         g.drawImage(
-               info.getEditorImage(),
-               (int) ((hitbox.getX() - xOffset) * Game.SCALE),
-               (int) ((hitbox.getY() - yOffset - mapYOffset) * Game.SCALE),
-               (int) (spriteW * 3 * dir * Game.SCALE),
-               (int) (spriteH * 3 * Game.SCALE), null);
+         DrawUtils.drawImage(
+               g, info.getEditorImage(),
+               (int) (hitbox.getX() - xOffset),
+               (int) (hitbox.getY() - yOffset - mapYOffset),
+               spriteW * 3 * dir,
+               spriteH * 3);
       }
    }
 
    private void drawCursor(Graphics g) {
       EntityInfo cursorInfo = entityFactory.getEntityInfo(selectedName);
-      g.drawImage(
-            cursorInfo.getEditorImage(),
-            (int) (cursorX * Game.SCALE),
-            (int) (cursorY * Game.SCALE),
-            (int) (cursorInfo.spriteW * 3 * Game.SCALE),
-            (int) (cursorInfo.spriteH * 3 * Game.SCALE), null);
+      DrawUtils.drawImage(
+            g, cursorInfo.getEditorImage(),
+            cursorX, cursorY,
+            cursorInfo.spriteW * 3, cursorInfo.spriteH * 3);
    }
 }

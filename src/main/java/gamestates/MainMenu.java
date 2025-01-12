@@ -1,7 +1,5 @@
 package gamestates;
 
-import java.awt.Graphics;
-
 import audio.AudioPlayer;
 import main_classes.Game;
 import ui.LoadSaveMenu;
@@ -12,14 +10,14 @@ import utils.Constants.Audio;
  * The MainMenu is the gateway into the different game states:
  * 
  * - Testing: Can test whatever state. This doesn't affect loading and saving.
- * - New Game: let's the player start a new game in a given save file.
- * - Load Save: let's player load a previous save, or start a new save if the
+ * - New Game: lets the player start a new game in a given save file.
+ * - Load Save: lets player load a previous save, or start a new save if the
  * selected save is empty.
  * - Options: let's the player customize the controls and sound volume
  * - Level Editor: developer tool for editing flying levels
  * - Quit: quits the game.
  */
-public class MainMenu extends State implements Statemethods {
+public class MainMenu extends State {
 
     private AudioPlayer audioPlayer;
     private LoadSaveMenu loadSaveMenu;
@@ -100,11 +98,11 @@ public class MainMenu extends State implements Statemethods {
         game.testingMode = true;
 
         // UNLOCK LEVELS
-        game.getLevelSelect().unlockAllLevelsUpTo(2);
+        game.getLevelSelect().unlockAllLevelsUpTo(13);
 
         // LEVEL SELECT
-        // game.getLevelSelect().reset();
-        // Gamestate.state = Gamestate.LEVEL_SELECT;
+        game.getLevelSelect().reset();
+        Gamestate.state = Gamestate.LEVEL_SELECT;
 
         // EXPLORING - Uncomment to only test one level in exploring.
         // game.getExploring().loadLevel(4); // Area is currently specified in that
@@ -118,12 +116,11 @@ public class MainMenu extends State implements Statemethods {
         // Gamestate.state = Gamestate.FLYING;
 
         // BOSSMODE - Uncomment to only test one boss.
-        game.getBossMode().loadNewBoss(1);
-        game.getBossMode().update();
-        Gamestate.state = Gamestate.BOSS_MODE;
+        // game.getBossMode().loadNewBoss(1);
+        // game.getBossMode().update();
+        // Gamestate.state = Gamestate.BOSS_MODE;
     }
 
-    @Override
     public void update() {
         moveBackGround();
 
@@ -182,11 +179,6 @@ public class MainMenu extends State implements Statemethods {
         game.getLevelSelect().reset();
         game.getLevelSelect().transferDataFromSave();
         Gamestate.state = Gamestate.LEVEL_SELECT;
-    }
-
-    @Override
-    public void draw(Graphics g) {
-
     }
 
     private void increaseIndex() {

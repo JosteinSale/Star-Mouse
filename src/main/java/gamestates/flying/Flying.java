@@ -9,7 +9,6 @@ import static entities.flying.EntityFactory.TypeConstants.POWERUP;
 import static utils.HelpMethods.GetAutomaticTrigger;
 import static utils.HelpMethods.GetCutscenes;
 
-import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +17,6 @@ import audio.AudioPlayer;
 import cutscenes.Cutscene;
 import cutscenes.cutsceneManagers.CutsceneManagerFly;
 import cutscenes.cutsceneManagers.DefaultCutsceneManager;
-import data_storage.ProgressValues;
 import entities.exploring.AutomaticTrigger;
 import entities.flying.EntityFactory;
 import entities.flying.PlayerFly;
@@ -28,7 +26,6 @@ import entities.flying.pickupItems.PickupItem;
 import game_events.*;
 import gamestates.Gamestate;
 import gamestates.State;
-import gamestates.Statemethods;
 import main_classes.Game;
 import projectiles.ProjectileHandler;
 import ui.GameoverOverlay;
@@ -38,7 +35,7 @@ import ui.PauseFlying;
 import utils.Constants.Audio;
 import utils.ResourceLoader;
 
-public class Flying extends State implements Statemethods {
+public class Flying extends State {
 
    public AudioPlayer audioPlayer;
    private PauseFlying pauseOverlay;
@@ -171,7 +168,6 @@ public class Flying extends State implements Statemethods {
       }
    }
 
-   @Override
    public void update() {
       if (gameOver) {
          gameoverOverlay.update();
@@ -288,11 +284,6 @@ public class Flying extends State implements Statemethods {
       }
       mapManager.clYOffset += fgCurSpeed;
       mapManager.bgYOffset += bgCurSpeed;
-   }
-
-   @Override
-   public void draw(Graphics g) {
-      System.out.println("Deprecated draw method");
    }
 
    public void exitFinishedLevel() {
