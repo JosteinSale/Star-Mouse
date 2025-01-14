@@ -26,7 +26,8 @@ public class RenderStartScreen implements SwingRender {
    public void draw(Graphics g) {
       // Background
       DrawUtils.fillRect(
-            g, Color.BLACK, 0, 0,
+            g, Color.BLACK,
+            0, 0,
             Game.GAME_DEFAULT_WIDTH, Game.GAME_DEFAULT_HEIGHT);
 
       // MouseImg
@@ -38,13 +39,16 @@ public class RenderStartScreen implements SwingRender {
 
       // Text
       DrawUtils.drawText(
-            g, Color.WHITE, DrawUtils.infoFont, "Press SPACE", 430, 600);
+            g, Color.WHITE, DrawUtils.infoFont,
+            "Press SPACE",
+            430, 600);
 
       // Fade
       if (startScreen.fadeActive) {
          DrawUtils.fillRect(
                g, new Color(0, 0, 0, startScreen.alphaFade),
-               0, 0, Game.GAME_DEFAULT_WIDTH, Game.GAME_DEFAULT_HEIGHT);
+               0, 0,
+               Game.GAME_DEFAULT_WIDTH, Game.GAME_DEFAULT_HEIGHT);
       }
 
    }

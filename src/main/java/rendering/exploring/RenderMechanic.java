@@ -8,7 +8,6 @@ import static utils.Constants.UI.MECHANIC_DISPLAY_WIDTH;
 
 import java.awt.Graphics;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.image.BufferedImage;
 
 import main_classes.Game;
@@ -16,6 +15,7 @@ import rendering.SwingRender;
 import rendering.misc.RenderInfoBox;
 import rendering.misc.RenderInfoChoice;
 import ui.MechanicOverlay;
+import utils.DrawUtils;
 import utils.ResourceLoader;
 
 public class RenderMechanic implements SwingRender {
@@ -31,9 +31,6 @@ public class RenderMechanic implements SwingRender {
    private Color lazerBarColor = Color.CYAN;
    private Color hpBarColor = Color.ORANGE;
    private Color displayColor = Color.GREEN;
-   private Font menuFont;
-   private Font itemFont;
-   private Font infoFont;
 
    private int cursorX = 200;
    private int barH = 21;
@@ -54,19 +51,14 @@ public class RenderMechanic implements SwingRender {
       this.mechanic = mechanicOverlay;
       this.rInfoBox = rInfoBox;
       this.rInfoChoice = rInfoChoice;
-      this.loadFonts();
       this.loadImages();
    }
 
    private void loadImages() {
-      this.pointerImg = ResourceLoader.getExpImageSprite(ResourceLoader.CURSOR_SPRITE_BLACK);
-      this.bgImg = ResourceLoader.getExpImageSprite(ResourceLoader.MECHANIC_DISPLAY);
-   }
-
-   private void loadFonts() {
-      this.menuFont = ResourceLoader.getNameFont();
-      this.infoFont = ResourceLoader.getInfoFont();
-      this.itemFont = ResourceLoader.getItemFont();
+      this.pointerImg = ResourceLoader.getExpImageSprite(
+            ResourceLoader.CURSOR_SPRITE_BLACK);
+      this.bgImg = ResourceLoader.getExpImageSprite(
+            ResourceLoader.MECHANIC_DISPLAY);
    }
 
    @Override
@@ -78,69 +70,69 @@ public class RenderMechanic implements SwingRender {
    }
 
    private void drawMaxedOut(Graphics g) {
-      g.setFont(menuFont);
       for (int i = 0; i < 3; i++) {
          if (mechanic.maxedOut[i]) {
-            g.setColor(new Color(0, 0, 0, 190));
-            g.fillRect(
-                  (int) (277 * Game.SCALE), (int) ((138 + 75 * i) * Game.SCALE),
-                  (int) (263 * Game.SCALE),
-                  (int) (70 * Game.SCALE));
-            g.setColor(Color.RED);
-            g.drawString(
+            DrawUtils.fillRect(
+                  g, new Color(0, 0, 0, 190),
+                  277, 138 + 75 * i,
+                  263, 70);
+            DrawUtils.drawText(
+                  g, Color.RED, DrawUtils.menuFont,
                   "(max)",
-                  (int) (350 * Game.SCALE), (int) ((185 + 75 * i) * Game.SCALE));
+                  350, 185 + 75 * i);
          }
       }
    }
 
    private void drawInventory(Graphics g) {
-      g.setColor(inventoryColor);
-      g.fillRect(
-            (int) (inventoryX * Game.SCALE), (int) (inventoryY * Game.SCALE),
-            (int) (inventoryW * Game.SCALE), (int) (inventoryH * Game.SCALE));
-
-      g.setColor(Color.WHITE);
-      g.drawRect(
-            (int) ((inventoryX + 10) * Game.SCALE), (int) ((inventoryY + 10) * Game.SCALE),
-            (int) ((inventoryW - 20) * Game.SCALE), (int) ((inventoryH - 20) * Game.SCALE));
+      DrawUtils.fillRect(
+            g, inventoryColor,
+            inventoryX, inventoryY,
+            inventoryW, inventoryH);
+      DrawUtils.drawRect(
+            g, Color.WHITE,
+            inventoryX + 10, inventoryY + 10,
+            inventoryW - 20, inventoryH - 20);
    }
 
    private void drawText(Graphics g) {
       // EXIT
-      g.setFont(menuFont);
-      g.setColor(Color.GRAY.darker());
-      g.drawString("EXIT", (int) (360 * Game.SCALE), (int) (410 * Game.SCALE));
+      DrawUtils.drawText(
+            g, Color.GRAY.darker(), DrawUtils.menuFont,
+            "EXIT", 360, 410);
 
       // Inventory
-      g.setFont(menuFont);
-      g.setColor(Color.WHITE);
-      g.drawString("Inventory", (int) (410 * Game.SCALE), (int) (630 * Game.SCALE));
+      DrawUtils.drawText(
+            g, Color.WHITE, DrawUtils.menuFont,
+            "Inventory", 410, 630);
 
-      g.setFont(infoFont);
-      g.drawString(
-            "Credits: x" + Integer.toString(game.getExploring().getProgressValues().getCredits()),
-            (int) (250 * Game.SCALE), (int) (690 * Game.SCALE));
-      g.drawString(
-            "Bombs: x" + Integer.toString(game.getExploring().getProgressValues().getBombs()),
-            (int) (620 * Game.SCALE), (int) (690 * Game.SCALE));
+      DrawUtils.drawText(
+            g, Color.WHITE, DrawUtils.infoFont,
+            "Credits: x" + Integer.toString(
+                  game.getExploring().getProgressValues().getCredits()),
+            250, 690);
+      DrawUtils.drawText(
+            g, Color.WHITE, DrawUtils.infoFont,
+            "Bombs: x" + Integer.toString(
+                  game.getExploring().getProgressValues().getBombs()),
+            620, 690);
 
       // Display-text
-      g.setColor(displayColor);
-      g.setFont(menuFont);
-      g.drawString(
+      DrawUtils.drawText(
+            g, displayColor, DrawUtils.menuFont,
             mechanic.optionNames[mechanic.selectedIndex],
-            (int) (560 * Game.SCALE), (int) (200 * Game.SCALE));
-      g.setFont(itemFont);
+            560, 200);
+
       for (int i = 0; i < 2; i++) { // Item-info
-         g.drawString(
-               mechanic.optionInfo[mechanic.selectedIndex][i],
-               (int) (560 * Game.SCALE), (int) ((250 + i * 50) * Game.SCALE));
+         DrawUtils.drawText(
+               g, displayColor, DrawUtils.itemFont,
+               mechanic.optionInfo[mechanic.selectedIndex][i], 560, 250 + i * 50);
       }
-      g.setFont(menuFont); // Item-price
-      g.drawString(
+      // Item-price
+      DrawUtils.drawText(
+            g, displayColor, DrawUtils.menuFont,
             mechanic.optionInfo[mechanic.selectedIndex][2],
-            (int) (560 * Game.SCALE), (int) (400 * Game.SCALE));
+            560, 400);
 
       if (mechanic.infoBoxActive) {
          rInfoBox.draw(g);
@@ -151,28 +143,26 @@ public class RenderMechanic implements SwingRender {
 
    private void drawDisplay(Graphics g) {
       // Background
-      g.drawImage(
-            bgImg,
-            (int) (bgImgX * Game.SCALE), (int) (bgImgY * Game.SCALE),
-            (int) (bgImgW * Game.SCALE), (int) (bgImgH * Game.SCALE), null);
+      DrawUtils.drawImage(
+            g, bgImg,
+            bgImgX, bgImgY,
+            bgImgW, bgImgH);
 
       // Bars
-      g.setColor(lazerBarColor);
-      g.fillRect(
-            (int) (370 * Game.SCALE), (int) (167 * Game.SCALE),
-            (int) (mechanic.lazerBarW * Game.SCALE),
-            (int) (barH * Game.SCALE));
-      g.setColor(hpBarColor);
-      g.fillRect(
-            (int) (370 * Game.SCALE), (int) (240 * Game.SCALE),
-            (int) (mechanic.hpBarW * Game.SCALE),
-            (int) (barH * Game.SCALE));
+      DrawUtils.fillRect(
+            g, lazerBarColor,
+            370, 167,
+            mechanic.lazerBarW, barH);
+      DrawUtils.fillRect(
+            g, hpBarColor,
+            370, 240,
+            mechanic.hpBarW, barH);
 
       // Cursor
-      g.drawImage(
-            pointerImg,
-            (int) (cursorX * Game.SCALE), (int) ((mechanic.cursorY - 30) * Game.SCALE),
-            (int) (CURSOR_WIDTH * Game.SCALE), (int) (CURSOR_HEIGHT * Game.SCALE), null);
+      DrawUtils.drawImage(
+            g, pointerImg,
+            cursorX, mechanic.cursorY - 30,
+            CURSOR_WIDTH, CURSOR_HEIGHT);
    }
 
    @Override

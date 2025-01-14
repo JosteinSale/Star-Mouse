@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import gamestates.exploring.MapManager1;
 import main_classes.Game;
 import rendering.SwingRender;
+import utils.DrawUtils;
 import utils.ResourceLoader;
 
 public class RenderMap1 implements SwingRender {
@@ -29,7 +30,8 @@ public class RenderMap1 implements SwingRender {
    }
 
    private void loadImgs(Integer levelIndex, Integer areaIndex) {
-      String imgName = "level" + levelIndex.toString() + "_area" + areaIndex.toString();
+      String imgName = "level" + levelIndex.toString() +
+            "_area" + areaIndex.toString();
       landScapeImg = ResourceLoader.getExpImageLandscape(imgName + "_ls.png");
       bgImg = ResourceLoader.getExpImageBackground(imgName + "_bg.png");
       clImg = ResourceLoader.getExpImageCollision(imgName + "_cl.png");
@@ -42,36 +44,33 @@ public class RenderMap1 implements SwingRender {
    }
 
    private void adjustImageSizes() {
-      landScapeImgWidth = (int) (landScapeImg.getWidth() * Game.SCALE);
-      landScapeImgHeight = (int) (landScapeImg.getHeight() * Game.SCALE);
-      bgImgWidth = (int) (bgImg.getWidth() * 3 * Game.SCALE);
-      bgImgHeight = (int) (bgImg.getHeight() * 3 * Game.SCALE);
-      fgImgWidth = (int) (fgImg.getWidth() * 3 * Game.SCALE);
-      fgImgHeight = (int) (fgImg.getHeight() * 3 * Game.SCALE);
+      landScapeImgWidth = landScapeImg.getWidth();
+      landScapeImgHeight = landScapeImg.getHeight();
+      bgImgWidth = bgImg.getWidth() * 3;
+      bgImgHeight = bgImg.getHeight() * 3;
+      fgImgWidth = fgImg.getWidth() * 3;
+      fgImgHeight = fgImg.getHeight() * 3;
    }
 
    public void drawLandscape(Graphics g) {
-      g.drawImage(
-            landScapeImg,
-            (int) ((0 - map.xLevelOffset * 0.1f) * Game.SCALE), 0,
-            landScapeImgWidth, landScapeImgHeight, null);
-
+      DrawUtils.drawImage(
+            g, landScapeImg,
+            (int) (0 - map.xLevelOffset * 0.1f), 0,
+            landScapeImgWidth, landScapeImgHeight);
    }
 
    public void drawBackground(Graphics g) {
-      g.drawImage(
-            bgImg,
-            (int) ((0 - map.xLevelOffset) * Game.SCALE),
-            (int) ((0 - map.yLevelOffset) * Game.SCALE),
-            bgImgWidth, bgImgHeight, null);
+      DrawUtils.drawImage(
+            g, bgImg,
+            0 - map.xLevelOffset, 0 - map.yLevelOffset,
+            bgImgWidth, bgImgHeight);
    }
 
    public void drawForeground(Graphics g) {
-      g.drawImage(
-            fgImg,
-            (int) ((0 - map.xLevelOffset) * Game.SCALE),
-            (int) ((0 - map.yLevelOffset) * Game.SCALE),
-            fgImgWidth, fgImgHeight, null);
+      DrawUtils.drawImage(
+            g, fgImg,
+            0 - map.xLevelOffset, 0 - map.yLevelOffset,
+            fgImgWidth, fgImgHeight);
    }
 
    @Override

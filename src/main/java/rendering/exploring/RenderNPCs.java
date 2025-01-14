@@ -9,6 +9,7 @@ import entities.exploring.NpcManager;
 import entities.exploring.Oliver;
 import main_classes.Game;
 import rendering.SwingRender;
+import utils.DrawUtils;
 import utils.HelpMethods2;
 import utils.ResourceLoader;
 
@@ -25,12 +26,18 @@ public class RenderNPCs implements SwingRender {
    private static BufferedImage[][] oliverAnimations;
    static {
       standardNpcSprites = HelpMethods2.GetSimpleAnimationArray(
-            ResourceLoader.getExpImageSprite(ResourceLoader.STANDARD_NPC_SPRITES), 16, 90, 60);
-      gardSprites = ResourceLoader.getExpImageSprite(ResourceLoader.GARD_SPRITES);
-      oliverSprites = ResourceLoader.getExpImageSprite(ResourceLoader.OLIVER_SPRITES);
-      gardAnimations = HelpMethods2.GetAnimationArray(gardSprites, 3, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
-      oliverAnimations = HelpMethods2.GetAnimationArray(oliverSprites, 6, 4, STANDARD_SPRITE_WIDTH,
-            STANDARD_SPRITE_HEIGHT);
+            ResourceLoader.getExpImageSprite(ResourceLoader.STANDARD_NPC_SPRITES),
+            16, 90, 60);
+      gardSprites = ResourceLoader.getExpImageSprite(
+            ResourceLoader.GARD_SPRITES);
+      oliverSprites = ResourceLoader.getExpImageSprite(
+            ResourceLoader.OLIVER_SPRITES);
+      gardAnimations = HelpMethods2.GetAnimationArray(
+            gardSprites, 3, 4,
+            STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
+      oliverAnimations = HelpMethods2.GetAnimationArray(
+            oliverSprites, 6, 4,
+            STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
    }
    private int drawWidth;
    private int drawHeight;
@@ -38,8 +45,8 @@ public class RenderNPCs implements SwingRender {
    public RenderNPCs(Game game, NpcManager npcManager) {
       this.game = game;
       this.npcManager = npcManager;
-      this.drawWidth = (int) (STANDARD_SPRITE_WIDTH * 3 * Game.SCALE);
-      this.drawHeight = (int) (STANDARD_SPRITE_HEIGHT * 3 * Game.SCALE);
+      this.drawWidth = STANDARD_SPRITE_WIDTH * 3;
+      this.drawHeight = STANDARD_SPRITE_HEIGHT * 3;
    }
 
    public void drawFgNpcs(Graphics g, int xLevelOffset, int yLevelOffset) {
@@ -59,12 +66,11 @@ public class RenderNPCs implements SwingRender {
    }
 
    private void drawNpc(Graphics g, NPC npc, int xLevelOffset, int yLevelOffset) {
-      g.drawImage(
-            this.getSprite(npc),
-            (int) ((npc.getHitbox().x - npc.getXDrawOffset() - xLevelOffset) * Game.SCALE),
-            (int) ((npc.getHitbox().y - npc.getYDrawOffset() - yLevelOffset) * Game.SCALE),
-            drawWidth, drawHeight,
-            null);
+      DrawUtils.drawImage(
+            g, this.getSprite(npc),
+            (int) (npc.getHitbox().x - npc.getXDrawOffset() - xLevelOffset),
+            (int) (npc.getHitbox().y - npc.getYDrawOffset() - yLevelOffset),
+            drawWidth, drawHeight);
    }
 
    private BufferedImage getSprite(NPC npc) {
@@ -109,7 +115,8 @@ public class RenderNPCs implements SwingRender {
 
    private void drawHitbox(Graphics g, NPC npc, int xLevelOffset, int yLevelOffset) {
       // TODO Auto-generated method stub
-      throw new UnsupportedOperationException("Unimplemented method 'drawHitbox'");
+      throw new UnsupportedOperationException(
+            "Unimplemented method 'drawHitbox'");
    }
 
    @Override

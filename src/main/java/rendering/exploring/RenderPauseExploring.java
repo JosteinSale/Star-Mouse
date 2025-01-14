@@ -1,7 +1,6 @@
 package rendering.exploring;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -14,6 +13,7 @@ import rendering.SwingRender;
 import rendering.misc.RenderOptionsMenu;
 import ui.OptionsMenu;
 import ui.PauseExploring;
+import utils.DrawUtils;
 import utils.ResourceLoader;
 
 import static utils.Constants.UI.CURSOR_HEIGHT;
@@ -29,14 +29,11 @@ public class RenderPauseExploring implements SwingRender {
    private RenderOptionsMenu rOptionsMenu;
    private OptionsMenu optionsMenu;
    private Color bgColor = new Color(0, 0, 0, 230);
-   private Font headerFont;
-   private Font menuFont;
-   private Font infoFont;
-   private Font itemFont;
    private BufferedImage itemBoxImg;
    private BufferedImage itemSelectedImg;
    private BufferedImage pointerImg;
-   private Rectangle itemInfoBox; // All Rectangles are adjusted to game.Scale
+   private Rectangle itemInfoBox; // Not adjusted to Game.SCALE
+   private ArrayList<Rectangle> menuRects;
    public HashMap<String, BufferedImage> itemImages;
 
    private int bgW;
@@ -58,9 +55,21 @@ public class RenderPauseExploring implements SwingRender {
       this.rOptionsMenu = rOptionsMenu; // This will already have a reference to the correct OptionsMenu
       this.optionsMenu = game.getOptionsMenu();
       this.itemImages = new HashMap<>();
+      this.constructMenuRects();
       calcDrawValues();
       loadImages();
-      loadFonts();
+   }
+
+   private void constructMenuRects() {
+      this.menuRects = new ArrayList<>();
+      for (int i = 0; i < pause.menuOptions.length; i++) {
+         Rectangle rect = new Rectangle(
+               (int) (600 * Game.SCALE),
+               (int) ((pause.cursorMinY - 35 + i * pause.menuOptionsDiff) * Game.SCALE),
+               (int) (200 * Game.SCALE),
+               (int) (50 * Game.SCALE));
+         menuRects.add(rect);
+      }
    }
 
    private void calcDrawValues() {
@@ -75,25 +84,23 @@ public class RenderPauseExploring implements SwingRender {
       itemBoxY = bgY + 120;
 
       this.itemInfoBox = new Rectangle(
-            (int) (170 * Game.SCALE), (int) (itemBoxY * Game.SCALE),
-            (int) (300 * Game.SCALE), (int) (itemBoxH * Game.SCALE));
+            170, itemBoxY,
+            300, itemBoxH);
    }
 
    private void loadImages() {
-      this.itemBoxImg = ResourceLoader.getExpImageSprite(ResourceLoader.ITEM_BOX);
-      this.pointerImg = ResourceLoader.getExpImageSprite(ResourceLoader.CURSOR_SPRITE_WHITE);
-      this.itemSelectedImg = ResourceLoader.getExpImageSprite(ResourceLoader.ITEM_SELECTED);
+      this.itemBoxImg = ResourceLoader.getExpImageSprite(
+            ResourceLoader.ITEM_BOX);
+      this.pointerImg = ResourceLoader.getExpImageSprite(
+            ResourceLoader.CURSOR_SPRITE_WHITE);
+      this.itemSelectedImg = ResourceLoader.getExpImageSprite(
+            ResourceLoader.ITEM_SELECTED);
 
       // Inventory items
-      itemImages.put("GRADUATION PRESENT", ResourceLoader.getExpImageSprite(ResourceLoader.PRESENT_IMAGE));
-      itemImages.put("COMFORT PET PLUSHIE", ResourceLoader.getExpImageSprite("item_plushie.png"));
-   }
-
-   private void loadFonts() {
-      this.headerFont = ResourceLoader.getHeaderFont();
-      this.menuFont = ResourceLoader.getNameFont();
-      this.infoFont = ResourceLoader.getInfoFont();
-      this.itemFont = ResourceLoader.getItemFont();
+      itemImages.put("GRADUATION PRESENT",
+            ResourceLoader.getExpImageSprite(ResourceLoader.PRESENT_IMAGE));
+      itemImages.put("COMFORT PET PLUSHIE",
+            ResourceLoader.getExpImageSprite("item_plushie.png"));
    }
 
    @Override
@@ -111,98 +118,95 @@ public class RenderPauseExploring implements SwingRender {
    }
 
    private void drawStatusValues(Graphics2D g2) {
-      g2.setFont(infoFont);
-      g2.setColor(Color.WHITE);
       for (int i = 0; i < pause.valueNames.length; i++) {
-         g2.drawString(
+         DrawUtils.drawText(
+               g2, Color.WHITE, DrawUtils.infoFont,
                pause.valueNames[i] + Integer.toString(pause.statusValues[i]),
-               (int) (170 * Game.SCALE), (int) ((480 + (i * 50)) * Game.SCALE));
+               170, 480 + (i * 50));
       }
    }
 
    private void drawPointer(Graphics2D g2) {
       if (pause.selectedIndex >= 8) {
-         g2.drawImage(
-               pointerImg,
-               (int) (cursorX * Game.SCALE), (int) ((pause.cursorY - 30) * Game.SCALE),
-               (int) (CURSOR_WIDTH * Game.SCALE), (int) (CURSOR_HEIGHT * Game.SCALE), null);
+         DrawUtils.drawImage(
+               g2, pointerImg,
+               cursorX, pause.cursorY - 30,
+               CURSOR_WIDTH, CURSOR_HEIGHT);
       }
    }
 
    private void drawText(Graphics2D g2) {
-      g2.setColor(Color.WHITE);
-
       // Header
-      g2.setFont(headerFont);
-      g2.drawString("Inventory", (int) (380 * Game.SCALE), (int) (150 * Game.SCALE));
+      DrawUtils.drawText(
+            g2, Color.WHITE, DrawUtils.headerFont,
+            "Inventory",
+            380, 150);
 
       // Menu options
       for (int i = 0; i < pause.menuOptions.length; i++) {
-         Rectangle rect = new Rectangle(
-               (int) (600 * Game.SCALE), (int) ((pause.cursorMinY - 35 + i * pause.menuOptionsDiff) * Game.SCALE),
-               (int) (200 * Game.SCALE), (int) (50 * Game.SCALE));
-         DrawCenteredString(g2, pause.menuOptions[i], rect, menuFont);
+         DrawCenteredString(
+               g2, pause.menuOptions[i],
+               menuRects.get(i), DrawUtils.menuFont);
       }
 
       // Item Info
-      g2.setFont(itemFont);
       if ((pause.items.size() - 1) >= pause.selectedIndex) {
-         String name = pause.items.get(pause.selectedIndex).getName();
-         g2.drawString(
-               name,
-               itemInfoBox.x + (int) (10 * Game.SCALE),
-               itemInfoBox.y + (int) (30 * Game.SCALE));
+         String itemName = pause.items.get(pause.selectedIndex).getName();
+         DrawUtils.drawText(
+               g2, Color.WHITE, DrawUtils.itemFont,
+               itemName,
+               itemInfoBox.x + 10, itemInfoBox.y + 30);
+
          ArrayList<String> info = pause.items.get(pause.selectedIndex).getDescription();
          for (int i = 0; i < info.size(); i++) {
-            g2.drawString(
+            DrawUtils.drawText(
+                  g2, Color.WHITE, DrawUtils.itemFont,
                   info.get(i),
-                  itemInfoBox.x + (int) (10 * Game.SCALE),
-                  itemInfoBox.y + (int) (((80 + (i * 40)) * Game.SCALE)));
+                  itemInfoBox.x + 10, itemInfoBox.y + 80 + (i * 40));
          }
       }
    }
 
    private void drawItems(Graphics2D g2) {
-      g2.drawImage(
-            itemBoxImg,
-            (int) (itemBoxX * Game.SCALE), (int) (itemBoxY * Game.SCALE),
-            (int) (itemBoxW * Game.SCALE), (int) (itemBoxH * Game.SCALE), null);
+      DrawUtils.drawImage(
+            g2, itemBoxImg,
+            itemBoxX, itemBoxY,
+            itemBoxW, itemBoxH);
 
       for (int j = 0; j < 2; j++) {
          for (int i = 0; i < 4; i++) {
             int currentIndex = i + (j * 4);
             if ((pause.isItemAtIndex(currentIndex))) {
                String itemName = pause.items.get(currentIndex).getName();
-               g2.drawImage(
-                     itemImages.get(itemName),
-                     (int) ((itemBoxX + 6 + (i * 96)) * Game.SCALE),
-                     (int) ((itemBoxY + 6 + (j * 96)) * Game.SCALE),
-                     (int) (90 * Game.SCALE), (int) (90 * Game.SCALE), null);
+               DrawUtils.drawImage(
+                     g2, itemImages.get(itemName),
+                     itemBoxX + 6 + (i * 96), itemBoxY + 6 + (j * 96),
+                     90, 90);
             }
             // The selected item gets a white frame around it
             if (currentIndex == pause.selectedIndex) {
-               g2.drawImage(
-                     itemSelectedImg,
-                     (int) ((itemBoxX + (i * 96)) * Game.SCALE),
-                     (int) ((itemBoxY + (j * 96)) * Game.SCALE),
-                     (int) (103 * Game.SCALE), (int) (103 * Game.SCALE), null);
+               DrawUtils.drawImage(
+                     g2, itemSelectedImg,
+                     itemBoxX + (i * 96), itemBoxY + (j * 96),
+                     103, 103);
             }
          }
       }
    }
 
    private void drawBackground(Graphics2D g2) {
-      g2.setColor(bgColor);
-      g2.fillRect(
-            (int) (bgX * Game.SCALE), (int) (bgY * Game.SCALE),
-            (int) (bgW * Game.SCALE), (int) (bgH * Game.SCALE));
-      g2.setColor(Color.WHITE);
-      g2.drawRect(
-            (int) ((bgX + 10) * Game.SCALE), (int) ((bgY + 10) * Game.SCALE),
-            (int) ((bgW - 20) * Game.SCALE), (int) ((bgH - 20) * Game.SCALE));
-
-      g2.setColor(Color.DARK_GRAY.darker());
-      g2.fill(itemInfoBox);
+      DrawUtils.fillRect(
+            g2, bgColor,
+            bgX, bgY,
+            bgW, bgH);
+      DrawUtils.drawRect(
+            g2, Color.WHITE,
+            bgX + 10, bgY + 10,
+            bgW - 20, bgH - 20);
+      DrawUtils.fillRect(
+            g2, Color.DARK_GRAY.darker(),
+            itemInfoBox.x, itemInfoBox.y,
+            itemInfoBox.width, itemInfoBox.height);
    }
 
    @Override

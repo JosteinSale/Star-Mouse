@@ -8,6 +8,7 @@ import entities.exploring.PlayerExp;
 import gamestates.exploring.Area;
 import main_classes.Game;
 import rendering.SwingRender;
+import utils.DrawUtils;
 import utils.HelpMethods2;
 import utils.ResourceLoader;
 
@@ -55,8 +56,8 @@ public class RenderArea implements SwingRender {
    }
 
    private static void adjustPlayerImgSizes() {
-      playerSpriteWidth = (int) (STANDARD_SPRITE_WIDTH * Game.SCALE * 3);
-      playerSpriteHeight = (int) (STANDARD_SPRITE_HEIGHT * Game.SCALE * 3);
+      playerSpriteWidth = STANDARD_SPRITE_WIDTH * 3;
+      playerSpriteHeight = STANDARD_SPRITE_HEIGHT * 3;
    }
 
    @Override
@@ -84,12 +85,11 @@ public class RenderArea implements SwingRender {
       PlayerExp player = area.getPlayer();
       if (player.visible) {
          // drawShadow(g, xLevelOffset, yLevelOffset);
-         g.drawImage(
-               playerSprites.get(PlayerExp.CURRENT_SPRITE_SHEET)[player.playerAction][player.aniIndex],
-               (int) ((player.hitbox.x - 113 - xLevelOffset) * Game.SCALE),
-               (int) ((player.hitbox.y - 135 - yLevelOffset) * Game.SCALE),
-               playerSpriteWidth, playerSpriteHeight,
-               null);
+         DrawUtils.drawImage(
+               g, playerSprites.get(PlayerExp.CURRENT_SPRITE_SHEET)[player.playerAction][player.aniIndex],
+               (int) (player.hitbox.x - 113 - xLevelOffset),
+               (int) (player.hitbox.y - 135 - yLevelOffset),
+               playerSpriteWidth, playerSpriteHeight);
       }
    }
 

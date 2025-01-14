@@ -6,10 +6,10 @@ import java.awt.Rectangle;
 import main_classes.Game;
 import rendering.SwingRender;
 import ui.NumberDisplay;
+import utils.DrawUtils;
 import utils.ResourceLoader;
 import java.awt.image.BufferedImage;
 
-import java.awt.Font;
 import java.awt.Color;
 
 import static utils.Constants.UI.NUMBER_SELECT_HEIGHT;
@@ -22,14 +22,14 @@ public class RenderNumberDisplay implements SwingRender {
    private BufferedImage bgImg;
    private BufferedImage selectedNrImg;
    private Color fadeColor;
-   private Font numberFont;
    private Rectangle bgRect;
 
    public RenderNumberDisplay() {
-      this.bgImg = ResourceLoader.getExpImageSprite(ResourceLoader.NUMBER_DISPLAY);
-      this.selectedNrImg = ResourceLoader.getExpImageSprite(ResourceLoader.NUMBER_SELECT);
+      this.bgImg = ResourceLoader.getExpImageSprite(
+            ResourceLoader.NUMBER_DISPLAY);
+      this.selectedNrImg = ResourceLoader.getExpImageSprite(
+            ResourceLoader.NUMBER_SELECT);
       this.fadeColor = new Color(0, 0, 0, 150);
-      this.numberFont = ResourceLoader.getHeaderFont();
       calcDrawValues();
    }
 
@@ -48,34 +48,31 @@ public class RenderNumberDisplay implements SwingRender {
    @Override
    public void draw(Graphics g) {
       // Dark overlay
-      g.setColor(fadeColor);
-      g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
+      DrawUtils.drawRect(
+            g, fadeColor,
+            0, 0,
+            Game.GAME_DEFAULT_WIDTH, Game.GAME_DEFAULT_HEIGHT);
 
       // Background
-      g.drawImage(
-            bgImg,
-            (int) (bgRect.x * Game.SCALE),
-            (int) (bgRect.y * Game.SCALE),
-            (int) (bgRect.width * Game.SCALE),
-            (int) (bgRect.height * Game.SCALE), null);
-
-      // Selected Nr
-      g.drawImage(
-            selectedNrImg,
-            (int) ((bgRect.x + 108 + (nrDisplay.digitIndex * 81)) * Game.SCALE),
-            (int) ((bgRect.y + 28) * Game.SCALE),
-            (int) (NUMBER_SELECT_WIDTH * Game.SCALE),
-            (int) (NUMBER_SELECT_HEIGHT * Game.SCALE), null);
+      DrawUtils.drawImage(
+            g, bgImg,
+            bgRect.x, bgRect.y,
+            bgRect.width, bgRect.height);
 
       // Numbers
-      g.setColor(Color.GREEN);
-      g.setFont(numberFont);
       for (int i = 0; i < 4; i++) {
-         g.drawString(
+         DrawUtils.drawText(
+               g, Color.GREEN, DrawUtils.headerFont,
                Integer.toString(nrDisplay.currentCode[i]),
-               (int) ((bgRect.x + 108 + (i * 81)) * Game.SCALE),
-               (int) ((bgRect.y + 160) * Game.SCALE));
+               bgRect.x + 108 + (i * 81), bgRect.y + 160);
       }
+
+      // The selected number gets an image around it
+      DrawUtils.drawImage(
+            g, selectedNrImg,
+            bgRect.x + 108 + (nrDisplay.digitIndex * 81), bgRect.y + 28,
+            NUMBER_SELECT_WIDTH, NUMBER_SELECT_HEIGHT);
+
    }
 
    @Override
