@@ -3,12 +3,10 @@ package projectiles;
 import static utils.Constants.Flying.TypeConstants.OCTA_PROJECTILE;
 
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 import entities.Entity;
 
 public class OctaProjectile extends Entity implements Projectile {
-    BufferedImage img;
     private int damage = 10;
     private int xSpeed;
     private int ySpeed;

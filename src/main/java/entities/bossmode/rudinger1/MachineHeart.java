@@ -2,13 +2,11 @@ package entities.bossmode.rudinger1;
 
 import static utils.Constants.Flying.ActionConstants.IDLE;
 
-import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D.Float;
 import java.awt.image.BufferedImage;
 
 import entities.bossmode.DefaultBossPart;
-import entities.bossmode.IBossPart;
 import entities.bossmode.PlayerBoss;
 
 /**
@@ -129,7 +127,7 @@ public class MachineHeart extends DefaultBossPart {
          if (behaviorTick > 50) {
             this.rotatedImgVisible = false;
          } // Syncronizing with mouth animation
-         // Then abort the attack
+           // Then abort the attack
          if (this.behaviorTick >= 120) {
             this.endDocking = false;
             this.abortAttack = true;
@@ -238,10 +236,6 @@ public class MachineHeart extends DefaultBossPart {
    @Override
    public boolean stopsProjectiles() {
       return true;
-   }
-
-   public void draw(Graphics g) {
-      IBossPart.draw(g, this);
    }
 
 }

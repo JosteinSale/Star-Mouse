@@ -5,11 +5,11 @@ import java.awt.Graphics;
 import ui.BigDialogueBox;
 import ui.SmallDialogueBox;
 import ui.TextboxManager;
+import utils.DrawUtils;
 import utils.HelpMethods;
 import utils.ResourceLoader;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -21,41 +21,31 @@ import rendering.SwingRender;
 public class RenderTextBox implements SwingRender {
    private TextboxManager tbM;
 
-   // Infobox
    private RenderInfoBox rInfoBox;
-
-   // InfoChoice
    private RenderInfoChoice rInfoChoice;
 
    // Big dialogue box
    private BufferedImage bigDialogueBoxImg;
    private BufferedImage[][] portraits;
-   private Font dialogueFont;
-   private Font nameFont;
-   private int bDialogueX = (int) ((Game.GAME_DEFAULT_WIDTH / 2 - DIALOGUEBOX_WIDTH / 2) * Game.SCALE);
-   private int bDialogueY = (int) (550 * Game.SCALE);
+   private int bDialogueX = Game.GAME_DEFAULT_WIDTH / 2 - DIALOGUEBOX_WIDTH / 2;
+   private int bDialogueY = 550;
    private Color nameColor;
 
    // Small dialogue box (uses some of the BigDialogueBox-variables)
    private Color sDialogueBgColor = new Color(0, 0, 0, 100);
-   private int sDialogueX = (int) (40 * Game.SCALE);
-   private int sDialogueY = (int) (600 * Game.SCALE);
+   private int sDialogueX = 40;
+   private int sDialogueY = 600;
 
    public RenderTextBox(TextboxManager textBoxManager, RenderInfoBox rInfoBox, RenderInfoChoice rInfoChoice) {
       this.tbM = textBoxManager;
       this.rInfoBox = rInfoBox;
       this.rInfoChoice = rInfoChoice;
       this.loadImages();
-      this.loadFonts();
-   }
-
-   private void loadFonts() {
-      dialogueFont = ResourceLoader.getInfoFont();
-      nameFont = ResourceLoader.getNameFont();
    }
 
    private void loadImages() {
-      bigDialogueBoxImg = ResourceLoader.getExpImageSprite(ResourceLoader.DIALOGUE_BOX);
+      bigDialogueBoxImg = ResourceLoader.getExpImageSprite(
+            ResourceLoader.DIALOGUE_BOX);
       portraits = this.getAllPortraits();
    }
 
@@ -66,12 +56,17 @@ public class RenderTextBox implements SwingRender {
       int maxAmountOfPortraits = 15;
       int nrOfCharacters = nrOfSpecialCharacters + nrOfNpcs;
       portraits = new BufferedImage[nrOfCharacters][maxAmountOfPortraits];
-      portraits[0] = getPortraitsFor(ResourceLoader.MAX_PORTRAITS, 15, 0);
-      portraits[1] = getPortraitsFor(ResourceLoader.OLIVER_PORTRAITS, 9, 0);
-      portraits[2] = getPortraitsFor(ResourceLoader.LT_RED_PORTRAITS, 6, 0);
-      portraits[3] = getPortraitsFor(ResourceLoader.RUDINGER_PORTRAITS, 7, 0);
+      portraits[0] = getPortraitsFor(
+            ResourceLoader.MAX_PORTRAITS, 15, 0);
+      portraits[1] = getPortraitsFor(
+            ResourceLoader.OLIVER_PORTRAITS, 9, 0);
+      portraits[2] = getPortraitsFor(
+            ResourceLoader.LT_RED_PORTRAITS, 6, 0);
+      portraits[3] = getPortraitsFor(
+            ResourceLoader.RUDINGER_PORTRAITS, 7, 0);
       for (int i = 0; i < nrOfNpcs; i++) {
-         portraits[i + nrOfSpecialCharacters] = getPortraitsFor(ResourceLoader.NPC_PORTRAITS, 4, i);
+         portraits[i + nrOfSpecialCharacters] = getPortraitsFor(
+               ResourceLoader.NPC_PORTRAITS, 4, i);
       }
       return portraits;
    }
@@ -109,28 +104,24 @@ public class RenderTextBox implements SwingRender {
       BigDialogueBox dialogue = tbM.getBigDialogueBox();
 
       // Background
-      g.drawImage(
-            bigDialogueBoxImg, bDialogueX, bDialogueY,
-            (int) (DIALOGUEBOX_WIDTH * Game.SCALE),
-            (int) (DIALOGUEBOX_HEIGHT * Game.SCALE), null);
+      DrawUtils.drawImage(
+            g, bigDialogueBoxImg,
+            bDialogueX, bDialogueY,
+            DIALOGUEBOX_WIDTH, DIALOGUEBOX_HEIGHT);
 
       // Portrait
-      g.drawImage(
-            portraits[dialogue.characterIndex][dialogue.portraitIndex],
-            bDialogueX + (int) (12 * Game.SCALE), bDialogueY + (int) (12 * Game.SCALE),
-            (int) (PORTRAIT_SIZE * 3 * Game.SCALE), (int) (PORTRAIT_SIZE * 3 * Game.SCALE), null);
+      DrawUtils.drawImage(
+            g, portraits[dialogue.characterIndex][dialogue.portraitIndex],
+            bDialogueX + 12, bDialogueY + 12,
+            PORTRAIT_SIZE * 3, PORTRAIT_SIZE * 3);
 
       // Text - Name
-      g.setColor(nameColor);
-      g.setFont(nameFont);
-      g.drawString(
+      DrawUtils.drawText(
+            g, nameColor, DrawUtils.nameFont,
             dialogue.name,
-            bDialogueX + (int) (200 * Game.SCALE),
-            bDialogueY + (int) (60 * Game.SCALE));
+            bDialogueX + 200, bDialogueY + 60);
 
       // Text - Dialogue
-      g.setColor(Color.WHITE);
-      g.setFont(dialogueFont);
       drawBigDialogueText(
             g, dialogue.currentLine, dialogue.formattedStrings,
             dialogue.currentLetter, bDialogueX, bDialogueY);
@@ -143,45 +134,45 @@ public class RenderTextBox implements SwingRender {
          if (i == currentLine) {
             endLetter = currentLetter + 1;
          }
-         drawPartialSentence(g, text.get(i),
-               endLetter,
-               x + (int) (200 * Game.SCALE), y + (int) ((i * 35 + 100) * Game.SCALE));
+         drawPartialSentence(
+               g, text.get(i), endLetter,
+               x + 200, y + 100 + i * 35);
       }
    }
 
    private void drawPartialSentence(Graphics g, String s, int currentLetter, int x, int y) {
-      g.drawString(
-            s.substring(0, currentLetter), x, y);
+      DrawUtils.drawText(
+            g, Color.WHITE, DrawUtils.infoFont,
+            s.substring(0, currentLetter),
+            x, y);
+
    }
 
    private void drawSmallDialogue(Graphics g) {
       SmallDialogueBox dialogue = tbM.getSmallDialogueBox();
 
       // Background
-      g.setColor(sDialogueBgColor);
-      g.fillRect(sDialogueX, sDialogueY, (int) (850 * Game.SCALE), (int) (120 * Game.SCALE));
+      DrawUtils.fillRect(
+            g, sDialogueBgColor,
+            sDialogueX, sDialogueY,
+            850, 120);
 
       // Portrait
-      g.drawImage(
-            portraits[dialogue.characterIndex][dialogue.portraitIndex],
-            sDialogueX + (int) (5 * Game.SCALE), sDialogueY + (int) (5 * Game.SCALE),
-            (int) (110 * Game.SCALE), (int) (110 * Game.SCALE), null);
+      DrawUtils.drawImage(
+            g, portraits[dialogue.characterIndex][dialogue.portraitIndex],
+            sDialogueX + 5, sDialogueY + 5,
+            110, 110);
 
       // Text - Name
-      g.setColor(nameColor);
-      g.setFont(nameFont);
-      g.drawString(
+      DrawUtils.drawText(
+            g, nameColor, DrawUtils.nameFont,
             dialogue.name,
-            sDialogueX + (int) (130 * Game.SCALE),
-            sDialogueY + (int) (40 * Game.SCALE));
+            sDialogueX + 130, sDialogueY + 40);
 
       // Text - Dialogue
-      g.setColor(Color.WHITE);
-      g.setFont(dialogueFont);
       drawPartialSentence(
             g, dialogue.text, dialogue.currentLetter,
-            sDialogueX + (int) (130 * Game.SCALE),
-            sDialogueY + (int) (80 * Game.SCALE));
+            sDialogueX + 130, sDialogueY + 80);
    }
 
    @Override

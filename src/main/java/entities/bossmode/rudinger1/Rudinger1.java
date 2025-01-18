@@ -1,6 +1,5 @@
 package entities.bossmode.rudinger1;
 
-import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -38,12 +37,12 @@ public class Rudinger1 implements IBoss {
    public ReaperEyes eyes;
    public AnimatedMouth mouth;
 
-   // BossParts
-   private IBossPart horizontalLazer;
-   private IBossPart verticalLazer;
-   private IBossPart heatSeekingLazer;
-   private IBossPart machineHeart;
-   private IBossPart vulnerableComponent;
+   // IBossParts
+   public RotatingLazer verticalLazer; // Will also draw charge-animation
+   private RotatingLazer horizontalLazer;
+   private HeatSeekingLazer heatSeekingLazer;
+   private MachineHeart machineHeart;
+   private VulnerableComponent vulnerableComponent;
 
    // ShootPatterns
    private FanPattern fanPattern1;
@@ -119,7 +118,8 @@ public class Rudinger1 implements IBoss {
 
    private void constructBossParts(PlayerBoss player) {
       // Two rotating lazers. One vertical and one horizontal.
-      BufferedImage lazerImg = ResourceLoader.getBossSprite(ResourceLoader.ROTATING_LAZER_SPRITE);
+      BufferedImage lazerImg = ResourceLoader.getBossSprite(
+            ResourceLoader.ROTATING_LAZER_SPRITE);
       imageContainer.addImage(lazerImg);
 
       int width1 = 30;
@@ -134,7 +134,8 @@ public class Rudinger1 implements IBoss {
             hitbox1, lazerImg, 2, 3, 10, 433, Math.PI / 2, false);
 
       // A heatseeking lazer.
-      BufferedImage lazerImg2 = ResourceLoader.getBossSprite(ResourceLoader.HEATSEEKING_LAZER_SPRITE);
+      BufferedImage lazerImg2 = ResourceLoader.getBossSprite(
+            ResourceLoader.HEATSEEKING_LAZER_SPRITE);
       imageContainer.addImage(lazerImg2);
 
       int width2 = 90;
@@ -144,10 +145,12 @@ public class Rudinger1 implements IBoss {
             (float) mainGunPoint.getY(),
             width2, height2);
       this.heatSeekingLazer = new HeatSeekingLazer(
-            hitbox2, lazerImg2, 3, 4, 30, 220, player, mainGunPoint);
+            hitbox2, lazerImg2, 3, 4,
+            30, 220, player, mainGunPoint);
 
       // The machine heart.
-      BufferedImage heartImg = ResourceLoader.getBossSprite(ResourceLoader.MACHINE_HEART_SPRITE);
+      BufferedImage heartImg = ResourceLoader.getBossSprite(
+            ResourceLoader.MACHINE_HEART_SPRITE);
       imageContainer.addImage(heartImg);
 
       int width3 = 100;
@@ -157,7 +160,8 @@ public class Rudinger1 implements IBoss {
             (float) heartDockingPoint.getY() - height3 / 2,
             width3, height3);
       this.machineHeart = new MachineHeart(
-            hitbox3, heartImg, 2, 2, 40, 40, player, heartDockingPoint);
+            hitbox3, heartImg, 2, 2,
+            40, 40, player, heartDockingPoint);
 
       // The vulnerable area (is not part of an attack, doesn't have animations)
       // It's placed just below the machine heart.
@@ -326,11 +330,6 @@ public class Rudinger1 implements IBoss {
       bossParts.add(machineHeart);
       bossParts.add(vulnerableComponent);
       return bossParts;
-   }
-
-   @Override
-   public void draw(Graphics g) {
-      System.out.println("Deprecated method");
    }
 
    @Override

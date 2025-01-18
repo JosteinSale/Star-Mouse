@@ -25,10 +25,7 @@ public class RenderStartScreen implements SwingRender {
    @Override
    public void draw(Graphics g) {
       // Background
-      DrawUtils.fillRect(
-            g, Color.BLACK,
-            0, 0,
-            Game.GAME_DEFAULT_WIDTH, Game.GAME_DEFAULT_HEIGHT);
+      DrawUtils.fillScreen(g, Color.BLACK);
 
       // MouseImg
       DrawUtils.drawImage(
@@ -45,10 +42,7 @@ public class RenderStartScreen implements SwingRender {
 
       // Fade
       if (startScreen.fadeActive) {
-         DrawUtils.fillRect(
-               g, new Color(0, 0, 0, startScreen.alphaFade),
-               0, 0,
-               Game.GAME_DEFAULT_WIDTH, Game.GAME_DEFAULT_HEIGHT);
+         DrawUtils.fillScreen(g, new Color(0, 0, 0, startScreen.alphaFade));
       }
 
    }

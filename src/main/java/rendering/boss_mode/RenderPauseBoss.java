@@ -3,12 +3,12 @@ package rendering.boss_mode;
 import main_classes.Game;
 import rendering.misc.RenderOptionsMenu;
 import ui.PauseBoss;
+import utils.DrawUtils;
 import utils.ResourceLoader;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -20,61 +20,51 @@ import static utils.HelpMethods.DrawCenteredString;
 public class RenderPauseBoss {
    private PauseBoss pause;
    private Color bgColor = new Color(0, 0, 0, 140);
-   private Font headerFont;
-   private Font menuFont;
    private BufferedImage pointerImg;
-   private ArrayList<Rectangle> menuRectangles;
+   private ArrayList<Rectangle> menuRects;
    private RenderOptionsMenu rOptions;
 
    public RenderPauseBoss(PauseBoss pause, RenderOptionsMenu rOptions) {
       this.pause = pause;
       this.rOptions = rOptions;
-      this.menuRectangles = new ArrayList<>();
-      this.loadResources();
-      makeMenuOptionRectangles();
+      this.menuRects = new ArrayList<>();
+      constructMenuRects();
+      this.pointerImg = ResourceLoader.getExpImageSprite(
+            ResourceLoader.CURSOR_SPRITE_WHITE);
    }
 
-   private void loadResources() {
-      this.pointerImg = ResourceLoader.getExpImageSprite(ResourceLoader.CURSOR_SPRITE_WHITE);
-      this.headerFont = ResourceLoader.getHeaderFont();
-      this.menuFont = ResourceLoader.getNameFont();
-   }
-
-   private void makeMenuOptionRectangles() {
+   private void constructMenuRects() {
       for (int i = 0; i < pause.menuOptions.length; i++) {
          Rectangle rect = new Rectangle(
                (int) (425 * Game.SCALE),
                (int) ((pause.cursorMinY - 40 + i * pause.menuOptionsDiff) * Game.SCALE),
                (int) (200 * Game.SCALE), (int) (50 * Game.SCALE));
-         menuRectangles.add(rect);
+         menuRects.add(rect);
       }
    }
 
    public void draw(Graphics g) {
       Graphics2D g2 = (Graphics2D) g;
       // Background
-      g.setColor(bgColor);
-      g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
+      DrawUtils.fillScreen(g2, bgColor);
 
       if (pause.optionsMenu.isActive()) {
          rOptions.draw(g);
       } else {
          // Text
-         g.setFont(headerFont);
-         g.setColor(Color.WHITE);
-         g.drawString("PAUSE", (int) (450 * Game.SCALE), (int) (200 * Game.SCALE));
+         DrawUtils.drawText(
+               g2, Color.WHITE, DrawUtils.headerFont,
+               "PAUSE", 450, 200);
          for (int i = 0; i < pause.menuOptions.length; i++) {
             DrawCenteredString(g2, pause.menuOptions[i],
-                  menuRectangles.get(i), menuFont);
+                  menuRects.get(i), DrawUtils.menuFont);
          }
 
          // Cursor
-         g2.drawImage(
-               pointerImg,
-               (int) (pause.cursorX * Game.SCALE),
-               (int) ((pause.cursorY - 30) * Game.SCALE),
-               (int) (CURSOR_WIDTH * Game.SCALE),
-               (int) (CURSOR_HEIGHT * Game.SCALE), null);
+         DrawUtils.drawImage(
+               g2, pointerImg,
+               pause.cursorX, pause.cursorY - 30,
+               CURSOR_WIDTH, CURSOR_HEIGHT);
       }
    }
 }

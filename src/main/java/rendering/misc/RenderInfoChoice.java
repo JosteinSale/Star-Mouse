@@ -1,7 +1,6 @@
 package rendering.misc;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -28,7 +27,7 @@ public class RenderInfoChoice implements SwingRender {
    private int cursorW;
    private int cursorH;
 
-   public RenderInfoChoice(InfoChoice infoChoice, BufferedImage background, Font infoFont) {
+   public RenderInfoChoice(InfoChoice infoChoice, BufferedImage background) {
       this.ic = infoChoice;
       this.background = background;
       this.cursorImg = ResourceLoader.getExpImageSprite(

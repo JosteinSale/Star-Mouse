@@ -1,13 +1,13 @@
 package rendering.flying;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import entities.flying.PlayerFly;
 import main_classes.Game;
 import rendering.SwingRender;
+import utils.DrawUtils;
 import utils.HelpMethods2;
 import utils.ResourceLoader;
 
@@ -19,7 +19,6 @@ import static utils.Constants.Flying.ActionConstants.*;
 public class RenderPlayerFly implements SwingRender {
    private Game game;
    private PlayerFly player;
-
    private BufferedImage[][] animations;
    private BufferedImage[] flameAnimations;
    private BufferedImage tpShadowImg;
@@ -27,7 +26,6 @@ public class RenderPlayerFly implements SwingRender {
    // Status display
    private BufferedImage bombImg;
    private BufferedImage enemyCounterImg;
-   private Font statusFont;
    private int statusX = Game.GAME_DEFAULT_WIDTH - 150;
    private int bombY = Game.GAME_DEFAULT_HEIGHT - 120;
    private int bombImgW;
@@ -48,7 +46,8 @@ public class RenderPlayerFly implements SwingRender {
 
    private void loadImages() {
       // Teleport shadow
-      this.tpShadowImg = ResourceLoader.getFlyImageSprite(ResourceLoader.TELEPORT_SHADOW);
+      this.tpShadowImg = ResourceLoader.getFlyImageSprite(
+            ResourceLoader.TELEPORT_SHADOW);
 
       // Engine flame
       this.flameAnimations = HelpMethods2.GetSimpleAnimationArray(
@@ -56,24 +55,20 @@ public class RenderPlayerFly implements SwingRender {
             2, 15, 15);
 
       // Player Ship
-      BufferedImage img = ResourceLoader.getFlyImageSprite(ResourceLoader.SHIP_SPRITES);
-      this.animations = new BufferedImage[7][6];
-      for (int j = 0; j < animations.length; j++) {
-         for (int i = 0; i < animations[0].length; i++) {
-            animations[j][i] = img.getSubimage(
-                  i * SHIP_SPRITE_WIDTH,
-                  j * SHIP_SPRITE_HEIGHT, SHIP_SPRITE_WIDTH, SHIP_SPRITE_HEIGHT);
-         }
-      }
+      BufferedImage img = ResourceLoader.getFlyImageSprite(
+            ResourceLoader.SHIP_SPRITES);
+      this.animations = HelpMethods2.GetAnimationArray(
+            img, 7, 6, SHIP_SPRITE_WIDTH, SHIP_SPRITE_HEIGHT);
 
       // Status display
-      this.bombImg = ResourceLoader.getFlyImageSprite(ResourceLoader.BOMB_SPRITE);
-      this.enemyCounterImg = ResourceLoader.getFlyImageSprite(ResourceLoader.ENEMYCOUNTER_SPRITE);
+      this.bombImg = ResourceLoader.getFlyImageSprite(
+            ResourceLoader.BOMB_SPRITE);
+      this.enemyCounterImg = ResourceLoader.getFlyImageSprite(
+            ResourceLoader.ENEMYCOUNTER_SPRITE);
       this.bombImgW = bombImg.getWidth() * 2;
       this.bombImgH = bombImg.getHeight() * 2;
       this.enemyCounterW = enemyCounterImg.getWidth() * 2;
       this.enemyCounterH = enemyCounterImg.getHeight() * 2;
-      this.statusFont = ResourceLoader.getInfoFont();
    }
 
    @Override
@@ -92,16 +87,15 @@ public class RenderPlayerFly implements SwingRender {
 
          // Player
          int actionIndex = player.planeAction;
-         if ((player.teleportBuffer > 5) && (player.planeAction != TAKING_COLLISION_DAMAGE)) {
-            actionIndex = TELEPORTING_RIGHT; // Gives us a few extra frames with teleport-animation
+         if ((player.teleportBuffer > 5) &&
+               (player.planeAction != TAKING_COLLISION_DAMAGE)) {
+            actionIndex = TELEPORTING_RIGHT;
+            // Gives us a few extra frames with teleport-animation
          }
-
-         g.drawImage(
-               animations[actionIndex][player.aniIndex],
-               (int) ((player.hitbox.x - 20) * Game.SCALE),
-               (int) ((player.hitbox.y - 20) * Game.SCALE),
-               (int) (SHIP_SPRITE_WIDTH * 3 * Game.SCALE),
-               (int) (SHIP_SPRITE_HEIGHT * 3 * Game.SCALE), null);
+         DrawUtils.drawImage(
+               g, animations[actionIndex][player.aniIndex],
+               (int) (player.hitbox.x - 20), (int) (player.hitbox.y - 20),
+               SHIP_SPRITE_WIDTH * 3, SHIP_SPRITE_HEIGHT * 3);
 
          drawStatusDisplay(g);
          // g.setColor(Color.RED);
@@ -121,59 +115,57 @@ public class RenderPlayerFly implements SwingRender {
 
    private void drawStatusDisplay(Graphics g) {
       // Images
-      g.drawImage(
-            bombImg,
-            (int) (statusX * Game.SCALE), (int) (bombY * Game.SCALE),
-            (int) (bombImgW * Game.SCALE), (int) (bombImgH * Game.SCALE), null);
-      g.drawImage(
-            enemyCounterImg,
-            (int) (statusX * Game.SCALE), (int) (enemyCounterY * Game.SCALE),
-            (int) (enemyCounterW * Game.SCALE), (int) (enemyCounterH * Game.SCALE), null);
+      DrawUtils.drawImage(
+            g, bombImg,
+            statusX, bombY,
+            bombImgW, bombImgH);
+      DrawUtils.drawImage(
+            g, enemyCounterImg,
+            statusX, enemyCounterY,
+            enemyCounterW, enemyCounterH);
 
       // Healthbar
-      g.setColor(HPbarBgColor);
-      g.fillRect(
-            (int) ((HPbarX - player.statusDisplay.HPbarMaxW) * Game.SCALE), (int) (HPbarY * Game.SCALE),
-            (int) (player.statusDisplay.HPbarMaxW * Game.SCALE), (int) (HPbarH * Game.SCALE));
+      DrawUtils.fillRect(
+            g, HPbarBgColor,
+            HPbarX - player.statusDisplay.HPbarMaxW, HPbarY,
+            player.statusDisplay.HPbarMaxW, HPbarH);
+
+      Color hpBarColor;
       if (player.statusDisplay.blinkTimer % 4 == 0) {
-         g.setColor(Color.RED);
+         hpBarColor = Color.RED;
       } else {
-         g.setColor(Color.WHITE);
+         hpBarColor = Color.WHITE;
       }
-      g.fillRect(
-            (int) ((HPbarX - player.statusDisplay.HPbarCurW) * Game.SCALE), (int) (HPbarY * Game.SCALE),
-            (int) (player.statusDisplay.HPbarCurW * Game.SCALE), (int) (HPbarH * Game.SCALE));
+      DrawUtils.fillRect(
+            g, hpBarColor,
+            HPbarX - player.statusDisplay.HPbarCurW, HPbarY,
+            player.statusDisplay.HPbarCurW, HPbarH);
 
       // Text
-      g.setFont(statusFont);
-      g.setColor(Color.WHITE);
-      g.drawString(
+      DrawUtils.drawText(
+            g, Color.WHITE, DrawUtils.infoFont,
             "x " + Integer.toString(player.statusDisplay.bombs),
-            (int) ((statusX + 60) * Game.SCALE),
-            (int) ((bombY + 30) * Game.SCALE));
-      g.drawString(
+            statusX + 60, bombY + 30);
+      DrawUtils.drawText(
+            g, Color.WHITE, DrawUtils.infoFont,
             "x " + Integer.toString(player.statusDisplay.killedEnemies),
-            (int) ((statusX + 60) * Game.SCALE),
-            (int) ((enemyCounterY + 30) * Game.SCALE));
+            statusX + 60, enemyCounterY + 30);
    }
 
    private void drawShadow(Graphics g, int teleportDistance) {
-      g.drawImage(
-            tpShadowImg,
-            (int) ((player.hitbox.x - 20 - teleportDistance) * Game.SCALE),
-            (int) ((player.hitbox.y - 20) * Game.SCALE),
-            (int) (SHIP_SPRITE_WIDTH * 3 * Game.SCALE),
-            (int) (SHIP_SPRITE_HEIGHT * 3 * Game.SCALE), null);
+      DrawUtils.drawImage(
+            g, tpShadowImg,
+            (int) (player.hitbox.x - 20 - teleportDistance),
+            (int) (player.hitbox.y - 20),
+            SHIP_SPRITE_WIDTH * 3,
+            SHIP_SPRITE_HEIGHT * 3);
    }
 
    private void drawFlame(Graphics g, float x, float y) {
-      g.drawImage(
-            flameAnimations[player.flame.aniIndex],
-            (int) (x * Game.SCALE),
-            (int) (y * Game.SCALE),
-            (int) (15 * 3 * Game.SCALE),
-            (int) (15 * 3 * Game.SCALE),
-            null);
+      DrawUtils.drawImage(
+            g, flameAnimations[player.flame.aniIndex],
+            (int) x, (int) y,
+            45, 45);
    }
 
    @Override

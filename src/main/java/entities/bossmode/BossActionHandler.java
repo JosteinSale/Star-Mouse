@@ -111,7 +111,7 @@ public class BossActionHandler {
       // We loop through all bossParts since some may be visible, even if inactive.
       for (ArrayList<IBossPart> partList : bossParts) {
          for (IBossPart part : partList) {
-            IBossPart.draw(g, (DefaultBossPart) part); // casting: >:c
+            DefaultBossPart.draw(g, (DefaultBossPart) part); // casting: >:c
          }
       }
       for (ShootPattern pattern : shootPatterns.get(index)) {

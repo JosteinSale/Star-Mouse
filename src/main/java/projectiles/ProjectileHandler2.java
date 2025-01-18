@@ -37,7 +37,6 @@ import static utils.Constants.Audio;
 public class ProjectileHandler2 extends ProjectileHandler {
    private ArrayList<IBossPart> bossParts;
    private IBoss boss;
-   private BufferedImage bossPrjctImg1;
 
    public ProjectileHandler2(Game game, AudioPlayer audioPlayer, PlayerBoss player, EnemyManager enemyManager) {
       super(game, audioPlayer, player, enemyManager);
@@ -56,7 +55,7 @@ public class ProjectileHandler2 extends ProjectileHandler {
       switch (type) {
          case BOSS_PROJECTILE1:
             Rectangle2D.Float hitbox = new Rectangle2D.Float(xPos, yPos, 70, 70);
-            allProjectiles.add(new BossProjectile1(bossPrjctImg1, hitbox, xSpeed, ySpeed));
+            allProjectiles.add(new BossProjectile1(hitbox, xSpeed, ySpeed));
       }
    }
 

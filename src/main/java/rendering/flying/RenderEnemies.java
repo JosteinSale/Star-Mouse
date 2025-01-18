@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import entities.flying.EntityInfo;
 import entities.flying.enemies.Enemy;
 import entities.flying.enemies.EnemyManager;
-import main_classes.Game;
 import projectiles.Explosion;
+import utils.DrawUtils;
 import utils.HelpMethods2;
 import utils.ResourceLoader;
 
@@ -34,13 +34,10 @@ public class RenderEnemies {
          // drawEnemyHitbox(enemy.getHitbox(), g);
       }
       for (Explosion ex : enemyManager.explosions) { // ConcurrentModificationException
-         g.drawImage(
-               explosionAnimation[ex.getAniIndex()],
-               (int) (ex.getX() * Game.SCALE),
-               (int) (ex.getY() * Game.SCALE),
-               (int) (ex.getSize() * Game.SCALE),
-               (int) (ex.getSize() * Game.SCALE),
-               null);
+         DrawUtils.drawImage(
+               g, explosionAnimation[ex.getAniIndex()],
+               ex.getX(), ex.getY(),
+               (int) ex.getSize(), (int) ex.getSize());
 
       }
    }
@@ -55,20 +52,18 @@ public class RenderEnemies {
          // and adjust x-position accordingly.
          drawXOffset -= 3 * info.spriteW;
       }
-      g.drawImage(
-            info.animation[enemy.getAction()][enemy.getAniIndex()],
-            (int) ((enemy.getHitbox().x - drawXOffset) * Game.SCALE),
-            (int) ((enemy.getHitbox().y - info.drawOffsetY) * Game.SCALE),
-            (int) (info.spriteW * 3 * dir * Game.SCALE),
-            (int) (info.spriteH * 3 * Game.SCALE), null);
+      DrawUtils.drawImage(
+            g, info.animation[enemy.getAction()][enemy.getAniIndex()],
+            (int) (enemy.getHitbox().x - drawXOffset),
+            (int) (enemy.getHitbox().y - info.drawOffsetY),
+            info.spriteW * 3 * dir,
+            info.spriteH * 3);
    }
 
    private void drawEnemyHitbox(Float hitbox, Graphics g) {
-      g.setColor(Color.RED);
-      g.drawRect(
-            (int) (hitbox.x * Game.SCALE),
-            (int) (hitbox.y * Game.SCALE),
-            (int) (hitbox.width * Game.SCALE),
-            (int) (hitbox.height * Game.SCALE));
+      DrawUtils.fillRect(
+            g, Color.RED,
+            (int) hitbox.x, (int) hitbox.y,
+            (int) hitbox.width, (int) hitbox.height);
    }
 }

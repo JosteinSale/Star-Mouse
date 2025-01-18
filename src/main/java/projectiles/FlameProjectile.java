@@ -3,12 +3,10 @@ package projectiles;
 import static utils.Constants.Flying.TypeConstants.FLAME_PROJECTILE;
 
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 import entities.Entity;
 
 public class FlameProjectile extends Entity implements Projectile {
-   BufferedImage img;
    private int damage = 20;
    private int xSpeed = 0;
    private int ySpeed = 4;

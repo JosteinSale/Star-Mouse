@@ -9,7 +9,6 @@ import java.util.Arrays;
 import entities.bossmode.AnimatedComponent;
 import entities.bossmode.AnimationInfo;
 import entities.bossmode.DefaultBossPart;
-import entities.bossmode.IBossPart;
 import main_classes.Game;
 import utils.ResourceLoader;
 
@@ -122,12 +121,9 @@ public class RotatingLazer extends DefaultBossPart {
             initialRotation);
    }
 
-   public void draw(Graphics g) {
-      if (isCharging && shouldDrawCharge) {
+   public void drawCharging(Graphics g) {
+      if (shouldDrawCharge && isCharging) {
          AnimatedComponent.draw(g, chargeAnimation);
-      }
-      if (animAction == VISUALWARNING_ANIM || !isCharging) {
-         IBossPart.draw(g, this);
       }
    }
 }

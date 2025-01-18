@@ -3,7 +3,6 @@ package rendering.misc;
 import static utils.HelpMethods.DrawCenteredString;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -21,10 +20,10 @@ import cutscenes.effects.NumberDisplayEffect;
 import cutscenes.effects.ObjectMoveEffect;
 import cutscenes.effects.RedLightEffect;
 import cutscenes.effects.SetOverlayEffect;
-import main_classes.Game;
 import rendering.SwingRender;
 import rendering.exploring.RenderNumberDisplay;
 import ui.TextboxManager;
+import utils.DrawUtils;
 import utils.HelpMethods2;
 import utils.ResourceLoader;
 
@@ -49,7 +48,6 @@ public class RenderCutscene implements SwingRender {
    private RenderNumberDisplay rNumberDisplay;
    private RenderObjectMove rObjectMove;
    private RenderTextBox rTextBox;
-   private static Font headerFont;
    private static BufferedImage shipImg;
    private static BufferedImage[] flameAnimations; // For the fellowships
    private BufferedImage overlayImage;
@@ -57,14 +55,14 @@ public class RenderCutscene implements SwingRender {
    private int overlayH;
 
    static {
-      headerFont = ResourceLoader.getHeaderFont();
       shipImg = ResourceLoader.getFlyImageSprite(ResourceLoader.FELLOWSHIP_SPRITES);
       flameAnimations = HelpMethods2.GetSimpleAnimationArray(
             ResourceLoader.getFlyImageSprite(ResourceLoader.SHIP_FLAME_SPRITES),
             2, 15, 15);
    }
 
-   public RenderCutscene(TextboxManager tbM, RenderInfoBox rInfoBox, RenderInfoChoice rInfoChoice) {
+   public RenderCutscene(TextboxManager tbM, RenderInfoBox rInfoBox,
+         RenderInfoChoice rInfoChoice) {
       this.rNumberDisplay = new RenderNumberDisplay();
       this.rObjectMove = new RenderObjectMove();
       this.rTextBox = new RenderTextBox(tbM, rInfoBox, rInfoChoice);
@@ -113,7 +111,7 @@ public class RenderCutscene implements SwingRender {
    private void drawEffect(Graphics g, DrawableEffect effect) {
       if (effect instanceof FadeEffect e) {
          Color color = this.getTransparentColor(e.color, e.alphaFade);
-         this.fillScreen(g, color);
+         DrawUtils.fillScreen(g, color);
       } else if (effect instanceof FadeHeaderEffect e) {
          Color color = this.getTransparentColor("white", e.alphaFade);
          g.setColor(color);
@@ -121,14 +119,14 @@ public class RenderCutscene implements SwingRender {
       } else if (effect instanceof FellowShipEffect e) {
          this.drawFellowShips(g, e.fellowShips);
       } else if (effect instanceof FillScreenEffect e) {
-         this.fillScreen(g, this.getOpaqueColor(e.color));
+         DrawUtils.fillScreen(g, this.getOpaqueColor(e.color));
       } else if (effect instanceof NumberDisplayEffect) {
          this.rNumberDisplay.draw(g);
       } else if (effect instanceof ObjectMoveEffect) {
          this.rObjectMove.draw(g);
       } else if (effect instanceof RedLightEffect e) {
          Color color = getTransparentColor("red", e.alpha);
-         this.fillScreen(g, color);
+         DrawUtils.fillScreen(g, color);
       } else if (effect instanceof SetOverlayEffect) {
          this.drawOverlayImage(g);
       }
@@ -138,31 +136,21 @@ public class RenderCutscene implements SwingRender {
       for (FellowShip ship : fellowShips) {
          if (ship.isOnScreen()) {
             // Ship
-            g.drawImage(
-                  shipImg,
-                  (int) ((ship.xPos - 20) * Game.SCALE),
-                  (int) ((ship.yPos - 20) * Game.SCALE),
-                  (int) (SHIP_SPRITE_WIDTH * 3 * Game.SCALE),
-                  (int) (SHIP_SPRITE_HEIGHT * 3 * Game.SCALE), null);
+            DrawUtils.drawImage(
+                  g, shipImg,
+                  (int) (ship.xPos - 20), (int) (ship.yPos - 20),
+                  SHIP_SPRITE_WIDTH * 3, SHIP_SPRITE_HEIGHT * 3);
             // Ship flame
-            g.drawImage(
-                  flameAnimations[ship.flame.aniIndex],
-                  (int) ((ship.xPos + 3.5f) * Game.SCALE),
-                  (int) ((ship.yPos + ship.height) * Game.SCALE),
-                  (int) (15 * 3 * Game.SCALE),
-                  (int) (15 * 3 * Game.SCALE),
-                  null);
+            DrawUtils.drawImage(
+                  g, flameAnimations[ship.flame.aniIndex],
+                  (int) (ship.xPos + 3.5f), (int) (ship.yPos + ship.height),
+                  45, 45);
          }
       }
    }
 
    private void drawHeader(Graphics g, String headerText, Rectangle rect) {
-      DrawCenteredString(g, headerText, rect, headerFont);
-   }
-
-   private void fillScreen(Graphics g, Color color) {
-      g.setColor(color);
-      g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
+      DrawCenteredString(g, headerText, rect, DrawUtils.headerFont);
    }
 
    private void drawOverlayImage(Graphics g) {
@@ -173,10 +161,10 @@ public class RenderCutscene implements SwingRender {
           */
          return;
       }
-      g.drawImage(
-            overlayImage, 0, 0,
-            (int) (overlayW * Game.SCALE),
-            (int) (overlayH * Game.SCALE), null);
+      DrawUtils.drawImage(
+            g, overlayImage,
+            0, 0,
+            overlayW, overlayH);
    }
 
    private Color getTransparentColor(String color, int alphaFade) {

@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 
 import entities.bossmode.AnimatedComponent;
 import entities.bossmode.rudinger1.Rudinger1;
-import main_classes.Game;
+import utils.DrawUtils;
 import utils.ResourceLoader;
 
 public class RenderRudinger1 implements IRenderBoss {
@@ -29,6 +29,7 @@ public class RenderRudinger1 implements IRenderBoss {
          drawStaticBossImages(g);
          drawRudingerMouth(g);
          rudinger.actionHandler.draw(g, rudinger.currentAction);
+         rudinger.verticalLazer.drawCharging(g);
          rBossHealth.draw(g);
       }
    }
@@ -41,12 +42,10 @@ public class RenderRudinger1 implements IRenderBoss {
    }
 
    private void drawStaticBossImages(Graphics g) {
-      g.drawImage(
-            mainBodyImg,
-            (int) (rudinger.mainBodyXPos * Game.SCALE),
-            (int) (rudinger.mainBodyYPos * Game.SCALE),
-            (int) (mainBodyImg.getWidth() * 3 * Game.SCALE),
-            (int) (mainBodyImg.getHeight() * 3 * Game.SCALE), null);
+      DrawUtils.drawImage(
+            g, mainBodyImg,
+            (int) rudinger.mainBodyXPos, (int) rudinger.mainBodyYPos,
+            mainBodyImg.getWidth() * 3, mainBodyImg.getHeight() * 3);
    }
 
    @Override

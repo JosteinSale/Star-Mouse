@@ -3,8 +3,6 @@ package projectiles;
 import static utils.Constants.Flying.TypeConstants.BOMB_PROJECTILE;
 
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-
 import entities.Entity;
 
 public class BombProjectile extends Entity implements Projectile {

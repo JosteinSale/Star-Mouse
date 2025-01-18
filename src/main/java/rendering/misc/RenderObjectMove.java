@@ -4,8 +4,8 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 import cutscenes.effects.SimpleAnimation;
-import main_classes.Game;
 import rendering.SwingRender;
+import utils.DrawUtils;
 import utils.HelpMethods2;
 import utils.ImageContainer;
 import utils.ResourceLoader;
@@ -92,13 +92,12 @@ public class RenderObjectMove implements SwingRender {
       int index = 0;
       for (SimpleAnimation sa : simpleAnimations) {
          BufferedImage subImg = spriteArrays.get(index)[sa.aniIndex];
-         g.drawImage(
-               subImg,
-               (int) (sa.xPos * Game.SCALE),
-               (int) (sa.yPos * Game.SCALE),
-               (int) (subImg.getWidth() * sa.scaleW * Game.SCALE),
-               (int) (subImg.getHeight() * sa.scaleH * Game.SCALE),
-               null);
+         DrawUtils.drawImage(
+               g, subImg,
+               (int) sa.xPos,
+               (int) sa.yPos,
+               (int) (subImg.getWidth() * sa.scaleW),
+               (int) (subImg.getHeight() * sa.scaleH));
          index++;
       }
    }

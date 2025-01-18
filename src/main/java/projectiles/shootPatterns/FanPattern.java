@@ -15,9 +15,13 @@ import static utils.Constants.Flying.TypeConstants.BOSS_PROJECTILE1;
 public class FanPattern extends DefaultShootPattern {
    private AnimatedComponent shootAnimation;
    private AnimatedComponent chargeAnimation;
+
+   // Math stuff
    private float projectileSpeed = 4f;
    private int nrOfProjectiles = 6;
    private double fanWidth = 140; // The fan spans 140 degrees
+   private double anglePerProjectile = ((double) 1 / (nrOfProjectiles - 1)) * fanWidth;
+   private double startAngle = 180 + (180 - fanWidth) / 2;
 
    public FanPattern(
          ProjectileHandler2 projectileHandler, Point gunPoint, AnimatedComponentFactory animationFactory,
@@ -31,9 +35,6 @@ public class FanPattern extends DefaultShootPattern {
 
    @Override
    public void shoot() {
-      double anglePerProjectile = ((double) 1 / (nrOfProjectiles - 1)) * fanWidth;
-      double startAngle = 180 + (180 - fanWidth) / 2;
-
       for (int i = 0; i < nrOfProjectiles; i++) {
          double angle = Math.toRadians(startAngle + i * anglePerProjectile);
          float xSpeed = (float) (Math.cos(angle) * projectileSpeed);

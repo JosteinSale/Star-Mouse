@@ -73,9 +73,7 @@ public class RenderMainMenu implements SwingRender {
 
       // Fade
       if (mainMenu.fadeInActive || mainMenu.fadeOutActive) {
-         DrawUtils.fillRect(
-               g2, new Color(0, 0, 0, mainMenu.alphaFade),
-               0, 0, Game.GAME_DEFAULT_WIDTH, Game.GAME_DEFAULT_HEIGHT);
+         DrawUtils.fillScreen(g, new Color(0, 0, 0, mainMenu.alphaFade));
       }
    }
 

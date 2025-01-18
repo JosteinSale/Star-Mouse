@@ -14,14 +14,19 @@ import main_classes.Game;
 
 /**
  * A BossPart represents an animated part of a boss that can be rotated, moved
- * around,
- * perform actions, and collide with player.
+ * around, perform actions, and collide with player.
  * 
  * The defaultBossPart is a default implementation of the IBossPart-interface.
  * See the interface for explanation of each provided method.
+ * 
+ * For drawing, the BossActionHandler will call the static method in this
+ * object. If the bossPart needs additional animations (like charging),
+ * you should implement it the subclass and call the method in the
+ * boss-specific render (e.g RenderRudinger1).
+ * 
  * OBS: The given hitbox will be used to represent the x- and y-coordinate, as
- * well
- * as the dimensions of the hitbox, but it's NOT used for collision detection.
+ * well as the dimensions of the hitbox, but it's NOT used for collision
+ * detection.
  */
 abstract public class DefaultBossPart implements IBossPart {
    protected Rectangle2D.Float nonRotatedHitbox;
@@ -117,6 +122,28 @@ abstract public class DefaultBossPart implements IBossPart {
    public void drawRotatedHitbox(Graphics2D g2) {
       g2.setColor(Color.BLACK);
       g2.draw(rotatedArea);
+   }
+
+   /**
+    * OBS: for drawing of rotated DefaultBossParts, you should always call
+    * this method. It handles rotation automatically.
+    * 
+    * Images from the spriteSheet are only drawn if rotatedImgVisible.
+    * The bossPart should handle this visible-boolean itself.
+    *
+    * The bossPart may also implement custom drawing-behavior.
+    */
+   public static void draw(Graphics g, DefaultBossPart bp) {
+      if (!bp.rotatedImgVisible) {
+         return;
+      }
+      Graphics2D g2 = (Graphics2D) g;
+
+      // Draw the rotated image
+      utils.Inf101Graphics.drawCenteredImage(
+            g2, bp.imgs[bp.animAction][bp.aniIndex],
+            bp.nonRotatedHitbox.getCenterX() * Game.SCALE,
+            bp.nonRotatedHitbox.getCenterY() * Game.SCALE, Game.SCALE, bp.rotation);
    }
 
    @Override

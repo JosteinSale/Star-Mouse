@@ -64,10 +64,7 @@ public class RenderLevelSelect implements SwingRender {
 
       // Fade
       if (levelSelect.fadeInActive || levelSelect.fadeOutActive) {
-         DrawUtils.fillRect(
-               g, new Color(0, 0, 0, levelSelect.alphaFade),
-               0, 0,
-               Game.GAME_DEFAULT_WIDTH, Game.GAME_DEFAULT_HEIGHT);
+         DrawUtils.fillScreen(g, new Color(0, 0, 0, levelSelect.alphaFade));
       }
    }
 

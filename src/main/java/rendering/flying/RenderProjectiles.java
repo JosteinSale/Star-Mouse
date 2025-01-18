@@ -4,12 +4,12 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import main_classes.Game;
 import projectiles.BombExplosion;
 import projectiles.PlayerProjectile;
 import projectiles.Projectile;
 import projectiles.ProjectileHandler;
 import projectiles.ProjectileHit;
+import utils.DrawUtils;
 import utils.HelpMethods2;
 import utils.ResourceLoader;
 
@@ -23,6 +23,10 @@ import static utils.Constants.Flying.SpriteSizes.REAPERDRONE_PRJT_SPRITE_H;
 import static utils.Constants.Flying.SpriteSizes.REAPERDRONE_PRJT_SPRITE_W;
 import static utils.Constants.Flying.TypeConstants.*;
 
+/**
+ * Flying and Bossmode have separate projectileHandlers, but uses the
+ * same render. Use the setProjectileHandler- method to switch.
+ */
 public class RenderProjectiles {
 
    private ProjectileHandler projectileHandler;
@@ -44,6 +48,14 @@ public class RenderProjectiles {
    public RenderProjectiles(ProjectileHandler projectileHandler) {
       this.projectileHandler = projectileHandler;
       this.loadDrawInfo();
+   }
+
+   /**
+    * Flying and Bossmode have separate projectileHandlers, but uses the
+    * same render. Use this method to set the projectileHandler.
+    */
+   public void setProjectileHandler(ProjectileHandler projectileHandler) {
+      this.projectileHandler = projectileHandler;
    }
 
    private void loadDrawInfo() {
@@ -83,59 +95,58 @@ public class RenderProjectiles {
             11, BOMBEXPLOSION_SPRITE_WIDTH, BOMBEXPLOSION_SPRITE_HEIGHT);
       this.bombExplInfo = new ProjectileDrawInfo(
             null, // Drawing method will use image from animation array
-            BOMBEXPLOSION_SPRITE_WIDTH * 3, BOMBEXPLOSION_SPRITE_HEIGHT * 3,
-            (BOMBEXPLOSION_SPRITE_WIDTH * 3) / 2, (BOMBEXPLOSION_SPRITE_HEIGHT * 3) / 2);
+            BOMBEXPLOSION_SPRITE_WIDTH * 3,
+            BOMBEXPLOSION_SPRITE_HEIGHT * 3,
+            (BOMBEXPLOSION_SPRITE_WIDTH * 3) / 2,
+            (BOMBEXPLOSION_SPRITE_HEIGHT * 3) / 2);
    }
 
    public void draw(Graphics g) {
-      ArrayList<Projectile> copy = new ArrayList<>(projectileHandler.allProjectiles);
-      for (Projectile p : copy) {
+      // Make copies to avoid concurrentModificationException
+      ArrayList<Projectile> pCopy = new ArrayList<>(
+            projectileHandler.allProjectiles);
+      ArrayList<BombExplosion> bCopy = new ArrayList<>(
+            projectileHandler.bombExplosions);
+
+      for (Projectile p : pCopy) {
          if (p.isActive()) {
             drawProjectile(p, g, getInfoForProjectile(p));
             // p.drawHitbox(g);
          }
       }
-      for (ProjectileHit ph : projectileHandler.projectileHits) { // concurrentModificationException
-         if (ph.getType() == 0) { // Hitting the map
-            g.drawImage(
-                  hitAnimation[ph.getAniIndex()],
-                  (int) (ph.getX() * Game.SCALE),
-                  (int) (ph.getY() * Game.SCALE),
-                  (int) (PRJT_HIT_SPRITE_SIZE * 3 * Game.SCALE),
-                  (int) (PRJT_HIT_SPRITE_SIZE * 3 * Game.SCALE),
-                  null);
-         } else if (ph.getType() == 1) { // Hitting player
-            g.drawImage(
-                  hitAnimation[ph.getAniIndex()],
-                  (int) (ph.getX() * Game.SCALE),
-                  (int) (ph.getY() * Game.SCALE),
-                  (int) (PRJT_HIT_SPRITE_SIZE * 5 * Game.SCALE),
-                  (int) (PRJT_HIT_SPRITE_SIZE * 5 * Game.SCALE),
-                  null);
-         }
+      for (ProjectileHit ph : projectileHandler.projectileHits) {
+         drawProjectileHit(g, ph);
       }
-      ArrayList<BombExplosion> copy2 = new ArrayList<>(projectileHandler.bombExplosions);
-      for (BombExplosion b : copy2) {
+      for (BombExplosion b : bCopy) {
          drawBombExplosion(b, g);
       }
    }
 
+   private void drawProjectileHit(Graphics g, ProjectileHit ph) {
+      int scale = switch (ph.getType()) {
+         case 0 -> 3;
+         default -> 5;
+      };
+      DrawUtils.drawImage(
+            g, hitAnimation[ph.getAniIndex()],
+            ph.getX(), ph.getY(),
+            PRJT_HIT_SPRITE_SIZE * scale, PRJT_HIT_SPRITE_SIZE * scale);
+   }
+
    private void drawProjectile(Projectile p, Graphics g, ProjectileDrawInfo info) {
-      g.drawImage(
-            info.img,
-            (int) ((p.getHitbox().x - info.drawOffsetX) * Game.SCALE),
-            (int) ((p.getHitbox().y - info.drawOffsetY) * Game.SCALE),
-            (int) (info.drawWidth * Game.SCALE),
-            (int) (info.drawHeight * Game.SCALE), null);
+      DrawUtils.drawImage(
+            g, info.img,
+            (int) (p.getHitbox().x - info.drawOffsetX),
+            (int) (p.getHitbox().y - info.drawOffsetY),
+            info.drawWidth, info.drawHeight);
    }
 
    private void drawBombExplosion(BombExplosion b, Graphics g) {
-      g.drawImage(
-            bombExplosionAnimation[b.aniIndex],
-            (int) ((b.x - bombExplInfo.drawOffsetX) * Game.SCALE),
-            (int) ((b.y - bombExplInfo.drawOffsetY) * Game.SCALE),
-            (int) (bombExplInfo.drawWidth * Game.SCALE),
-            (int) (bombExplInfo.drawHeight * Game.SCALE), null);
+      DrawUtils.drawImage(
+            g, bombExplosionAnimation[b.aniIndex],
+            b.x - bombExplInfo.drawOffsetX,
+            b.y - bombExplInfo.drawOffsetY,
+            bombExplInfo.drawWidth, bombExplInfo.drawHeight);
    }
 
    /** Matches the projectile type with a ProjectileDrawInfo */
@@ -164,14 +175,6 @@ public class RenderProjectiles {
             throw new IllegalArgumentException(
                   "No image available for projectile type: " + p.getType());
       }
-   }
-
-   /**
-    * Flying and Bossmode have separate projectileHandlers, but uses the
-    * same render. Use this method to set the projectileHandler.
-    */
-   public void setProjectileHandler(ProjectileHandler projectileHandler) {
-      this.projectileHandler = projectileHandler;
    }
 
 }

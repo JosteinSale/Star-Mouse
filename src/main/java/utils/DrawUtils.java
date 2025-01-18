@@ -18,7 +18,7 @@ public class DrawUtils {
    public static Font itemFont = ResourceLoader.getItemFont();
 
    /**
-    * Draws the image scaled to Game.SCALE with float values.
+    * Draws the image scaled to Game.SCALE with int values.
     * The x- and y-coordinate must be adjusted for drawOffset and levelOffset.
     * If width and height is already adjusted for imgScale, use '1'.
     */
@@ -63,6 +63,11 @@ public class DrawUtils {
             (int) (y * Game.SCALE),
             (int) (width * Game.SCALE),
             (int) (height * Game.SCALE));
+   }
+
+   public static void fillScreen(Graphics g, Color color) {
+      g.setColor(color);
+      g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
    }
 
    public static void drawRect(

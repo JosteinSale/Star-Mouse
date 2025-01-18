@@ -45,8 +45,7 @@ public class View {
       this.rInfoBox = new RenderInfoBox(game.getTextboxManager().getInfoBox());
       this.rInfoChoice = new RenderInfoChoice(
             game.getTextboxManager().getInfoChoice(),
-            rInfoBox.getBackground(),
-            rInfoBox.getFont());
+            rInfoBox.getBackground());
       this.rOptionsMenu = new RenderOptionsMenu(game.getOptionsMenu(), game.getOptionsMenu().getControlsMenu());
       this.rMainMenu = new RenderMainMenu(game, rOptionsMenu, rInfoChoice);
       this.rLevelSelect = new RenderLevelSelect(game, rMainMenu.getBgImg());

@@ -1,11 +1,7 @@
 package entities.bossmode;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
-
-import main_classes.Game;
 
 /**
  * An interface that represents a default BossPart. It has methods for updating
@@ -42,29 +38,6 @@ public interface IBossPart {
 
    /** Returns true if the rectangle intersects the bossPart */
    public boolean intersectsRect(Rectangle2D.Float hb);
-
-   /**
-    * OBS: for rotated drawing animations, you should always call the
-    * super-implementation in DefaultBossPart. It handles rotation automatically.
-    * 
-    * Images from the spriteSheet are only drawn if rotatedImgVisible.
-    * The bossPart should handle this visible-boolean itself.
-    *
-    * Though, the bossPart may also implement custom drawing-behavior, but only
-    * if it pertains to the specific part.
-    */
-   public static void draw(Graphics g, DefaultBossPart bp) {
-      if (!bp.rotatedImgVisible) {
-         return;
-      }
-      Graphics2D g2 = (Graphics2D) g;
-
-      // Draw the rotated image
-      utils.Inf101Graphics.drawCenteredImage(
-            g2, bp.imgs[bp.animAction][bp.aniIndex],
-            bp.nonRotatedHitbox.getCenterX() * Game.SCALE,
-            bp.nonRotatedHitbox.getCenterY() * Game.SCALE, Game.SCALE, bp.rotation);
-   }
 
    /** OBS: Only use to get hitbox-dimensions, or centerX / centerY */
    public Rectangle2D.Float getNonRotatedHitbox();

@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import main_classes.Game;
+import utils.DrawUtils;
 
 /**
  * A default class for an animated component. Can be extended.
@@ -94,11 +94,9 @@ public class AnimatedComponent {
 
    public static void draw(Graphics g, AnimatedComponent ac) {
       int row = ac.aniInfos.get(ac.aniAction).aniRow;
-      g.drawImage(
-            ac.animations[row][ac.aniIndex],
-            (int) (ac.xPos * Game.SCALE),
-            (int) (ac.yPos * Game.SCALE),
-            (int) (ac.spriteW * 3 * Game.SCALE),
-            (int) (ac.spriteH * 3 * Game.SCALE), null);
+      DrawUtils.drawImage(
+            g, ac.animations[row][ac.aniIndex],
+            (int) ac.xPos,
+            (int) ac.yPos, ac.spriteW * 3, ac.spriteH * 3);
    }
 }

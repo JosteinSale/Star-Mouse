@@ -1,13 +1,13 @@
 package rendering.misc;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import main_classes.Game;
 import rendering.SwingRender;
 import ui.InfoBox;
+import utils.DrawUtils;
 import utils.ResourceLoader;
 
 import static utils.Constants.UI.INFOBOX_WIDTH;
@@ -15,33 +15,29 @@ import static utils.Constants.UI.INFOBOX_HEIGHT;
 
 public class RenderInfoBox implements SwingRender {
    private InfoBox infoBox;
-   private Font infoFont;
    private BufferedImage infoBoxImg;
-   private int infoX = (int) ((Game.GAME_DEFAULT_WIDTH / 2 - INFOBOX_WIDTH / 2) * Game.SCALE);
-   private int infoY = (int) (580 * Game.SCALE);
+   private int infoX = Game.GAME_DEFAULT_WIDTH / 2 - INFOBOX_WIDTH / 2;
+   private int infoY = 580;
 
    public RenderInfoBox(InfoBox infoBox) {
       this.infoBoxImg = ResourceLoader.getExpImageSprite(ResourceLoader.INFO_BOX);
-      this.infoFont = ResourceLoader.getInfoFont();
       this.infoBox = infoBox;
    }
 
    @Override
    public void draw(Graphics g) {
       // Background
-      g.drawImage(
-            infoBoxImg, infoX, infoY,
-            (int) (INFOBOX_WIDTH * Game.SCALE),
-            (int) (INFOBOX_HEIGHT * Game.SCALE), null);
+      DrawUtils.drawImage(
+            g, infoBoxImg,
+            infoX, infoY,
+            INFOBOX_WIDTH, INFOBOX_HEIGHT);
 
       // Text
-      g.setColor(Color.BLACK);
-      g.setFont(infoFont);
       for (int i = 0; i < infoBox.formattedStrings.size(); i++) {
-         g.drawString(
+         DrawUtils.drawText(
+               g, Color.BLACK, DrawUtils.infoFont,
                infoBox.formattedStrings.get(i),
-               infoX + (int) (60 * Game.SCALE),
-               infoY + (int) (60 * Game.SCALE) + (int) ((i * 40) * Game.SCALE));
+               infoX + 60, infoY + 60 + (i * 40));
       }
    }
 
@@ -51,10 +47,6 @@ public class RenderInfoBox implements SwingRender {
 
    public BufferedImage getBackground() {
       return this.infoBoxImg;
-   }
-
-   public Font getFont() {
-      return this.infoFont;
    }
 
 }

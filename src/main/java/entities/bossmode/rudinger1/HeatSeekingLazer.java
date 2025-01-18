@@ -8,7 +8,6 @@ import java.awt.image.BufferedImage;
 import java.awt.geom.Line2D;
 
 import entities.bossmode.DefaultBossPart;
-import entities.bossmode.IBossPart;
 import entities.bossmode.PlayerBoss;
 import main_classes.Game;
 
@@ -141,10 +140,6 @@ public class HeatSeekingLazer extends DefaultBossPart {
       this.collisionEnabled = false;
       this.rotatedImgVisible = false;
       this.behaviorTick = 0;
-   }
-
-   public void draw(Graphics g) {
-      IBossPart.draw(g, this);
    }
 
    // Can be used for debugging

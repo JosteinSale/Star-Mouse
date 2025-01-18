@@ -1,7 +1,6 @@
 package projectiles;
 
 import java.awt.geom.Rectangle2D.Float;
-import java.awt.image.BufferedImage;
 
 import entities.Entity;
 
@@ -14,15 +13,13 @@ import static utils.Constants.Flying.TypeConstants.BOSS_PROJECTILE1;
  * hard coded into the object, but rather taken as arguments.
  */
 public class BossProjectile1 extends Entity implements Projectile {
-   private BufferedImage img;
    private int damage = 10;
    private float xSpeed;
    private float ySpeed;
    private boolean isActive = true;
 
-   public BossProjectile1(BufferedImage img, Float hitbox, float xSpeed, float ySpeed) {
+   public BossProjectile1(Float hitbox, float xSpeed, float ySpeed) {
       super(hitbox);
-      this.img = img;
       this.xSpeed = xSpeed;
       this.ySpeed = ySpeed;
    }

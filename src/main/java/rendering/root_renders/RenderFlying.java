@@ -16,6 +16,7 @@ import rendering.flying.RenderPlayerFly;
 import rendering.flying.RenderProjectiles;
 import rendering.misc.RenderCutscene;
 import rendering.misc.RenderOptionsMenu;
+import utils.DrawUtils;
 
 public class RenderFlying implements SwingRender {
    private Flying flying;
@@ -67,12 +68,12 @@ public class RenderFlying implements SwingRender {
          // drawHitbox(g, 0, 0);
          EntityInfo info = p.getDrawInfo();
          if (p.isActive()) {
-            g.drawImage(
-                  info.animation[0][p.getAniIndex()],
-                  (int) ((p.getHitbox().x - info.drawOffsetX) * Game.SCALE),
-                  (int) ((p.getHitbox().y - info.drawOffsetY) * Game.SCALE),
-                  (int) (info.spriteW * 3 * Game.SCALE),
-                  (int) (info.spriteH * 3 * Game.SCALE), null);
+            DrawUtils.drawImage(
+                  g, info.animation[0][p.getAniIndex()],
+                  (int) (p.getHitbox().x - info.drawOffsetX),
+                  (int) (p.getHitbox().y - info.drawOffsetY),
+                  info.spriteW * 3,
+                  info.spriteH * 3);
          }
       }
    }
