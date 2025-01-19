@@ -87,10 +87,10 @@ public class RenderProjectiles {
             70, 70, 0, 0);
 
       // Hit animation, bomb explosion animation
-      this.hitAnimation = HelpMethods2.GetSimpleAnimationArray(
+      this.hitAnimation = HelpMethods2.GetUnscaled1DAnimationArray(
             ResourceLoader.getFlyImageSprite(ResourceLoader.PROJECTILE_HIT),
             4, PRJT_HIT_SPRITE_SIZE, PRJT_HIT_SPRITE_SIZE);
-      this.bombExplosionAnimation = HelpMethods2.GetSimpleAnimationArray(
+      this.bombExplosionAnimation = HelpMethods2.GetUnscaled1DAnimationArray(
             ResourceLoader.getFlyImageSprite(ResourceLoader.BOMB_EXPLOSION_SPRITE),
             11, BOMBEXPLOSION_SPRITE_WIDTH, BOMBEXPLOSION_SPRITE_HEIGHT);
       this.bombExplInfo = new ProjectileDrawInfo(

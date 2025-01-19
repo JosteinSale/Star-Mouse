@@ -1,7 +1,5 @@
 package entities.bossmode.rudinger1;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D.Float;
 import java.awt.image.BufferedImage;
@@ -9,7 +7,6 @@ import java.awt.geom.Line2D;
 
 import entities.bossmode.DefaultBossPart;
 import entities.bossmode.PlayerBoss;
-import main_classes.Game;
 
 /**
  * Follows the player and shoots at regular intervals.
@@ -143,14 +140,14 @@ public class HeatSeekingLazer extends DefaultBossPart {
    }
 
    // Can be used for debugging
-   private void drawLazerLine(Graphics g) {
-      Graphics2D g2 = (Graphics2D) g;
-      g2.drawLine(
-            (int) (lazerLine.getX1() * Game.SCALE),
-            (int) (lazerLine.getY1() * Game.SCALE),
-            (int) (lazerLine.getX2() * Game.SCALE),
-            (int) (lazerLine.getY2() * Game.SCALE));
-   }
+   // private void drawLazerLine(Graphics g) {
+   // Graphics2D g2 = (Graphics2D) g;
+   // g2.drawLine(
+   // (int) (lazerLine.getX1() * Game.SCALE),
+   // (int) (lazerLine.getY1() * Game.SCALE),
+   // (int) (lazerLine.getX2() * Game.SCALE),
+   // (int) (lazerLine.getY2() * Game.SCALE));
+   // }
 
    // Include in this update method to update debugLazer
    private void updateLazerLine() {

@@ -25,17 +25,17 @@ public class RenderNPCs implements SwingRender {
    private static BufferedImage[][] gardAnimations;
    private static BufferedImage[][] oliverAnimations;
    static {
-      standardNpcSprites = HelpMethods2.GetSimpleAnimationArray(
+      standardNpcSprites = HelpMethods2.GetUnscaled1DAnimationArray(
             ResourceLoader.getExpImageSprite(ResourceLoader.STANDARD_NPC_SPRITES),
             16, 90, 60);
       gardSprites = ResourceLoader.getExpImageSprite(
             ResourceLoader.GARD_SPRITES);
       oliverSprites = ResourceLoader.getExpImageSprite(
             ResourceLoader.OLIVER_SPRITES);
-      gardAnimations = HelpMethods2.GetAnimationArray(
+      gardAnimations = HelpMethods2.GetUnscaled2DAnimationArray(
             gardSprites, 3, 4,
             STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
-      oliverAnimations = HelpMethods2.GetAnimationArray(
+      oliverAnimations = HelpMethods2.GetUnscaled2DAnimationArray(
             oliverSprites, 6, 4,
             STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
    }

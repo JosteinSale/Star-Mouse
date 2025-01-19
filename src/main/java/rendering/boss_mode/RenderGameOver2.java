@@ -35,7 +35,7 @@ public class RenderGameOver2 {
             ResourceLoader.CURSOR_SPRITE_WHITE);
       BufferedImage deathImg = ResourceLoader.getFlyImageSprite(
             ResourceLoader.SHIP_DEATH_SPRITES);
-      this.deathAnimation = HelpMethods2.GetSimpleAnimationArray(
+      this.deathAnimation = HelpMethods2.GetUnscaled1DAnimationArray(
             deathImg, 26, 40, 40);
    }
 

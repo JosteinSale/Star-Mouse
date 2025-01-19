@@ -22,7 +22,7 @@ public class RenderEnemies {
 
    public RenderEnemies(EnemyManager enemyManager) {
       this.enemyManager = enemyManager;
-      this.explosionAnimation = HelpMethods2.GetSimpleAnimationArray(
+      this.explosionAnimation = HelpMethods2.GetUnscaled1DAnimationArray(
             ResourceLoader.getFlyImageSprite(ResourceLoader.EXPLOSION),
             5, EXPLOSION_SPRITE_SIZE, EXPLOSION_SPRITE_SIZE);
    }

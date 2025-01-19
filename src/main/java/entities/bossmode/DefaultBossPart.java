@@ -1,8 +1,6 @@
 package entities.bossmode;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
@@ -10,7 +8,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-import main_classes.Game;
+import utils.DrawUtils;
 
 /**
  * A BossPart represents an animated part of a boss that can be rotated, moved
@@ -29,13 +27,13 @@ import main_classes.Game;
  * detection.
  */
 abstract public class DefaultBossPart implements IBossPart {
-   protected Rectangle2D.Float nonRotatedHitbox;
+   public Rectangle2D.Float nonRotatedHitbox;
    protected Area rotatedArea; // Is used to check collision
-   protected Double rotation = 0.0;
-   protected Image[][] imgs;
+   public Double rotation = 0.0;
+   public Image[][] imgs;
    protected AffineTransform af; // Is used in rotation operations
-   protected int animAction = 0;
-   protected int aniIndex = 0;
+   public int animAction = 0;
+   public int aniIndex = 0;
    protected Boolean collisionEnabled = false;
    protected boolean rotatedImgVisible = false;
 
@@ -119,10 +117,10 @@ abstract public class DefaultBossPart implements IBossPart {
     * Draw rotated hitbox. OBS: NOT SCALED TO Game.SCALE!
     * (We would need to create a new Area-object, which is expensive)
     */
-   public void drawRotatedHitbox(Graphics2D g2) {
-      g2.setColor(Color.BLACK);
-      g2.draw(rotatedArea);
-   }
+   // public void drawRotatedHitbox(Graphics2D g2) {
+   // g2.setColor(Color.BLACK);
+   // g2.draw(rotatedArea);
+   // }
 
    /**
     * OBS: for drawing of rotated DefaultBossParts, you should always call
@@ -136,14 +134,9 @@ abstract public class DefaultBossPart implements IBossPart {
    public static void draw(Graphics g, DefaultBossPart bp) {
       if (!bp.rotatedImgVisible) {
          return;
+      } else {
+         DrawUtils.drawRotatedBossPart(g, bp);
       }
-      Graphics2D g2 = (Graphics2D) g;
-
-      // Draw the rotated image
-      utils.Inf101Graphics.drawCenteredImage(
-            g2, bp.imgs[bp.animAction][bp.aniIndex],
-            bp.nonRotatedHitbox.getCenterX() * Game.SCALE,
-            bp.nonRotatedHitbox.getCenterY() * Game.SCALE, Game.SCALE, bp.rotation);
    }
 
    @Override

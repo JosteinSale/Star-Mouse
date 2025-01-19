@@ -1,6 +1,6 @@
 package entities.bossmode;
 
-import static utils.HelpMethods2.GetAnimationArray;
+import static utils.HelpMethods2.GetUnscaled2DAnimationArray;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -35,7 +35,8 @@ public class AnimatedComponent {
    public AnimatedComponent(
          BufferedImage spriteSheet, int spriteW, int spriteH, int rows, int cols,
          ArrayList<AnimationInfo> aniInfo, float xPos, float yPos) {
-      this.animations = GetAnimationArray(spriteSheet, rows, cols, spriteW, spriteH);
+      this.animations = GetUnscaled2DAnimationArray(
+            spriteSheet, rows, cols, spriteW, spriteH);
       this.aniInfos = aniInfo;
       this.xPos = xPos;
       this.yPos = yPos;

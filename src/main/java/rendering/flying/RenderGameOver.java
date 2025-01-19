@@ -34,7 +34,7 @@ public class RenderGameOver {
       this.pointerImg = ResourceLoader.getExpImageSprite(
             ResourceLoader.CURSOR_SPRITE_WHITE);
 
-      this.deathAnimation = HelpMethods2.GetSimpleAnimationArray(
+      this.deathAnimation = HelpMethods2.GetUnscaled1DAnimationArray(
             ResourceLoader.getFlyImageSprite(ResourceLoader.SHIP_DEATH_SPRITES),
             26, 40, 40);
    }

@@ -58,29 +58,29 @@ public class RenderObjectMove implements SwingRender {
       imageContainer.addImage(img);
 
       BufferedImage[] array = switch (imgName) {
-         case ROW_OF_DRONES -> HelpMethods2.GetSimpleAnimationArray(
+         case ROW_OF_DRONES -> HelpMethods2.GetUnscaled1DAnimationArray(
                img, 1, 170, 29);
-         case RUDINGER_SHIP -> HelpMethods2.GetSimpleAnimationArray(
+         case RUDINGER_SHIP -> HelpMethods2.GetUnscaled1DAnimationArray(
                img, 2, 50, 50);
-         case RUDINGER1_IDLE -> HelpMethods2.GetSimpleAnimationArray(
+         case RUDINGER1_IDLE -> HelpMethods2.GetUnscaled1DAnimationArray(
                img, 2, 343, 147);
-         case RUDINGER1_DEATH -> HelpMethods2.GetSimpleAnimationArray(
+         case RUDINGER1_DEATH -> HelpMethods2.GetUnscaled1DAnimationArray(
                img, 2, 343, 147);
-         case LOOPING_EXPLOSION -> HelpMethods2.GetSimpleAnimationArray(
+         case LOOPING_EXPLOSION -> HelpMethods2.GetUnscaled1DAnimationArray(
                img, 10, 40, 40);
-         case ROW_OF_FLAME_DRONES -> HelpMethods2.GetSimpleAnimationArray(
+         case ROW_OF_FLAME_DRONES -> HelpMethods2.GetUnscaled1DAnimationArray(
                img, 1, 350, 110);
-         case ROW_OF_FLAME_DRONES_SHADOW -> HelpMethods2.GetSimpleAnimationArray(
+         case ROW_OF_FLAME_DRONES_SHADOW -> HelpMethods2.GetUnscaled1DAnimationArray(
                img, 1, 350, 110);
-         case PLAYER_SHIP -> HelpMethods2.GetSimpleAnimationArray(
+         case PLAYER_SHIP -> HelpMethods2.GetUnscaled1DAnimationArray(
                img, 2, 30, 50);
-         case RAZE_SHADOW -> HelpMethods2.GetSimpleAnimationArray(
+         case RAZE_SHADOW -> HelpMethods2.GetUnscaled1DAnimationArray(
                img, 4, 180, 160);
-         case CATHEDRAL -> HelpMethods2.GetSimpleAnimationArray(
+         case CATHEDRAL -> HelpMethods2.GetUnscaled1DAnimationArray(
                img, 2, 177, 211);
-         case APO -> HelpMethods2.GetSimpleAnimationArray(
+         case APO -> HelpMethods2.GetUnscaled1DAnimationArray(
                img, 1, 340, 333);
-         case WHITE_CHARGE -> HelpMethods2.GetSimpleAnimationArray(
+         case WHITE_CHARGE -> HelpMethods2.GetUnscaled1DAnimationArray(
                img, 5, 100, 100);
          default -> throw new IllegalArgumentException("No animation available for: " + imgName);
       };

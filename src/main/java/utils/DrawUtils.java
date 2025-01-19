@@ -3,8 +3,10 @@ package utils;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import entities.bossmode.DefaultBossPart;
 import main_classes.Game;
 
 /** Provides common drawing methods */
@@ -78,5 +80,14 @@ public class DrawUtils {
             (int) (y * Game.SCALE),
             (int) (width * Game.SCALE),
             (int) (height * Game.SCALE));
+   }
+
+   public static void drawRotatedBossPart(Graphics g, DefaultBossPart bp) {
+      Graphics2D g2 = (Graphics2D) g;
+      utils.Inf101Graphics.drawCenteredImage(
+            g2, bp.imgs[bp.animAction][bp.aniIndex],
+            bp.nonRotatedHitbox.getCenterX() * Game.SCALE,
+            bp.nonRotatedHitbox.getCenterY() * Game.SCALE,
+            Game.SCALE, bp.rotation);
    }
 }

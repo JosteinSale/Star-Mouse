@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import entities.bossmode.AnimatedComponent;
 import entities.bossmode.AnimationInfo;
-import main_classes.Game;
+import utils.DrawUtils;
 
 /**
  * The AnimatedMouth handles animations pertaining to the mouth of Rudinger1.
@@ -55,12 +55,9 @@ public class AnimatedMouth extends AnimatedComponent {
    }
 
    public void drawBlinking(Graphics g) {
-      g.drawImage(
-            this.animations[1][0], // The blink image
-            (int) (xPos * Game.SCALE),
-            (int) (yPos * Game.SCALE),
-            (int) (spriteW * 3 * Game.SCALE),
-            (int) (spriteH * 3 * Game.SCALE), null);
+      DrawUtils.drawImage(
+            g, this.animations[1][0],
+            (int) xPos, (int) yPos, spriteW, spriteH);
    }
 
 }

@@ -32,13 +32,13 @@ public class RenderArea implements SwingRender {
    /** Add player sprites according to the indexes given at the top */
    static {
       playerSprites = new ArrayList<>();
-      BufferedImage[][] normalSprites = HelpMethods2.GetAnimationArray(
+      BufferedImage[][] normalSprites = HelpMethods2.GetUnscaled2DAnimationArray(
             ResourceLoader.getExpImageSprite(ResourceLoader.PLAYER_EXP_SPRITES),
             6, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
-      BufferedImage[][] nakedSprites = HelpMethods2.GetAnimationArray(
+      BufferedImage[][] nakedSprites = HelpMethods2.GetUnscaled2DAnimationArray(
             ResourceLoader.getExpImageSprite(ResourceLoader.PLAYER_EXP_SPRITES_NAKED),
             5, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
-      BufferedImage[][] sadSprites = HelpMethods2.GetAnimationArray(
+      BufferedImage[][] sadSprites = HelpMethods2.GetUnscaled2DAnimationArray(
             ResourceLoader.getExpImageSprite(ResourceLoader.PLAYER_EXP_SPRITES_SAD),
             5, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
       playerSprites.add(normalSprites);

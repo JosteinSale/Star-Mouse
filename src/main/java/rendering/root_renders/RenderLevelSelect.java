@@ -46,7 +46,7 @@ public class RenderLevelSelect implements SwingRender {
             ResourceLoader.LEVEL_SELECT_BOX);
 
       // Level icons
-      this.levelIcons = HelpMethods2.GetSimpleAnimationArray(
+      this.levelIcons = HelpMethods2.GetUnscaled1DAnimationArray(
             ResourceLoader.getExpImageSprite(ResourceLoader.LEVEL_ICONS),
             13, LEVEL_ICON_SIZE, LEVEL_ICON_SIZE);
    }

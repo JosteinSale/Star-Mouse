@@ -56,7 +56,7 @@ public class RenderCutscene implements SwingRender {
 
    static {
       shipImg = ResourceLoader.getFlyImageSprite(ResourceLoader.FELLOWSHIP_SPRITES);
-      flameAnimations = HelpMethods2.GetSimpleAnimationArray(
+      flameAnimations = HelpMethods2.GetUnscaled1DAnimationArray(
             ResourceLoader.getFlyImageSprite(ResourceLoader.SHIP_FLAME_SPRITES),
             2, 15, 15);
    }

@@ -1,15 +1,15 @@
 package projectiles.shootPatterns;
 
-import java.awt.Graphics;
 import java.awt.Point;
 
 import projectiles.ProjectileHandler2;
 
-/** A class representing a specific shootpattern.
+/**
+ * A class representing a specific shootpattern.
  * It governs the creation of new projectiles in regards to their type,
  * speed and direction.
  * 
- * If the pattern requires specific calculations 
+ * If the pattern requires specific calculations
  * in the update-mehotd, then override the update-method. Remember to call
  * the updateTicks()-method here.
  * 
@@ -25,11 +25,11 @@ abstract public class DefaultShootPattern implements ShootPattern {
    protected boolean shootPhase = false;
    private int tick;
    private int chargeTime;
-   private int startDelay;    // If there should be a delay after charging has finished.
+   private int startDelay; // If there should be a delay after charging has finished.
    private int shootInterval;
-   
 
-   public DefaultShootPattern(ProjectileHandler2 projectileHandler, Point gunPoint, int chargeTime, int startDelay, int shootInterval) {
+   public DefaultShootPattern(ProjectileHandler2 projectileHandler, Point gunPoint, int chargeTime, int startDelay,
+         int shootInterval) {
       this.projectileHandler = projectileHandler;
       this.gunPoint = gunPoint;
       this.chargeTime = chargeTime;
@@ -42,9 +42,9 @@ abstract public class DefaultShootPattern implements ShootPattern {
       updateTicks();
    }
 
-   /** 
-    * The shootPattern always starts with a charging phase 
-    * (isCharging = true, shootPhase = false), 
+   /**
+    * The shootPattern always starts with a charging phase
+    * (isCharging = true, shootPhase = false),
     * then a potential delay to allow syncronizing with other shootPatterns,
     * and then a shootPhase. This method coordinates this by increasing a tick,
     * and then comparing it to the shootInterval, chargeTime and startDelay.
@@ -56,8 +56,7 @@ abstract public class DefaultShootPattern implements ShootPattern {
             tick = 0;
             this.shoot();
          }
-      }
-      else if (isCharging) {
+      } else if (isCharging) {
          isCharging = !(tick > chargeTime);
       }
       // Delay
@@ -83,12 +82,7 @@ abstract public class DefaultShootPattern implements ShootPattern {
       this.tick = 0;
       this.isCharging = true;
       this.shootPhase = false;
-      
+
    }
 
-   @Override
-   public void drawShootAnimations(Graphics g) {
-      /* Override this method with custom behavior */
-   }
-   
 }
