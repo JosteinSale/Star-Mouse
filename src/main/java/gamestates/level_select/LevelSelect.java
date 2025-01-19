@@ -64,8 +64,7 @@ public class LevelSelect extends State {
 
    /**
     * Should be called if the game is not run in testing mode.
-    * First it resets LevelSelect.
-    * Then it replaces the current progValues (proxy or real)
+    * It replaces the current progValues (proxy or real)
     * with the one from the saved file.
     * Then it unlocks the corresponding levels.
     */
@@ -240,11 +239,16 @@ public class LevelSelect extends State {
     * in both this object and the relevant LevelSelect-layout.
     * Also affects progValues.levelLayout.
     */
-   public void unlockAllLevelsUpTo(int level) {
+   public void testUnlockAllLevelsUpTo(int level) {
       if (level >= 10) {
          progValues.levelLayout = 3;
+         progValues.path3Unlocked = true;
+         progValues.firstPlayThrough = false;
+         progValues.hasEnding1 = true;
       } else if (level > 5) {
          progValues.levelLayout = 2;
+         progValues.firstPlayThrough = false;
+         progValues.hasEnding1 = true;
       }
       for (int i = 0; i < level; i++) {
          this.unlockLevel(i + 1);

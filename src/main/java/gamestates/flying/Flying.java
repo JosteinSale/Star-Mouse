@@ -521,4 +521,8 @@ public class Flying extends State {
    public LevelFinishedOverlay getLevelFinishedOverlay() {
       return this.levelFinishedOverlay;
    }
+
+   public ArrayList<PickupItem> getPickupItems() {
+      return this.pickupItems;
+   }
 }

@@ -2,19 +2,15 @@ package gamestates;
 
 import static entities.flying.EntityFactory.TypeConstants.*;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
 import entities.flying.EntityFactory;
 import entities.flying.EntityInfo;
+import gamestates.flying.FlyLevelInfo;
 import main_classes.Game;
-import utils.DrawUtils;
 import utils.ResourceLoader;
 
 /**
@@ -34,34 +30,35 @@ import utils.ResourceLoader;
  */
 public class LevelEditor {
    private Game game;
-   private Integer level = 4;
-   private BufferedImage clImg;
+   public Integer level = 4;
+   public EntityFactory entityFactory;
+   private FlyLevelInfo flyLevelInfo;
    private ArrayList<String> levelData;
-   private EntityFactory entityFactory;
-   private ArrayList<String> addedEntityNames;
-   private ArrayList<Rectangle> hitboxes;
-   private ArrayList<Integer> shootTimers;
-   private ArrayList<Integer> directions;
+   public ArrayList<String> addedEntityNames;
+   public ArrayList<Rectangle> hitboxes;
+   public ArrayList<Integer> shootTimers;
+   public ArrayList<Integer> directions;
 
    private static final int UP = 1;
    private static final int DOWN = -1;
-   private int clImgHeight;
-   private int clImgWidth;
-   private int clYOffset;
-   private float clXOffset;
-   private int mapYOffset = 0;
+   public int clImgHeight;
+   public int clImgWidth;
+   public int clYOffset;
+   public float clXOffset;
+   public int mapYOffset = 0;
    private int selectedEntity;
-   private String selectedName;
+   public String selectedName;
 
-   private int curDirection = 1; // 1 = right, -1 = left
-   private int shootTimer = 100; // Drones : 100 - 160, Octadrones : 60 - 180
-   private int cursorX = 500;
-   private int cursorY = 400;
+   public int curDirection = 1; // 1 = right, -1 = left
+   public int shootTimer = 100; // Drones : 100 - 160, Octadrones : 60 - 180
+   public int cursorX = 500;
+   public int cursorY = 400;
    private int cursorSpeed = 10;
 
-   public LevelEditor(Game game, EntityFactory entityFactory) {
+   public LevelEditor(
+         Game game, EntityFactory entityFactory) {
       this.game = game;
-      loadMapImages(level);
+      this.flyLevelInfo = new FlyLevelInfo();
       this.entityFactory = entityFactory;
       this.hitboxes = new ArrayList<>();
       this.shootTimers = new ArrayList<>();
@@ -71,13 +68,12 @@ public class LevelEditor {
       this.selectedEntity = 0;
       this.selectedName = entityFactory.getName(selectedEntity);
       loadLevelData(level);
+      calcMapValues(level);
    }
 
-   private void loadMapImages(int lvl) {
-      this.clImg = ResourceLoader.getFlyImageCollision(
-            "level" + Integer.toString(lvl) + "_cl.png");
-      this.clImgHeight = clImg.getHeight() * 3;
-      this.clImgWidth = clImg.getWidth() * 3;
+   private void calcMapValues(int lvl) {
+      this.clImgHeight = flyLevelInfo.getClImgHeight(lvl) * 3;
+      this.clImgWidth = 450 * 3;
       this.clYOffset = Game.GAME_DEFAULT_HEIGHT - clImgHeight + 150;
       this.clXOffset = -150;
    }
@@ -240,73 +236,4 @@ public class LevelEditor {
       directions.add(direction);
    }
 
-   public void draw(Graphics g) {
-      drawMapAndText(g);
-      drawEntities(g);
-      drawCursor(g);
-   }
-
-   private void drawMapAndText(Graphics g) {
-      // Map
-      DrawUtils.drawImage(
-            g, clImg,
-            (int) clXOffset, clYOffset,
-            clImgWidth, clImgHeight);
-
-      // Top text
-      DrawUtils.drawText(
-            g, Color.BLACK, DrawUtils.infoFont,
-            "direction : " + Integer.toString(curDirection),
-            20, 20);
-      DrawUtils.drawText(
-            g, Color.BLACK, DrawUtils.infoFont,
-            "shootTimer : " + Integer.toString(shootTimer),
-            20, 50);
-      DrawUtils.drawText(
-            g, Color.BLACK, DrawUtils.infoFont,
-            "y :" + Integer.toString(mapYOffset),
-            700, 20);
-   }
-
-   private void drawEntities(Graphics g) {
-      for (int i = 0; i < addedEntityNames.size(); i++) {
-         EntityInfo info = entityFactory.getEntityInfo(addedEntityNames.get(i));
-         Rectangle2D hitbox = hitboxes.get(i);
-         // Text
-         DrawUtils.drawText(
-               g, Color.black, DrawUtils.infoFont,
-               Integer.toString(shootTimers.get(i)),
-               (int) hitbox.getX(),
-               (int) (hitbox.getY() - mapYOffset - 20));
-
-         // Hitbox
-         DrawUtils.fillRect(
-               g, Color.black,
-               hitbox.getX(), hitbox.getY() - mapYOffset,
-               hitbox.getWidth(), hitbox.getHeight());
-         // Image
-         int dir = directions.get(i);
-         int xOffset = info.drawOffsetX;
-         int yOffset = info.drawOffsetY;
-         int spriteW = info.spriteW;
-         int spriteH = info.spriteH;
-         if (dir == -1) {
-            xOffset -= 3 * spriteW;
-         }
-         DrawUtils.drawImage(
-               g, info.getEditorImage(),
-               (int) (hitbox.getX() - xOffset),
-               (int) (hitbox.getY() - yOffset - mapYOffset),
-               spriteW * 3 * dir,
-               spriteH * 3);
-      }
-   }
-
-   private void drawCursor(Graphics g) {
-      EntityInfo cursorInfo = entityFactory.getEntityInfo(selectedName);
-      DrawUtils.drawImage(
-            g, cursorInfo.getEditorImage(),
-            cursorX, cursorY,
-            cursorInfo.spriteW * 3, cursorInfo.spriteH * 3);
-   }
 }

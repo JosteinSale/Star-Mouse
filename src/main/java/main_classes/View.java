@@ -11,6 +11,7 @@ import rendering.root_renders.RenderBossMode;
 import rendering.root_renders.RenderCinematic;
 import rendering.root_renders.RenderExploring;
 import rendering.root_renders.RenderFlying;
+import rendering.root_renders.RenderLevelEditor;
 import rendering.root_renders.RenderLevelSelect;
 import rendering.root_renders.RenderMainMenu;
 import rendering.root_renders.RenderStartScreen;
@@ -39,6 +40,7 @@ public class View {
    private RenderFlying rFlying;
    private RenderBossMode rBossMode;
    private RenderCinematic rCinematic;
+   private RenderLevelEditor rLevelEditor;
 
    public View(Game game) {
       this.rStartScreen = new RenderStartScreen(game.getStartScreen());
@@ -56,6 +58,7 @@ public class View {
             game, rCutscene, rOptionsMenu,
             rFlying.getRenderPlayer(), rFlying.getRenderProjectiles());
       this.rCinematic = new RenderCinematic(rCutscene);
+      this.rLevelEditor = new RenderLevelEditor(game.getLevelEditor(), rFlying.getEntityImages());
    }
 
    public void draw(Graphics g) {
@@ -80,6 +83,9 @@ public class View {
             break;
          case CINEMATIC:
             rCinematic.draw(g);
+            break;
+         case LEVEL_EDITOR:
+            rLevelEditor.draw(g);
             break;
          default:
             break;

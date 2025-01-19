@@ -98,7 +98,7 @@ public class MainMenu extends State {
         game.testingMode = true;
 
         // UNLOCK LEVELS
-        game.getLevelSelect().unlockAllLevelsUpTo(13);
+        game.getLevelSelect().testUnlockAllLevelsUpTo(13);
 
         // LEVEL SELECT
         game.getLevelSelect().reset();

@@ -1,21 +1,17 @@
 package entities.flying;
 
-import java.awt.image.BufferedImage;
-import static utils.HelpMethods2.GetEnemyAnimations;
-
 /**
- * Contains all constants and animations associated with an enemy.
+ * Contains all constants and animation-info associated with an enemy.
  * Is used in enemy, drawing, and levelEditor.
- * 
- * When/if we switch to libGDX we *might* consider isolating
- * the images into their own render object.
  */
 public class EntityInfo {
    public final int typeConstant;
-   public final BufferedImage[][] animation;
+   public final String spriteSheet;
    public final String name; // The name in the levelData-sheet.
    public final int spriteW;
    public final int spriteH;
+   public final int rows;
+   public final int cols;
    public final int hitboxW;
    public final int hitboxH;
    public final int drawOffsetX;
@@ -24,13 +20,15 @@ public class EntityInfo {
    public final int editorImgCol;
 
    public EntityInfo(int typeConstant,
-         BufferedImage spriteSheet, int spriteW, int spriteH, int rows, int cols,
+         String spriteSheet, int spriteW, int spriteH, int rows, int cols,
          String name, int hitboxW, int hitboxH, int drawOffsetX, int drawOffsetY,
          int editorImgRow, int editorImgCol) {
       this.typeConstant = typeConstant;
-      this.animation = GetEnemyAnimations(spriteSheet, spriteW, spriteH, rows, cols);
+      this.spriteSheet = spriteSheet;
       this.spriteW = spriteW;
       this.spriteH = spriteH;
+      this.rows = rows;
+      this.cols = cols;
       this.name = name;
       this.hitboxW = hitboxW;
       this.hitboxH = hitboxH;
@@ -38,9 +36,5 @@ public class EntityInfo {
       this.drawOffsetY = drawOffsetY;
       this.editorImgRow = editorImgRow;
       this.editorImgCol = editorImgCol;
-   }
-
-   public BufferedImage getEditorImage() {
-      return this.animation[editorImgRow][editorImgCol];
    }
 }

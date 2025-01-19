@@ -2,12 +2,11 @@ package rendering.root_renders;
 
 import java.awt.Graphics;
 
-import entities.flying.EntityInfo;
-import entities.flying.pickupItems.PickupItem;
 import gamestates.flying.Flying;
 import main_classes.Game;
 import rendering.SwingRender;
-import rendering.flying.RenderEnemies;
+import rendering.flying.EntityImages;
+import rendering.flying.RenderEntity;
 import rendering.flying.RenderGameOver;
 import rendering.flying.RenderLevelFinished;
 import rendering.flying.RenderMap2;
@@ -16,13 +15,12 @@ import rendering.flying.RenderPlayerFly;
 import rendering.flying.RenderProjectiles;
 import rendering.misc.RenderCutscene;
 import rendering.misc.RenderOptionsMenu;
-import utils.DrawUtils;
 
 public class RenderFlying implements SwingRender {
    private Flying flying;
    private RenderMap2 rMap;
    private RenderPlayerFly rPlayer;
-   private RenderEnemies rEnemyManager;
+   private RenderEntity rEntity;
    private RenderProjectiles rProjectiles;
    private RenderCutscene rCutscene;
    private RenderGameOver rGameOver;
@@ -34,7 +32,8 @@ public class RenderFlying implements SwingRender {
       this.flying = flying;
       this.rMap = new RenderMap2(flying.getMapManager());
       this.rPlayer = new RenderPlayerFly(game, flying.getPlayer());
-      this.rEnemyManager = new RenderEnemies(flying.getEnemyManager());
+      this.rEntity = new RenderEntity(
+            flying.getEnemyManager(), flying.getPickupItems(), flying.getEntityFactory());
       this.rProjectiles = new RenderProjectiles(flying.getProjectileHandler());
       this.rCutscene = rCutscene;
       this.rGameOver = new RenderGameOver(flying.getGameOverOverlay());
@@ -46,9 +45,8 @@ public class RenderFlying implements SwingRender {
    public void draw(Graphics g) {
       if (!flying.levelFinished) {
          rMap.drawMaps(g);
-         drawPickupItems(g);
          rPlayer.draw(g);
-         rEnemyManager.draw(g);
+         rEntity.draw(g);
          rProjectiles.draw(g);
       }
       if (!flying.gameOver) {
@@ -60,21 +58,6 @@ public class RenderFlying implements SwingRender {
          rPause.draw(g);
       } else if (flying.levelFinished) {
          rLevelFinished.draw(g);
-      }
-   }
-
-   private void drawPickupItems(Graphics g) {
-      for (PickupItem p : flying.pickupItems) {
-         // drawHitbox(g, 0, 0);
-         EntityInfo info = p.getDrawInfo();
-         if (p.isActive()) {
-            DrawUtils.drawImage(
-                  g, info.animation[0][p.getAniIndex()],
-                  (int) (p.getHitbox().x - info.drawOffsetX),
-                  (int) (p.getHitbox().y - info.drawOffsetY),
-                  info.spriteW * 3,
-                  info.spriteH * 3);
-         }
       }
    }
 
@@ -94,6 +77,10 @@ public class RenderFlying implements SwingRender {
 
    public RenderProjectiles getRenderProjectiles() {
       return this.rProjectiles;
+   }
+
+   public EntityImages getEntityImages() {
+      return this.rEntity.getEntityImages();
    }
 
 }
