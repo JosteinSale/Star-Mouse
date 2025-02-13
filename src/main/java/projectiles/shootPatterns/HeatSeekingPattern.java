@@ -1,6 +1,5 @@
 package projectiles.shootPatterns;
 
-import java.awt.Graphics;
 import java.awt.Point;
 
 import entities.bossmode.AnimatedComponent;
@@ -72,12 +71,13 @@ public class HeatSeekingPattern extends DefaultShootPattern {
    }
 
    @Override
-   public void drawShootAnimations(Graphics g) {
-      if (isCharging) {
-         AnimatedComponent.draw(g, chargeAnimation);
-      } else if (shootPhase) {
-         AnimatedComponent.draw(g, shootAnimation);
-      }
+   public AnimatedComponent getChargeAnimation() {
+      return this.chargeAnimation;
+   }
+
+   @Override
+   public AnimatedComponent getShootAnimation() {
+      return this.shootAnimation;
    }
 
 }

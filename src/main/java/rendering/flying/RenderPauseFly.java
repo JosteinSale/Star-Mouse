@@ -4,10 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import main_classes.Game;
+import rendering.MyImage;
 import rendering.misc.RenderOptionsMenu;
 import ui.PauseFlying;
 import utils.DrawUtils;
@@ -22,7 +22,7 @@ public class RenderPauseFly {
    private RenderOptionsMenu rOptions;
    private ArrayList<Rectangle> menuRects;
    private Color bgColor = new Color(0, 0, 0, 140);
-   private BufferedImage pointerImg;
+   private MyImage pointerImg;
 
    public RenderPauseFly(PauseFlying pause, RenderOptionsMenu rOptions) {
       this.pause = pause;

@@ -1,40 +1,56 @@
 package projectiles.shootPatterns;
 
-import java.awt.Graphics;
+import java.util.ArrayList;
 
-/** A class representing a specific shootpattern.
+import entities.bossmode.AnimatedComponent;
+
+/**
+ * A class representing a specific shootpattern.
  * It governs the creation of new projectiles in regards to their type,
  * speed and direction.
  */
 public interface ShootPattern {
 
-   /** First it ticks down the chargeTime (if any).
+   /**
+    * First it ticks down the chargeTime (if any).
     * Then it ticks down the delay time (if any).
     * Then it calls shoot() at the specified shootInterval.
     * It updates the isCharging- and shootPhase-booleans accordingly.
     */
    public void update();
 
-   /** Should be called by the update method when it's time to shoot.
+   /**
+    * Should be called by the update method when it's time to shoot.
     * Should be overrided with custom implementation.
     * The default implementation does nothing.
     */
    public void shoot();
 
-   /** Call this method to reset the shootpattern.
+   /**
+    * Call this method to reset the shootpattern.
     * The default implementation resets tick, isCharging- and shootPhase-boolean.
     */
    public void finishAttack();
 
-   /** Returns true if the pattern is charging. 
-    * Can be used to syncronize with boss animations.
+   /**
+    * Returns true if the pattern is charging.
     */
    public boolean isCharging();
 
-   /** If there are any spefific animations associated with charging / shooting, 
-    * they can be implemented here. 
-    * You can utilize the the isCharging- and shootPhase-booleans
-    * inherited from the supertype. The default implementation does nothing.
-   */
-   public void drawShootAnimations(Graphics g);
+   /**
+    * Returns true if the pattern is in it's shoot phase.
+    */
+   public boolean isInShootPhase();
+
+   /**
+    * Returns the chargeAnimation.
+    * (Should we allow it be null?)
+    */
+   public AnimatedComponent getChargeAnimation();
+
+   /**
+    * Return the shootAnimation.
+    * (Should we allow it be null?)
+    */
+   public AnimatedComponent getShootAnimation();
 }

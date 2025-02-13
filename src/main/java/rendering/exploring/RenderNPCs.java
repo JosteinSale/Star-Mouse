@@ -1,13 +1,14 @@
 package rendering.exploring;
 
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 
 import entities.exploring.Gard;
 import entities.exploring.NPC;
 import entities.exploring.NpcManager;
 import entities.exploring.Oliver;
 import main_classes.Game;
+import rendering.MyImage;
+import rendering.MySubImage;
 import rendering.SwingRender;
 import utils.DrawUtils;
 import utils.HelpMethods2;
@@ -19,11 +20,11 @@ import static utils.Constants.Exploring.Sprites.STANDARD_SPRITE_WIDTH;
 public class RenderNPCs implements SwingRender {
    private Game game;
    private NpcManager npcManager;
-   private static BufferedImage[] standardNpcSprites;
-   private static BufferedImage gardSprites;
-   private static BufferedImage oliverSprites;
-   private static BufferedImage[][] gardAnimations;
-   private static BufferedImage[][] oliverAnimations;
+   private static MySubImage[] standardNpcSprites;
+   private static MyImage gardSprites;
+   private static MyImage oliverSprites;
+   private static MySubImage[][] gardAnimations;
+   private static MySubImage[][] oliverAnimations;
    static {
       standardNpcSprites = HelpMethods2.GetUnscaled1DAnimationArray(
             ResourceLoader.getExpImageSprite(ResourceLoader.STANDARD_NPC_SPRITES),
@@ -66,14 +67,14 @@ public class RenderNPCs implements SwingRender {
    }
 
    private void drawNpc(Graphics g, NPC npc, int xLevelOffset, int yLevelOffset) {
-      DrawUtils.drawImage(
+      DrawUtils.drawSubImage(
             g, this.getSprite(npc),
             (int) (npc.getHitbox().x - npc.getXDrawOffset() - xLevelOffset),
             (int) (npc.getHitbox().y - npc.getYDrawOffset() - yLevelOffset),
             drawWidth, drawHeight);
    }
 
-   private BufferedImage getSprite(NPC npc) {
+   private MySubImage getSprite(NPC npc) {
       if (npc instanceof Oliver) {
          return oliverAnimations[npc.getAction()][npc.getAniIndex()];
       } else if (npc instanceof Gard) {
@@ -84,7 +85,7 @@ public class RenderNPCs implements SwingRender {
    }
 
    /** Returns the index in the sprite-array for the npc-name */
-   private BufferedImage getStandardSprite(String name) {
+   private MySubImage getStandardSprite(String name) {
       int index = switch (name) {
          case "Shady pilot" -> 0;
          case "Lance" -> 1;
@@ -121,7 +122,7 @@ public class RenderNPCs implements SwingRender {
 
    @Override
    public void draw(Graphics g) {
-
+      // Use the drawFgNpcs- and drawBgNpcs-methods instead
    }
 
    @Override

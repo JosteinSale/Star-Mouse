@@ -3,9 +3,9 @@ package rendering.misc;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 
 import main_classes.Game;
+import rendering.MyImage;
 import rendering.SwingRender;
 import ui.ControlsMenu;
 import ui.OptionsMenu;
@@ -24,8 +24,8 @@ public class RenderOptionsMenu implements SwingRender {
    private ControlsMenu controlsMenu;
    private RenderControlsMenu rControlsMenu;
    private Color bgColor = new Color(0, 0, 0, 230);
-   private BufferedImage pointerImg;
-   private BufferedImage sliderImg;
+   private MyImage pointerImg;
+   private MyImage sliderImg;
 
    private int bgW;
    private int bgH;
@@ -43,8 +43,10 @@ public class RenderOptionsMenu implements SwingRender {
    }
 
    private void loadImages() {
-      this.pointerImg = ResourceLoader.getExpImageSprite(ResourceLoader.CURSOR_SPRITE_WHITE);
-      this.sliderImg = ResourceLoader.getExpImageSprite(ResourceLoader.SLIDER_SPRITE);
+      this.pointerImg = ResourceLoader.getExpImageSprite(
+            ResourceLoader.CURSOR_SPRITE_WHITE);
+      this.sliderImg = ResourceLoader.getExpImageSprite(
+            ResourceLoader.SLIDER_SPRITE);
    }
 
    private void calcDrawValues() {

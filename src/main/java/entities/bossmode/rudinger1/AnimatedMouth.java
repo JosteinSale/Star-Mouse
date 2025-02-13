@@ -1,12 +1,9 @@
 package entities.bossmode.rudinger1;
 
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import entities.bossmode.AnimatedComponent;
 import entities.bossmode.AnimationInfo;
-import utils.DrawUtils;
 
 /**
  * The AnimatedMouth handles animations pertaining to the mouth of Rudinger1.
@@ -22,7 +19,7 @@ public class AnimatedMouth extends AnimatedComponent {
    private int blinkTick = 0;
    private int blinkDuration = 20;
 
-   public AnimatedMouth(BufferedImage spriteSheet, int spriteW, int spriteH, int rows, int cols,
+   public AnimatedMouth(String spriteSheet, int spriteW, int spriteH, int rows, int cols,
          ArrayList<AnimationInfo> aniInfo, float xPos, float yPos) {
       super(spriteSheet, spriteW, spriteH, rows, cols, aniInfo, xPos, yPos);
    }
@@ -52,12 +49,6 @@ public class AnimatedMouth extends AnimatedComponent {
       } else {
          shouldDrawBlink = false;
       }
-   }
-
-   public void drawBlinking(Graphics g) {
-      DrawUtils.drawImage(
-            g, this.animations[1][0],
-            (int) xPos, (int) yPos, spriteW, spriteH);
    }
 
 }

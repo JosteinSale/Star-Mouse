@@ -1,14 +1,10 @@
 package entities.bossmode;
 
-import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-
-import utils.DrawUtils;
 
 /**
  * A BossPart represents an animated part of a boss that can be rotated, moved
@@ -35,7 +31,14 @@ abstract public class DefaultBossPart implements IBossPart {
    public int animAction = 0;
    public int aniIndex = 0;
    protected Boolean collisionEnabled = false;
-   protected boolean rotatedImgVisible = false;
+   public boolean rotatedImgVisible = false;
+
+   // Sprite info
+   public String spriteName;
+   public int aniRows;
+   public int aniCols;
+   public int spriteW;
+   public int spriteH;
 
    /**
     * Constructs a new BossPart with the given hitbox and spriteSheet.
@@ -50,26 +53,15 @@ abstract public class DefaultBossPart implements IBossPart {
     * @param spriteW
     * @param spriteH
     */
-   public DefaultBossPart(Rectangle2D.Float hitbox, BufferedImage img,
+   public DefaultBossPart(Rectangle2D.Float hitbox, String spriteName,
          int aniRows, int aniCols, int spriteW, int spriteH) {
       this.nonRotatedHitbox = hitbox;
-      updateCollisionArea();
-      this.imgs = constructScaledAnimationArray(img, aniRows, aniCols, spriteW, spriteH);
-   }
-
-   private Image[][] constructScaledAnimationArray(BufferedImage img, int aniRows, int aniCols, int spriteW,
-         int spriteH) {
-      int scaledSpriteW = spriteW * 3;
-      int scaledSpriteH = spriteH * 3;
-      Image[][] animations = new Image[aniRows][aniCols];
-      for (int r = 0; r < aniRows; r++) {
-         for (int c = 0; c < aniCols; c++) {
-            animations[r][c] = img.getSubimage(
-                  c * spriteW,
-                  r * spriteH, spriteW, spriteH).getScaledInstance(scaledSpriteW, scaledSpriteH, 0);
-         }
-      }
-      return animations;
+      this.spriteName = spriteName;
+      this.aniRows = aniRows;
+      this.aniCols = aniCols;
+      this.spriteW = spriteW;
+      this.spriteH = spriteH;
+      this.updateCollisionArea();
    }
 
    @Override
@@ -121,23 +113,6 @@ abstract public class DefaultBossPart implements IBossPart {
    // g2.setColor(Color.BLACK);
    // g2.draw(rotatedArea);
    // }
-
-   /**
-    * OBS: for drawing of rotated DefaultBossParts, you should always call
-    * this method. It handles rotation automatically.
-    * 
-    * Images from the spriteSheet are only drawn if rotatedImgVisible.
-    * The bossPart should handle this visible-boolean itself.
-    *
-    * The bossPart may also implement custom drawing-behavior.
-    */
-   public static void draw(Graphics g, DefaultBossPart bp) {
-      if (!bp.rotatedImgVisible) {
-         return;
-      } else {
-         DrawUtils.drawRotatedBossPart(g, bp);
-      }
-   }
 
    @Override
    public Rectangle2D.Float getNonRotatedHitbox() {

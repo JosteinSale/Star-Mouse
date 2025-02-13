@@ -1,20 +1,20 @@
 package rendering.exploring;
 
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 
 import gamestates.exploring.MapManager1;
 import main_classes.Game;
+import rendering.MyImage;
 import rendering.SwingRender;
 import utils.DrawUtils;
 import utils.ResourceLoader;
 
 public class RenderMap1 implements SwingRender {
    private MapManager1 map;
-   protected BufferedImage clImg;
-   protected BufferedImage landScapeImg;
-   protected BufferedImage bgImg;
-   protected BufferedImage fgImg;
+   protected MyImage clImg;
+   protected MyImage landScapeImg;
+   protected MyImage bgImg;
+   protected MyImage fgImg;
    protected int bgImgHeight;
    protected int bgImgWidth;
    protected int fgImgWidth;

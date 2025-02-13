@@ -2,12 +2,12 @@ package entities.bossmode.rudinger1;
 
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import entities.bossmode.AnimatedComponentFactory;
 import entities.bossmode.BossActionHandler;
+import entities.bossmode.DefaultBossPart;
 import entities.bossmode.IBoss;
 import entities.bossmode.IBossPart;
 import entities.bossmode.PlayerBoss;
@@ -17,14 +17,12 @@ import projectiles.ProjectileHandler2;
 import projectiles.shootPatterns.FanPattern;
 import projectiles.shootPatterns.HeatSeekingPattern;
 import ui.BossHealthDisplay;
-import utils.ImageContainer;
 import utils.ResourceLoader;
 
 public class Rudinger1 implements IBoss {
    public BossActionHandler actionHandler;
    private AnimatedComponentFactory animationFactory;
    private BossHealthDisplay healthDisplay;
-   private ImageContainer imageContainer;
    public boolean visible;
 
    // Coordinates
@@ -71,7 +69,6 @@ public class Rudinger1 implements IBoss {
       this.animationFactory = animationFactory;
       this.actionHandler = new BossActionHandler();
       this.healthDisplay = new BossHealthDisplay("Grand Reaper", maxHP);
-      this.imageContainer = animationFactory.imageContainer;
       this.constructMainBody();
       this.constructAnimatedComponents(player);
       this.constructBossParts(player);
@@ -118,9 +115,6 @@ public class Rudinger1 implements IBoss {
 
    private void constructBossParts(PlayerBoss player) {
       // Two rotating lazers. One vertical and one horizontal.
-      BufferedImage lazerImg = ResourceLoader.getBossSprite(
-            ResourceLoader.ROTATING_LAZER_SPRITE);
-      imageContainer.addImage(lazerImg);
 
       int width1 = 30;
       int height1 = 1300;
@@ -129,14 +123,13 @@ public class Rudinger1 implements IBoss {
             (float) mainGunPoint.getY() - height1 / 2,
             width1, height1);
       this.verticalLazer = new RotatingLazer(
-            hitbox1, lazerImg, 2, 3, 10, 433, 0.0, true);
+            hitbox1, ResourceLoader.ROTATING_LAZER_SPRITE,
+            2, 3, 10, 433, 0.0, true);
       this.horizontalLazer = new RotatingLazer(
-            hitbox1, lazerImg, 2, 3, 10, 433, Math.PI / 2, false);
+            hitbox1, ResourceLoader.ROTATING_LAZER_SPRITE,
+            2, 3, 10, 433, Math.PI / 2, false);
 
       // A heatseeking lazer.
-      BufferedImage lazerImg2 = ResourceLoader.getBossSprite(
-            ResourceLoader.HEATSEEKING_LAZER_SPRITE);
-      imageContainer.addImage(lazerImg2);
 
       int width2 = 90;
       int height2 = 660;
@@ -145,13 +138,10 @@ public class Rudinger1 implements IBoss {
             (float) mainGunPoint.getY(),
             width2, height2);
       this.heatSeekingLazer = new HeatSeekingLazer(
-            hitbox2, lazerImg2, 3, 4,
-            30, 220, player, mainGunPoint);
+            hitbox2, ResourceLoader.HEATSEEKING_LAZER_SPRITE,
+            3, 4, 30, 220, player, mainGunPoint);
 
       // The machine heart.
-      BufferedImage heartImg = ResourceLoader.getBossSprite(
-            ResourceLoader.MACHINE_HEART_SPRITE);
-      imageContainer.addImage(heartImg);
 
       int width3 = 100;
       int height3 = 100;
@@ -160,13 +150,11 @@ public class Rudinger1 implements IBoss {
             (float) heartDockingPoint.getY() - height3 / 2,
             width3, height3);
       this.machineHeart = new MachineHeart(
-            hitbox3, heartImg, 2, 2,
-            40, 40, player, heartDockingPoint);
+            hitbox3, ResourceLoader.MACHINE_HEART_SPRITE,
+            2, 2, 40, 40, player, heartDockingPoint);
 
       // The vulnerable area (is not part of an attack, doesn't have animations)
       // It's placed just below the machine heart.
-      BufferedImage nonImg = ResourceLoader.getBossSprite("nonImg.png");
-      imageContainer.addImage(nonImg);
 
       int width4 = 120;
       int height4 = 40;
@@ -175,7 +163,8 @@ public class Rudinger1 implements IBoss {
             (float) heartDockingPoint.getY() + 40,
             width4, height4);
       this.vulnerableComponent = new VulnerableComponent(
-            hitbox4, nonImg, 0, 0, 0, 0, this);
+            hitbox4, ResourceLoader.EMPTY_IMAGE,
+            0, 0, 0, 0, this);
 
    }
 
@@ -205,7 +194,7 @@ public class Rudinger1 implements IBoss {
       actionHandler.registerAction(
             ROTATING_LAZER,
             600,
-            new ArrayList<IBossPart>(Arrays.asList(
+            new ArrayList<DefaultBossPart>(Arrays.asList(
                   horizontalLazer, verticalLazer)),
             new ArrayList<>());
 
@@ -218,7 +207,7 @@ public class Rudinger1 implements IBoss {
       actionHandler.registerAction(
             HEATSEEKING_LAZER,
             720,
-            new ArrayList<IBossPart>(Arrays.asList(
+            new ArrayList<DefaultBossPart>(Arrays.asList(
                   heatSeekingLazer)),
             new ArrayList<>());
 
@@ -237,7 +226,7 @@ public class Rudinger1 implements IBoss {
 
       actionHandler.registerAction(
             MACHINE_HEART,
-            new ArrayList<IBossPart>(Arrays.asList(
+            new ArrayList<DefaultBossPart>(Arrays.asList(
                   machineHeart)),
             new ArrayList<>());
 
@@ -380,7 +369,7 @@ public class Rudinger1 implements IBoss {
 
    @Override
    public void flush() {
-      this.imageContainer.flushAll();
+
    }
 
    public BossHealthDisplay getHealthDisplay() {

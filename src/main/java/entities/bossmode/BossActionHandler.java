@@ -1,6 +1,5 @@
 package entities.bossmode;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
 
 import projectiles.shootPatterns.ShootPattern;
@@ -12,18 +11,19 @@ import projectiles.shootPatterns.ShootPattern;
  * Each action will have:
  * - A name
  * - A duration
- * - A list of bossParts
- * - A list of shootPatterns
+ * - A list of bossParts (can be empty)
+ * - A list of shootPatterns (can be empty)
  * 
  * Use the getName() and getDuration() to access info about the action
  * Call startAction(), updateAction() and finishAction() to coordinate the
  * behavior.
+ * 
  */
 public class BossActionHandler {
    // Each property of the attack will be linked to one common index for all lists.
    ArrayList<Integer> actionNames;
    ArrayList<Integer> durations;
-   ArrayList<ArrayList<IBossPart>> bossParts;
+   ArrayList<ArrayList<DefaultBossPart>> bossParts;
    ArrayList<ArrayList<ShootPattern>> shootPatterns;
 
    public BossActionHandler() {
@@ -34,7 +34,7 @@ public class BossActionHandler {
    }
 
    /** Use this constructor if the action has a globally controlled duration */
-   public void registerAction(int name, int duration, ArrayList<IBossPart> bossParts,
+   public void registerAction(int name, int duration, ArrayList<DefaultBossPart> bossParts,
          ArrayList<ShootPattern> shootPatterns) {
       this.actionNames.add(name);
       this.durations.add(duration);
@@ -45,7 +45,9 @@ public class BossActionHandler {
    /**
     * Use this constructor if the action doesn't have a globally controled duration
     */
-   public void registerAction(int name, ArrayList<IBossPart> actionParts, ArrayList<ShootPattern> shootPatterns) {
+   public void registerAction(
+         int name, ArrayList<DefaultBossPart> actionParts,
+         ArrayList<ShootPattern> shootPatterns) {
       this.actionNames.add(name);
       this.durations.add(0);
       this.bossParts.add(actionParts);
@@ -106,19 +108,6 @@ public class BossActionHandler {
       return this.actionNames.size();
    }
 
-   /** Only visible bossParts and active shootPatterns are drawn. */
-   public void draw(Graphics g, int index) {
-      // We loop through all bossParts since some may be visible, even if inactive.
-      for (ArrayList<IBossPart> partList : bossParts) {
-         for (IBossPart part : partList) {
-            DefaultBossPart.draw(g, (DefaultBossPart) part); // casting: >:c
-         }
-      }
-      for (ShootPattern pattern : shootPatterns.get(index)) {
-         pattern.drawShootAnimations(g);
-      }
-   }
-
    /**
     * Checks all bossParts pertaining to the currentAction, and checks
     * if any of them is currently in a charging fase.
@@ -161,5 +150,13 @@ public class BossActionHandler {
 
    public boolean hasDuration(int index) {
       return (durations.get(index) != 0);
+   }
+
+   public ArrayList<ArrayList<DefaultBossPart>> getAllBossParts() {
+      return this.bossParts;
+   }
+
+   public ArrayList<ArrayList<ShootPattern>> getAllShootPatterns() {
+      return this.shootPatterns;
    }
 }

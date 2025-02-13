@@ -10,10 +10,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
 
 import data_storage.SaveData;
 import main_classes.Game;
+import rendering.MyImage;
 import rendering.SwingRender;
 import ui.LoadSaveMenu;
 import utils.DrawUtils;
@@ -25,7 +25,7 @@ public class RenderLoadSave implements SwingRender {
    private RenderInfoChoice rInfoChoice;
    private Rectangle headerRect;
    private Color bgColor = new Color(0, 0, 0, 230);
-   private BufferedImage pointerImg;
+   private MyImage pointerImg;
 
    private int bgW;
    private int bgH;

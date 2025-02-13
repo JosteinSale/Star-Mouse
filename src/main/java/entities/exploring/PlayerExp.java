@@ -35,7 +35,7 @@ public class PlayerExp extends Entity {
       this.playerDirection = direction;
       playerAction = STANDING;
       String imgName = "level" + level.toString() + "_area" + area.toString();
-      this.collisionImg = ResourceLoader.getExpImageCollision(imgName + "_cl.png");
+      this.collisionImg = ResourceLoader.getExpImageCollision(imgName + "_cl.png").getImage();
 
    }
 

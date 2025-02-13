@@ -1,6 +1,5 @@
 package gamestates.level_select;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
 
 import data_storage.ProgressValues;

@@ -4,13 +4,12 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 import cutscenes.effects.SimpleAnimation;
+import rendering.MyImage;
+import rendering.MySubImage;
 import rendering.SwingRender;
 import utils.DrawUtils;
 import utils.HelpMethods2;
-import utils.ImageContainer;
 import utils.ResourceLoader;
-
-import java.awt.image.BufferedImage;
 
 /**
  * Renders simple animations using the numerical SimpleAnimation-objects
@@ -23,8 +22,7 @@ import java.awt.image.BufferedImage;
  */
 public class RenderObjectMove implements SwingRender {
    private ArrayList<SimpleAnimation> simpleAnimations;
-   private ArrayList<BufferedImage[]> spriteArrays;
-   private ImageContainer imageContainer;
+   private ArrayList<MySubImage[]> spriteArrays;
 
    // Filenames
    public static final String ROW_OF_DRONES = "rowOfDrones.png";
@@ -43,21 +41,19 @@ public class RenderObjectMove implements SwingRender {
    public RenderObjectMove() {
       this.simpleAnimations = new ArrayList<>();
       this.spriteArrays = new ArrayList<>();
-      this.imageContainer = new ImageContainer();
    }
 
    public void addAnimation(String name, SimpleAnimation animation) {
       name += ".png";
-      BufferedImage[] animationArray = getArrayAndContainImg(name);
+      MySubImage[] animationArray = getArrayAndContainImg(name);
       this.simpleAnimations.add(animation);
       this.spriteArrays.add(animationArray);
    }
 
-   private BufferedImage[] getArrayAndContainImg(String imgName) {
-      BufferedImage img = ResourceLoader.getCutsceneImage(imgName);
-      imageContainer.addImage(img);
+   private MySubImage[] getArrayAndContainImg(String imgName) {
+      MyImage img = ResourceLoader.getCutsceneImage(imgName);
 
-      BufferedImage[] array = switch (imgName) {
+      MySubImage[] array = switch (imgName) {
          case ROW_OF_DRONES -> HelpMethods2.GetUnscaled1DAnimationArray(
                img, 1, 170, 29);
          case RUDINGER_SHIP -> HelpMethods2.GetUnscaled1DAnimationArray(
@@ -91,8 +87,8 @@ public class RenderObjectMove implements SwingRender {
    public void draw(Graphics g) {
       int index = 0;
       for (SimpleAnimation sa : simpleAnimations) {
-         BufferedImage subImg = spriteArrays.get(index)[sa.aniIndex];
-         DrawUtils.drawImage(
+         MySubImage subImg = spriteArrays.get(index)[sa.aniIndex];
+         DrawUtils.drawSubImage(
                g, subImg,
                (int) sa.xPos,
                (int) sa.yPos,
@@ -106,7 +102,6 @@ public class RenderObjectMove implements SwingRender {
    public void dispose() {
       this.simpleAnimations.clear();
       this.spriteArrays.clear();
-      this.imageContainer.flushAll();
    }
 
 }

@@ -2,9 +2,9 @@ package rendering.misc;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 
 import main_classes.Game;
+import rendering.MyImage;
 import rendering.SwingRender;
 import ui.InfoBox;
 import utils.DrawUtils;
@@ -15,7 +15,7 @@ import static utils.Constants.UI.INFOBOX_HEIGHT;
 
 public class RenderInfoBox implements SwingRender {
    private InfoBox infoBox;
-   private BufferedImage infoBoxImg;
+   private MyImage infoBoxImg;
    private int infoX = Game.GAME_DEFAULT_WIDTH / 2 - INFOBOX_WIDTH / 2;
    private int infoY = 580;
 
@@ -43,10 +43,6 @@ public class RenderInfoBox implements SwingRender {
 
    @Override
    public void dispose() {
-   }
-
-   public BufferedImage getBackground() {
-      return this.infoBoxImg;
    }
 
 }

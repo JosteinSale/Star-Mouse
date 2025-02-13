@@ -2,7 +2,6 @@ package entities.bossmode.rudinger1;
 
 import java.awt.Point;
 import java.awt.geom.Rectangle2D.Float;
-import java.awt.image.BufferedImage;
 import java.awt.geom.Line2D;
 
 import entities.bossmode.DefaultBossPart;
@@ -32,9 +31,9 @@ public class HeatSeekingLazer extends DefaultBossPart {
    private int aniSpeed = 3;
 
    public HeatSeekingLazer(
-         Float hitbox, BufferedImage img, int aniRows, int aniCols, int spriteW, int spriteH,
+         Float hitbox, String spriteSheet, int aniRows, int aniCols, int spriteW, int spriteH,
          PlayerBoss player, Point gunCenter) {
-      super(hitbox, img, aniRows, aniCols, spriteW, spriteH);
+      super(hitbox, spriteSheet, aniRows, aniCols, spriteW, spriteH);
       this.player = player;
       this.imgDistanceFromCenter = hitbox.height / 2;
       this.gunCenter = gunCenter;

@@ -4,11 +4,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import gamestates.MainMenu;
 import main_classes.Game;
+import rendering.MyImage;
 import rendering.SwingRender;
 import rendering.misc.RenderInfoChoice;
 import rendering.misc.RenderLoadSave;
@@ -24,9 +24,9 @@ public class RenderMainMenu implements SwingRender {
    private MainMenu mainMenu;
    private RenderOptionsMenu rOptionsMenu;
    private RenderLoadSave rLoadSave;
-   public BufferedImage bgImg;
-   private BufferedImage titleImg;
-   private BufferedImage cursorImg;
+   public MyImage bgImg;
+   private MyImage titleImg;
+   private MyImage cursorImg;
    public ArrayList<Rectangle> menuRectangles;
 
    public RenderMainMenu(Game game, RenderOptionsMenu rOptionsMenu, RenderInfoChoice rInfoChoice) {
@@ -106,11 +106,6 @@ public class RenderMainMenu implements SwingRender {
    @Override
    public void dispose() {
       // Do nothing
-   }
-
-   /** The bgImg can be used in LevelSelect as well */
-   public BufferedImage getBgImg() {
-      return this.bgImg;
    }
 
 }

@@ -4,10 +4,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import main_classes.Game;
+import rendering.MyImage;
+import rendering.MySubImage;
 import ui.GameoverOverlay;
 import utils.DrawUtils;
 import utils.HelpMethods2;
@@ -20,8 +21,8 @@ import static utils.HelpMethods.DrawCenteredString;
 public class RenderGameOver {
    private GameoverOverlay gameOver;
    private Color bgColor = new Color(0, 0, 0, 140);
-   private BufferedImage pointerImg;
-   private BufferedImage[] deathAnimation;
+   private MyImage pointerImg;
+   private MySubImage[] deathAnimation;
    private ArrayList<Rectangle> menuRects;
 
    public RenderGameOver(GameoverOverlay gameoverOverlay) {
@@ -61,7 +62,7 @@ public class RenderGameOver {
 
    private void drawDeathAnimation(Graphics g) {
       if (gameOver.aniIndex < deathAnimation.length) { // Will draw nothing at index 26 - 30
-         DrawUtils.drawImage(
+         DrawUtils.drawSubImage(
                g, deathAnimation[gameOver.aniIndex],
                (int) gameOver.playerX, (int) gameOver.playerY,
                120, 120);

@@ -7,13 +7,14 @@ import static utils.HelpMethods.DrawCenteredString;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import gamestates.level_select.BaseLevelLayout;
 import gamestates.level_select.LevelSelect;
 import gamestates.level_select.LevelSlot;
 import main_classes.Game;
+import rendering.MyImage;
+import rendering.MySubImage;
 import rendering.SwingRender;
 import utils.DrawUtils;
 import utils.HelpMethods2;
@@ -21,19 +22,21 @@ import utils.ResourceLoader;
 
 public class RenderLevelSelect implements SwingRender {
    private LevelSelect levelSelect;
-   private BufferedImage bgImg;
-   private ArrayList<BufferedImage> layoutImgs;
-   private BufferedImage[] levelIcons;
-   protected BufferedImage cursorBox;
+   private MyImage bgImg;
+   private ArrayList<MyImage> layoutImgs;
+   private MySubImage[] levelIcons;
+   protected MyImage cursorBox;
 
-   public RenderLevelSelect(Game game, BufferedImage bgImg) {
+   public RenderLevelSelect(Game game) {
       this.levelSelect = game.getLevelSelect();
-      this.bgImg = bgImg;
       this.loadImgs();
-
    }
 
    private void loadImgs() {
+      // Backgroun image
+      this.bgImg = ResourceLoader.getExpImageBackground(
+            ResourceLoader.LEVEL_SELECT_BG);
+
       // Layout images
       this.layoutImgs = new ArrayList<>();
       this.layoutImgs.add(ResourceLoader.getExpImageBackground(
@@ -94,7 +97,7 @@ public class RenderLevelSelect implements SwingRender {
 
    /** OBS: only call if the slot is not empty. */
    public void drawSlot(Graphics g, int i, LevelSlot slot) {
-      DrawUtils.drawImage(
+      DrawUtils.drawSubImage(
             g, this.levelIcons[i],
             slot.xPos, slot.yPos,
             LEVEL_ICON_DRAW_SIZE, LEVEL_ICON_DRAW_SIZE);

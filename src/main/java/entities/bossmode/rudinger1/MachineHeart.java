@@ -4,7 +4,6 @@ import static utils.Constants.Flying.ActionConstants.IDLE;
 
 import java.awt.Point;
 import java.awt.geom.Rectangle2D.Float;
-import java.awt.image.BufferedImage;
 
 import entities.bossmode.DefaultBossPart;
 import entities.bossmode.PlayerBoss;
@@ -45,9 +44,9 @@ public class MachineHeart extends DefaultBossPart {
    private int aniSpeed = 2;
 
    public MachineHeart(
-         Float hitbox, BufferedImage img, int aniRows, int aniCols, int spriteW, int spriteH,
+         Float hitbox, String spriteSheet, int aniRows, int aniCols, int spriteW, int spriteH,
          PlayerBoss player, Point startPoint) {
-      super(hitbox, img, aniRows, aniCols, spriteW, spriteH);
+      super(hitbox, spriteSheet, aniRows, aniCols, spriteW, spriteH);
       this.player = player;
       this.dockingPoint = startPoint;
       this.midwayPoint = new Point(

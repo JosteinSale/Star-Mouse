@@ -1,12 +1,12 @@
 package rendering.exploring;
 
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import entities.exploring.PlayerExp;
 import gamestates.exploring.Area;
 import main_classes.Game;
+import rendering.MySubImage;
 import rendering.SwingRender;
 import utils.DrawUtils;
 import utils.HelpMethods2;
@@ -24,7 +24,7 @@ public class RenderArea implements SwingRender {
    // Player
    private static int playerSpriteWidth;
    private static int playerSpriteHeight;
-   private static ArrayList<BufferedImage[][]> playerSprites;
+   private static ArrayList<MySubImage[][]> playerSprites;
    private final int NORMAL_SPRITE = 0;
    private final int NAKED_SPRITE = 1;
    private final int SAD_SPRITE = 2;
@@ -32,13 +32,13 @@ public class RenderArea implements SwingRender {
    /** Add player sprites according to the indexes given at the top */
    static {
       playerSprites = new ArrayList<>();
-      BufferedImage[][] normalSprites = HelpMethods2.GetUnscaled2DAnimationArray(
+      MySubImage[][] normalSprites = HelpMethods2.GetUnscaled2DAnimationArray(
             ResourceLoader.getExpImageSprite(ResourceLoader.PLAYER_EXP_SPRITES),
             6, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
-      BufferedImage[][] nakedSprites = HelpMethods2.GetUnscaled2DAnimationArray(
+      MySubImage[][] nakedSprites = HelpMethods2.GetUnscaled2DAnimationArray(
             ResourceLoader.getExpImageSprite(ResourceLoader.PLAYER_EXP_SPRITES_NAKED),
             5, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
-      BufferedImage[][] sadSprites = HelpMethods2.GetUnscaled2DAnimationArray(
+      MySubImage[][] sadSprites = HelpMethods2.GetUnscaled2DAnimationArray(
             ResourceLoader.getExpImageSprite(ResourceLoader.PLAYER_EXP_SPRITES_SAD),
             5, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
       playerSprites.add(normalSprites);
@@ -85,7 +85,7 @@ public class RenderArea implements SwingRender {
       PlayerExp player = area.getPlayer();
       if (player.visible) {
          // drawShadow(g, xLevelOffset, yLevelOffset);
-         DrawUtils.drawImage(
+         DrawUtils.drawSubImage(
                g, playerSprites.get(PlayerExp.CURRENT_SPRITE_SHEET)[player.playerAction][player.aniIndex],
                (int) (player.hitbox.x - 113 - xLevelOffset),
                (int) (player.hitbox.y - 135 - yLevelOffset),

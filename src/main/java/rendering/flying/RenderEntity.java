@@ -3,7 +3,6 @@ package rendering.flying;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D.Float;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import entities.flying.EntityFactory;
@@ -12,6 +11,7 @@ import entities.flying.enemies.Enemy;
 import entities.flying.enemies.EnemyManager;
 import entities.flying.pickupItems.PickupItem;
 import projectiles.Explosion;
+import rendering.MySubImage;
 import utils.DrawUtils;
 import utils.HelpMethods2;
 import utils.ResourceLoader;
@@ -21,7 +21,7 @@ import static utils.Constants.Flying.SpriteSizes.EXPLOSION_SPRITE_SIZE;
 public class RenderEntity {
    private ArrayList<PickupItem> pickupItems;
    private EnemyManager enemyManager;
-   private BufferedImage[] explosionAnimation;
+   private MySubImage[] explosionAnimation;
    private EntityImages entityImgs;
 
    public RenderEntity(
@@ -48,7 +48,7 @@ public class RenderEntity {
       }
       // Explosions
       for (Explosion ex : enemyManager.explosions) { // ConcurrentModificationException
-         DrawUtils.drawImage(
+         DrawUtils.drawSubImage(
                g, explosionAnimation[ex.getAniIndex()],
                ex.getX(), ex.getY(),
                (int) ex.getSize(), (int) ex.getSize());
@@ -61,7 +61,7 @@ public class RenderEntity {
          // drawHitbox(g, 0, 0);
          EntityInfo info = p.getDrawInfo();
          if (p.isActive()) {
-            DrawUtils.drawImage(
+            DrawUtils.drawSubImage(
                   g, entityImgs.getImageFor(
                         info.typeConstant, 0, p.getAniIndex()),
                   (int) (p.getHitbox().x - info.drawOffsetX),
@@ -82,7 +82,7 @@ public class RenderEntity {
          // and adjust x-position accordingly.
          drawXOffset -= 3 * eInfo.spriteW;
       }
-      DrawUtils.drawImage(
+      DrawUtils.drawSubImage(
             g, entityImgs.getImageFor(
                   eInfo.typeConstant, enemy.getAction(), enemy.getAniIndex()),
             (int) (enemy.getHitbox().x - drawXOffset),

@@ -1,19 +1,11 @@
 package entities.bossmode;
 
-import static utils.HelpMethods2.GetUnscaled2DAnimationArray;
-
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-
-import utils.DrawUtils;
 
 /**
  * A default class for an animated component. Can be extended.
  * It represents a single animated component which cannot be interacted with.
  * It takes a list of AnimationInfo-objects, and a single spritesheet.
- * A default updateAnimation()- and draw()-method is implemented,
- * and should be accessed by the super-keyword if extended.
  * 
  * Change the animation action as needed.
  * Change the xPos and yPos as needed.
@@ -22,21 +14,28 @@ import utils.DrawUtils;
  * from the animation action (index in aniInfo-list).
  */
 public class AnimatedComponent {
-   protected BufferedImage[][] animations;
-   private ArrayList<AnimationInfo> aniInfos;
-   protected int aniIndex;
+   public ArrayList<AnimationInfo> aniInfos;
+   public int aniIndex;
    private int aniTick;
-   protected int aniAction;
-   protected float xPos;
-   protected float yPos;
-   protected int spriteW;
-   protected int spriteH;
+   public int aniAction;
+   public float xPos;
+   public float yPos;
+
+   // Sprite info
+   public String spriteName;
+   public int spriteW;
+   public int spriteH;
+   public int rows;
+   public int cols;
 
    public AnimatedComponent(
-         BufferedImage spriteSheet, int spriteW, int spriteH, int rows, int cols,
+         String spriteName, int spriteW, int spriteH, int rows, int cols,
          ArrayList<AnimationInfo> aniInfo, float xPos, float yPos) {
-      this.animations = GetUnscaled2DAnimationArray(
-            spriteSheet, rows, cols, spriteW, spriteH);
+      this.spriteName = spriteName;
+      this.spriteW = spriteW;
+      this.spriteH = spriteH;
+      this.rows = rows;
+      this.cols = cols;
       this.aniInfos = aniInfo;
       this.xPos = xPos;
       this.yPos = yPos;
@@ -91,13 +90,5 @@ public class AnimatedComponent {
             this.aniIndex = animation.loopBackToIndex;
          }
       }
-   }
-
-   public static void draw(Graphics g, AnimatedComponent ac) {
-      int row = ac.aniInfos.get(ac.aniAction).aniRow;
-      DrawUtils.drawImage(
-            g, ac.animations[row][ac.aniIndex],
-            (int) ac.xPos,
-            (int) ac.yPos, ac.spriteW * 3, ac.spriteH * 3);
    }
 }

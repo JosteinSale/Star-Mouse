@@ -15,7 +15,7 @@ public class MapManager3 {
    protected Image scaledBgImg;
 
    public void loadMap(int bossNr) {
-      BufferedImage bgImg = ResourceLoader.getBossBackground("boss" + Integer.toString(bossNr) + ".png");
+      BufferedImage bgImg = ResourceLoader.getBossBackground("boss" + Integer.toString(bossNr) + ".png").getImage();
       scaledBgImg = bgImg.getScaledInstance(
             Game.GAME_WIDTH,
             Game.GAME_HEIGHT, Image.SCALE_SMOOTH);

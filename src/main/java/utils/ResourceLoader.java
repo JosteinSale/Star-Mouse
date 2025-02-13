@@ -21,7 +21,9 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import main_classes.Game;
+import rendering.MyImage;
 
+// TODO - Implement image containers. Decide on strategy for collision images.
 public class ResourceLoader {
     // Menus
     public static final String BASIC_MOUSE = "BasicMouse.png";
@@ -103,6 +105,7 @@ public class ResourceLoader {
     public static final String HEATSEEKING_LAZER_SPRITE = "heatSeekingLazer.png";
     public static final String MACHINE_HEART_SPRITE = "machineHeart.png";
     public static final String BOSS_PROJECTILE1 = "bossProjectile1.png";
+    public static final String EMPTY_IMAGE = "nonImg.png"; // An empty image
 
     // Sprites - LevelEditor
     public static final String SMALL_ENTITY_SPRITES = "sprites_all.png";
@@ -111,62 +114,62 @@ public class ResourceLoader {
     public static final String MAIN_FONT = "DTM-Mono.otf";
 
     // Methods
-    public static BufferedImage getBossSprite(String fileName) {
+    public static MyImage getBossSprite(String fileName) {
         fileName = "/bossMode/sprites/" + fileName;
         return getImage(fileName);
     }
 
-    public static BufferedImage getCutsceneImage(String fileName) {
+    public static MyImage getCutsceneImage(String fileName) {
         fileName = "/cutsceneImages/" + fileName;
         return getImage(fileName);
     }
 
-    public static BufferedImage getBossBackground(String fileName) {
+    public static MyImage getBossBackground(String fileName) {
         fileName = "/bossMode/backgrounds/" + fileName;
         return getImage(fileName);
     }
 
-    public static BufferedImage getExpImageLandscape(String fileName) {
+    public static MyImage getExpImageLandscape(String fileName) {
         fileName = "/exploring/images/landscapes/" + fileName;
         return getImage(fileName);
     }
 
-    public static BufferedImage getExpImageBackground(String fileName) {
+    public static MyImage getExpImageBackground(String fileName) {
         fileName = "/exploring/images/backgrounds/" + fileName;
         return getImage(fileName);
     }
 
-    public static BufferedImage getFlyImageBackground(String fileName) {
+    public static MyImage getFlyImageBackground(String fileName) {
         fileName = "/flying/images/backgrounds/" + fileName;
         return getImage(fileName);
     }
 
-    public static BufferedImage getExpImageSprite(String fileName) {
+    public static MyImage getExpImageSprite(String fileName) {
         fileName = "/exploring/images/sprites/" + fileName;
         return getImage(fileName);
     }
 
-    public static BufferedImage getFlyImageSprite(String fileName) {
+    public static MyImage getFlyImageSprite(String fileName) {
         fileName = "/flying/images/sprites/" + fileName;
         return getImage(fileName);
     }
 
-    public static BufferedImage getExpImageCollision(String fileName) {
+    public static MyImage getExpImageCollision(String fileName) {
         fileName = "/exploring/images/collision/" + fileName;
         return getImage(fileName);
     }
 
-    public static BufferedImage getFlyImageCollision(String fileName) {
+    public static MyImage getFlyImageCollision(String fileName) {
         fileName = "/flying/images/collision/" + fileName;
         return getImage(fileName);
     }
 
-    public static BufferedImage getExpImageForeground(String fileName) {
+    public static MyImage getExpImageForeground(String fileName) {
         fileName = "/exploring/images/foregrounds/" + fileName;
         return getImage(fileName);
     }
 
-    private static BufferedImage getImage(String fileName) {
+    private static MyImage getImage(String fileName) {
         BufferedImage image = null;
         InputStream is = ResourceLoader.class.getResourceAsStream(fileName);
         try {
@@ -180,7 +183,7 @@ public class ResourceLoader {
                 e.printStackTrace();
             }
         }
-        return image;
+        return new MyImage(image);
     }
 
     public static Font getItemFont() {

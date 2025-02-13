@@ -8,9 +8,9 @@ import static utils.Constants.UI.MECHANIC_DISPLAY_WIDTH;
 
 import java.awt.Graphics;
 import java.awt.Color;
-import java.awt.image.BufferedImage;
 
 import main_classes.Game;
+import rendering.MyImage;
 import rendering.SwingRender;
 import rendering.misc.RenderInfoBox;
 import rendering.misc.RenderInfoChoice;
@@ -24,8 +24,8 @@ public class RenderMechanic implements SwingRender {
    private RenderInfoBox rInfoBox;
    private RenderInfoChoice rInfoChoice;
 
-   private BufferedImage bgImg;
-   private BufferedImage pointerImg;
+   private MyImage bgImg;
+   private MyImage pointerImg;
 
    private Color inventoryColor = new Color(0, 0, 0, 230);
    private Color lazerBarColor = Color.CYAN;

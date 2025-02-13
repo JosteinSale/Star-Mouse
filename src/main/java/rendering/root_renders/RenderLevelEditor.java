@@ -3,10 +3,11 @@ package rendering.root_renders;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 import entities.flying.EntityInfo;
 import gamestates.LevelEditor;
+import rendering.MyImage;
+import rendering.MySubImage;
 import rendering.flying.EntityImages;
 import utils.DrawUtils;
 import utils.ResourceLoader;
@@ -15,7 +16,7 @@ public class RenderLevelEditor {
 
    private LevelEditor le;
    private EntityImages entityImages;
-   private BufferedImage clImg;
+   private MyImage clImg;
 
    public RenderLevelEditor(LevelEditor levelEditor, EntityImages entityImages) {
       this.le = levelEditor;
@@ -79,9 +80,9 @@ public class RenderLevelEditor {
          if (dir == -1) {
             xOffset -= 3 * spriteW;
          }
-         BufferedImage img = entityImages.getImageFor(
+         MySubImage img = entityImages.getImageFor(
                info.typeConstant, info.editorImgRow, info.editorImgCol);
-         DrawUtils.drawImage(
+         DrawUtils.drawSubImage(
                g, img,
                (int) (hitbox.getX() - xOffset),
                (int) (hitbox.getY() - yOffset - le.mapYOffset),
@@ -92,9 +93,9 @@ public class RenderLevelEditor {
 
    private void drawCursor(Graphics g) {
       EntityInfo info = le.entityFactory.getEntityInfo(le.selectedName);
-      BufferedImage img = entityImages.getImageFor(
+      MySubImage img = entityImages.getImageFor(
             info.typeConstant, info.editorImgRow, info.editorImgCol);
-      DrawUtils.drawImage(
+      DrawUtils.drawSubImage(
             g, img,
             le.cursorX, le.cursorY,
             info.spriteW * 3, info.spriteH * 3);

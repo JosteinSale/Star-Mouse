@@ -5,11 +5,10 @@ import java.awt.geom.Rectangle2D;
 import entities.Entity;
 
 /**
- * When player touched the Portal-hitbox, he is automatically transported to
+ * When player touches the Portal-hitbox, he is automatically transported to
  * the next area. The Player-object in the current area is set to a position
- * outside
- * the portal hitbox, so that it doesn't trigger immediately upon the player
- * returning to the current area.
+ * outside the portal hitbox, so that it doesn't trigger immediately upon the
+ * player returning to the current area.
  */
 public class Portal extends Entity {
    private int areaItLeadsTo;

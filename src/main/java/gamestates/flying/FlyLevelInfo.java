@@ -25,10 +25,12 @@ public class FlyLevelInfo {
          0f, 110f, 0f, 0f, 0f, 0f, 0f,
          0f, 0f, 0f, 0f, 0f, 0f, 0f };
 
+   /** Returns the unscaled height of the background image */
    public int getBgImgHeight(int level) {
       return bgImgHeights[level];
    }
 
+   /** Returns the unscaled height of the collission image */
    public int getClImgHeight(int level) {
       return clImgHeights[level];
    }

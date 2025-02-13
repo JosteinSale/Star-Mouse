@@ -2,6 +2,7 @@ package projectiles.shootPatterns;
 
 import java.awt.Point;
 
+import entities.bossmode.AnimatedComponent;
 import projectiles.ProjectileHandler2;
 
 /**
@@ -75,6 +76,11 @@ abstract public class DefaultShootPattern implements ShootPattern {
    @Override
    public boolean isCharging() {
       return this.isCharging;
+   }
+
+   @Override
+   public boolean isInShootPhase() {
+      return this.shootPhase;
    }
 
    @Override

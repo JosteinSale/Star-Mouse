@@ -2,10 +2,10 @@ package rendering.root_renders;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 
 import gamestates.StartScreen;
 import main_classes.Game;
+import rendering.MyImage;
 import rendering.SwingRender;
 import utils.DrawUtils;
 import utils.ResourceLoader;
@@ -13,7 +13,7 @@ import utils.ResourceLoader;
 public class RenderStartScreen implements SwingRender {
 
    private StartScreen startScreen;
-   private BufferedImage mouseImg;
+   private MyImage mouseImg;
    private int mouseImgW = 100 * 3;
    private int mouseImgH = 100 * 3;
 

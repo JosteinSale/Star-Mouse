@@ -5,7 +5,6 @@ import static utils.HelpMethods.DrawCenteredString;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import cutscenes.FellowShip;
@@ -20,6 +19,8 @@ import cutscenes.effects.NumberDisplayEffect;
 import cutscenes.effects.ObjectMoveEffect;
 import cutscenes.effects.RedLightEffect;
 import cutscenes.effects.SetOverlayEffect;
+import rendering.MyImage;
+import rendering.MySubImage;
 import rendering.SwingRender;
 import rendering.exploring.RenderNumberDisplay;
 import ui.TextboxManager;
@@ -48,9 +49,9 @@ public class RenderCutscene implements SwingRender {
    private RenderNumberDisplay rNumberDisplay;
    private RenderObjectMove rObjectMove;
    private RenderTextBox rTextBox;
-   private static BufferedImage shipImg;
-   private static BufferedImage[] flameAnimations; // For the fellowships
-   private BufferedImage overlayImage;
+   private static MyImage shipImg;
+   private static MySubImage[] flameAnimations; // For the fellowships
+   private MyImage overlayImage;
    private int overlayW;
    private int overlayH;
 
@@ -141,7 +142,7 @@ public class RenderCutscene implements SwingRender {
                   (int) (ship.xPos - 20), (int) (ship.yPos - 20),
                   SHIP_SPRITE_WIDTH * 3, SHIP_SPRITE_HEIGHT * 3);
             // Ship flame
-            DrawUtils.drawImage(
+            DrawUtils.drawSubImage(
                   g, flameAnimations[ship.flame.aniIndex],
                   (int) (ship.xPos + 3.5f), (int) (ship.yPos + ship.height),
                   45, 45);

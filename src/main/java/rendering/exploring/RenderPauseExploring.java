@@ -4,11 +4,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import main_classes.Game;
+import rendering.MyImage;
 import rendering.SwingRender;
 import rendering.misc.RenderOptionsMenu;
 import ui.OptionsMenu;
@@ -29,12 +29,12 @@ public class RenderPauseExploring implements SwingRender {
    private RenderOptionsMenu rOptionsMenu;
    private OptionsMenu optionsMenu;
    private Color bgColor = new Color(0, 0, 0, 230);
-   private BufferedImage itemBoxImg;
-   private BufferedImage itemSelectedImg;
-   private BufferedImage pointerImg;
+   private MyImage itemBoxImg;
+   private MyImage itemSelectedImg;
+   private MyImage pointerImg;
    private Rectangle itemInfoBox; // Not adjusted to Game.SCALE
    private ArrayList<Rectangle> menuRects;
-   public HashMap<String, BufferedImage> itemImages;
+   public HashMap<String, MyImage> itemImages;
 
    private int bgW;
    private int bgH;

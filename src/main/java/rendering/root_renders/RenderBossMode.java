@@ -18,14 +18,7 @@ import rendering.misc.RenderCutscene;
 import rendering.misc.RenderOptionsMenu;
 
 /**
- * Draws *some* of bossMode.
- * 
- * It turned out to be very hard to implement MVC for the individual bosses.
- * Thus we will allow some of the drawing to be handled by the BossMode model,
- * for the time being. This goes for:
- * .AnimatedComponent
- * .ShootPattern (usually uses AnimatedComponents)
- * .DefaultBossPart
+ * Draws all of bossMode.
  */
 public class RenderBossMode implements SwingRender {
    private BossMode bossMode;

@@ -3,9 +3,9 @@ package rendering.misc;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
 
 import main_classes.Game;
+import rendering.MyImage;
 import rendering.SwingRender;
 import ui.InfoChoice;
 import utils.DrawUtils;
@@ -19,17 +19,18 @@ import static utils.HelpMethods.DrawCenteredString;
 
 public class RenderInfoChoice implements SwingRender {
    private InfoChoice ic;
-   private BufferedImage background;
-   private BufferedImage cursorImg;
+   private MyImage background;
+   private MyImage cursorImg;
    private Rectangle questionRect;
    private int infoChY;
    private int cursorY;
    private int cursorW;
    private int cursorH;
 
-   public RenderInfoChoice(InfoChoice infoChoice, BufferedImage background) {
+   public RenderInfoChoice(InfoChoice infoChoice) {
       this.ic = infoChoice;
-      this.background = background;
+      this.background = ResourceLoader.getExpImageSprite(
+            ResourceLoader.INFO_BOX);
       this.cursorImg = ResourceLoader.getExpImageSprite(
             ResourceLoader.CURSOR_SPRITE_BLACK);
       this.calcInfoChoiceValues();

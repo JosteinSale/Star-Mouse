@@ -4,10 +4,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
+import java.awt.Image;
 
 import entities.bossmode.DefaultBossPart;
 import main_classes.Game;
+import rendering.MyImage;
+import rendering.MySubImage;
 
 /** Provides common drawing methods */
 public class DrawUtils {
@@ -21,14 +23,28 @@ public class DrawUtils {
 
    /**
     * Draws the image scaled to Game.SCALE with int values.
-    * The x- and y-coordinate must be adjusted for drawOffset and levelOffset.
-    * If width and height is already adjusted for imgScale, use '1'.
+    * The x- and y-coordinate must be pre-adjusted for drawOffset and levelOffset.
     */
    public static void drawImage(
-         Graphics g, BufferedImage img, int x, int y,
+         Graphics g, MyImage img, int x, int y,
          int width, int height) {
       g.drawImage(
-            img,
+            img.getImage(),
+            (int) (x * Game.SCALE),
+            (int) (y * Game.SCALE),
+            (int) (width * Game.SCALE),
+            (int) (height * Game.SCALE), null);
+   }
+
+   /**
+    * Draws the sub image scaled to Game.SCALE with int values.
+    * The x- and y-coordinate must be pre-adjusted for drawOffset and levelOffset.
+    */
+   public static void drawSubImage(
+         Graphics g, MySubImage img, int x, int y,
+         int width, int height) {
+      g.drawImage(
+            img.getImage(),
             (int) (x * Game.SCALE),
             (int) (y * Game.SCALE),
             (int) (width * Game.SCALE),
@@ -82,10 +98,11 @@ public class DrawUtils {
             (int) (height * Game.SCALE));
    }
 
-   public static void drawRotatedBossPart(Graphics g, DefaultBossPart bp) {
+   public static void drawRotatedBossPart(
+         Graphics g, DefaultBossPart bp, Image[][] imgs) {
       Graphics2D g2 = (Graphics2D) g;
       utils.Inf101Graphics.drawCenteredImage(
-            g2, bp.imgs[bp.animAction][bp.aniIndex],
+            g2, imgs[bp.animAction][bp.aniIndex],
             bp.nonRotatedHitbox.getCenterX() * Game.SCALE,
             bp.nonRotatedHitbox.getCenterY() * Game.SCALE,
             Game.SCALE, bp.rotation);

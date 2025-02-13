@@ -10,12 +10,13 @@ import utils.HelpMethods;
 import utils.ResourceLoader;
 
 import java.awt.Color;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import static utils.Constants.UI.*;
 
 import main_classes.Game;
+import rendering.MyImage;
+import rendering.MySubImage;
 import rendering.SwingRender;
 
 public class RenderTextBox implements SwingRender {
@@ -25,8 +26,8 @@ public class RenderTextBox implements SwingRender {
    private RenderInfoChoice rInfoChoice;
 
    // Big dialogue box
-   private BufferedImage bigDialogueBoxImg;
-   private BufferedImage[][] portraits;
+   private MyImage bigDialogueBoxImg;
+   private MySubImage[][] portraits;
    private int bDialogueX = Game.GAME_DEFAULT_WIDTH / 2 - DIALOGUEBOX_WIDTH / 2;
    private int bDialogueY = 550;
    private Color nameColor;
@@ -49,13 +50,13 @@ public class RenderTextBox implements SwingRender {
       portraits = this.getAllPortraits();
    }
 
-   private BufferedImage[][] getAllPortraits() {
-      BufferedImage[][] portraits;
+   private MySubImage[][] getAllPortraits() {
+      MySubImage[][] portraits;
       int nrOfSpecialCharacters = 4;
       int nrOfNpcs = 17;
-      int maxAmountOfPortraits = 15;
+      int maxPortraitColumns = 15;
       int nrOfCharacters = nrOfSpecialCharacters + nrOfNpcs;
-      portraits = new BufferedImage[nrOfCharacters][maxAmountOfPortraits];
+      portraits = new MySubImage[nrOfCharacters][maxPortraitColumns];
       portraits[0] = getPortraitsFor(
             ResourceLoader.MAX_PORTRAITS, 15, 0);
       portraits[1] = getPortraitsFor(
@@ -71,9 +72,9 @@ public class RenderTextBox implements SwingRender {
       return portraits;
    }
 
-   private BufferedImage[] getPortraitsFor(String fileName, int length, int rowIndex) {
-      BufferedImage img = ResourceLoader.getExpImageSprite(fileName);
-      BufferedImage[] portraits = new BufferedImage[length];
+   private MySubImage[] getPortraitsFor(String fileName, int length, int rowIndex) {
+      MyImage img = ResourceLoader.getExpImageSprite(fileName);
+      MySubImage[] portraits = new MySubImage[length];
       for (int i = 0; i < portraits.length; i++) {
          portraits[i] = img.getSubimage(
                i * PORTRAIT_SIZE, rowIndex * PORTRAIT_SIZE,
@@ -110,7 +111,7 @@ public class RenderTextBox implements SwingRender {
             DIALOGUEBOX_WIDTH, DIALOGUEBOX_HEIGHT);
 
       // Portrait
-      DrawUtils.drawImage(
+      DrawUtils.drawSubImage(
             g, portraits[dialogue.characterIndex][dialogue.portraitIndex],
             bDialogueX + 12, bDialogueY + 12,
             PORTRAIT_SIZE * 3, PORTRAIT_SIZE * 3);
@@ -158,7 +159,7 @@ public class RenderTextBox implements SwingRender {
             850, 120);
 
       // Portrait
-      DrawUtils.drawImage(
+      DrawUtils.drawSubImage(
             g, portraits[dialogue.characterIndex][dialogue.portraitIndex],
             sDialogueX + 5, sDialogueY + 5,
             110, 110);

@@ -2,8 +2,8 @@ package rendering.flying;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 
+import rendering.MyImage;
 import ui.LevelFinishedOverlay;
 import utils.DrawUtils;
 import utils.ResourceLoader;
@@ -13,7 +13,7 @@ import static utils.Constants.UI.CURSOR_WIDTH;
 
 public class RenderLevelFinished {
    private LevelFinishedOverlay lf;
-   private BufferedImage cursorImg;
+   private MyImage cursorImg;
 
    private int statusX = 330;
    private int statusY = 390;

@@ -1,7 +1,6 @@
 package rendering.boss_mode;
 
 import java.awt.Color;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -12,6 +11,8 @@ import static utils.Constants.UI.CURSOR_WIDTH;
 import static utils.HelpMethods.DrawCenteredString;
 
 import main_classes.Game;
+import rendering.MyImage;
+import rendering.MySubImage;
 import ui.GameoverOverlay2;
 import utils.DrawUtils;
 import utils.HelpMethods2;
@@ -20,8 +21,8 @@ import utils.ResourceLoader;
 public class RenderGameOver2 {
    private GameoverOverlay2 gameOver;
    private Color bgColor = new Color(0, 0, 0, 140);
-   private BufferedImage pointerImg;
-   private BufferedImage[] deathAnimation;
+   private MyImage pointerImg;
+   private MySubImage[] deathAnimation;
    private ArrayList<Rectangle> menuRects;
 
    public RenderGameOver2(GameoverOverlay2 gameOver) {
@@ -33,7 +34,7 @@ public class RenderGameOver2 {
    private void loadResources() {
       this.pointerImg = ResourceLoader.getExpImageSprite(
             ResourceLoader.CURSOR_SPRITE_WHITE);
-      BufferedImage deathImg = ResourceLoader.getFlyImageSprite(
+      MyImage deathImg = ResourceLoader.getFlyImageSprite(
             ResourceLoader.SHIP_DEATH_SPRITES);
       this.deathAnimation = HelpMethods2.GetUnscaled1DAnimationArray(
             deathImg, 26, 40, 40);
@@ -61,7 +62,7 @@ public class RenderGameOver2 {
 
    private void drawDeathAnimation(Graphics g) {
       if (gameOver.aniIndex < deathAnimation.length) { // Will draw nothing at index 26 - 30
-         DrawUtils.drawImage(
+         DrawUtils.drawSubImage(
                g, deathAnimation[gameOver.aniIndex],
                (int) gameOver.playerX, (int) gameOver.playerY,
                120, 120);

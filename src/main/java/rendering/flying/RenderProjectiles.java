@@ -1,7 +1,6 @@
 package rendering.flying;
 
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import projectiles.BombExplosion;
@@ -9,6 +8,7 @@ import projectiles.PlayerProjectile;
 import projectiles.Projectile;
 import projectiles.ProjectileHandler;
 import projectiles.ProjectileHit;
+import rendering.MySubImage;
 import utils.DrawUtils;
 import utils.HelpMethods2;
 import utils.ResourceLoader;
@@ -42,8 +42,8 @@ public class RenderProjectiles {
    protected ProjectileDrawInfo bossProjct1;
    protected ProjectileDrawInfo bombExplInfo;
 
-   protected BufferedImage[] hitAnimation;
-   protected BufferedImage[] bombExplosionAnimation;
+   protected MySubImage[] hitAnimation;
+   protected MySubImage[] bombExplosionAnimation;
 
    public RenderProjectiles(ProjectileHandler projectileHandler) {
       this.projectileHandler = projectileHandler;
@@ -127,7 +127,7 @@ public class RenderProjectiles {
          case 0 -> 3;
          default -> 5;
       };
-      DrawUtils.drawImage(
+      DrawUtils.drawSubImage(
             g, hitAnimation[ph.getAniIndex()],
             ph.getX(), ph.getY(),
             PRJT_HIT_SPRITE_SIZE * scale, PRJT_HIT_SPRITE_SIZE * scale);
@@ -142,7 +142,7 @@ public class RenderProjectiles {
    }
 
    private void drawBombExplosion(BombExplosion b, Graphics g) {
-      DrawUtils.drawImage(
+      DrawUtils.drawSubImage(
             g, bombExplosionAnimation[b.aniIndex],
             b.x - bombExplInfo.drawOffsetX,
             b.y - bombExplInfo.drawOffsetY,

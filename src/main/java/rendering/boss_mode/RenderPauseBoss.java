@@ -1,12 +1,12 @@
 package rendering.boss_mode;
 
 import main_classes.Game;
+import rendering.MyImage;
 import rendering.misc.RenderOptionsMenu;
 import ui.PauseBoss;
 import utils.DrawUtils;
 import utils.ResourceLoader;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -20,7 +20,7 @@ import static utils.HelpMethods.DrawCenteredString;
 public class RenderPauseBoss {
    private PauseBoss pause;
    private Color bgColor = new Color(0, 0, 0, 140);
-   private BufferedImage pointerImg;
+   private MyImage pointerImg;
    private ArrayList<Rectangle> menuRects;
    private RenderOptionsMenu rOptions;
 

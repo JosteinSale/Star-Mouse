@@ -1,8 +1,6 @@
 package entities.bossmode.rudinger1;
 
-import java.awt.Graphics;
 import java.awt.geom.Rectangle2D.Float;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -16,12 +14,11 @@ public class RotatingLazer extends DefaultBossPart {
    private Double rotationSpeed = 0.013;
    private Double initialRotation;
    private boolean isCharging = false;
-   private boolean shouldDrawCharge = false; // There are two lazers, but only one needs to draw the charging.
    private int chargeTick = 0;
    private int chargeDuration = 140;
    private int visualWarningPoint = 100;
 
-   private AnimatedComponent chargeAnimation;
+   public AnimatedComponent chargeAnimation; // Can be null
 
    private final int SHOOTING_ANIM = 0;
    private final int VISUALWARNING_ANIM = 1;
@@ -31,16 +28,15 @@ public class RotatingLazer extends DefaultBossPart {
    // aniIndex inherited from super class
 
    public RotatingLazer(
-         Float hitbox, BufferedImage img, int aniRows, int aniCols, int spriteW, int spriteH,
+         Float hitbox, String spriteSheet, int aniRows, int aniCols, int spriteW, int spriteH,
          double startRotation, boolean shouldDrawCharge) {
-      super(hitbox, img, aniRows, aniCols, spriteW, spriteH);
+      super(hitbox, spriteSheet, aniRows, aniCols, spriteW, spriteH);
       this.initialRotation = startRotation;
-      this.shouldDrawCharge = shouldDrawCharge;
       this.updatePosition(0, 0, initialRotation);
 
       if (shouldDrawCharge) {
          this.chargeAnimation = new AnimatedComponent(
-               ResourceLoader.getBossSprite(ResourceLoader.LAZER_CHARGE_SPRITE1),
+               ResourceLoader.LAZER_CHARGE_SPRITE1,
                100, 100, 1, 5,
                new ArrayList<>(Arrays.asList(
                      new AnimationInfo("CHARGE", 0, 5, 3, 0, false))),
@@ -89,7 +85,7 @@ public class RotatingLazer extends DefaultBossPart {
          }
       }
       // Charging animation
-      if (shouldDrawCharge) {
+      if (chargeAnimation != null) {
          chargeAnimation.updateAnimations();
       }
       ;
@@ -119,11 +115,5 @@ public class RotatingLazer extends DefaultBossPart {
             (int) nonRotatedHitbox.getCenterX(),
             (int) nonRotatedHitbox.getCenterY(),
             initialRotation);
-   }
-
-   public void drawCharging(Graphics g) {
-      if (shouldDrawCharge && isCharging) {
-         AnimatedComponent.draw(g, chargeAnimation);
-      }
    }
 }

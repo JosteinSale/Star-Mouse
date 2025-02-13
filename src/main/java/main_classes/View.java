@@ -46,11 +46,10 @@ public class View {
       this.rStartScreen = new RenderStartScreen(game.getStartScreen());
       this.rInfoBox = new RenderInfoBox(game.getTextboxManager().getInfoBox());
       this.rInfoChoice = new RenderInfoChoice(
-            game.getTextboxManager().getInfoChoice(),
-            rInfoBox.getBackground());
+            game.getTextboxManager().getInfoChoice());
       this.rOptionsMenu = new RenderOptionsMenu(game.getOptionsMenu(), game.getOptionsMenu().getControlsMenu());
       this.rMainMenu = new RenderMainMenu(game, rOptionsMenu, rInfoChoice);
-      this.rLevelSelect = new RenderLevelSelect(game, rMainMenu.getBgImg());
+      this.rLevelSelect = new RenderLevelSelect(game);
       this.rCutscene = new RenderCutscene(game.getTextboxManager(), rInfoBox, rInfoChoice);
       this.rExploring = new RenderExploring(game, rOptionsMenu, rCutscene, rInfoBox, rInfoChoice);
       this.rFlying = new RenderFlying(game, game.getFlying(), rCutscene, rOptionsMenu);

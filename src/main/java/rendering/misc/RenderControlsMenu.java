@@ -3,9 +3,9 @@ package rendering.misc;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 
 import main_classes.Game;
+import rendering.MyImage;
 import rendering.SwingRender;
 import ui.ControlsMenu;
 import utils.DrawUtils;
@@ -19,8 +19,8 @@ import static utils.Constants.UI.OPTIONS_WIDTH;
 public class RenderControlsMenu implements SwingRender {
    private ControlsMenu menu;
    private Color bgColor = new Color(0, 0, 0, 230);
-   private BufferedImage pointerImg;
-   private BufferedImage selectImg;
+   private MyImage pointerImg;
+   private MyImage selectImg;
 
    private int bgW;
    private int bgH;

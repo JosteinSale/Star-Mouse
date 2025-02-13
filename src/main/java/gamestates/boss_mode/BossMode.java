@@ -38,7 +38,6 @@ import ui.GameoverOverlay2;
 import ui.PauseBoss;
 import ui.TextboxManager;
 import utils.Constants.Audio;
-import utils.ImageContainer;
 import utils.ResourceLoader;
 
 public class BossMode extends State {
@@ -71,7 +70,7 @@ public class BossMode extends State {
             game.getAudioPlayer(),
             player,
             new EnemyManager(null, null, null));
-      this.animationFactory = new AnimatedComponentFactory(new ImageContainer());
+      this.animationFactory = new AnimatedComponentFactory();
       this.pauseOverlay = new PauseBoss(game, this, game.getOptionsMenu());
       this.gameoverOverlay = new GameoverOverlay2(game, this);
 

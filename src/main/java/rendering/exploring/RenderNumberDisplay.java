@@ -4,11 +4,11 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import main_classes.Game;
+import rendering.MyImage;
 import rendering.SwingRender;
 import ui.NumberDisplay;
 import utils.DrawUtils;
 import utils.ResourceLoader;
-import java.awt.image.BufferedImage;
 
 import java.awt.Color;
 
@@ -19,8 +19,8 @@ import static utils.Constants.UI.NUMBER_DISPLAY_WIDTH;
 
 public class RenderNumberDisplay implements SwingRender {
    private NumberDisplay nrDisplay;
-   private BufferedImage bgImg;
-   private BufferedImage selectedNrImg;
+   private MyImage bgImg;
+   private MyImage selectedNrImg;
    private Color fadeColor;
    private Rectangle bgRect;
 
