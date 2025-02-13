@@ -32,7 +32,6 @@ public class LevelEditor {
    private Game game;
    public Integer level = 4;
    public EntityFactory entityFactory;
-   private FlyLevelInfo flyLevelInfo;
    private ArrayList<String> levelData;
    public ArrayList<String> addedEntityNames;
    public ArrayList<Rectangle> hitboxes;
@@ -58,7 +57,6 @@ public class LevelEditor {
    public LevelEditor(
          Game game, EntityFactory entityFactory) {
       this.game = game;
-      this.flyLevelInfo = new FlyLevelInfo();
       this.entityFactory = entityFactory;
       this.hitboxes = new ArrayList<>();
       this.shootTimers = new ArrayList<>();
@@ -72,7 +70,7 @@ public class LevelEditor {
    }
 
    private void calcMapValues(int lvl) {
-      this.clImgHeight = flyLevelInfo.getClImgHeight(lvl) * 3;
+      this.clImgHeight = FlyLevelInfo.getClImgHeight(lvl) * 3;
       this.clImgWidth = 450 * 3;
       this.clYOffset = Game.GAME_DEFAULT_HEIGHT - clImgHeight + 150;
       this.clXOffset = -150;

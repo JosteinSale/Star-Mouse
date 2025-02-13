@@ -25,8 +25,8 @@ public class MapManager2 {
       this.bgImgHeight = bgImgHeight;
       this.yProgess = 0;
       this.clImg = ResourceLoader.getFlyImageCollision("level" + Integer.toString(level) + "_cl.png").getImage();
-      this.clImgHeight = clImg.getHeight() * 3;
-      this.clImgWidth = clImg.getWidth() * 3;
+      this.clImgHeight = FlyLevelInfo.getClImgHeight(level) * 3;
+      this.clImgWidth = 450 * 3;
       this.clYOffset = Game.GAME_DEFAULT_HEIGHT - clImgHeight + 150;
       this.clXOffset = 150;
       this.bgYOffset = Game.GAME_DEFAULT_HEIGHT - bgImgHeight;

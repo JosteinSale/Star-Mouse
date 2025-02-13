@@ -21,13 +21,13 @@ public class RenderMap2 {
    public void loadNewMap(int lvl, int bgImgHeight) {
       this.bgImg = ResourceLoader.getFlyImageBackground("level" + Integer.toString(lvl) + "_bg.png");
       this.clImg = ResourceLoader.getFlyImageCollision("level" + Integer.toString(lvl) + "_cl.png");
-      this.bgImgHeight = bgImgHeight * 3;
+      this.bgImgHeight = bgImgHeight;
    }
 
    public void drawMaps(Graphics g) {
       DrawUtils.drawImage(
             g, bgImg,
-            0, (int) (map.bgYOffset * Game.SCALE),
+            0, (int) map.bgYOffset,
             Game.GAME_DEFAULT_WIDTH, bgImgHeight);
       DrawUtils.drawImage(
             g, clImg,

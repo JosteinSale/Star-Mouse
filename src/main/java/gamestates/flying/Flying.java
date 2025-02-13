@@ -42,7 +42,6 @@ public class Flying extends State {
    private LevelFinishedOverlay levelFinishedOverlay;
    private GameoverOverlay gameoverOverlay;
    private MapManager2 mapManager;
-   private FlyLevelInfo flyLevelInfo;
    private EntityFactory entityFactory;
    private EnemyManager enemyManager;
    private ProjectileHandler projectileHandler;
@@ -85,14 +84,13 @@ public class Flying extends State {
       this.pauseOverlay = new PauseFlying(this, optionsMenu);
       this.levelFinishedOverlay = new LevelFinishedOverlay(game, this);
       this.gameoverOverlay = new GameoverOverlay(this);
-      this.flyLevelInfo = new FlyLevelInfo();
       this.mapManager = new MapManager2();
    }
 
    public void loadLevel(int lvl) {
       this.level = lvl;
       this.song = Audio.GetFlyLevelSong(lvl);
-      mapManager.loadNewMap(lvl, flyLevelInfo.getBgImgHeight(lvl));
+      mapManager.loadNewMap(lvl, FlyLevelInfo.getBgImgHeight(lvl));
       player.setClImg(mapManager.clImg);
       projectileHandler.setClImg(mapManager.clImg);
       projectileHandler.setBombs(game.getExploring().getProgressValues().getBombs());
@@ -100,7 +98,7 @@ public class Flying extends State {
       loadPickupItems(lvl);
       loadCutscenes(lvl);
       player.setKilledEnemies(0);
-      this.setRenders(lvl, flyLevelInfo.getBgImgHeight(lvl));
+      this.setRenders(lvl, FlyLevelInfo.getBgImgHeight(lvl));
       // startAt(-20000); // For testing purposes
    }
 
@@ -229,7 +227,7 @@ public class Flying extends State {
    private void checkCheckPoint() {
       if (checkPointReached) {
          return;
-      } else if (mapManager.yProgess >= flyLevelInfo.getCheckPoint(level)) {
+      } else if (mapManager.yProgess >= FlyLevelInfo.getCheckPoint(level)) {
          this.checkPointReached = true;
          enemyManager.checkPointReached();
          projectileHandler.checkPointReached();
@@ -389,11 +387,11 @@ public class Flying extends State {
       checkPointReached = toCheckPoint;
 
       // Determine resetpoints:
-      float resetYPos = flyLevelInfo.getResetPoint(level);
-      float songResetPos = flyLevelInfo.getSongResetPoint(level);
+      float resetYPos = FlyLevelInfo.getResetPoint(level);
+      float songResetPos = FlyLevelInfo.getSongResetPoint(level);
       if (toCheckPoint) {
-         resetYPos = flyLevelInfo.getCheckPoint(level) + 100f; // +100 to avoid cutscene and get faster into action
-         songResetPos = flyLevelInfo.getSongCheckPoint(level);
+         resetYPos = FlyLevelInfo.getCheckPoint(level) + 100f; // +100 to avoid cutscene and get faster into action
+         songResetPos = FlyLevelInfo.getSongCheckPoint(level);
       }
       // Reset:
       resetLevelValues(toCheckPoint);
@@ -429,7 +427,7 @@ public class Flying extends State {
 
    private void resetChartingY(boolean toCheckPoint) {
       if (toCheckPoint) {
-         mapManager.yProgess = flyLevelInfo.getCheckPoint(level);
+         mapManager.yProgess = FlyLevelInfo.getCheckPoint(level);
       } else {
          mapManager.yProgess = 0;
       }
@@ -442,7 +440,7 @@ public class Flying extends State {
     */
    public void skipLevel() {
       this.cutsceneManager.reset();
-      float skipYPos = flyLevelInfo.getSkipLevelPoint(level);
+      float skipYPos = FlyLevelInfo.getSkipLevelPoint(level);
       mapManager.resetOffsetsTo(skipYPos, (bgCurSpeed / fgCurSpeed));
       for (AutomaticTrigger trigger : automaticTriggers) {
          trigger.resetTo(skipYPos);
