@@ -292,6 +292,7 @@ public class Flying extends State {
       this.resetFlying();
       if (this.level == 0) {
          Gamestate.state = Gamestate.EXPLORING;
+         game.getView().getRenderCutscene().setCutsceneManager(game.getExploring().getCurrentCutsceneManager());
       } else {
          game.getLevelSelect().reset();
          game.getLevelSelect().updateUnlockedLevels(level, enemyManager.getFinalKilledEnemies().size());
