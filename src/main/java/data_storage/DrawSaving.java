@@ -1,6 +1,6 @@
 package data_storage;
 
-import java.awt.Color;
+import rendering.MyColor;
 import java.awt.Graphics;
 import utils.DrawUtils;
 
@@ -42,7 +42,7 @@ public class DrawSaving {
          return;
       }
       DrawUtils.drawText(
-            g, Color.WHITE, DrawUtils.menuFont,
+            g, MyColor.WHITE, DrawUtils.menuFont,
             "Game Saved", X, Y);
    }
 

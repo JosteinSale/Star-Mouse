@@ -4,13 +4,12 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import main_classes.Game;
+import rendering.MyColor;
 import rendering.MyImage;
 import rendering.SwingRender;
 import ui.NumberDisplay;
 import utils.DrawUtils;
 import utils.ResourceLoader;
-
-import java.awt.Color;
 
 import static utils.Constants.UI.NUMBER_SELECT_HEIGHT;
 import static utils.Constants.UI.NUMBER_SELECT_WIDTH;
@@ -21,7 +20,7 @@ public class RenderNumberDisplay implements SwingRender {
    private NumberDisplay nrDisplay;
    private MyImage bgImg;
    private MyImage selectedNrImg;
-   private Color fadeColor;
+   private MyColor fadeColor;
    private Rectangle bgRect;
 
    public RenderNumberDisplay() {
@@ -29,7 +28,7 @@ public class RenderNumberDisplay implements SwingRender {
             ResourceLoader.NUMBER_DISPLAY);
       this.selectedNrImg = ResourceLoader.getExpImageSprite(
             ResourceLoader.NUMBER_SELECT);
-      this.fadeColor = new Color(0, 0, 0, 150);
+      this.fadeColor = new MyColor(0, 0, 0, 150);
       calcDrawValues();
    }
 
@@ -62,7 +61,7 @@ public class RenderNumberDisplay implements SwingRender {
       // Numbers
       for (int i = 0; i < 4; i++) {
          DrawUtils.drawText(
-               g, Color.GREEN, DrawUtils.headerFont,
+               g, MyColor.GREEN, DrawUtils.headerFont,
                Integer.toString(nrDisplay.currentCode[i]),
                bgRect.x + 108 + (i * 81), bgRect.y + 160);
       }

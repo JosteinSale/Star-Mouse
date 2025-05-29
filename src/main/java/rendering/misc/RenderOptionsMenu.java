@@ -1,10 +1,10 @@
 package rendering.misc;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import main_classes.Game;
+import rendering.MyColor;
 import rendering.MyImage;
 import rendering.SwingRender;
 import ui.ControlsMenu;
@@ -23,7 +23,7 @@ public class RenderOptionsMenu implements SwingRender {
    private OptionsMenu optionsMenu;
    private ControlsMenu controlsMenu;
    private RenderControlsMenu rControlsMenu;
-   private Color bgColor = new Color(0, 0, 0, 230);
+   private MyColor bgColor = new MyColor(0, 0, 0, 230);
    private MyImage pointerImg;
    private MyImage sliderImg;
 
@@ -69,27 +69,27 @@ public class RenderOptionsMenu implements SwingRender {
             g2, bgColor,
             bgX, bgY, bgW, bgH);
       DrawUtils.drawRect(
-            g2, Color.WHITE,
+            g2, MyColor.WHITE,
             bgX + 10, bgY + 10, bgW - 20, bgH - 20);
 
       // Text
       DrawUtils.drawText(
-            g2, Color.WHITE, DrawUtils.headerFont,
+            g2, MyColor.WHITE, DrawUtils.headerFont,
             "OPTIONS",
             420, 150);
       for (int i = 0; i < optionsMenu.menuOptions.length; i++) {
          DrawUtils.drawText(
-               g2, Color.WHITE, DrawUtils.menuFont,
+               g2, MyColor.WHITE, DrawUtils.menuFont,
                optionsMenu.menuOptions[i],
                optionsX, optionsY + i * optionsMenu.menuOptionsDiff);
       }
 
       // Sliders
       DrawUtils.fillRect(
-            g2, Color.WHITE,
+            g2, MyColor.WHITE,
             550, 318, optionsMenu.sliderBarWidth, 5);
       DrawUtils.fillRect(
-            g2, Color.WHITE,
+            g2, MyColor.WHITE,
             550, 390, optionsMenu.sliderBarWidth, 5);
       DrawUtils.drawImage(
             g2, sliderImg,

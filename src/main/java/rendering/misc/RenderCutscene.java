@@ -2,7 +2,6 @@ package rendering.misc;
 
 import static utils.HelpMethods.DrawCenteredString;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -19,6 +18,7 @@ import cutscenes.effects.NumberDisplayEffect;
 import cutscenes.effects.ObjectMoveEffect;
 import cutscenes.effects.RedLightEffect;
 import cutscenes.effects.SetOverlayEffect;
+import rendering.MyColor;
 import rendering.MyImage;
 import rendering.MySubImage;
 import rendering.SwingRender;
@@ -111,11 +111,11 @@ public class RenderCutscene implements SwingRender {
     */
    private void drawEffect(Graphics g, DrawableEffect effect) {
       if (effect instanceof FadeEffect e) {
-         Color color = this.getTransparentColor(e.color, e.alphaFade);
+         MyColor color = this.getTransparentColor(e.color, e.alphaFade);
          DrawUtils.fillScreen(g, color);
       } else if (effect instanceof FadeHeaderEffect e) {
-         Color color = this.getTransparentColor("white", e.alphaFade);
-         g.setColor(color);
+         MyColor color = this.getTransparentColor("white", e.alphaFade);
+         g.setColor(color.getColor());
          this.drawHeader(g, e.headerText, e.headerBox);
       } else if (effect instanceof FellowShipEffect e) {
          this.drawFellowShips(g, e.fellowShips);
@@ -126,7 +126,7 @@ public class RenderCutscene implements SwingRender {
       } else if (effect instanceof ObjectMoveEffect) {
          this.rObjectMove.draw(g);
       } else if (effect instanceof RedLightEffect e) {
-         Color color = getTransparentColor("red", e.alpha);
+         MyColor color = getTransparentColor("red", e.alpha);
          DrawUtils.fillScreen(g, color);
       } else if (effect instanceof SetOverlayEffect) {
          this.drawOverlayImage(g);
@@ -168,25 +168,25 @@ public class RenderCutscene implements SwingRender {
             overlayW, overlayH);
    }
 
-   private Color getTransparentColor(String color, int alphaFade) {
+   private MyColor getTransparentColor(String color, int alphaFade) {
       switch (color) {
          case "black":
-            return new Color(0, 0, 0, alphaFade);
+            return new MyColor(0, 0, 0, alphaFade);
          case "white":
-            return new Color(255, 255, 255, alphaFade);
+            return new MyColor(255, 255, 255, alphaFade);
          case "red":
-            return new Color(255, 0, 0, alphaFade);
+            return new MyColor(255, 0, 0, alphaFade);
          default:
             throw new IllegalArgumentException("No color available for: " + color);
       }
    }
 
-   private Color getOpaqueColor(String color) {
+   private MyColor getOpaqueColor(String color) {
       switch (color) {
          case "black":
-            return Color.BLACK;
+            return MyColor.BLACK;
          case "white":
-            return Color.WHITE;
+            return MyColor.WHITE;
          default:
             throw new IllegalArgumentException("color " + color + "is not supported");
       }

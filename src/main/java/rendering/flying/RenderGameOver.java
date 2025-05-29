@@ -1,12 +1,13 @@
 package rendering.flying;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.Color;
 import java.util.ArrayList;
 
 import main_classes.Game;
+import rendering.MyColor;
 import rendering.MyImage;
 import rendering.MySubImage;
 import ui.GameoverOverlay;
@@ -20,7 +21,7 @@ import static utils.HelpMethods.DrawCenteredString;
 
 public class RenderGameOver {
    private GameoverOverlay gameOver;
-   private Color bgColor = new Color(0, 0, 0, 140);
+   private MyColor bgColor = new MyColor(0, 0, 0, 140);
    private MyImage pointerImg;
    private MySubImage[] deathAnimation;
    private ArrayList<Rectangle> menuRects;
@@ -77,7 +78,7 @@ public class RenderGameOver {
 
       // Text
       DrawUtils.drawText(
-            g2, Color.WHITE, DrawUtils.headerFont,
+            g2, MyColor.WHITE, DrawUtils.headerFont,
             "YOU DIED",
             400, 350);
 

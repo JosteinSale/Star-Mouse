@@ -1,8 +1,8 @@
 package rendering.flying;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
+import rendering.MyColor;
 import rendering.MyImage;
 import ui.LevelFinishedOverlay;
 import utils.DrawUtils;
@@ -26,7 +26,7 @@ public class RenderLevelFinished {
    }
 
    public void draw(Graphics g) {
-      DrawUtils.fillScreen(g, Color.BLACK);
+      DrawUtils.fillScreen(g, MyColor.BLACK);
       drawHeader(g);
       if (lf.areLettersAppearing()) {
          drawStats(g);
@@ -43,7 +43,7 @@ public class RenderLevelFinished {
             endLetter = lf.currentLetter - (i * lf.lettersPerLine);
          }
          DrawUtils.drawText(
-               g, Color.WHITE, DrawUtils.infoFont,
+               g, MyColor.WHITE, DrawUtils.infoFont,
                lf.statusText[i].substring(0, endLetter),
                statusX, statusY + i * yDiff);
       }
@@ -51,14 +51,14 @@ public class RenderLevelFinished {
 
    private void drawHeader(Graphics g) {
       DrawUtils.drawText(
-            g, new Color(255, 255, 255, lf.headerAlpha), DrawUtils.headerFont,
+            g, new MyColor(255, 255, 255, lf.headerAlpha), DrawUtils.headerFont,
             "Level Finished",
             320, 200);
    }
 
    private void drawContinue(Graphics g) {
       DrawUtils.drawText(
-            g, Color.WHITE, DrawUtils.nameFont,
+            g, MyColor.WHITE, DrawUtils.nameFont,
             "Continue",
             420, 600);
       DrawUtils.drawImage(

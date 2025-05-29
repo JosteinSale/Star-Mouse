@@ -7,6 +7,7 @@ import static utils.HelpMethods.DrawCenteredString;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import rendering.MyColor;
 
 import main_classes.Game;
 
@@ -16,7 +17,7 @@ import main_classes.Game;
  */
 public class RenderBossHealth {
    private BossHealthDisplay hdp;
-   private Color HPbgColor = new Color(97, 0, 15, 180);
+   private MyColor HPbgColor = new MyColor(97, 0, 15, 180);
    private int HPbarH = 10;
    private int HPbarY = 10;
    private Rectangle bossNameRect;
@@ -38,11 +39,11 @@ public class RenderBossHealth {
             hdp.HPbarX, HPbarY,
             hdp.HPbarMaxW, HPbarH);
 
-      Color hpColor;
+      MyColor hpColor;
       if (hdp.blinkTimer % 4 == 0) {
-         hpColor = Color.RED;
+         hpColor = MyColor.RED;
       } else {
-         hpColor = Color.WHITE;
+         hpColor = MyColor.WHITE;
       }
       DrawUtils.fillRect(
             g, hpColor,

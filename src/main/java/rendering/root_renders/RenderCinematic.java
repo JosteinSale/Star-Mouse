@@ -1,8 +1,8 @@
 package rendering.root_renders;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
+import rendering.MyColor;
 import rendering.SwingRender;
 import rendering.misc.RenderCutscene;
 import utils.DrawUtils;
@@ -22,7 +22,7 @@ public class RenderCinematic implements SwingRender {
 
    private void drawSkipText(Graphics g) {
       DrawUtils.drawText(
-            g, Color.GRAY, DrawUtils.infoFont,
+            g, MyColor.GRAY, DrawUtils.infoFont,
             "ENTER to skip", 30, 30);
    }
 

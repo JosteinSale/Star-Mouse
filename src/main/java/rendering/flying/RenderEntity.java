@@ -1,6 +1,5 @@
 package rendering.flying;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D.Float;
 import java.util.ArrayList;
@@ -11,6 +10,7 @@ import entities.flying.enemies.Enemy;
 import entities.flying.enemies.EnemyManager;
 import entities.flying.pickupItems.PickupItem;
 import projectiles.Explosion;
+import rendering.MyColor;
 import rendering.MySubImage;
 import utils.DrawUtils;
 import utils.HelpMethods2;
@@ -93,7 +93,7 @@ public class RenderEntity {
 
    private void drawEnemyHitbox(Float hitbox, Graphics g) {
       DrawUtils.fillRect(
-            g, Color.RED,
+            g, MyColor.RED,
             (int) hitbox.x, (int) hitbox.y,
             (int) hitbox.width, (int) hitbox.height);
    }

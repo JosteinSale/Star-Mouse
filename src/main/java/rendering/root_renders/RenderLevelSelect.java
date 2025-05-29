@@ -13,6 +13,7 @@ import gamestates.level_select.BaseLevelLayout;
 import gamestates.level_select.LevelSelect;
 import gamestates.level_select.LevelSlot;
 import main_classes.Game;
+import rendering.MyColor;
 import rendering.MyImage;
 import rendering.MySubImage;
 import rendering.SwingRender;
@@ -67,7 +68,7 @@ public class RenderLevelSelect implements SwingRender {
 
       // Fade
       if (levelSelect.fadeInActive || levelSelect.fadeOutActive) {
-         DrawUtils.fillScreen(g, new Color(0, 0, 0, levelSelect.alphaFade));
+         DrawUtils.fillScreen(g, new MyColor(0, 0, 0, levelSelect.alphaFade));
       }
    }
 

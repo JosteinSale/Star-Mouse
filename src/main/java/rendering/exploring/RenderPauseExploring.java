@@ -1,6 +1,5 @@
 package rendering.exploring;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -8,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import main_classes.Game;
+import rendering.MyColor;
 import rendering.MyImage;
 import rendering.SwingRender;
 import rendering.misc.RenderOptionsMenu;
@@ -28,7 +28,7 @@ public class RenderPauseExploring implements SwingRender {
    private PauseExploring pause;
    private RenderOptionsMenu rOptionsMenu;
    private OptionsMenu optionsMenu;
-   private Color bgColor = new Color(0, 0, 0, 230);
+   private MyColor bgColor = new MyColor(0, 0, 0, 230);
    private MyImage itemBoxImg;
    private MyImage itemSelectedImg;
    private MyImage pointerImg;
@@ -120,7 +120,7 @@ public class RenderPauseExploring implements SwingRender {
    private void drawStatusValues(Graphics2D g2) {
       for (int i = 0; i < pause.valueNames.length; i++) {
          DrawUtils.drawText(
-               g2, Color.WHITE, DrawUtils.infoFont,
+               g2, MyColor.WHITE, DrawUtils.infoFont,
                pause.valueNames[i] + Integer.toString(pause.statusValues[i]),
                170, 480 + (i * 50));
       }
@@ -138,7 +138,7 @@ public class RenderPauseExploring implements SwingRender {
    private void drawText(Graphics2D g2) {
       // Header
       DrawUtils.drawText(
-            g2, Color.WHITE, DrawUtils.headerFont,
+            g2, MyColor.WHITE, DrawUtils.headerFont,
             "Inventory",
             380, 150);
 
@@ -153,14 +153,14 @@ public class RenderPauseExploring implements SwingRender {
       if ((pause.items.size() - 1) >= pause.selectedIndex) {
          String itemName = pause.items.get(pause.selectedIndex).getName();
          DrawUtils.drawText(
-               g2, Color.WHITE, DrawUtils.itemFont,
+               g2, MyColor.WHITE, DrawUtils.itemFont,
                itemName,
                itemInfoBox.x + 10, itemInfoBox.y + 30);
 
          ArrayList<String> info = pause.items.get(pause.selectedIndex).getDescription();
          for (int i = 0; i < info.size(); i++) {
             DrawUtils.drawText(
-                  g2, Color.WHITE, DrawUtils.itemFont,
+                  g2, MyColor.WHITE, DrawUtils.itemFont,
                   info.get(i),
                   itemInfoBox.x + 10, itemInfoBox.y + 80 + (i * 40));
          }
@@ -200,11 +200,11 @@ public class RenderPauseExploring implements SwingRender {
             bgX, bgY,
             bgW, bgH);
       DrawUtils.drawRect(
-            g2, Color.WHITE,
+            g2, MyColor.WHITE,
             bgX + 10, bgY + 10,
             bgW - 20, bgH - 20);
       DrawUtils.fillRect(
-            g2, Color.DARK_GRAY.darker(),
+            g2, MyColor.DARKER_GRAY,
             itemInfoBox.x, itemInfoBox.y,
             itemInfoBox.width, itemInfoBox.height);
    }

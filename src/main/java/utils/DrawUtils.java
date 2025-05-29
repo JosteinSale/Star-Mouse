@@ -1,6 +1,5 @@
 package utils;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -8,6 +7,7 @@ import java.awt.Image;
 
 import entities.bossmode.DefaultBossPart;
 import main_classes.Game;
+import rendering.MyColor;
 import rendering.MyImage;
 import rendering.MySubImage;
 
@@ -52,8 +52,8 @@ public class DrawUtils {
    }
 
    public static void drawText(
-         Graphics g, Color color, Font font, String text, int x, int y) {
-      g.setColor(color);
+         Graphics g, MyColor c, Font font, String text, int x, int y) {
+      g.setColor(c.getColor());
       g.setFont(font);
       g.drawString(
             text,
@@ -63,8 +63,8 @@ public class DrawUtils {
 
    /** fillRect - int */
    public static void fillRect(
-         Graphics g, Color color, int x, int y, int width, int height) {
-      g.setColor(color);
+         Graphics g, MyColor c, int x, int y, int width, int height) {
+      g.setColor(c.getColor());
       g.fillRect(
             (int) (x * Game.SCALE),
             (int) (y * Game.SCALE),
@@ -74,8 +74,8 @@ public class DrawUtils {
 
    /** fillRect - double */
    public static void fillRect(
-         Graphics g, Color color, double x, double y, double width, double height) {
-      g.setColor(color);
+         Graphics g, MyColor c, double x, double y, double width, double height) {
+      g.setColor(c.getColor());
       g.fillRect(
             (int) (x * Game.SCALE),
             (int) (y * Game.SCALE),
@@ -83,14 +83,14 @@ public class DrawUtils {
             (int) (height * Game.SCALE));
    }
 
-   public static void fillScreen(Graphics g, Color color) {
-      g.setColor(color);
+   public static void fillScreen(Graphics g, MyColor c) {
+      g.setColor(c.getColor());
       g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
    }
 
    public static void drawRect(
-         Graphics g, Color color, int x, int y, int width, int height) {
-      g.setColor(color);
+         Graphics g, MyColor c, int x, int y, int width, int height) {
+      g.setColor(c.getColor());
       g.drawRect(
             (int) (x * Game.SCALE),
             (int) (y * Game.SCALE),

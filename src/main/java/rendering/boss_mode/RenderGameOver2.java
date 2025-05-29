@@ -1,6 +1,5 @@
 package rendering.boss_mode;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -11,6 +10,7 @@ import static utils.Constants.UI.CURSOR_WIDTH;
 import static utils.HelpMethods.DrawCenteredString;
 
 import main_classes.Game;
+import rendering.MyColor;
 import rendering.MyImage;
 import rendering.MySubImage;
 import ui.GameoverOverlay2;
@@ -20,7 +20,7 @@ import utils.ResourceLoader;
 
 public class RenderGameOver2 {
    private GameoverOverlay2 gameOver;
-   private Color bgColor = new Color(0, 0, 0, 140);
+   private MyColor bgColor = new MyColor(0, 0, 0, 140);
    private MyImage pointerImg;
    private MySubImage[] deathAnimation;
    private ArrayList<Rectangle> menuRects;
@@ -74,12 +74,11 @@ public class RenderGameOver2 {
       Graphics2D g2 = (Graphics2D) g;
 
       // Background
-      g.setColor(bgColor);
-      g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
+      DrawUtils.fillScreen(g2, bgColor);
 
       // Text
       DrawUtils.drawText(
-            g2, Color.WHITE, DrawUtils.headerFont,
+            g2, MyColor.WHITE, DrawUtils.headerFont,
             "YOU DIED", 400, 350);
 
       for (int i = 0; i < gameOver.menuOptions.length; i++) {

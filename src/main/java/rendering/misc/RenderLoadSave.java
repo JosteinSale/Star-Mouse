@@ -13,6 +13,7 @@ import java.awt.Rectangle;
 
 import data_storage.SaveData;
 import main_classes.Game;
+import rendering.MyColor;
 import rendering.MyImage;
 import rendering.SwingRender;
 import ui.LoadSaveMenu;
@@ -24,7 +25,7 @@ public class RenderLoadSave implements SwingRender {
    private LoadSaveMenu menu;
    private RenderInfoChoice rInfoChoice;
    private Rectangle headerRect;
-   private Color bgColor = new Color(0, 0, 0, 230);
+   private MyColor bgColor = new MyColor(0, 0, 0, 230);
    private MyImage pointerImg;
 
    private int bgW;
@@ -72,7 +73,7 @@ public class RenderLoadSave implements SwingRender {
             bgX, bgY,
             bgW, bgH);
       DrawUtils.drawRect(
-            g2, Color.WHITE,
+            g2, MyColor.WHITE,
             bgX + 10, bgY + 10,
             bgW - 20, bgH - 20);
 
@@ -96,7 +97,7 @@ public class RenderLoadSave implements SwingRender {
       // Left side: draw the menu options
       for (int i = 0; i < menu.menuOptions.length; i++) {
          DrawUtils.drawText(
-               g, Color.WHITE, DrawUtils.menuFont,
+               g, MyColor.WHITE, DrawUtils.menuFont,
                menu.menuOptions[i],
                optionsX, optionsY + i * menu.menuOptionsDiff);
       }
@@ -106,12 +107,12 @@ public class RenderLoadSave implements SwingRender {
       for (int i = 0; i < 3; i++) {
          if (saveData.getProgValuesFor(i + 1).saveStarted) {
             DrawUtils.drawText(
-                  g, Color.WHITE, DrawUtils.menuFont,
+                  g, MyColor.WHITE, DrawUtils.menuFont,
                   saveData.getProgValuesFor(i + 1).lastUsed,
                   xPos, optionsY + i * menu.menuOptionsDiff);
          } else {
             DrawUtils.drawText(
-                  g, Color.WHITE, DrawUtils.menuFont,
+                  g, MyColor.WHITE, DrawUtils.menuFont,
                   "[EMPTY]",
                   xPos, optionsY + i * menu.menuOptionsDiff);
          }

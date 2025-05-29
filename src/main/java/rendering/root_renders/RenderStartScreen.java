@@ -1,10 +1,10 @@
 package rendering.root_renders;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 import gamestates.StartScreen;
 import main_classes.Game;
+import rendering.MyColor;
 import rendering.MyImage;
 import rendering.SwingRender;
 import utils.DrawUtils;
@@ -25,7 +25,7 @@ public class RenderStartScreen implements SwingRender {
    @Override
    public void draw(Graphics g) {
       // Background
-      DrawUtils.fillScreen(g, Color.BLACK);
+      DrawUtils.fillScreen(g, MyColor.BLACK);
 
       // MouseImg
       DrawUtils.drawImage(
@@ -36,13 +36,13 @@ public class RenderStartScreen implements SwingRender {
 
       // Text
       DrawUtils.drawText(
-            g, Color.WHITE, DrawUtils.infoFont,
+            g, MyColor.WHITE, DrawUtils.infoFont,
             "Press SPACE",
             430, 600);
 
       // Fade
       if (startScreen.fadeActive) {
-         DrawUtils.fillScreen(g, new Color(0, 0, 0, startScreen.alphaFade));
+         DrawUtils.fillScreen(g, new MyColor(0, 0, 0, startScreen.alphaFade));
       }
 
    }

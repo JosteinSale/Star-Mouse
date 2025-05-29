@@ -7,9 +7,9 @@ import static utils.Constants.UI.MECHANIC_DISPLAY_HEIGHT;
 import static utils.Constants.UI.MECHANIC_DISPLAY_WIDTH;
 
 import java.awt.Graphics;
-import java.awt.Color;
 
 import main_classes.Game;
+import rendering.MyColor;
 import rendering.MyImage;
 import rendering.SwingRender;
 import rendering.misc.RenderInfoBox;
@@ -27,10 +27,10 @@ public class RenderMechanic implements SwingRender {
    private MyImage bgImg;
    private MyImage pointerImg;
 
-   private Color inventoryColor = new Color(0, 0, 0, 230);
-   private Color lazerBarColor = Color.CYAN;
-   private Color hpBarColor = Color.ORANGE;
-   private Color displayColor = Color.GREEN;
+   private MyColor inventoryColor = new MyColor(0, 0, 0, 230);
+   private MyColor lazerBarColor = MyColor.CYAN;
+   private MyColor hpBarColor = MyColor.ORANGE;
+   private MyColor displayColor = MyColor.GREEN;
 
    private int cursorX = 200;
    private int barH = 21;
@@ -73,11 +73,11 @@ public class RenderMechanic implements SwingRender {
       for (int i = 0; i < 3; i++) {
          if (mechanic.maxedOut[i]) {
             DrawUtils.fillRect(
-                  g, new Color(0, 0, 0, 190),
+                  g, new MyColor(0, 0, 0, 190),
                   277, 138 + 75 * i,
                   263, 70);
             DrawUtils.drawText(
-                  g, Color.RED, DrawUtils.menuFont,
+                  g, MyColor.RED, DrawUtils.menuFont,
                   "(max)",
                   350, 185 + 75 * i);
          }
@@ -90,7 +90,7 @@ public class RenderMechanic implements SwingRender {
             inventoryX, inventoryY,
             inventoryW, inventoryH);
       DrawUtils.drawRect(
-            g, Color.WHITE,
+            g, MyColor.WHITE,
             inventoryX + 10, inventoryY + 10,
             inventoryW - 20, inventoryH - 20);
    }
@@ -98,21 +98,21 @@ public class RenderMechanic implements SwingRender {
    private void drawText(Graphics g) {
       // EXIT
       DrawUtils.drawText(
-            g, Color.GRAY.darker(), DrawUtils.menuFont,
+            g, MyColor.DARK_GRAY, DrawUtils.menuFont,
             "EXIT", 360, 410);
 
       // Inventory
       DrawUtils.drawText(
-            g, Color.WHITE, DrawUtils.menuFont,
+            g, MyColor.WHITE, DrawUtils.menuFont,
             "Inventory", 410, 630);
 
       DrawUtils.drawText(
-            g, Color.WHITE, DrawUtils.infoFont,
+            g, MyColor.WHITE, DrawUtils.infoFont,
             "Credits: x" + Integer.toString(
                   game.getExploring().getProgressValues().getCredits()),
             250, 690);
       DrawUtils.drawText(
-            g, Color.WHITE, DrawUtils.infoFont,
+            g, MyColor.WHITE, DrawUtils.infoFont,
             "Bombs: x" + Integer.toString(
                   game.getExploring().getProgressValues().getBombs()),
             620, 690);

@@ -1,9 +1,9 @@
 package rendering.misc;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 import main_classes.Game;
+import rendering.MyColor;
 import rendering.MyImage;
 import rendering.SwingRender;
 import ui.InfoBox;
@@ -35,7 +35,7 @@ public class RenderInfoBox implements SwingRender {
       // Text
       for (int i = 0; i < infoBox.formattedStrings.size(); i++) {
          DrawUtils.drawText(
-               g, Color.BLACK, DrawUtils.infoFont,
+               g, MyColor.BLACK, DrawUtils.infoFont,
                infoBox.formattedStrings.get(i),
                infoX + 60, infoY + 60 + (i * 40));
       }

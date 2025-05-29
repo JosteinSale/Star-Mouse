@@ -1,12 +1,12 @@
 package rendering.flying;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import main_classes.Game;
+import rendering.MyColor;
 import rendering.MyImage;
 import rendering.misc.RenderOptionsMenu;
 import ui.PauseFlying;
@@ -21,7 +21,7 @@ public class RenderPauseFly {
    private PauseFlying pause;
    private RenderOptionsMenu rOptions;
    private ArrayList<Rectangle> menuRects;
-   private Color bgColor = new Color(0, 0, 0, 140);
+   private MyColor bgColor = new MyColor(0, 0, 0, 140);
    private MyImage pointerImg;
 
    public RenderPauseFly(PauseFlying pause, RenderOptionsMenu rOptions) {
@@ -54,7 +54,7 @@ public class RenderPauseFly {
       } else {
          // Text
          DrawUtils.drawText(
-               g2, Color.WHITE, DrawUtils.headerFont,
+               g2, MyColor.WHITE, DrawUtils.headerFont,
                "PAUSE",
                450, 200);
          for (int i = 0; i < pause.menuOptions.length; i++) {

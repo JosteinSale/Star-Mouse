@@ -1,7 +1,6 @@
 package rendering.misc;
 
 import java.awt.Graphics;
-
 import ui.BigDialogueBox;
 import ui.SmallDialogueBox;
 import ui.TextboxManager;
@@ -9,12 +8,11 @@ import utils.DrawUtils;
 import utils.HelpMethods;
 import utils.ResourceLoader;
 
-import java.awt.Color;
 import java.util.ArrayList;
-
 import static utils.Constants.UI.*;
 
 import main_classes.Game;
+import rendering.MyColor;
 import rendering.MyImage;
 import rendering.MySubImage;
 import rendering.SwingRender;
@@ -30,10 +28,10 @@ public class RenderTextBox implements SwingRender {
    private MySubImage[][] portraits;
    private int bDialogueX = Game.GAME_DEFAULT_WIDTH / 2 - DIALOGUEBOX_WIDTH / 2;
    private int bDialogueY = 550;
-   private Color nameColor;
+   private MyColor nameColor;
 
    // Small dialogue box (uses some of the BigDialogueBox-variables)
-   private Color sDialogueBgColor = new Color(0, 0, 0, 100);
+   private MyColor sDialogueBgColor = new MyColor(0, 0, 0, 100);
    private int sDialogueX = 40;
    private int sDialogueY = 600;
 
@@ -143,7 +141,7 @@ public class RenderTextBox implements SwingRender {
 
    private void drawPartialSentence(Graphics g, String s, int currentLetter, int x, int y) {
       DrawUtils.drawText(
-            g, Color.WHITE, DrawUtils.infoFont,
+            g, MyColor.WHITE, DrawUtils.infoFont,
             s.substring(0, currentLetter),
             x, y);
 

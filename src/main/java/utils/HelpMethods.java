@@ -17,6 +17,7 @@ import entities.exploring.*;
 import game_events.*;
 import gamestates.Gamestate;
 import main_classes.Game;
+import rendering.MyColor;
 import utils.Constants.Audio;
 import utils.parsing.CutsceneParser;
 
@@ -261,31 +262,31 @@ public class HelpMethods {
         return index;
     }
 
-    public static Color GetNameColor(String name) {
-        Color color = switch (name) {
-            case "Max" -> Color.LIGHT_GRAY;
-            case "Oliver" -> new Color(206, 191, 132);
-            case "Rudinger" -> Color.WHITE;
-            case "Lance" -> Color.LIGHT_GRAY;
-            case "Charlotte" -> Color.GREEN.darker();
-            case "Nina" -> Color.PINK;
-            case "Shady pilot" -> Color.ORANGE;
-            case "Speaker" -> Color.RED;
-            case "Sign" -> Color.WHITE;
-            case "Mechanic" -> Color.BLUE.brighter();
-            case "Lt.Red" -> Color.RED;
-            case "Russel" -> Color.CYAN;
-            case "Emma" -> Color.MAGENTA;
-            case "Po" -> Color.GREEN;
-            case "Nathan" -> new Color(78, 160, 130);
-            case "Frida" -> Color.YELLOW;
-            case "Zack" -> new Color(216, 214, 211);
-            case "Gard" -> new Color(138, 119, 99);
-            case "Feno" -> Color.ORANGE;
-            case "Skye" -> Color.PINK;
-            case "???", "????" -> Color.WHITE;
-            case "Drone" -> Color.GRAY;
-            case "Acolyte" -> Color.CYAN;
+    public static MyColor GetNameColor(String name) {
+        MyColor color = switch (name) {
+            case "Max" -> MyColor.LIGHT_GRAY;
+            case "Oliver" -> new MyColor(206, 191, 132, 255);
+            case "Rudinger" -> MyColor.WHITE;
+            case "Lance" -> MyColor.LIGHT_GRAY;
+            case "Charlotte" -> MyColor.DARK_GREEN;
+            case "Nina" -> MyColor.PINK;
+            case "Shady pilot" -> MyColor.ORANGE;
+            case "Speaker" -> MyColor.RED;
+            case "Sign" -> MyColor.WHITE;
+            case "Mechanic" -> MyColor.LIGHT_BLUE;
+            case "Lt.Red" -> MyColor.RED;
+            case "Russel" -> MyColor.CYAN;
+            case "Emma" -> MyColor.MAGENTA;
+            case "Po" -> MyColor.GREEN;
+            case "Nathan" -> new MyColor(78, 160, 130, 255);
+            case "Frida" -> MyColor.YELLOW;
+            case "Zack" -> new MyColor(216, 214, 211, 255);
+            case "Gard" -> new MyColor(138, 119, 99, 255);
+            case "Feno" -> MyColor.ORANGE;
+            case "Skye" -> MyColor.PINK;
+            case "???", "????" -> MyColor.WHITE;
+            case "Drone" -> MyColor.GRAY;
+            case "Acolyte" -> MyColor.CYAN;
             default -> throw new IllegalArgumentException(
                     "No nameColor available for '" + name + "'");
         };

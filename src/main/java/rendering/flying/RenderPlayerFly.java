@@ -1,10 +1,10 @@
 package rendering.flying;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 import entities.flying.PlayerFly;
 import main_classes.Game;
+import rendering.MyColor;
 import rendering.MyImage;
 import rendering.MySubImage;
 import rendering.SwingRender;
@@ -37,7 +37,7 @@ public class RenderPlayerFly implements SwingRender {
    private int HPbarX = Game.GAME_DEFAULT_WIDTH - 180;
    private int HPbarY = Game.GAME_DEFAULT_HEIGHT - 50;
    private int HPbarH = 10;
-   private Color HPbarBgColor = new Color(97, 0, 15, 180);
+   private MyColor HPbarBgColor = new MyColor(97, 0, 15, 180);
 
    public RenderPlayerFly(Game game, PlayerFly player) {
       this.game = game;
@@ -131,11 +131,11 @@ public class RenderPlayerFly implements SwingRender {
             HPbarX - player.statusDisplay.HPbarMaxW, HPbarY,
             player.statusDisplay.HPbarMaxW, HPbarH);
 
-      Color hpBarColor;
+      MyColor hpBarColor;
       if (player.statusDisplay.blinkTimer % 4 == 0) {
-         hpBarColor = Color.RED;
+         hpBarColor = MyColor.RED;
       } else {
-         hpBarColor = Color.WHITE;
+         hpBarColor = MyColor.WHITE;
       }
       DrawUtils.fillRect(
             g, hpBarColor,
@@ -144,11 +144,11 @@ public class RenderPlayerFly implements SwingRender {
 
       // Text
       DrawUtils.drawText(
-            g, Color.WHITE, DrawUtils.infoFont,
+            g, MyColor.WHITE, DrawUtils.infoFont,
             "x " + Integer.toString(player.statusDisplay.bombs),
             statusX + 60, bombY + 30);
       DrawUtils.drawText(
-            g, Color.WHITE, DrawUtils.infoFont,
+            g, MyColor.WHITE, DrawUtils.infoFont,
             "x " + Integer.toString(player.statusDisplay.killedEnemies),
             statusX + 60, enemyCounterY + 30);
    }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import gamestates.MainMenu;
 import main_classes.Game;
+import rendering.MyColor;
 import rendering.MyImage;
 import rendering.SwingRender;
 import rendering.misc.RenderInfoChoice;
@@ -73,7 +74,7 @@ public class RenderMainMenu implements SwingRender {
 
       // Fade
       if (mainMenu.fadeInActive || mainMenu.fadeOutActive) {
-         DrawUtils.fillScreen(g, new Color(0, 0, 0, mainMenu.alphaFade));
+         DrawUtils.fillScreen(g, new MyColor(0, 0, 0, mainMenu.alphaFade));
       }
    }
 

@@ -1,11 +1,11 @@
 package rendering.root_renders;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 
 import entities.flying.EntityInfo;
 import gamestates.LevelEditor;
+import rendering.MyColor;
 import rendering.MyImage;
 import rendering.MySubImage;
 import rendering.flying.EntityImages;
@@ -40,15 +40,15 @@ public class RenderLevelEditor {
 
       // Top text
       DrawUtils.drawText(
-            g, Color.BLACK, DrawUtils.infoFont,
+            g, MyColor.BLACK, DrawUtils.infoFont,
             "direction : " + Integer.toString(le.curDirection),
             20, 20);
       DrawUtils.drawText(
-            g, Color.BLACK, DrawUtils.infoFont,
+            g, MyColor.BLACK, DrawUtils.infoFont,
             "shootTimer : " + Integer.toString(le.shootTimer),
             20, 50);
       DrawUtils.drawText(
-            g, Color.BLACK, DrawUtils.infoFont,
+            g, MyColor.BLACK, DrawUtils.infoFont,
             "y :" + Integer.toString(le.mapYOffset),
             700, 20);
    }
@@ -60,14 +60,14 @@ public class RenderLevelEditor {
 
          // Text
          DrawUtils.drawText(
-               g, Color.black, DrawUtils.infoFont,
+               g, MyColor.BLACK, DrawUtils.infoFont,
                Integer.toString(le.shootTimers.get(i)),
                (int) hitbox.getX(),
                (int) (hitbox.getY() - le.mapYOffset - 20));
 
          // Hitbox
          DrawUtils.fillRect(
-               g, Color.black,
+               g, MyColor.BLACK,
                hitbox.getX(), hitbox.getY() - le.mapYOffset,
                hitbox.getWidth(), hitbox.getHeight());
 

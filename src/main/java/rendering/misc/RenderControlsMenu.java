@@ -1,10 +1,10 @@
 package rendering.misc;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import main_classes.Game;
+import rendering.MyColor;
 import rendering.MyImage;
 import rendering.SwingRender;
 import ui.ControlsMenu;
@@ -18,7 +18,7 @@ import static utils.Constants.UI.OPTIONS_WIDTH;
 
 public class RenderControlsMenu implements SwingRender {
    private ControlsMenu menu;
-   private Color bgColor = new Color(0, 0, 0, 230);
+   private MyColor bgColor = new MyColor(0, 0, 0, 230);
    private MyImage pointerImg;
    private MyImage selectImg;
 
@@ -58,27 +58,27 @@ public class RenderControlsMenu implements SwingRender {
             g2, bgColor,
             bgX, bgY, bgW, bgH);
       DrawUtils.drawRect(
-            g2, Color.WHITE,
+            g2, MyColor.WHITE,
             bgX + 10, bgY + 10, bgW - 20, bgH - 20);
 
       // Text
       DrawUtils.drawText(
-            g2, Color.WHITE, DrawUtils.headerFont,
+            g2, MyColor.WHITE, DrawUtils.headerFont,
             "CONTROLS",
             420, 150);
       DrawUtils.drawText(
-            g2, Color.WHITE, DrawUtils.infoFont,
+            g2, MyColor.WHITE, DrawUtils.infoFont,
             "(To change, select it and type a new key)",
             200, 210);
       for (int i = 0; i < menu.keyFunctions.length; i++) {
          DrawUtils.drawText(
-               g2, Color.WHITE, DrawUtils.infoFont,
+               g2, MyColor.WHITE, DrawUtils.infoFont,
                menu.keyFunctions[i],
                keyFuncX, menu.cursorMinY + i * menu.menuOptionsDiff);
       }
       for (int i = 0; i < menu.keyBindings.length; i++) {
          DrawUtils.drawText(
-               g2, Color.WHITE, DrawUtils.infoFont,
+               g2, MyColor.WHITE, DrawUtils.infoFont,
                menu.keyBindings[i],
                keyBindX, menu.cursorMinY + i * menu.menuOptionsDiff);
       }

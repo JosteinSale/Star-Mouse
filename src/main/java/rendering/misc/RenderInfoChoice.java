@@ -1,11 +1,12 @@
 package rendering.misc;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.Color;
 
 import main_classes.Game;
 import rendering.MyImage;
+import rendering.MyColor;
 import rendering.SwingRender;
 import ui.InfoChoice;
 import utils.DrawUtils;
@@ -58,11 +59,11 @@ public class RenderInfoChoice implements SwingRender {
       g.setColor(Color.BLACK);
       DrawCenteredString(g, ic.question, questionRect, DrawUtils.infoFont);
       DrawUtils.drawText(
-            g, Color.BLACK, DrawUtils.infoFont,
+            g, MyColor.BLACK, DrawUtils.infoFont,
             ic.leftChoice,
             ic.infoChX + 150, infoChY + 110);
       DrawUtils.drawText(
-            g, Color.BLACK, DrawUtils.infoFont,
+            g, MyColor.BLACK, DrawUtils.infoFont,
             ic.rightChoice,
             ic.infoChX + 400, infoChY + 110);
 
