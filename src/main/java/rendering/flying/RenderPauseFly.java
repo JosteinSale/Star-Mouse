@@ -15,7 +15,6 @@ import utils.ResourceLoader;
 
 import static utils.Constants.UI.CURSOR_HEIGHT;
 import static utils.Constants.UI.CURSOR_WIDTH;
-import static utils.HelpMethods.DrawCenteredString;
 
 public class RenderPauseFly {
    private PauseFlying pause;
@@ -58,9 +57,9 @@ public class RenderPauseFly {
                "PAUSE",
                450, 200);
          for (int i = 0; i < pause.menuOptions.length; i++) {
-            DrawCenteredString(
-                  g2, pause.menuOptions[i],
-                  menuRects.get(i), DrawUtils.menuFont);
+            DrawUtils.DrawCenteredString(
+                  g2, pause.menuOptions[i], menuRects.get(i),
+                  DrawUtils.menuFont, MyColor.WHITE);
          }
 
          // Cursor

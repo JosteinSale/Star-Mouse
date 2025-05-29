@@ -15,7 +15,6 @@ import java.awt.Rectangle;
 
 import static utils.Constants.UI.CURSOR_HEIGHT;
 import static utils.Constants.UI.CURSOR_WIDTH;
-import static utils.HelpMethods.DrawCenteredString;
 
 public class RenderPauseBoss {
    private PauseBoss pause;
@@ -56,8 +55,9 @@ public class RenderPauseBoss {
                g2, MyColor.WHITE, DrawUtils.headerFont,
                "PAUSE", 450, 200);
          for (int i = 0; i < pause.menuOptions.length; i++) {
-            DrawCenteredString(g2, pause.menuOptions[i],
-                  menuRects.get(i), DrawUtils.menuFont);
+            DrawUtils.DrawCenteredString(
+                  g2, pause.menuOptions[i], menuRects.get(i),
+                  DrawUtils.menuFont, MyColor.WHITE);
          }
 
          // Cursor

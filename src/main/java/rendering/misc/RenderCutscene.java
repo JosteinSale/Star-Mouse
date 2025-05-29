@@ -1,7 +1,5 @@
 package rendering.misc;
 
-import static utils.HelpMethods.DrawCenteredString;
-
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -151,7 +149,9 @@ public class RenderCutscene implements SwingRender {
    }
 
    private void drawHeader(Graphics g, String headerText, Rectangle rect) {
-      DrawCenteredString(g, headerText, rect, DrawUtils.headerFont);
+      DrawUtils.DrawCenteredString(
+            g, headerText, rect,
+            DrawUtils.headerFont, MyColor.WHITE);
    }
 
    private void drawOverlayImage(Graphics g) {

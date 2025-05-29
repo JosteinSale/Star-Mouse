@@ -7,7 +7,6 @@ import java.awt.Rectangle;
 
 import static utils.Constants.UI.CURSOR_HEIGHT;
 import static utils.Constants.UI.CURSOR_WIDTH;
-import static utils.HelpMethods.DrawCenteredString;
 
 import main_classes.Game;
 import rendering.MyColor;
@@ -82,9 +81,9 @@ public class RenderGameOver2 {
             "YOU DIED", 400, 350);
 
       for (int i = 0; i < gameOver.menuOptions.length; i++) {
-         DrawCenteredString(
-               g2, gameOver.menuOptions[i],
-               menuRects.get(i), DrawUtils.menuFont);
+         DrawUtils.DrawCenteredString(
+               g2, gameOver.menuOptions[i], menuRects.get(i),
+               DrawUtils.menuFont, MyColor.WHITE);
       }
 
       // Cursor

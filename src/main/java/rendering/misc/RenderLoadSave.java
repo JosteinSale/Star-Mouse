@@ -4,9 +4,7 @@ import static utils.Constants.UI.CURSOR_HEIGHT;
 import static utils.Constants.UI.CURSOR_WIDTH;
 import static utils.Constants.UI.OPTIONS_HEIGHT;
 import static utils.Constants.UI.OPTIONS_WIDTH;
-import static utils.HelpMethods.DrawCenteredString;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -78,8 +76,9 @@ public class RenderLoadSave implements SwingRender {
             bgW - 20, bgH - 20);
 
       // Header text
-      g.setColor(Color.WHITE);
-      DrawCenteredString(g, menu.currentMenu, headerRect, DrawUtils.headerFont);
+      DrawUtils.DrawCenteredString(
+            g, menu.currentMenu, headerRect,
+            DrawUtils.headerFont, MyColor.WHITE);
 
       // Menu Options
       drawMenuOptions(g);

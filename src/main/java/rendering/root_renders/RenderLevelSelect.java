@@ -3,9 +3,7 @@ package rendering.root_renders;
 import static utils.Constants.UI.LEVEL_ICON_DRAW_SIZE;
 import static utils.Constants.UI.LEVEL_ICON_SIZE;
 import static utils.Constants.UI.LEVEL_SELECT_BOX_SIZE;
-import static utils.HelpMethods.DrawCenteredString;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
@@ -117,10 +115,12 @@ public class RenderLevelSelect implements SwingRender {
       String name = slot.levelInfo.getName();
       Integer killCount = slot.levelInfo.getKillCount();
       Integer totalEnemies = slot.levelInfo.getTotalEnemies();
-      g.setColor(Color.WHITE);
-      DrawCenteredString(g, name, slot.lvlNameRect, DrawUtils.menuFont);
-      DrawCenteredString(g, killCount.toString() + "/" + totalEnemies.toString(),
-            slot.killCountRect, DrawUtils.menuFont);
+      DrawUtils.DrawCenteredString(
+            g, name, slot.lvlNameRect,
+            DrawUtils.menuFont, MyColor.WHITE);
+      DrawUtils.DrawCenteredString(
+            g, killCount.toString() + "/" + totalEnemies.toString(), slot.killCountRect,
+            DrawUtils.menuFont, MyColor.WHITE);
    }
 
    @Override

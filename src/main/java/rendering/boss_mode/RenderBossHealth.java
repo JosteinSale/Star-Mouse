@@ -2,9 +2,7 @@ package rendering.boss_mode;
 
 import ui.BossHealthDisplay;
 import utils.DrawUtils;
-import static utils.HelpMethods.DrawCenteredString;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import rendering.MyColor;
@@ -51,7 +49,8 @@ public class RenderBossHealth {
             hdp.HPbarCurW, HPbarH);
 
       // Text
-      g.setColor(Color.WHITE);
-      DrawCenteredString(g, hdp.bossName, bossNameRect, DrawUtils.infoFont);
+      DrawUtils.DrawCenteredString(
+            g, hdp.bossName, bossNameRect,
+            DrawUtils.infoFont, MyColor.WHITE);
    }
 }

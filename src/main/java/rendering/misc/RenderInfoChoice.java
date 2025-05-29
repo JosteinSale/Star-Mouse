@@ -2,7 +2,6 @@ package rendering.misc;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.Color;
 
 import main_classes.Game;
 import rendering.MyImage;
@@ -16,7 +15,6 @@ import static utils.Constants.UI.CURSOR_HEIGHT;
 import static utils.Constants.UI.CURSOR_WIDTH;
 import static utils.Constants.UI.INFOBOX_WIDTH;
 import static utils.Constants.UI.INFOBOX_HEIGHT;
-import static utils.HelpMethods.DrawCenteredString;
 
 public class RenderInfoChoice implements SwingRender {
    private InfoChoice ic;
@@ -56,8 +54,9 @@ public class RenderInfoChoice implements SwingRender {
             INFOBOX_WIDTH, INFOBOX_HEIGHT);
 
       // Text - Question, left choice and right choice
-      g.setColor(Color.BLACK);
-      DrawCenteredString(g, ic.question, questionRect, DrawUtils.infoFont);
+      DrawUtils.DrawCenteredString(
+            g, ic.question, questionRect,
+            DrawUtils.infoFont, MyColor.BLACK);
       DrawUtils.drawText(
             g, MyColor.BLACK, DrawUtils.infoFont,
             ic.leftChoice,

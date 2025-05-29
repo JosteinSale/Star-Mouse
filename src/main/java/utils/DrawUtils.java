@@ -4,6 +4,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.FontMetrics;
 
 import entities.bossmode.DefaultBossPart;
 import main_classes.Game;
@@ -106,5 +108,14 @@ public class DrawUtils {
             bp.nonRotatedHitbox.getCenterX() * Game.SCALE,
             bp.nonRotatedHitbox.getCenterY() * Game.SCALE,
             Game.SCALE, bp.rotation);
+   }
+
+   public static void DrawCenteredString(Graphics g, String text, Rectangle rect, Font font, MyColor color) {
+      FontMetrics metrics = g.getFontMetrics(font);
+      int x = rect.x + (rect.width - metrics.stringWidth(text)) / 2;
+      int y = rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
+      g.setColor(color.getColor());
+      g.setFont(font);
+      g.drawString(text, x, y);
    }
 }

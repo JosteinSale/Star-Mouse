@@ -22,7 +22,6 @@ import static utils.Constants.UI.ITEM_BOX_HEIGHT;
 import static utils.Constants.UI.ITEM_BOX_WIDTH;
 import static utils.Constants.UI.PAUSE_EXPLORING_HEIGHT;
 import static utils.Constants.UI.PAUSE_EXPLORING_WIDTH;
-import static utils.HelpMethods.DrawCenteredString;
 
 public class RenderPauseExploring implements SwingRender {
    private PauseExploring pause;
@@ -144,9 +143,9 @@ public class RenderPauseExploring implements SwingRender {
 
       // Menu options
       for (int i = 0; i < pause.menuOptions.length; i++) {
-         DrawCenteredString(
-               g2, pause.menuOptions[i],
-               menuRects.get(i), DrawUtils.menuFont);
+         DrawUtils.DrawCenteredString(
+               g2, pause.menuOptions[i], menuRects.get(i),
+               DrawUtils.menuFont, MyColor.WHITE);
       }
 
       // Item Info

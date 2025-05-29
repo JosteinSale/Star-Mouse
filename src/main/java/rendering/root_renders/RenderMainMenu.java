@@ -1,6 +1,5 @@
 package rendering.root_renders;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -18,7 +17,6 @@ import utils.DrawUtils;
 import utils.ResourceLoader;
 
 import static utils.Constants.UI.*;
-import static utils.HelpMethods.DrawCenteredString;
 
 public class RenderMainMenu implements SwingRender {
 
@@ -86,11 +84,10 @@ public class RenderMainMenu implements SwingRender {
             Game.GAME_DEFAULT_WIDTH + 55, Game.GAME_DEFAULT_HEIGHT + 50);
 
       // Text
-      g2.setColor(Color.WHITE);
       for (int i = 0; i < mainMenu.alternatives.length; i++) {
-         DrawCenteredString(
-               g2, mainMenu.alternatives[i],
-               menuRectangles.get(i), DrawUtils.menuFont);
+         DrawUtils.DrawCenteredString(
+               g2, mainMenu.alternatives[i], menuRectangles.get(i),
+               DrawUtils.menuFont, MyColor.WHITE);
       }
       DrawUtils.drawImage(
             g2, titleImg,

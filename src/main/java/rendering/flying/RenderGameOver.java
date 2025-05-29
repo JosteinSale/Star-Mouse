@@ -1,9 +1,9 @@
 package rendering.flying;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.Color;
 import java.util.ArrayList;
 
 import main_classes.Game;
@@ -17,7 +17,6 @@ import utils.ResourceLoader;
 
 import static utils.Constants.UI.CURSOR_HEIGHT;
 import static utils.Constants.UI.CURSOR_WIDTH;
-import static utils.HelpMethods.DrawCenteredString;
 
 public class RenderGameOver {
    private GameoverOverlay gameOver;
@@ -84,9 +83,9 @@ public class RenderGameOver {
 
       for (int i = 0; i < gameOver.menuOptions.length; i++) {
          setTextColor(i, g);
-         DrawCenteredString(
-               g2, gameOver.menuOptions[i],
-               menuRects.get(i), DrawUtils.menuFont);
+         DrawUtils.DrawCenteredString(
+               g2, gameOver.menuOptions[i], menuRects.get(i),
+               DrawUtils.menuFont, MyColor.WHITE);
       }
 
       // Cursor
