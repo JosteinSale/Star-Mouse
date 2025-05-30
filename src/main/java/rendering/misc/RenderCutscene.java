@@ -24,7 +24,7 @@ import rendering.exploring.RenderNumberDisplay;
 import ui.TextboxManager;
 import utils.DrawUtils;
 import utils.HelpMethods2;
-import utils.ResourceLoader;
+import utils.Images;
 
 import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_HEIGHT;
 import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_WIDTH;
@@ -43,28 +43,31 @@ import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_WIDTH;
  * 
  */
 public class RenderCutscene implements SwingRender {
+   private Images images;
    private DefaultCutsceneManager cutsceneManager;
    private RenderNumberDisplay rNumberDisplay;
    private RenderObjectMove rObjectMove;
    private RenderTextBox rTextBox;
-   private static MyImage shipImg;
-   private static MySubImage[] flameAnimations; // For the fellowships
+   private MyImage shipImg;
+   private MySubImage[] flameAnimations; // For the fellowships
    private MyImage overlayImage;
    private int overlayW;
    private int overlayH;
 
-   static {
-      shipImg = ResourceLoader.getFlyImageSprite(ResourceLoader.FELLOWSHIP_SPRITES);
-      flameAnimations = HelpMethods2.GetUnscaled1DAnimationArray(
-            ResourceLoader.getFlyImageSprite(ResourceLoader.SHIP_FLAME_SPRITES),
-            2, 15, 15);
+   public RenderCutscene(TextboxManager tbM, RenderInfoBox rInfoBox,
+         RenderInfoChoice rInfoChoice, Images images) {
+      this.images = images;
+      this.rNumberDisplay = new RenderNumberDisplay(images);
+      this.rObjectMove = new RenderObjectMove(images);
+      this.rTextBox = new RenderTextBox(tbM, rInfoBox, rInfoChoice, images);
+      this.loadImages(images);
    }
 
-   public RenderCutscene(TextboxManager tbM, RenderInfoBox rInfoBox,
-         RenderInfoChoice rInfoChoice) {
-      this.rNumberDisplay = new RenderNumberDisplay();
-      this.rObjectMove = new RenderObjectMove();
-      this.rTextBox = new RenderTextBox(tbM, rInfoBox, rInfoChoice);
+   private void loadImages(Images images) {
+      shipImg = images.getFlyImageSprite(Images.FELLOWSHIP_SPRITES, true);
+      flameAnimations = HelpMethods2.GetUnscaled1DAnimationArray(
+            images.getFlyImageSprite(Images.SHIP_FLAME_SPRITES, true),
+            2, 15, 15);
    }
 
    /**
@@ -79,7 +82,7 @@ public class RenderCutscene implements SwingRender {
    }
 
    public void setOverlayImage(String fileName, float scaleW, float scaleH) {
-      this.overlayImage = ResourceLoader.getCutsceneImage(fileName);
+      this.overlayImage = images.getCutsceneImage(fileName);
       this.overlayW = (int) (overlayImage.getWidth() * scaleW);
       this.overlayH = (int) (overlayImage.getHeight() * scaleH);
    }
@@ -113,8 +116,7 @@ public class RenderCutscene implements SwingRender {
          DrawUtils.fillScreen(g, color);
       } else if (effect instanceof FadeHeaderEffect e) {
          MyColor color = this.getTransparentColor("white", e.alphaFade);
-         g.setColor(color.getColor());
-         this.drawHeader(g, e.headerText, e.headerBox);
+         this.drawHeader(g, e.headerText, e.headerBox, color);
       } else if (effect instanceof FellowShipEffect e) {
          this.drawFellowShips(g, e.fellowShips);
       } else if (effect instanceof FillScreenEffect e) {
@@ -148,10 +150,10 @@ public class RenderCutscene implements SwingRender {
       }
    }
 
-   private void drawHeader(Graphics g, String headerText, Rectangle rect) {
+   private void drawHeader(Graphics g, String headerText, Rectangle rect, MyColor color) {
       DrawUtils.DrawCenteredString(
             g, headerText, rect,
-            DrawUtils.headerFont, MyColor.WHITE);
+            DrawUtils.headerFont, color);
    }
 
    private void drawOverlayImage(Graphics g) {

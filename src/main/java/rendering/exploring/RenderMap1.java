@@ -7,7 +7,7 @@ import main_classes.Game;
 import rendering.MyImage;
 import rendering.SwingRender;
 import utils.DrawUtils;
-import utils.ResourceLoader;
+import utils.Images;
 
 public class RenderMap1 implements SwingRender {
    private MapManager1 map;
@@ -22,20 +22,20 @@ public class RenderMap1 implements SwingRender {
    protected int landScapeImgWidth;
    protected int landScapeImgHeight;
 
-   public RenderMap1(MapManager1 map, int levelIndex, int areaIndex) {
+   public RenderMap1(MapManager1 map, Images images, int levelIndex, int areaIndex) {
       this.map = map;
-      this.loadImgs(levelIndex, areaIndex);
+      this.loadImgs(images, levelIndex, areaIndex);
       this.calcLvlOffset();
       this.adjustImageSizes();
    }
 
-   private void loadImgs(Integer levelIndex, Integer areaIndex) {
+   private void loadImgs(Images images, Integer levelIndex, Integer areaIndex) {
       String imgName = "level" + levelIndex.toString() +
             "_area" + areaIndex.toString();
-      landScapeImg = ResourceLoader.getExpImageLandscape(imgName + "_ls.png");
-      bgImg = ResourceLoader.getExpImageBackground(imgName + "_bg.png");
-      clImg = ResourceLoader.getExpImageCollision(imgName + "_cl.png");
-      fgImg = ResourceLoader.getExpImageForeground(imgName + "_fg.png");
+      landScapeImg = images.getExpImageLandscape(imgName + "_ls.png");
+      bgImg = images.getExpImageBackground(imgName + "_bg.png");
+      clImg = images.getExpImageCollision(imgName + "_cl.png");
+      fgImg = images.getExpImageForeground(imgName + "_fg.png");
    }
 
    private void calcLvlOffset() {

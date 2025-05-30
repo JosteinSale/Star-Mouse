@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import java.awt.geom.Rectangle2D;
 
-import utils.ResourceLoader;
+import utils.Images;
 import entities.flying.enemies.*;
 import entities.flying.pickupItems.*;
 import static entities.flying.EntityFactory.TypeConstants.*;
@@ -80,87 +80,87 @@ public class EntityFactory {
    private void registerAllEntities() {
       this.registerEntity(
             DELETE,
-            ResourceLoader.DELETE_SPRITE, 28, 30, 1, 1,
+            Images.DELETE_SPRITE, 28, 30, 1, 1,
             getName(DELETE), 90, 90, 0, 0,
             0, 0);
       this.registerEntity(
             POWERUP,
-            ResourceLoader.POWERUP_SPRITE, 30, 30, 1, 7,
+            Images.POWERUP_SPRITE, 30, 30, 1, 7,
             getName(POWERUP), 30, 50, 28, 20,
             0, 0);
       this.registerEntity(
             REPAIR,
-            ResourceLoader.REPAIR_SPRITE, 30, 30, 1, 4,
+            Images.REPAIR_SPRITE, 30, 30, 1, 4,
             getName(REPAIR), 60, 60, 15, 15,
             0, 0);
       this.registerEntity(
             BOMB,
-            ResourceLoader.BOMB_PICKUP_SPRITE, 25, 25, 1, 2,
+            Images.BOMB_PICKUP_SPRITE, 25, 25, 1, 2,
             getName(BOMB), 45, 45, 15, 18,
             0, 0);
       this.registerEntity(
             TARGET,
-            ResourceLoader.TARGET_SPRITE, 20, 20, 2, 4,
+            Images.TARGET_SPRITE, 20, 20, 2, 4,
             getName(TARGET), 60, 60, 0, 0,
             1, 0);
       this.registerEntity(
             DRONE,
-            ResourceLoader.DRONE_SPRITE, 30, 30, 2, 3,
+            Images.DRONE_SPRITE, 30, 30, 2, 3,
             getName(DRONE), 78, 66, 4, 10,
             1, 0);
       this.registerEntity(
             SMALLSHIP,
-            ResourceLoader.SMALLSHIP_SPRITE, 30, 30, 2, 4,
+            Images.SMALLSHIP_SPRITE, 30, 30, 2, 4,
             getName(SMALLSHIP), 60, 30, 16, 30,
             1, 0);
       this.registerEntity(
             OCTADRONE,
-            ResourceLoader.OCTADRONE_SPRITE, 30, 30, 2, 4,
+            Images.OCTADRONE_SPRITE, 30, 30, 2, 4,
             getName(OCTADRONE), 80, 80, 5, 5,
             1, 0);
       this.registerEntity(
             TANKDRONE,
-            ResourceLoader.TANKDRONE_SPRITE, 30, 30, 2, 4,
+            Images.TANKDRONE_SPRITE, 30, 30, 2, 4,
             getName(TANKDRONE), 80, 90, 5, 0,
             1, 0);
       this.registerEntity(
             BLASTERDRONE,
-            ResourceLoader.BLASTERDRONE_SPRITE, 30, 30, 2, 4,
+            Images.BLASTERDRONE_SPRITE, 30, 30, 2, 4,
             getName(BLASTERDRONE), 60, 90, 15, 0,
             1, 0);
       this.registerEntity(
             REAPERDRONE,
-            ResourceLoader.REAPERDRONE_SPRITE, 210, 80, 2, 4,
+            Images.REAPERDRONE_SPRITE, 210, 80, 2, 4,
             getName(REAPERDRONE), 510, 150, 60, 45,
             1, 0);
       this.registerEntity(
             FLAMEDRONE,
-            ResourceLoader.FLAMEDRONE_SPRITE, 132, 128, 3, 6,
+            Images.FLAMEDRONE_SPRITE, 132, 128, 3, 6,
             getName(FLAMEDRONE), 120, 120, 138, 30,
             1, 0);
       this.registerEntity(
             WASPDRONE,
-            ResourceLoader.WASPDRONE_SPRITE, 40, 40, 2, 4,
+            Images.WASPDRONE_SPRITE, 40, 40, 2, 4,
             getName(WASPDRONE), 90, 90, 15, 15,
             1, 0);
       this.registerEntity(
             KAMIKAZEDRONE,
-            ResourceLoader.KAMIKAZEDRONE_SPRITE, 30, 30, 2, 4,
+            Images.KAMIKAZEDRONE_SPRITE, 30, 30, 2, 4,
             getName(KAMIKAZEDRONE), 75, 75, 8, 8,
             1, 0);
       this.registerEntity(
             SMALL_ASTEROID,
-            ResourceLoader.SMALL_ASTEROID_SPRITE, 30, 30, 8, 2,
+            Images.SMALL_ASTEROID_SPRITE, 30, 30, 8, 2,
             getName(SMALL_ASTEROID), 75, 75, 8, 8,
             6, 0);
       this.registerEntity(
             BIG_ASTEROID,
-            ResourceLoader.BIG_ASTEROID_SPRITE, 90, 90, 1, 1,
+            Images.BIG_ASTEROID_SPRITE, 90, 90, 1, 1,
             getName(BIG_ASTEROID), 220, 220, 25, 25,
             0, 0);
       this.registerEntity(
             BURNING_FRAGMENT,
-            ResourceLoader.BURNING_FRAGMENT_SPRITE, 50, 100, 2, 8,
+            Images.BURNING_FRAGMENT_SPRITE, 50, 100, 2, 8,
             getName(BURNING_FRAGMENT), 75, 75, 35, 210,
             0, 0);
    }

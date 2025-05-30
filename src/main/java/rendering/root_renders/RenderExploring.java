@@ -28,6 +28,7 @@ public class RenderExploring implements SwingRender {
 
    public RenderExploring(Game game, RenderOptionsMenu rOptionsMenu, RenderCutscene rCutscene, RenderInfoBox rInfoBox,
          RenderInfoChoice rInfoChoice) {
+      this.game = game;
       this.exploring = game.getExploring();
       this.pause = exploring.getPauseOverlay();
       this.rPause = new RenderPauseExploring(game, rOptionsMenu);

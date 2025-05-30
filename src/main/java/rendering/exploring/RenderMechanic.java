@@ -16,7 +16,7 @@ import rendering.misc.RenderInfoBox;
 import rendering.misc.RenderInfoChoice;
 import ui.MechanicOverlay;
 import utils.DrawUtils;
-import utils.ResourceLoader;
+import utils.Images;
 
 public class RenderMechanic implements SwingRender {
    private Game game;
@@ -51,14 +51,14 @@ public class RenderMechanic implements SwingRender {
       this.mechanic = mechanicOverlay;
       this.rInfoBox = rInfoBox;
       this.rInfoChoice = rInfoChoice;
-      this.loadImages();
+      this.loadImages(game.getImages());
    }
 
-   private void loadImages() {
-      this.pointerImg = ResourceLoader.getExpImageSprite(
-            ResourceLoader.CURSOR_SPRITE_BLACK);
-      this.bgImg = ResourceLoader.getExpImageSprite(
-            ResourceLoader.MECHANIC_DISPLAY);
+   private void loadImages(Images images) {
+      this.pointerImg = images.getExpImageSprite(
+            Images.CURSOR_SPRITE_BLACK, true);
+      this.bgImg = images.getExpImageSprite(
+            Images.MECHANIC_DISPLAY, true);
    }
 
    @Override

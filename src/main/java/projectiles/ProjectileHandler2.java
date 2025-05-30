@@ -10,7 +10,6 @@ import entities.bossmode.IBossPart;
 import entities.bossmode.PlayerBoss;
 import entities.flying.enemies.EnemyManager;
 import main_classes.Game;
-import utils.ResourceLoader;
 
 import static utils.Constants.Flying.TypeConstants.BOMB_PROJECTILE;
 import static utils.Constants.Flying.TypeConstants.BOSS_PROJECTILE1;
@@ -47,7 +46,7 @@ public class ProjectileHandler2 extends ProjectileHandler {
    public void setBoss(int nr, IBoss boss) {
       this.boss = boss;
       this.bossParts = boss.getBossParts();
-      this.clImg = ResourceLoader.getBossSprite("boss" + Integer.toString(nr) + "_cl.png").getImage();
+      this.clImg = game.getImages().getBossSprite("boss" + Integer.toString(nr) + "_cl.png").getImage();
       this.setBombs(game.getExploring().getProgressValues().getBombs());
    }
 

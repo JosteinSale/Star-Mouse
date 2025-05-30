@@ -8,7 +8,7 @@ import rendering.MyImage;
 import rendering.SwingRender;
 import ui.InfoBox;
 import utils.DrawUtils;
-import utils.ResourceLoader;
+import utils.Images;
 
 import static utils.Constants.UI.INFOBOX_WIDTH;
 import static utils.Constants.UI.INFOBOX_HEIGHT;
@@ -19,8 +19,8 @@ public class RenderInfoBox implements SwingRender {
    private int infoX = Game.GAME_DEFAULT_WIDTH / 2 - INFOBOX_WIDTH / 2;
    private int infoY = 580;
 
-   public RenderInfoBox(InfoBox infoBox) {
-      this.infoBoxImg = ResourceLoader.getExpImageSprite(ResourceLoader.INFO_BOX);
+   public RenderInfoBox(InfoBox infoBox, Images images) {
+      this.infoBoxImg = images.getExpImageSprite(Images.INFO_BOX, true);
       this.infoBox = infoBox;
    }
 

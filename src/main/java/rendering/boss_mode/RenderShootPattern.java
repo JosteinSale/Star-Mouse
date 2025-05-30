@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import entities.bossmode.AnimatedComponent;
 import projectiles.shootPatterns.ShootPattern;
 import rendering.misc.RenderAnimatedComponent;
+import utils.Images;
 
 public class RenderShootPattern {
    private ShootPattern sp;
@@ -13,12 +14,12 @@ public class RenderShootPattern {
    private RenderAnimatedComponent rCharge;
    private RenderAnimatedComponent rShoot;
 
-   public RenderShootPattern(ShootPattern sp) {
+   public RenderShootPattern(ShootPattern sp, Images images) {
       this.sp = sp;
       this.chargeAnimation = sp.getChargeAnimation();
       this.shootAnimation = sp.getShootAnimation();
-      this.rCharge = new RenderAnimatedComponent(chargeAnimation);
-      this.rShoot = new RenderAnimatedComponent(shootAnimation);
+      this.rCharge = new RenderAnimatedComponent(chargeAnimation, images);
+      this.rShoot = new RenderAnimatedComponent(shootAnimation, images);
    }
 
    /**

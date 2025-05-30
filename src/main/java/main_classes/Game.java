@@ -16,12 +16,14 @@ import gamestates.flying.Flying;
 import gamestates.level_select.LevelSelect;
 import ui.OptionsMenu;
 import ui.TextboxManager;
+import utils.Images;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 
 public class Game implements Runnable {
+   // Screen dimensions
    public static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
    public static final int SCREEN_WIDTH = (int) screenSize.getWidth();
    public static final int SCREEN_HEIGHT = (int) screenSize.getHeight();
@@ -34,13 +36,14 @@ public class Game implements Runnable {
 
    public static final int GAME_WIDTH = (int) (GAME_DEFAULT_WIDTH * SCALE);
    public static final int GAME_HEIGHT = (int) (GAME_DEFAULT_HEIGHT * SCALE);
-
    public static final boolean fullScreen = false;
 
-   private View view;
+   // Basic program structures
    private GameWindow gameWindow;
    private GamePanel gamePanel;
    private Thread gameThread;
+
+   // FPS / UPS
    private final int FPS_SET = 60;
    private final int UPS_SET = 60;
 
@@ -55,6 +58,8 @@ public class Game implements Runnable {
    private Cinematic cinematic;
 
    // Special objects
+   private View view;
+   private Images images;
    private OptionsMenu optionsMenu;
    private AudioPlayer audioPlayer;
    private TextboxManager textBoxManager;
@@ -71,11 +76,12 @@ public class Game implements Runnable {
    public boolean bombIsPressed = false;
    public boolean pauseIsPressed = false;
 
-   // This is modified from the Main Menu
+   // Testing mode. This is modified from the Main Menu
    public boolean testingMode = false;
 
    public Game() {
       initClasses();
+      this.initializeSaveData();
       this.gamePanel = new GamePanel(this);
       this.gameWindow = new GameWindow(this.gamePanel, SCREEN_WIDTH, SCREEN_HEIGHT);
       gamePanel.requestFocus(true);
@@ -85,6 +91,7 @@ public class Game implements Runnable {
 
    private void initClasses() {
       this.audioPlayer = AudioPlayer.getSingletonAudioPlayer();
+      this.images = new Images();
       this.textBoxManager = new TextboxManager(this);
       this.optionsMenu = new OptionsMenu(this, audioPlayer);
       this.startScreen = new StartScreen(this);
@@ -96,8 +103,6 @@ public class Game implements Runnable {
       this.levelEditor = new LevelEditor(this, flying.getEntityFactory());
       this.cinematic = new Cinematic(this);
       this.drawSaving = new DrawSaving();
-      this.initializeSaveData();
-
       this.view = new View(this);
    }
 
@@ -125,7 +130,7 @@ public class Game implements Runnable {
    }
 
    private void startGameLoop() {
-      this.gameThread = new Thread(this); // Game passes inn som argument i tråden
+      this.gameThread = new Thread(this);
       this.gameThread.start();
    }
 
@@ -272,5 +277,13 @@ public class Game implements Runnable {
 
    public View getView() {
       return this.view;
+   }
+
+   public Images getImages() {
+      return this.images;
+   }
+
+   public void flushImages() {
+      this.images.flush();
    }
 }

@@ -10,7 +10,7 @@ import rendering.MyImage;
 import rendering.MySubImage;
 import rendering.flying.EntityImages;
 import utils.DrawUtils;
-import utils.ResourceLoader;
+import utils.Images;
 
 public class RenderLevelEditor {
 
@@ -18,10 +18,10 @@ public class RenderLevelEditor {
    private EntityImages entityImages;
    private MyImage clImg;
 
-   public RenderLevelEditor(LevelEditor levelEditor, EntityImages entityImages) {
+   public RenderLevelEditor(LevelEditor levelEditor, EntityImages entityImages, Images images) {
       this.le = levelEditor;
       this.entityImages = entityImages;
-      this.clImg = ResourceLoader.getFlyImageCollision(
+      this.clImg = images.getFlyImageCollision(
             "level" + Integer.toString(levelEditor.level) + "_cl.png");
    }
 

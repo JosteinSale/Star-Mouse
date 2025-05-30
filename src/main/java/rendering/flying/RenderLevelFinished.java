@@ -6,7 +6,7 @@ import rendering.MyColor;
 import rendering.MyImage;
 import ui.LevelFinishedOverlay;
 import utils.DrawUtils;
-import utils.ResourceLoader;
+import utils.Images;
 
 import static utils.Constants.UI.CURSOR_HEIGHT;
 import static utils.Constants.UI.CURSOR_WIDTH;
@@ -19,10 +19,10 @@ public class RenderLevelFinished {
    private int statusY = 390;
    private int yDiff = 50;
 
-   public RenderLevelFinished(LevelFinishedOverlay levelFinished) {
+   public RenderLevelFinished(LevelFinishedOverlay levelFinished, Images images) {
       this.lf = levelFinished;
-      this.cursorImg = ResourceLoader.getExpImageSprite(
-            ResourceLoader.CURSOR_SPRITE_WHITE);
+      this.cursorImg = images.getExpImageSprite(
+            Images.CURSOR_SPRITE_WHITE, true);
    }
 
    public void draw(Graphics g) {

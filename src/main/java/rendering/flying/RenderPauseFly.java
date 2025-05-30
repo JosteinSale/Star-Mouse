@@ -11,7 +11,7 @@ import rendering.MyImage;
 import rendering.misc.RenderOptionsMenu;
 import ui.PauseFlying;
 import utils.DrawUtils;
-import utils.ResourceLoader;
+import utils.Images;
 
 import static utils.Constants.UI.CURSOR_HEIGHT;
 import static utils.Constants.UI.CURSOR_WIDTH;
@@ -23,11 +23,11 @@ public class RenderPauseFly {
    private MyColor bgColor = new MyColor(0, 0, 0, 140);
    private MyImage pointerImg;
 
-   public RenderPauseFly(PauseFlying pause, RenderOptionsMenu rOptions) {
+   public RenderPauseFly(PauseFlying pause, RenderOptionsMenu rOptions, Images images) {
       this.pause = pause;
       this.rOptions = rOptions;
-      this.pointerImg = ResourceLoader.getExpImageSprite(
-            ResourceLoader.CURSOR_SPRITE_WHITE);
+      this.pointerImg = images.getExpImageSprite(
+            Images.CURSOR_SPRITE_WHITE, true);
       this.constructMenuRects();
    }
 

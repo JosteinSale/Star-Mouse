@@ -9,7 +9,7 @@ import rendering.MyImage;
 import rendering.SwingRender;
 import ui.ControlsMenu;
 import utils.DrawUtils;
-import utils.ResourceLoader;
+import utils.Images;
 
 import static utils.Constants.UI.CURSOR_HEIGHT;
 import static utils.Constants.UI.CURSOR_WIDTH;
@@ -29,17 +29,17 @@ public class RenderControlsMenu implements SwingRender {
    public int keyFuncX = 250;
    public int keyBindX = 750;
 
-   public RenderControlsMenu(ControlsMenu controlsMenu) {
+   public RenderControlsMenu(ControlsMenu controlsMenu, Images images) {
       this.menu = controlsMenu;
-      this.loadImages();
+      this.loadImages(images);
       this.calcDrawValues();
    }
 
-   private void loadImages() {
-      this.pointerImg = ResourceLoader.getExpImageSprite(
-            ResourceLoader.CURSOR_SPRITE_WHITE);
-      this.selectImg = ResourceLoader.getExpImageSprite(
-            ResourceLoader.KEY_SELECT);
+   private void loadImages(Images images) {
+      this.pointerImg = images.getExpImageSprite(
+            Images.CURSOR_SPRITE_WHITE, true);
+      this.selectImg = images.getExpImageSprite(
+            Images.KEY_SELECT, true);
    }
 
    private void calcDrawValues() {

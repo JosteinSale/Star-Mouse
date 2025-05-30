@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import entities.bossmode.rudinger1.AnimatedMouth;
 import entities.bossmode.rudinger1.ReaperEyes;
-import utils.ResourceLoader;
+import utils.Images;
 
 /**
  * A factory class for producing animated components. Some can be reused, while
@@ -18,7 +18,7 @@ public class AnimatedComponentFactory {
       aniInfo.add(new AnimationInfo(
             "CHARGE", 0, 5, 3, 0, false));
       AnimatedComponent chargeAnimation = new AnimatedComponent(
-            ResourceLoader.LAZER_CHARGE_SPRITE1,
+            Images.LAZER_CHARGE_SPRITE1,
             100, 100, 1, 5,
             aniInfo,
             x, y);
@@ -30,7 +30,7 @@ public class AnimatedComponentFactory {
       aniInfo.add(new AnimationInfo(
             "SHOOT", 0, 5, 3, 4, true));
       AnimatedComponent chargeAnimation = new AnimatedComponent(
-            ResourceLoader.LAZER_CHARGE_SPRITE2,
+            Images.LAZER_CHARGE_SPRITE2,
             100, 100, 1, 5,
             aniInfo,
             x, y);
@@ -41,7 +41,7 @@ public class AnimatedComponentFactory {
       ArrayList<AnimationInfo> aniInfo = new ArrayList<>();
       aniInfo.add(new AnimationInfo("CHARGE", 0, 12, 3, 0, false));
       AnimatedComponent chargeAnimation = new AnimatedComponent(
-            ResourceLoader.ENERGY_BALL_SPRITE,
+            Images.ENERGY_BALL_SPRITE,
             60, 60, 1, 12,
             aniInfo,
             x, y);

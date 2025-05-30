@@ -3,7 +3,6 @@ package gamestates.flying;
 import java.awt.image.BufferedImage;
 
 import main_classes.Game;
-import utils.ResourceLoader;
 
 /**
  * The MapManager2's task is to handle everything related to map-specific images
@@ -21,10 +20,10 @@ public class MapManager2 {
 
    protected float yProgess = 0;
 
-   public void loadNewMap(int level, int bgImgHeight) {
+   public void loadNewMap(int level, int bgImgHeight, Game game) {
       this.bgImgHeight = bgImgHeight;
       this.yProgess = 0;
-      this.clImg = ResourceLoader.getFlyImageCollision("level" + Integer.toString(level) + "_cl.png").getImage();
+      this.clImg = game.getImages().getFlyImageCollision("level" + Integer.toString(level) + "_cl.png").getImage();
       this.clImgHeight = FlyLevelInfo.getClImgHeight(level) * 3;
       this.clImgWidth = 450 * 3;
       this.clYOffset = Game.GAME_DEFAULT_HEIGHT - clImgHeight + 150;

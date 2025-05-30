@@ -6,23 +6,23 @@ import java.awt.image.BufferedImage;
 
 import entities.bossmode.DefaultBossPart;
 import utils.DrawUtils;
-import utils.ResourceLoader;
+import utils.Images;
 
 /** Renders a single bossPart */
 public class RenderBossPart {
    private DefaultBossPart bp;
    private Image[][] animation;
 
-   public RenderBossPart(DefaultBossPart bp) {
+   public RenderBossPart(DefaultBossPart bp, Images images) {
       this.bp = bp;
-      this.animation = constructScaledAnimationArray(bp);
+      this.animation = constructScaledAnimationArray(bp, images);
    }
 
-   private Image[][] constructScaledAnimationArray(DefaultBossPart bp) {
+   private Image[][] constructScaledAnimationArray(DefaultBossPart bp, Images images) {
       int scaledSpriteW = bp.spriteW * 3;
       int scaledSpriteH = bp.spriteH * 3;
       Image[][] animations = new Image[bp.aniRows][bp.aniCols];
-      BufferedImage img = ResourceLoader.getBossSprite(bp.spriteName).getImage();
+      BufferedImage img = images.getBossSprite(bp.spriteName).getImage();
       for (int r = 0; r < bp.aniRows; r++) {
          for (int c = 0; c < bp.aniCols; c++) {
             animations[r][c] = img.getSubimage(

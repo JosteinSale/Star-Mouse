@@ -6,21 +6,23 @@ import rendering.MyImage;
 import gamestates.flying.MapManager2;
 import main_classes.Game;
 import utils.DrawUtils;
-import utils.ResourceLoader;
+import utils.Images;
 
 public class RenderMap2 {
+   private Images images;
    private MapManager2 map;
    protected MyImage clImg;
    protected MyImage bgImg;
    private int bgImgHeight;
 
-   public RenderMap2(MapManager2 map) {
+   public RenderMap2(MapManager2 map, Images images) {
+      this.images = images;
       this.map = map;
    }
 
    public void loadNewMap(int lvl, int bgImgHeight) {
-      this.bgImg = ResourceLoader.getFlyImageBackground("level" + Integer.toString(lvl) + "_bg.png");
-      this.clImg = ResourceLoader.getFlyImageCollision("level" + Integer.toString(lvl) + "_cl.png");
+      this.bgImg = images.getFlyImageBackground("level" + Integer.toString(lvl) + "_bg.png");
+      this.clImg = images.getFlyImageCollision("level" + Integer.toString(lvl) + "_cl.png");
       this.bgImgHeight = bgImgHeight;
    }
 

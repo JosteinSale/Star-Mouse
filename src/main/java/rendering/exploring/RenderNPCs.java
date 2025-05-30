@@ -12,42 +12,42 @@ import rendering.MySubImage;
 import rendering.SwingRender;
 import utils.DrawUtils;
 import utils.HelpMethods2;
-import utils.ResourceLoader;
+import utils.Images;
 
 import static utils.Constants.Exploring.Sprites.STANDARD_SPRITE_HEIGHT;
 import static utils.Constants.Exploring.Sprites.STANDARD_SPRITE_WIDTH;
 
 public class RenderNPCs implements SwingRender {
-   private Game game;
    private NpcManager npcManager;
-   private static MySubImage[] standardNpcSprites;
-   private static MyImage gardSprites;
-   private static MyImage oliverSprites;
-   private static MySubImage[][] gardAnimations;
-   private static MySubImage[][] oliverAnimations;
-   static {
+   private MySubImage[] standardNpcSprites;
+   private MyImage gardSprites;
+   private MyImage oliverSprites;
+   private MySubImage[][] gardAnimations;
+   private MySubImage[][] oliverAnimations;
+   private int drawWidth;
+   private int drawHeight;
+
+   public RenderNPCs(Game game, NpcManager npcManager) {
+      this.npcManager = npcManager;
+      this.drawWidth = STANDARD_SPRITE_WIDTH * 3;
+      this.drawHeight = STANDARD_SPRITE_HEIGHT * 3;
+      this.loadImages(game.getImages());
+   }
+
+   private void loadImages(Images images) {
       standardNpcSprites = HelpMethods2.GetUnscaled1DAnimationArray(
-            ResourceLoader.getExpImageSprite(ResourceLoader.STANDARD_NPC_SPRITES),
+            images.getExpImageSprite(Images.STANDARD_NPC_SPRITES, true),
             16, 90, 60);
-      gardSprites = ResourceLoader.getExpImageSprite(
-            ResourceLoader.GARD_SPRITES);
-      oliverSprites = ResourceLoader.getExpImageSprite(
-            ResourceLoader.OLIVER_SPRITES);
+      gardSprites = images.getExpImageSprite(
+            Images.GARD_SPRITES, true);
+      oliverSprites = images.getExpImageSprite(
+            Images.OLIVER_SPRITES, true);
       gardAnimations = HelpMethods2.GetUnscaled2DAnimationArray(
             gardSprites, 3, 4,
             STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
       oliverAnimations = HelpMethods2.GetUnscaled2DAnimationArray(
             oliverSprites, 6, 4,
             STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
-   }
-   private int drawWidth;
-   private int drawHeight;
-
-   public RenderNPCs(Game game, NpcManager npcManager) {
-      this.game = game;
-      this.npcManager = npcManager;
-      this.drawWidth = STANDARD_SPRITE_WIDTH * 3;
-      this.drawHeight = STANDARD_SPRITE_HEIGHT * 3;
    }
 
    public void drawFgNpcs(Graphics g, int xLevelOffset, int yLevelOffset) {

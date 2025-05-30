@@ -17,7 +17,7 @@ import rendering.MySubImage;
 import rendering.SwingRender;
 import utils.DrawUtils;
 import utils.HelpMethods2;
-import utils.ResourceLoader;
+import utils.Images;
 
 public class RenderLevelSelect implements SwingRender {
    private LevelSelect levelSelect;
@@ -28,28 +28,28 @@ public class RenderLevelSelect implements SwingRender {
 
    public RenderLevelSelect(Game game) {
       this.levelSelect = game.getLevelSelect();
-      this.loadImgs();
+      this.loadImgs(game.getImages());
    }
 
-   private void loadImgs() {
+   private void loadImgs(Images images) {
       // Backgroun image
-      this.bgImg = ResourceLoader.getExpImageBackground(
-            ResourceLoader.LEVEL_SELECT_BG);
+      this.bgImg = images.getImageWithCustomFilePath(
+            Images.LEVEL_SELECT_BG, true);
 
       // Layout images
       this.layoutImgs = new ArrayList<>();
-      this.layoutImgs.add(ResourceLoader.getExpImageBackground(
-            ResourceLoader.LEVEL_SELECT_LAYOUT1));
-      this.layoutImgs.add(ResourceLoader.getExpImageBackground(
-            ResourceLoader.LEVEL_SELECT_LAYOUT2));
-      this.layoutImgs.add(ResourceLoader.getExpImageBackground(
-            ResourceLoader.LEVEL_SELECT_LAYOUT3));
-      this.cursorBox = ResourceLoader.getExpImageSprite(
-            ResourceLoader.LEVEL_SELECT_BOX);
+      this.layoutImgs.add(images.getExpImageBackground(
+            Images.LEVEL_SELECT_LAYOUT1));
+      this.layoutImgs.add(images.getExpImageBackground(
+            Images.LEVEL_SELECT_LAYOUT2));
+      this.layoutImgs.add(images.getExpImageBackground(
+            Images.LEVEL_SELECT_LAYOUT3));
+      this.cursorBox = images.getExpImageSprite(
+            Images.LEVEL_SELECT_BOX, true);
 
       // Level icons
       this.levelIcons = HelpMethods2.GetUnscaled1DAnimationArray(
-            ResourceLoader.getExpImageSprite(ResourceLoader.LEVEL_ICONS),
+            images.getExpImageSprite(Images.LEVEL_ICONS, true),
             13, LEVEL_ICON_SIZE, LEVEL_ICON_SIZE);
    }
 

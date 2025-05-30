@@ -5,7 +5,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 import main_classes.Game;
-import utils.ResourceLoader;
+import utils.Images;
 
 /**
  * The MapManager3's task is to handle everything related to map-specific images
@@ -14,8 +14,8 @@ import utils.ResourceLoader;
 public class MapManager3 {
    protected Image scaledBgImg;
 
-   public void loadMap(int bossNr) {
-      BufferedImage bgImg = ResourceLoader.getBossBackground("boss" + Integer.toString(bossNr) + ".png").getImage();
+   public void loadMap(int bossNr, Images images) {
+      BufferedImage bgImg = images.getBossBackground("boss" + Integer.toString(bossNr) + ".png").getImage();
       scaledBgImg = bgImg.getScaledInstance(
             Game.GAME_WIDTH,
             Game.GAME_HEIGHT, Image.SCALE_SMOOTH);

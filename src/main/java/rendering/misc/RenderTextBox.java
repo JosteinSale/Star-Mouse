@@ -6,7 +6,7 @@ import ui.SmallDialogueBox;
 import ui.TextboxManager;
 import utils.DrawUtils;
 import utils.HelpMethods;
-import utils.ResourceLoader;
+import utils.Images;
 
 import java.util.ArrayList;
 import static utils.Constants.UI.*;
@@ -35,20 +35,21 @@ public class RenderTextBox implements SwingRender {
    private int sDialogueX = 40;
    private int sDialogueY = 600;
 
-   public RenderTextBox(TextboxManager textBoxManager, RenderInfoBox rInfoBox, RenderInfoChoice rInfoChoice) {
+   public RenderTextBox(TextboxManager textBoxManager, RenderInfoBox rInfoBox,
+         RenderInfoChoice rInfoChoice, Images images) {
       this.tbM = textBoxManager;
       this.rInfoBox = rInfoBox;
       this.rInfoChoice = rInfoChoice;
-      this.loadImages();
+      this.loadImages(images);
    }
 
-   private void loadImages() {
-      bigDialogueBoxImg = ResourceLoader.getExpImageSprite(
-            ResourceLoader.DIALOGUE_BOX);
-      portraits = this.getAllPortraits();
+   private void loadImages(Images images) {
+      bigDialogueBoxImg = images.getExpImageSprite(
+            Images.DIALOGUE_BOX, true);
+      portraits = this.getAllPortraits(images);
    }
 
-   private MySubImage[][] getAllPortraits() {
+   private MySubImage[][] getAllPortraits(Images images) {
       MySubImage[][] portraits;
       int nrOfSpecialCharacters = 4;
       int nrOfNpcs = 17;
@@ -56,22 +57,22 @@ public class RenderTextBox implements SwingRender {
       int nrOfCharacters = nrOfSpecialCharacters + nrOfNpcs;
       portraits = new MySubImage[nrOfCharacters][maxPortraitColumns];
       portraits[0] = getPortraitsFor(
-            ResourceLoader.MAX_PORTRAITS, 15, 0);
+            Images.MAX_PORTRAITS, 15, 0, images);
       portraits[1] = getPortraitsFor(
-            ResourceLoader.OLIVER_PORTRAITS, 9, 0);
+            Images.OLIVER_PORTRAITS, 9, 0, images);
       portraits[2] = getPortraitsFor(
-            ResourceLoader.LT_RED_PORTRAITS, 6, 0);
+            Images.LT_RED_PORTRAITS, 6, 0, images);
       portraits[3] = getPortraitsFor(
-            ResourceLoader.RUDINGER_PORTRAITS, 7, 0);
+            Images.RUDINGER_PORTRAITS, 7, 0, images);
       for (int i = 0; i < nrOfNpcs; i++) {
          portraits[i + nrOfSpecialCharacters] = getPortraitsFor(
-               ResourceLoader.NPC_PORTRAITS, 4, i);
+               Images.NPC_PORTRAITS, 4, i, images);
       }
       return portraits;
    }
 
-   private MySubImage[] getPortraitsFor(String fileName, int length, int rowIndex) {
-      MyImage img = ResourceLoader.getExpImageSprite(fileName);
+   private MySubImage[] getPortraitsFor(String fileName, int length, int rowIndex, Images images) {
+      MyImage img = images.getExpImageSprite(fileName, true);
       MySubImage[] portraits = new MySubImage[length];
       for (int i = 0; i < portraits.length; i++) {
          portraits[i] = img.getSubimage(

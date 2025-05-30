@@ -15,7 +15,7 @@ import rendering.MySubImage;
 import ui.GameoverOverlay2;
 import utils.DrawUtils;
 import utils.HelpMethods2;
-import utils.ResourceLoader;
+import utils.Images;
 
 public class RenderGameOver2 {
    private GameoverOverlay2 gameOver;
@@ -24,17 +24,17 @@ public class RenderGameOver2 {
    private MySubImage[] deathAnimation;
    private ArrayList<Rectangle> menuRects;
 
-   public RenderGameOver2(GameoverOverlay2 gameOver) {
+   public RenderGameOver2(GameoverOverlay2 gameOver, Images images) {
       this.gameOver = gameOver;
-      this.loadResources();
+      this.loadResources(images);
       this.constructMenuRects();
    }
 
-   private void loadResources() {
-      this.pointerImg = ResourceLoader.getExpImageSprite(
-            ResourceLoader.CURSOR_SPRITE_WHITE);
-      MyImage deathImg = ResourceLoader.getFlyImageSprite(
-            ResourceLoader.SHIP_DEATH_SPRITES);
+   private void loadResources(Images images) {
+      this.pointerImg = images.getExpImageSprite(
+            Images.CURSOR_SPRITE_WHITE, true);
+      MyImage deathImg = images.getFlyImageSprite(
+            Images.SHIP_DEATH_SPRITES, true);
       this.deathAnimation = HelpMethods2.GetUnscaled1DAnimationArray(
             deathImg, 26, 40, 40);
    }

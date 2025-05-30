@@ -14,7 +14,7 @@ import rendering.misc.RenderOptionsMenu;
 import ui.OptionsMenu;
 import ui.PauseExploring;
 import utils.DrawUtils;
-import utils.ResourceLoader;
+import utils.Images;
 
 import static utils.Constants.UI.CURSOR_HEIGHT;
 import static utils.Constants.UI.CURSOR_WIDTH;
@@ -56,7 +56,7 @@ public class RenderPauseExploring implements SwingRender {
       this.itemImages = new HashMap<>();
       this.constructMenuRects();
       calcDrawValues();
-      loadImages();
+      loadImages(game.getImages());
    }
 
    private void constructMenuRects() {
@@ -87,19 +87,19 @@ public class RenderPauseExploring implements SwingRender {
             300, itemBoxH);
    }
 
-   private void loadImages() {
-      this.itemBoxImg = ResourceLoader.getExpImageSprite(
-            ResourceLoader.ITEM_BOX);
-      this.pointerImg = ResourceLoader.getExpImageSprite(
-            ResourceLoader.CURSOR_SPRITE_WHITE);
-      this.itemSelectedImg = ResourceLoader.getExpImageSprite(
-            ResourceLoader.ITEM_SELECTED);
+   private void loadImages(Images images) {
+      this.itemBoxImg = images.getExpImageSprite(
+            Images.ITEM_BOX, true);
+      this.pointerImg = images.getExpImageSprite(
+            Images.CURSOR_SPRITE_WHITE, true);
+      this.itemSelectedImg = images.getExpImageSprite(
+            Images.ITEM_SELECTED, true);
 
       // Inventory items
       itemImages.put("GRADUATION PRESENT",
-            ResourceLoader.getExpImageSprite(ResourceLoader.PRESENT_IMAGE));
+            images.getExpImageSprite(Images.PRESENT_IMAGE, true));
       itemImages.put("COMFORT PET PLUSHIE",
-            ResourceLoader.getExpImageSprite("item_plushie.png"));
+            images.getExpImageSprite("item_plushie.png", true));
    }
 
    @Override

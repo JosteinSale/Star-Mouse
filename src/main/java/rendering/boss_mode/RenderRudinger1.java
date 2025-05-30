@@ -6,7 +6,7 @@ import entities.bossmode.rudinger1.Rudinger1;
 import rendering.MyImage;
 import rendering.misc.RenderAnimatedComponent;
 import utils.DrawUtils;
-import utils.ResourceLoader;
+import utils.Images;
 
 public class RenderRudinger1 implements IRenderBoss {
    private Rudinger1 rudinger;
@@ -19,18 +19,18 @@ public class RenderRudinger1 implements IRenderBoss {
    private RenderAnimatedComponent rMouth;
    private RenderAnimatedComponent rRotatingLazerCharge;
 
-   public RenderRudinger1(Rudinger1 rudinger, RenderBossHealth rBossHealth) {
+   public RenderRudinger1(Rudinger1 rudinger, RenderBossHealth rBossHealth, Images images) {
       this.rudinger = rudinger;
-      this.mainBodyImg = ResourceLoader.getBossSprite("boss1_body2.png");
+      this.mainBodyImg = images.getBossSprite("boss1_body2.png");
       this.mainBodyW = mainBodyImg.getWidth();
       this.mainBodyH = mainBodyImg.getHeight();
       this.rBossHealth = rBossHealth;
       rBossHealth.setNew(rudinger.getHealthDisplay());
-      this.rActionHandler = new RenderActionHandler(rudinger.actionHandler);
-      this.rEyes = new RenderAnimatedComponent(rudinger.eyes);
-      this.rMouth = new RenderAnimatedComponent(rudinger.mouth);
+      this.rActionHandler = new RenderActionHandler(rudinger.actionHandler, images);
+      this.rEyes = new RenderAnimatedComponent(rudinger.eyes, images);
+      this.rMouth = new RenderAnimatedComponent(rudinger.mouth, images);
       this.rRotatingLazerCharge = new RenderAnimatedComponent(
-            rudinger.verticalLazer.chargeAnimation);
+            rudinger.verticalLazer.chargeAnimation, images);
    }
 
    @Override

@@ -15,6 +15,7 @@ import rendering.root_renders.RenderLevelEditor;
 import rendering.root_renders.RenderLevelSelect;
 import rendering.root_renders.RenderMainMenu;
 import rendering.root_renders.RenderStartScreen;
+import utils.Images;
 
 /**
  * The View initializes one specialized render-object for each gamestate,
@@ -43,21 +44,24 @@ public class View {
    private RenderLevelEditor rLevelEditor;
 
    public View(Game game) {
-      this.rStartScreen = new RenderStartScreen(game.getStartScreen());
-      this.rInfoBox = new RenderInfoBox(game.getTextboxManager().getInfoBox());
+      Images images = game.getImages();
+      this.rStartScreen = new RenderStartScreen(game.getStartScreen(), images);
+      this.rInfoBox = new RenderInfoBox(game.getTextboxManager().getInfoBox(), images);
       this.rInfoChoice = new RenderInfoChoice(
-            game.getTextboxManager().getInfoChoice());
-      this.rOptionsMenu = new RenderOptionsMenu(game.getOptionsMenu(), game.getOptionsMenu().getControlsMenu());
+            game.getTextboxManager().getInfoChoice(), images);
+      this.rOptionsMenu = new RenderOptionsMenu(
+            game.getOptionsMenu(), game.getOptionsMenu().getControlsMenu(), images);
       this.rMainMenu = new RenderMainMenu(game, rOptionsMenu, rInfoChoice);
       this.rLevelSelect = new RenderLevelSelect(game);
-      this.rCutscene = new RenderCutscene(game.getTextboxManager(), rInfoBox, rInfoChoice);
+      this.rCutscene = new RenderCutscene(game.getTextboxManager(), rInfoBox, rInfoChoice, images);
       this.rExploring = new RenderExploring(game, rOptionsMenu, rCutscene, rInfoBox, rInfoChoice);
       this.rFlying = new RenderFlying(game, game.getFlying(), rCutscene, rOptionsMenu);
       this.rBossMode = new RenderBossMode(
             game, rCutscene, rOptionsMenu,
-            rFlying.getRenderPlayer(), rFlying.getRenderProjectiles());
+            rFlying.getRenderPlayer(), rFlying.getRenderProjectiles(), images);
       this.rCinematic = new RenderCinematic(rCutscene);
-      this.rLevelEditor = new RenderLevelEditor(game.getLevelEditor(), rFlying.getEntityImages());
+      this.rLevelEditor = new RenderLevelEditor(
+            game.getLevelEditor(), rFlying.getEntityImages(), images);
    }
 
    public void draw(Graphics g) {

@@ -8,7 +8,7 @@ import rendering.MyColor;
 import rendering.MyImage;
 import rendering.SwingRender;
 import utils.DrawUtils;
-import utils.ResourceLoader;
+import utils.Images;
 
 public class RenderStartScreen implements SwingRender {
 
@@ -17,9 +17,9 @@ public class RenderStartScreen implements SwingRender {
    private int mouseImgW = 100 * 3;
    private int mouseImgH = 100 * 3;
 
-   public RenderStartScreen(StartScreen startScreen) {
+   public RenderStartScreen(StartScreen startScreen, Images images) {
       this.startScreen = startScreen;
-      mouseImg = ResourceLoader.getExpImageSprite(ResourceLoader.BASIC_MOUSE);
+      mouseImg = images.getExpImageSprite(Images.BASIC_MOUSE, false);
    }
 
    @Override

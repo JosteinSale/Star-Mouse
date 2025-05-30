@@ -6,7 +6,7 @@ import rendering.MyImage;
 import rendering.misc.RenderOptionsMenu;
 import ui.PauseBoss;
 import utils.DrawUtils;
-import utils.ResourceLoader;
+import utils.Images;
 
 import java.util.ArrayList;
 import java.awt.Graphics;
@@ -23,13 +23,13 @@ public class RenderPauseBoss {
    private ArrayList<Rectangle> menuRects;
    private RenderOptionsMenu rOptions;
 
-   public RenderPauseBoss(PauseBoss pause, RenderOptionsMenu rOptions) {
+   public RenderPauseBoss(PauseBoss pause, RenderOptionsMenu rOptions, Images images) {
       this.pause = pause;
       this.rOptions = rOptions;
       this.menuRects = new ArrayList<>();
       constructMenuRects();
-      this.pointerImg = ResourceLoader.getExpImageSprite(
-            ResourceLoader.CURSOR_SPRITE_WHITE);
+      this.pointerImg = images.getExpImageSprite(
+            Images.CURSOR_SPRITE_WHITE, true);
    }
 
    private void constructMenuRects() {

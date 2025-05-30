@@ -10,7 +10,7 @@ import rendering.MySubImage;
 import rendering.SwingRender;
 import utils.DrawUtils;
 import utils.HelpMethods2;
-import utils.ResourceLoader;
+import utils.Images;
 
 import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_HEIGHT;
 import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_WIDTH;
@@ -42,30 +42,30 @@ public class RenderPlayerFly implements SwingRender {
    public RenderPlayerFly(Game game, PlayerFly player) {
       this.game = game;
       this.player = player;
-      this.loadImages();
+      this.loadImages(game.getImages());
    }
 
-   private void loadImages() {
+   private void loadImages(Images images) {
       // Teleport shadow
-      this.tpShadowImg = ResourceLoader.getFlyImageSprite(
-            ResourceLoader.TELEPORT_SHADOW);
+      this.tpShadowImg = images.getFlyImageSprite(
+            Images.TELEPORT_SHADOW, true);
 
       // Engine flame
       this.flameAnimations = HelpMethods2.GetUnscaled1DAnimationArray(
-            ResourceLoader.getFlyImageSprite(ResourceLoader.SHIP_FLAME_SPRITES),
+            images.getFlyImageSprite(Images.SHIP_FLAME_SPRITES, true),
             2, 15, 15);
 
       // Player Ship
-      MyImage shipImg = ResourceLoader.getFlyImageSprite(
-            ResourceLoader.SHIP_SPRITES);
+      MyImage shipImg = images.getFlyImageSprite(
+            Images.SHIP_SPRITES, true);
       this.animations = HelpMethods2.GetUnscaled2DAnimationArray(
             shipImg, 7, 6, SHIP_SPRITE_WIDTH, SHIP_SPRITE_HEIGHT);
 
       // Status display
-      this.bombImg = ResourceLoader.getFlyImageSprite(
-            ResourceLoader.BOMB_SPRITE);
-      this.enemyCounterImg = ResourceLoader.getFlyImageSprite(
-            ResourceLoader.ENEMYCOUNTER_SPRITE);
+      this.bombImg = images.getFlyImageSprite(
+            Images.BOMB_SPRITE, true);
+      this.enemyCounterImg = images.getFlyImageSprite(
+            Images.ENEMYCOUNTER_SPRITE, true);
       this.bombImgW = bombImg.getWidth() * 2;
       this.bombImgH = bombImg.getHeight() * 2;
       this.enemyCounterW = enemyCounterImg.getWidth() * 2;

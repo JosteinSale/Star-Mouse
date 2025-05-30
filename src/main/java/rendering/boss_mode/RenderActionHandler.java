@@ -5,9 +5,12 @@ import java.awt.Graphics;
 import entities.bossmode.BossActionHandler;
 import entities.bossmode.DefaultBossPart;
 import projectiles.shootPatterns.ShootPattern;
+import utils.Images;
+
 import java.util.ArrayList;
 
 public class RenderActionHandler {
+   private Images images;
 
    // TODO - The structure in this object is a bit ugly. Maybe improve it.
    // OBS : Remember that many of the entries in the lists will be empty.
@@ -16,12 +19,13 @@ public class RenderActionHandler {
    private ArrayList<ArrayList<RenderShootPattern>> spAnimations;
    // The 2D-ArrayLists reflects how BossParts are structured in the ActionHandler.
 
-   public RenderActionHandler(BossActionHandler actionHandler) {
-      this.loadBossPartRenders(actionHandler);
+   public RenderActionHandler(BossActionHandler actionHandler, Images images) {
+      this.images = images;
+      this.loadBossPartRenders(actionHandler, images);
       this.loadShootPatternRenders(actionHandler);
    }
 
-   private void loadBossPartRenders(BossActionHandler actionHandler) {
+   private void loadBossPartRenders(BossActionHandler actionHandler, Images images) {
       this.bpAnimations = new ArrayList<>();
       // 1. The outer arrayList represents the different boss actions
       for (ArrayList<DefaultBossPart> action : actionHandler.getAllBossParts()) {
@@ -31,7 +35,7 @@ public class RenderActionHandler {
          // 2. Each boss action can have multiple bossParts associated with it
          // (but usually just 1).
          for (DefaultBossPart bp : action) {
-            renders.add(new RenderBossPart(bp)); // The render loads images
+            renders.add(new RenderBossPart(bp, images)); // The render loads images
          }
       }
    }
@@ -46,7 +50,7 @@ public class RenderActionHandler {
          // 2. Each boss action can have multiple shootPatterns associated with it
          // (e.g. two - if the boss has two cannons).
          for (ShootPattern sp : action) {
-            renders.add(new RenderShootPattern(sp));
+            renders.add(new RenderShootPattern(sp, images));
          }
       }
    }

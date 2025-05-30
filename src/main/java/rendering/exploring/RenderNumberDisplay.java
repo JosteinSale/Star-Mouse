@@ -9,7 +9,7 @@ import rendering.MyImage;
 import rendering.SwingRender;
 import ui.NumberDisplay;
 import utils.DrawUtils;
-import utils.ResourceLoader;
+import utils.Images;
 
 import static utils.Constants.UI.NUMBER_SELECT_HEIGHT;
 import static utils.Constants.UI.NUMBER_SELECT_WIDTH;
@@ -23,11 +23,11 @@ public class RenderNumberDisplay implements SwingRender {
    private MyColor fadeColor;
    private Rectangle bgRect;
 
-   public RenderNumberDisplay() {
-      this.bgImg = ResourceLoader.getExpImageSprite(
-            ResourceLoader.NUMBER_DISPLAY);
-      this.selectedNrImg = ResourceLoader.getExpImageSprite(
-            ResourceLoader.NUMBER_SELECT);
+   public RenderNumberDisplay(Images images) {
+      this.bgImg = images.getExpImageSprite(
+            Images.NUMBER_DISPLAY, true);
+      this.selectedNrImg = images.getExpImageSprite(
+            Images.NUMBER_SELECT, true);
       this.fadeColor = new MyColor(0, 0, 0, 150);
       calcDrawValues();
    }

@@ -9,7 +9,7 @@ import rendering.MyColor;
 import rendering.SwingRender;
 import ui.InfoChoice;
 import utils.DrawUtils;
-import utils.ResourceLoader;
+import utils.Images;
 
 import static utils.Constants.UI.CURSOR_HEIGHT;
 import static utils.Constants.UI.CURSOR_WIDTH;
@@ -26,12 +26,12 @@ public class RenderInfoChoice implements SwingRender {
    private int cursorW;
    private int cursorH;
 
-   public RenderInfoChoice(InfoChoice infoChoice) {
+   public RenderInfoChoice(InfoChoice infoChoice, Images images) {
       this.ic = infoChoice;
-      this.background = ResourceLoader.getExpImageSprite(
-            ResourceLoader.INFO_BOX);
-      this.cursorImg = ResourceLoader.getExpImageSprite(
-            ResourceLoader.CURSOR_SPRITE_BLACK);
+      this.background = images.getExpImageSprite(
+            Images.INFO_BOX, true);
+      this.cursorImg = images.getExpImageSprite(
+            Images.CURSOR_SPRITE_BLACK, true);
       this.calcInfoChoiceValues();
    }
 

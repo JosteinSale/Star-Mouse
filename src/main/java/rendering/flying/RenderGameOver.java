@@ -1,6 +1,5 @@
 package rendering.flying;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -13,7 +12,7 @@ import rendering.MySubImage;
 import ui.GameoverOverlay;
 import utils.DrawUtils;
 import utils.HelpMethods2;
-import utils.ResourceLoader;
+import utils.Images;
 
 import static utils.Constants.UI.CURSOR_HEIGHT;
 import static utils.Constants.UI.CURSOR_WIDTH;
@@ -21,22 +20,23 @@ import static utils.Constants.UI.CURSOR_WIDTH;
 public class RenderGameOver {
    private GameoverOverlay gameOver;
    private MyColor bgColor = new MyColor(0, 0, 0, 140);
+   private MyColor grayTextColor = new MyColor(255, 255, 255, 130);
    private MyImage pointerImg;
    private MySubImage[] deathAnimation;
    private ArrayList<Rectangle> menuRects;
 
-   public RenderGameOver(GameoverOverlay gameoverOverlay) {
+   public RenderGameOver(GameoverOverlay gameoverOverlay, Images images) {
       this.gameOver = gameoverOverlay;
-      loadImages();
+      loadImages(images);
       constructMenuRects();
    }
 
-   private void loadImages() {
-      this.pointerImg = ResourceLoader.getExpImageSprite(
-            ResourceLoader.CURSOR_SPRITE_WHITE);
+   private void loadImages(Images images) {
+      this.pointerImg = images.getExpImageSprite(
+            Images.CURSOR_SPRITE_WHITE, true);
 
       this.deathAnimation = HelpMethods2.GetUnscaled1DAnimationArray(
-            ResourceLoader.getFlyImageSprite(ResourceLoader.SHIP_DEATH_SPRITES),
+            images.getFlyImageSprite(Images.SHIP_DEATH_SPRITES, true),
             26, 40, 40);
    }
 
@@ -82,10 +82,9 @@ public class RenderGameOver {
             400, 350);
 
       for (int i = 0; i < gameOver.menuOptions.length; i++) {
-         setTextColor(i, g);
          DrawUtils.DrawCenteredString(
                g2, gameOver.menuOptions[i], menuRects.get(i),
-               DrawUtils.menuFont, MyColor.WHITE);
+               DrawUtils.menuFont, getGameOverTextColor(i));
       }
 
       // Cursor
@@ -95,11 +94,11 @@ public class RenderGameOver {
             CURSOR_WIDTH, CURSOR_HEIGHT);
    }
 
-   private void setTextColor(int index, Graphics g) {
+   private MyColor getGameOverTextColor(int index) {
       if (gameOver.textShouldBeGray(index)) {
-         g.setColor(new Color(255, 255, 255, 130));
+         return grayTextColor;
       } else {
-         g.setColor(Color.WHITE);
+         return MyColor.WHITE;
       }
    }
 

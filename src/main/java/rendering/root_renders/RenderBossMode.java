@@ -16,11 +16,13 @@ import rendering.flying.RenderPlayerFly;
 import rendering.flying.RenderProjectiles;
 import rendering.misc.RenderCutscene;
 import rendering.misc.RenderOptionsMenu;
+import utils.Images;
 
 /**
  * Draws all of bossMode.
  */
 public class RenderBossMode implements SwingRender {
+   private Images images;
    private BossMode bossMode;
    private MapManager3 mapManager;
    private RenderPlayerFly rPlayer;
@@ -33,19 +35,20 @@ public class RenderBossMode implements SwingRender {
 
    public RenderBossMode(
          Game game, RenderCutscene rCutscene, RenderOptionsMenu rOptions,
-         RenderPlayerFly rPlayer, RenderProjectiles rProjectiles) {
+         RenderPlayerFly rPlayer, RenderProjectiles rProjectiles, Images images) {
+      this.images = images;
       this.bossMode = game.getBossMode();
       this.mapManager = new MapManager3();
       this.rPlayer = rPlayer;
       this.rCutscene = rCutscene;
       this.rProjectiles = rProjectiles;
-      this.rPause = new RenderPauseBoss(bossMode.getPauseOverlay(), rOptions);
-      this.rGameOver = new RenderGameOver2(bossMode.getGameOverOverlay());
+      this.rPause = new RenderPauseBoss(bossMode.getPauseOverlay(), rOptions, images);
+      this.rGameOver = new RenderGameOver2(bossMode.getGameOverOverlay(), images);
       this.rBossHealth = new RenderBossHealth();
    }
 
    public void loadBoss(int bossNr) {
-      mapManager.loadMap(bossNr);
+      mapManager.loadMap(bossNr, images);
       rPlayer.setPlayer(bossMode.getPlayer());
       rCutscene.setCutsceneManager(bossMode.getCutsceneManager());
       rProjectiles.setProjectileHandler(bossMode.getProjectileHandler());
@@ -57,7 +60,7 @@ public class RenderBossMode implements SwingRender {
    private void setBossRender(int bossNr) {
       switch (bossNr) {
          case 1:
-            rBoss = new RenderRudinger1((Rudinger1) bossMode.getBoss(), rBossHealth);
+            rBoss = new RenderRudinger1((Rudinger1) bossMode.getBoss(), rBossHealth, images);
             return;
          default:
             throw new IllegalArgumentException("No boss available for bossNr: " + bossNr);

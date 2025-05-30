@@ -17,7 +17,7 @@ import projectiles.ProjectileHandler2;
 import projectiles.shootPatterns.FanPattern;
 import projectiles.shootPatterns.HeatSeekingPattern;
 import ui.BossHealthDisplay;
-import utils.ResourceLoader;
+import utils.Images;
 
 public class Rudinger1 implements IBoss {
    public BossActionHandler actionHandler;
@@ -123,10 +123,10 @@ public class Rudinger1 implements IBoss {
             (float) mainGunPoint.getY() - height1 / 2,
             width1, height1);
       this.verticalLazer = new RotatingLazer(
-            hitbox1, ResourceLoader.ROTATING_LAZER_SPRITE,
+            hitbox1, Images.ROTATING_LAZER_SPRITE,
             2, 3, 10, 433, 0.0, true);
       this.horizontalLazer = new RotatingLazer(
-            hitbox1, ResourceLoader.ROTATING_LAZER_SPRITE,
+            hitbox1, Images.ROTATING_LAZER_SPRITE,
             2, 3, 10, 433, Math.PI / 2, false);
 
       // A heatseeking lazer.
@@ -138,7 +138,7 @@ public class Rudinger1 implements IBoss {
             (float) mainGunPoint.getY(),
             width2, height2);
       this.heatSeekingLazer = new HeatSeekingLazer(
-            hitbox2, ResourceLoader.HEATSEEKING_LAZER_SPRITE,
+            hitbox2, Images.HEATSEEKING_LAZER_SPRITE,
             3, 4, 30, 220, player, mainGunPoint);
 
       // The machine heart.
@@ -150,7 +150,7 @@ public class Rudinger1 implements IBoss {
             (float) heartDockingPoint.getY() - height3 / 2,
             width3, height3);
       this.machineHeart = new MachineHeart(
-            hitbox3, ResourceLoader.MACHINE_HEART_SPRITE,
+            hitbox3, Images.MACHINE_HEART_SPRITE,
             2, 2, 40, 40, player, heartDockingPoint);
 
       // The vulnerable area (is not part of an attack, doesn't have animations)
@@ -163,7 +163,7 @@ public class Rudinger1 implements IBoss {
             (float) heartDockingPoint.getY() + 40,
             width4, height4);
       this.vulnerableComponent = new VulnerableComponent(
-            hitbox4, ResourceLoader.EMPTY_IMAGE,
+            hitbox4, Images.EMPTY_IMAGE,
             0, 0, 0, 0, this);
 
    }

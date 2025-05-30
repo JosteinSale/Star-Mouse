@@ -9,7 +9,7 @@ import rendering.MySubImage;
 import rendering.SwingRender;
 import utils.DrawUtils;
 import utils.HelpMethods2;
-import utils.ResourceLoader;
+import utils.Images;
 
 /**
  * Renders simple animations using the numerical SimpleAnimation-objects
@@ -21,6 +21,7 @@ import utils.ResourceLoader;
  * Call addAnimation() and dispose() to do this.
  */
 public class RenderObjectMove implements SwingRender {
+   private Images images;
    private ArrayList<SimpleAnimation> simpleAnimations;
    private ArrayList<MySubImage[]> spriteArrays;
 
@@ -38,7 +39,8 @@ public class RenderObjectMove implements SwingRender {
    public static final String APO = "apo.png";
    public static final String WHITE_CHARGE = "white_charge.png";
 
-   public RenderObjectMove() {
+   public RenderObjectMove(Images images) {
+      this.images = images;
       this.simpleAnimations = new ArrayList<>();
       this.spriteArrays = new ArrayList<>();
    }
@@ -51,7 +53,7 @@ public class RenderObjectMove implements SwingRender {
    }
 
    private MySubImage[] getArrayAndContainImg(String imgName) {
-      MyImage img = ResourceLoader.getCutsceneImage(imgName);
+      MyImage img = images.getCutsceneImage(imgName);
 
       MySubImage[] array = switch (imgName) {
          case ROW_OF_DRONES -> HelpMethods2.GetUnscaled1DAnimationArray(

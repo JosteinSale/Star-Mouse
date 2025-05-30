@@ -11,7 +11,7 @@ import projectiles.ProjectileHit;
 import rendering.MySubImage;
 import utils.DrawUtils;
 import utils.HelpMethods2;
-import utils.ResourceLoader;
+import utils.Images;
 
 import static utils.Constants.Flying.SpriteSizes.PRJT_HIT_SPRITE_SIZE;
 import static utils.Constants.Flying.SpriteSizes.BOMBEXPLOSION_SPRITE_WIDTH;
@@ -45,9 +45,9 @@ public class RenderProjectiles {
    protected MySubImage[] hitAnimation;
    protected MySubImage[] bombExplosionAnimation;
 
-   public RenderProjectiles(ProjectileHandler projectileHandler) {
+   public RenderProjectiles(ProjectileHandler projectileHandler, Images images) {
       this.projectileHandler = projectileHandler;
-      this.loadDrawInfo();
+      this.loadDrawInfo(images);
    }
 
    /**
@@ -58,40 +58,40 @@ public class RenderProjectiles {
       this.projectileHandler = projectileHandler;
    }
 
-   private void loadDrawInfo() {
+   private void loadDrawInfo(Images images) {
       // Projectiles
       this.plPrjctRegular = new ProjectileDrawInfo(
-            ResourceLoader.getFlyImageSprite(ResourceLoader.PLAYER_PROJECTILE_BLUE),
+            images.getFlyImageSprite(Images.PLAYER_PROJECTILE_BLUE, true),
             16, 52, 0, 0);
       this.plPrjctPowerup = new ProjectileDrawInfo(
-            ResourceLoader.getFlyImageSprite(ResourceLoader.PLAYER_PROJECTILE_GREEN),
+            images.getFlyImageSprite(Images.PLAYER_PROJECTILE_GREEN, true),
             16, 52, 0, 0);
       this.bombPrjct = new ProjectileDrawInfo(
-            ResourceLoader.getFlyImageSprite(ResourceLoader.BOMB_SPRITE),
+            images.getFlyImageSprite(Images.BOMB_SPRITE, true),
             (int) (BOMB_PRJT_SPRITE_SIZE * 2.5f), (int) (BOMB_PRJT_SPRITE_SIZE * 2.5f),
             20, 18);
       this.dronePrjct = new ProjectileDrawInfo(
-            ResourceLoader.getFlyImageSprite(ResourceLoader.DRONE_PROJECTILE),
+            images.getFlyImageSprite(Images.DRONE_PROJECTILE, true),
             32, 32, 0, 0);
       this.octadronePrcjt = new ProjectileDrawInfo(
-            ResourceLoader.getFlyImageSprite(ResourceLoader.OCTADRONE_PROJECTILE),
+            images.getFlyImageSprite(Images.OCTADRONE_PROJECTILE, true),
             25, 25, 0, 0);
       this.reaperdronePrjct = new ProjectileDrawInfo(
-            ResourceLoader.getFlyImageSprite(ResourceLoader.REAPERDRONE_PROJECTILE),
+            images.getFlyImageSprite(Images.REAPERDRONE_PROJECTILE, true),
             REAPERDRONE_PRJT_SPRITE_W * 3, REAPERDRONE_PRJT_SPRITE_H * 3, 0, 0);
       this.flamedronPrjct = new ProjectileDrawInfo(
-            ResourceLoader.getFlyImageSprite(ResourceLoader.FLAME_PROJECTILE),
+            images.getFlyImageSprite(Images.FLAME_PROJECTILE, true),
             FLAME_PRJT_SPRITE_W * 3, FLAME_PRJT_SPRITE_H * 3, 36, 35);
       this.bossProjct1 = new ProjectileDrawInfo(
-            ResourceLoader.getBossSprite(ResourceLoader.BOSS_PROJECTILE1),
+            images.getBossSprite(Images.BOSS_PROJECTILE1),
             70, 70, 0, 0);
 
       // Hit animation, bomb explosion animation
       this.hitAnimation = HelpMethods2.GetUnscaled1DAnimationArray(
-            ResourceLoader.getFlyImageSprite(ResourceLoader.PROJECTILE_HIT),
+            images.getFlyImageSprite(Images.PROJECTILE_HIT, true),
             4, PRJT_HIT_SPRITE_SIZE, PRJT_HIT_SPRITE_SIZE);
       this.bombExplosionAnimation = HelpMethods2.GetUnscaled1DAnimationArray(
-            ResourceLoader.getFlyImageSprite(ResourceLoader.BOMB_EXPLOSION_SPRITE),
+            images.getFlyImageSprite(Images.BOMB_EXPLOSION_SPRITE, true),
             11, BOMBEXPLOSION_SPRITE_WIDTH, BOMBEXPLOSION_SPRITE_HEIGHT);
       this.bombExplInfo = new ProjectileDrawInfo(
             null, // Drawing method will use image from animation array

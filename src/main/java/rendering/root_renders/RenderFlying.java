@@ -30,15 +30,17 @@ public class RenderFlying implements SwingRender {
    public RenderFlying(Game game, Flying flying, RenderCutscene rCutscene,
          RenderOptionsMenu rOptions) {
       this.flying = flying;
-      this.rMap = new RenderMap2(flying.getMapManager());
+      this.rMap = new RenderMap2(flying.getMapManager(), game.getImages());
       this.rPlayer = new RenderPlayerFly(game, flying.getPlayer());
       this.rEntity = new RenderEntity(
-            flying.getEnemyManager(), flying.getPickupItems(), flying.getEntityFactory());
-      this.rProjectiles = new RenderProjectiles(flying.getProjectileHandler());
+            flying.getEnemyManager(), flying.getPickupItems(),
+            flying.getEntityFactory(), game.getImages());
+      this.rProjectiles = new RenderProjectiles(flying.getProjectileHandler(), game.getImages());
       this.rCutscene = rCutscene;
-      this.rGameOver = new RenderGameOver(flying.getGameOverOverlay());
-      this.rPause = new RenderPauseFly(flying.getPauseMenu(), rOptions);
-      this.rLevelFinished = new RenderLevelFinished(flying.getLevelFinishedOverlay());
+      this.rGameOver = new RenderGameOver(flying.getGameOverOverlay(), game.getImages());
+      this.rPause = new RenderPauseFly(flying.getPauseMenu(), rOptions, game.getImages());
+      this.rLevelFinished = new RenderLevelFinished(
+            flying.getLevelFinishedOverlay(), game.getImages());
    }
 
    @Override

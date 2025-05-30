@@ -14,7 +14,7 @@ import rendering.misc.RenderInfoChoice;
 import rendering.misc.RenderLoadSave;
 import rendering.misc.RenderOptionsMenu;
 import utils.DrawUtils;
-import utils.ResourceLoader;
+import utils.Images;
 
 import static utils.Constants.UI.*;
 
@@ -31,12 +31,13 @@ public class RenderMainMenu implements SwingRender {
    public RenderMainMenu(Game game, RenderOptionsMenu rOptionsMenu, RenderInfoChoice rInfoChoice) {
       this.mainMenu = game.getMainMenu();
       this.rOptionsMenu = rOptionsMenu;
-      bgImg = ResourceLoader.getExpImageBackground(
-            ResourceLoader.LEVEL_SELECT_BG);
-      cursorImg = ResourceLoader.getExpImageSprite(
-            ResourceLoader.CURSOR_SPRITE_WHITE);
-      titleImg = ResourceLoader.getExpImageBackground(
-            ResourceLoader.MAIN_MENU_TITLE);
+      Images images = game.getImages();
+      bgImg = images.getImageWithCustomFilePath(
+            Images.LEVEL_SELECT_BG, true);
+      cursorImg = images.getExpImageSprite(
+            Images.CURSOR_SPRITE_WHITE, true);
+      titleImg = images.getImageWithCustomFilePath(
+            Images.MAIN_MENU_TITLE, true);
       this.makeMenuRectangles();
       this.rLoadSave = new RenderLoadSave(
             game, mainMenu.getLoadSaveMenu(), rInfoChoice);

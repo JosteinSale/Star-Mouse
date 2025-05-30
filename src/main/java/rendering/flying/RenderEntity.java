@@ -14,7 +14,7 @@ import rendering.MyColor;
 import rendering.MySubImage;
 import utils.DrawUtils;
 import utils.HelpMethods2;
-import utils.ResourceLoader;
+import utils.Images;
 
 import static utils.Constants.Flying.SpriteSizes.EXPLOSION_SPRITE_SIZE;
 
@@ -27,13 +27,13 @@ public class RenderEntity {
    public RenderEntity(
          EnemyManager enemyManager,
          ArrayList<PickupItem> pickupItems,
-         EntityFactory entityFactory) {
+         EntityFactory entityFactory, Images images) {
       this.enemyManager = enemyManager;
       this.pickupItems = pickupItems;
       this.explosionAnimation = HelpMethods2.GetUnscaled1DAnimationArray(
-            ResourceLoader.getFlyImageSprite(ResourceLoader.EXPLOSION),
+            images.getFlyImageSprite(Images.EXPLOSION, true),
             5, EXPLOSION_SPRITE_SIZE, EXPLOSION_SPRITE_SIZE);
-      this.entityImgs = new EntityImages(entityFactory);
+      this.entityImgs = new EntityImages(entityFactory, images);
    }
 
    public void draw(Graphics g) {

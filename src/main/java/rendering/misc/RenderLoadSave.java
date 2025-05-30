@@ -16,7 +16,7 @@ import rendering.MyImage;
 import rendering.SwingRender;
 import ui.LoadSaveMenu;
 import utils.DrawUtils;
-import utils.ResourceLoader;
+import utils.Images;
 
 public class RenderLoadSave implements SwingRender {
    private Game game;
@@ -39,7 +39,7 @@ public class RenderLoadSave implements SwingRender {
       this.menu = menu;
       this.rInfoChoice = rInfoChoice;
       calcDrawValues();
-      loadImages();
+      loadImages(game.getImages());
       constructRectangles();
    }
 
@@ -50,9 +50,9 @@ public class RenderLoadSave implements SwingRender {
       bgY = (int) ((Game.GAME_DEFAULT_HEIGHT / 2) - (bgH / 2));
    }
 
-   private void loadImages() {
-      this.pointerImg = ResourceLoader.getExpImageSprite(
-            ResourceLoader.CURSOR_SPRITE_WHITE);
+   private void loadImages(Images images) {
+      this.pointerImg = images.getExpImageSprite(
+            Images.CURSOR_SPRITE_WHITE, true);
    }
 
    private void constructRectangles() {

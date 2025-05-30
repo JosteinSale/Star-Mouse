@@ -90,7 +90,7 @@ public class Flying extends State {
    public void loadLevel(int lvl) {
       this.level = lvl;
       this.song = Audio.GetFlyLevelSong(lvl);
-      mapManager.loadNewMap(lvl, FlyLevelInfo.getBgImgHeight(lvl));
+      mapManager.loadNewMap(lvl, FlyLevelInfo.getBgImgHeight(lvl), game);
       player.setClImg(mapManager.clImg);
       projectileHandler.setClImg(mapManager.clImg);
       projectileHandler.setBombs(game.getExploring().getProgressValues().getBombs());
