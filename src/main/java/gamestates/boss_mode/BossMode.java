@@ -99,8 +99,8 @@ public class BossMode extends State {
          audioPlayer.fadeOutAllLoops();
       } else if (event instanceof PlaySFXEvent evt) {
          audioPlayer.playSFX(evt.SFXIndex());
-      } else if (event instanceof GoToFlyingEvent evt) {
-         this.goToFlying(evt.lvl());
+      } else if (event instanceof GoToFlyingEvent) {
+         this.goToFlying();
       } else if (event instanceof SetBossVisibleEvent evt) {
          this.boss.setVisible(evt.visible());
       } else if (event instanceof ObjectMoveEvent evt) {
@@ -120,7 +120,7 @@ public class BossMode extends State {
    }
 
    /** Should be called from the boss-defeated-cutscene. */
-   private void goToFlying(int lvl) {
+   private void goToFlying() {
       game.getFlying().setBombsWhenBossIsFinished(projectileHandler.getBombsAtEndOfLevel());
 
       // Render stuff
@@ -237,8 +237,7 @@ public class BossMode extends State {
    /** Is called from the pauseOverlay */
    public void skipBossMode() {
       this.resetBossMode();
-      game.getView().getRenderCutscene().setCutsceneManager(game.getFlying().getCutsceneManager());
-      Gamestate.state = Gamestate.FLYING;
+      this.goToFlying();
    }
 
    public void killPlayer() {
