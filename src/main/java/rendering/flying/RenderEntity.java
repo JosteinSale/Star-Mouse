@@ -1,8 +1,7 @@
 package rendering.flying;
 
-import java.awt.Graphics;
-import java.awt.geom.Rectangle2D.Float;
 import java.util.ArrayList;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import entities.flying.EntityFactory;
 import entities.flying.EntityInfo;
@@ -36,33 +35,33 @@ public class RenderEntity {
       this.entityImgs = new EntityImages(entityFactory, images);
    }
 
-   public void draw(Graphics g) {
+   public void draw(SpriteBatch sb) {
       // PickupItems
-      drawPickupItems(g);
+      drawPickupItems(sb);
 
       // Enemies
       ArrayList<Enemy> copy = new ArrayList<>(enemyManager.activeEnemiesOnScreen);
       for (Enemy enemy : copy) {
-         drawEnemy(enemy, g);
+         drawEnemy(enemy, sb);
          // drawEnemyHitbox(enemy.getHitbox(), g);
       }
       // Explosions
       for (Explosion ex : enemyManager.explosions) { // ConcurrentModificationException
          DrawUtils.drawSubImage(
-               g, explosionAnimation[ex.getAniIndex()],
+               sb, explosionAnimation[ex.getAniIndex()],
                ex.getX(), ex.getY(),
                (int) ex.getSize(), (int) ex.getSize());
 
       }
    }
 
-   private void drawPickupItems(Graphics g) {
+   private void drawPickupItems(SpriteBatch sb) {
       for (PickupItem p : pickupItems) {
          // drawHitbox(g, 0, 0);
          EntityInfo info = p.getDrawInfo();
          if (p.isActive()) {
             DrawUtils.drawSubImage(
-                  g, entityImgs.getImageFor(
+                  sb, entityImgs.getImageFor(
                         info.typeConstant, 0, p.getAniIndex()),
                   (int) (p.getHitbox().x - info.drawOffsetX),
                   (int) (p.getHitbox().y - info.drawOffsetY),
@@ -72,7 +71,7 @@ public class RenderEntity {
       }
    }
 
-   private void drawEnemy(Enemy enemy, Graphics g) {
+   private void drawEnemy(Enemy enemy, SpriteBatch sb) {
       EntityInfo eInfo = enemy.getInfo();
       int drawXOffset = eInfo.drawOffsetX;
       int dir = enemy.getDir();
@@ -83,7 +82,7 @@ public class RenderEntity {
          drawXOffset -= 3 * eInfo.spriteW;
       }
       DrawUtils.drawSubImage(
-            g, entityImgs.getImageFor(
+            sb, entityImgs.getImageFor(
                   eInfo.typeConstant, enemy.getAction(), enemy.getAniIndex()),
             (int) (enemy.getHitbox().x - drawXOffset),
             (int) (enemy.getHitbox().y - eInfo.drawOffsetY),
@@ -91,12 +90,12 @@ public class RenderEntity {
             eInfo.spriteH * 3);
    }
 
-   private void drawEnemyHitbox(Float hitbox, Graphics g) {
-      DrawUtils.fillRect(
-            g, MyColor.RED,
-            (int) hitbox.x, (int) hitbox.y,
-            (int) hitbox.width, (int) hitbox.height);
-   }
+   // private void drawEnemyHitbox(Float hitbox, SpriteBatch sb) {
+   // DrawUtils.fillRect(
+   // sb, MyColor.RED,
+   // (int) hitbox.x, (int) hitbox.y,
+   // (int) hitbox.width, (int) hitbox.height);
+   // }
 
    public EntityImages getEntityImages() {
       return this.entityImgs;

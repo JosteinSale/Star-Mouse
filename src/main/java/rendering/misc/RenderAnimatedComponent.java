@@ -1,6 +1,6 @@
 package rendering.misc;
 
-import java.awt.Graphics;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import entities.bossmode.AnimatedComponent;
 import rendering.MySubImage;
@@ -22,18 +22,18 @@ public class RenderAnimatedComponent {
             ac.rows, ac.cols, ac.spriteW, ac.spriteH);
    }
 
-   public void draw(Graphics g) {
+   public void draw(SpriteBatch sb) {
       int row = ac.aniInfos.get(ac.aniAction).aniRow;
       DrawUtils.drawSubImage(
-            g, animation[row][ac.aniIndex],
+            sb, animation[row][ac.aniIndex],
             (int) ac.xPos, (int) ac.yPos,
             ac.spriteW * 3, ac.spriteH * 3);
    }
 
    /* Draws a specific subImage of the animation */
-   public void drawSubImage(Graphics g, int row, int col) {
+   public void drawSubImage(SpriteBatch sb, int row, int col) {
       DrawUtils.drawSubImage(
-            g, animation[row][col],
+            sb, animation[row][col],
             (int) ac.xPos, (int) ac.yPos,
             ac.spriteW * 3, ac.spriteH * 3);
    }

@@ -3,11 +3,13 @@ package rendering.exploring;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import entities.exploring.PlayerExp;
 import gamestates.exploring.Area;
 import main_classes.Game;
 import rendering.MySubImage;
-import rendering.SwingRender;
+import rendering.Render;
 import utils.DrawUtils;
 import utils.HelpMethods2;
 import utils.Images;
@@ -15,7 +17,7 @@ import utils.Images;
 import static utils.Constants.Exploring.Sprites.STANDARD_SPRITE_HEIGHT;
 import static utils.Constants.Exploring.Sprites.STANDARD_SPRITE_WIDTH;
 
-public class RenderArea implements SwingRender {
+public class RenderArea implements Render {
    private Area area;
    private RenderMap1 rMap;
    private RenderNPCs rNPCs;
@@ -59,32 +61,32 @@ public class RenderArea implements SwingRender {
    }
 
    @Override
-   public void draw(Graphics g) {
+   public void draw(SpriteBatch sb) {
       int xLevelOffset = area.getMapManager().xLevelOffset;
       int yLevelOffset = area.getMapManager().yLevelOffset;
 
       // Maps
-      rMap.drawLandscape(g);
-      rMap.drawBackground(g);
+      rMap.drawLandscape(sb);
+      rMap.drawBackground(sb);
 
       // Entities
-      rNPCs.drawBgNpcs(g, xLevelOffset, yLevelOffset);
-      this.drawPlayer(g, xLevelOffset, yLevelOffset);
+      rNPCs.drawBgNpcs(sb, xLevelOffset, yLevelOffset);
+      this.drawPlayer(sb, xLevelOffset, yLevelOffset);
 
       // Foreground
-      rNPCs.drawFgNpcs(g, xLevelOffset, yLevelOffset);
-      rMap.drawForeground(g);
+      rNPCs.drawFgNpcs(sb, xLevelOffset, yLevelOffset);
+      rMap.drawForeground(sb);
 
       // Hitboxes
       // drawHitboxes(g, mapManager.xLevelOffset, mapManager.yLevelOffset);
    }
 
-   public void drawPlayer(Graphics g, int xLevelOffset, int yLevelOffset) {
+   public void drawPlayer(SpriteBatch sb, int xLevelOffset, int yLevelOffset) {
       PlayerExp player = area.getPlayer();
       if (player.visible) {
          // drawShadow(g, xLevelOffset, yLevelOffset);
          DrawUtils.drawSubImage(
-               g, playerSprites.get(PlayerExp.CURRENT_SPRITE_SHEET)[player.playerAction][player.aniIndex],
+               sb, playerSprites.get(PlayerExp.CURRENT_SPRITE_SHEET)[player.playerAction][player.aniIndex],
                (int) (player.hitbox.x - 113 - xLevelOffset),
                (int) (player.hitbox.y - 135 - yLevelOffset),
                playerSpriteWidth, playerSpriteHeight);
@@ -109,11 +111,6 @@ public class RenderArea implements SwingRender {
       // for (AutomaticTrigger trigger : automaticTriggers) {
       // trigger.drawHitbox(g, xLevelOffset, yLevelOffset);
       // }
-   }
-
-   @Override
-   public void dispose() {
-      this.rMap.dispose();
    }
 
 }

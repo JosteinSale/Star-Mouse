@@ -1,17 +1,19 @@
 package rendering.exploring;
 
-import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import gamestates.exploring.MapManager1;
 import main_classes.Game;
 import rendering.MyImage;
-import rendering.SwingRender;
+import rendering.Render;
 import utils.DrawUtils;
 import utils.Images;
 
-public class RenderMap1 implements SwingRender {
+public class RenderMap1 implements Render {
    private MapManager1 map;
-   protected MyImage clImg;
+   protected BufferedImage clImg;
    protected MyImage landScapeImg;
    protected MyImage bgImg;
    protected MyImage fgImg;
@@ -52,39 +54,29 @@ public class RenderMap1 implements SwingRender {
       fgImgHeight = fgImg.getHeight() * 3;
    }
 
-   public void drawLandscape(Graphics g) {
+   public void drawLandscape(SpriteBatch sb) {
       DrawUtils.drawImage(
-            g, landScapeImg,
+            sb, landScapeImg,
             (int) (0 - map.xLevelOffset * 0.1f), 0,
             landScapeImgWidth, landScapeImgHeight);
    }
 
-   public void drawBackground(Graphics g) {
+   public void drawBackground(SpriteBatch sb) {
       DrawUtils.drawImage(
-            g, bgImg,
+            sb, bgImg,
             0 - map.xLevelOffset, 0 - map.yLevelOffset,
             bgImgWidth, bgImgHeight);
    }
 
-   public void drawForeground(Graphics g) {
+   public void drawForeground(SpriteBatch sb) {
       DrawUtils.drawImage(
-            g, fgImg,
+            sb, fgImg,
             0 - map.xLevelOffset, 0 - map.yLevelOffset,
             fgImgWidth, fgImgHeight);
    }
 
    @Override
-   public void draw(Graphics g) {
-   }
-
-   @Override
-   public void dispose() {
-      this.bgImg.flush();
-      this.fgImg.flush();
-      this.landScapeImg.flush();
-      this.bgImg = null;
-      this.fgImg = null;
-      this.landScapeImg = null;
+   public void draw(SpriteBatch g) {
    }
 
 }

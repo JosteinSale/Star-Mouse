@@ -2,12 +2,14 @@ package rendering.root_renders;
 
 import java.awt.Graphics;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import entities.bossmode.rudinger1.Rudinger1;
 import gamestates.boss_mode.BossMode;
-import gamestates.boss_mode.MapManager3;
 import main_classes.Game;
-import rendering.SwingRender;
+import rendering.Render;
 import rendering.boss_mode.IRenderBoss;
+import rendering.boss_mode.RenderBossMap;
 import rendering.boss_mode.RenderBossHealth;
 import rendering.boss_mode.RenderGameOver2;
 import rendering.boss_mode.RenderPauseBoss;
@@ -21,10 +23,10 @@ import utils.Images;
 /**
  * Draws all of bossMode.
  */
-public class RenderBossMode implements SwingRender {
+public class RenderBossMode implements Render {
    private Images images;
    private BossMode bossMode;
-   private MapManager3 mapManager;
+   private RenderBossMap mapManager;
    private RenderPlayerFly rPlayer;
    private RenderCutscene rCutscene;
    private RenderProjectiles rProjectiles;
@@ -38,7 +40,7 @@ public class RenderBossMode implements SwingRender {
          RenderPlayerFly rPlayer, RenderProjectiles rProjectiles, Images images) {
       this.images = images;
       this.bossMode = game.getBossMode();
-      this.mapManager = new MapManager3();
+      this.mapManager = new RenderBossMap();
       this.rPlayer = rPlayer;
       this.rCutscene = rCutscene;
       this.rProjectiles = rProjectiles;
@@ -68,24 +70,16 @@ public class RenderBossMode implements SwingRender {
    }
 
    @Override
-   public void draw(Graphics g) {
-      mapManager.drawMap(g);
-      rPlayer.draw(g);
-      rBoss.draw(g);
-      rProjectiles.draw(g);
-      rCutscene.draw(g);
+   public void draw(SpriteBatch sb) {
+      mapManager.draw(sb);
+      rPlayer.draw(sb);
+      rBoss.draw(sb);
+      rProjectiles.draw(sb);
+      rCutscene.draw(sb);
       if (bossMode.gameOver) {
-         rGameOver.draw(g);
+         rGameOver.draw(sb);
       } else if (bossMode.pause) {
-         rPause.draw(g);
+         rPause.draw(sb);
       }
    }
-
-   @Override
-   public void dispose() {
-      mapManager.flush();
-      rBoss.flush();
-      rCutscene.dispose();
-   }
-
 }

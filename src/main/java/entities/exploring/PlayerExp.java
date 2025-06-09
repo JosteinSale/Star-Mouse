@@ -12,8 +12,6 @@ import java.util.ArrayList;
 
 import entities.Entity;
 import main_classes.Game;
-import utils.Images;
-import utils.ResourceLoader;
 
 public class PlayerExp extends Entity {
    private Game game;
@@ -36,7 +34,7 @@ public class PlayerExp extends Entity {
       this.playerDirection = direction;
       playerAction = STANDING;
       String imgName = "level" + level.toString() + "_area" + area.toString();
-      this.collisionImg = game.getImages().getExpImageCollision(imgName + "_cl.png").getImage();
+      this.collisionImg = game.getImages().getExpImageCollision(imgName + "_cl.png");
 
    }
 

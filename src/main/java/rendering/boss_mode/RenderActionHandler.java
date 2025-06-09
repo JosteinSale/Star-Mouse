@@ -9,6 +9,8 @@ import utils.Images;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 public class RenderActionHandler {
    private Images images;
 
@@ -58,17 +60,16 @@ public class RenderActionHandler {
    /**
     * Only visible bossParts and active shootPatterns are drawn.
     */
-   public void draw(
-         Graphics g, int index) {
+   public void draw(SpriteBatch sb, int index) {
       // For bossparts we loop through all actions since some may be visible,
       // even if inactive.
       for (ArrayList<RenderBossPart> partList : bpAnimations) {
          for (RenderBossPart part : partList) {
-            part.draw(g);
+            part.draw(sb);
          }
       }
       for (RenderShootPattern pattern : spAnimations.get(index)) {
-         pattern.draw(g);
+         pattern.draw(sb);
       }
    }
 

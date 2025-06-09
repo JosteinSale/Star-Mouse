@@ -6,19 +6,19 @@ import static utils.Constants.UI.CURSOR_WIDTH;
 import static utils.Constants.UI.MECHANIC_DISPLAY_HEIGHT;
 import static utils.Constants.UI.MECHANIC_DISPLAY_WIDTH;
 
-import java.awt.Graphics;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import main_classes.Game;
 import rendering.MyColor;
 import rendering.MyImage;
-import rendering.SwingRender;
+import rendering.Render;
 import rendering.misc.RenderInfoBox;
 import rendering.misc.RenderInfoChoice;
 import ui.MechanicOverlay;
 import utils.DrawUtils;
 import utils.Images;
 
-public class RenderMechanic implements SwingRender {
+public class RenderMechanic implements Render {
    private Game game;
    private MechanicOverlay mechanic;
    private RenderInfoBox rInfoBox;
@@ -62,111 +62,107 @@ public class RenderMechanic implements SwingRender {
    }
 
    @Override
-   public void draw(Graphics g) {
-      drawDisplay(g);
-      drawInventory(g);
-      drawText(g);
-      drawMaxedOut(g);
+   public void draw(SpriteBatch sb) {
+      drawDisplay(sb);
+      drawInventory(sb);
+      drawText(sb);
+      drawMaxedOut(sb);
    }
 
-   private void drawMaxedOut(Graphics g) {
+   private void drawMaxedOut(SpriteBatch sb) {
       for (int i = 0; i < 3; i++) {
          if (mechanic.maxedOut[i]) {
             DrawUtils.fillRect(
-                  g, new MyColor(0, 0, 0, 190),
+                  sb, new MyColor(0, 0, 0, 190),
                   277, 138 + 75 * i,
                   263, 70);
             DrawUtils.drawText(
-                  g, MyColor.RED, DrawUtils.menuFont,
+                  sb, MyColor.RED, DrawUtils.menuFont,
                   "(max)",
                   350, 185 + 75 * i);
          }
       }
    }
 
-   private void drawInventory(Graphics g) {
+   private void drawInventory(SpriteBatch sb) {
       DrawUtils.fillRect(
-            g, inventoryColor,
+            sb, inventoryColor,
             inventoryX, inventoryY,
             inventoryW, inventoryH);
       DrawUtils.drawRect(
-            g, MyColor.WHITE,
+            sb, MyColor.WHITE,
             inventoryX + 10, inventoryY + 10,
             inventoryW - 20, inventoryH - 20);
    }
 
-   private void drawText(Graphics g) {
+   private void drawText(SpriteBatch sb) {
       // EXIT
       DrawUtils.drawText(
-            g, MyColor.DARK_GRAY, DrawUtils.menuFont,
+            sb, MyColor.DARK_GRAY, DrawUtils.menuFont,
             "EXIT", 360, 410);
 
       // Inventory
       DrawUtils.drawText(
-            g, MyColor.WHITE, DrawUtils.menuFont,
+            sb, MyColor.WHITE, DrawUtils.menuFont,
             "Inventory", 410, 630);
 
       DrawUtils.drawText(
-            g, MyColor.WHITE, DrawUtils.infoFont,
+            sb, MyColor.WHITE, DrawUtils.infoFont,
             "Credits: x" + Integer.toString(
                   game.getExploring().getProgressValues().getCredits()),
             250, 690);
       DrawUtils.drawText(
-            g, MyColor.WHITE, DrawUtils.infoFont,
+            sb, MyColor.WHITE, DrawUtils.infoFont,
             "Bombs: x" + Integer.toString(
                   game.getExploring().getProgressValues().getBombs()),
             620, 690);
 
       // Display-text
       DrawUtils.drawText(
-            g, displayColor, DrawUtils.menuFont,
+            sb, displayColor, DrawUtils.menuFont,
             mechanic.optionNames[mechanic.selectedIndex],
             560, 200);
 
       for (int i = 0; i < 2; i++) { // Item-info
          DrawUtils.drawText(
-               g, displayColor, DrawUtils.itemFont,
+               sb, displayColor, DrawUtils.itemFont,
                mechanic.optionInfo[mechanic.selectedIndex][i], 560, 250 + i * 50);
       }
       // Item-price
       DrawUtils.drawText(
-            g, displayColor, DrawUtils.menuFont,
+            sb, displayColor, DrawUtils.menuFont,
             mechanic.optionInfo[mechanic.selectedIndex][2],
             560, 400);
 
       if (mechanic.infoBoxActive) {
-         rInfoBox.draw(g);
+         rInfoBox.draw(sb);
       } else if (mechanic.infoChoiceActive) {
-         rInfoChoice.draw(g);
+         rInfoChoice.draw(sb);
       }
    }
 
-   private void drawDisplay(Graphics g) {
+   private void drawDisplay(SpriteBatch sb) {
       // Background
       DrawUtils.drawImage(
-            g, bgImg,
+            sb, bgImg,
             bgImgX, bgImgY,
             bgImgW, bgImgH);
 
       // Bars
       DrawUtils.fillRect(
-            g, lazerBarColor,
+            sb, lazerBarColor,
             370, 167,
             mechanic.lazerBarW, barH);
       DrawUtils.fillRect(
-            g, hpBarColor,
+            sb, hpBarColor,
             370, 240,
             mechanic.hpBarW, barH);
 
       // Cursor
       DrawUtils.drawImage(
-            g, pointerImg,
+            sb, pointerImg,
             cursorX, mechanic.cursorY - 30,
             CURSOR_WIDTH, CURSOR_HEIGHT);
-   }
-
-   @Override
-   public void dispose() {
    }
 
 }

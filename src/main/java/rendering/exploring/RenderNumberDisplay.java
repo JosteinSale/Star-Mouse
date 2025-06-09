@@ -1,12 +1,13 @@
 package rendering.exploring;
 
-import java.awt.Graphics;
 import java.awt.Rectangle;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import main_classes.Game;
 import rendering.MyColor;
 import rendering.MyImage;
-import rendering.SwingRender;
+import rendering.Render;
 import ui.NumberDisplay;
 import utils.DrawUtils;
 import utils.Images;
@@ -16,7 +17,7 @@ import static utils.Constants.UI.NUMBER_SELECT_WIDTH;
 import static utils.Constants.UI.NUMBER_DISPLAY_HEIGHT;
 import static utils.Constants.UI.NUMBER_DISPLAY_WIDTH;
 
-public class RenderNumberDisplay implements SwingRender {
+public class RenderNumberDisplay implements Render {
    private NumberDisplay nrDisplay;
    private MyImage bgImg;
    private MyImage selectedNrImg;
@@ -45,37 +46,33 @@ public class RenderNumberDisplay implements SwingRender {
    }
 
    @Override
-   public void draw(Graphics g) {
+   public void draw(SpriteBatch sb) {
       // Dark overlay
       DrawUtils.drawRect(
-            g, fadeColor,
+            sb, fadeColor,
             0, 0,
             Game.GAME_DEFAULT_WIDTH, Game.GAME_DEFAULT_HEIGHT);
 
       // Background
       DrawUtils.drawImage(
-            g, bgImg,
+            sb, bgImg,
             bgRect.x, bgRect.y,
             bgRect.width, bgRect.height);
 
       // Numbers
       for (int i = 0; i < 4; i++) {
          DrawUtils.drawText(
-               g, MyColor.GREEN, DrawUtils.headerFont,
+               sb, MyColor.GREEN, DrawUtils.headerFont,
                Integer.toString(nrDisplay.currentCode[i]),
                bgRect.x + 108 + (i * 81), bgRect.y + 160);
       }
 
       // The selected number gets an image around it
       DrawUtils.drawImage(
-            g, selectedNrImg,
+            sb, selectedNrImg,
             bgRect.x + 108 + (nrDisplay.digitIndex * 81), bgRect.y + 28,
             NUMBER_SELECT_WIDTH, NUMBER_SELECT_HEIGHT);
 
-   }
-
-   @Override
-   public void dispose() {
    }
 
 }

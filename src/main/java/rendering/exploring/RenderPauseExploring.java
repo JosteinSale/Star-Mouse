@@ -1,15 +1,15 @@
 package rendering.exploring;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 
 import main_classes.Game;
 import rendering.MyColor;
 import rendering.MyImage;
-import rendering.SwingRender;
+import rendering.Render;
 import rendering.misc.RenderOptionsMenu;
 import ui.OptionsMenu;
 import ui.PauseExploring;
@@ -23,7 +23,7 @@ import static utils.Constants.UI.ITEM_BOX_WIDTH;
 import static utils.Constants.UI.PAUSE_EXPLORING_HEIGHT;
 import static utils.Constants.UI.PAUSE_EXPLORING_WIDTH;
 
-public class RenderPauseExploring implements SwingRender {
+public class RenderPauseExploring implements Render {
    private PauseExploring pause;
    private RenderOptionsMenu rOptionsMenu;
    private OptionsMenu optionsMenu;
@@ -103,48 +103,47 @@ public class RenderPauseExploring implements SwingRender {
    }
 
    @Override
-   public void draw(Graphics g) {
+   public void draw(SpriteBatch sb) {
       if (optionsMenu.isActive()) {
-         rOptionsMenu.draw(g);
+         rOptionsMenu.draw(sb);
       } else {
-         Graphics2D g2 = (Graphics2D) g;
-         drawBackground(g2);
-         drawItems(g2);
-         drawText(g2);
-         drawStatusValues(g2);
-         drawPointer(g2);
+         drawBackground(sb);
+         drawItems(sb);
+         drawText(sb);
+         drawStatusValues(sb);
+         drawPointer(sb);
       }
    }
 
-   private void drawStatusValues(Graphics2D g2) {
+   private void drawStatusValues(SpriteBatch sb) {
       for (int i = 0; i < pause.valueNames.length; i++) {
          DrawUtils.drawText(
-               g2, MyColor.WHITE, DrawUtils.infoFont,
+               sb, MyColor.WHITE, DrawUtils.infoFont,
                pause.valueNames[i] + Integer.toString(pause.statusValues[i]),
                170, 480 + (i * 50));
       }
    }
 
-   private void drawPointer(Graphics2D g2) {
+   private void drawPointer(SpriteBatch sb) {
       if (pause.selectedIndex >= 8) {
          DrawUtils.drawImage(
-               g2, pointerImg,
+               sb, pointerImg,
                cursorX, pause.cursorY - 30,
                CURSOR_WIDTH, CURSOR_HEIGHT);
       }
    }
 
-   private void drawText(Graphics2D g2) {
+   private void drawText(SpriteBatch sb) {
       // Header
       DrawUtils.drawText(
-            g2, MyColor.WHITE, DrawUtils.headerFont,
+            sb, MyColor.WHITE, DrawUtils.headerFont,
             "Inventory",
             380, 150);
 
       // Menu options
       for (int i = 0; i < pause.menuOptions.length; i++) {
-         DrawUtils.DrawCenteredString(
-               g2, pause.menuOptions[i], menuRects.get(i),
+         DrawUtils.drawCenteredText(
+               sb, pause.menuOptions[i], menuRects.get(i),
                DrawUtils.menuFont, MyColor.WHITE);
       }
 
@@ -152,23 +151,23 @@ public class RenderPauseExploring implements SwingRender {
       if ((pause.items.size() - 1) >= pause.selectedIndex) {
          String itemName = pause.items.get(pause.selectedIndex).getName();
          DrawUtils.drawText(
-               g2, MyColor.WHITE, DrawUtils.itemFont,
+               sb, MyColor.WHITE, DrawUtils.itemFont,
                itemName,
-               itemInfoBox.x + 10, itemInfoBox.y + 30);
+               (int) itemInfoBox.x + 10, (int) itemInfoBox.y + 30);
 
          ArrayList<String> info = pause.items.get(pause.selectedIndex).getDescription();
          for (int i = 0; i < info.size(); i++) {
             DrawUtils.drawText(
-                  g2, MyColor.WHITE, DrawUtils.itemFont,
+                  sb, MyColor.WHITE, DrawUtils.itemFont,
                   info.get(i),
-                  itemInfoBox.x + 10, itemInfoBox.y + 80 + (i * 40));
+                  (int) itemInfoBox.x + 10, (int) itemInfoBox.y + 80 + (i * 40));
          }
       }
    }
 
-   private void drawItems(Graphics2D g2) {
+   private void drawItems(SpriteBatch sb) {
       DrawUtils.drawImage(
-            g2, itemBoxImg,
+            sb, itemBoxImg,
             itemBoxX, itemBoxY,
             itemBoxW, itemBoxH);
 
@@ -178,14 +177,14 @@ public class RenderPauseExploring implements SwingRender {
             if ((pause.isItemAtIndex(currentIndex))) {
                String itemName = pause.items.get(currentIndex).getName();
                DrawUtils.drawImage(
-                     g2, itemImages.get(itemName),
+                     sb, itemImages.get(itemName),
                      itemBoxX + 6 + (i * 96), itemBoxY + 6 + (j * 96),
                      90, 90);
             }
             // The selected item gets a white frame around it
             if (currentIndex == pause.selectedIndex) {
                DrawUtils.drawImage(
-                     g2, itemSelectedImg,
+                     sb, itemSelectedImg,
                      itemBoxX + (i * 96), itemBoxY + (j * 96),
                      103, 103);
             }
@@ -193,23 +192,19 @@ public class RenderPauseExploring implements SwingRender {
       }
    }
 
-   private void drawBackground(Graphics2D g2) {
+   private void drawBackground(SpriteBatch sb) {
       DrawUtils.fillRect(
-            g2, bgColor,
+            sb, bgColor,
             bgX, bgY,
             bgW, bgH);
       DrawUtils.drawRect(
-            g2, MyColor.WHITE,
+            sb, MyColor.WHITE,
             bgX + 10, bgY + 10,
             bgW - 20, bgH - 20);
       DrawUtils.fillRect(
-            g2, MyColor.DARKER_GRAY,
+            sb, MyColor.DARKER_GRAY,
             itemInfoBox.x, itemInfoBox.y,
             itemInfoBox.width, itemInfoBox.height);
-   }
-
-   @Override
-   public void dispose() {
    }
 
 }

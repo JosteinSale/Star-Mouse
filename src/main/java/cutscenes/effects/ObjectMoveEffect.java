@@ -150,7 +150,6 @@ public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
       this.moveStatuses.clear();
       this.xSpeeds.clear();
       this.ySpeeds.clear();
-      this.game.getView().getRenderCutscene().getRenderObjectMove().dispose();
    }
 
 }

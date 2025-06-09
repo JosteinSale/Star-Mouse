@@ -1,12 +1,9 @@
 package rendering.misc;
 
-import java.awt.Graphics;
-import java.awt.Rectangle;
-
 import main_classes.Game;
 import rendering.MyImage;
 import rendering.MyColor;
-import rendering.SwingRender;
+import rendering.Render;
 import ui.InfoChoice;
 import utils.DrawUtils;
 import utils.Images;
@@ -14,9 +11,13 @@ import utils.Images;
 import static utils.Constants.UI.CURSOR_HEIGHT;
 import static utils.Constants.UI.CURSOR_WIDTH;
 import static utils.Constants.UI.INFOBOX_WIDTH;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
+
 import static utils.Constants.UI.INFOBOX_HEIGHT;
 
-public class RenderInfoChoice implements SwingRender {
+public class RenderInfoChoice implements Render {
    private InfoChoice ic;
    private MyImage background;
    private MyImage cursorImg;
@@ -46,35 +47,30 @@ public class RenderInfoChoice implements SwingRender {
    }
 
    @Override
-   public void draw(Graphics g) {
+   public void draw(SpriteBatch sb) {
       // Background
       DrawUtils.drawImage(
-            g, background,
+            sb, background,
             ic.infoChX, infoChY,
             INFOBOX_WIDTH, INFOBOX_HEIGHT);
 
       // Text - Question, left choice and right choice
-      DrawUtils.DrawCenteredString(
-            g, ic.question, questionRect,
+      DrawUtils.drawCenteredText(
+            sb, ic.question, questionRect,
             DrawUtils.infoFont, MyColor.BLACK);
       DrawUtils.drawText(
-            g, MyColor.BLACK, DrawUtils.infoFont,
+            sb, MyColor.BLACK, DrawUtils.infoFont,
             ic.leftChoice,
             ic.infoChX + 150, infoChY + 110);
       DrawUtils.drawText(
-            g, MyColor.BLACK, DrawUtils.infoFont,
+            sb, MyColor.BLACK, DrawUtils.infoFont,
             ic.rightChoice,
             ic.infoChX + 400, infoChY + 110);
 
       // Cursor
       DrawUtils.drawImage(
-            g, cursorImg,
+            sb, cursorImg,
             ic.cursorX, cursorY,
             cursorW, cursorH);
    }
-
-   @Override
-   public void dispose() {
-   }
-
 }

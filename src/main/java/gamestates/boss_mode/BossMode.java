@@ -127,7 +127,6 @@ public class BossMode extends State {
       game.getView().getRenderCutscene().setCutsceneManager(game.getFlying().getCutsceneManager());
       game.getView().getRenderFlying().getRenderProjectiles()
             .setProjectileHandler(game.getFlying().getProjectileHandler());
-      game.getView().getRenderBossMode().dispose();
 
       this.player.reset();
       this.pause = false;

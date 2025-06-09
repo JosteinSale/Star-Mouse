@@ -1,7 +1,8 @@
 package data_storage;
 
 import rendering.MyColor;
-import java.awt.Graphics;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import utils.DrawUtils;
 
 /**
@@ -37,12 +38,12 @@ public class DrawSaving {
       }
    }
 
-   public void draw(Graphics g) {
+   public void draw(SpriteBatch sb) {
       if (!active) {
          return;
       }
       DrawUtils.drawText(
-            g, MyColor.WHITE, DrawUtils.menuFont,
+            sb, MyColor.WHITE, DrawUtils.menuFont,
             "Game Saved", X, Y);
    }
 

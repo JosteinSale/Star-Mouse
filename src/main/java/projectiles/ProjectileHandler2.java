@@ -46,7 +46,7 @@ public class ProjectileHandler2 extends ProjectileHandler {
    public void setBoss(int nr, IBoss boss) {
       this.boss = boss;
       this.bossParts = boss.getBossParts();
-      this.clImg = game.getImages().getBossSprite("boss" + Integer.toString(nr) + "_cl.png").getImage();
+      this.clImg = game.getImages().getBossCollisionImg("boss" + Integer.toString(nr) + "_cl.png");
       this.setBombs(game.getExploring().getProgressValues().getBombs());
    }
 

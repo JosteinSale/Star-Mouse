@@ -1,10 +1,10 @@
 package rendering.root_renders;
 
-import java.awt.Graphics;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import gamestates.flying.Flying;
 import main_classes.Game;
-import rendering.SwingRender;
+import rendering.Render;
 import rendering.flying.EntityImages;
 import rendering.flying.RenderEntity;
 import rendering.flying.RenderGameOver;
@@ -16,7 +16,7 @@ import rendering.flying.RenderProjectiles;
 import rendering.misc.RenderCutscene;
 import rendering.misc.RenderOptionsMenu;
 
-public class RenderFlying implements SwingRender {
+public class RenderFlying implements Render {
    private Flying flying;
    private RenderMap2 rMap;
    private RenderPlayerFly rPlayer;
@@ -44,22 +44,22 @@ public class RenderFlying implements SwingRender {
    }
 
    @Override
-   public void draw(Graphics g) {
+   public void draw(SpriteBatch sb) {
       if (!flying.levelFinished) {
-         rMap.drawMaps(g);
-         rPlayer.draw(g);
-         rEntity.draw(g);
-         rProjectiles.draw(g);
+         rMap.drawMaps(sb);
+         rPlayer.draw(sb);
+         rEntity.draw(sb);
+         rProjectiles.draw(sb);
       }
       if (!flying.gameOver) {
-         rCutscene.draw(g);
+         rCutscene.draw(sb);
       }
       if (flying.gameOver) {
-         rGameOver.draw(g);
+         rGameOver.draw(sb);
       } else if (flying.pause) {
-         rPause.draw(g);
+         rPause.draw(sb);
       } else if (flying.levelFinished) {
-         rLevelFinished.draw(g);
+         rLevelFinished.draw(sb);
       }
    }
 
@@ -67,10 +67,6 @@ public class RenderFlying implements SwingRender {
    public void loadLevel(int lvl, int bgImgHeight) {
       this.rMap.loadNewMap(lvl, bgImgHeight);
       this.rPlayer.setPlayer(flying.getPlayer());
-   }
-
-   @Override
-   public void dispose() {
    }
 
    public RenderPlayerFly getRenderPlayer() {

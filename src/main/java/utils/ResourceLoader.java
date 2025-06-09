@@ -6,172 +6,129 @@ import static utils.Constants.UI.FONT_SIZE_ITEM;
 import static utils.Constants.UI.FONT_SIZE_MENU;
 import static utils.Constants.UI.FONT_SIZE_NAME;
 
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.imageio.ImageIO;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 import main_classes.Game;
 import rendering.MyImage;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+
 public class ResourceLoader {
-    // Fonts
-    public static final String MAIN_FONT = "DTM-Mono.otf";
+   public static final String MAIN_FONT = "exploring/fonts/DTM-Mono.otf";
 
-    public static MyImage getImage(String fileName) {
-        BufferedImage image = null;
-        InputStream is = ResourceLoader.class.getResourceAsStream(fileName);
-        try {
-            image = ImageIO.read(is);
-        } catch (IOException e) {
+   public static MyImage getImage(String fileName) {
+      FileHandle fileHandle = Gdx.files.internal(fileName);
+      Texture texture = new Texture(fileHandle);
+      return new MyImage(texture);
+   }
+
+   public static BufferedImage getCollisionImage(String fileName) {
+      BufferedImage image = null;
+      InputStream is = ResourceLoader.class.getResourceAsStream(fileName);
+      try {
+         image = ImageIO.read(is);
+      } catch (IOException e) {
+         e.printStackTrace();
+      } finally {
+         try {
+            is.close();
+         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return new MyImage(image);
-    }
+         }
+      }
+      return image;
+   }
 
-    public static Font getItemFont() {
-        String fileName = "/exploring/fonts/" + MAIN_FONT;
-        float size = FONT_SIZE_ITEM * Game.SCALE;
-        return getFont(fileName, size);
-    }
+   private static BitmapFont generateFont(String filePath, float size) {
+      FileHandle fontFile = Gdx.files.internal(filePath);
+      FreeTypeFontGenerator generator = new FreeTypeFontGenerator(fontFile);
+      FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+      parameter.size = (int) (size * Game.SCALE);
+      parameter.color = Color.WHITE;
+      BitmapFont font = generator.generateFont(parameter);
+      generator.dispose();
+      return font;
+   }
 
-    public static Font getMenuFont() {
-        String fileName = "/exploring/fonts/" + MAIN_FONT;
-        float size = FONT_SIZE_MENU * Game.SCALE;
-        return getFont(fileName, size);
-    }
+   public static BitmapFont getItemFont() {
+      return generateFont(MAIN_FONT, FONT_SIZE_ITEM);
+   }
 
-    public static Font getInfoFont() {
-        String fileName = "/exploring/fonts/" + MAIN_FONT;
-        float size = FONT_SIZE_INFO * Game.SCALE;
-        return getFont(fileName, size);
-    }
+   public static BitmapFont getMenuFont() {
+      return generateFont(MAIN_FONT, FONT_SIZE_MENU);
+   }
 
-    public static Font getNameFont() {
-        String fileName = "/exploring/fonts/" + MAIN_FONT;
-        float size = FONT_SIZE_NAME * Game.SCALE;
-        return getFont(fileName, size);
-    }
+   public static BitmapFont getInfoFont() {
+      return generateFont(MAIN_FONT, FONT_SIZE_INFO);
+   }
 
-    public static Font getHeaderFont() {
-        String fileName = "/exploring/fonts/" + MAIN_FONT;
-        float size = FONT_SIZE_HEADER * Game.SCALE;
-        return getFont(fileName, size);
-    }
+   public static BitmapFont getNameFont() {
+      return generateFont(MAIN_FONT, FONT_SIZE_NAME);
+   }
 
-    private static Font getFont(String fileName, float size) {
-        Font font = null;
-        InputStream is = ResourceLoader.class.getResourceAsStream(fileName);
-        try {
-            font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(size);
-        } catch (FontFormatException | IOException e) {
-            e.printStackTrace();
-        }
+   public static BitmapFont getHeaderFont() {
+      return generateFont(MAIN_FONT, FONT_SIZE_HEADER);
+   }
 
-        return font;
-    }
+   public static ArrayList<List<String>> getExpCutsceneData(Integer level) {
+      FileHandle dir = Gdx.files.internal("exploring/cutscenes/level" + level);
+      return readAllCsvFilesInFolder(dir);
+   }
 
-    public static ArrayList<List<String>> getExpCutsceneData(Integer level) {
-        File filePath = new File(System.getProperty("user.dir") +
-                "/src/main/resources/exploring/cutscenes/level" + Integer.toString(level));
-        return readAllCsvFilesInFolder(filePath);
-    }
+   public static List<String> getFlyCutsceneData(Integer level) {
+      FileHandle file = Gdx.files.internal("flying/cutscenes/level" + level + ".csv");
+      return readCsvFile(file);
+   }
 
-    public static List<String> getFlyCutsceneData(Integer level) {
-        File filePath = new File(System.getProperty("user.dir") +
-                "/src/main/resources/flying/cutscenes/level" + Integer.toString(level) + ".csv");
-        return readCsvFile(filePath);
-    }
+   public static List<String> getBossCutsceneData(Integer bossNr) {
+      FileHandle file = Gdx.files.internal("bossMode/cutscenes/boss" + bossNr + ".csv");
+      return readCsvFile(file);
+   }
 
-    public static List<String> getBossCutsceneData(Integer bossNr) {
-        File filePath = new File(System.getProperty("user.dir") +
-                "/src/main/resources/bossMode/cutscenes/boss" + Integer.toString(bossNr) + ".csv");
-        return readCsvFile(filePath);
-    }
+   public static List<String> getFlyLevelData(Integer level) {
+      FileHandle file = Gdx.files.internal("flying/leveldata/level" + level + ".csv");
+      return readCsvFile(file);
+   }
 
-    /**
-     * Reads from the flying-leveldata folder for a specific level.
-     * In this folder, it locates a csv-file for a specific level.
-     * It reads this csv-file, and returns a list with enemy-data as strings.
-     */
-    public static List<String> getFlyLevelData(Integer level) {
-        File filePath = new File(System.getProperty("user.dir") +
-                "/src/main/resources/flying/leveldata/level" + Integer.toString(level) + ".csv");
-        return readCsvFile(filePath);
-    }
+   public static ArrayList<List<String>> getExpLevelData(Integer level) {
+      FileHandle dir = Gdx.files.internal("exploring/leveldata/level" + level);
+      return readAllCsvFilesInFolder(dir);
+   }
 
-    /**
-     * Reads from the exploring-leveldata folder for a specific level.
-     * Finds all csv-files in that folder. Each is for an area.
-     * Returns a 2D-list, where the outer layer represents each area,
-     * and the inner layer represents each object/element in that area.
-     */
-    public static ArrayList<List<String>> getExpLevelData(Integer level) {
-        File filePath = new File(System.getProperty("user.dir") +
-                "/src/main/resources/exploring/leveldata/level" + Integer.toString(level));
-        return readAllCsvFilesInFolder(filePath);
-    }
+   public static List<String> getCinematicData(String fileName) {
+      FileHandle file = Gdx.files.internal("cinematic/cutscenes/" + fileName);
+      return readCsvFile(file);
+   }
 
-    public static List<String> getCinematicData(String fileName) {
-        File filePath = new File(System.getProperty("user.dir") +
-                "/src/main/resources/cinematic/cutscenes/" + fileName);
-        return readCsvFile(filePath);
-    }
+   private static ArrayList<List<String>> readAllCsvFilesInFolder(FileHandle folder) {
+      ArrayList<List<String>> levelData = new ArrayList<>();
+      for (FileHandle file : folder.list()) {
+         if (file.extension().equals("csv")) {
+            levelData.add(readCsvFile(file));
+         }
+      }
+      return levelData;
+   }
 
-    private static ArrayList<List<String>> readAllCsvFilesInFolder(File filePath) {
-        ArrayList<List<String>> levelData = new ArrayList<>();
-        File[] allFiles = filePath.listFiles();
-        for (File file : allFiles) {
-            if (!file.getName().endsWith(".csv")) {
-                continue;
-            }
-            List<String> areaData = new ArrayList<>();
-            BufferedReader reader = null;
-            try {
-                reader = new BufferedReader(new FileReader(file));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            areaData = reader.lines().toList();
-            try {
-                reader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            levelData.add(areaData);
-        }
-        return levelData;
-    }
-
-    private static List<String> readCsvFile(File filePath) {
-        List<String> flyData = new ArrayList<>();
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader(filePath));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        flyData = reader.lines().toList();
-        try {
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return flyData;
-    }
+   private static List<String> readCsvFile(FileHandle file) {
+      List<String> lines = new ArrayList<>();
+      Scanner scanner = new Scanner(file.readString());
+      while (scanner.hasNextLine()) {
+         lines.add(scanner.nextLine());
+      }
+      scanner.close();
+      return lines;
+   }
 }

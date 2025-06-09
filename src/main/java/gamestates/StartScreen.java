@@ -31,7 +31,6 @@ public class StartScreen extends State {
    }
 
    private void goToMainMenu() {
-      game.getView().dispose();
       Gamestate.state = Gamestate.MAIN_MENU;
       audioPlayer.startSong(Audio.SONG_MAIN_MENU, 0, true);
    }

@@ -1,6 +1,6 @@
 package rendering.root_renders;
 
-import java.awt.Graphics;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.awt.geom.Rectangle2D;
 
 import entities.flying.EntityInfo;
@@ -21,55 +21,55 @@ public class RenderLevelEditor {
    public RenderLevelEditor(LevelEditor levelEditor, EntityImages entityImages, Images images) {
       this.le = levelEditor;
       this.entityImages = entityImages;
-      this.clImg = images.getFlyImageCollision(
+      this.clImg = images.getFlyImageForeground(
             "level" + Integer.toString(levelEditor.level) + "_cl.png");
    }
 
-   public void draw(Graphics g) {
-      drawMapAndText(g);
-      drawEntities(g);
-      drawCursor(g);
+   public void draw(SpriteBatch sb) {
+      drawMapAndText(sb);
+      drawEntities(sb);
+      drawCursor(sb);
    }
 
-   private void drawMapAndText(Graphics g) {
+   private void drawMapAndText(SpriteBatch sb) {
       // Map
       DrawUtils.drawImage(
-            g, clImg,
+            sb, clImg,
             (int) le.clXOffset, le.clYOffset,
             le.clImgWidth, le.clImgHeight);
 
       // Top text
       DrawUtils.drawText(
-            g, MyColor.BLACK, DrawUtils.infoFont,
+            sb, MyColor.BLACK, DrawUtils.infoFont,
             "direction : " + Integer.toString(le.curDirection),
             20, 20);
       DrawUtils.drawText(
-            g, MyColor.BLACK, DrawUtils.infoFont,
+            sb, MyColor.BLACK, DrawUtils.infoFont,
             "shootTimer : " + Integer.toString(le.shootTimer),
             20, 50);
       DrawUtils.drawText(
-            g, MyColor.BLACK, DrawUtils.infoFont,
+            sb, MyColor.BLACK, DrawUtils.infoFont,
             "y :" + Integer.toString(le.mapYOffset),
             700, 20);
    }
 
-   private void drawEntities(Graphics g) {
+   private void drawEntities(SpriteBatch sb) {
       for (int i = 0; i < le.addedEntityNames.size(); i++) {
          EntityInfo info = le.entityFactory.getEntityInfo(le.addedEntityNames.get(i));
          Rectangle2D hitbox = le.hitboxes.get(i);
 
          // Text
          DrawUtils.drawText(
-               g, MyColor.BLACK, DrawUtils.infoFont,
+               sb, MyColor.BLACK, DrawUtils.infoFont,
                Integer.toString(le.shootTimers.get(i)),
                (int) hitbox.getX(),
                (int) (hitbox.getY() - le.mapYOffset - 20));
 
          // Hitbox
          DrawUtils.fillRect(
-               g, MyColor.BLACK,
-               hitbox.getX(), hitbox.getY() - le.mapYOffset,
-               hitbox.getWidth(), hitbox.getHeight());
+               sb, MyColor.BLACK,
+               (float) hitbox.getX(), (float) (hitbox.getY() - le.mapYOffset),
+               (float) hitbox.getWidth(), (float) hitbox.getHeight());
 
          // Image
          int dir = le.directions.get(i);
@@ -83,7 +83,7 @@ public class RenderLevelEditor {
          MySubImage img = entityImages.getImageFor(
                info.typeConstant, info.editorImgRow, info.editorImgCol);
          DrawUtils.drawSubImage(
-               g, img,
+               sb, img,
                (int) (hitbox.getX() - xOffset),
                (int) (hitbox.getY() - yOffset - le.mapYOffset),
                spriteW * 3 * dir,
@@ -91,12 +91,12 @@ public class RenderLevelEditor {
       }
    }
 
-   private void drawCursor(Graphics g) {
+   private void drawCursor(SpriteBatch sb) {
       EntityInfo info = le.entityFactory.getEntityInfo(le.selectedName);
       MySubImage img = entityImages.getImageFor(
             info.typeConstant, info.editorImgRow, info.editorImgCol);
       DrawUtils.drawSubImage(
-            g, img,
+            sb, img,
             le.cursorX, le.cursorY,
             info.spriteW * 3, info.spriteH * 3);
    }

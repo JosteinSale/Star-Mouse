@@ -1,11 +1,13 @@
 package utils;
 
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.FontMetrics;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 
 import entities.bossmode.DefaultBossPart;
 import main_classes.Game;
@@ -13,109 +15,88 @@ import rendering.MyColor;
 import rendering.MyImage;
 import rendering.MySubImage;
 
-/** Provides common drawing methods */
 public class DrawUtils {
 
-   // Fonts: from biggest to smallest
-   public static Font headerFont = ResourceLoader.getHeaderFont();
-   public static Font nameFont = ResourceLoader.getNameFont();
-   public static Font menuFont = ResourceLoader.getMenuFont();
-   public static Font infoFont = ResourceLoader.getInfoFont();
-   public static Font itemFont = ResourceLoader.getItemFont();
+   // LibGDX fonts (replace with actual BitmapFont instances)
+   public static BitmapFont headerFont = ResourceLoader.getHeaderFont();
+   public static BitmapFont nameFont = ResourceLoader.getNameFont();
+   public static BitmapFont menuFont = ResourceLoader.getMenuFont();
+   public static BitmapFont infoFont = ResourceLoader.getInfoFont();
+   public static BitmapFont itemFont = ResourceLoader.getItemFont();
 
-   /**
-    * Draws the image scaled to Game.SCALE with int values.
-    * The x- and y-coordinate must be pre-adjusted for drawOffset and levelOffset.
-    */
-   public static void drawImage(
-         Graphics g, MyImage img, int x, int y,
-         int width, int height) {
-      g.drawImage(
-            img.getImage(),
-            (int) (x * Game.SCALE),
-            (int) (y * Game.SCALE),
-            (int) (width * Game.SCALE),
-            (int) (height * Game.SCALE), null);
+   private static final GlyphLayout layout = new GlyphLayout();
+
+   public static void drawImage(SpriteBatch batch, MyImage img, int x, int y, int width, int height) {
+      Texture texture = img.getTexture();
+      batch.draw(texture,
+            x * Game.SCALE, y * Game.SCALE,
+            width * Game.SCALE, height * Game.SCALE);
    }
 
-   /**
-    * Draws the sub image scaled to Game.SCALE with int values.
-    * The x- and y-coordinate must be pre-adjusted for drawOffset and levelOffset.
-    */
-   public static void drawSubImage(
-         Graphics g, MySubImage img, int x, int y,
-         int width, int height) {
-      g.drawImage(
-            img.getImage(),
-            (int) (x * Game.SCALE),
-            (int) (y * Game.SCALE),
-            (int) (width * Game.SCALE),
-            (int) (height * Game.SCALE), null);
+   public static void drawSubImage(SpriteBatch batch, MySubImage img, int x, int y, int width, int height) {
+      TextureRegion region = img.getImage();
+      batch.draw(region,
+            x * Game.SCALE, y * Game.SCALE,
+            width * Game.SCALE, height * Game.SCALE);
    }
 
-   public static void drawText(
-         Graphics g, MyColor c, Font font, String text, int x, int y) {
-      g.setColor(c.getColor());
-      g.setFont(font);
-      g.drawString(
-            text,
-            (int) (x * Game.SCALE),
-            (int) (y * Game.SCALE));
+   public static void drawText(SpriteBatch batch, MyColor color, BitmapFont font, String text, int x, int y) {
+      font.setColor(color.getColor());
+      font.draw(batch, text, x * Game.SCALE, y * Game.SCALE);
    }
 
-   /** fillRect - int */
-   public static void fillRect(
-         Graphics g, MyColor c, int x, int y, int width, int height) {
-      g.setColor(c.getColor());
-      g.fillRect(
-            (int) (x * Game.SCALE),
-            (int) (y * Game.SCALE),
-            (int) (width * Game.SCALE),
-            (int) (height * Game.SCALE));
+   public static void fillRect(SpriteBatch batch, MyColor color, float x, float y, float width, float height) {
+      Color c = color.getColor();
+      batch.setColor(c);
+      batch.draw(Images.pixel.getTexture(), // a 1x1 white texture
+            x * Game.SCALE, y * Game.SCALE,
+            width * Game.SCALE, height * Game.SCALE);
+      batch.setColor(Color.WHITE); // reset to avoid affecting other draws
    }
 
-   /** fillRect - double */
-   public static void fillRect(
-         Graphics g, MyColor c, double x, double y, double width, double height) {
-      g.setColor(c.getColor());
-      g.fillRect(
-            (int) (x * Game.SCALE),
-            (int) (y * Game.SCALE),
-            (int) (width * Game.SCALE),
-            (int) (height * Game.SCALE));
+   public static void fillScreen(SpriteBatch batch, MyColor color) {
+      fillRect(batch, color, 0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
    }
 
-   public static void fillScreen(Graphics g, MyColor c) {
-      g.setColor(c.getColor());
-      g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
+   public static void drawRect(SpriteBatch batch, MyColor color, float x, float y, float width, float height) {
+      Color c = color.getColor();
+      batch.setColor(c);
+      Texture pixel = Images.pixel.getTexture();
+
+      float sx = x * Game.SCALE;
+      float sy = y * Game.SCALE;
+      float sw = width * Game.SCALE;
+      float sh = height * Game.SCALE;
+
+      batch.draw(pixel, sx, sy, sw, 1); // top
+      batch.draw(pixel, sx, sy + sh - 1, sw, 1); // bottom
+      batch.draw(pixel, sx, sy, 1, sh); // left
+      batch.draw(pixel, sx + sw - 1, sy, 1, sh); // right
+
+      batch.setColor(Color.WHITE);
    }
 
-   public static void drawRect(
-         Graphics g, MyColor c, int x, int y, int width, int height) {
-      g.setColor(c.getColor());
-      g.drawRect(
-            (int) (x * Game.SCALE),
-            (int) (y * Game.SCALE),
-            (int) (width * Game.SCALE),
-            (int) (height * Game.SCALE));
+   public static void drawRotatedBossPart(SpriteBatch batch, DefaultBossPart bp, MySubImage[][] imgs) {
+      TextureRegion img = imgs[bp.animAction][bp.aniIndex].getImage();
+      float centerX = (float) bp.nonRotatedHitbox.getCenterX() * Game.SCALE;
+      float centerY = (float) bp.nonRotatedHitbox.getCenterY() * Game.SCALE;
+      float width = img.getRegionWidth() * Game.SCALE;
+      float height = img.getRegionHeight() * Game.SCALE;
+
+      batch.draw(img,
+            centerX - width / 2, centerY - height / 2,
+            width / 2, height / 2,
+            width, height,
+            1f, 1f,
+            (float) (MathUtils.radiansToDegrees * bp.rotation));
    }
 
-   public static void drawRotatedBossPart(
-         Graphics g, DefaultBossPart bp, Image[][] imgs) {
-      Graphics2D g2 = (Graphics2D) g;
-      utils.Inf101Graphics.drawCenteredImage(
-            g2, imgs[bp.animAction][bp.aniIndex],
-            bp.nonRotatedHitbox.getCenterX() * Game.SCALE,
-            bp.nonRotatedHitbox.getCenterY() * Game.SCALE,
-            Game.SCALE, bp.rotation);
-   }
-
-   public static void DrawCenteredString(Graphics g, String text, Rectangle rect, Font font, MyColor color) {
-      FontMetrics metrics = g.getFontMetrics(font);
-      int x = rect.x + (rect.width - metrics.stringWidth(text)) / 2;
-      int y = rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
-      g.setColor(color.getColor());
-      g.setFont(font);
-      g.drawString(text, x, y);
+   public static void drawCenteredText(SpriteBatch batch, String text, Rectangle rect, BitmapFont font,
+         MyColor color) {
+      font.setColor(color.getColor());
+      layout.setText(font, text);
+      float x = rect.x + (rect.width - layout.width) / 2;
+      float y = rect.y + (rect.height + layout.height) / 2;
+      font.draw(batch, layout, x, y);
    }
 }

@@ -1,11 +1,11 @@
 package cutscenes.effects;
 
+import com.badlogic.gdx.math.Rectangle;
+
 import game_events.FadeHeaderEvent;
 import game_events.GeneralEvent;
 import gamestates.Gamestate;
 import main_classes.Game;
-
-import java.awt.Rectangle;
 
 /**
  * Must be used in combination with some other event to advance,

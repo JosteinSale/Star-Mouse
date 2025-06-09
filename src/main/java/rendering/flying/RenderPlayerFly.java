@@ -1,13 +1,11 @@
 package rendering.flying;
 
-import java.awt.Graphics;
-
 import entities.flying.PlayerFly;
 import main_classes.Game;
 import rendering.MyColor;
 import rendering.MyImage;
 import rendering.MySubImage;
-import rendering.SwingRender;
+import rendering.Render;
 import utils.DrawUtils;
 import utils.HelpMethods2;
 import utils.Images;
@@ -15,9 +13,11 @@ import utils.Images;
 import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_HEIGHT;
 import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_WIDTH;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import static utils.Constants.Flying.ActionConstants.*;
 
-public class RenderPlayerFly implements SwingRender {
+public class RenderPlayerFly implements Render {
    private Game game;
    private PlayerFly player;
    private MySubImage[][] animations;
@@ -73,17 +73,17 @@ public class RenderPlayerFly implements SwingRender {
    }
 
    @Override
-   public void draw(Graphics g) {
+   public void draw(SpriteBatch sb) {
       if (player.visible) {
          // Teleport shadows
          if (game.teleportIsPressed) {
-            drawShadow(g, player.teleportDistance);
-            drawShadow(g, -player.teleportDistance);
+            drawShadow(sb, player.teleportDistance);
+            drawShadow(sb, -player.teleportDistance);
          }
 
          // Flame
          if (!game.downIsPressed) {
-            drawFlame(g, player.hitbox.x + 3f, player.hitbox.y + player.hitbox.height);
+            drawFlame(sb, player.hitbox.x + 3f, player.hitbox.y + player.hitbox.height);
          }
 
          // Player
@@ -94,11 +94,11 @@ public class RenderPlayerFly implements SwingRender {
             // Gives us a few extra frames with teleport-animation
          }
          DrawUtils.drawSubImage(
-               g, animations[actionIndex][player.aniIndex],
+               sb, animations[actionIndex][player.aniIndex],
                (int) (player.hitbox.x - 20), (int) (player.hitbox.y - 20),
                SHIP_SPRITE_WIDTH * 3, SHIP_SPRITE_HEIGHT * 3);
 
-         drawStatusDisplay(g);
+         drawStatusDisplay(sb);
          // g.setColor(Color.RED);
          // this.drawHitbox(g, 0, 0);
 
@@ -114,20 +114,20 @@ public class RenderPlayerFly implements SwingRender {
       }
    }
 
-   private void drawStatusDisplay(Graphics g) {
+   private void drawStatusDisplay(SpriteBatch sb) {
       // Images
       DrawUtils.drawImage(
-            g, bombImg,
+            sb, bombImg,
             statusX, bombY,
             bombImgW, bombImgH);
       DrawUtils.drawImage(
-            g, enemyCounterImg,
+            sb, enemyCounterImg,
             statusX, enemyCounterY,
             enemyCounterW, enemyCounterH);
 
       // Healthbar
       DrawUtils.fillRect(
-            g, HPbarBgColor,
+            sb, HPbarBgColor,
             HPbarX - player.statusDisplay.HPbarMaxW, HPbarY,
             player.statusDisplay.HPbarMaxW, HPbarH);
 
@@ -138,40 +138,35 @@ public class RenderPlayerFly implements SwingRender {
          hpBarColor = MyColor.WHITE;
       }
       DrawUtils.fillRect(
-            g, hpBarColor,
+            sb, hpBarColor,
             HPbarX - player.statusDisplay.HPbarCurW, HPbarY,
             player.statusDisplay.HPbarCurW, HPbarH);
 
       // Text
       DrawUtils.drawText(
-            g, MyColor.WHITE, DrawUtils.infoFont,
+            sb, MyColor.WHITE, DrawUtils.infoFont,
             "x " + Integer.toString(player.statusDisplay.bombs),
             statusX + 60, bombY + 30);
       DrawUtils.drawText(
-            g, MyColor.WHITE, DrawUtils.infoFont,
+            sb, MyColor.WHITE, DrawUtils.infoFont,
             "x " + Integer.toString(player.statusDisplay.killedEnemies),
             statusX + 60, enemyCounterY + 30);
    }
 
-   private void drawShadow(Graphics g, int teleportDistance) {
+   private void drawShadow(SpriteBatch sb, int teleportDistance) {
       DrawUtils.drawImage(
-            g, tpShadowImg,
+            sb, tpShadowImg,
             (int) (player.hitbox.x - 20 - teleportDistance),
             (int) (player.hitbox.y - 20),
             SHIP_SPRITE_WIDTH * 3,
             SHIP_SPRITE_HEIGHT * 3);
    }
 
-   private void drawFlame(Graphics g, float x, float y) {
+   private void drawFlame(SpriteBatch sb, float x, float y) {
       DrawUtils.drawSubImage(
-            g, flameAnimations[player.flame.aniIndex],
+            sb, flameAnimations[player.flame.aniIndex],
             (int) x, (int) y,
             45, 45);
-   }
-
-   @Override
-   public void dispose() {
-
    }
 
    /**

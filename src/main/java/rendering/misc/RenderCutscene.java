@@ -1,8 +1,9 @@
 package rendering.misc;
 
-import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.util.ArrayList;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 
 import cutscenes.FellowShip;
 import cutscenes.cutsceneManagers.CutsceneManagerExp;
@@ -19,7 +20,7 @@ import cutscenes.effects.SetOverlayEffect;
 import rendering.MyColor;
 import rendering.MyImage;
 import rendering.MySubImage;
-import rendering.SwingRender;
+import rendering.Render;
 import rendering.exploring.RenderNumberDisplay;
 import ui.TextboxManager;
 import utils.DrawUtils;
@@ -42,7 +43,7 @@ import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_WIDTH;
  * Call the setCutsceneManager-method to do this.
  * 
  */
-public class RenderCutscene implements SwingRender {
+public class RenderCutscene implements Render {
    private Images images;
    private DefaultCutsceneManager cutsceneManager;
    private RenderNumberDisplay rNumberDisplay;
@@ -94,69 +95,69 @@ public class RenderCutscene implements SwingRender {
     * OBS: effects are drawn in a fixed order, specified in this object.
     */
    @Override
-   public void draw(Graphics g) {
+   public void draw(SpriteBatch sb) {
       if (!cutsceneManager.isActive()) {
          return;
       }
       for (DrawableEffect effect : cutsceneManager.drawableEffects) {
          if (effect.isActive()) {
-            this.drawEffect(g, effect);
+            this.drawEffect(sb, effect);
          }
       }
-      rTextBox.draw(g);
+      rTextBox.draw(sb);
    }
 
    /*
     * This implementation might seem a bit clumsy, but at most there will
     * be ~3 effects drawn at once. Usually 1 or 2. So I think it's ok.
     */
-   private void drawEffect(Graphics g, DrawableEffect effect) {
+   private void drawEffect(SpriteBatch sb, DrawableEffect effect) {
       if (effect instanceof FadeEffect e) {
          MyColor color = this.getTransparentColor(e.color, e.alphaFade);
-         DrawUtils.fillScreen(g, color);
+         DrawUtils.fillScreen(sb, color);
       } else if (effect instanceof FadeHeaderEffect e) {
          MyColor color = this.getTransparentColor("white", e.alphaFade);
-         this.drawHeader(g, e.headerText, e.headerBox, color);
+         this.drawHeader(sb, e.headerText, e.headerBox, color);
       } else if (effect instanceof FellowShipEffect e) {
-         this.drawFellowShips(g, e.fellowShips);
+         this.drawFellowShips(sb, e.fellowShips);
       } else if (effect instanceof FillScreenEffect e) {
-         DrawUtils.fillScreen(g, this.getOpaqueColor(e.color));
+         DrawUtils.fillScreen(sb, this.getOpaqueColor(e.color));
       } else if (effect instanceof NumberDisplayEffect) {
-         this.rNumberDisplay.draw(g);
+         this.rNumberDisplay.draw(sb);
       } else if (effect instanceof ObjectMoveEffect) {
-         this.rObjectMove.draw(g);
+         this.rObjectMove.draw(sb);
       } else if (effect instanceof RedLightEffect e) {
          MyColor color = getTransparentColor("red", e.alpha);
-         DrawUtils.fillScreen(g, color);
+         DrawUtils.fillScreen(sb, color);
       } else if (effect instanceof SetOverlayEffect) {
-         this.drawOverlayImage(g);
+         this.drawOverlayImage(sb);
       }
    }
 
-   private void drawFellowShips(Graphics g, ArrayList<FellowShip> fellowShips) {
+   private void drawFellowShips(SpriteBatch sb, ArrayList<FellowShip> fellowShips) {
       for (FellowShip ship : fellowShips) {
          if (ship.isOnScreen()) {
             // Ship
             DrawUtils.drawImage(
-                  g, shipImg,
+                  sb, shipImg,
                   (int) (ship.xPos - 20), (int) (ship.yPos - 20),
                   SHIP_SPRITE_WIDTH * 3, SHIP_SPRITE_HEIGHT * 3);
             // Ship flame
             DrawUtils.drawSubImage(
-                  g, flameAnimations[ship.flame.aniIndex],
+                  sb, flameAnimations[ship.flame.aniIndex],
                   (int) (ship.xPos + 3.5f), (int) (ship.yPos + ship.height),
                   45, 45);
          }
       }
    }
 
-   private void drawHeader(Graphics g, String headerText, Rectangle rect, MyColor color) {
-      DrawUtils.DrawCenteredString(
-            g, headerText, rect,
+   private void drawHeader(SpriteBatch sb, String headerText, Rectangle rect, MyColor color) {
+      DrawUtils.drawCenteredText(
+            sb, headerText, rect,
             DrawUtils.headerFont, color);
    }
 
-   private void drawOverlayImage(Graphics g) {
+   private void drawOverlayImage(SpriteBatch sb) {
       if (overlayImage == null) {
          /*
           * If the overlayImage is big, it might take an extra frame to load it.
@@ -165,7 +166,7 @@ public class RenderCutscene implements SwingRender {
          return;
       }
       DrawUtils.drawImage(
-            g, overlayImage,
+            sb, overlayImage,
             0, 0,
             overlayW, overlayH);
    }
@@ -192,11 +193,6 @@ public class RenderCutscene implements SwingRender {
          default:
             throw new IllegalArgumentException("color " + color + "is not supported");
       }
-   }
-
-   @Override
-   public void dispose() {
-
    }
 
    public RenderObjectMove getRenderObjectMove() {

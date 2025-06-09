@@ -1,6 +1,5 @@
 package rendering.misc;
 
-import java.awt.Graphics;
 import ui.BigDialogueBox;
 import ui.SmallDialogueBox;
 import ui.TextboxManager;
@@ -9,15 +8,18 @@ import utils.HelpMethods;
 import utils.Images;
 
 import java.util.ArrayList;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import static utils.Constants.UI.*;
 
 import main_classes.Game;
 import rendering.MyColor;
 import rendering.MyImage;
 import rendering.MySubImage;
-import rendering.SwingRender;
+import rendering.Render;
 
-public class RenderTextBox implements SwingRender {
+public class RenderTextBox implements Render {
    private TextboxManager tbM;
 
    private RenderInfoBox rInfoBox;
@@ -88,95 +90,90 @@ public class RenderTextBox implements SwingRender {
    }
 
    @Override
-   public void draw(Graphics g) {
+   public void draw(SpriteBatch sb) {
       if (tbM.infoActive) {
-         this.rInfoBox.draw(g);
+         this.rInfoBox.draw(sb);
       } else if (tbM.infoChoiceActive) {
-         this.rInfoChoice.draw(g);
+         this.rInfoChoice.draw(sb);
       } else if (tbM.bigDialogueActive) {
-         this.drawBigDialogue(g);
+         this.drawBigDialogue(sb);
       } else if (tbM.smallDialogueActive) {
-         this.drawSmallDialogue(g);
+         this.drawSmallDialogue(sb);
       }
    }
 
-   private void drawBigDialogue(Graphics g) {
+   private void drawBigDialogue(SpriteBatch sb) {
       BigDialogueBox dialogue = tbM.getBigDialogueBox();
 
       // Background
       DrawUtils.drawImage(
-            g, bigDialogueBoxImg,
+            sb, bigDialogueBoxImg,
             bDialogueX, bDialogueY,
             DIALOGUEBOX_WIDTH, DIALOGUEBOX_HEIGHT);
 
       // Portrait
       DrawUtils.drawSubImage(
-            g, portraits[dialogue.characterIndex][dialogue.portraitIndex],
+            sb, portraits[dialogue.characterIndex][dialogue.portraitIndex],
             bDialogueX + 12, bDialogueY + 12,
             PORTRAIT_SIZE * 3, PORTRAIT_SIZE * 3);
 
       // Text - Name
       DrawUtils.drawText(
-            g, nameColor, DrawUtils.nameFont,
+            sb, nameColor, DrawUtils.nameFont,
             dialogue.name,
             bDialogueX + 200, bDialogueY + 60);
 
       // Text - Dialogue
       drawBigDialogueText(
-            g, dialogue.currentLine, dialogue.formattedStrings,
+            sb, dialogue.currentLine, dialogue.formattedStrings,
             dialogue.currentLetter, bDialogueX, bDialogueY);
    }
 
    private void drawBigDialogueText(
-         Graphics g, int currentLine, ArrayList<String> text, int currentLetter, int x, int y) {
+         SpriteBatch sb, int currentLine, ArrayList<String> text, int currentLetter, int x, int y) {
       for (int i = 0; i < (currentLine + 1); i++) {
          int endLetter = text.get(i).length();
          if (i == currentLine) {
             endLetter = currentLetter + 1;
          }
          drawPartialSentence(
-               g, text.get(i), endLetter,
+               sb, text.get(i), endLetter,
                x + 200, y + 100 + i * 35);
       }
    }
 
-   private void drawPartialSentence(Graphics g, String s, int currentLetter, int x, int y) {
+   private void drawPartialSentence(SpriteBatch sb, String s, int currentLetter, int x, int y) {
       DrawUtils.drawText(
-            g, MyColor.WHITE, DrawUtils.infoFont,
+            sb, MyColor.WHITE, DrawUtils.infoFont,
             s.substring(0, currentLetter),
             x, y);
 
    }
 
-   private void drawSmallDialogue(Graphics g) {
+   private void drawSmallDialogue(SpriteBatch sb) {
       SmallDialogueBox dialogue = tbM.getSmallDialogueBox();
 
       // Background
       DrawUtils.fillRect(
-            g, sDialogueBgColor,
+            sb, sDialogueBgColor,
             sDialogueX, sDialogueY,
             850, 120);
 
       // Portrait
       DrawUtils.drawSubImage(
-            g, portraits[dialogue.characterIndex][dialogue.portraitIndex],
+            sb, portraits[dialogue.characterIndex][dialogue.portraitIndex],
             sDialogueX + 5, sDialogueY + 5,
             110, 110);
 
       // Text - Name
       DrawUtils.drawText(
-            g, nameColor, DrawUtils.nameFont,
+            sb, nameColor, DrawUtils.nameFont,
             dialogue.name,
             sDialogueX + 130, sDialogueY + 40);
 
       // Text - Dialogue
       drawPartialSentence(
-            g, dialogue.text, dialogue.currentLetter,
+            sb, dialogue.text, dialogue.currentLetter,
             sDialogueX + 130, sDialogueY + 80);
    }
-
-   @Override
-   public void dispose() {
-   }
-
 }

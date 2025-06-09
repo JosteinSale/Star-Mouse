@@ -1,10 +1,8 @@
 package rendering.boss_mode;
 
-import java.awt.Graphics;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public interface IRenderBoss {
 
-   public void draw(Graphics g);
-
-   public void flush();
+   public void draw(SpriteBatch sn);
 }

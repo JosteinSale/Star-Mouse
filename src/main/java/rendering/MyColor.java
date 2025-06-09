@@ -1,6 +1,6 @@
 package rendering;
 
-import java.awt.Color;
+import com.badlogic.gdx.graphics.Color;
 
 /**
  * A wrapper for a color, for use in the rendering classes.
@@ -12,51 +12,57 @@ import java.awt.Color;
  */
 public class MyColor {
    // Color with specific rgb-values
-   private Color color;
+   private final Color color;
 
    // Standard colors
-   public static final MyColor BLACK = getMyColor(Color.BLACK);
-   public static final MyColor WHITE = getMyColor(Color.WHITE);
-   public static final MyColor RED = getMyColor(Color.RED);
-   public static final MyColor ORANGE = getMyColor(Color.ORANGE);
-   public static final MyColor PINK = getMyColor(Color.PINK);
-   public static final MyColor CYAN = getMyColor(Color.CYAN);
-   public static final MyColor GREEN = getMyColor(Color.GREEN);
-   public static final MyColor GRAY = getMyColor(Color.GRAY);
-   public static final MyColor DARK_GRAY = getMyColor(Color.GRAY.darker());
-   public static final MyColor DARKER_GRAY = getMyColor(Color.GRAY.darker().darker());
-   public static final MyColor LIGHT_GRAY = getMyColor(Color.GRAY.brighter());
-   public static final MyColor DARK_GREEN = getMyColor(Color.GREEN.darker());
-   public static final MyColor LIGHT_BLUE = getMyColor(Color.BLUE.brighter());
-   public static final MyColor MAGENTA = getMyColor(Color.MAGENTA);
-   public static final MyColor YELLOW = getMyColor(Color.YELLOW);
+   public static final MyColor BLACK = new MyColor(Color.BLACK);
+   public static final MyColor WHITE = new MyColor(Color.WHITE);
+   public static final MyColor RED = new MyColor(Color.RED);
+   public static final MyColor ORANGE = new MyColor(Color.ORANGE);
+   public static final MyColor PINK = new MyColor(Color.PINK);
+   public static final MyColor CYAN = new MyColor(Color.CYAN);
+   public static final MyColor GREEN = new MyColor(Color.GREEN);
+   public static final MyColor GRAY = new MyColor(Color.GRAY);
+   public static final MyColor DARK_GRAY = new MyColor(new Color(0.25f, 0.25f, 0.25f, 1f));
+   public static final MyColor DARKER_GRAY = new MyColor(new Color(0.15f, 0.15f, 0.15f, 1f));
+   public static final MyColor LIGHT_GRAY = new MyColor(new Color(0.8f, 0.8f, 0.8f, 1f));
+   public static final MyColor DARK_GREEN = new MyColor(new Color(0f, 0.4f, 0f, 1f));
+   public static final MyColor LIGHT_BLUE = new MyColor(new Color(0.5f, 0.7f, 1f, 1f));
+   public static final MyColor MAGENTA = new MyColor(Color.MAGENTA);
+   public static final MyColor YELLOW = new MyColor(Color.YELLOW);
 
-   public MyColor(int r, int g, int b, int alpha) {
-      this.color = new Color(r, g, b, alpha);
+   public MyColor(Color color) {
+      this.color = new Color(color); // defensive copy
    }
 
-   private static MyColor getMyColor(Color color) {
-      return new MyColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+   /** Takes a float between 0 and 1s */
+   public MyColor(float r, float g, float b, float a) {
+      this.color = new Color(r, g, b, a);
+   }
+
+   /** Takes an int between 0 and 255 */
+   public MyColor(int r, int g, int b, int a) {
+      this.color = new Color(r / 255f, g / 255f, b / 255f, a / 255f);
    }
 
    public Color getColor() {
-      return new Color(this.color.getRed(), this.color.getGreen(), this.color.getBlue(), this.color.getAlpha());
+      return new Color(this.color); // return a copy to avoid mutation
    }
 
-   public int getRed() {
-      return this.color.getRed();
+   public float getRed() {
+      return color.r;
    }
 
-   public int getGreen() {
-      return this.color.getGreen();
+   public float getGreen() {
+      return color.g;
    }
 
-   public int getBlue() {
-      return this.color.getBlue();
+   public float getBlue() {
+      return color.b;
    }
 
-   public int getAlpha() {
-      return this.color.getAlpha();
+   public float getAlpha() {
+      return color.a;
    }
 
 }

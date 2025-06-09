@@ -1,9 +1,9 @@
 package rendering.boss_mode;
 
 import java.util.ArrayList;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 
 import static utils.Constants.UI.CURSOR_HEIGHT;
 import static utils.Constants.UI.CURSOR_WIDTH;
@@ -12,12 +12,13 @@ import main_classes.Game;
 import rendering.MyColor;
 import rendering.MyImage;
 import rendering.MySubImage;
+import rendering.Render;
 import ui.GameoverOverlay2;
 import utils.DrawUtils;
 import utils.HelpMethods2;
 import utils.Images;
 
-public class RenderGameOver2 {
+public class RenderGameOver2 implements Render {
    private GameoverOverlay2 gameOver;
    private MyColor bgColor = new MyColor(0, 0, 0, 140);
    private MyImage pointerImg;
@@ -51,44 +52,43 @@ public class RenderGameOver2 {
       }
    }
 
-   public void draw(Graphics g) {
+   @Override
+   public void draw(SpriteBatch sb) {
       if (gameOver.deathAnimationActive) {
-         drawDeathAnimation(g);
+         drawDeathAnimation(sb);
       } else {
-         drawMenu(g);
+         drawMenu(sb);
       }
    }
 
-   private void drawDeathAnimation(Graphics g) {
+   private void drawDeathAnimation(SpriteBatch sb) {
       if (gameOver.aniIndex < deathAnimation.length) { // Will draw nothing at index 26 - 30
          DrawUtils.drawSubImage(
-               g, deathAnimation[gameOver.aniIndex],
+               sb, deathAnimation[gameOver.aniIndex],
                (int) gameOver.playerX, (int) gameOver.playerY,
                120, 120);
 
       }
    }
 
-   private void drawMenu(Graphics g) {
-      Graphics2D g2 = (Graphics2D) g;
-
+   private void drawMenu(SpriteBatch sb) {
       // Background
-      DrawUtils.fillScreen(g2, bgColor);
+      DrawUtils.fillScreen(sb, bgColor);
 
       // Text
       DrawUtils.drawText(
-            g2, MyColor.WHITE, DrawUtils.headerFont,
+            sb, MyColor.WHITE, DrawUtils.headerFont,
             "YOU DIED", 400, 350);
 
       for (int i = 0; i < gameOver.menuOptions.length; i++) {
-         DrawUtils.DrawCenteredString(
-               g2, gameOver.menuOptions[i], menuRects.get(i),
+         DrawUtils.drawCenteredText(
+               sb, gameOver.menuOptions[i], menuRects.get(i),
                DrawUtils.menuFont, MyColor.WHITE);
       }
 
       // Cursor
       DrawUtils.drawImage(
-            g2, pointerImg,
+            sb, pointerImg,
             gameOver.cursorX, gameOver.cursorY - 30,
             CURSOR_WIDTH, CURSOR_HEIGHT);
    }

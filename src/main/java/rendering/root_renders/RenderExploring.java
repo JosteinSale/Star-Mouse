@@ -1,13 +1,14 @@
 package rendering.root_renders;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import cutscenes.cutsceneManagers.DefaultCutsceneManager;
 import gamestates.exploring.Area;
 import gamestates.exploring.Exploring;
 import main_classes.Game;
-import rendering.SwingRender;
+import rendering.Render;
 import rendering.exploring.RenderArea;
 import rendering.exploring.RenderMechanic;
 import rendering.exploring.RenderPauseExploring;
@@ -17,7 +18,7 @@ import rendering.misc.RenderInfoChoice;
 import rendering.misc.RenderOptionsMenu;
 import ui.PauseExploring;
 
-public class RenderExploring implements SwingRender {
+public class RenderExploring implements Render {
    private Game game;
    private Exploring exploring;
    private PauseExploring pause;
@@ -58,18 +59,14 @@ public class RenderExploring implements SwingRender {
    }
 
    @Override
-   public void draw(Graphics g) {
-      rAreaList.get(exploring.currentArea - 1).draw(g);
-      rCutscene.draw(g);
+   public void draw(SpriteBatch sb) {
+      rAreaList.get(exploring.currentArea - 1).draw(sb);
+      rCutscene.draw(sb);
       if (pause.isActive()) {
-         rPause.draw(g);
+         rPause.draw(sb);
       } else if (exploring.isMechanicActive()) {
-         rMechanic.draw(g);
+         rMechanic.draw(sb);
       }
-   }
-
-   @Override
-   public void dispose() {
    }
 
 }

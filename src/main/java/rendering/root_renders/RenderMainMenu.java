@@ -1,15 +1,15 @@
 package rendering.root_renders;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.util.ArrayList;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 
 import gamestates.MainMenu;
 import main_classes.Game;
 import rendering.MyColor;
 import rendering.MyImage;
-import rendering.SwingRender;
+import rendering.Render;
 import rendering.misc.RenderInfoChoice;
 import rendering.misc.RenderLoadSave;
 import rendering.misc.RenderOptionsMenu;
@@ -18,7 +18,7 @@ import utils.Images;
 
 import static utils.Constants.UI.*;
 
-public class RenderMainMenu implements SwingRender {
+public class RenderMainMenu implements Render {
 
    private MainMenu mainMenu;
    private RenderOptionsMenu rOptionsMenu;
@@ -32,11 +32,11 @@ public class RenderMainMenu implements SwingRender {
       this.mainMenu = game.getMainMenu();
       this.rOptionsMenu = rOptionsMenu;
       Images images = game.getImages();
-      bgImg = images.getImageWithCustomFilePath(
+      bgImg = images.getMiscImage(
             Images.LEVEL_SELECT_BG, true);
       cursorImg = images.getExpImageSprite(
             Images.CURSOR_SPRITE_WHITE, true);
-      titleImg = images.getImageWithCustomFilePath(
+      titleImg = images.getMiscImage(
             Images.MAIN_MENU_TITLE, true);
       this.makeMenuRectangles();
       this.rLoadSave = new RenderLoadSave(
@@ -56,55 +56,49 @@ public class RenderMainMenu implements SwingRender {
    }
 
    @Override
-   public void draw(Graphics g) {
-      Graphics2D g2 = (Graphics2D) g;
+   public void draw(SpriteBatch sb) {
 
       // Render the main menu at the bottom, regardless of what is ontop
-      drawMainMenu(g2);
+      drawMainMenu(sb);
 
       // Options
       if (mainMenu.getOptionsMenu().isActive()) {
-         rOptionsMenu.draw(g);
+         rOptionsMenu.draw(sb);
       }
       // LoadSave Menu
       else if (mainMenu.getLoadSaveMenu().isActive()) {
-         rLoadSave.draw(g);
+         rLoadSave.draw(sb);
       }
 
       // Fade
       if (mainMenu.fadeInActive || mainMenu.fadeOutActive) {
-         DrawUtils.fillScreen(g, new MyColor(0, 0, 0, mainMenu.alphaFade));
+         DrawUtils.fillScreen(sb, new MyColor(0, 0, 0, mainMenu.alphaFade));
       }
    }
 
-   private void drawMainMenu(Graphics g2) {
+   private void drawMainMenu(SpriteBatch sb) {
       // Background
       DrawUtils.drawImage(
-            g2, bgImg,
+            sb, bgImg,
             (int) mainMenu.bgX, 0,
             Game.GAME_DEFAULT_WIDTH + 55, Game.GAME_DEFAULT_HEIGHT + 50);
 
       // Text
       for (int i = 0; i < mainMenu.alternatives.length; i++) {
-         DrawUtils.DrawCenteredString(
-               g2, mainMenu.alternatives[i], menuRectangles.get(i),
+         DrawUtils.drawCenteredText(
+               sb, mainMenu.alternatives[i], menuRectangles.get(i),
                DrawUtils.menuFont, MyColor.WHITE);
       }
       DrawUtils.drawImage(
-            g2, titleImg,
+            sb, titleImg,
             280, 100,
             500, 200);
 
       // Cursor
       DrawUtils.drawImage(
-            g2, cursorImg,
+            sb, cursorImg,
             mainMenu.cursorX, mainMenu.cursorY - CURSOR_HEIGHT / 2,
             CURSOR_WIDTH, CURSOR_HEIGHT);
-   }
-
-   @Override
-   public void dispose() {
-      // Do nothing
    }
 
 }

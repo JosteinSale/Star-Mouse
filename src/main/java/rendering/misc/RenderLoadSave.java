@@ -5,20 +5,19 @@ import static utils.Constants.UI.CURSOR_WIDTH;
 import static utils.Constants.UI.OPTIONS_HEIGHT;
 import static utils.Constants.UI.OPTIONS_WIDTH;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 
 import data_storage.SaveData;
 import main_classes.Game;
 import rendering.MyColor;
 import rendering.MyImage;
-import rendering.SwingRender;
+import rendering.Render;
 import ui.LoadSaveMenu;
 import utils.DrawUtils;
 import utils.Images;
 
-public class RenderLoadSave implements SwingRender {
+public class RenderLoadSave implements Render {
    private Game game;
    private LoadSaveMenu menu;
    private RenderInfoChoice rInfoChoice;
@@ -62,41 +61,39 @@ public class RenderLoadSave implements SwingRender {
    }
 
    @Override
-   public void draw(Graphics g) {
-      Graphics2D g2 = (Graphics2D) g;
-
+   public void draw(SpriteBatch sb) {
       // Background
       DrawUtils.fillRect(
-            g2, bgColor,
+            sb, bgColor,
             bgX, bgY,
             bgW, bgH);
       DrawUtils.drawRect(
-            g2, MyColor.WHITE,
+            sb, MyColor.WHITE,
             bgX + 10, bgY + 10,
             bgW - 20, bgH - 20);
 
       // Header text
-      DrawUtils.DrawCenteredString(
-            g, menu.currentMenu, headerRect,
+      DrawUtils.drawCenteredText(
+            sb, menu.currentMenu, headerRect,
             DrawUtils.headerFont, MyColor.WHITE);
 
       // Menu Options
-      drawMenuOptions(g);
+      drawMenuOptions(sb);
 
       // Cursor
       DrawUtils.drawImage(
-            g2, pointerImg,
+            sb, pointerImg,
             cursorX, menu.cursorY - 30,
             CURSOR_WIDTH, CURSOR_HEIGHT);
    }
 
-   private void drawMenuOptions(Graphics g) {
+   private void drawMenuOptions(SpriteBatch sb) {
       SaveData saveData = game.getSaveData();
 
       // Left side: draw the menu options
       for (int i = 0; i < menu.menuOptions.length; i++) {
          DrawUtils.drawText(
-               g, MyColor.WHITE, DrawUtils.menuFont,
+               sb, MyColor.WHITE, DrawUtils.menuFont,
                menu.menuOptions[i],
                optionsX, optionsY + i * menu.menuOptionsDiff);
       }
@@ -106,23 +103,19 @@ public class RenderLoadSave implements SwingRender {
       for (int i = 0; i < 3; i++) {
          if (saveData.getProgValuesFor(i + 1).saveStarted) {
             DrawUtils.drawText(
-                  g, MyColor.WHITE, DrawUtils.menuFont,
+                  sb, MyColor.WHITE, DrawUtils.menuFont,
                   saveData.getProgValuesFor(i + 1).lastUsed,
                   xPos, optionsY + i * menu.menuOptionsDiff);
          } else {
             DrawUtils.drawText(
-                  g, MyColor.WHITE, DrawUtils.menuFont,
+                  sb, MyColor.WHITE, DrawUtils.menuFont,
                   "[EMPTY]",
                   xPos, optionsY + i * menu.menuOptionsDiff);
          }
       }
       if (menu.infoChoiceActive) {
-         this.rInfoChoice.draw(g);
+         this.rInfoChoice.draw(sb);
       }
-   }
-
-   @Override
-   public void dispose() {
    }
 
 }

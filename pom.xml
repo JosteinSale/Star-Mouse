@@ -8,6 +8,7 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <libgdx.version>1.11.0</libgdx.version>
     </properties>
 
     <dependencies>
@@ -16,6 +17,35 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.13.0</version>
         </dependency>
+        <dependency>
+			<groupId>com.badlogicgames.gdx</groupId>
+			<artifactId>gdx-lwjgl3-glfw-awt-macos</artifactId>
+			<version>${libgdx.version}</version>
+		</dependency>
+        <!--libGDX graphics library – https://libgdx.com/ -->
+		<dependency>
+			<groupId>com.badlogicgames.gdx</groupId>
+			<artifactId>gdx</artifactId>
+			<version>${libgdx.version}</version>
+		</dependency>
+		<!-- Platform-specific libraries -->
+		<dependency>
+			<groupId>com.badlogicgames.gdx</groupId>
+			<artifactId>gdx-platform</artifactId>
+			<version>${libgdx.version}</version>
+			<classifier>natives-desktop</classifier>
+		</dependency>
+		<dependency>
+			<groupId>com.badlogicgames.gdx</groupId>
+			<artifactId>gdx-backend-lwjgl3</artifactId>
+			<version>${libgdx.version}</version>
+		</dependency>
+        <!--FreeTypeFont-->
+        <dependency>
+        	<groupId>com.badlogicgames.gdx</groupId>
+       		<artifactId>gdx-freetype</artifactId>
+        	<version>${libgdx.version}</version>
+    	</dependency>
     </dependencies>
 
     <build>

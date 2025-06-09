@@ -1,7 +1,5 @@
 package rendering.flying;
 
-import java.awt.Graphics;
-
 import rendering.MyColor;
 import rendering.MyImage;
 import ui.LevelFinishedOverlay;
@@ -10,6 +8,8 @@ import utils.Images;
 
 import static utils.Constants.UI.CURSOR_HEIGHT;
 import static utils.Constants.UI.CURSOR_WIDTH;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class RenderLevelFinished {
    private LevelFinishedOverlay lf;
@@ -25,44 +25,44 @@ public class RenderLevelFinished {
             Images.CURSOR_SPRITE_WHITE, true);
    }
 
-   public void draw(Graphics g) {
-      DrawUtils.fillScreen(g, MyColor.BLACK);
-      drawHeader(g);
+   public void draw(SpriteBatch sb) {
+      DrawUtils.fillScreen(sb, MyColor.BLACK);
+      drawHeader(sb);
       if (lf.areLettersAppearing()) {
-         drawStats(g);
+         drawStats(sb);
       }
       if (lf.hasContinueAppeared()) {
-         drawContinue(g);
+         drawContinue(sb);
       }
    }
 
-   private void drawStats(Graphics g) {
+   private void drawStats(SpriteBatch sb) {
       for (int i = 0; i < lf.linesToDraw; i++) {
          int endLetter = lf.lettersPerLine;
          if ((i + 1) == lf.linesToDraw) {
             endLetter = lf.currentLetter - (i * lf.lettersPerLine);
          }
          DrawUtils.drawText(
-               g, MyColor.WHITE, DrawUtils.infoFont,
+               sb, MyColor.WHITE, DrawUtils.infoFont,
                lf.statusText[i].substring(0, endLetter),
                statusX, statusY + i * yDiff);
       }
    }
 
-   private void drawHeader(Graphics g) {
+   private void drawHeader(SpriteBatch sb) {
       DrawUtils.drawText(
-            g, new MyColor(255, 255, 255, lf.headerAlpha), DrawUtils.headerFont,
+            sb, new MyColor(255, 255, 255, lf.headerAlpha), DrawUtils.headerFont,
             "Level Finished",
             320, 200);
    }
 
-   private void drawContinue(Graphics g) {
+   private void drawContinue(SpriteBatch sb) {
       DrawUtils.drawText(
-            g, MyColor.WHITE, DrawUtils.nameFont,
+            sb, MyColor.WHITE, DrawUtils.nameFont,
             "Continue",
             420, 600);
       DrawUtils.drawImage(
-            g, cursorImg,
+            sb, cursorImg,
             330, 570,
             CURSOR_WIDTH, CURSOR_HEIGHT);
    }

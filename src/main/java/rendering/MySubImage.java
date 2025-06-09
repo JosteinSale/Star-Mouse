@@ -1,24 +1,24 @@
 package rendering;
 
-import java.awt.image.BufferedImage;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /** Similar to the MyImage-class, except for sub images. */
 public class MySubImage {
-   private BufferedImage subImg; // Replace with your desired implementation
+   private TextureRegion subImg; // Replace with your desired implementation
 
-   public MySubImage(BufferedImage subImg) {
+   public MySubImage(TextureRegion subImg) {
       this.subImg = subImg;
    }
 
-   public BufferedImage getImage() {
+   public TextureRegion getImage() {
       return this.subImg;
    }
 
    public int getWidth() {
-      return this.subImg.getWidth();
+      return this.subImg.getRegionWidth();
    }
 
    public int getHeight() {
-      return this.subImg.getHeight();
+      return this.subImg.getRegionWidth();
    }
 }

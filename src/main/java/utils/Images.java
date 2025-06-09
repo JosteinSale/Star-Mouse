@@ -1,6 +1,7 @@
 package utils;
 
 import java.util.HashMap;
+import java.awt.image.BufferedImage;
 import rendering.MyImage;
 
 /**
@@ -16,12 +17,16 @@ import rendering.MyImage;
 public class Images {
    private HashMap<String, MyImage> imagesToBeKeptInMemory;
    private HashMap<String, MyImage> imagesToBeFlushed;
+   private HashMap<String, BufferedImage> collisionImagesToBeFlushed;
+   private static String absolutePath = "C:/Users/joste/StarFox 2D Shooter/StarMouse/src/main/resources/";
+   public static MyImage pixel = ResourceLoader.getImage(absolutePath + "exploring/images/misc/pixel.png");
    private static boolean singletonCreated = false;
 
    // Menus
+   public static final String PIXEL = "pixel.png";
    public static final String BASIC_MOUSE = "BasicMouse.png";
-   public static final String MAIN_MENU_TITLE = "/exploring/images/main_menu_title.png";
-   public static final String LEVEL_SELECT_BG = "/exploring/images/level_select.png";
+   public static final String MAIN_MENU_TITLE = "main_menu_title.png";
+   public static final String LEVEL_SELECT_BG = "level_select.png";
    public static final String LEVEL_SELECT_LAYOUT1 = "levelSel_Layout1.png";
    public static final String LEVEL_SELECT_LAYOUT2 = "levelSel_Layout2.png";
    public static final String LEVEL_SELECT_LAYOUT3 = "levelSel_Layout3.png";
@@ -109,10 +114,12 @@ public class Images {
       }
       this.imagesToBeKeptInMemory = new HashMap<>();
       this.imagesToBeFlushed = new HashMap<>();
+      this.collisionImagesToBeFlushed = new HashMap<>();
       Images.singletonCreated = true;
    }
 
    private MyImage getImage(String imageName, boolean keepInMemory) {
+      imageName = absolutePath + imageName;
       if (imagesToBeFlushed.containsKey(imageName)) {
          return imagesToBeFlushed.get(imageName);
       } else if (imagesToBeKeptInMemory.containsKey(imageName)) {
@@ -129,9 +136,20 @@ public class Images {
       }
    }
 
+   private BufferedImage getCollisionImage(String imageName) {
+      if (collisionImagesToBeFlushed.containsKey(imageName)) {
+         return collisionImagesToBeFlushed.get(imageName);
+      } else {
+         // Load image into memory and return it.
+         BufferedImage image = ResourceLoader.getCollisionImage(imageName);
+         this.collisionImagesToBeFlushed.put(imageName, image);
+         return image;
+      }
+   }
+
    public void flush() {
       for (MyImage img : imagesToBeFlushed.values()) {
-         img.flush();
+         img.dispose();
       }
    }
 
@@ -143,6 +161,11 @@ public class Images {
    public MyImage getCutsceneImage(String fileName) {
       fileName = "/cutsceneImages/" + fileName;
       return this.getImage(fileName, false);
+   }
+
+   public MyImage getMiscImage(String fileName, boolean keepInMemory) {
+      fileName = "/exploring/images/misc/" + fileName;
+      return this.getImage(fileName, keepInMemory);
    }
 
    public MyImage getBossBackground(String fileName) {
@@ -165,23 +188,29 @@ public class Images {
       return this.getImage(fileName, false);
    }
 
-   public MyImage getExpImageCollision(String fileName) {
-      fileName = "/exploring/images/collision/" + fileName;
+   public MyImage getFlyImageForeground(String fileName) {
+      fileName = "/flying/images/foregrounds/" + fileName;
       return this.getImage(fileName, false);
    }
 
-   public MyImage getFlyImageCollision(String fileName) {
+   public BufferedImage getExpImageCollision(String fileName) {
+      fileName = "/exploring/images/collision/" + fileName;
+      return this.getCollisionImage(fileName);
+   }
+
+   public BufferedImage getFlyImageCollision(String fileName) {
       fileName = "/flying/images/collision/" + fileName;
-      return this.getImage(fileName, false);
+      return this.getCollisionImage(fileName);
+   }
+
+   public BufferedImage getBossCollisionImg(String fileName) {
+      fileName = "/bossMode/collision/" + fileName;
+      return this.getCollisionImage(fileName);
    }
 
    public MyImage getExpImageForeground(String fileName) {
       fileName = "/exploring/images/foregrounds/" + fileName;
       return this.getImage(fileName, false);
-   }
-
-   public MyImage getImageWithCustomFilePath(String filename, boolean keepInMemory) {
-      return this.getImage(filename, keepInMemory);
    }
 
    public MyImage getExpImageSprite(String fileName, boolean keepInMemory) {
@@ -193,4 +222,5 @@ public class Images {
       fileName = "/flying/images/sprites/" + fileName;
       return this.getImage(fileName, keepInMemory);
    }
+
 }

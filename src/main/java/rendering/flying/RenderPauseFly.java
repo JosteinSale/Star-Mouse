@@ -1,9 +1,9 @@
 package rendering.flying;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.util.ArrayList;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 
 import main_classes.Game;
 import rendering.MyColor;
@@ -43,28 +43,27 @@ public class RenderPauseFly {
       }
    }
 
-   public void draw(Graphics g) {
-      Graphics2D g2 = (Graphics2D) g;
+   public void draw(SpriteBatch sb) {
       // Background
-      DrawUtils.fillScreen(g2, bgColor);
+      DrawUtils.fillScreen(sb, bgColor);
 
       if (pause.optionsMenu.isActive()) {
-         rOptions.draw(g);
+         rOptions.draw(sb);
       } else {
          // Text
          DrawUtils.drawText(
-               g2, MyColor.WHITE, DrawUtils.headerFont,
+               sb, MyColor.WHITE, DrawUtils.headerFont,
                "PAUSE",
                450, 200);
          for (int i = 0; i < pause.menuOptions.length; i++) {
-            DrawUtils.DrawCenteredString(
-                  g2, pause.menuOptions[i], menuRects.get(i),
+            DrawUtils.drawCenteredText(
+                  sb, pause.menuOptions[i], menuRects.get(i),
                   DrawUtils.menuFont, MyColor.WHITE);
          }
 
          // Cursor
          DrawUtils.drawImage(
-               g2, pointerImg,
+               sb, pointerImg,
                pause.cursorX, pause.cursorY - 30,
                CURSOR_WIDTH, CURSOR_HEIGHT);
       }

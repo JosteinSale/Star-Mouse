@@ -1,13 +1,13 @@
 package rendering.root_renders;
 
-import java.awt.Graphics;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import rendering.MyColor;
-import rendering.SwingRender;
+import rendering.Render;
 import rendering.misc.RenderCutscene;
 import utils.DrawUtils;
 
-public class RenderCinematic implements SwingRender {
+public class RenderCinematic implements Render {
    private RenderCutscene rCutscene;
 
    public RenderCinematic(RenderCutscene rCutscene) {
@@ -15,19 +15,14 @@ public class RenderCinematic implements SwingRender {
    }
 
    @Override
-   public void draw(Graphics g) {
-      rCutscene.draw(g);
-      this.drawSkipText(g);
+   public void draw(SpriteBatch sb) {
+      rCutscene.draw(sb);
+      this.drawSkipText(sb);
    }
 
-   private void drawSkipText(Graphics g) {
+   private void drawSkipText(SpriteBatch sb) {
       DrawUtils.drawText(
-            g, MyColor.GRAY, DrawUtils.infoFont,
+            sb, MyColor.GRAY, DrawUtils.infoFont,
             "ENTER to skip", 30, 30);
-   }
-
-   @Override
-   public void dispose() {
-
    }
 }

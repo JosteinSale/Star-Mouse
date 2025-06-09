@@ -1,44 +1,29 @@
 package rendering.boss_mode;
 
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import entities.bossmode.DefaultBossPart;
+import rendering.MySubImage;
 import utils.DrawUtils;
+import utils.HelpMethods2;
 import utils.Images;
 
 /** Renders a single bossPart */
 public class RenderBossPart {
    private DefaultBossPart bp;
-   private Image[][] animation;
+   private MySubImage[][] animation;
 
    public RenderBossPart(DefaultBossPart bp, Images images) {
       this.bp = bp;
-      this.animation = constructScaledAnimationArray(bp, images);
+      this.animation = HelpMethods2.GetUnscaled2DAnimationArray(
+            images.getBossSprite(bp.spriteName), bp.aniRows, bp.aniCols, bp.spriteW, bp.spriteH);
    }
 
-   private Image[][] constructScaledAnimationArray(DefaultBossPart bp, Images images) {
-      int scaledSpriteW = bp.spriteW * 3;
-      int scaledSpriteH = bp.spriteH * 3;
-      Image[][] animations = new Image[bp.aniRows][bp.aniCols];
-      BufferedImage img = images.getBossSprite(bp.spriteName).getImage();
-      for (int r = 0; r < bp.aniRows; r++) {
-         for (int c = 0; c < bp.aniCols; c++) {
-            animations[r][c] = img.getSubimage(
-                  c * bp.spriteW,
-                  r * bp.spriteH, bp.spriteW, bp.spriteH).getScaledInstance(
-                        scaledSpriteW, scaledSpriteH, 0);
-         }
-      }
-      return animations;
-   }
-
-   public void draw(Graphics g) {
+   public void draw(SpriteBatch sb) {
       if (!bp.rotatedImgVisible) {
          return;
       } else {
-         DrawUtils.drawRotatedBossPart(g, bp, animation);
+         DrawUtils.drawRotatedBossPart(sb, bp, animation);
       }
    }
 }

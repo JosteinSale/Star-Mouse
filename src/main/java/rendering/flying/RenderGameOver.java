@@ -1,9 +1,9 @@
 package rendering.flying;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.util.ArrayList;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 
 import main_classes.Game;
 import rendering.MyColor;
@@ -52,44 +52,42 @@ public class RenderGameOver {
       }
    }
 
-   public void draw(Graphics g) {
+   public void draw(SpriteBatch sb) {
       if (gameOver.deathAnimationActive) {
-         drawDeathAnimation(g);
+         drawDeathAnimation(sb);
       } else {
-         drawMenu(g);
+         drawMenu(sb);
       }
    }
 
-   private void drawDeathAnimation(Graphics g) {
+   private void drawDeathAnimation(SpriteBatch sb) {
       if (gameOver.aniIndex < deathAnimation.length) { // Will draw nothing at index 26 - 30
          DrawUtils.drawSubImage(
-               g, deathAnimation[gameOver.aniIndex],
+               sb, deathAnimation[gameOver.aniIndex],
                (int) gameOver.playerX, (int) gameOver.playerY,
                120, 120);
       }
    }
 
-   private void drawMenu(Graphics g) {
-      Graphics2D g2 = (Graphics2D) g;
-
+   private void drawMenu(SpriteBatch sb) {
       // Background
-      DrawUtils.fillScreen(g2, bgColor);
+      DrawUtils.fillScreen(sb, bgColor);
 
       // Text
       DrawUtils.drawText(
-            g2, MyColor.WHITE, DrawUtils.headerFont,
+            sb, MyColor.WHITE, DrawUtils.headerFont,
             "YOU DIED",
             400, 350);
 
       for (int i = 0; i < gameOver.menuOptions.length; i++) {
-         DrawUtils.DrawCenteredString(
-               g2, gameOver.menuOptions[i], menuRects.get(i),
+         DrawUtils.drawCenteredText(
+               sb, gameOver.menuOptions[i], menuRects.get(i),
                DrawUtils.menuFont, getGameOverTextColor(i));
       }
 
       // Cursor
       DrawUtils.drawImage(
-            g2, pointerImg,
+            sb, pointerImg,
             gameOver.cursorX, gameOver.cursorY - 30,
             CURSOR_WIDTH, CURSOR_HEIGHT);
    }

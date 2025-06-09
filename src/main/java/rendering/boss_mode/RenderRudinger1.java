@@ -1,6 +1,6 @@
 package rendering.boss_mode;
 
-import java.awt.Graphics;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import entities.bossmode.rudinger1.Rudinger1;
 import rendering.MyImage;
@@ -34,42 +34,37 @@ public class RenderRudinger1 implements IRenderBoss {
    }
 
    @Override
-   public void draw(Graphics g) {
+   public void draw(SpriteBatch sb) {
       if (!rudinger.visible) {
          return;
       } else {
-         rEyes.draw(g);
-         drawStaticBossImages(g);
-         drawRudingerMouth(g);
-         rActionHandler.draw(g, rudinger.currentAction);
-         drawRotatingLazerCharge(g);
-         rBossHealth.draw(g);
+         rEyes.draw(sb);
+         drawStaticBossImages(sb);
+         drawRudingerMouth(sb);
+         rActionHandler.draw(sb, rudinger.currentAction);
+         drawRotatingLazerCharge(sb);
+         rBossHealth.draw(sb);
       }
    }
 
-   private void drawRudingerMouth(Graphics g) {
-      rMouth.draw(g);
+   private void drawRudingerMouth(SpriteBatch sb) {
+      rMouth.draw(sb);
       if (rudinger.mouth.shouldDrawBlink) {
-         rMouth.drawSubImage(g, 1, 0);
+         rMouth.drawSubImage(sb, 1, 0);
       }
    }
 
-   private void drawRotatingLazerCharge(Graphics g) {
+   private void drawRotatingLazerCharge(SpriteBatch sb) {
       if (rudinger.verticalLazer.isCharging()) {
-         rRotatingLazerCharge.draw(g);
+         rRotatingLazerCharge.draw(sb);
       }
 
    }
 
-   private void drawStaticBossImages(Graphics g) {
+   private void drawStaticBossImages(SpriteBatch sb) {
       DrawUtils.drawImage(
-            g, mainBodyImg,
+            sb, mainBodyImg,
             (int) rudinger.mainBodyXPos, (int) rudinger.mainBodyYPos,
             mainBodyW * 3, mainBodyH * 3);
-   }
-
-   @Override
-   public void flush() {
-      this.mainBodyImg = null;
    }
 }

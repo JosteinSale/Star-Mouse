@@ -1,6 +1,6 @@
 package main_classes;
 
-import java.awt.Graphics;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import gamestates.Gamestate;
 import rendering.misc.RenderCutscene;
@@ -64,7 +64,7 @@ public class View {
             game.getLevelEditor(), rFlying.getEntityImages(), images);
    }
 
-   public void draw(Graphics g) {
+   public void draw(SpriteBatch g) {
       switch (Gamestate.state) {
          case START_SCREEN:
             rStartScreen.draw(g);
@@ -90,34 +90,6 @@ public class View {
          case LEVEL_EDITOR:
             rLevelEditor.draw(g);
             break;
-         default:
-            break;
-      }
-   }
-
-   /**
-    * Disposes the visual resources for the current game state.
-    * OBS: call this method before changing game state.
-    */
-   public void dispose() {
-      switch (Gamestate.state) {
-         case START_SCREEN:
-            rStartScreen.dispose();
-            break;
-         case MAIN_MENU:
-            rMainMenu.dispose();
-            break;
-         case LEVEL_SELECT:
-            rLevelSelect.dispose();
-            break;
-         case EXPLORING:
-            rExploring.dispose();
-            break;
-         case FLYING:
-            rFlying.dispose();
-            break;
-         case CINEMATIC:
-            rCinematic.dispose();
          default:
             break;
       }

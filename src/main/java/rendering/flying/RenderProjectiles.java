@@ -1,7 +1,8 @@
 package rendering.flying;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import projectiles.BombExplosion;
 import projectiles.PlayerProjectile;
@@ -101,7 +102,7 @@ public class RenderProjectiles {
             (BOMBEXPLOSION_SPRITE_HEIGHT * 3) / 2);
    }
 
-   public void draw(Graphics g) {
+   public void draw(SpriteBatch sb) {
       // Make copies to avoid concurrentModificationException
       ArrayList<Projectile> pCopy = new ArrayList<>(
             projectileHandler.allProjectiles);
@@ -110,40 +111,40 @@ public class RenderProjectiles {
 
       for (Projectile p : pCopy) {
          if (p.isActive()) {
-            drawProjectile(p, g, getInfoForProjectile(p));
+            drawProjectile(p, sb, getInfoForProjectile(p));
             // p.drawHitbox(g);
          }
       }
       for (ProjectileHit ph : projectileHandler.projectileHits) {
-         drawProjectileHit(g, ph);
+         drawProjectileHit(sb, ph);
       }
       for (BombExplosion b : bCopy) {
-         drawBombExplosion(b, g);
+         drawBombExplosion(b, sb);
       }
    }
 
-   private void drawProjectileHit(Graphics g, ProjectileHit ph) {
+   private void drawProjectileHit(SpriteBatch sb, ProjectileHit ph) {
       int scale = switch (ph.getType()) {
          case 0 -> 3;
          default -> 5;
       };
       DrawUtils.drawSubImage(
-            g, hitAnimation[ph.getAniIndex()],
+            sb, hitAnimation[ph.getAniIndex()],
             ph.getX(), ph.getY(),
             PRJT_HIT_SPRITE_SIZE * scale, PRJT_HIT_SPRITE_SIZE * scale);
    }
 
-   private void drawProjectile(Projectile p, Graphics g, ProjectileDrawInfo info) {
+   private void drawProjectile(Projectile p, SpriteBatch sb, ProjectileDrawInfo info) {
       DrawUtils.drawImage(
-            g, info.img,
+            sb, info.img,
             (int) (p.getHitbox().x - info.drawOffsetX),
             (int) (p.getHitbox().y - info.drawOffsetY),
             info.drawWidth, info.drawHeight);
    }
 
-   private void drawBombExplosion(BombExplosion b, Graphics g) {
+   private void drawBombExplosion(BombExplosion b, SpriteBatch sb) {
       DrawUtils.drawSubImage(
-            g, bombExplosionAnimation[b.aniIndex],
+            sb, bombExplosionAnimation[b.aniIndex],
             b.x - bombExplInfo.drawOffsetX,
             b.y - bombExplInfo.drawOffsetY,
             bombExplInfo.drawWidth, bombExplInfo.drawHeight);

@@ -1,7 +1,5 @@
 package rendering.exploring;
 
-import java.awt.Graphics;
-
 import entities.exploring.Gard;
 import entities.exploring.NPC;
 import entities.exploring.NpcManager;
@@ -9,7 +7,7 @@ import entities.exploring.Oliver;
 import main_classes.Game;
 import rendering.MyImage;
 import rendering.MySubImage;
-import rendering.SwingRender;
+import rendering.Render;
 import utils.DrawUtils;
 import utils.HelpMethods2;
 import utils.Images;
@@ -17,7 +15,9 @@ import utils.Images;
 import static utils.Constants.Exploring.Sprites.STANDARD_SPRITE_HEIGHT;
 import static utils.Constants.Exploring.Sprites.STANDARD_SPRITE_WIDTH;
 
-public class RenderNPCs implements SwingRender {
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+public class RenderNPCs implements Render {
    private NpcManager npcManager;
    private MySubImage[] standardNpcSprites;
    private MyImage gardSprites;
@@ -50,25 +50,25 @@ public class RenderNPCs implements SwingRender {
             STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
    }
 
-   public void drawFgNpcs(Graphics g, int xLevelOffset, int yLevelOffset) {
+   public void drawFgNpcs(SpriteBatch sb, int xLevelOffset, int yLevelOffset) {
       for (NPC npc : npcManager.allNpcs) {
          if (npc.inForeground()) {
-            this.drawNpc(g, npc, xLevelOffset, yLevelOffset);
+            this.drawNpc(sb, npc, xLevelOffset, yLevelOffset);
          }
       }
    }
 
-   public void drawBgNpcs(Graphics g, int xLevelOffset, int yLevelOffset) {
+   public void drawBgNpcs(SpriteBatch sb, int xLevelOffset, int yLevelOffset) {
       for (NPC npc : npcManager.allNpcs) {
          if (!npc.inForeground()) {
-            this.drawNpc(g, npc, xLevelOffset, yLevelOffset);
+            this.drawNpc(sb, npc, xLevelOffset, yLevelOffset);
          }
       }
    }
 
-   private void drawNpc(Graphics g, NPC npc, int xLevelOffset, int yLevelOffset) {
+   private void drawNpc(SpriteBatch sb, NPC npc, int xLevelOffset, int yLevelOffset) {
       DrawUtils.drawSubImage(
-            g, this.getSprite(npc),
+            sb, this.getSprite(npc),
             (int) (npc.getHitbox().x - npc.getXDrawOffset() - xLevelOffset),
             (int) (npc.getHitbox().y - npc.getYDrawOffset() - yLevelOffset),
             drawWidth, drawHeight);
@@ -108,26 +108,21 @@ public class RenderNPCs implements SwingRender {
       return standardNpcSprites[index];
    }
 
-   public void drawHitboxes(Graphics g, int xLevelOffset, int yLevelOffset) {
+   public void drawHitboxes(SpriteBatch sb, int xLevelOffset, int yLevelOffset) {
       for (NPC npc : npcManager.allNpcs) {
-         this.drawHitbox(g, npc, xLevelOffset, yLevelOffset);
+         this.drawHitbox(sb, npc, xLevelOffset, yLevelOffset);
       }
    }
 
-   private void drawHitbox(Graphics g, NPC npc, int xLevelOffset, int yLevelOffset) {
+   private void drawHitbox(SpriteBatch sb, NPC npc, int xLevelOffset, int yLevelOffset) {
       // TODO Auto-generated method stub
       throw new UnsupportedOperationException(
             "Unimplemented method 'drawHitbox'");
    }
 
    @Override
-   public void draw(Graphics g) {
+   public void draw(SpriteBatch sb) {
       // Use the drawFgNpcs- and drawBgNpcs-methods instead
-   }
-
-   @Override
-   public void dispose() {
-
    }
 
 }

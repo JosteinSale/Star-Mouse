@@ -2,7 +2,7 @@ package gamestates.level_select;
 
 import static utils.Constants.UI.LEVEL_ICON_DRAW_SIZE;
 
-import java.awt.Rectangle;
+import com.badlogic.gdx.math.Rectangle;
 
 import main_classes.Game;
 

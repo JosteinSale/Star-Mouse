@@ -1,12 +1,13 @@
 package rendering.misc;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import cutscenes.effects.SimpleAnimation;
 import rendering.MyImage;
 import rendering.MySubImage;
-import rendering.SwingRender;
+import rendering.Render;
 import utils.DrawUtils;
 import utils.HelpMethods2;
 import utils.Images;
@@ -20,7 +21,7 @@ import utils.Images;
  * 
  * Call addAnimation() and dispose() to do this.
  */
-public class RenderObjectMove implements SwingRender {
+public class RenderObjectMove implements Render {
    private Images images;
    private ArrayList<SimpleAnimation> simpleAnimations;
    private ArrayList<MySubImage[]> spriteArrays;
@@ -47,12 +48,12 @@ public class RenderObjectMove implements SwingRender {
 
    public void addAnimation(String name, SimpleAnimation animation) {
       name += ".png";
-      MySubImage[] animationArray = getArrayAndContainImg(name);
+      MySubImage[] animationArray = getAnimationArray(name);
       this.simpleAnimations.add(animation);
       this.spriteArrays.add(animationArray);
    }
 
-   private MySubImage[] getArrayAndContainImg(String imgName) {
+   private MySubImage[] getAnimationArray(String imgName) {
       MyImage img = images.getCutsceneImage(imgName);
 
       MySubImage[] array = switch (imgName) {
@@ -86,24 +87,18 @@ public class RenderObjectMove implements SwingRender {
    }
 
    @Override
-   public void draw(Graphics g) {
+   public void draw(SpriteBatch sb) {
       int index = 0;
       for (SimpleAnimation sa : simpleAnimations) {
          MySubImage subImg = spriteArrays.get(index)[sa.aniIndex];
          DrawUtils.drawSubImage(
-               g, subImg,
+               sb, subImg,
                (int) sa.xPos,
                (int) sa.yPos,
                (int) (subImg.getWidth() * sa.scaleW),
                (int) (subImg.getHeight() * sa.scaleH));
          index++;
       }
-   }
-
-   @Override
-   public void dispose() {
-      this.simpleAnimations.clear();
-      this.spriteArrays.clear();
    }
 
 }

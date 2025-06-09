@@ -2,6 +2,8 @@ package rendering.boss_mode;
 
 import java.awt.Graphics;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import entities.bossmode.AnimatedComponent;
 import projectiles.shootPatterns.ShootPattern;
 import rendering.misc.RenderAnimatedComponent;
@@ -27,11 +29,11 @@ public class RenderShootPattern {
     * Else if the shootpattern is in the shoot phase, it draws the shoot animation.
     * (Projectiles are drawn by the projectileHandler)
     */
-   public void draw(Graphics g) {
+   public void draw(SpriteBatch sb) {
       if (sp.isCharging()) {
-         rCharge.draw(g);
+         rCharge.draw(sb);
       } else if (sp.isInShootPhase()) {
-         rShoot.draw(g);
+         rShoot.draw(sb);
       }
    }
 }

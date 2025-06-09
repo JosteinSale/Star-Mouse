@@ -14,38 +14,27 @@ import gamestates.boss_mode.BossMode;
 import gamestates.exploring.Exploring;
 import gamestates.flying.Flying;
 import gamestates.level_select.LevelSelect;
+import inputs.KeyboardInputs;
 import ui.OptionsMenu;
 import ui.TextboxManager;
 import utils.Images;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Toolkit;
+import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Game implements Runnable {
-   // Screen dimensions
-   public static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-   public static final int SCREEN_WIDTH = (int) screenSize.getWidth();
-   public static final int SCREEN_HEIGHT = (int) screenSize.getHeight();
-
+public class Game extends ApplicationAdapter {
+   // TODO - Might need to adjust this.
    public static final int GAME_DEFAULT_WIDTH = 1050;
    public static final int GAME_DEFAULT_HEIGHT = 750;
-   public static final float SCALE = 0.8f;
+   public static final float SCALE = 1.0f;
    // public static final float SCALE = SCREEN_HEIGHT / (float)
    // GAME_DEFAULT_HEIGHT;
 
    public static final int GAME_WIDTH = (int) (GAME_DEFAULT_WIDTH * SCALE);
    public static final int GAME_HEIGHT = (int) (GAME_DEFAULT_HEIGHT * SCALE);
    public static final boolean fullScreen = false;
-
-   // Basic program structures
-   private GameWindow gameWindow;
-   private GamePanel gamePanel;
-   private Thread gameThread;
-
-   // FPS / UPS
-   private final int FPS_SET = 60;
-   private final int UPS_SET = 60;
 
    // Game states
    private StartScreen startScreen;
@@ -58,6 +47,7 @@ public class Game implements Runnable {
    private Cinematic cinematic;
 
    // Special objects
+   private SpriteBatch batch;
    private View view;
    private Images images;
    private OptionsMenu optionsMenu;
@@ -79,17 +69,12 @@ public class Game implements Runnable {
    // Testing mode. This is modified from the Main Menu
    public boolean testingMode = false;
 
-   public Game() {
-      initClasses();
-      this.initializeSaveData();
-      this.gamePanel = new GamePanel(this);
-      this.gameWindow = new GameWindow(this.gamePanel, SCREEN_WIDTH, SCREEN_HEIGHT);
-      gamePanel.requestFocus(true);
-      optionsMenu.setKeyboardInputs(gamePanel.getKeyboardInputs());
-      startGameLoop();
-   }
+   @Override
+   public void create() {
+      batch = new SpriteBatch();
+      Gdx.input.setInputProcessor(new KeyboardInputs(this));
 
-   private void initClasses() {
+      // Init resources
       this.audioPlayer = AudioPlayer.getSingletonAudioPlayer();
       this.images = new Images();
       this.textBoxManager = new TextboxManager(this);
@@ -104,6 +89,10 @@ public class Game implements Runnable {
       this.cinematic = new Cinematic(this);
       this.drawSaving = new DrawSaving();
       this.view = new View(this);
+
+      // optionsMenu.setKeyboardInputs(gamePanel.getKeyboardInputs()); // TODO - Fix
+
+      initializeSaveData();
    }
 
    private void initializeSaveData() {
@@ -129,9 +118,17 @@ public class Game implements Runnable {
       }
    }
 
-   private void startGameLoop() {
-      this.gameThread = new Thread(this);
-      this.gameThread.start();
+   @Override
+   public void render() {
+      update();
+
+      Gdx.gl.glClearColor(0, 0, 0, 1); // Clear screen
+      Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+      batch.begin();
+      view.draw(batch);
+      drawSaving.draw(batch);
+      batch.end();
    }
 
    private void update() {
@@ -163,59 +160,8 @@ public class Game implements Runnable {
             break; // No update method
          case QUIT:
          default:
-            System.exit(0);
+            Gdx.app.exit();
             break;
-      }
-   }
-
-   public void render(Graphics g) {
-      view.draw(g);
-      drawSaving.draw(g);
-   }
-
-   public void windowLostFocus() {
-      if (Gamestate.state.equals(Gamestate.EXPLORING)) {
-         exploring.resetDirBooleans();
-      }
-   }
-
-   // @Override
-   public void run() {
-      double timePerFrame = 1000000000.0 / FPS_SET; // 1 milliard nanosekunder / FPS_SET
-      double timePerUpdate = 1000000000.0 / UPS_SET; // 1 milliard nanosekunder / UPS_SET
-      long previousTime = System.nanoTime();
-      double deltaU = 0; // delta UPS
-      double deltaF = 0; // delta FPS
-      long sleepTime;
-      long currentTime;
-
-      // Kaller repaint og update hvis riktig tidsintervall har passert
-      while (true) {
-         currentTime = System.nanoTime();
-
-         deltaU += (currentTime - previousTime) / timePerUpdate;
-         deltaF += (currentTime - previousTime) / timePerFrame;
-         previousTime = currentTime;
-
-         if (deltaU >= 1) {
-            deltaU--;
-            update();
-         }
-
-         if (deltaF >= 1) {
-            deltaF--;
-            gamePanel.repaint();
-         }
-
-         // Sleep to control the frame rate
-         sleepTime = (long) (previousTime + timePerFrame - System.nanoTime());
-         if (sleepTime > 0) {
-            try {
-               Thread.sleep(sleepTime / 1000000); // Convert from nanoseconds to milliseconds
-            } catch (InterruptedException e) {
-               e.printStackTrace();
-            }
-         }
       }
    }
 
@@ -265,10 +211,6 @@ public class Game implements Runnable {
 
    public SaveData getSaveData() {
       return this.saveData;
-   }
-
-   public void sleep(long millis) throws InterruptedException {
-      Thread.sleep(millis);
    }
 
    public void resetMainMenu() {

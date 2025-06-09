@@ -1,103 +1,53 @@
 package inputs;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Input;
 
 import gamestates.Gamestate;
 import main_classes.Game;
-import main_classes.GamePanel;
 
-public class KeyboardInputs implements KeyListener {
+public class KeyboardInputs implements InputProcessor {
     private Game game;
-    private KeyEvent newTypedKey;   // The most recently typed key
-    private KeyEvent oldTypedKey;   // The second most recently typed key
-
-    // An array of the string representation of the keybindings, 
-    // used for display in the controls menu.
-    // OBS: the indexes are important.
-    private String[] keyBindingNames = {"W", "S", "D", "A", "Space", "B", "M", "Enter"}; 
+    private int newTypedKey; // The most recently typed key
+    private int oldTypedKey; // The second most recently typed key
 
     // Default key bindings
-    public int up = KeyEvent.VK_W;
-    public int down = KeyEvent.VK_S;
-    public int right = KeyEvent.VK_D;
-    public int left = KeyEvent.VK_A;
-    public int interact = KeyEvent.VK_SPACE;
-    public int shootBomb = KeyEvent.VK_B;
-    public int teleport = KeyEvent.VK_M;
-    public int pause = KeyEvent.VK_ENTER;
+    public int up = Input.Keys.W;
+    public int down = Input.Keys.S;
+    public int right = Input.Keys.D;
+    public int left = Input.Keys.A;
+    public int interact = Input.Keys.SPACE;
+    public int shootBomb = Input.Keys.B;
+    public int teleport = Input.Keys.M;
+    public int pause = Input.Keys.ENTER;
 
-    public KeyboardInputs(GamePanel gamePanel, Game game) {
+    /*
+     * An array of the string representation of the keybindings,
+     * used for display in the controls menu.
+     * OBS: the indexes are important.
+     */
+    private String[] keyBindingNames = {
+            Input.Keys.toString(up),
+            Input.Keys.toString(down),
+            Input.Keys.toString(right),
+            Input.Keys.toString(left),
+            Input.Keys.toString(interact),
+            Input.Keys.toString(shootBomb),
+            Input.Keys.toString(teleport),
+            Input.Keys.toString(pause) };
+
+    public KeyboardInputs(Game game) {
         this.game = game;
     }
 
-    @Override
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == up) {
-            game.upIsPressed = true;
-        }
-        if (e.getKeyCode() == down) {
-            game.downIsPressed = true;
-        }
-        if (e.getKeyCode() == right) {
-            game.rightIsPressed = true;
-        }
-        if (e.getKeyCode() == left) {
-            game.leftIsPressed = true;
-        }
-        if (e.getKeyCode() == interact) {
-            game.interactIsPressed = true;
-        }
-        if (e.getKeyCode() == teleport) {
-            game.teleportIsPressed = true;
-        }
-        if (e.getKeyCode() == shootBomb) {
-            game.bombIsPressed = true;
-        }
-        if (e.getKeyCode() == pause) {
-            game.pauseIsPressed = true;
-        }
-        if (Gamestate.state == Gamestate.LEVEL_EDITOR) {
-            game.getLevelEditor().handleKeyboardInputs(e);
-        }
-        oldTypedKey = newTypedKey;  
-        newTypedKey = e;
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == up) {
-            game.upIsPressed = false;
-        }
-        if (e.getKeyCode() == down) {
-            game.downIsPressed = false;
-        }
-        if (e.getKeyCode() == right) {
-            game.rightIsPressed = false;
-        }
-        if (e.getKeyCode() == left) {
-            game.leftIsPressed = false;
-        }
-        if (e.getKeyCode() == interact) {
-            game.interactIsPressed = false;
-        }
-        if (e.getKeyCode() == teleport) {
-            game.teleportIsPressed = false;
-        }
-        if (e.getKeyCode() == shootBomb) {
-            game.bombIsPressed = false;
-        }
-        if (e.getKeyCode() == pause) {
-            game.pauseIsPressed = false;
-            }
-        }
-
-    /** Should be called when the player is in controls menu, 
-     * after they have typed a new key and confirmed with 'interact'. */
+    /**
+     * Should be called when the player is in controls menu,
+     * after they have typed a new key and confirmed with 'interact'.
+     */
     public String updateKeybindings(int index) {
         // Since 'interact' was the newest typed key, we use the 'oldTypedKey'
         // to get the actual key the player wanted to set.
-        String newKey = KeyEvent.getKeyText(oldTypedKey.getKeyCode());
+        String newKey = Input.Keys.toString(oldTypedKey);
         this.keyBindingNames[index] = newKey;
         remapKeyPressed(index);
         return newKey;
@@ -105,7 +55,7 @@ public class KeyboardInputs implements KeyListener {
 
     /** Is used to show the player the latest key they typed */
     public String updateLatestKey(int index) {
-        String newKey = KeyEvent.getKeyText(newTypedKey.getKeyCode());
+        String newKey = Input.Keys.toString(newTypedKey);
         this.keyBindingNames[index] = newKey;
         return newKey;
     }
@@ -116,7 +66,7 @@ public class KeyboardInputs implements KeyListener {
 
     /** Updates the actual keyBindings for the game */
     private void remapKeyPressed(int index) {
-        int keyCode = oldTypedKey.getKeyCode();
+        int keyCode = oldTypedKey;
         switch (index) {
             case 0 -> up = keyCode;
             case 1 -> down = keyCode;
@@ -130,5 +80,96 @@ public class KeyboardInputs implements KeyListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {}
+    public boolean keyDown(int keycode) {
+        if (keycode == up) {
+            game.upIsPressed = true;
+        }
+        if (keycode == down) {
+            game.downIsPressed = true;
+        }
+        if (keycode == right) {
+            game.rightIsPressed = true;
+        }
+        if (keycode == left) {
+            game.leftIsPressed = true;
+        }
+        if (keycode == interact) {
+            game.interactIsPressed = true;
+        }
+        if (keycode == teleport) {
+            game.teleportIsPressed = true;
+        }
+        if (keycode == shootBomb) {
+            game.bombIsPressed = true;
+        }
+        if (keycode == pause) {
+            game.pauseIsPressed = true;
+        }
+        if (Gamestate.state == Gamestate.LEVEL_EDITOR) {
+            // game.getLevelEditor().handleKeyboardInputs(keycode); // TODO
+        }
+        oldTypedKey = newTypedKey;
+        newTypedKey = keycode;
+
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        if (keycode == up) {
+            game.upIsPressed = false;
+        }
+        if (keycode == down) {
+            game.downIsPressed = false;
+        }
+        if (keycode == right) {
+            game.rightIsPressed = false;
+        }
+        if (keycode == left) {
+            game.leftIsPressed = false;
+        }
+        if (keycode == interact) {
+            game.interactIsPressed = false;
+        }
+        if (keycode == teleport) {
+            game.teleportIsPressed = false;
+        }
+        if (keycode == shootBomb) {
+            game.bombIsPressed = false;
+        }
+        if (keycode == pause) {
+            game.pauseIsPressed = false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(float amountX, float amountY) {
+        return false;
+    }
 }

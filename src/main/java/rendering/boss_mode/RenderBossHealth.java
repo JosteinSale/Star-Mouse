@@ -3,8 +3,8 @@ package rendering.boss_mode;
 import ui.BossHealthDisplay;
 import utils.DrawUtils;
 
-import java.awt.Graphics;
-import java.awt.Rectangle;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import rendering.MyColor;
 
 import main_classes.Game;
@@ -30,10 +30,10 @@ public class RenderBossHealth {
             (int) (HPbarH * Game.SCALE));
    }
 
-   public void draw(Graphics g) {
+   public void draw(SpriteBatch sb) {
       // Healthbar
       DrawUtils.fillRect(
-            g, HPbgColor,
+            sb, HPbgColor,
             hdp.HPbarX, HPbarY,
             hdp.HPbarMaxW, HPbarH);
 
@@ -44,13 +44,13 @@ public class RenderBossHealth {
          hpColor = MyColor.WHITE;
       }
       DrawUtils.fillRect(
-            g, hpColor,
+            sb, hpColor,
             hdp.HPbarX, HPbarY,
             hdp.HPbarCurW, HPbarH);
 
       // Text
-      DrawUtils.DrawCenteredString(
-            g, hdp.bossName, bossNameRect,
+      DrawUtils.drawCenteredText(
+            sb, hdp.bossName, bossNameRect,
             DrawUtils.infoFont, MyColor.WHITE);
    }
 }

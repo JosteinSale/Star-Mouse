@@ -23,7 +23,7 @@ public class MapManager2 {
    public void loadNewMap(int level, int bgImgHeight, Game game) {
       this.bgImgHeight = bgImgHeight;
       this.yProgess = 0;
-      this.clImg = game.getImages().getFlyImageCollision("level" + Integer.toString(level) + "_cl.png").getImage();
+      this.clImg = game.getImages().getFlyImageCollision("level" + Integer.toString(level) + "_cl.png");
       this.clImgHeight = FlyLevelInfo.getClImgHeight(level) * 3;
       this.clImgWidth = 450 * 3;
       this.clYOffset = Game.GAME_DEFAULT_HEIGHT - clImgHeight + 150;
