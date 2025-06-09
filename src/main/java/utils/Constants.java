@@ -1,6 +1,8 @@
 package utils;
 
 public class Constants {
+    public static final String ABSOLUTE_PATH = "src/main/resources/";
+
     public static class UI {
         public static final int CURSOR_WIDTH = 20 * 3;
         public static final int CURSOR_HEIGHT = 11 * 3;
@@ -40,7 +42,7 @@ public class Constants {
     }
 
     public static class Exploring {
-        
+
         public static class Sprites {
             public static final int STANDARD_SPRITE_WIDTH = 90;
             public static final int STANDARD_SPRITE_HEIGHT = 60;
@@ -60,31 +62,31 @@ public class Constants {
 
         // Dette er standard-verdier.
         public static class DirectionConstants {
-        // Index for raden en animasjon har i spritesheet.
-        public static final int STANDING = 0;
-        public static final int WALKING_RIGHT = 1;
-        public static final int WALKING_LEFT = 2;
-        public static final int WALKING_DOWN = 3;
-        public static final int WALKING_UP = 4;
+            // Index for raden en animasjon har i spritesheet.
+            public static final int STANDING = 0;
+            public static final int WALKING_RIGHT = 1;
+            public static final int WALKING_LEFT = 2;
+            public static final int WALKING_DOWN = 3;
+            public static final int WALKING_UP = 4;
 
-        // Retningen spilleren peker mot
-        public static final int RIGHT = 0;
-        public static final int LEFT = 1;
-        public static final int DOWN = 2;
-        public static final int UP = 3;
+            // Retningen spilleren peker mot
+            public static final int RIGHT = 0;
+            public static final int LEFT = 1;
+            public static final int DOWN = 2;
+            public static final int UP = 3;
 
-        // Kan ha første bokstaven i navnet stor for å signalisere at metoden er statisk
-        public static int GetSpriteAmount(int playerAction) {
-            /* 
-            switch(playerAction) {
-                case STANDING:
-                    return 1;
-                etc etc
+            // Kan ha første bokstaven i navnet stor for å signalisere at metoden er statisk
+            public static int GetSpriteAmount(int playerAction) {
+                /*
+                 * switch(playerAction) {
+                 * case STANDING:
+                 * return 1;
+                 * etc etc
+                 * }
+                 */
+                return 4;
             }
-            */
-            return 4;
         }
-    }
     }
 
     public static class Flying {
@@ -100,7 +102,7 @@ public class Constants {
             public static final int FLAME_PROJECTILE = 5;
             public static final int BOSS_PROJECTILE1 = 6;
         }
-        
+
         public static class SpriteSizes {
             public static final int SHIP_SPRITE_WIDTH = 30;
             public static final int SHIP_SPRITE_HEIGHT = 30;
@@ -133,9 +135,8 @@ public class Constants {
             public static final int TAKING_COLLISION_DAMAGE = 5;
             public static final int TAKING_SHOOT_DAMAGE = 6;
 
-
             public static int GetPlayerSpriteAmount(int planeAction) {
-                switch(planeAction) {
+                switch (planeAction) {
                     case FLYING_RIGHT:
                         return 3;
                     case FLYING_LEFT:
@@ -191,7 +192,7 @@ public class Constants {
         public static final int RUDINGER_THEME = 7;
         public static final int SONG_ASTEROID_ESCAPE = 8;
         public static final int SONG_BACK_TO_APO = 10;
-        
+
         // Ambience (don't change these indexes!)
         public static final int AMBIENCE_SILENCE = 0;
         public static final int AMBIENCE_ROCKET_ENGINE = 1;
@@ -199,12 +200,18 @@ public class Constants {
 
         public static int GetFlyLevelSong(int level) {
             switch (level) {
-                case 0 : return SONG_LEVEL0;
-                case 1 : return SONG_LEVEL1;
-                case 2 : return SONG_LEVEL2;
-                case 3 : return SONG_ASTEROID_ESCAPE;
-                case 4 : return SONG_BACK_TO_APO;
-                default : return SONG_LEVEL0;
+                case 0:
+                    return SONG_LEVEL0;
+                case 1:
+                    return SONG_LEVEL1;
+                case 2:
+                    return SONG_LEVEL2;
+                case 3:
+                    return SONG_ASTEROID_ESCAPE;
+                case 4:
+                    return SONG_BACK_TO_APO;
+                default:
+                    return SONG_LEVEL0;
             }
         }
     }

@@ -29,15 +29,15 @@ public class DrawUtils {
    public static void drawImage(SpriteBatch batch, MyImage img, int x, int y, int width, int height) {
       Texture texture = img.getTexture();
       batch.draw(texture,
-            x * Game.SCALE, y * Game.SCALE,
-            width * Game.SCALE, height * Game.SCALE);
+            x * Game.SCALE, (y + height) * Game.SCALE,
+            width * Game.SCALE, -height * Game.SCALE);
    }
 
    public static void drawSubImage(SpriteBatch batch, MySubImage img, int x, int y, int width, int height) {
       TextureRegion region = img.getImage();
       batch.draw(region,
-            x * Game.SCALE, y * Game.SCALE,
-            width * Game.SCALE, height * Game.SCALE);
+            x * Game.SCALE, (y + height) * Game.SCALE,
+            width * Game.SCALE, -height * Game.SCALE);
    }
 
    public static void drawText(SpriteBatch batch, MyColor color, BitmapFont font, String text, int x, int y) {
@@ -49,8 +49,8 @@ public class DrawUtils {
       Color c = color.getColor();
       batch.setColor(c);
       batch.draw(Images.pixel.getTexture(), // a 1x1 white texture
-            x * Game.SCALE, y * Game.SCALE,
-            width * Game.SCALE, height * Game.SCALE);
+            x * Game.SCALE, (y + height) * Game.SCALE,
+            width * Game.SCALE, -height * Game.SCALE);
       batch.setColor(Color.WHITE); // reset to avoid affecting other draws
    }
 
@@ -96,7 +96,7 @@ public class DrawUtils {
       font.setColor(color.getColor());
       layout.setText(font, text);
       float x = rect.x + (rect.width - layout.width) / 2;
-      float y = rect.y + (rect.height + layout.height) / 2;
+      float y = rect.y - (rect.height + layout.height) / 2;
       font.draw(batch, layout, x, y);
    }
 }

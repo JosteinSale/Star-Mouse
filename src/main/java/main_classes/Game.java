@@ -22,6 +22,7 @@ import utils.Images;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Game extends ApplicationAdapter {
@@ -47,6 +48,7 @@ public class Game extends ApplicationAdapter {
    private Cinematic cinematic;
 
    // Special objects
+   private OrthographicCamera camera = new OrthographicCamera();
    private SpriteBatch batch;
    private View view;
    private Images images;
@@ -73,6 +75,7 @@ public class Game extends ApplicationAdapter {
    public void create() {
       batch = new SpriteBatch();
       Gdx.input.setInputProcessor(new KeyboardInputs(this));
+      camera.setToOrtho(true, 1050, 750);
 
       // Init resources
       this.audioPlayer = AudioPlayer.getSingletonAudioPlayer();
@@ -120,10 +123,18 @@ public class Game extends ApplicationAdapter {
 
    @Override
    public void render() {
-      update();
+      update(); // Updates the game logic
 
       Gdx.gl.glClearColor(0, 0, 0, 1); // Clear screen
       Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+      // Flip Y-axis but keep X normal
+      // camera.up.set(0.0f, -1.0f, 0.0f);
+      // camera.direction.set(0.0F, 0.0F, 1.0F);
+      // camera.update();
+
+      // Set the projection matrix BEFORE batch.begin()
+      batch.setProjectionMatrix(camera.combined);
 
       batch.begin();
       view.draw(batch);

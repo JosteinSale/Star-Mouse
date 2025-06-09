@@ -18,7 +18,7 @@ public class Images {
    private HashMap<String, MyImage> imagesToBeKeptInMemory;
    private HashMap<String, MyImage> imagesToBeFlushed;
    private HashMap<String, BufferedImage> collisionImagesToBeFlushed;
-   private static String absolutePath = "C:/Users/joste/StarFox 2D Shooter/StarMouse/src/main/resources/";
+   private static String absolutePath = Constants.ABSOLUTE_PATH;
    public static MyImage pixel = ResourceLoader.getImage(absolutePath + "exploring/images/misc/pixel.png");
    private static boolean singletonCreated = false;
 
