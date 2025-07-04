@@ -128,11 +128,6 @@ public class Game extends ApplicationAdapter {
       Gdx.gl.glClearColor(0, 0, 0, 1); // Clear screen
       Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-      // Flip Y-axis but keep X normal
-      // camera.up.set(0.0f, -1.0f, 0.0f);
-      // camera.direction.set(0.0F, 0.0F, 1.0F);
-      // camera.update();
-
       // Set the projection matrix BEFORE batch.begin()
       batch.setProjectionMatrix(camera.combined);
 

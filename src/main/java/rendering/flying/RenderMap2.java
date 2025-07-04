@@ -22,7 +22,7 @@ public class RenderMap2 {
 
    public void loadNewMap(int lvl, int bgImgHeight) {
       this.bgImg = images.getFlyImageBackground("level" + Integer.toString(lvl) + "_bg.png");
-      this.fgImg = images.getFlyImageForeground("level" + Integer.toString(lvl) + "_cl.png");
+      this.fgImg = images.getFlyImageForeground("level" + Integer.toString(lvl) + "_fg.png");
       this.bgImgHeight = bgImgHeight;
    }
 
@@ -35,9 +35,5 @@ public class RenderMap2 {
             sb, fgImg,
             -150, (int) map.clYOffset,
             map.clImgWidth, map.clImgHeight);
-   }
-
-   public void dispose() {
-
    }
 }

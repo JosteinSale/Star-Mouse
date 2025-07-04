@@ -22,7 +22,7 @@ public class FlyLevelInfo {
          0f, 8f, 8f, 0f, 0f, 0f, 0f,
          0f, 0f, 0f, 0f, 0f, 0f, 0f };
    private static float[] songCheckPoints = {
-         0f, 110f, 0f, 0f, 0f, 0f, 0f,
+         0f, 110f, 0f, 0f, 96f, 0f, 0f,
          0f, 0f, 0f, 0f, 0f, 0f, 0f };
 
    /** Returns the scaled height of the background image */

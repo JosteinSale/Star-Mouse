@@ -84,7 +84,7 @@ public class RenderProjectiles {
             images.getFlyImageSprite(Images.FLAME_PROJECTILE, true),
             FLAME_PRJT_SPRITE_W * 3, FLAME_PRJT_SPRITE_H * 3, 36, 35);
       this.bossProjct1 = new ProjectileDrawInfo(
-            images.getBossSprite(Images.BOSS_PROJECTILE1),
+            images.getFlyImageSprite(Images.BOSS_PROJECTILE1, true),
             70, 70, 0, 0);
 
       // Hit animation, bomb explosion animation

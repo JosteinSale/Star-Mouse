@@ -16,7 +16,13 @@ public class PauseFlying {
     private final int PLUS10_ENEMIES = 4;
     private final int MINUS10_ENEMIES = 5;
     private final int DIE = 6;
-    public String[] menuOptions = { "Continue", "Options", "Main Menu", "Skip Level", "+10 Enemies", "-10 Enemies",
+    public String[] menuOptions = {
+            "Continue",
+            "Options",
+            "Main Menu",
+            "Skip Level",
+            "+10 Enemies",
+            "-10 Enemies",
             "Die (lol)" };
 
     private int selectedIndex = 0;

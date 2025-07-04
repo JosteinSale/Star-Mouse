@@ -22,7 +22,9 @@ public class PlayerFly extends Entity implements ShootingPlayer {
    protected BufferedImage clImg;
    public ShipFlame flame;
    public StatusDisplay statusDisplay;
-   protected Rectangle2D.Float teleportHitbox;
+   protected Rectangle2D.Float teleportHitbox; // When the player teleports, a 'kill hitbox' materializes
+   protected int teleportKillWidth = 100; // Width of said hitbox
+   protected int teleportKillOffset; // The distance between the players hitbox and the teleport kill hitbox
 
    public int planeAction;
    protected float xSpeed = 0;
@@ -32,24 +34,22 @@ public class PlayerFly extends Entity implements ShootingPlayer {
    public boolean visible = true;
    protected float[] collisionXs = new float[9];
    protected float[] collisionYs = new float[9];
-   protected int edgeDist = 20;
-   protected int pushDistance = 40;
+   protected int edgeDist = 20; // The minimum distance from player to edge of screen
+   protected int pushDistance = 40; // How far the player is pushed back when taking damage
    public int teleportDistance = 250;
-   protected int teleportKillWidth = 100;
-   protected int teleportKillOffset; // The distance between the players hitbox and the teleport hitbox
    protected int maxHP;
    protected int HP;
    protected int collisionDmg = 10;
-   protected int flipX = 1; // 1 = høyre, -1 = venstre. Brukes i checkTeleportCollision
+   protected int flipX = 1; // 1 = right, -1 = left. Is used in checkTeleportCollision
 
    protected int aniTick = 0;
-   protected int aniTickPerFrame = 3; // Antall ticks per gang animasjonen oppdateres
+   protected int aniTickPerFrame = 3;
    public int aniIndex = 0;
 
-   protected int iFrames = 20;
+   protected int iFrames = 20; // When player takes damage, they get 20 frames of invinsibilty
    protected int iFrameCount = 0;
    public int teleportBuffer = 0;
-   protected int teleportCoolDown = 10;
+   protected int teleportCoolDown = 10; // The amount of frames between each time the player can teleport
 
    public PlayerFly(Game game, Float hitbox) {
       super(hitbox);
@@ -67,6 +67,17 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       this.statusDisplay.setHP(maxHP);
    }
 
+   /*
+    * 9 pixels in the player hitbox are used for colission detection with enemies
+    * and map. These are enumerated according to the order they should be checked
+    * by the collission algorithms. To understand the logic, see the planning
+    * notes.
+    *
+    * 4 - 0 - 5
+    * 1 - 6 - 2
+    * 7 - 3 - 8
+    *
+    */
    protected void updateCollisionPixels() {
       collisionXs[0] = hitbox.x + hitbox.width / 2;
       collisionXs[1] = hitbox.x;
@@ -345,7 +356,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
    }
 
    /*
-    * The pixels of the player hitbox are enumerated as such:
+    * Remember, the pixels of the player hitbox are enumerated as such:
     * 4 - 0 - 5
     * 1 - 6 - 2
     * 7 - 3 - 8

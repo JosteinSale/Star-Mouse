@@ -22,7 +22,7 @@ public class RenderLevelEditor {
       this.le = levelEditor;
       this.entityImages = entityImages;
       this.clImg = images.getFlyImageForeground(
-            "level" + Integer.toString(levelEditor.level) + "_cl.png");
+            "level" + Integer.toString(levelEditor.level) + "_fg.png");
    }
 
    public void draw(SpriteBatch sb) {

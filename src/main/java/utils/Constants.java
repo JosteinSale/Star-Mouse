@@ -1,7 +1,7 @@
 package utils;
 
 public class Constants {
-    public static final String ABSOLUTE_PATH = "src/main/resources/";
+    public static final String RESOURCES_PATH = "src/main/resources/";
 
     public static class UI {
         public static final int CURSOR_WIDTH = 20 * 3;

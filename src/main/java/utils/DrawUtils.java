@@ -17,7 +17,7 @@ import rendering.MySubImage;
 
 public class DrawUtils {
 
-   // LibGDX fonts (replace with actual BitmapFont instances)
+   // LibGDX fonts
    public static BitmapFont headerFont = ResourceLoader.getHeaderFont();
    public static BitmapFont nameFont = ResourceLoader.getNameFont();
    public static BitmapFont menuFont = ResourceLoader.getMenuFont();
@@ -38,11 +38,6 @@ public class DrawUtils {
       batch.draw(region,
             x * Game.SCALE, (y + height) * Game.SCALE,
             width * Game.SCALE, -height * Game.SCALE);
-   }
-
-   public static void drawText(SpriteBatch batch, MyColor color, BitmapFont font, String text, int x, int y) {
-      font.setColor(color.getColor());
-      font.draw(batch, text, x * Game.SCALE, y * Game.SCALE);
    }
 
    public static void fillRect(SpriteBatch batch, MyColor color, float x, float y, float width, float height) {
@@ -78,17 +73,26 @@ public class DrawUtils {
 
    public static void drawRotatedBossPart(SpriteBatch batch, DefaultBossPart bp, MySubImage[][] imgs) {
       TextureRegion img = imgs[bp.animAction][bp.aniIndex].getImage();
-      float centerX = (float) bp.nonRotatedHitbox.getCenterX() * Game.SCALE;
-      float centerY = (float) bp.nonRotatedHitbox.getCenterY() * Game.SCALE;
-      float width = img.getRegionWidth() * Game.SCALE;
-      float height = img.getRegionHeight() * Game.SCALE;
+      float centerX = (float) bp.nonRotatedHitbox.getCenterX();
+      float centerY = (float) bp.nonRotatedHitbox.getCenterY();
+      float width = img.getRegionWidth() * 3;
+      float height = img.getRegionHeight() * 3;
 
       batch.draw(img,
-            centerX - width / 2, centerY - height / 2,
-            width / 2, height / 2,
+            (centerX - width / 2) * Game.SCALE,
+            (centerY - height / 2) * Game.SCALE,
+            (width / 2) * Game.SCALE,
+            (height / 2) * Game.SCALE,
             width, height,
-            1f, 1f,
+            1f, -1f,
             (float) (MathUtils.radiansToDegrees * bp.rotation));
+   }
+
+   public static void drawText(SpriteBatch batch, MyColor color, BitmapFont font, String text, int x, int y) {
+      font.setColor(color.getColor());
+      layout.setText(font, text);
+      float newY = y - layout.height * 2;
+      font.draw(batch, layout, x * Game.SCALE, newY * Game.SCALE);
    }
 
    public static void drawCenteredText(SpriteBatch batch, String text, Rectangle rect, BitmapFont font,
@@ -96,7 +100,7 @@ public class DrawUtils {
       font.setColor(color.getColor());
       layout.setText(font, text);
       float x = rect.x + (rect.width - layout.width) / 2;
-      float y = rect.y - (rect.height + layout.height) / 2;
-      font.draw(batch, layout, x, y);
+      float y = rect.y - layout.height * 2 + rect.height;
+      font.draw(batch, layout, x * Game.SCALE, y * Game.SCALE);
    }
 }

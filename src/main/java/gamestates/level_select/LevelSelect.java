@@ -193,7 +193,6 @@ public class LevelSelect extends State {
    }
 
    public void goToLevel(int level) {
-      this.game.flushImages();
       this.fadeOutActive = true;
       this.levelToEnter = level;
    }
@@ -212,6 +211,7 @@ public class LevelSelect extends State {
       if (alphaFade < 0) {
          alphaFade = 0;
          fadeInActive = false;
+         this.game.flushImages();
       }
    }
 

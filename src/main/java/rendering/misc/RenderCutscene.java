@@ -83,7 +83,7 @@ public class RenderCutscene implements Render {
    }
 
    public void setOverlayImage(String fileName, float scaleW, float scaleH) {
-      this.overlayImage = images.getCutsceneImage(fileName);
+      this.overlayImage = images.getCutsceneImage(fileName, false);
       this.overlayW = (int) (overlayImage.getWidth() * scaleW);
       this.overlayH = (int) (overlayImage.getHeight() * scaleH);
    }

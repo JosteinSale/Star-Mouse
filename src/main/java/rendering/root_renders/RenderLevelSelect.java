@@ -39,12 +39,12 @@ public class RenderLevelSelect implements Render {
 
       // Layout images
       this.layoutImgs = new ArrayList<>();
-      this.layoutImgs.add(images.getExpImageBackground(
-            Images.LEVEL_SELECT_LAYOUT1));
-      this.layoutImgs.add(images.getExpImageBackground(
-            Images.LEVEL_SELECT_LAYOUT2));
-      this.layoutImgs.add(images.getExpImageBackground(
-            Images.LEVEL_SELECT_LAYOUT3));
+      this.layoutImgs.add(images.getMiscImage(
+            Images.LEVEL_SELECT_LAYOUT1, true));
+      this.layoutImgs.add(images.getMiscImage(
+            Images.LEVEL_SELECT_LAYOUT2, true));
+      this.layoutImgs.add(images.getMiscImage(
+            Images.LEVEL_SELECT_LAYOUT3, true));
       this.cursorBox = images.getExpImageSprite(
             Images.LEVEL_SELECT_BOX, true);
 

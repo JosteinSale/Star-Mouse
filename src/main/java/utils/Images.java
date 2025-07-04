@@ -3,6 +3,7 @@ package utils;
 import java.util.HashMap;
 import java.awt.image.BufferedImage;
 import rendering.MyImage;
+import static utils.Constants.RESOURCES_PATH;
 
 /**
  * This class will keep all images in the game.
@@ -18,12 +19,10 @@ public class Images {
    private HashMap<String, MyImage> imagesToBeKeptInMemory;
    private HashMap<String, MyImage> imagesToBeFlushed;
    private HashMap<String, BufferedImage> collisionImagesToBeFlushed;
-   private static String absolutePath = Constants.ABSOLUTE_PATH;
-   public static MyImage pixel = ResourceLoader.getImage(absolutePath + "exploring/images/misc/pixel.png");
+   public static MyImage pixel = ResourceLoader.getImage(RESOURCES_PATH + "miscImages/pixel.png");
    private static boolean singletonCreated = false;
 
    // Menus
-   public static final String PIXEL = "pixel.png";
    public static final String BASIC_MOUSE = "BasicMouse.png";
    public static final String MAIN_MENU_TITLE = "main_menu_title.png";
    public static final String LEVEL_SELECT_BG = "level_select.png";
@@ -119,13 +118,14 @@ public class Images {
    }
 
    private MyImage getImage(String imageName, boolean keepInMemory) {
-      imageName = absolutePath + imageName;
+      imageName = RESOURCES_PATH + imageName;
       if (imagesToBeFlushed.containsKey(imageName)) {
          return imagesToBeFlushed.get(imageName);
       } else if (imagesToBeKeptInMemory.containsKey(imageName)) {
          return imagesToBeKeptInMemory.get(imageName);
       } else {
          // Load image into memory and return it.
+         System.out.println("Loading " + imageName);
          MyImage image = ResourceLoader.getImage(imageName);
          if (keepInMemory) {
             this.imagesToBeKeptInMemory.put(imageName, image);
@@ -148,9 +148,15 @@ public class Images {
    }
 
    public void flush() {
-      for (MyImage img : imagesToBeFlushed.values()) {
-         img.dispose();
+      for (String imgName : imagesToBeFlushed.keySet()) {
+         System.out.println(imgName + " has been flushed");
+         imagesToBeFlushed.get(imgName).dispose();
       }
+      for (String imgName : collisionImagesToBeFlushed.keySet()) {
+         collisionImagesToBeFlushed.get(imgName).flush();
+      }
+      imagesToBeFlushed.clear();
+      collisionImagesToBeFlushed.clear();
    }
 
    public MyImage getBossSprite(String fileName) {
@@ -158,13 +164,8 @@ public class Images {
       return this.getImage(fileName, false);
    }
 
-   public MyImage getCutsceneImage(String fileName) {
+   public MyImage getCutsceneImage(String fileName, boolean keepInMemory) {
       fileName = "/cutsceneImages/" + fileName;
-      return this.getImage(fileName, false);
-   }
-
-   public MyImage getMiscImage(String fileName, boolean keepInMemory) {
-      fileName = "/exploring/images/misc/" + fileName;
       return this.getImage(fileName, keepInMemory);
    }
 
@@ -211,6 +212,11 @@ public class Images {
    public MyImage getExpImageForeground(String fileName) {
       fileName = "/exploring/images/foregrounds/" + fileName;
       return this.getImage(fileName, false);
+   }
+
+   public MyImage getMiscImage(String fileName, boolean keepInMemory) {
+      fileName = "/miscImages/" + fileName;
+      return this.getImage(fileName, keepInMemory);
    }
 
    public MyImage getExpImageSprite(String fileName, boolean keepInMemory) {

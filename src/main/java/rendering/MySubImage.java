@@ -19,6 +19,6 @@ public class MySubImage {
    }
 
    public int getHeight() {
-      return this.subImg.getRegionWidth();
+      return this.subImg.getRegionHeight();
    }
 }

@@ -24,10 +24,10 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import static utils.Constants.RESOURCES_PATH;
 
 public class ResourceLoader {
    public static final String MAIN_FONT = "exploring/fonts/DTM-Mono.otf";
-   private static String absolutePath = Constants.ABSOLUTE_PATH;
 
    public static MyImage getImage(String fileName) {
       FileHandle fileHandle = Gdx.files.internal(fileName);
@@ -85,32 +85,32 @@ public class ResourceLoader {
    }
 
    public static ArrayList<List<String>> getExpCutsceneData(Integer level) {
-      FileHandle dir = Gdx.files.internal(absolutePath + "exploring/cutscenes/level" + level);
+      FileHandle dir = Gdx.files.internal(RESOURCES_PATH + "exploring/cutscenes/level" + level);
       return readAllCsvFilesInFolder(dir);
    }
 
    public static List<String> getFlyCutsceneData(Integer level) {
-      FileHandle file = Gdx.files.internal(absolutePath + "flying/cutscenes/level" + level + ".csv");
+      FileHandle file = Gdx.files.internal(RESOURCES_PATH + "flying/cutscenes/level" + level + ".csv");
       return readCsvFile(file);
    }
 
    public static List<String> getBossCutsceneData(Integer bossNr) {
-      FileHandle file = Gdx.files.internal(absolutePath + "bossMode/cutscenes/boss" + bossNr + ".csv");
+      FileHandle file = Gdx.files.internal(RESOURCES_PATH + "bossMode/cutscenes/boss" + bossNr + ".csv");
       return readCsvFile(file);
    }
 
    public static List<String> getFlyLevelData(Integer level) {
-      FileHandle file = Gdx.files.internal(absolutePath + "flying/leveldata/level" + level + ".csv");
+      FileHandle file = Gdx.files.internal(RESOURCES_PATH + "flying/leveldata/level" + level + ".csv");
       return readCsvFile(file);
    }
 
    public static ArrayList<List<String>> getExpLevelData(Integer level) {
-      FileHandle dir = Gdx.files.internal(absolutePath + "exploring/leveldata/level" + level);
+      FileHandle dir = Gdx.files.internal(RESOURCES_PATH + "exploring/leveldata/level" + level);
       return readAllCsvFilesInFolder(dir);
    }
 
    public static List<String> getCinematicData(String fileName) {
-      FileHandle file = Gdx.files.internal(absolutePath + "cinematic/cutscenes/" + fileName);
+      FileHandle file = Gdx.files.internal(RESOURCES_PATH + "cinematic/cutscenes/" + fileName);
       return readCsvFile(file);
    }
 

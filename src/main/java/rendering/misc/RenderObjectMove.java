@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import cutscenes.effects.SimpleAnimation;
-import rendering.MyImage;
 import rendering.MySubImage;
 import rendering.Render;
 import utils.DrawUtils;
@@ -17,9 +16,9 @@ import utils.Images;
  * and their corresponding sprite-arrays.
  * 
  * Loading of images and construction of objects is done upon demand.
- * They should also be flushed after each use.
+ * They should also be cleared after each use.
  * 
- * Call addAnimation() and dispose() to do this.
+ * Call addAnimation() and clear() to do this.
  */
 public class RenderObjectMove implements Render {
    private Images images;
@@ -54,36 +53,54 @@ public class RenderObjectMove implements Render {
    }
 
    private MySubImage[] getAnimationArray(String imgName) {
-      MyImage img = images.getCutsceneImage(imgName);
 
       MySubImage[] array = switch (imgName) {
-         case ROW_OF_DRONES -> HelpMethods2.GetUnscaled1DAnimationArray(
-               img, 1, 170, 29);
-         case RUDINGER_SHIP -> HelpMethods2.GetUnscaled1DAnimationArray(
-               img, 2, 50, 50);
-         case RUDINGER1_IDLE -> HelpMethods2.GetUnscaled1DAnimationArray(
-               img, 2, 343, 147);
-         case RUDINGER1_DEATH -> HelpMethods2.GetUnscaled1DAnimationArray(
-               img, 2, 343, 147);
-         case LOOPING_EXPLOSION -> HelpMethods2.GetUnscaled1DAnimationArray(
-               img, 10, 40, 40);
-         case ROW_OF_FLAME_DRONES -> HelpMethods2.GetUnscaled1DAnimationArray(
-               img, 1, 350, 110);
-         case ROW_OF_FLAME_DRONES_SHADOW -> HelpMethods2.GetUnscaled1DAnimationArray(
-               img, 1, 350, 110);
-         case PLAYER_SHIP -> HelpMethods2.GetUnscaled1DAnimationArray(
-               img, 2, 30, 50);
-         case RAZE_SHADOW -> HelpMethods2.GetUnscaled1DAnimationArray(
-               img, 4, 180, 160);
-         case CATHEDRAL -> HelpMethods2.GetUnscaled1DAnimationArray(
-               img, 2, 177, 211);
-         case APO -> HelpMethods2.GetUnscaled1DAnimationArray(
-               img, 1, 340, 333);
-         case WHITE_CHARGE -> HelpMethods2.GetUnscaled1DAnimationArray(
-               img, 5, 100, 100);
+         case ROW_OF_DRONES -> getUnscaled1DAnimation(
+               imgName, false, 1, 170, 29);
+
+         case RUDINGER_SHIP -> getUnscaled1DAnimation(
+               imgName, true, 2, 50, 50);
+
+         case RUDINGER1_IDLE -> getUnscaled1DAnimation(
+               imgName, false, 2, 343, 147);
+
+         case RUDINGER1_DEATH -> getUnscaled1DAnimation(
+               imgName, false, 2, 343, 147);
+
+         case LOOPING_EXPLOSION -> getUnscaled1DAnimation(
+               imgName, false, 10, 40, 40);
+
+         case ROW_OF_FLAME_DRONES -> getUnscaled1DAnimation(
+               imgName, false, 1, 350, 110);
+
+         case ROW_OF_FLAME_DRONES_SHADOW -> getUnscaled1DAnimation(
+               imgName, false, 1, 350, 110);
+
+         case PLAYER_SHIP -> getUnscaled1DAnimation(
+               imgName, false, 2, 30, 50);
+
+         case RAZE_SHADOW -> getUnscaled1DAnimation(
+               imgName, false, 4, 180, 160);
+
+         case CATHEDRAL -> getUnscaled1DAnimation(
+               imgName, false, 2, 177, 211);
+
+         case APO -> getUnscaled1DAnimation(
+               imgName, false, 1, 340, 333);
+
+         case WHITE_CHARGE -> getUnscaled1DAnimation(
+               imgName, false, 5, 100, 100);
+
          default -> throw new IllegalArgumentException("No animation available for: " + imgName);
       };
       return array;
+   }
+
+   private MySubImage[] getUnscaled1DAnimation(
+         String imgName, boolean keepInMemory, int aniCols, int spriteW, int spriteH) {
+      return HelpMethods2.GetUnscaled1DAnimationArray(
+            images.getCutsceneImage(imgName, keepInMemory),
+            aniCols, spriteW, spriteH);
    }
 
    @Override
@@ -99,6 +116,11 @@ public class RenderObjectMove implements Render {
                (int) (subImg.getHeight() * sa.scaleH));
          index++;
       }
+   }
+
+   public void clear() {
+      this.simpleAnimations.clear();
+      this.spriteArrays.clear();
    }
 
 }
