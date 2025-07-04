@@ -53,13 +53,12 @@ public class PauseBoss {
          game.interactIsPressed = false;
 
          if (selectedIndex == CONTINUE) {
-            this.bossMode.flipPause();
-            this.checkIfAudioShouldPlay();
+            bossMode.flipPause();
          } else if (selectedIndex == OPTIONS) {
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
             optionsMenu.setActive(true);
          } else if (selectedIndex == MAIN_MENU) {
-            // TODO - reset exploring AND reset flying.
+            game.getFlying().resetFlying();
             audioPlayer.stopAllLoops();
             bossMode.resetBossMode();
             game.resetMainMenu();
@@ -69,15 +68,6 @@ public class PauseBoss {
             audioPlayer.stopAllLoops();
             bossMode.skipBossMode();
          }
-      }
-   }
-
-   private void checkIfAudioShouldPlay() {
-      if (bossMode.shouldMusicPlay) {
-         this.audioPlayer.continueCurrentSong();
-      }
-      if (bossMode.shouldAmbiencePlay) {
-         this.audioPlayer.continueCurrentAmbience();
       }
    }
 

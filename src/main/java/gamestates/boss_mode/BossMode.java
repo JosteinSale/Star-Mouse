@@ -174,7 +174,7 @@ public class BossMode extends State {
    }
 
    public void update() {
-      checkPause();
+      checkKeyboardInputs();
       if (pause) {
          this.pauseOverlay.update();
       } else if (gameOver) {
@@ -191,23 +191,32 @@ public class BossMode extends State {
       }
    }
 
-   private void checkBossDeath() {
-      if (boss.isDead()) {
-         this.killBoss();
-      }
-   }
-
-   private void checkPause() {
+   private void checkKeyboardInputs() {
       if (game.pauseIsPressed) {
          game.pauseIsPressed = false;
-         game.getAudioPlayer().stopAllLoops();
          this.flipPause();
       }
    }
 
-   /** Needed for the pauseOverlay */
    public void flipPause() {
-      this.pause = !pause;
+      if (pause == false) {
+         this.pause = true;
+         game.getAudioPlayer().stopAllLoops();
+      } else {
+         this.pause = false;
+         if (shouldMusicPlay) {
+            this.audioPlayer.continueCurrentSong();
+         }
+         if (shouldAmbiencePlay) {
+            this.audioPlayer.continueCurrentAmbience();
+         }
+      }
+   }
+
+   private void checkBossDeath() {
+      if (boss.isDead()) {
+         this.killBoss();
+      }
    }
 
    /** Resets the player, current boss and projectileHandler. */

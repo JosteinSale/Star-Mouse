@@ -125,7 +125,6 @@ public class Images {
          return imagesToBeKeptInMemory.get(imageName);
       } else {
          // Load image into memory and return it.
-         System.out.println("Loading " + imageName);
          MyImage image = ResourceLoader.getImage(imageName);
          if (keepInMemory) {
             this.imagesToBeKeptInMemory.put(imageName, image);
@@ -149,7 +148,6 @@ public class Images {
 
    public void flush() {
       for (String imgName : imagesToBeFlushed.keySet()) {
-         System.out.println(imgName + " has been flushed");
          imagesToBeFlushed.get(imgName).dispose();
       }
       for (String imgName : collisionImagesToBeFlushed.keySet()) {

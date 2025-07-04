@@ -105,10 +105,9 @@ public class MainMenu extends State {
         // Gamestate.state = Gamestate.LEVEL_SELECT;
 
         // EXPLORING - Uncomment to only test one level in exploring.
-        // game.getExploring().loadLevel(4); // Area is currently specified in that
-        // method
-        // game.getExploring().update();
-        // Gamestate.state = Gamestate.EXPLORING;
+        game.getExploring().loadLevel(1); // Area is currently specified in that method
+        game.getExploring().update();
+        Gamestate.state = Gamestate.EXPLORING;
 
         // FLYING - Uncomment to only test one level in flying.
         // game.getFlying().loadLevel(2);
@@ -116,9 +115,9 @@ public class MainMenu extends State {
         // Gamestate.state = Gamestate.FLYING;
 
         // BOSSMODE - Uncomment to only test one boss.
-        game.getBossMode().loadNewBoss(1);
-        game.getBossMode().update();
-        Gamestate.state = Gamestate.BOSS_MODE;
+        // game.getBossMode().loadNewBoss(1);
+        // game.getBossMode().update();
+        // Gamestate.state = Gamestate.BOSS_MODE;
     }
 
     public void update() {

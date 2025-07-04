@@ -242,7 +242,6 @@ public class DefaultCutsceneManager {
     * Thus this workaround method wich uses the update-method instead
     */
    public void jumpToCutscene(int opt) {
-      this.advance();
       cutsceneIndex += opt;
       this.cutsceneJump = true;
    }

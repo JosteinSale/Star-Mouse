@@ -320,9 +320,6 @@ public class Flying extends State {
       transferBombsToProgValues();
       game.getBossMode().loadNewBoss(bossNr);
       Gamestate.state = Gamestate.BOSS_MODE;
-      System.gc();
-      // We do not need to do anything else, as we will return to Flying after
-      // the boss, and thus exit Flying properly then.
    }
 
    /**
