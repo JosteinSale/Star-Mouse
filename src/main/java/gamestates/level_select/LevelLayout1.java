@@ -82,8 +82,32 @@ public class LevelLayout1 extends BaseLevelLayout {
       }
       // 2. Else, unlock the level
       this.levelsInCurrentPath.add(level);
-      int slotToUnlock = levelsInCurrentPath.size();
-      super.setUnlocked(slotToUnlock, levelInfo);
+      int slotToUnlock = switch (level) {
+         case 1 -> 1;
+         case 2 -> 2;
+         case 3 -> 3;
+         case 4 -> 4;
+         case 5 -> 5;
+         case 6 -> 2;
+         case 7 -> 3;
+         case 8 -> 4;
+         case 9 -> 5;
+         case 10 -> 2;
+         case 11 -> 3;
+         case 12 -> 4;
+         case 13 -> 5;
+         default -> throw new IllegalArgumentException("What happened now?");
+      };
+      this.levelSlots.get(slotToUnlock - 1).setAssociatedLevel(levelInfo);
+   }
+
+   @Override
+   public void clearAll() {
+      selectedIndex = 0;
+      levelsInCurrentPath.clear();
+      for (LevelSlot slot : levelSlots) {
+         slot.clearAssociatedLevel();
+      }
    }
 
 }

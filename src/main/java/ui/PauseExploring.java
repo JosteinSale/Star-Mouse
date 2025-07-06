@@ -37,8 +37,8 @@ public class PauseExploring {
    }
 
    public void updateProgressValues() {
-      this.statusValues[0] = game.getExploring().getProgressValues().getCredits();
-      this.statusValues[1] = game.getExploring().getProgressValues().getBombs();
+      this.statusValues[0] = game.getProgressValues().getCredits();
+      this.statusValues[1] = game.getProgressValues().getBombs();
    }
 
    public void update() {

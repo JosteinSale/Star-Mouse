@@ -54,7 +54,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
    public PlayerFly(Game game, Float hitbox) {
       super(hitbox);
       this.game = game;
-      this.maxHP = game.getExploring().getProgressValues().getMaxHP();
+      this.maxHP = game.getProgressValues().getMaxHP();
       this.HP = maxHP;
       this.audioPlayer = game.getAudioPlayer();
       updateCollisionPixels();

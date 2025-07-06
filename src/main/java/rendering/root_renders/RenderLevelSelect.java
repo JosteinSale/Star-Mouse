@@ -84,7 +84,7 @@ public class RenderLevelSelect implements Render {
       for (int i = 0; i < layout.levelSlots.size(); i++) {
          LevelSlot slot = layout.levelSlots.get(i);
          if (!slot.isEmpty) {
-            this.drawSlot(sb, i, slot);
+            this.drawSlot(sb, slot);
             if (i == layout.selectedIndex) {
                this.drawSlotText(sb, slot);
             }
@@ -96,9 +96,9 @@ public class RenderLevelSelect implements Render {
    }
 
    /** OBS: only call if the slot is not empty. */
-   public void drawSlot(SpriteBatch sb, int i, LevelSlot slot) {
+   public void drawSlot(SpriteBatch sb, LevelSlot slot) {
       DrawUtils.drawSubImage(
-            sb, this.levelIcons[i],
+            sb, this.levelIcons[slot.levelInfo.getLevelNr() - 1],
             slot.xPos, slot.yPos,
             LEVEL_ICON_DRAW_SIZE, LEVEL_ICON_DRAW_SIZE);
    }

@@ -93,7 +93,7 @@ public class Flying extends State {
       mapManager.loadNewMap(lvl, FlyLevelInfo.getBgImgHeight(lvl), game);
       player.setClImg(mapManager.clImg);
       projectileHandler.setClImg(mapManager.clImg);
-      projectileHandler.setBombs(game.getExploring().getProgressValues().getBombs());
+      projectileHandler.setBombs(game.getProgressValues().getBombs());
       enemyManager.loadEnemiesForLvl(lvl);
       loadPickupItems(lvl);
       loadCutscenes(lvl);
@@ -312,7 +312,7 @@ public class Flying extends State {
    }
 
    private void transferBombsToProgValues() {
-      game.getExploring().getProgressValues().setBombs(projectileHandler.getBombsAtEndOfLevel());
+      game.getProgressValues().setBombs(projectileHandler.getBombsAtEndOfLevel());
       game.getExploring().updatePauseInventory();
    }
 

@@ -88,8 +88,8 @@ public class LoadSaveMenu {
    private void selectedLoadFile() {
       ProgressValues save = game.getSaveData().getProgValuesFor(selectedSaveFile);
       if (save.saveStarted) {
-         // Load the save into current progressValues in exploring.
-         this.loadSelectedSaveIntoExploring();
+         // Load the save into current progressValues in game.
+         this.loadSelectedSaveIntoGame(selectedSaveFile);
       } else {
          // Save file is empty. Display message asking player if they want to start
          // a new game.
@@ -107,7 +107,7 @@ public class LoadSaveMenu {
          this.infoChoiceActive = true;
       } else {
          // Save file is empty. Start a new game in this save file.
-         this.startNewSaveInSelectedFile();
+         this.startNewSaveInSelectedFile(selectedSaveFile);
       }
    }
 
@@ -123,7 +123,7 @@ public class LoadSaveMenu {
          if (selectedOption == 2) { // NO - do nothing
             return;
          } else { // Yes - In both menus: overwrite the selected save with a new one.
-            this.startNewSaveInSelectedFile();
+            this.startNewSaveInSelectedFile(selectedSaveFile);
          }
       }
    }
@@ -133,26 +133,21 @@ public class LoadSaveMenu {
     * It takes the selected save file (= ProgressValues)
     * and resets it. Then it calls loadSelectedSaveIntoExploring().
     */
-   private void startNewSaveInSelectedFile() {
-      ProgressValues progValues = game.getSaveData().getProgValuesFor(selectedSaveFile);
+   private void startNewSaveInSelectedFile(int selectedFile) {
+      ProgressValues progValues = game.getSaveData().getProgValuesFor(selectedFile);
       progValues.resetToDefault();
       progValues.saveStarted = true;
-      this.loadSelectedSaveIntoExploring();
+      this.loadSelectedSaveIntoGame(selectedFile);
    }
 
    /**
     * Should be called whenever you want to load an existing save.
-    * It gets the selected progressValues from SaveData and inserts it
-    * into Exploring. Finally it saves it to disc, sets the time,
-    * and starts the transition to the game. The menu is deactivated after
-    * the transition is complete (but keyboardInputs are not handled, due to
-    * being downprioritized in MainMenu :: update.)
+    * It sets the selected save for the game and starts the transition to playing.
+    * The menu is deactivated after the transition is complete (but keyboardInputs
+    * are not handled, due to being downprioritized in MainMenu :: update.)
     */
-   private void loadSelectedSaveIntoExploring() {
-      ProgressValues savedProgValues = game.getSaveData().getProgValuesFor(selectedSaveFile);
-      game.getExploring().setProgressValues(savedProgValues);
-      savedProgValues.setTime();
-      game.saveDataToDisc();
+   private void loadSelectedSaveIntoGame(int selectedFile) {
+      game.loadSaveIntoGame(selectedFile);
       game.getMainMenu().startTransitionToGame();
    }
 

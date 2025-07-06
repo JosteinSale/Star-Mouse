@@ -29,4 +29,11 @@ public abstract class BaseLevelLayout {
       this.levelSlots.get(level - 1).setAssociatedLevel(levelInfo);
    }
 
+   public void clearAll() {
+      selectedIndex = 0;
+      for (LevelSlot slot : levelSlots) {
+         slot.clearAssociatedLevel();
+      }
+   }
+
 }

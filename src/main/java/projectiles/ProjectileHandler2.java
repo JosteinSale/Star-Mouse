@@ -47,7 +47,7 @@ public class ProjectileHandler2 extends ProjectileHandler {
       this.boss = boss;
       this.bossParts = boss.getBossParts();
       this.clImg = game.getImages().getBossCollisionImg("boss" + Integer.toString(nr) + "_cl.png");
-      this.setBombs(game.getExploring().getProgressValues().getBombs());
+      this.setBombs(game.getProgressValues().getBombs());
    }
 
    public void addBossProjectile(int type, float xPos, float yPos, float xSpeed, float ySpeed) {
@@ -171,7 +171,7 @@ public class ProjectileHandler2 extends ProjectileHandler {
 
    @Override
    public void resetBombs(boolean toCheckPoint) {
-      this.setBombs(game.getExploring().getProgressValues().getBombs());
+      this.setBombs(game.getProgressValues().getBombs());
    }
 
    // ----------------- Unused methods ----------------------

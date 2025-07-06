@@ -16,7 +16,6 @@ import main_classes.Game;
  * Keeps the nescessary images, and passes references to the LevelLayouts.
  */
 public class LevelSelect extends State {
-   private ProgressValues progValues;
    private ArrayList<BaseLevelLayout> levelLayouts;
    private ArrayList<LevelInfo> levelInfo;
    private int levelToEnter = 1; // This is altered from the current layout.
@@ -32,7 +31,6 @@ public class LevelSelect extends State {
 
    public LevelSelect(Game game) {
       super(game);
-      this.progValues = game.getExploring().getProgressValues(); // OBS: initially a proxy
       this.levelLayouts = new ArrayList<>();
       this.levelInfo = new ArrayList<>();
       loadLevelInfo();
@@ -46,33 +44,23 @@ public class LevelSelect extends State {
    }
 
    private void loadLevelInfo() {
-      levelInfo.add(new LevelInfo("Apolis", 130));
-      levelInfo.add(new LevelInfo("Vyke", 88, 0, 3, 3));
-      levelInfo.add(new LevelInfo("Asteroids", 0, 0, 4, 4));
-      levelInfo.add(new LevelInfo("The Dark", 66, 0, 5, 5));
-      levelInfo.add(new LevelInfo("Cathedral", 100));
-      levelInfo.add(new LevelInfo("Level 6", 100, 70, 7, 3));
-      levelInfo.add(new LevelInfo("Level 7", 100, 70, 8, 4));
-      levelInfo.add(new LevelInfo("Level 8", 100, 70, 9, 5));
-      levelInfo.add(new LevelInfo("Level 9", 100));
-      levelInfo.add(new LevelInfo("Level 10", 100, 70, 11, 7));
-      levelInfo.add(new LevelInfo("Level 11", 100, 70, 12, 8));
-      levelInfo.add(new LevelInfo("Level 12", 100, 70, 13, 9));
-      levelInfo.add(new LevelInfo("Level 13", 100));
-   }
-
-   /**
-    * Should be called if the game is not run in testing mode.
-    * It replaces the current progValues (proxy or real)
-    * with the one from the saved file.
-    * Then it unlocks the corresponding levels.
-    */
-   public void transferDataFromSave() {
-      this.progValues = game.getExploring().getProgressValues();
-      this.transferUnlockedLevelsToLayout(progValues.levelLayout);
+      levelInfo.add(new LevelInfo("Apolis", 1, 130));
+      levelInfo.add(new LevelInfo("Vyke", 2, 88, 0, 3, 3));
+      levelInfo.add(new LevelInfo("Asteroids", 3, 0, 0, 4, 4));
+      levelInfo.add(new LevelInfo("The Dark", 4, 66, 0, 5, 5));
+      levelInfo.add(new LevelInfo("Cathedral", 5, 100));
+      levelInfo.add(new LevelInfo("Level 6", 6, 100, 70, 7, 3));
+      levelInfo.add(new LevelInfo("Level 7", 7, 100, 70, 8, 4));
+      levelInfo.add(new LevelInfo("Level 8", 8, 100, 70, 9, 5));
+      levelInfo.add(new LevelInfo("Level 9", 9, 100));
+      levelInfo.add(new LevelInfo("Level 10", 10, 100, 70, 11, 7));
+      levelInfo.add(new LevelInfo("Level 11", 11, 100, 70, 12, 8));
+      levelInfo.add(new LevelInfo("Level 12", 12, 100, 70, 13, 9));
+      levelInfo.add(new LevelInfo("Level 13", 13, 100));
    }
 
    public void update() {
+      ProgressValues progValues = game.getProgressValues();
       moveBackGround();
       if (fadeInActive) {
          updateFadeIn();
@@ -102,6 +90,7 @@ public class LevelSelect extends State {
 
    /** Unlocks the level in the current layout */
    private void unlockLevel(int levelToUnlock) {
+      ProgressValues progValues = game.getProgressValues();
       progValues.unlockedLevels[levelToUnlock - 1] = true;
       levelLayouts.get(progValues.levelLayout - 1).setUnlocked(
             levelToUnlock,
@@ -109,7 +98,8 @@ public class LevelSelect extends State {
    }
 
    private void updateGlobalBooleans(int finishedLevel, int killCount) {
-      if (finishedLevel == 1 && killCount == LEVEL1_THRESHOLD2) {
+      ProgressValues progValues = game.getProgressValues();
+      if (finishedLevel == 1 && killCount >= LEVEL1_THRESHOLD2) {
          progValues.path3Unlocked = true; // Note: !firstPlaythrough is also required to get LevelLayout3
       } else if (finishedLevel == 5) {
          progValues.hasEnding1 = true;
@@ -162,6 +152,7 @@ public class LevelSelect extends State {
     * Then it calculates which level-layout the player should see.
     */
    private void checkIfNewLayout() {
+      ProgressValues progValues = game.getProgressValues();
       int oldLayout = progValues.levelLayout;
 
       if ((!progValues.firstPlayThrough) &&
@@ -175,12 +166,13 @@ public class LevelSelect extends State {
 
       // If we have changed the layout, we need to transfer the unlocked levels
       if (progValues.levelLayout != oldLayout) {
-         this.transferUnlockedLevelsToLayout(progValues.levelLayout);
+         this.transferUnlockedLevelsToLayout();
       }
    }
 
-   private void transferUnlockedLevelsToLayout(int layout) {
+   public void transferUnlockedLevelsToLayout() {
       // Loop through all unlocked levels, and unlock the corresponding level.
+      ProgressValues progValues = game.getProgressValues();
       for (int i = 0; i < progValues.unlockedLevels.length; i++) {
          if (progValues.unlockedLevels[i] == true) {
             this.unlockLevel(i + 1);
@@ -189,6 +181,7 @@ public class LevelSelect extends State {
    }
 
    public boolean canGoToLevel(int level) {
+      ProgressValues progValues = game.getProgressValues();
       return progValues.unlockedLevels[level - 1];
    }
 
@@ -234,12 +227,20 @@ public class LevelSelect extends State {
       this.fadeInActive = true;
    }
 
+   /** Should be called when the player returns to the main menu */
+   public void clearAll() {
+      for (BaseLevelLayout layout : levelLayouts) {
+         layout.clearAll();
+      }
+   }
+
    /**
     * Testing method: Unlocks all the levels up to the given level,
     * in both this object and the relevant LevelSelect-layout.
     * Also affects progValues.levelLayout.
     */
    public void testUnlockAllLevelsUpTo(int level) {
+      ProgressValues progValues = game.getProgressValues();
       if (level >= 10) {
          progValues.levelLayout = 3;
          progValues.path3Unlocked = true;
@@ -260,6 +261,6 @@ public class LevelSelect extends State {
    }
 
    public int getLayoutNr() {
-      return this.progValues.levelLayout;
+      return game.getProgressValues().levelLayout;
    }
 }

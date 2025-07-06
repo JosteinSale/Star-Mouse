@@ -109,12 +109,12 @@ public class RenderMechanic implements Render {
       DrawUtils.drawText(
             sb, MyColor.WHITE, DrawUtils.infoFont,
             "Credits: x" + Integer.toString(
-                  game.getExploring().getProgressValues().getCredits()),
+                  game.getProgressValues().getCredits()),
             250, 690);
       DrawUtils.drawText(
             sb, MyColor.WHITE, DrawUtils.infoFont,
             "Bombs: x" + Integer.toString(
-                  game.getExploring().getProgressValues().getBombs()),
+                  game.getProgressValues().getBombs()),
             620, 690);
 
       // Display-text

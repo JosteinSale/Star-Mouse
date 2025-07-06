@@ -134,11 +134,11 @@ public class Area {
          this.exploring.addToInventory(item);
       } else if (event instanceof UpdateInventoryEvent evt) {
          if (evt.type().equals("bombs")) {
-            int prevAmount = exploring.getProgressValues().getBombs();
-            exploring.getProgressValues().setBombs(prevAmount + evt.amount());
+            int prevAmount = game.getProgressValues().getBombs();
+            game.getProgressValues().setBombs(prevAmount + evt.amount());
          } else { // credits
-            int prevAmount = exploring.getProgressValues().getCredits();
-            exploring.getProgressValues().setCredits(prevAmount + evt.amount());
+            int prevAmount = game.getProgressValues().getCredits();
+            game.getProgressValues().setCredits(prevAmount + evt.amount());
          }
          exploring.updatePauseInventory();
       } else if (event instanceof StartSongEvent evt) {

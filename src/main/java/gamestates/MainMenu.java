@@ -169,14 +169,9 @@ public class MainMenu extends State {
         }
     }
 
-    /**
-     * Is called when after fadeOut is completed.
-     * For now, it takes you to Level Select. In the future, we might
-     * make it so that if it's a new game, it goes straight to Exploring in lvl 1.
-     */
     private void startGame() {
         game.getLevelSelect().reset();
-        game.getLevelSelect().transferDataFromSave();
+        game.getLevelSelect().transferUnlockedLevelsToLayout();
         Gamestate.state = Gamestate.LEVEL_SELECT;
     }
 
@@ -212,6 +207,7 @@ public class MainMenu extends State {
         this.fadeOutActive = false;
         this.alphaFade = 255;
         audioPlayer.startSong(Audio.SONG_MAIN_MENU, 0, true);
+        game.getLevelSelect().clearAll();
     }
 
     public OptionsMenu getOptionsMenu() {

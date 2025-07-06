@@ -30,17 +30,19 @@ public class ProgressValues {
 
    public int levelLayout;
    public boolean[] unlockedLevels;
+   // TODO - include int[] killedEnemies;
+   // TODO - include String[] collectedItems;
 
    // Private constructor to ensure it's not used wrongly.
    private ProgressValues() {
    }
 
    /**
-    * You should only instantiate a new ProgressValues-object if you want to
+    * You should only instantiate a new empty ProgressValues-object if you want to
     * a) create a proxy for testing mode, or b) create a new JSON save-file
     * (in the case that it doesn't already exist on the computer).
     */
-   public static ProgressValues getNewSave() {
+   public static ProgressValues getEmptySave() {
       ProgressValues p = new ProgressValues();
       p.resetToDefault();
       p.setTime();

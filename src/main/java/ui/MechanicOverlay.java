@@ -61,7 +61,7 @@ public class MechanicOverlay {
    }
 
    private void updateTextInfo() {
-      ProgressValues progValues = game.getExploring().getProgressValues();
+      ProgressValues progValues = game.getProgressValues();
       // Lazer
       optionInfo[0][1] = "Current: " +
             Integer.toString(progValues.getLazerDmg()) + "/" + Integer.toString(highestLazerDmg);
@@ -78,7 +78,7 @@ public class MechanicOverlay {
    }
 
    private void updateBarWidths() {
-      ProgressValues progValues = game.getExploring().getProgressValues();
+      ProgressValues progValues = game.getProgressValues();
       float lazerScale = ((float) progValues.getLazerDmg()) / highestLazerDmg;
       float hpScale = ((float) progValues.getMaxHP()) / highestMaxHP;
       lazerBarW = (int) (lazerScale * barMaxW);
@@ -144,7 +144,7 @@ public class MechanicOverlay {
    }
 
    private boolean hasEnoughCredits() {
-      return (game.getExploring().getProgressValues().getCredits() >= prices[selectedIndex]);
+      return (game.getProgressValues().getCredits() >= prices[selectedIndex]);
    }
 
    private void askIfWantToBuy() {
@@ -179,7 +179,7 @@ public class MechanicOverlay {
    }
 
    private boolean checkMaxedOut(int selIndex) {
-      ProgressValues progValues = game.getExploring().getProgressValues();
+      ProgressValues progValues = game.getProgressValues();
       if (selIndex == UPGRADE_LAZER) {
          if (progValues.getLazerDmg() == highestLazerDmg) {
             maxedOut[selIndex] = true;
@@ -195,12 +195,12 @@ public class MechanicOverlay {
    }
 
    private void removeCredits() {
-      game.getExploring().getProgressValues().setCredits(
-            game.getExploring().getProgressValues().getCredits() - prices[selectedIndex]);
+      game.getProgressValues().setCredits(
+            game.getProgressValues().getCredits() - prices[selectedIndex]);
    }
 
    private void increaseProgValues() {
-      ProgressValues progValues = game.getExploring().getProgressValues();
+      ProgressValues progValues = game.getProgressValues();
       if (selectedIndex == UPGRADE_LAZER) {
          progValues.setLazerDmg(progValues.getLazerDmg() + upgradeValues[selectedIndex]);
       } else if (selectedIndex == UPGRADE_SHIP) {

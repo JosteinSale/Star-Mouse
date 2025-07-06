@@ -16,7 +16,7 @@ import main_classes.Game;
  * levels.
  * 
  * Use the setAssociatedLevel-method when a level is to be allocated
- * to the slot.
+ * to the slot. Use the clearAssociatedLevel-method when
  * 
  * Also use the provided draw-methods when appropriate.
  */
@@ -44,6 +44,15 @@ public class LevelSlot {
    public void setAssociatedLevel(LevelInfo levelInfo) {
       this.isEmpty = false;
       this.levelInfo = levelInfo;
+   }
+
+   /**
+    * Only needed for levelLayout 1, since which levelInfo belongs in which slot
+    * might vary
+    */
+   public void clearAssociatedLevel() {
+      this.levelInfo = null;
+      this.isEmpty = true;
    }
 
 }

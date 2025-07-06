@@ -44,7 +44,7 @@ public class ProjectileHandler {
 
    public ProjectileHandler(Game game, AudioPlayer audioPlayer, ShootingPlayer player, EnemyManager enemyManager) {
       this.game = game;
-      this.nrOfBombs = game.getExploring().getProgressValues().getBombs();
+      this.nrOfBombs = game.getProgressValues().getBombs();
       this.nrOfBombsAtCheckpoint = 0;
       this.audioPlayer = audioPlayer;
       this.player = player;
@@ -89,9 +89,9 @@ public class ProjectileHandler {
       Rectangle2D.Float hitbox2 = new Rectangle2D.Float(
             xPos + 43, yPos - 30, PLAYER_PRJT_SPRITE_W, PLAYER_PRJT_SPRITE_H);
       this.allProjectiles.add(
-            new PlayerProjectile(hitbox1, powerUp, game.getExploring().getProgressValues().getLazerDmg()));
+            new PlayerProjectile(hitbox1, powerUp, game.getProgressValues().getLazerDmg()));
       this.allProjectiles.add(
-            new PlayerProjectile(hitbox2, powerUp, game.getExploring().getProgressValues().getLazerDmg()));
+            new PlayerProjectile(hitbox2, powerUp, game.getProgressValues().getLazerDmg()));
    }
 
    protected void addBombProjectile(float xPos, float yPos) {
@@ -345,7 +345,7 @@ public class ProjectileHandler {
       if (toCheckPoint) {
          this.nrOfBombs = nrOfBombsAtCheckpoint;
       } else {
-         this.setBombs(game.getExploring().getProgressValues().getBombs());
+         this.setBombs(game.getProgressValues().getBombs());
       }
    }
 

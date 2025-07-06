@@ -74,7 +74,7 @@ public class LevelFinishedOverlay {
       this.headerAlpha = 0;
       this.currentLetter = 0;
       this.linesToDraw = 0;
-      this.totalCredits = game.getExploring().getProgressValues().getCredits();
+      this.totalCredits = game.getProgressValues().getCredits();
       this.enemiesKilled = enemiesKilled;
       calcCreditsEarned();
       updateStatusValues();
@@ -105,7 +105,7 @@ public class LevelFinishedOverlay {
       this.statusValues[0] = enemiesKilled.size();
       this.statusValues[1] = creditsEarned;
       this.statusValues[2] = creditsEarned + totalCredits;
-      game.getExploring().getProgressValues().setCredits(statusValues[2]);
+      game.getProgressValues().setCredits(statusValues[2]);
    }
 
    private void updateStatusText() {

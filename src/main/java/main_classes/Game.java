@@ -57,6 +57,7 @@ public class Game extends ApplicationAdapter {
    private TextboxManager textBoxManager;
    private SaveData saveData;
    private DrawSaving drawSaving;
+   private int selectedSaveFile = 1;
 
    // Keyboard inputs
    public boolean upIsPressed = false;
@@ -78,6 +79,7 @@ public class Game extends ApplicationAdapter {
       camera.setToOrtho(true, 1050, 750);
 
       // Init resources
+      this.initializeSaveData();
       this.audioPlayer = AudioPlayer.getSingletonAudioPlayer();
       this.images = new Images();
       this.textBoxManager = new TextboxManager(this);
@@ -94,8 +96,6 @@ public class Game extends ApplicationAdapter {
       this.view = new View(this);
 
       // optionsMenu.setKeyboardInputs(gamePanel.getKeyboardInputs()); // TODO - Fix
-
-      initializeSaveData();
    }
 
    private void initializeSaveData() {
@@ -104,10 +104,16 @@ public class Game extends ApplicationAdapter {
       if (saveData == null) {
          // If no data exists, create new data
          saveData = new SaveData(
-               ProgressValues.getNewSave(),
-               ProgressValues.getNewSave(),
-               ProgressValues.getNewSave());
+               ProgressValues.getEmptySave(),
+               ProgressValues.getEmptySave(),
+               ProgressValues.getEmptySave());
       }
+   }
+
+   public void loadSaveIntoGame(int selectedSaveFile) {
+      this.selectedSaveFile = selectedSaveFile;
+      saveData.getProgValuesFor(selectedSaveFile).setTime();
+      saveDataToDisc();
    }
 
    /**
@@ -233,5 +239,9 @@ public class Game extends ApplicationAdapter {
 
    public void flushImages() {
       this.images.flush();
+   }
+
+   public ProgressValues getProgressValues() {
+      return saveData.getProgValuesFor(selectedSaveFile);
    }
 }

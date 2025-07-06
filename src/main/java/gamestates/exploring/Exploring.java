@@ -5,7 +5,6 @@ import java.util.List;
 
 import audio.AudioPlayer;
 import cutscenes.cutsceneManagers.DefaultCutsceneManager;
-import data_storage.ProgressValues;
 import gamestates.State;
 import main_classes.Game;
 import ui.InventoryItem;
@@ -19,35 +18,17 @@ public class Exploring extends State {
     public int currentArea; // Is set in the loadLevel-method. Can be altered for testing purposes.
     private ArrayList<Area> areas;
     private PauseExploring pauseOverlay;
-    private ProgressValues progValues; // Is the only instance in the code base (except LevelSelect)
     private MechanicOverlay mechanicOverlay;
 
     public Exploring(Game game) {
         super(game);
         this.audioPlayer = game.getAudioPlayer();
-        initProxyProgValues();
         areas = new ArrayList<>();
         pauseOverlay = new PauseExploring(game, audioPlayer, game.getOptionsMenu());
         mechanicOverlay = new MechanicOverlay(
                 game,
                 game.getTextboxManager().getInfoBox(),
                 game.getTextboxManager().getInfoChoice());
-    }
-
-    /**
-     * Initiates a new rogressValues-object.
-     * In the case of testing, it will serve as a proxy.
-     * If the player loads a previous save, this object will replaced with the
-     * one loaded on disc.
-     */
-    private void initProxyProgValues() {
-        this.progValues = ProgressValues.getNewSave();
-    }
-
-    /** Can be used to load a 'save' from disc */
-    public void setProgressValues(ProgressValues progValues) {
-        this.progValues = progValues;
-        game.getLevelSelect().transferDataFromSave();
     }
 
     /**
@@ -106,14 +87,10 @@ public class Exploring extends State {
     }
 
     public boolean playerHasEnoughCredits(int amount) {
-        if (amount <= this.progValues.getCredits()) {
+        if (amount <= game.getProgressValues().getCredits()) {
             return true;
         }
         return false;
-    }
-
-    public ProgressValues getProgressValues() {
-        return this.progValues;
     }
 
     public void updatePauseInventory() {
