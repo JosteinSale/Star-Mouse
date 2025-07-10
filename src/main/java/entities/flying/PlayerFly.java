@@ -10,7 +10,6 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import audio.AudioPlayer;
-import data_storage.ProgressValues;
 import entities.Entity;
 import entities.flying.enemies.Enemy;
 import main_classes.Game;

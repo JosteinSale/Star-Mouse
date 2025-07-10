@@ -13,14 +13,16 @@ import java.awt.geom.Rectangle2D.Float;
  * will always be 'attackable'.
  */
 public class VulnerableComponent extends DefaultBossPart {
+   private int lazerDmg;
    private IBoss boss;
-   protected int shootDamage = 10;
 
    public VulnerableComponent(
+         int lazerDmg,
          Float hitbox, String spriteSheet, int aniRows, int aniCols,
          int spriteW, int spriteH, IBoss boss) {
       super(hitbox, spriteSheet, aniRows, aniCols, spriteW, spriteH);
       this.boss = boss;
+      this.lazerDmg = lazerDmg;
    }
 
    @Override
@@ -30,7 +32,7 @@ public class VulnerableComponent extends DefaultBossPart {
 
    @Override
    public void onProjectileHit() {
-      this.boss.takeDamage(shootDamage, false);
+      this.boss.takeDamage(lazerDmg, false);
    }
 
    @Override

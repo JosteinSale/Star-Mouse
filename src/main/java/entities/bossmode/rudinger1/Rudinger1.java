@@ -64,14 +64,14 @@ public class Rudinger1 implements IBoss {
    private int maxHP = 3000;
    private int HP = maxHP;
 
-   public Rudinger1(PlayerBoss player, ProjectileHandler2 projectileHandler,
+   public Rudinger1(Game game, PlayerBoss player, ProjectileHandler2 projectileHandler,
          AnimatedComponentFactory animationFactory) {
       this.animationFactory = animationFactory;
       this.actionHandler = new BossActionHandler();
       this.healthDisplay = new BossHealthDisplay("Grand Reaper", maxHP);
       this.constructMainBody();
       this.constructAnimatedComponents(player);
-      this.constructBossParts(player);
+      this.constructBossParts(game, player);
       this.constructShootPatterns(projectileHandler, player);
       this.registerActions();
       this.actionHandler.startAction(currentAction);
@@ -113,7 +113,7 @@ public class Rudinger1 implements IBoss {
       this.mainBodyYPos = -50;
    }
 
-   private void constructBossParts(PlayerBoss player) {
+   private void constructBossParts(Game game, PlayerBoss player) {
       // Two rotating lazers. One vertical and one horizontal.
 
       int width1 = 30;
@@ -163,6 +163,7 @@ public class Rudinger1 implements IBoss {
             (float) heartDockingPoint.getY() + 40,
             width4, height4);
       this.vulnerableComponent = new VulnerableComponent(
+            game.getProgressValues().getLazerDmg(),
             hitbox4, Images.EMPTY_IMAGE,
             0, 0, 0, 0, this);
 

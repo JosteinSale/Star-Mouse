@@ -165,7 +165,7 @@ public class BossMode extends State {
    private void loadBoss(int bossNr) {
       switch (bossNr) {
          case 1:
-            this.boss = new Rudinger1(this.player, this.projectileHandler, this.animationFactory);
+            this.boss = new Rudinger1(game, this.player, this.projectileHandler, this.animationFactory);
             return;
          default:
             throw new IllegalArgumentException("No boss available for bossNr: " + bossNr);
