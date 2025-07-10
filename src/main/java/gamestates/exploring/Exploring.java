@@ -51,6 +51,7 @@ public class Exploring extends State {
         game.getView().getRenderExploring().loadLevel(level);
         DefaultCutsceneManager cm = areas.get(currentArea - 1).getCutsceneManager();
         game.getView().getRenderCutscene().setCutsceneManager(cm);
+        this.updatePauseInventory();
     }
 
     private void checkPause() {

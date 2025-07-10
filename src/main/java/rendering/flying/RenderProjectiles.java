@@ -51,14 +51,6 @@ public class RenderProjectiles {
       this.loadDrawInfo(images);
    }
 
-   /**
-    * Flying and Bossmode have separate projectileHandlers, but uses the
-    * same render. Use this method to set the projectileHandler.
-    */
-   public void setProjectileHandler(ProjectileHandler projectileHandler) {
-      this.projectileHandler = projectileHandler;
-   }
-
    private void loadDrawInfo(Images images) {
       // Projectiles
       this.plPrjctRegular = new ProjectileDrawInfo(

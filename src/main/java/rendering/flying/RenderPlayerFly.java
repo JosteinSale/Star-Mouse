@@ -169,14 +169,4 @@ public class RenderPlayerFly implements Render {
             45, 45);
    }
 
-   /**
-    * Flying and BossMode uses different player-objects in their model,
-    * but they have the same render. Use this method to set the correct model.
-    * 
-    * @param player
-    */
-   public void setPlayer(PlayerFly player) {
-      this.player = player;
-   }
-
 }

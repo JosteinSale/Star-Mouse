@@ -1,7 +1,5 @@
 package rendering.root_renders;
 
-import java.awt.Graphics;
-
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import entities.bossmode.rudinger1.Rudinger1;
@@ -36,14 +34,13 @@ public class RenderBossMode implements Render {
    private RenderBossHealth rBossHealth;
 
    public RenderBossMode(
-         Game game, RenderCutscene rCutscene, RenderOptionsMenu rOptions,
-         RenderPlayerFly rPlayer, RenderProjectiles rProjectiles, Images images) {
+         Game game, RenderCutscene rCutscene, RenderOptionsMenu rOptions, Images images) {
       this.images = images;
       this.bossMode = game.getBossMode();
       this.mapManager = new RenderBossMap();
-      this.rPlayer = rPlayer;
+      this.rPlayer = new RenderPlayerFly(game, bossMode.getPlayer());
       this.rCutscene = rCutscene;
-      this.rProjectiles = rProjectiles;
+      this.rProjectiles = new RenderProjectiles(bossMode.getProjectileHandler(), images);
       this.rPause = new RenderPauseBoss(bossMode.getPauseOverlay(), rOptions, images);
       this.rGameOver = new RenderGameOver2(bossMode.getGameOverOverlay(), images);
       this.rBossHealth = new RenderBossHealth();
@@ -51,9 +48,7 @@ public class RenderBossMode implements Render {
 
    public void loadBoss(int bossNr) {
       mapManager.loadMap(bossNr, images);
-      rPlayer.setPlayer(bossMode.getPlayer());
       rCutscene.setCutsceneManager(bossMode.getCutsceneManager());
-      rProjectiles.setProjectileHandler(bossMode.getProjectileHandler());
       setBossRender(bossNr);
    }
 

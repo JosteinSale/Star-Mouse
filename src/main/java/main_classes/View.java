@@ -56,9 +56,7 @@ public class View {
       this.rCutscene = new RenderCutscene(game.getTextboxManager(), rInfoBox, rInfoChoice, images);
       this.rExploring = new RenderExploring(game, rOptionsMenu, rCutscene, rInfoBox, rInfoChoice);
       this.rFlying = new RenderFlying(game, game.getFlying(), rCutscene, rOptionsMenu);
-      this.rBossMode = new RenderBossMode(
-            game, rCutscene, rOptionsMenu,
-            rFlying.getRenderPlayer(), rFlying.getRenderProjectiles(), images);
+      this.rBossMode = new RenderBossMode(game, rCutscene, rOptionsMenu, images);
       this.rCinematic = new RenderCinematic(rCutscene);
       this.rLevelEditor = new RenderLevelEditor(
             game.getLevelEditor(), rFlying.getEntityImages(), images);

@@ -125,8 +125,6 @@ public class BossMode extends State {
 
       // Render stuff
       game.getView().getRenderCutscene().setCutsceneManager(game.getFlying().getCutsceneManager());
-      game.getView().getRenderFlying().getRenderProjectiles()
-            .setProjectileHandler(game.getFlying().getProjectileHandler());
 
       this.player.reset();
       this.pause = false;
@@ -143,6 +141,7 @@ public class BossMode extends State {
    public void loadNewBoss(int bossNr) {
       this.bossNr = bossNr;
       loadBoss(bossNr);
+      player.onLevelStart();
       setPlayerBossParts();
       game.getView().getRenderBossMode().loadBoss(bossNr);
       loadCutscenes(bossNr);

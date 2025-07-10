@@ -97,7 +97,7 @@ public class Flying extends State {
       enemyManager.loadEnemiesForLvl(lvl);
       loadPickupItems(lvl);
       loadCutscenes(lvl);
-      player.setKilledEnemies(0);
+      player.onLevelStart();
       this.setRenders(lvl, FlyLevelInfo.getBgImgHeight(lvl));
       // startAt(-20000); // For testing purposes
    }

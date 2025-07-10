@@ -56,6 +56,9 @@ public class MechanicOverlay {
     * in accordance with progValues.
     */
    public void onOpen() {
+      for (int i = 0; i <= 2; i++) {
+         checkAndSetMaxedOut(i);
+      }
       updateBarWidths();
       updateTextInfo();
    }
@@ -91,7 +94,7 @@ public class MechanicOverlay {
 
    private void handleKeyBoardInputs() {
       if (infoChoiceActive) {
-         handleInfoChoice();
+         handleBuy();
          return;
       } else if (infoBoxActive) {
          if (game.interactIsPressed) {
@@ -154,7 +157,7 @@ public class MechanicOverlay {
             "Buy " + buyNames[selectedIndex] + "?", "Yes", "No");
    }
 
-   private void handleInfoChoice() {
+   private void handleBuy() {
       if (game.interactIsPressed) {
          game.interactIsPressed = false;
          infoChoiceActive = false;
@@ -164,7 +167,7 @@ public class MechanicOverlay {
             increaseProgValues();
             updateTextInfo();
             updateBarWidths();
-            checkMaxedOut(selectedIndex);
+            checkAndSetMaxedOut(selectedIndex);
             infoBoxActive = true;
             infoBox.setText(
                   "You bought " + buyNames[selectedIndex] +
@@ -178,20 +181,17 @@ public class MechanicOverlay {
       }
    }
 
-   private boolean checkMaxedOut(int selIndex) {
+   private void checkAndSetMaxedOut(int selIndex) {
       ProgressValues progValues = game.getProgressValues();
       if (selIndex == UPGRADE_LAZER) {
-         if (progValues.getLazerDmg() == highestLazerDmg) {
+         if (progValues.getLazerDmg() >= highestLazerDmg) {
             maxedOut[selIndex] = true;
-            return true;
          }
       } else if (selIndex == UPGRADE_SHIP) {
-         if (progValues.getMaxHP() == highestMaxHP) {
+         if (progValues.getMaxHP() >= highestMaxHP) {
             maxedOut[selIndex] = true;
-            return true;
          }
       }
-      return false;
    }
 
    private void removeCredits() {
@@ -205,10 +205,13 @@ public class MechanicOverlay {
          progValues.setLazerDmg(progValues.getLazerDmg() + upgradeValues[selectedIndex]);
       } else if (selectedIndex == UPGRADE_SHIP) {
          progValues.setMaxHP(progValues.getMaxHP() + upgradeValues[selectedIndex]);
+         game.getFlying().getPlayer().setMaxHp(progValues.getMaxHP());
+         game.getBossMode().getPlayer().setMaxHp(progValues.getMaxHP());
       } else {
          progValues.setBombs(progValues.getBombs() + upgradeValues[selectedIndex]);
       }
       game.getExploring().updatePauseInventory();
+      game.saveDataToDisc();
    }
 
    public boolean isActive() {

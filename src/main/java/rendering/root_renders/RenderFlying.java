@@ -66,7 +66,6 @@ public class RenderFlying implements Render {
    /** Loads all resources for the given level */
    public void loadLevel(int lvl, int bgImgHeight) {
       this.rMap.loadNewMap(lvl, bgImgHeight);
-      this.rPlayer.setPlayer(flying.getPlayer());
    }
 
    public RenderPlayerFly getRenderPlayer() {

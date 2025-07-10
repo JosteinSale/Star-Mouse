@@ -3,14 +3,14 @@ package ui;
 public class StatusDisplay {
 
    private int HP;
-   private int maxHP = 100;
+   private int maxHP;
    public int bombs;
    public int killedEnemies = 0;
    public int blinkTimer = 0;
    private int blinkFrames = 20;
 
-   public int HPbarMaxW = 300; // Increases as the player upgrades the ship
-   public int HPbarCurW = (int) (((float) HP / maxHP) * HPbarMaxW);
+   public int HPbarMaxW; // Increases as the player upgrades the ship
+   public int HPbarCurW;
 
    public void update() {
       updateBlinking();
@@ -29,7 +29,7 @@ public class StatusDisplay {
 
    public void setMaxHP(int maxHP) {
       this.maxHP = maxHP;
-      // TODO - Adjust how long the bar is
+      this.HPbarMaxW = (int) (maxHP * 2.5f);
    }
 
    public void setBombs(int bombs) {

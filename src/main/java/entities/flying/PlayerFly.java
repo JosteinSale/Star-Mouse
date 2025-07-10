@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import audio.AudioPlayer;
+import data_storage.ProgressValues;
 import entities.Entity;
 import entities.flying.enemies.Enemy;
 import main_classes.Game;
@@ -54,8 +55,6 @@ public class PlayerFly extends Entity implements ShootingPlayer {
    public PlayerFly(Game game, Float hitbox) {
       super(hitbox);
       this.game = game;
-      this.maxHP = game.getProgressValues().getMaxHP();
-      this.HP = maxHP;
       this.audioPlayer = game.getAudioPlayer();
       updateCollisionPixels();
       this.flame = new ShipFlame();
@@ -63,8 +62,16 @@ public class PlayerFly extends Entity implements ShootingPlayer {
             hitbox.x, hitbox.y, teleportKillWidth, hitbox.height);
       this.teleportKillOffset = (int) (teleportDistance - hitbox.width - teleportKillWidth) / 2;
       this.statusDisplay = new StatusDisplay();
-      this.statusDisplay.setMaxHP(maxHP);
-      this.statusDisplay.setHP(maxHP);
+   }
+
+   /** Updates maxHP and such from the progressValues */
+   public void onLevelStart() {
+      this.setKilledEnemies(0);
+      int maxHp = game.getProgressValues().getMaxHP();
+      this.maxHP = maxHp;
+      this.HP = maxHp;
+      statusDisplay.setMaxHP(maxHp);
+      statusDisplay.setHP(maxHp);
    }
 
    /*
@@ -440,6 +447,11 @@ public class PlayerFly extends Entity implements ShootingPlayer {
          HP = maxHP;
       }
       this.statusDisplay.setHP(this.HP);
+   }
+
+   @Override
+   public void setMaxHp(int hp) {
+      this.statusDisplay.setMaxHP(hp);
    }
 
    @Override
