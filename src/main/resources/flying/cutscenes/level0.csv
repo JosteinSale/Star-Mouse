@@ -55,10 +55,7 @@ endSequence
 
 cutscene;true;automatic;5
 smallDialogue;Max;normal;0;2;Try to teleport through a target!
-wait;240
-endSequence
-smallDialogue;Max;normal;0;2;It can be a powerful attack.
-wait;240
+wait;360
 endSequence
 
 cutscene;true;automatic;6
@@ -72,7 +69,7 @@ wait;200
 endSequence
 
 cutscene;true;automatic;7
-smallDialogue;Max;thoughtful;5;2;Bombs can take out many targets at once.
+smallDialogue;Max;thoughtful;5;2;Pick up those bombs!
 wait;240
 endSequence
 smallDialogue;Max;normal;0;2;Shoot them with B

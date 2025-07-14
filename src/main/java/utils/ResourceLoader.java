@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
-import main_classes.Game;
 import rendering.MyImage;
 
 import java.io.IOException;
@@ -56,7 +55,7 @@ public class ResourceLoader {
       FileHandle fontFile = Gdx.files.internal(filePath);
       FreeTypeFontGenerator generator = new FreeTypeFontGenerator(fontFile);
       FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-      parameter.size = (int) (size * Game.SCALE);
+      parameter.size = (int) (size);
       parameter.color = Color.WHITE;
       BitmapFont font = generator.generateFont(parameter);
       font.getData().scaleY = -1f; // Flip font vertically

@@ -29,28 +29,28 @@ public class DrawUtils {
    public static void drawImage(SpriteBatch batch, MyImage img, int x, int y, int width, int height) {
       Texture texture = img.getTexture();
       batch.draw(texture,
-            x * Game.SCALE, (y + height) * Game.SCALE,
-            width * Game.SCALE, -height * Game.SCALE);
+            x, (y + height),
+            width, -height);
    }
 
    public static void drawSubImage(SpriteBatch batch, MySubImage img, int x, int y, int width, int height) {
       TextureRegion region = img.getImage();
       batch.draw(region,
-            x * Game.SCALE, (y + height) * Game.SCALE,
-            width * Game.SCALE, -height * Game.SCALE);
+            x, (y + height),
+            width, -height);
    }
 
    public static void fillRect(SpriteBatch batch, MyColor color, float x, float y, float width, float height) {
       Color c = color.getColor();
       batch.setColor(c);
       batch.draw(Images.pixel.getTexture(), // a 1x1 white texture
-            x * Game.SCALE, (y + height) * Game.SCALE,
-            width * Game.SCALE, -height * Game.SCALE);
+            x, (y + height),
+            width, -height);
       batch.setColor(Color.WHITE); // reset to avoid affecting other draws
    }
 
    public static void fillScreen(SpriteBatch batch, MyColor color) {
-      fillRect(batch, color, 0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
+      fillRect(batch, color, 0, 0, Game.GAME_DEFAULT_WIDTH, Game.GAME_DEFAULT_HEIGHT);
    }
 
    public static void drawRect(SpriteBatch batch, MyColor color, float x, float y, float width, float height) {
@@ -58,15 +58,10 @@ public class DrawUtils {
       batch.setColor(c);
       Texture pixel = Images.pixel.getTexture();
 
-      float sx = x * Game.SCALE;
-      float sy = y * Game.SCALE;
-      float sw = width * Game.SCALE;
-      float sh = height * Game.SCALE;
-
-      batch.draw(pixel, sx, sy, sw, 1); // top
-      batch.draw(pixel, sx, sy + sh - 1, sw, 1); // bottom
-      batch.draw(pixel, sx, sy, 1, sh); // left
-      batch.draw(pixel, sx + sw - 1, sy, 1, sh); // right
+      batch.draw(pixel, x, y, width, 1); // top
+      batch.draw(pixel, x, y + height - 1, width, 1); // bottom
+      batch.draw(pixel, x, y, 1, height); // left
+      batch.draw(pixel, x + width - 1, y, 1, height); // right
 
       batch.setColor(Color.WHITE);
    }
@@ -79,10 +74,10 @@ public class DrawUtils {
       float height = img.getRegionHeight() * 3;
 
       batch.draw(img,
-            (centerX - width / 2) * Game.SCALE,
-            (centerY - height / 2) * Game.SCALE,
-            (width / 2) * Game.SCALE,
-            (height / 2) * Game.SCALE,
+            (centerX - width / 2),
+            (centerY - height / 2),
+            (width / 2),
+            (height / 2),
             width, height,
             1f, -1f,
             (float) (MathUtils.radiansToDegrees * bp.rotation));
@@ -92,7 +87,7 @@ public class DrawUtils {
       font.setColor(color.getColor());
       layout.setText(font, text);
       float newY = y - layout.height * 2;
-      font.draw(batch, layout, x * Game.SCALE, newY * Game.SCALE);
+      font.draw(batch, layout, x, newY);
    }
 
    public static void drawCenteredText(SpriteBatch batch, String text, Rectangle rect, BitmapFont font,
@@ -101,6 +96,6 @@ public class DrawUtils {
       layout.setText(font, text);
       float x = rect.x + (rect.width - layout.width) / 2;
       float y = rect.y - layout.height * 2 + rect.height;
-      font.draw(batch, layout, x * Game.SCALE, y * Game.SCALE);
+      font.draw(batch, layout, x, y);
    }
 }

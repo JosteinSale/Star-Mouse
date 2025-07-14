@@ -63,10 +63,8 @@ public class RenderPauseExploring implements Render {
       this.menuRects = new ArrayList<>();
       for (int i = 0; i < pause.menuOptions.length; i++) {
          Rectangle rect = new Rectangle(
-               (int) (600 * Game.SCALE),
-               (int) ((pause.cursorMinY - 35 + i * pause.menuOptionsDiff) * Game.SCALE),
-               (int) (200 * Game.SCALE),
-               (int) (50 * Game.SCALE));
+               600, (pause.cursorMinY - 35 + i * pause.menuOptionsDiff),
+               200, 50);
          menuRects.add(rect);
       }
    }

@@ -21,11 +21,7 @@ public class FadeHeaderEffect implements UpdatableEffect, DrawableEffect {
    private int headerFadeSpeed = 10;
 
    public FadeHeaderEffect() {
-      this.headerBox = new Rectangle( // Making a default rectangle
-            0,
-            (int) (300 * Game.SCALE),
-            Game.GAME_WIDTH,
-            (int) (100 * Game.SCALE));
+      this.headerBox = new Rectangle(0, 300, Game.GAME_DEFAULT_WIDTH, 100);
    }
 
    @Override
@@ -33,7 +29,7 @@ public class FadeHeaderEffect implements UpdatableEffect, DrawableEffect {
       FadeHeaderEvent headerEvt = (FadeHeaderEvent) evt;
       this.active = true;
       if (headerEvt.inOut().equals("in")) {
-         this.headerBox.y = (int) (headerEvt.yPos() * Game.SCALE);
+         this.headerBox.y = headerEvt.yPos();
          this.headerText = headerEvt.text();
          this.headerFadeSpeed = headerEvt.fadeSpeed();
          this.alphaFade = 0;

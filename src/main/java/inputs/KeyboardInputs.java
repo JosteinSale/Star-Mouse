@@ -105,6 +105,9 @@ public class KeyboardInputs implements InputProcessor {
         if (keycode == pause) {
             game.pauseIsPressed = true;
         }
+        if (keycode == Input.Keys.ESCAPE) {
+            game.toggleFullScreen();
+        }
         if (Gamestate.state == Gamestate.LEVEL_EDITOR) {
             // game.getLevelEditor().handleKeyboardInputs(keycode); // TODO
         }

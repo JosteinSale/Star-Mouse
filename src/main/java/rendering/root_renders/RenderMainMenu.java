@@ -47,10 +47,10 @@ public class RenderMainMenu implements Render {
       this.menuRectangles = new ArrayList<>();
       for (int i = 0; i < mainMenu.alternatives.length; i++) {
          Rectangle rect = new Rectangle(
-               (int) (425 * Game.SCALE),
-               (int) ((450 + i * mainMenu.cursorYStep) * Game.SCALE),
-               (int) (200 * Game.SCALE),
-               (int) (50 * Game.SCALE));
+               425,
+               450 + i * mainMenu.cursorYStep,
+               200,
+               50);
          menuRectangles.add(rect);
       }
    }

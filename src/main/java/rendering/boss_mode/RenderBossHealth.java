@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import rendering.MyColor;
 
-import main_classes.Game;
-
 /**
  * Renders the boss health.
  * OBS: call the 'setNew'-method whenever you load a new boss.
@@ -24,10 +22,10 @@ public class RenderBossHealth {
    public void setNew(BossHealthDisplay healthDisplay) {
       this.hdp = healthDisplay;
       this.bossNameRect = new Rectangle(
-            (int) (healthDisplay.HPbarX * Game.SCALE),
-            (int) ((HPbarY + 20) * Game.SCALE),
-            (int) (healthDisplay.HPbarMaxW * Game.SCALE),
-            (int) (HPbarH * Game.SCALE));
+            (int) healthDisplay.HPbarX,
+            (int) (HPbarY + 20),
+            (int) healthDisplay.HPbarMaxW,
+            (int) HPbarH);
    }
 
    public void draw(SpriteBatch sb) {

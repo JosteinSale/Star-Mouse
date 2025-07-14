@@ -21,21 +21,17 @@ import utils.Images;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Game extends ApplicationAdapter {
-   // TODO - Might need to adjust this.
+   // Game width and height
    public static final int GAME_DEFAULT_WIDTH = 1050;
    public static final int GAME_DEFAULT_HEIGHT = 750;
-   public static final float SCALE = 1.0f;
-   // public static final float SCALE = SCREEN_HEIGHT / (float)
-   // GAME_DEFAULT_HEIGHT;
-
-   public static final int GAME_WIDTH = (int) (GAME_DEFAULT_WIDTH * SCALE);
-   public static final int GAME_HEIGHT = (int) (GAME_DEFAULT_HEIGHT * SCALE);
-   public static final boolean fullScreen = false;
 
    // Game states
    private StartScreen startScreen;
@@ -47,9 +43,12 @@ public class Game extends ApplicationAdapter {
    private LevelEditor levelEditor;
    private Cinematic cinematic;
 
-   // Special objects
-   private OrthographicCamera camera = new OrthographicCamera();
+   // LibGDX-stuff
+   private final OrthographicCamera camera = new OrthographicCamera();
    private SpriteBatch batch;
+   private Viewport viewport;
+
+   // Special objects
    private View view;
    private Images images;
    private OptionsMenu optionsMenu;
@@ -75,6 +74,7 @@ public class Game extends ApplicationAdapter {
    @Override
    public void create() {
       batch = new SpriteBatch();
+      viewport = new FitViewport(GAME_DEFAULT_WIDTH, GAME_DEFAULT_HEIGHT, camera);
       Gdx.input.setInputProcessor(new KeyboardInputs(this));
       camera.setToOrtho(true, 1050, 750);
 
@@ -110,7 +110,7 @@ public class Game extends ApplicationAdapter {
       }
    }
 
-   public void loadSaveIntoGame(int selectedSaveFile) {
+   public void loadSaveFromDisc(int selectedSaveFile) {
       this.selectedSaveFile = selectedSaveFile;
       saveData.getProgValuesFor(selectedSaveFile).setTime();
       saveDataToDisc();
@@ -141,6 +141,20 @@ public class Game extends ApplicationAdapter {
       view.draw(batch);
       drawSaving.draw(batch);
       batch.end();
+   }
+
+   @Override
+   public void resize(int width, int height) {
+      viewport.update(width, height, true); // <‑‑ keep aspect, center camera
+   }
+
+   public void toggleFullScreen() {
+      if (!Gdx.graphics.isFullscreen()) {
+         Graphics.DisplayMode mode = Gdx.graphics.getDisplayMode();
+         Gdx.graphics.setFullscreenMode(mode);
+      } else {
+         Gdx.graphics.setWindowedMode(1050, 750); // fall back
+      }
    }
 
    private void update() {

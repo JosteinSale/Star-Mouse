@@ -56,8 +56,8 @@ public class RenderLoadSave implements Render {
 
    private void constructRectangles() {
       this.headerRect = new Rectangle(
-            0, (int) (150 * Game.SCALE),
-            Game.GAME_WIDTH, 50);
+            0, 150,
+            Game.GAME_DEFAULT_WIDTH, 50);
    }
 
    @Override

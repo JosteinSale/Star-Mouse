@@ -169,7 +169,7 @@ public class HelpMethods {
             // 2.2. Try to parse cutscene specifics
             else if (entryName.equals("cutscene")) {
                 Boolean canReset = Boolean.parseBoolean(lineData[1]);
-                int triggerObject = GetTrigger(lineData[2]);
+                int triggerObject = ParseTrigger(lineData[2]);
                 Integer newTriggerIndex = Integer.parseInt(lineData[3]);
                 if (newTriggerIndex != triggerIndex) {
                     triggerIndex = newTriggerIndex;
@@ -217,7 +217,7 @@ public class HelpMethods {
      * Checks if the sfx-string matches any standard names. Else it
      * tries to parse the string to an integer.
      */
-    public static Integer GetSFX(String string) {
+    public static Integer ParseSFX(String string) {
         Integer index = switch (string) {
             case "infoBox" -> Audio.SFX_INFOBOX;
             case "pickup" -> Audio.SFX_INVENTORY_PICKUP;
@@ -290,7 +290,7 @@ public class HelpMethods {
     }
 
     /** For use by the exploring-cutsceneManager */
-    public static int GetDirection(String string) {
+    public static int ParseDirection(String string) {
         int dir = switch (string) {
             case "right" -> 0;
             case "left" -> 1;
@@ -302,7 +302,7 @@ public class HelpMethods {
         return dir;
     }
 
-    public static int GetTrigger(String string) {
+    public static int ParseTrigger(String string) {
         int trigger = switch (string) {
             case "object" -> OBJECT;
             case "objectChoice" -> OBJECT;

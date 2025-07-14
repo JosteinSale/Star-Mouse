@@ -1,6 +1,6 @@
 package utils.parsing;
 
-import static utils.HelpMethods.GetDirection;
+import static utils.HelpMethods.ParseDirection;
 
 import java.util.HashMap;
 
@@ -168,7 +168,7 @@ public class CutsceneParser {
    }
 
    private static SetStartingCutsceneEvent parseSetStartCutscene(String[] lineData) {
-      int triggerObject = HelpMethods.GetTrigger(lineData[1]);
+      int triggerObject = HelpMethods.ParseTrigger(lineData[1]);
       Integer elementNr = Integer.parseInt(lineData[2]);
       Integer newStartingCutscene = Integer.parseInt(lineData[3]);
       return new SetStartingCutsceneEvent(triggerObject, elementNr, newStartingCutscene);
@@ -186,7 +186,7 @@ public class CutsceneParser {
    }
 
    private static PlayerWalkEvent parsePlayerWalk(String[] lineData) {
-      Integer sheetRowIndex = GetDirection(lineData[1]) + 1;
+      Integer sheetRowIndex = ParseDirection(lineData[1]) + 1;
       Float targetX = Float.parseFloat(lineData[2]);
       Float targetY = Float.parseFloat(lineData[3]);
       Integer framesDuration = Integer.parseInt(lineData[4]);
@@ -195,7 +195,7 @@ public class CutsceneParser {
 
    private static NPCWalkEvent parseNpcWalk(String[] lineData) {
       Integer npcIndex = Integer.parseInt(lineData[2]);
-      Integer sheetRowIndex = GetDirection(lineData[3]) + 1;
+      Integer sheetRowIndex = ParseDirection(lineData[3]) + 1;
       Float targetX = Float.parseFloat(lineData[4]);
       Float targetY = Float.parseFloat(lineData[5]);
       Integer framesDuration = Integer.parseInt(lineData[6]);
@@ -204,7 +204,7 @@ public class CutsceneParser {
 
    private static SetDirEvent parseSetDir(String[] lineData) {
       String entityName = lineData[1];
-      int dir = GetDirection(lineData[2]);
+      int dir = ParseDirection(lineData[2]);
       return new SetDirEvent(entityName, dir);
    }
 
@@ -274,7 +274,7 @@ public class CutsceneParser {
    }
 
    private static PlaySFXEvent parsePlaySFX(String[] lineData) {
-      Integer index = HelpMethods.GetSFX(lineData[1]);
+      Integer index = HelpMethods.ParseSFX(lineData[1]);
       return new PlaySFXEvent(index);
    }
 

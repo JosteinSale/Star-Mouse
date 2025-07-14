@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
-import main_classes.Game;
 import rendering.MyColor;
 import rendering.MyImage;
 import rendering.MySubImage;
@@ -44,10 +43,8 @@ public class RenderGameOver {
       this.menuRects = new ArrayList<>();
       for (int i = 0; i < gameOver.menuOptions.length; i++) {
          Rectangle rect = new Rectangle(
-               (int) (425 * Game.SCALE),
-               (int) ((450 + i * gameOver.menuOptionsDiff) * Game.SCALE),
-               (int) (200 * Game.SCALE),
-               (int) (50 * Game.SCALE));
+               425, (450 + i * gameOver.menuOptionsDiff),
+               200, 50);
          menuRects.add(rect);
       }
    }

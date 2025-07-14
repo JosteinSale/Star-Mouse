@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
-import main_classes.Game;
 import rendering.MyColor;
 import rendering.MyImage;
 import rendering.misc.RenderOptionsMenu;
@@ -35,10 +34,8 @@ public class RenderPauseFly {
       this.menuRects = new ArrayList<>();
       for (int i = 0; i < pause.menuOptions.length; i++) {
          Rectangle rect = new Rectangle(
-               (int) (425 * Game.SCALE),
-               (int) ((pause.cursorMinY - 40 + i * pause.menuOptionsDiff) * Game.SCALE),
-               (int) (200 * Game.SCALE),
-               (int) (50 * Game.SCALE));
+               425, pause.cursorMinY - 40 + i * pause.menuOptionsDiff,
+               200, 50);
          menuRects.add(rect);
       }
    }

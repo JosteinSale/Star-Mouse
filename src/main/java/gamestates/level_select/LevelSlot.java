@@ -4,8 +4,6 @@ import static utils.Constants.UI.LEVEL_ICON_DRAW_SIZE;
 
 import com.badlogic.gdx.math.Rectangle;
 
-import main_classes.Game;
-
 /**
  * Represents a slot in levelSelect, which contains a level icon, and holds
  * a levelInfo-object, as well as x- and y-positions.
@@ -32,12 +30,10 @@ public class LevelSlot {
       this.xPos = xPos;
       this.yPos = yPos;
       this.lvlNameRect = new Rectangle(
-            (int) (xPos * Game.SCALE),
-            (int) ((yPos - 75) * Game.SCALE),
-            (int) (LEVEL_ICON_DRAW_SIZE * Game.SCALE),
-            (int) (50 * Game.SCALE));
+            xPos, yPos - 75,
+            LEVEL_ICON_DRAW_SIZE, 50);
       this.killCountRect = new Rectangle(lvlNameRect);
-      this.killCountRect.y += (int) (195 * Game.SCALE);
+      this.killCountRect.y += 195;
    }
 
    /** Sets the associated level. The slot is no longer considered empty. */

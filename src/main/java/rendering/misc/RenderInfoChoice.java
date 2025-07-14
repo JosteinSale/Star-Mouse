@@ -1,6 +1,5 @@
 package rendering.misc;
 
-import main_classes.Game;
 import rendering.MyImage;
 import rendering.MyColor;
 import rendering.Render;
@@ -42,8 +41,8 @@ public class RenderInfoChoice implements Render {
       this.cursorW = (int) (CURSOR_WIDTH * 0.6f);
       this.cursorH = (int) (CURSOR_HEIGHT * 0.6f);
       this.questionRect = new Rectangle(
-            (int) (this.ic.infoChX * Game.SCALE), (int) ((infoChY + 20) * Game.SCALE),
-            (int) (INFOBOX_WIDTH * Game.SCALE), (int) (50 * Game.SCALE));
+            this.ic.infoChX, infoChY + 20,
+            INFOBOX_WIDTH, 50);
    }
 
    @Override

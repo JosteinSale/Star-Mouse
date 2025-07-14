@@ -89,7 +89,7 @@ public class LoadSaveMenu {
       ProgressValues save = game.getSaveData().getProgValuesFor(selectedSaveFile);
       if (save.saveStarted) {
          // Load the save into current progressValues in game.
-         this.loadSelectedSaveIntoGame(selectedSaveFile);
+         this.loadSelectedSaveFromDisc(selectedSaveFile);
       } else {
          // Save file is empty. Display message asking player if they want to start
          // a new game.
@@ -137,7 +137,7 @@ public class LoadSaveMenu {
       ProgressValues progValues = game.getSaveData().getProgValuesFor(selectedFile);
       progValues.resetToDefault();
       progValues.saveStarted = true;
-      this.loadSelectedSaveIntoGame(selectedFile);
+      this.loadSelectedSaveFromDisc(selectedFile);
    }
 
    /**
@@ -146,8 +146,8 @@ public class LoadSaveMenu {
     * The menu is deactivated after the transition is complete (but keyboardInputs
     * are not handled, due to being downprioritized in MainMenu :: update.)
     */
-   private void loadSelectedSaveIntoGame(int selectedFile) {
-      game.loadSaveIntoGame(selectedFile);
+   private void loadSelectedSaveFromDisc(int selectedFile) {
+      game.loadSaveFromDisc(selectedFile);
       game.getMainMenu().startTransitionToGame();
    }
 
