@@ -43,6 +43,9 @@ public class KeyboardInputs implements InputProcessor {
     /**
      * Should be called when the player is in controls menu,
      * after they have typed a new key and confirmed with 'interact'.
+     * 
+     * @param index The keycode for the new key
+     * @returns The string name of the new key given as input
      */
     public String updateKeybindings(int index) {
         // Since 'interact' was the newest typed key, we use the 'oldTypedKey'
@@ -106,7 +109,7 @@ public class KeyboardInputs implements InputProcessor {
             game.pauseIsPressed = true;
         }
         if (keycode == Input.Keys.ESCAPE) {
-            game.toggleFullScreen();
+            game.escapeIsPressed = true;
         }
         if (Gamestate.state == Gamestate.LEVEL_EDITOR) {
             // game.getLevelEditor().handleKeyboardInputs(keycode); // TODO
@@ -142,6 +145,9 @@ public class KeyboardInputs implements InputProcessor {
         }
         if (keycode == pause) {
             game.pauseIsPressed = false;
+        }
+        if (keycode == Input.Keys.ESCAPE) {
+            game.escapeIsPressed = false;
         }
         return true;
     }

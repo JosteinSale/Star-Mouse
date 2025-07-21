@@ -13,8 +13,17 @@ public class ControlsMenu {
    private boolean active = false;
    public boolean settingKey = false;
 
-   public String[] keyFunctions = { "Up", "Down", "Right", "Left", "Interact / Shoot lazer", "Shoot bombs", "Teleport",
-         "Pause / Unpause", "Return" };
+   public String[] keyFunctions = {
+         "Up",
+         "Down",
+         "Right",
+         "Left",
+         "Interact / Shoot lazer",
+         "Shoot bombs",
+         "Teleport",
+         "Pause / Unpause",
+         "Return"
+   };
    public String[] keyBindings;
    private int selectedIndex = 8;
 

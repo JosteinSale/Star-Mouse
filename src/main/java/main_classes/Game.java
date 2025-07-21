@@ -21,12 +21,12 @@ import utils.Images;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 
 public class Game extends ApplicationAdapter {
    // Game width and height
@@ -67,6 +67,7 @@ public class Game extends ApplicationAdapter {
    public boolean teleportIsPressed = false;
    public boolean bombIsPressed = false;
    public boolean pauseIsPressed = false;
+   public boolean escapeIsPressed = false;
 
    // Testing mode. This is modified from the Main Menu
    public boolean testingMode = false;
@@ -75,7 +76,8 @@ public class Game extends ApplicationAdapter {
    public void create() {
       batch = new SpriteBatch();
       viewport = new FitViewport(GAME_DEFAULT_WIDTH, GAME_DEFAULT_HEIGHT, camera);
-      Gdx.input.setInputProcessor(new KeyboardInputs(this));
+      KeyboardInputs kbInputs = new KeyboardInputs(this);
+      Gdx.input.setInputProcessor(kbInputs);
       camera.setToOrtho(true, 1050, 750);
 
       // Init resources
@@ -94,8 +96,7 @@ public class Game extends ApplicationAdapter {
       this.cinematic = new Cinematic(this);
       this.drawSaving = new DrawSaving();
       this.view = new View(this);
-
-      // optionsMenu.setKeyboardInputs(gamePanel.getKeyboardInputs()); // TODO - Fix
+      optionsMenu.setKeyboardInputs(kbInputs);
    }
 
    private void initializeSaveData() {
@@ -129,8 +130,6 @@ public class Game extends ApplicationAdapter {
 
    @Override
    public void render() {
-      update(); // Updates the game logic
-
       Gdx.gl.glClearColor(0, 0, 0, 1); // Clear screen
       Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -141,19 +140,22 @@ public class Game extends ApplicationAdapter {
       view.draw(batch);
       drawSaving.draw(batch);
       batch.end();
+
+      update(); // Updates the game logic
+      checkWindowResize();
    }
 
    @Override
    public void resize(int width, int height) {
-      viewport.update(width, height, true); // <‑‑ keep aspect, center camera
+      viewport.update(width, height, true);
    }
 
    public void toggleFullScreen() {
-      if (!Gdx.graphics.isFullscreen()) {
-         Graphics.DisplayMode mode = Gdx.graphics.getDisplayMode();
-         Gdx.graphics.setFullscreenMode(mode);
+      if (Gdx.graphics.isFullscreen()) {
+         Gdx.graphics.setWindowedMode(GAME_DEFAULT_WIDTH, GAME_DEFAULT_HEIGHT);
+         Gdx.graphics.setUndecorated(false);
       } else {
-         Gdx.graphics.setWindowedMode(1050, 750); // fall back
+         Gdx.graphics.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
       }
    }
 
@@ -188,6 +190,13 @@ public class Game extends ApplicationAdapter {
          default:
             Gdx.app.exit();
             break;
+      }
+   }
+
+   private void checkWindowResize() {
+      if (escapeIsPressed) {
+         escapeIsPressed = false;
+         this.toggleFullScreen();
       }
    }
 
