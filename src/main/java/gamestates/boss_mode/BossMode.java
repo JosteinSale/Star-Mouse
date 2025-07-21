@@ -16,19 +16,7 @@ import entities.bossmode.rudinger1.Rudinger1;
 import entities.bossmode.AnimatedComponentFactory;
 import entities.bossmode.IBoss;
 import entities.flying.enemies.EnemyManager;
-import game_events.ClearObjectsEvent;
-import game_events.EventHandler;
-import game_events.FadeOutLoopEvent;
-import game_events.GeneralEvent;
-import game_events.GoToFlyingEvent;
-import game_events.ObjectMoveEvent;
-import game_events.PlaySFXEvent;
-import game_events.SetBossVisibleEvent;
-import game_events.SetVisibleEvent;
-import game_events.StartAmbienceEvent;
-import game_events.StartSongEvent;
-import game_events.StopLoopsEvent;
-import game_events.TextBoxEvent;
+import game_events.*;
 import gamestates.Gamestate;
 import gamestates.State;
 import main_classes.Game;
@@ -236,7 +224,7 @@ public class BossMode extends State {
    public void restartBossSong() {
       int songNr = switch (bossNr) {
          case 1 -> Audio.SONG_BOSS1;
-         default -> 0;
+         default -> throw new IllegalArgumentException("No song available for boss nr: " + bossNr);
       };
       game.getAudioPlayer().startSong(songNr, 0f, true);
    }
