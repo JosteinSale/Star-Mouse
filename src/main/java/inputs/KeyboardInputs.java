@@ -8,8 +8,8 @@ import main_classes.Game;
 
 public class KeyboardInputs implements InputProcessor {
     private Game game;
-    private int newTypedKey; // The most recently typed key
-    private int oldTypedKey; // The second most recently typed key
+    private int lastTypedKey; // The most recently typed key
+    private int secondLastTypedKey; // The second most recently typed key
 
     // Default key bindings
     public int up = Input.Keys.W;
@@ -50,7 +50,7 @@ public class KeyboardInputs implements InputProcessor {
     public String updateKeybindings(int index) {
         // Since 'interact' was the newest typed key, we use the 'oldTypedKey'
         // to get the actual key the player wanted to set.
-        String newKey = Input.Keys.toString(oldTypedKey);
+        String newKey = Input.Keys.toString(secondLastTypedKey);
         this.keyBindingNames[index] = newKey;
         remapKeyPressed(index);
         return newKey;
@@ -58,7 +58,7 @@ public class KeyboardInputs implements InputProcessor {
 
     /** Is used to show the player the latest key they typed */
     public String updateLatestKey(int index) {
-        String newKey = Input.Keys.toString(newTypedKey);
+        String newKey = Input.Keys.toString(lastTypedKey);
         this.keyBindingNames[index] = newKey;
         return newKey;
     }
@@ -69,7 +69,7 @@ public class KeyboardInputs implements InputProcessor {
 
     /** Updates the actual keyBindings for the game */
     private void remapKeyPressed(int index) {
-        int keyCode = oldTypedKey;
+        int keyCode = secondLastTypedKey;
         switch (index) {
             case 0 -> up = keyCode;
             case 1 -> down = keyCode;
@@ -114,8 +114,8 @@ public class KeyboardInputs implements InputProcessor {
         if (Gamestate.state == Gamestate.LEVEL_EDITOR) {
             // game.getLevelEditor().handleKeyboardInputs(keycode); // TODO
         }
-        oldTypedKey = newTypedKey;
-        newTypedKey = keycode;
+        secondLastTypedKey = lastTypedKey;
+        lastTypedKey = keycode;
 
         return false;
     }
@@ -180,5 +180,9 @@ public class KeyboardInputs implements InputProcessor {
     @Override
     public boolean scrolled(float amountX, float amountY) {
         return false;
+    }
+
+    public int getSecondLastTypedKey() {
+        return this.secondLastTypedKey;
     }
 }

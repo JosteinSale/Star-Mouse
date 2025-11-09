@@ -1,5 +1,7 @@
 package ui;
 
+import com.badlogic.gdx.Input;
+
 import audio.AudioPlayer;
 import inputs.KeyboardInputs;
 import main_classes.Game;
@@ -54,11 +56,14 @@ public class ControlsMenu {
 
    private void handleKeyBoardInputs() {
       if (settingKey && game.interactIsPressed) {
-         setKeyBinding(selectedIndex);
          game.interactIsPressed = false;
-         settingKey = false;
-         audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
-         return;
+         if (!keyIsFreeToBeSet()) {
+            audioPlayer.playSFX(Audio.SFX_HURT);
+         } else {
+            setKeyBinding(selectedIndex);
+            settingKey = false;
+            audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
+         }
       } else if (settingKey) { // We're waiting for player-input.
          return;
       } else if (game.downIsPressed) {
@@ -79,6 +84,16 @@ public class ControlsMenu {
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
          }
       }
+   }
+
+   private boolean keyIsFreeToBeSet() {
+      // Check if the second last typed key is already in use in Keybindings.
+      for (int i = 0; i < keyBindings.length; i++) {
+         if (keyBindings[i].equals(Input.Keys.toString(keyboardInputs.getSecondLastTypedKey()))) {
+            return false;
+         }
+      }
+      return true;
    }
 
    /** Sets the new keybindings in both controls-menu and keyboard-inputs */
