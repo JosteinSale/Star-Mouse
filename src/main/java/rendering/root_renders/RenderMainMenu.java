@@ -15,10 +15,11 @@ import rendering.misc.RenderLoadSave;
 import rendering.misc.RenderOptionsMenu;
 import utils.DrawUtils;
 import utils.Images;
+import utils.Singleton;
 
 import static utils.Constants.UI.*;
 
-public class RenderMainMenu implements Render {
+public class RenderMainMenu extends Singleton implements Render {
 
    private MainMenu mainMenu;
    private RenderOptionsMenu rOptionsMenu;

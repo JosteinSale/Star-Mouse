@@ -5,6 +5,7 @@ import gamestates.Gamestate;
 import gamestates.boss_mode.BossMode;
 import main_classes.Game;
 import utils.Constants.Audio;
+import utils.Singleton;
 
 /**
  * For use in BossMode.
@@ -13,7 +14,7 @@ import utils.Constants.Audio;
  * 2) display menu options,
  * 3) wait for player to choose an option.
  */
-public class GameoverOverlay2 {
+public class GameoverOverlay2 extends Singleton {
    private Game game;
    private BossMode bossMode;
    private AudioPlayer audioPlayer;

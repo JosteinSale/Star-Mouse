@@ -1,11 +1,13 @@
 package data_storage;
 
+import utils.Singleton;
+
 /**
  * Contains 3 progressValue-objects, which each represent a save file.
  * This entire object will be saved into JSON-format every time
  * the game is saved.
  */
-public class SaveData {
+public class SaveData extends Singleton {
    /*
     * NOTE: progValues must be public, as the DataStorage-machinery will look for
     * public variables with these names, or getters and setters for variables

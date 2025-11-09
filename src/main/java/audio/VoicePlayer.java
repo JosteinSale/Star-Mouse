@@ -7,6 +7,8 @@ import java.util.HashMap;
 
 import javax.sound.sampled.Clip;
 
+import utils.Singleton;
+
 /**
  * This class handles all voice clips for the game.
  * All voice clips require rapid fire (i.e can be played in fast succession).
@@ -14,7 +16,7 @@ import javax.sound.sampled.Clip;
  * They are inialized in SamplePlayer-objects the first time the play-method
  * for that character is called (see javadoc for SamplePlayer).
  */
-public class VoicePlayer {
+public class VoicePlayer extends Singleton {
     private final int sampleCopies = 3;
     private HashMap<String, SamplePlayer> fastSamples;
     private static HashMap<String, String> nameToClipMap; // Maps the character's name to the clip
@@ -67,8 +69,10 @@ public class VoicePlayer {
         fastSamples.put(name, samplePlayer);
     }
 
-    /** Checks if the clip is loaded into memory. If not, it loads a new SamplePlayer 
-     * object with 3 voice clips into memory first. Then it plays the clip. */
+    /**
+     * Checks if the clip is loaded into memory. If not, it loads a new SamplePlayer
+     * object with 3 voice clips into memory first. Then it plays the clip.
+     */
     public void play(String name) {
         if (!fastSamples.containsKey(name)) {
             this.loadSamplesForCharacter(name, curVolume);

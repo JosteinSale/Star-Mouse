@@ -19,8 +19,9 @@ import rendering.Render;
 import utils.DrawUtils;
 import utils.HelpMethods2;
 import utils.Images;
+import utils.Singleton;
 
-public class RenderLevelSelect implements Render {
+public class RenderLevelSelect extends Singleton implements Render {
    private LevelSelect levelSelect;
    private MyImage bgImg;
    private ArrayList<MyImage> layoutImgs;

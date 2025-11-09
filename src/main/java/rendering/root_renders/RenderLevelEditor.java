@@ -11,8 +11,9 @@ import rendering.MySubImage;
 import rendering.flying.EntityImages;
 import utils.DrawUtils;
 import utils.Images;
+import utils.Singleton;
 
-public class RenderLevelEditor {
+public class RenderLevelEditor extends Singleton {
 
    private LevelEditor le;
    private EntityImages entityImages;

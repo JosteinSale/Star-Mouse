@@ -10,6 +10,7 @@ import entities.flying.enemies.Enemy;
 import entities.flying.enemies.EnemyManager;
 import game_events.AddProjectileEvent;
 import main_classes.Game;
+import utils.Singleton;
 
 import static utils.Constants.Flying.SpriteSizes.*;
 import static utils.Constants.Flying.TypeConstants.BOMB_PROJECTILE;
@@ -18,7 +19,7 @@ import static utils.Constants.Flying.TypeConstants.DRONE_PROJECTILE;
 import static utils.HelpMethods.IsSolid;
 import static utils.Constants.Audio;
 
-public class ProjectileHandler {
+public class ProjectileHandler extends Singleton {
    protected Game game;
    protected AudioPlayer audioPlayer;
    protected ShootingPlayer player;

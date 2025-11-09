@@ -83,7 +83,7 @@ public class Game extends ApplicationAdapter {
 
       // Main game objects
       this.initializeSaveData();
-      this.audioPlayer = AudioPlayer.getSingletonAudioPlayer();
+      this.audioPlayer = new AudioPlayer();
       this.images = new Images();
       this.textBoxManager = new TextboxManager(this);
       this.optionsMenu = new OptionsMenu(this, audioPlayer);

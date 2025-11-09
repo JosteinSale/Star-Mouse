@@ -17,8 +17,9 @@ import rendering.misc.RenderInfoBox;
 import rendering.misc.RenderInfoChoice;
 import rendering.misc.RenderOptionsMenu;
 import ui.PauseExploring;
+import utils.Singleton;
 
-public class RenderExploring implements Render {
+public class RenderExploring extends Singleton implements Render {
    private Game game;
    private Exploring exploring;
    private PauseExploring pause;

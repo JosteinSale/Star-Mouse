@@ -15,8 +15,9 @@ import rendering.flying.RenderPlayerFly;
 import rendering.flying.RenderProjectiles;
 import rendering.misc.RenderCutscene;
 import rendering.misc.RenderOptionsMenu;
+import utils.Singleton;
 
-public class RenderFlying implements Render {
+public class RenderFlying extends Singleton implements Render {
    private Flying flying;
    private RenderMap2 rMap;
    private RenderPlayerFly rPlayer;

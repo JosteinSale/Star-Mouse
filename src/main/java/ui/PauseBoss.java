@@ -5,8 +5,9 @@ import gamestates.Gamestate;
 import gamestates.boss_mode.BossMode;
 import main_classes.Game;
 import utils.Constants.Audio;
+import utils.Singleton;
 
-public class PauseBoss {
+public class PauseBoss extends Singleton {
    private Game game;
    private AudioPlayer audioPlayer;
    private BossMode bossMode;

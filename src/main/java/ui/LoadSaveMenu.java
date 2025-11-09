@@ -4,6 +4,7 @@ import audio.AudioPlayer;
 import data_storage.ProgressValues;
 import main_classes.Game;
 import utils.Constants.Audio;
+import utils.Singleton;
 
 /**
  * This menu handles loading of a previous game, and starting a new game.
@@ -15,7 +16,7 @@ import utils.Constants.Audio;
  * then selects an occupied Save file, a popup-message will say:
  * "overwrite this save?" This won't happen if the player chose 'Load Game'.
  */
-public class LoadSaveMenu {
+public class LoadSaveMenu extends Singleton {
    private Game game;
    private AudioPlayer audioPlayer;
    private InfoChoice infoChoice;

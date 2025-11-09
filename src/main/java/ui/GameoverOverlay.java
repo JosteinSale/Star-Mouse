@@ -3,6 +3,7 @@ package ui;
 import audio.AudioPlayer;
 import gamestates.flying.Flying;
 import utils.Constants.Audio;
+import utils.Singleton;
 
 /**
  * Should be updated and drawn when the player dies. It does the following:
@@ -10,7 +11,7 @@ import utils.Constants.Audio;
  * 2) display menu options,
  * 3) wait for player to choose an option.
  */
-public class GameoverOverlay {
+public class GameoverOverlay extends Singleton {
    private Flying flying;
    private AudioPlayer audioPlayer;
 

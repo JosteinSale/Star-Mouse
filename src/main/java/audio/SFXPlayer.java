@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.sound.sampled.Clip;
+
+import utils.Singleton;
+
 import static audio.AudioUtils.setClipVolume;
 import static audio.AudioUtils.getNewClip;
 
@@ -20,7 +23,7 @@ import static audio.AudioUtils.getNewClip;
  * All other samples will be initialized upon need, and is kept
  * in memory until the game is shut down.
  */
-public class SFXPlayer {
+public class SFXPlayer extends Singleton {
     // Only the soundfiles included in the game.
     // OBS: Don't change the indexes. These are coded into the Constants-class
     private String[] SFXfileNames = {

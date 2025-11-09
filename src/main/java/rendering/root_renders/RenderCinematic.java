@@ -6,8 +6,9 @@ import rendering.MyColor;
 import rendering.Render;
 import rendering.misc.RenderCutscene;
 import utils.DrawUtils;
+import utils.Singleton;
 
-public class RenderCinematic implements Render {
+public class RenderCinematic extends Singleton implements Render {
    private RenderCutscene rCutscene;
 
    public RenderCinematic(RenderCutscene rCutscene) {

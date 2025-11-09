@@ -2,13 +2,15 @@ package data_storage;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import utils.Singleton;
+
 import java.io.File;
 import java.io.IOException;
 
 // OBS: This class was written by chatGPT
 
 /** Handles loading and saving of data */
-public class DataStorage {
+public class DataStorage extends Singleton {
 
    private static final ObjectMapper objectMapper = new ObjectMapper();
    private static final String FILE_NAME = "starMouseData.json";

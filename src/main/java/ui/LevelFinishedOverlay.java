@@ -7,12 +7,13 @@ import java.util.ArrayList;
 import gamestates.flying.Flying;
 import main_classes.Game;
 import utils.Constants.Audio;
+import utils.Singleton;
 
 /**
  * Fades in "Level Finished" header, draws level stats in a sexy way,
  * then displays "Continue". Player can exit this screen at any time.
  */
-public class LevelFinishedOverlay {
+public class LevelFinishedOverlay extends Singleton {
    private Game game;
    private Flying flying;
 

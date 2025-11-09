@@ -4,8 +4,9 @@ import audio.AudioPlayer;
 import inputs.KeyboardInputs;
 import main_classes.Game;
 import utils.Constants.Audio;
+import utils.Singleton;
 
-public class OptionsMenu {
+public class OptionsMenu extends Singleton {
    private Game game;
    private AudioPlayer audioPlayer;
    private ControlsMenu controlsMenu;

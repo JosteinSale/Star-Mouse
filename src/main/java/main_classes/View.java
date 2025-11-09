@@ -16,6 +16,7 @@ import rendering.root_renders.RenderLevelSelect;
 import rendering.root_renders.RenderMainMenu;
 import rendering.root_renders.RenderStartScreen;
 import utils.Images;
+import utils.Singleton;
 
 /**
  * The View initializes one specialized render-object for each gamestate,
@@ -29,7 +30,7 @@ import utils.Images;
  * The renderer for each state keeps a reference
  * to its respective model, + any additional renderers it may need.
  */
-public class View {
+public class View extends Singleton {
    private RenderStartScreen rStartScreen;
    private RenderInfoBox rInfoBox;
    private RenderInfoChoice rInfoChoice;

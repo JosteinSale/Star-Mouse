@@ -4,13 +4,14 @@ import rendering.MyColor;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import utils.DrawUtils;
+import utils.Singleton;
 
 /**
  * A small class that can be used to display a 'Saving Game'-message.
  * It handles its own active-status, so you can just call the update-
  * and draw-methods every frame.
  */
-public class DrawSaving {
+public class DrawSaving extends Singleton {
    private boolean active = false;
    private int displayTimer = 90;
    private int displayTick;

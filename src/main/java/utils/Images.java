@@ -15,12 +15,11 @@ import static utils.Constants.RESOURCES_PATH;
  * 
  * Also it enables centralized loading and flushing of images.
  */
-public class Images {
+public class Images extends Singleton {
    private HashMap<String, MyImage> imagesToBeKeptInMemory;
    private HashMap<String, MyImage> imagesToBeFlushed;
    private HashMap<String, BufferedImage> collisionImagesToBeFlushed;
    public static MyImage pixel = ResourceLoader.getImage(RESOURCES_PATH + "miscImages/pixel.png");
-   private static boolean singletonCreated = false;
 
    // Menus
    public static final String BASIC_MOUSE = "BasicMouse.png";
@@ -108,13 +107,9 @@ public class Images {
    public static final String SMALL_ENTITY_SPRITES = "sprites_all.png";
 
    public Images() {
-      if (singletonCreated) {
-         throw new IllegalArgumentException("Singleton already created. Don't create new ImageContainer!");
-      }
       this.imagesToBeKeptInMemory = new HashMap<>();
       this.imagesToBeFlushed = new HashMap<>();
       this.collisionImagesToBeFlushed = new HashMap<>();
-      Images.singletonCreated = true;
    }
 
    private MyImage getImage(String imageName, boolean keepInMemory) {

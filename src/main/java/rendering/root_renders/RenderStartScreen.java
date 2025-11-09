@@ -9,8 +9,9 @@ import rendering.MyImage;
 import rendering.Render;
 import utils.DrawUtils;
 import utils.Images;
+import utils.Singleton;
 
-public class RenderStartScreen implements Render {
+public class RenderStartScreen extends Singleton implements Render {
 
    private StartScreen startScreen;
    private MyImage mouseImg;

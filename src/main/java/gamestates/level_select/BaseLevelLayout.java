@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 import audio.AudioPlayer;
 import main_classes.Game;
+import utils.Singleton;
 
-public abstract class BaseLevelLayout {
+public abstract class BaseLevelLayout extends Singleton {
    protected Game game;
    protected AudioPlayer audioPlayer;
    public ArrayList<LevelSlot> levelSlots;

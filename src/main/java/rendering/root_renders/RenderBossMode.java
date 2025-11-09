@@ -17,11 +17,12 @@ import rendering.flying.RenderProjectiles;
 import rendering.misc.RenderCutscene;
 import rendering.misc.RenderOptionsMenu;
 import utils.Images;
+import utils.Singleton;
 
 /**
  * Draws all of bossMode.
  */
-public class RenderBossMode implements Render {
+public class RenderBossMode extends Singleton implements Render {
    private Images images;
    private BossMode bossMode;
    private RenderBossMap mapManager;

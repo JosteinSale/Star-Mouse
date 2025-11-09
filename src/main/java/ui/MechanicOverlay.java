@@ -4,8 +4,9 @@ import audio.AudioPlayer;
 import data_storage.ProgressValues;
 import main_classes.Game;
 import utils.Constants.Audio;
+import utils.Singleton;
 
-public class MechanicOverlay {
+public class MechanicOverlay extends Singleton {
    private Game game;
    private AudioPlayer audioPlayer;
    private InfoBox infoBox;

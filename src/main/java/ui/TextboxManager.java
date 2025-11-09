@@ -7,6 +7,7 @@ import game_events.NoSkipDialogueEvent;
 import game_events.SmallDialogueEvent;
 import game_events.TextBoxEvent;
 import main_classes.Game;
+import utils.Singleton;
 
 /**
  * Currently we use this TextboxManager-object for the entire game.
@@ -16,7 +17,7 @@ import main_classes.Game;
  * the wait + advance combo might prematurely forward the textbox.
  * Fix: don't use textbox events immediately after switching states.
  */
-public class TextboxManager implements ITextboxManager {
+public class TextboxManager extends Singleton implements ITextboxManager {
    private InfoBox infoBox;
    private InfoChoice infoChoice;
    private BigDialogueBox bigDialogueBox;

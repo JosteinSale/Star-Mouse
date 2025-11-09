@@ -6,8 +6,9 @@ import audio.AudioPlayer;
 import gamestates.Gamestate;
 import main_classes.Game;
 import utils.Constants.Audio;
+import utils.Singleton;
 
-public class PauseExploring {
+public class PauseExploring extends Singleton {
    private Game game;
    private AudioPlayer audioPlayer;
    private OptionsMenu optionsMenu;

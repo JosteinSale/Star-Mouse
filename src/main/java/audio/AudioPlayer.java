@@ -8,8 +8,9 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 
 import utils.Constants.Audio;
+import utils.Singleton;
 
-public class AudioPlayer {
+public class AudioPlayer extends Singleton {
     private SFXPlayer sfxPlayer;
     private VoicePlayer voicePlayer;
     private String[] songFileNames = {
@@ -58,21 +59,11 @@ public class AudioPlayer {
     private int waitTick = 0; // Used for fade
     private int tickPerFrame = 20;
 
-    private static boolean singletonCreated = false; // Flag to determine singleton
-
     /** Private constructor, to ensure that we never make a new one. */
-    private AudioPlayer() {
-        if (singletonCreated) {
-            throw new IllegalArgumentException("Singleton created. Don't create new AudioPlayer!");
-        }
-        AudioPlayer.singletonCreated = true;
+    public AudioPlayer() {
         loadAudio();
         initAmbience();
         this.startSilentTrack();
-    }
-
-    public static AudioPlayer getSingletonAudioPlayer() {
-        return new AudioPlayer();
     }
 
     /**

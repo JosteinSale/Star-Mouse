@@ -28,8 +28,7 @@ import utils.ResourceLoader;
  * to the console, and copy-paste it into the levelData-file (overwriting the
  * entity entries). See the 'handleKeyboardInputs'-method for controls.
  */
-public class LevelEditor {
-   private Game game;
+public class LevelEditor extends State {
    public Integer level = 4;
    public EntityFactory entityFactory;
    private ArrayList<String> levelData;
@@ -56,7 +55,7 @@ public class LevelEditor {
 
    public LevelEditor(
          Game game, EntityFactory entityFactory) {
-      this.game = game;
+      super(game);
       this.entityFactory = entityFactory;
       this.hitboxes = new ArrayList<>();
       this.shootTimers = new ArrayList<>();

@@ -3,8 +3,9 @@ package ui;
 import audio.AudioPlayer;
 import gamestates.flying.Flying;
 import utils.Constants.Audio;
+import utils.Singleton;
 
-public class PauseFlying {
+public class PauseFlying extends Singleton {
     private AudioPlayer audioPlayer;
     private Flying flying;
     public OptionsMenu optionsMenu;
