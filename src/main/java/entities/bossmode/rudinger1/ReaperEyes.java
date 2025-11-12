@@ -1,7 +1,7 @@
 package entities.bossmode.rudinger1;
 
 import java.awt.Point;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import entities.bossmode.AnimatedComponent;
 import entities.bossmode.AnimationInfo;
@@ -20,9 +20,16 @@ public class ReaperEyes extends AnimatedComponent {
    private float startX;
    private float startY;
 
+   // Different states for the eye animation
+   public final static String IDLE = "IDLE";
+   public final static String SHUT_DOWN = "SHUT_DOWN";
+   public final static String BOOT_UP = "BOOT_UP";
+   public final static String FLASHING = "FLASHING";
+   public final static String SMALL_EYES = "SMALL_EYES";
+
    public ReaperEyes(String spriteSheet, int spriteW, int spriteH, int rows, int cols,
-         ArrayList<AnimationInfo> aniInfo, float xPos, float yPos, PlayerBoss player) {
-      super(spriteSheet, spriteW, spriteH, rows, cols, aniInfo, xPos, yPos);
+         HashMap<String, AnimationInfo> aniInfo, float xPos, float yPos, PlayerBoss player) {
+      super(spriteSheet, aniInfo, IDLE, spriteW, spriteH, rows, cols, xPos, yPos);
       this.startX = xPos;
       this.startY = yPos;
       this.player = player;
@@ -32,10 +39,10 @@ public class ReaperEyes extends AnimatedComponent {
    }
 
    public void update() {
-      if (aniAction == 0 || aniAction == 4) {
+      if (aniAction.equals(IDLE) || aniAction.equals(SMALL_EYES)) {
          lookAtPlayer();
       }
-      if (aniAction == 1) {
+      if (aniAction.equals(SHUT_DOWN)) {
          this.xPos = startX;
          this.yPos = startY + 10;
       }
@@ -62,7 +69,7 @@ public class ReaperEyes extends AnimatedComponent {
       this.yPos = (float) newY;
    }
 
-   public void setAnimation(int aniAction) {
+   public void setAnimation(String aniAction) {
       this.aniAction = aniAction;
    }
 }

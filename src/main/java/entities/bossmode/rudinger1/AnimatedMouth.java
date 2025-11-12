@@ -1,6 +1,6 @@
 package entities.bossmode.rudinger1;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import entities.bossmode.AnimatedComponent;
 import entities.bossmode.AnimationInfo;
@@ -19,9 +19,15 @@ public class AnimatedMouth extends AnimatedComponent {
    private int blinkTick = 0;
    private int blinkDuration = 20;
 
+   // Different states for the mouth animation
+   public static final String IDLE = "IDLE";
+   public static final String DAMAGE = "DAMAGE";
+   public static final String OPEN_UP = "OPEN_UP";
+   public static final String CLOSE = "CLOSE";
+
    public AnimatedMouth(String spriteSheet, int spriteW, int spriteH, int rows, int cols,
-         ArrayList<AnimationInfo> aniInfo, float xPos, float yPos) {
-      super(spriteSheet, spriteW, spriteH, rows, cols, aniInfo, xPos, yPos);
+         HashMap<String, AnimationInfo> aniInfo, float xPos, float yPos) {
+      super(spriteSheet, aniInfo, IDLE, spriteW, spriteH, rows, cols, xPos, yPos);
    }
 
    /** Call this method (once) when the boss takes damage */
@@ -50,5 +56,4 @@ public class AnimatedMouth extends AnimatedComponent {
          shouldDrawBlink = false;
       }
    }
-
 }

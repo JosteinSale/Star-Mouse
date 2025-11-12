@@ -1,6 +1,5 @@
 package entities.bossmode;
 
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
@@ -26,7 +25,6 @@ abstract public class DefaultBossPart implements IBossPart {
    public Rectangle2D.Float nonRotatedHitbox;
    protected Area rotatedArea; // Is used to check collision
    public Double rotation = 0.0;
-   public Image[][] imgs;
    protected AffineTransform af; // Is used in rotation operations
    public int animAction = 0;
    public int aniIndex = 0;
@@ -34,6 +32,7 @@ abstract public class DefaultBossPart implements IBossPart {
    public boolean rotatedImgVisible = false;
 
    // Sprite info
+   public AnimatedComponent animation;
    public String spriteName;
    public int aniRows;
    public int aniCols;

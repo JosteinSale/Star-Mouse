@@ -5,6 +5,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import entities.bossmode.AnimatedComponent;
 import entities.bossmode.AnimatedComponentFactory;
 import entities.bossmode.BossActionHandler;
 import entities.bossmode.DefaultBossPart;
@@ -49,16 +50,15 @@ public class Rudinger1 implements IBoss {
    private HeatSeekingPattern heatSeekingPattern2;
 
    // Actions
-   private final int IDLE = 0;
-   private final int SHOOT_ATTACK1 = 1;
-   private final int ROTATING_LAZER = 2;
-   private final int HEATSEEKING_LAZER = 3;
-   private final int SHOOT_ATTACK2 = 4;
-   private final int MACHINE_HEART = 5;
-
-   // Global timer
-   private int tick = 0;
-   public int currentAction = 0;
+   private final String IDLE1 = "IDLE1";
+   private final String SHOOT_ATTACK1 = "SHOOT_ATTACK1";
+   private final String IDLE2 = "IDLE2";
+   private final String ROTATING_LAZER = "ROTATING_LAZER";
+   private final String IDLE3 = "IDLE3";
+   private final String HEATSEEKING_LAZER = "HEATSEEKING_LAZER";
+   private final String SHOOT_ATTACK2 = "SHOOT_ATTACK2";
+   private final String IDLE4 = "IDLE4";
+   private final String MACHINE_HEART = "MACHINE_HEART";
 
    // Damage
    private int maxHP = 3000;
@@ -74,7 +74,7 @@ public class Rudinger1 implements IBoss {
       this.constructBossParts(game, player);
       this.constructShootPatterns(projectileHandler, player);
       this.registerActions();
-      this.actionHandler.startAction(currentAction);
+      this.actionHandler.startAction(IDLE1);
    }
 
    private void constructShootPatterns(ProjectileHandler2 projectileHandler, PlayerBoss player) {
@@ -122,12 +122,15 @@ public class Rudinger1 implements IBoss {
             (float) mainGunPoint.getX() - width1 / 2,
             (float) mainGunPoint.getY() - height1 / 2,
             width1, height1);
+      AnimatedComponent redChargeAnimation = animationFactory.getRedChargeAnimation(
+            Game.GAME_DEFAULT_WIDTH / 2 - 150,
+            Game.GAME_DEFAULT_HEIGHT / 2 - 170);
       this.verticalLazer = new RotatingLazer(
             hitbox1, Images.ROTATING_LAZER_SPRITE,
-            2, 3, 10, 433, 0.0, true);
+            2, 3, 10, 433, 0.0, redChargeAnimation);
       this.horizontalLazer = new RotatingLazer(
             hitbox1, Images.ROTATING_LAZER_SPRITE,
-            2, 3, 10, 433, Math.PI / 2, false);
+            2, 3, 10, 433, Math.PI / 2, null);
 
       // A heatseeking lazer.
 
@@ -174,7 +177,7 @@ public class Rudinger1 implements IBoss {
       // When at the end -> it goes back to start.
 
       actionHandler.registerAction(
-            IDLE,
+            IDLE1,
             160,
             new ArrayList<>(),
             new ArrayList<>());
@@ -187,7 +190,7 @@ public class Rudinger1 implements IBoss {
                   fanPattern1, fanPattern2)));
 
       actionHandler.registerAction(
-            IDLE,
+            IDLE2,
             100,
             new ArrayList<>(),
             new ArrayList<>());
@@ -200,7 +203,7 @@ public class Rudinger1 implements IBoss {
             new ArrayList<>());
 
       actionHandler.registerAction(
-            IDLE,
+            IDLE3,
             100,
             new ArrayList<>(),
             new ArrayList<>());
@@ -220,7 +223,7 @@ public class Rudinger1 implements IBoss {
                   heatSeekingPattern1, heatSeekingPattern2)));
 
       actionHandler.registerAction(
-            IDLE,
+            IDLE4,
             100,
             new ArrayList<>(),
             new ArrayList<>());
@@ -235,40 +238,9 @@ public class Rudinger1 implements IBoss {
 
    @Override
    public void update() {
-      checkIfAbortAction();
-      updateGlobalCycle();
-      updateCurrentAction();
+      actionHandler.update();
       updateAnimatedComponents();
       healthDisplay.update();
-   }
-
-   private void updateGlobalCycle() {
-      if (!actionHandler.hasDuration(currentAction)) {
-         return;
-      }
-      this.tick++;
-      if (this.tick >= this.actionHandler.getDuration(currentAction)) {
-         this.tick = 0;
-         goToNextAction();
-      }
-   }
-
-   private void goToNextAction() {
-      this.actionHandler.finishAction(currentAction);
-      this.currentAction = (currentAction + 1) % this.actionHandler.amountOfActions();
-      this.actionHandler.startAction(currentAction);
-   }
-
-   private void updateCurrentAction() {
-      this.actionHandler.updateAction(currentAction);
-   }
-
-   // An active action can choose to abort its attack for whatever reason.
-   // In such case, we go to the next action.
-   private void checkIfAbortAction() {
-      if (this.actionHandler.shouldAbort(currentAction)) {
-         this.goToNextAction();
-      }
    }
 
    private void updateAnimatedComponents() {
@@ -280,34 +252,34 @@ public class Rudinger1 implements IBoss {
    }
 
    private void setMouthAnimations() {
-      int action = this.actionHandler.getName(currentAction);
-      if (action == MACHINE_HEART) {
-         if (actionHandler.isActionCharging(currentAction)) {
-            mouth.setAnimation(2);
-         } else if (actionHandler.isActionCoolingDown(currentAction)) {
-            mouth.setAnimation(3);
+      String action = actionHandler.getNameOfCurrentAction();
+      if (action.equals(MACHINE_HEART)) {
+         if (actionHandler.isActionCharging()) {
+            mouth.setAnimation(AnimatedMouth.OPEN_UP);
+         } else if (actionHandler.isActionCoolingDown()) {
+            mouth.setAnimation(AnimatedMouth.CLOSE);
          }
       } else {
-         mouth.setAnimation(0);
+         mouth.setAnimation(AnimatedMouth.IDLE);
       }
    }
 
    private void setEyeAnimations() {
-      int action = this.actionHandler.getName(currentAction);
-      if (action == MACHINE_HEART) {
-         if (actionHandler.isActionCharging(currentAction)) {
-            eyes.setAnimation(1);
-         } else if (actionHandler.isActionCoolingDown(currentAction)) {
-            eyes.setAnimation(2);
+      String action = actionHandler.getNameOfCurrentAction();
+      if (action.equals(MACHINE_HEART)) {
+         if (actionHandler.isActionCharging()) {
+            eyes.setAnimation(ReaperEyes.SHUT_DOWN);
+         } else if (actionHandler.isActionCoolingDown()) {
+            eyes.setAnimation(ReaperEyes.BOOT_UP);
          }
-      } else if (action == SHOOT_ATTACK1) {
-         if (!actionHandler.isActionCharging(currentAction)) {
-            eyes.setAnimation(3);
+      } else if (action.equals(SHOOT_ATTACK1)) {
+         if (!actionHandler.isActionCharging()) {
+            eyes.setAnimation(ReaperEyes.FLASHING);
          }
-      } else if (action == HEATSEEKING_LAZER) {
-         eyes.setAnimation(4);
+      } else if (action.equals(HEATSEEKING_LAZER)) {
+         eyes.setAnimation(ReaperEyes.SMALL_EYES);
       } else {
-         eyes.setAnimation(0);
+         eyes.setAnimation(ReaperEyes.IDLE);
       }
    }
 
@@ -334,11 +306,10 @@ public class Rudinger1 implements IBoss {
 
    @Override
    public void takeDamage(int damage, boolean overrideInvincibility) {
-      int action = actionHandler.getName(currentAction);
-      if (action == MACHINE_HEART && !overrideInvincibility) {
-         // Don't take damage during docking
-         if (actionHandler.isActionCharging(currentAction) ||
-               actionHandler.isActionCoolingDown(currentAction)) {
+      String action = actionHandler.getNameOfCurrentAction();
+      if (action.equals(MACHINE_HEART) && !overrideInvincibility) {
+         // Don't take damage during mouth opening / closing
+         if (actionHandler.isActionCharging() || actionHandler.isActionCoolingDown()) {
             return;
          }
       }
@@ -351,9 +322,7 @@ public class Rudinger1 implements IBoss {
    @Override
    public void reset() {
       this.HP = maxHP;
-      this.tick = 0;
-      this.actionHandler.finishAction(currentAction);
-      this.currentAction = 0;
+      this.actionHandler.reset();
       this.healthDisplay.setHP(HP);
       this.healthDisplay.setBlinking(false);
    }

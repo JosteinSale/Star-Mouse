@@ -202,7 +202,7 @@ public class BossMode extends State {
 
    private void checkBossDeath() {
       if (boss.isDead()) {
-         this.killBoss();
+         this.killBoss(); // Yup. Kill the dead boss.
       }
    }
 
@@ -226,6 +226,7 @@ public class BossMode extends State {
          case 1 -> Audio.SONG_BOSS1;
          default -> throw new IllegalArgumentException("No song available for boss nr: " + bossNr);
       };
+      shouldMusicPlay = true;
       game.getAudioPlayer().startSong(songNr, 0f, true);
    }
 

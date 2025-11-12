@@ -1,6 +1,7 @@
 package entities.bossmode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import projectiles.shootPatterns.ShootPattern;
 
@@ -10,59 +11,67 @@ import projectiles.shootPatterns.ShootPattern;
  * The actions will then be added in that order.
  * Each action will have:
  * - A name
+ * - An order in the sequence of actions
  * - A duration
  * - A list of bossParts (can be empty)
  * - A list of shootPatterns (can be empty)
  * 
- * Use the getName() and getDuration() to access info about the action
- * Call startAction(), updateAction() and finishAction() to coordinate the
- * behavior.
- * 
+ * The BossActionHandler will loop through the actions in the given order,
+ * and update the bossParts and shootPatterns accordingly.
  */
 public class BossActionHandler {
-   // Each property of the attack will be linked to one common index for all lists.
-   ArrayList<Integer> actionNames;
-   ArrayList<Integer> durations;
-   ArrayList<ArrayList<DefaultBossPart>> bossParts;
-   ArrayList<ArrayList<ShootPattern>> shootPatterns;
+   private int tick = 0; // Global timer
+   private String currentAction;
+   private ArrayList<String> orderOfActions;
+
+   // Maps between the action name and their data
+   HashMap<String, Integer> durations;
+   HashMap<String, ArrayList<DefaultBossPart>> bossParts;
+   HashMap<String, ArrayList<ShootPattern>> shootPatterns;
 
    public BossActionHandler() {
-      this.actionNames = new ArrayList<>();
-      this.durations = new ArrayList<>();
-      this.bossParts = new ArrayList<>();
-      this.shootPatterns = new ArrayList<>();
+      this.orderOfActions = new ArrayList<>();
+      this.durations = new HashMap<>();
+      this.bossParts = new HashMap<>();
+      this.shootPatterns = new HashMap<>();
    }
 
    /** Use this constructor if the action has a globally controlled duration */
-   public void registerAction(int name, int duration, ArrayList<DefaultBossPart> bossParts,
+   public void registerAction(String name, int duration, ArrayList<DefaultBossPart> bossParts,
          ArrayList<ShootPattern> shootPatterns) {
-      this.actionNames.add(name);
-      this.durations.add(duration);
-      this.bossParts.add(bossParts);
-      this.shootPatterns.add(shootPatterns);
+      if (durations.containsKey(name)) {
+         throw new IllegalArgumentException("Action with name " + name + " is already registered.");
+      }
+      this.orderOfActions.add(name);
+      this.durations.put(name, duration);
+      this.bossParts.put(name, bossParts);
+      this.shootPatterns.put(name, shootPatterns);
    }
 
    /**
     * Use this constructor if the action doesn't have a globally controled duration
     */
    public void registerAction(
-         int name, ArrayList<DefaultBossPart> actionParts,
+         String name, ArrayList<DefaultBossPart> bossParts,
          ArrayList<ShootPattern> shootPatterns) {
-      this.actionNames.add(name);
-      this.durations.add(0);
-      this.bossParts.add(actionParts);
-      this.shootPatterns.add(shootPatterns);
+      if (durations.containsKey(name)) {
+         throw new IllegalArgumentException("Action with name " + name + " is already registered.");
+      }
+      this.orderOfActions.add(name);
+      this.durations.put(name, 0);
+      this.bossParts.put(name, bossParts);
+      this.shootPatterns.put(name, shootPatterns);
    }
 
    /**
     * Loops through the bossParts and shootPatters for the specific action,
     * and finishes them
     */
-   public void finishAction(int index) {
-      for (IBossPart part : bossParts.get(index)) {
+   public void finishAction(String name) {
+      for (IBossPart part : bossParts.get(name)) {
          part.finishAttack();
       }
-      for (ShootPattern pattern : shootPatterns.get(index)) {
+      for (ShootPattern pattern : shootPatterns.get(name)) {
          pattern.finishAttack();
       }
    }
@@ -71,54 +80,84 @@ public class BossActionHandler {
     * Loops through the bossParts for the specific action
     * and starts them
     */
-   public void startAction(int index) {
-      for (IBossPart part : bossParts.get(index)) {
+   public void startAction(String name) {
+      currentAction = name;
+      for (IBossPart part : bossParts.get(name)) {
          part.startAttack();
       }
+   }
+
+   public void update() {
+      checkIfAbortAction();
+      updateGlobalCycle();
+      updateAction(currentAction);
+   }
+
+   private void updateGlobalCycle() {
+      if (!currentActionHasDuration()) {
+         return;
+      }
+      tick++;
+      if (tick >= getDuration(currentAction)) {
+         tick = 0;
+         goToNextAction();
+      }
+   }
+
+   // An active action can choose to abort its attack for whatever reason.
+   // In such case, we go to the next action.
+   private void checkIfAbortAction() {
+      if (shouldAbort()) {
+         goToNextAction();
+      }
+   }
+
+   private void goToNextAction() {
+      finishAction(currentAction);
+      currentAction = orderOfActions.get(getNextInSequence());
+      startAction(currentAction);
+   }
+
+   private int getNextInSequence() {
+      int currentIndex = orderOfActions.indexOf(currentAction);
+      return (currentIndex + 1) % amountOfActions();
    }
 
    /**
     * Loops through the bossParts and shootPatters for the specific action,
     * and updates them
     */
-   public void updateAction(int index) {
-      for (IBossPart part : bossParts.get(index)) {
+   private void updateAction(String name) {
+      for (IBossPart part : bossParts.get(name)) {
          part.updateBehavior();
       }
-      for (ShootPattern pattern : shootPatterns.get(index)) {
+      for (ShootPattern pattern : shootPatterns.get(name)) {
          pattern.update();
       }
    }
 
-   public int getName(int actionIndex) {
-      if (actionIndex > (actionNames.size() - 1)) {
-         throw new IllegalArgumentException("No name available for index : " + actionIndex);
+   private int getDuration(String name) {
+      if (durations.get(name) == 0) {
+         throw new IllegalArgumentException("This action shouldn't have a duration : " + name);
       }
-      return this.actionNames.get(actionIndex);
-   }
-
-   public int getDuration(int actionIndex) {
-      if (durations.get(actionIndex) == 0) {
-         throw new IllegalArgumentException("This action shouldn't have a duration : " + actionIndex);
-      }
-      return this.durations.get(actionIndex);
+      return this.durations.get(name);
    }
 
    public int amountOfActions() {
-      return this.actionNames.size();
+      return orderOfActions.size();
    }
 
    /**
     * Checks all bossParts pertaining to the currentAction, and checks
     * if any of them is currently in a charging fase.
     */
-   public boolean isActionCharging(int index) {
-      for (IBossPart part : bossParts.get(index)) {
+   public boolean isActionCharging() {
+      for (IBossPart part : bossParts.get(currentAction)) {
          if (part.isCharging()) {
             return true;
          }
       }
-      for (ShootPattern pattern : shootPatterns.get(index)) {
+      for (ShootPattern pattern : shootPatterns.get(currentAction)) {
          if (pattern.isCharging()) {
             return true;
          }
@@ -130,8 +169,8 @@ public class BossActionHandler {
     * Checks all bossParts pertaining to the currentAction, and checks
     * if any of them is currently in a cooldown fase.
     */
-   public boolean isActionCoolingDown(int index) {
-      for (IBossPart part : bossParts.get(index)) {
+   public boolean isActionCoolingDown() {
+      for (IBossPart part : bossParts.get(currentAction)) {
          if (part.isCoolingDown()) {
             return true;
          }
@@ -139,8 +178,8 @@ public class BossActionHandler {
       return false;
    }
 
-   public boolean shouldAbort(int index) {
-      for (IBossPart part : bossParts.get(index)) {
+   public boolean shouldAbort() {
+      for (IBossPart part : bossParts.get(currentAction)) {
          if (part.shouldAbort()) {
             return true;
          }
@@ -148,15 +187,25 @@ public class BossActionHandler {
       return false;
    }
 
-   public boolean hasDuration(int index) {
-      return (durations.get(index) != 0);
+   public boolean currentActionHasDuration() {
+      return (durations.get(currentAction) != 0);
    }
 
-   public ArrayList<ArrayList<DefaultBossPart>> getAllBossParts() {
-      return this.bossParts;
+   public HashMap<String, ArrayList<DefaultBossPart>> getAllBossParts() {
+      return bossParts;
    }
 
-   public ArrayList<ArrayList<ShootPattern>> getAllShootPatterns() {
-      return this.shootPatterns;
+   public HashMap<String, ArrayList<ShootPattern>> getAllShootPatterns() {
+      return shootPatterns;
+   }
+
+   public String getNameOfCurrentAction() {
+      return currentAction;
+   }
+
+   public void reset() {
+      tick = 0;
+      finishAction(currentAction);
+      currentAction = orderOfActions.get(0);
    }
 }

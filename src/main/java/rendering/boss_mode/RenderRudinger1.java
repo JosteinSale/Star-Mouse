@@ -41,7 +41,7 @@ public class RenderRudinger1 implements IRenderBoss {
          rEyes.draw(sb);
          drawStaticBossImages(sb);
          drawRudingerMouth(sb);
-         rActionHandler.draw(sb, rudinger.currentAction);
+         rActionHandler.draw(sb, rudinger.actionHandler.getNameOfCurrentAction());
          drawRotatingLazerCharge(sb);
          rBossHealth.draw(sb);
       }

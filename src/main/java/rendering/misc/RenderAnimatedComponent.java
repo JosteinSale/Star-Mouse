@@ -16,7 +16,7 @@ public class RenderAnimatedComponent {
    public RenderAnimatedComponent(AnimatedComponent ac, Images images) {
       this.ac = ac;
       // TODO - If AnimatedComponents are to be used outside of BossMode,
-      // we should putting the sprites in a separate folder.
+      // we should put the sprites in a separate folder.
       this.animation = HelpMethods2.GetUnscaled2DAnimationArray(
             images.getBossSprite(ac.spriteName),
             ac.rows, ac.cols, ac.spriteW, ac.spriteH);

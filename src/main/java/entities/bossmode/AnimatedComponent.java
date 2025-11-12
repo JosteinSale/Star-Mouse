@@ -1,23 +1,21 @@
 package entities.bossmode;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * A default class for an animated component. Can be extended.
  * It represents a single animated component which cannot be interacted with.
- * It takes a list of AnimationInfo-objects, and a single spritesheet.
+ * It takes a collection of AnimationInfo-objects, and a single spritesheet.
  * 
  * Change the animation action as needed.
  * Change the xPos and yPos as needed.
  * 
- * NOTE: the animation row (in the spritesheet) for an animation is INDEPENDENT
- * from the animation action (index in aniInfo-list).
  */
 public class AnimatedComponent {
-   public ArrayList<AnimationInfo> aniInfos;
+   public HashMap<String, AnimationInfo> aniInfos;
    public int aniIndex;
    private int aniTick;
-   public int aniAction;
+   public String aniAction;
    public float xPos;
    public float yPos;
 
@@ -29,9 +27,10 @@ public class AnimatedComponent {
    public int cols;
 
    public AnimatedComponent(
-         String spriteName, int spriteW, int spriteH, int rows, int cols,
-         ArrayList<AnimationInfo> aniInfo, float xPos, float yPos) {
+         String spriteName, HashMap<String, AnimationInfo> aniInfo, String initialAction,
+         int spriteW, int spriteH, int rows, int cols, float xPos, float yPos) {
       this.spriteName = spriteName;
+      this.aniAction = initialAction;
       this.spriteW = spriteW;
       this.spriteH = spriteH;
       this.rows = rows;
@@ -44,9 +43,9 @@ public class AnimatedComponent {
    }
 
    /** Sets the animation according to the index in the animationInfo-list */
-   public void setAnimation(int newAction) {
+   public void setAnimation(String newAction) {
       // If we're setting a new animation
-      if ((newAction != this.aniAction)) {
+      if ((!newAction.equals(this.aniAction))) {
          // Reset aniTick
          this.aniTick = 0;
          // If it should reverse
