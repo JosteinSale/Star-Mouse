@@ -32,7 +32,7 @@ public interface IBoss {
    public void setVisible(boolean visible);
 
    /** Returns true if the boss's HP is <= 0 */
-   public boolean isOutOfHealth();
+   public boolean isDead();
 
    /** Flushes images */
    public void flush();
