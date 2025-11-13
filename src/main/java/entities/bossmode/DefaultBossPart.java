@@ -12,10 +12,10 @@ import java.awt.geom.Rectangle2D;
  * The defaultBossPart is a default implementation of the IBossPart-interface.
  * See the interface for explanation of each provided method.
  * 
- * For drawing, the BossActionHandler will call the static method in this
- * object. If the bossPart needs additional animations (like charging),
- * you should implement it the subclass and call the method in the
- * boss-specific render (e.g RenderRudinger1).
+ * The bossPart takes a single AnimatedComponent as an argument.
+ * If the bossPart needs additional animations (like charging),
+ * you should implement it the subclass and override the
+ * updateAnimations-method.
  * 
  * OBS: The given hitbox will be used to represent the x- and y-coordinate, as
  * well as the dimensions of the hitbox, but it's NOT used for collision
@@ -26,18 +26,9 @@ abstract public class DefaultBossPart implements IBossPart {
    protected Area rotatedArea; // Is used to check collision
    public Double rotation = 0.0;
    protected AffineTransform af; // Is used in rotation operations
-   public int animAction = 0;
-   public int aniIndex = 0;
    protected Boolean collisionEnabled = false;
-   public boolean rotatedImgVisible = false;
-
-   // Sprite info
+   public boolean isVisible = false;
    public AnimatedComponent animation;
-   public String spriteName;
-   public int aniRows;
-   public int aniCols;
-   public int spriteW;
-   public int spriteH;
 
    /**
     * Constructs a new BossPart with the given hitbox and spriteSheet.
@@ -46,20 +37,11 @@ abstract public class DefaultBossPart implements IBossPart {
     * The sprites will always be drawn in the dead center of the hitbox.
     * 
     * @param hitbox
-    * @param img
-    * @param aniRows
-    * @param aniCols
-    * @param spriteW
-    * @param spriteH
+    * @param animation
     */
-   public DefaultBossPart(Rectangle2D.Float hitbox, String spriteName,
-         int aniRows, int aniCols, int spriteW, int spriteH) {
+   public DefaultBossPart(Rectangle2D.Float hitbox, AnimatedComponent animation) {
       this.nonRotatedHitbox = hitbox;
-      this.spriteName = spriteName;
-      this.aniRows = aniRows;
-      this.aniCols = aniCols;
-      this.spriteW = spriteW;
-      this.spriteH = spriteH;
+      this.animation = animation;
       this.updateCollisionArea();
    }
 
@@ -124,13 +106,18 @@ abstract public class DefaultBossPart implements IBossPart {
    }
 
    @Override
-   public void setRotatedImgVisible(boolean visible) {
-      this.rotatedImgVisible = visible;
+   public void setVisible(boolean visible) {
+      this.isVisible = visible;
    }
 
    @Override
    public boolean canCollide() {
       return this.collisionEnabled;
+   }
+
+   @Override
+   public void updateAnimations() {
+      animation.updateAnimations();
    }
 
    @Override
@@ -150,11 +137,6 @@ abstract public class DefaultBossPart implements IBossPart {
 
    @Override
    public void updateBehavior() {
-      /* Override this method with custom behavior */
-   }
-
-   @Override
-   public void updateAnimations() {
       /* Override this method with custom behavior */
    }
 

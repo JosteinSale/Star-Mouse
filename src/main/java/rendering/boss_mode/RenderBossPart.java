@@ -15,12 +15,16 @@ public class RenderBossPart {
 
    public RenderBossPart(DefaultBossPart bp, Images images) {
       this.bp = bp;
-      this.animation = HelpMethods2.GetUnscaled2DAnimationArray(
-            images.getBossSprite(bp.spriteName), bp.aniRows, bp.aniCols, bp.spriteW, bp.spriteH);
+      if (bp.animation != null) {
+         this.animation = HelpMethods2.GetUnscaled2DAnimationArray(
+               images.getBossSprite(bp.animation.spriteName),
+               bp.animation.rows, bp.animation.cols,
+               bp.animation.spriteW, bp.animation.spriteH);
+      }
    }
 
    public void draw(SpriteBatch sb) {
-      if (!bp.rotatedImgVisible) {
+      if (!bp.isVisible) {
          return;
       } else {
          DrawUtils.drawRotatedBossPart(sb, bp, animation);

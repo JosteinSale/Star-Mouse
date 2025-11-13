@@ -18,7 +18,6 @@ import projectiles.ProjectileHandler2;
 import projectiles.shootPatterns.FanPattern;
 import projectiles.shootPatterns.HeatSeekingPattern;
 import ui.BossHealthDisplay;
-import utils.Images;
 
 public class Rudinger1 implements IBoss {
    public BossActionHandler actionHandler;
@@ -126,11 +125,9 @@ public class Rudinger1 implements IBoss {
             Game.GAME_DEFAULT_WIDTH / 2 - 150,
             Game.GAME_DEFAULT_HEIGHT / 2 - 170);
       this.verticalLazer = new RotatingLazer(
-            hitbox1, Images.ROTATING_LAZER_SPRITE,
-            2, 3, 10, 433, 0.0, redChargeAnimation);
+            hitbox1, animationFactory, 0.0, redChargeAnimation);
       this.horizontalLazer = new RotatingLazer(
-            hitbox1, Images.ROTATING_LAZER_SPRITE,
-            2, 3, 10, 433, Math.PI / 2, null);
+            hitbox1, animationFactory, Math.PI / 2, null);
 
       // A heatseeking lazer.
 
@@ -141,8 +138,7 @@ public class Rudinger1 implements IBoss {
             (float) mainGunPoint.getY(),
             width2, height2);
       this.heatSeekingLazer = new HeatSeekingLazer(
-            hitbox2, Images.HEATSEEKING_LAZER_SPRITE,
-            3, 4, 30, 220, player, mainGunPoint);
+            hitbox2, animationFactory, player, mainGunPoint);
 
       // The machine heart.
 
@@ -153,8 +149,7 @@ public class Rudinger1 implements IBoss {
             (float) heartDockingPoint.getY() - height3 / 2,
             width3, height3);
       this.machineHeart = new MachineHeart(
-            hitbox3, Images.MACHINE_HEART_SPRITE,
-            2, 2, 40, 40, player, heartDockingPoint);
+            hitbox3, animationFactory, player, heartDockingPoint);
 
       // The vulnerable area (is not part of an attack, doesn't have animations)
       // It's placed just below the machine heart.
@@ -166,9 +161,7 @@ public class Rudinger1 implements IBoss {
             (float) heartDockingPoint.getY() + 40,
             width4, height4);
       this.vulnerableComponent = new VulnerableComponent(
-            game.getProgressValues().getLazerDmg(),
-            hitbox4, Images.EMPTY_IMAGE,
-            0, 0, 0, 0, this);
+            game.getProgressValues().getLazerDmg(), hitbox4, this);
 
    }
 

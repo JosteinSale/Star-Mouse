@@ -12,28 +12,29 @@ import entities.flying.PlayerFly;
 import main_classes.Game;
 import utils.Constants.Audio;
 
-/** This class extends the PlayerFly object.
+/**
+ * This class extends the PlayerFly object.
  * All logic pertaining to handling of keyboard-inputs and player
- * movement is kept identical to PlayerFly. 
+ * movement is kept identical to PlayerFly.
  * Drawing method and basic getters and setters are also the same.
  * 
  * There is a unique @Override-implementation of the following:
- *    -update method
- *    -adjustPos (player cannot move into the noFlyZone)
- *    -takeDamage-methods
- *    -reset-method 
- *    -unused methods (do nothing)
+ * -update method
+ * -adjustPos (player cannot move into the noFlyZone)
+ * -takeDamage-methods
+ * -reset-method
+ * -unused methods (do nothing)
  * 
- * There are additional methods added for collision with- and teleport-hitting 
+ * There are additional methods added for collision with- and teleport-hitting
  * the boss.
  */
 public class PlayerBoss extends PlayerFly {
-   private int noFlyZone = 350;  // Player cannot fly above this point
+   private int noFlyZone = 350; // Player cannot fly above this point
    private ArrayList<IBossPart> bossParts;
 
-   private int customIframes = 60;  // The playerBoss should stay invincible for longer
+   private int customIframes = 60; // The playerBoss should stay invincible for longer
    private int customIframeTick = 0;
- 
+
    public PlayerBoss(Game game, Float hitbox) {
       super(game, hitbox);
    }
@@ -87,7 +88,6 @@ public class PlayerBoss extends PlayerFly {
       }
    }
 
-
    private void checkBossInteraction() {
       checkBossCollision();
       checkBossTeleportHit();
@@ -108,7 +108,6 @@ public class PlayerBoss extends PlayerFly {
       this.flame.update();
    }
 
-
    /**
     * First checks if the player is currently invincible due to damage.
     * If yes, it returns.
@@ -118,9 +117,8 @@ public class PlayerBoss extends PlayerFly {
     * takes damage, plays SFX, and notifies the bossPart.
     * 
     * (This method could be improved: instead of making 9 new points for each
-    * enemy,
-    * make 9 points once, and then check each enemyhitbox that is close enough.
-    * Make this method in enemyManager, call getPlayerPixels(),
+    * enemy, make 9 points once, and then check each enemyhitbox that is close
+    * enough. Make this method in enemyManager, call getPlayerPixels(),
     * check those pixels for each enemy).
     */
    private void checkBossCollision() {
@@ -190,16 +188,20 @@ public class PlayerBoss extends PlayerFly {
       hitbox.y = 600f;
       updateCollisionPixels();
       planeAction = IDLE;
-  }
+   }
 
+   // Methods we don't use will do nothing / return false.
+   @Override
+   public boolean collidesWithEnemy(Rectangle2D.Float enemyHitbox) {
+      return false;
+   }
 
-  // Methods we don't use will do nothing / return false.
-  @Override
-  public boolean collidesWithEnemy(Rectangle2D.Float enemyHitbox) {return false;}
+   @Override
+   public boolean teleportDamagesEnemy(Rectangle2D.Float enemyHitbox) {
+      return false;
+   }
 
-  @Override
-  public boolean teleportDamagesEnemy(Rectangle2D.Float enemyHitbox) {return false;}
-
-  @Override
-  public void setClImg(BufferedImage clImg) {/* Do nothing */}
+   @Override
+   public void setClImg(BufferedImage clImg) {
+      /* Do nothing */}
 }

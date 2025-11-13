@@ -67,7 +67,9 @@ public class DrawUtils {
    }
 
    public static void drawRotatedBossPart(SpriteBatch batch, DefaultBossPart bp, MySubImage[][] imgs) {
-      TextureRegion img = imgs[bp.animAction][bp.aniIndex].getImage();
+      int aniRow = bp.animation.getCurrentAniRow();
+      int aniIndex = bp.animation.aniIndex;
+      TextureRegion img = imgs[aniRow][aniIndex].getImage();
       float centerX = (float) bp.nonRotatedHitbox.getCenterX();
       float centerY = (float) bp.nonRotatedHitbox.getCenterY();
       float width = img.getRegionWidth() * 3;

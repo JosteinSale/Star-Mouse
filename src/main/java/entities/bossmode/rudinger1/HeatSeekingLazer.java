@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.awt.geom.Rectangle2D.Float;
 import java.awt.geom.Line2D;
 
+import entities.bossmode.AnimatedComponentFactory;
 import entities.bossmode.DefaultBossPart;
 import entities.bossmode.PlayerBoss;
 
@@ -17,9 +18,10 @@ public class HeatSeekingLazer extends DefaultBossPart {
    private Point gunCenter;
    private double imgDistanceFromCenter; // The image is always drawn from the hitbox center, thus we need this.
 
-   private final int CHARGING_ANIM = 0;
-   private final int VISUALWARNING_ANIM = 2;
-   private final int SHOOTING_ANIM = 1;
+   // Animation states
+   public static final String CHARGING = "CHARGING";
+   public static final String VISUAL_WARNING = "VISUAL_WARNING";
+   public static final String SHOOTING = "SHOOTING";
 
    private boolean isCharging = false;
    private int behaviorTick = 0;
@@ -27,13 +29,12 @@ public class HeatSeekingLazer extends DefaultBossPart {
    private int visualWarningPoint = 100;
    private int shootDuration = 60;
 
-   private int aniTick = 0;
-   private int aniSpeed = 3;
+   // String spriteSheet, int aniRows, int aniCols, int spriteW, int spriteH
 
    public HeatSeekingLazer(
-         Float hitbox, String spriteSheet, int aniRows, int aniCols, int spriteW, int spriteH,
+         Float hitbox, AnimatedComponentFactory animationFactory,
          PlayerBoss player, Point gunCenter) {
-      super(hitbox, spriteSheet, aniRows, aniCols, spriteW, spriteH);
+      super(hitbox, animationFactory.getHeatSeekingLazerAnimation((int) hitbox.x, (int) hitbox.y));
       this.player = player;
       this.imgDistanceFromCenter = hitbox.height / 2;
       this.gunCenter = gunCenter;
@@ -43,7 +44,7 @@ public class HeatSeekingLazer extends DefaultBossPart {
    @Override
    public void startAttack() {
       this.isCharging = true;
-      this.rotatedImgVisible = true;
+      this.isVisible = true;
    }
 
    @Override
@@ -60,12 +61,12 @@ public class HeatSeekingLazer extends DefaultBossPart {
       behaviorTick++;
       if (behaviorTick < visualWarningPoint) {
          pointLazerAtPlayer();
-         this.animAction = CHARGING_ANIM;
+         animation.setAnimation(CHARGING);
       } else if (behaviorTick >= visualWarningPoint && behaviorTick < chargeDuration) {
-         this.animAction = VISUALWARNING_ANIM;
+         animation.setAnimation(VISUAL_WARNING);
       } else { // Shoot starts
          this.isCharging = false;
-         this.animAction = SHOOTING_ANIM;
+         animation.setAnimation(SHOOTING);
          this.collisionEnabled = true;
          this.behaviorTick = 0;
       }
@@ -105,18 +106,6 @@ public class HeatSeekingLazer extends DefaultBossPart {
    }
 
    @Override
-   public void updateAnimations() {
-      aniTick++;
-      if (aniTick > aniSpeed) {
-         aniTick = 0;
-         aniIndex++;
-         if (aniIndex > 3) {
-            aniIndex = 0;
-         }
-      }
-   }
-
-   @Override
    public void onPlayerCollision() {
       // No behavior
    }
@@ -134,7 +123,7 @@ public class HeatSeekingLazer extends DefaultBossPart {
    @Override
    public void finishAttack() {
       this.collisionEnabled = false;
-      this.rotatedImgVisible = false;
+      this.isVisible = false;
       this.behaviorTick = 0;
    }
 

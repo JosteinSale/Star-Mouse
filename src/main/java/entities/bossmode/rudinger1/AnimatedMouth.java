@@ -19,7 +19,7 @@ public class AnimatedMouth extends AnimatedComponent {
    private int blinkTick = 0;
    private int blinkDuration = 20;
 
-   // Different states for the mouth animation
+   // Animation states
    public static final String IDLE = "IDLE";
    public static final String DAMAGE = "DAMAGE";
    public static final String OPEN_UP = "OPEN_UP";

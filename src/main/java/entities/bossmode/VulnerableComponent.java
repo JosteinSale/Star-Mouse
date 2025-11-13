@@ -17,12 +17,11 @@ public class VulnerableComponent extends DefaultBossPart {
    private IBoss boss;
 
    public VulnerableComponent(
-         int lazerDmg,
-         Float hitbox, String spriteSheet, int aniRows, int aniCols,
-         int spriteW, int spriteH, IBoss boss) {
-      super(hitbox, spriteSheet, aniRows, aniCols, spriteW, spriteH);
+         int lazerDmg, Float hitbox, IBoss boss) {
+      super(hitbox, null);
       this.boss = boss;
       this.lazerDmg = lazerDmg;
+      this.isVisible = false; // Doesn't draw anything
    }
 
    @Override

@@ -1,10 +1,9 @@
 package entities.bossmode.rudinger1;
 
-import static utils.Constants.Flying.ActionConstants.IDLE;
-
 import java.awt.Point;
 import java.awt.geom.Rectangle2D.Float;
 
+import entities.bossmode.AnimatedComponentFactory;
 import entities.bossmode.DefaultBossPart;
 import entities.bossmode.PlayerBoss;
 
@@ -25,8 +24,9 @@ public class MachineHeart extends DefaultBossPart {
    private double dockingSpeed = 3.0;
    private double followSpeed = 5.0;
 
-   private final int IDLE_ANIM = 0;
-   private final int DAMAGE_ANIM = 1;
+   // Animation states
+   public static final String IDLE = "IDLE";
+   public static final String DAMAGE = "DAMAGE";
 
    private boolean startDocking;
    private boolean endDocking;
@@ -40,13 +40,10 @@ public class MachineHeart extends DefaultBossPart {
    private int damageTick = 0;
    private int damageDuration = 20;
 
-   private int aniTick = 0;
-   private int aniSpeed = 2;
-
    public MachineHeart(
-         Float hitbox, String spriteSheet, int aniRows, int aniCols, int spriteW, int spriteH,
+         Float hitbox, AnimatedComponentFactory animationFactory,
          PlayerBoss player, Point startPoint) {
-      super(hitbox, spriteSheet, aniRows, aniCols, spriteW, spriteH);
+      super(hitbox, animationFactory.getMachineHeartAnimation((int) hitbox.x, (int) hitbox.y));
       this.player = player;
       this.dockingPoint = startPoint;
       this.midwayPoint = new Point(
@@ -55,7 +52,7 @@ public class MachineHeart extends DefaultBossPart {
 
    @Override
    public void startAttack() {
-      this.animAction = IDLE_ANIM;
+      animation.setAnimation(IDLE);
       this.startDocking = true;
    }
 
@@ -78,7 +75,7 @@ public class MachineHeart extends DefaultBossPart {
       // Start by standing still for 120 frames while boss-animation plays
       if (behaviorTick < 120) {
          if (behaviorTick > 70) {
-            this.rotatedImgVisible = true;
+            this.isVisible = true;
          } // Syncronizing with mouth animation
          return;
       }
@@ -124,7 +121,7 @@ public class MachineHeart extends DefaultBossPart {
          this.behaviorTick++;
          this.collisionEnabled = false;
          if (behaviorTick > 50) {
-            this.rotatedImgVisible = false;
+            this.isVisible = false;
          } // Syncronizing with mouth animation
            // Then abort the attack
          if (this.behaviorTick >= 120) {
@@ -154,24 +151,12 @@ public class MachineHeart extends DefaultBossPart {
       this.updatePosition((int) dx, (int) dy, 0.0);
    }
 
-   @Override
-   public void updateAnimations() {
-      aniTick++;
-      if (aniTick > aniSpeed) {
-         aniTick = 0;
-         aniIndex++;
-         if (aniIndex > 1) {
-            aniIndex = 0;
-         }
-      }
-   }
-
    private void updateDamageTick() {
       // If has taking damage
       if (damageTick > 0) {
          damageTick--;
          if (damageTick == 0) {
-            this.animAction = IDLE;
+            animation.setAnimation(IDLE);
          }
       }
    }
@@ -193,7 +178,7 @@ public class MachineHeart extends DefaultBossPart {
          return; // No Behavior
       } else {
          this.damageTick = damageDuration;
-         this.animAction = DAMAGE_ANIM;
+         animation.setAnimation(DAMAGE);
          this.nrOfCollisions++;
          checkIf4Collisions();
       }
@@ -221,7 +206,7 @@ public class MachineHeart extends DefaultBossPart {
       this.setPosition((int) dockingPoint.getX(), (int) dockingPoint.getY(), 0.0);
       this.endDocking = false;
       this.collisionEnabled = false;
-      this.rotatedImgVisible = false;
+      this.isVisible = false;
       this.behaviorTick = 0;
       this.nrOfCollisions = 0;
       this.abortAttack = false;

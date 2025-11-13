@@ -51,7 +51,7 @@ public interface IBossPart {
    public void setCollisionActive(boolean active);
 
    /** If set to false, the bossPart is not drawn */
-   public void setRotatedImgVisible(boolean visible);
+   public void setVisible(boolean visible);
 
    /**
     * A method invoked by the player.
@@ -127,9 +127,8 @@ public interface IBossPart {
 
    /**
     * A method invoked by the BossPart update-method, if the attack is active.
-    * This method is made to be overwritten with custom behavior for the bossPart.
-    * Alter the aniIndex- and action-variables which was inherited from the
-    * DefaultBossPart.
+    * The default implementation updates the animation component. This method
+    * can be overwritten with custom behavior.
     */
    public void updateAnimations();
 

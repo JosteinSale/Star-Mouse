@@ -20,7 +20,7 @@ public class ReaperEyes extends AnimatedComponent {
    private float startX;
    private float startY;
 
-   // Different states for the eye animation
+   // Animation states
    public final static String IDLE = "IDLE";
    public final static String SHUT_DOWN = "SHUT_DOWN";
    public final static String BOOT_UP = "BOOT_UP";

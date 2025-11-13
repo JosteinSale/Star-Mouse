@@ -90,4 +90,8 @@ public class AnimatedComponent {
          }
       }
    }
+
+   public int getCurrentAniRow() {
+      return aniInfos.get(aniAction).aniRow;
+   }
 }
