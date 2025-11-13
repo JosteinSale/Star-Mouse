@@ -47,7 +47,6 @@ public class PlayerExp extends Entity {
    public void update(ArrayList<Rectangle2D.Float> npcHitboxes, boolean cutsceneActive, boolean standardFadeActive) {
       if (!cutsceneActive && !standardFadeActive) {
          handleKeyboardInputs(npcHitboxes);
-         updatePlayerAction();
       }
       updateAniTick();
    }
@@ -85,9 +84,10 @@ public class PlayerExp extends Entity {
             hitbox.y -= playerSpeed;
          }
       }
+      handleStandingAnimation();
    }
 
-   private void updatePlayerAction() {
+   private void handleStandingAnimation() {
       if (!game.upIsPressed && !game.downIsPressed && !game.leftIsPressed && !game.rightIsPressed) {
          playerAction = STANDING;
          return;

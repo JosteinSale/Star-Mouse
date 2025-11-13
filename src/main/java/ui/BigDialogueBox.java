@@ -2,6 +2,7 @@ package ui;
 
 import static utils.Constants.UI.DIALOGUE_MAX_LETTERS;
 import static utils.HelpMethods.GetCharacterIndex;
+import static utils.HelpMethods.ChopStringIntoLines;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -45,45 +46,10 @@ public class BigDialogueBox {
         this.aniTick = 0;
         this.name = name;
         this.aniTickPerFrame = speed;
-        formatStrings(text);
+        this.formattedStrings = ChopStringIntoLines(text, DIALOGUE_MAX_LETTERS);
         this.characterIndex = GetCharacterIndex(name);
         this.portraitIndex = portraitIndex;
         this.setVoiceStuff();
-    }
-
-    // Regarding length limits for sentences:
-    // There's a limit of 32 characters per sentence.
-    // Though, a sentence may not end perfectly at 32 chars, causing us to 'loose'
-    // those unused letters at the end of the sentence. Thus the limit is usually a
-    // bit lower.
-    // At most you can do 3 single words of length 32.
-    // But if you approach 90, calculate how many letters you've lost before
-    // running.
-    private void formatStrings(String text) {
-        String[] words = text.split(" ");
-        int letterCount = 0;
-        int breakCount = 0;
-        for (String word : words) {
-            letterCount += word.length();
-            breakCount += word.length();
-            if ((letterCount) > DIALOGUE_MAX_LETTERS) {
-                breakCount -= (word.length() + 1); // Trekker fra et ord og et mellomrom
-                breakPoints.add(breakCount);
-                breakCount += word.length() + 1; // Legger til samme ord og mellomrom igjen
-
-                letterCount = word.length(); // 'Nullsettes'
-            }
-            letterCount += 1; // +1 for mellomrom
-            breakCount += 1;
-        }
-        breakPoints.add(text.length()); // Siste breakpoint
-
-        int beginIndex = 0;
-        for (Integer endIndex : breakPoints) {
-            String line = text.substring(beginIndex, endIndex);
-            formattedStrings.add(line);
-            beginIndex += (endIndex + 1 - beginIndex);
-        }
     }
 
     private void setVoiceStuff() {
@@ -124,8 +90,7 @@ public class BigDialogueBox {
             audioPlayer.playVoiceClip(name);
         } else if (voiceTick % voiceTickPerFrame == 0) {
             // In order for the voices to sound less 'machine gun'-like, we don't play the
-            // voiceclip
-            // on spaces, and also add a bit of randomization.
+            // voiceclip on spaces, and also add a bit of randomization.
             if (!(currentCharIs(' ')) && randomizerRollsTrue()) {
                 audioPlayer.playVoiceClip(name);
             }

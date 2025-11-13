@@ -314,4 +314,33 @@ public class HelpMethods {
         };
         return trigger;
     }
+
+    /**
+     * Takes a single text string and chops it into several lines, according to the
+     * given line length limit. Then returns them as a list.
+     * 
+     * @param text
+     * @param lineLimit
+     * @return
+     */
+    public static ArrayList<String> ChopStringIntoLines(String text, int lineLengthLimit) {
+        ArrayList<String> formattedStrings = new ArrayList<>();
+
+        String[] words = text.split(" ");
+        int letterCount = 0;
+        String line = "";
+        for (String word : words) {
+            if ((letterCount + word.length()) > lineLengthLimit) {
+                // Add new
+                formattedStrings.add(line);
+                line = word + " ";
+                letterCount = word.length() + 1; // +1 for space
+            } else {
+                line += (word + " ");
+                letterCount += word.length() + 1;
+            }
+        }
+        formattedStrings.add(line);
+        return formattedStrings;
+    }
 }
