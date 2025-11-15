@@ -20,25 +20,37 @@ public class RenderControlsMenu implements Render {
    private MyColor bgColor = new MyColor(0, 0, 0, 230);
    private MyImage pointerImg;
    private MyImage selectImg;
+   private String controlSchemeText;
 
    private int bgW;
    private int bgH;
    private int bgX;
    private int bgY;
-   public int keyFuncX = 250;
-   public int keyBindX = 750;
+   private int keyActionX = 220;
+   private int keyBindX = 720;
+   private int keyMinY = 220;
+   private int keyYDiff = 30;
 
    public RenderControlsMenu(ControlsMenu controlsMenu, Images images) {
       this.menu = controlsMenu;
       this.loadImages(images);
       this.calcDrawValues();
+      this.constructControlSchemeText();
+   }
+
+   private void constructControlSchemeText() {
+      String text = "Control Scheme: ";
+      for (String variant : menu.kbVariantNames) {
+         text += variant + " ";
+      }
+      this.controlSchemeText = text;
    }
 
    private void loadImages(Images images) {
       this.pointerImg = images.getExpImageSprite(
             Images.CURSOR_SPRITE_WHITE, true);
       this.selectImg = images.getExpImageSprite(
-            Images.KEY_SELECT, true);
+            Images.ITEM_SELECTED, true);
    }
 
    private void calcDrawValues() {
@@ -58,38 +70,49 @@ public class RenderControlsMenu implements Render {
             sb, MyColor.WHITE,
             bgX + 10, bgY + 10, bgW - 20, bgH - 20);
 
-      // Text
+      // Menu title
       DrawUtils.drawText(
             sb, MyColor.WHITE, DrawUtils.headerFont,
             "CONTROLS",
             420, 150);
+      // Control Scheme text
       DrawUtils.drawText(
-            sb, MyColor.WHITE, DrawUtils.infoFont,
-            "(To change, select it and type a new key)",
-            200, 210);
-      for (int i = 0; i < menu.keyFunctions.length; i++) {
+            sb, MyColor.WHITE, DrawUtils.menuFont,
+            controlSchemeText,
+            keyActionX + 30, menu.cursorMinY);
+      DrawUtils.drawText(
+            sb, MyColor.WHITE, DrawUtils.itemFont,
+            "(Change with SPACE)",
+            560, 530);
+      // Return text
+      DrawUtils.drawText(
+            sb, MyColor.WHITE, DrawUtils.menuFont,
+            "Return",
+            keyActionX + 30, menu.cursorMinY + menu.menuOptionsDiff);
+      // Action names
+      for (int i = 0; i < menu.actionNames.length; i++) {
          DrawUtils.drawText(
                sb, MyColor.WHITE, DrawUtils.infoFont,
-               menu.keyFunctions[i],
-               keyFuncX, menu.cursorMinY + i * menu.menuOptionsDiff);
+               menu.actionNames[i],
+               keyActionX, keyMinY + i * keyYDiff);
       }
-      for (int i = 0; i < menu.keyBindings.length; i++) {
+      // Key names
+      for (int i = 0; i < menu.getCurrentKeyNames().length; i++) {
          DrawUtils.drawText(
                sb, MyColor.WHITE, DrawUtils.infoFont,
-               menu.keyBindings[i],
-               keyBindX, menu.cursorMinY + i * menu.menuOptionsDiff);
+               menu.getCurrentKeyNames()[i],
+               keyBindX, keyMinY + i * keyYDiff);
       }
-
       // Cursor
       DrawUtils.drawImage(
             sb, pointerImg,
             menu.cursorX, menu.cursorY - 30,
             CURSOR_WIDTH, CURSOR_HEIGHT);
-      if (menu.settingKey) {
-         DrawUtils.drawImage(
-               sb, selectImg,
-               240, menu.cursorY - 32,
-               620, 40);
-      }
+      // Selection box for control Scheme
+      DrawUtils.drawImage(
+            sb, selectImg,
+            keyActionX + 367 + menu.selectedKeyBindingIndex * 44, menu.cursorMinY - 42,
+            50, 50);
+
    }
 }

@@ -1,6 +1,9 @@
 package inputs;
 
 import com.badlogic.gdx.InputProcessor;
+
+import java.util.HashMap;
+
 import com.badlogic.gdx.Input;
 
 import gamestates.Gamestate;
@@ -9,78 +12,88 @@ import utils.Singleton;
 
 public class KeyboardInputs extends Singleton implements InputProcessor {
    private Game game;
-   private int lastTypedKey; // The most recently typed key
-   private int secondLastTypedKey; // The second most recently typed key
+   public int up;
+   public int down;
+   public int right;
+   public int left;
+   public int interact;
+   public int shootBomb;
+   public int teleport;
+   public int pause;
+   public int toggleFullscreen;
 
-   // Default key bindings
-   public int up = Input.Keys.W;
-   public int down = Input.Keys.S;
-   public int right = Input.Keys.D;
-   public int left = Input.Keys.A;
-   public int interact = Input.Keys.SPACE;
-   public int shootBomb = Input.Keys.B;
-   public int teleport = Input.Keys.M;
-   public int pause = Input.Keys.ENTER;
-
-   /*
-    * An array of the string representation of the keybindings,
-    * used for display in the controls menu.
-    * OBS: the indexes are important.
-    */
-   private String[] keyBindingNames = {
-         Input.Keys.toString(up),
-         Input.Keys.toString(down),
-         Input.Keys.toString(right),
-         Input.Keys.toString(left),
-         Input.Keys.toString(interact),
-         Input.Keys.toString(shootBomb),
-         Input.Keys.toString(teleport),
-         Input.Keys.toString(pause) };
+   public HashMap<String, KeyBindingVariant> keyBindingVariants;
+   public static final String VARIANT_A = "A";
+   public static final String VARIANT_B = "B";
+   public static final String VARIANT_C = "C";
+   public static String currentVariant = VARIANT_C;
 
    public KeyboardInputs(Game game) {
       this.game = game;
+      this.constructKeyBindingVariants();
+      this.setNewKeyBinding(currentVariant);
    }
 
-   /**
-    * Should be called when the player is in controls menu,
-    * after they have typed a new key and confirmed with 'interact'.
-    * 
-    * @param index The keycode for the new key
-    * @returns The string name of the new key given as input
-    */
-   public String updateKeybindings(int index) {
-      // Since 'interact' was the newest typed key, we use the 'oldTypedKey'
-      // to get the actual key the player wanted to set.
-      String newKey = Input.Keys.toString(secondLastTypedKey);
-      this.keyBindingNames[index] = newKey;
-      remapKeyPressed(index);
-      return newKey;
+   private void constructKeyBindingVariants() {
+      // Variant A:
+      KeyBindingVariant kbvA = new KeyBindingVariant();
+      kbvA.up = Input.Keys.W;
+      kbvA.down = Input.Keys.S;
+      kbvA.right = Input.Keys.D;
+      kbvA.left = Input.Keys.A;
+      kbvA.interact = Input.Keys.SPACE;
+      kbvA.shootBomb = Input.Keys.COMMA;
+      kbvA.teleport = Input.Keys.M;
+      kbvA.pause = Input.Keys.ENTER;
+      kbvA.toggleFullscreen = Input.Keys.ESCAPE;
+
+      // Variant B:
+      KeyBindingVariant kbvB = new KeyBindingVariant();
+      kbvB.up = Input.Keys.UP;
+      kbvB.down = Input.Keys.DOWN;
+      kbvB.right = Input.Keys.RIGHT;
+      kbvB.left = Input.Keys.LEFT;
+      kbvB.interact = Input.Keys.SPACE;
+      kbvB.shootBomb = Input.Keys.CAPS_LOCK;
+      kbvB.teleport = Input.Keys.SHIFT_LEFT;
+      kbvB.pause = Input.Keys.ENTER;
+      kbvB.toggleFullscreen = Input.Keys.ESCAPE;
+
+      // Variant C:
+      KeyBindingVariant kbvC = new KeyBindingVariant();
+      kbvC.up = Input.Keys.UP;
+      kbvC.down = Input.Keys.DOWN;
+      kbvC.right = Input.Keys.RIGHT;
+      kbvC.left = Input.Keys.LEFT;
+      kbvC.interact = Input.Keys.SPACE;
+      kbvC.shootBomb = Input.Keys.Z;
+      kbvC.teleport = Input.Keys.C;
+      kbvC.pause = Input.Keys.ENTER;
+      kbvC.toggleFullscreen = Input.Keys.ESCAPE;
+
+      // Construct the hashmap
+      keyBindingVariants = new HashMap<>();
+      keyBindingVariants.put(VARIANT_A, kbvA);
+      keyBindingVariants.put(VARIANT_B, kbvB);
+      keyBindingVariants.put(VARIANT_C, kbvC);
    }
 
-   /** Is used to show the player the latest key they typed */
-   public String updateLatestKey(int index) {
-      String newKey = Input.Keys.toString(lastTypedKey);
-      this.keyBindingNames[index] = newKey;
-      return newKey;
+   public void setNewKeyBinding(String variant) {
+      currentVariant = variant;
+      KeyBindingVariant kbv = keyBindingVariants.get(variant);
+      this.up = kbv.up;
+      this.down = kbv.down;
+      this.right = kbv.right;
+      this.left = kbv.left;
+      this.interact = kbv.interact;
+      this.shootBomb = kbv.shootBomb;
+      this.teleport = kbv.teleport;
+      this.pause = kbv.pause;
+      this.toggleFullscreen = kbv.toggleFullscreen;
    }
 
-   public String[] getKeyBindingNames() {
-      return keyBindingNames;
-   }
-
-   /** Updates the actual keyBindings for the game */
-   private void remapKeyPressed(int index) {
-      int keyCode = secondLastTypedKey;
-      switch (index) {
-         case 0 -> up = keyCode;
-         case 1 -> down = keyCode;
-         case 2 -> right = keyCode;
-         case 3 -> left = keyCode;
-         case 4 -> interact = keyCode;
-         case 5 -> shootBomb = keyCode;
-         case 6 -> teleport = keyCode;
-         case 7 -> pause = keyCode;
-      }
+   public KeyBindingVariant getKeyBindingVariant(String variant) {
+      return keyBindingVariants.get(variant);
    }
 
    @Override
@@ -109,14 +122,12 @@ public class KeyboardInputs extends Singleton implements InputProcessor {
       if (keycode == pause) {
          game.pauseIsPressed = true;
       }
-      if (keycode == Input.Keys.ESCAPE) {
-         game.escapeIsPressed = true;
+      if (keycode == toggleFullscreen) {
+         game.fullScreenIsPressed = true;
       }
       if (Gamestate.state == Gamestate.LEVEL_EDITOR) {
          // game.getLevelEditor().handleKeyboardInputs(keycode); // TODO
       }
-      secondLastTypedKey = lastTypedKey;
-      lastTypedKey = keycode;
 
       return false;
    }
@@ -148,7 +159,7 @@ public class KeyboardInputs extends Singleton implements InputProcessor {
          game.pauseIsPressed = false;
       }
       if (keycode == Input.Keys.ESCAPE) {
-         game.escapeIsPressed = false;
+         game.fullScreenIsPressed = false;
       }
       return true;
    }
@@ -183,7 +194,16 @@ public class KeyboardInputs extends Singleton implements InputProcessor {
       return false;
    }
 
-   public int getSecondLastTypedKey() {
-      return this.secondLastTypedKey;
+   // Container class for holding different keybindings
+   public class KeyBindingVariant {
+      public int up;
+      public int down;
+      public int right;
+      public int left;
+      public int interact;
+      public int shootBomb;
+      public int teleport;
+      public int pause;
+      public int toggleFullscreen;
    }
 }

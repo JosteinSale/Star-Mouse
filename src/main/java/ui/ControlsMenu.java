@@ -1,5 +1,8 @@
 package ui;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import com.badlogic.gdx.Input;
 
 import audio.AudioPlayer;
@@ -11,12 +14,22 @@ import utils.Singleton;
 public class ControlsMenu extends Singleton {
    private Game game;
    private AudioPlayer audioPlayer;
-   private KeyboardInputs keyboardInputs;
-
    private boolean active = false;
-   public boolean settingKey = false;
 
-   public String[] keyFunctions = {
+   // Menu options
+   private static final int SET_KEYBINDING = 0;
+   private static final int RETURN = 1;
+   private int selectedMenuIndex = 1;
+
+   // Keybinding stuff
+   private KeyboardInputs keyboardInputs;
+   public ArrayList<String> kbVariantNames = new ArrayList<>(Arrays.asList(
+         KeyboardInputs.VARIANT_A,
+         KeyboardInputs.VARIANT_B,
+         KeyboardInputs.VARIANT_C));
+   public int selectedKeyBindingIndex = kbVariantNames.indexOf(KeyboardInputs.currentVariant);
+   public ArrayList<String[]> keyNames; // The string representations of the keybinding variants
+   public String[] actionNames = {
          "Up",
          "Down",
          "Right",
@@ -25,18 +38,15 @@ public class ControlsMenu extends Singleton {
          "Shoot bombs",
          "Teleport",
          "Pause / Unpause",
-         "Return"
+         "Toggle Fullscreen"
    };
-   public String[] keyBindings;
-   private int selectedIndex = 8;
 
-   private static final int RETURN = 8;
-
-   public int cursorMinY = 280;
+   // Cursor
+   public int cursorMinY = 580;
    public int cursorMaxY = 620;
    public int cursorX = 170;
    public int cursorY = cursorMaxY;
-   public int menuOptionsDiff = (cursorMaxY - cursorMinY) / 8;
+   public int menuOptionsDiff = cursorMaxY - cursorMinY;
 
    public ControlsMenu(Game game, AudioPlayer audioPlayer) {
       this.game = game;
@@ -45,29 +55,34 @@ public class ControlsMenu extends Singleton {
 
    public void setKeyboardInputs(KeyboardInputs keyboardInputs) {
       this.keyboardInputs = keyboardInputs;
-      this.keyBindings = keyboardInputs.getKeyBindingNames();
+      setKeyNames();
+   }
+
+   private void setKeyNames() {
+      keyNames = new ArrayList<>();
+      for (String variant : kbVariantNames) {
+         KeyboardInputs.KeyBindingVariant kbv = keyboardInputs.getKeyBindingVariant(variant);
+         String[] keysAsStrings = new String[] {
+               Input.Keys.toString(kbv.up),
+               Input.Keys.toString(kbv.down),
+               Input.Keys.toString(kbv.right),
+               Input.Keys.toString(kbv.left),
+               Input.Keys.toString(kbv.interact),
+               Input.Keys.toString(kbv.shootBomb),
+               Input.Keys.toString(kbv.teleport),
+               Input.Keys.toString(kbv.pause),
+               Input.Keys.toString(kbv.toggleFullscreen)
+         };
+         keyNames.add(keysAsStrings);
+      }
    }
 
    public void update() {
-      if (settingKey) { // We're waiting for player input
-         this.showNewTypedKey(selectedIndex);
-      }
       handleKeyBoardInputs();
    }
 
    private void handleKeyBoardInputs() {
-      if (settingKey && game.interactIsPressed) {
-         game.interactIsPressed = false;
-         if (!keyIsFreeToBeSet()) {
-            audioPlayer.playSFX(Audio.SFX_HURT);
-         } else {
-            setKeyBinding(selectedIndex);
-            settingKey = false;
-            audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
-         }
-      } else if (settingKey) { // We're waiting for player-input.
-         return;
-      } else if (game.downIsPressed) {
+      if (game.downIsPressed) {
          game.downIsPressed = false;
          goDown();
          audioPlayer.playSFX(Audio.SFX_CURSOR);
@@ -77,51 +92,43 @@ public class ControlsMenu extends Singleton {
          audioPlayer.playSFX(Audio.SFX_CURSOR);
       } else if (game.interactIsPressed) {
          game.interactIsPressed = false;
-         if (selectedIndex == RETURN) {
-            this.active = false;
-            audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
-         } else {
-            settingKey = true;
-            audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
-         }
+         handleInteractPressed();
       }
    }
 
-   private boolean keyIsFreeToBeSet() {
-      // Check if the second last typed key is already in use in Keybindings.
-      for (int i = 0; i < keyBindings.length; i++) {
-         if (keyBindings[i].equals(Input.Keys.toString(keyboardInputs.getSecondLastTypedKey()))) {
-            return false;
-         }
+   private void handleInteractPressed() {
+      if (selectedMenuIndex == RETURN) {
+         this.active = false;
+         audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
+      } else if (selectedMenuIndex == SET_KEYBINDING) {
+         toggleKeyBindingVariant();
+         audioPlayer.playSFX(Audio.SFX_CURSOR);
       }
-      return true;
    }
 
-   /** Sets the new keybindings in both controls-menu and keyboard-inputs */
-   private void setKeyBinding(int keyIndex) {
-      this.keyBindings[keyIndex] = keyboardInputs.updateKeybindings(keyIndex);
+   private void toggleKeyBindingVariant() {
+      selectedKeyBindingIndex++;
+      if (selectedKeyBindingIndex == kbVariantNames.size()) {
+         selectedKeyBindingIndex = 0;
+      }
+      setNewKeyBinding();
    }
 
-   /** Updates the controls-display to show the last typed key */
-   private void showNewTypedKey(int index) {
-      this.keyBindings[index] = keyboardInputs.updateLatestKey(index);
+   private void setNewKeyBinding() {
+      keyboardInputs.setNewKeyBinding(kbVariantNames.get(selectedKeyBindingIndex));
    }
 
    private void goDown() {
-      this.cursorY += menuOptionsDiff;
-      this.selectedIndex++;
-      if (selectedIndex > 8) {
-         selectedIndex = 0;
-         cursorY = cursorMinY;
+      if (selectedMenuIndex < 1) {
+         selectedMenuIndex++;
+         cursorY += menuOptionsDiff;
       }
    }
 
    private void goUp() {
-      this.cursorY -= menuOptionsDiff;
-      this.selectedIndex--;
-      if (selectedIndex < 0) {
-         selectedIndex = 8;
-         cursorY = cursorMaxY;
+      if (selectedMenuIndex > 0) {
+         selectedMenuIndex--;
+         cursorY -= menuOptionsDiff;
       }
    }
 
@@ -131,5 +138,9 @@ public class ControlsMenu extends Singleton {
 
    public void setActive(boolean active) {
       this.active = active;
+   }
+
+   public String[] getCurrentKeyNames() {
+      return keyNames.get(selectedKeyBindingIndex);
    }
 }

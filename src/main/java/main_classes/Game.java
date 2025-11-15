@@ -67,7 +67,7 @@ public class Game extends ApplicationAdapter {
    public boolean teleportIsPressed = false;
    public boolean bombIsPressed = false;
    public boolean pauseIsPressed = false;
-   public boolean escapeIsPressed = false;
+   public boolean fullScreenIsPressed = false;
 
    // Testing mode. This is modified from the Main Menu
    public boolean testingMode = false;
@@ -195,8 +195,8 @@ public class Game extends ApplicationAdapter {
    }
 
    private void checkWindowResize() {
-      if (escapeIsPressed) {
-         escapeIsPressed = false;
+      if (fullScreenIsPressed) {
+         fullScreenIsPressed = false;
          this.toggleFullScreen();
       }
    }

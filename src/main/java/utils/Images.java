@@ -41,7 +41,6 @@ public class Images extends Singleton {
    public static final String MECHANIC_DISPLAY = "mechanic_background.png";
    public static final String NUMBER_DISPLAY = "number_display2.png";
    public static final String NUMBER_SELECT = "number_selected.png";
-   public static final String KEY_SELECT = "key_selected.png";
    public static final String LEVEL_ICONS = "level_icons.png";
    public static final String LEVEL_SELECT_BOX = "level_select_box.png";
 

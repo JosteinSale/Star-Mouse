@@ -2,7 +2,7 @@ package rendering;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-/** All Render objects should be treated like singletons */
+/** A simple interface for rendering */
 public interface Render {
 
    /** Draws the gamestate */
