@@ -97,28 +97,33 @@ public class MainMenu extends State {
         // Activate testing mode
         game.testingMode = true;
 
-        // UNLOCK LEVELS
+        Gamestate stateToTest = Gamestate.FLYING;
+        int level = 1;
         game.getLevelSelect().testUnlockAllLevelsUpTo(13);
 
-        // LEVEL SELECT
-        // game.getLevelSelect().reset();
-        // Gamestate.state = Gamestate.LEVEL_SELECT;
-
-        // EXPLORING - Uncomment to only test one level in exploring.
-        // game.getExploring().loadLevel(1); // Area is currently specified in that
-        // method
-        // game.getExploring().update();
-        // Gamestate.state = Gamestate.EXPLORING;
-
-        // FLYING - Uncomment to only test one level in flying.
-        // game.getFlying().loadLevel(2);
-        // game.getFlying().update();
-        // Gamestate.state = Gamestate.FLYING;
-
-        // BOSSMODE - Uncomment to only test one boss.
-        game.getBossMode().loadNewBoss(1);
-        game.getBossMode().update();
-        Gamestate.state = Gamestate.BOSS_MODE;
+        switch (stateToTest) {
+            case LEVEL_SELECT:
+                game.getLevelSelect().reset();
+                Gamestate.state = Gamestate.LEVEL_SELECT;
+                return;
+            case EXPLORING:
+                game.getExploring().loadLevel(level); // Area is currently specified in that method
+                game.getExploring().update();
+                Gamestate.state = Gamestate.EXPLORING;
+                return;
+            case FLYING:
+                game.getFlying().loadLevel(level);
+                game.getFlying().update();
+                Gamestate.state = Gamestate.FLYING;
+                return;
+            case BOSS_MODE:
+                game.getBossMode().loadNewBoss(level);
+                game.getBossMode().update();
+                Gamestate.state = Gamestate.BOSS_MODE;
+                return;
+            default:
+                return;
+        }
     }
 
     public void update() {

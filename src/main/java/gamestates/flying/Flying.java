@@ -99,7 +99,7 @@ public class Flying extends State {
       loadCutscenes(lvl);
       player.onLevelStart();
       this.setRenders(lvl, FlyLevelInfo.getBgImgHeight(lvl));
-      // startAt(-20000); // For testing purposes
+      // startAt(-10000); // For testing purposes
    }
 
    /**
@@ -183,7 +183,6 @@ public class Flying extends State {
    }
 
    private void updateGameplay() {
-      // System.out.println(mapManager.yProgess);
       if (!cutsceneManager.isActive()) {
          checkCutsceneTriggers();
       }
@@ -210,7 +209,7 @@ public class Flying extends State {
       // 1. If we are entering pause:
       if (!pause) {
          this.pause = true;
-         this.audioPlayer.stopAllLoops();
+         this.audioPlayer.pauseAllLoops();
       }
       // 2. If we are exiting pause:
       else {
@@ -225,6 +224,7 @@ public class Flying extends State {
    }
 
    private void checkCheckPoint() {
+      System.out.println(mapManager.yProgess);
       if (checkPointReached) {
          return;
       } else if (mapManager.yProgess >= FlyLevelInfo.getCheckPoint(level)) {
@@ -427,7 +427,7 @@ public class Flying extends State {
       if (toCheckPoint) {
          mapManager.yProgess = FlyLevelInfo.getCheckPoint(level);
       } else {
-         mapManager.yProgess = 0;
+         mapManager.yProgess = FlyLevelInfo.getResetPoint(level);
       }
    }
 

@@ -188,7 +188,7 @@ public class BossMode extends State {
    public void flipPause() {
       if (pause == false) {
          this.pause = true;
-         game.getAudioPlayer().stopAllLoops();
+         game.getAudioPlayer().pauseAllLoops();
       } else {
          this.pause = false;
          if (shouldMusicPlay) {

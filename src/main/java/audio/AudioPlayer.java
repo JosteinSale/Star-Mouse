@@ -38,9 +38,9 @@ public class AudioPlayer extends Singleton {
     private Music curSong;
     private Music curAmbience;
 
-    private float setSongVolume = 0.85f; // The player's selected volume
+    private float setSongVolume = 0.71f; // The player's selected volume
     private float setAmbienceVolume = 0.91f;
-    private float curSongVolume = 0.85f; // Used for fading
+    private float curSongVolume = 0.71f; // Used for fading
     private float curSfxVolume = 0.91f; // Needed for voices
     private float curAmbienceVolume = 0.91f;
 
@@ -107,13 +107,13 @@ public class AudioPlayer extends Singleton {
         stopFadeOutIfActive(); // In case fadeOut is happening
         curSong = songs[index];
         curSong.setVolume(curSongVolume);
-        curSong.setPosition(startPos);
         if (curSongLooping) {
             curSong.setLooping(true);
             curSong.play();
         } else {
             curSong.play();
         }
+        curSong.setPosition(startPos);
     }
 
     /**
@@ -130,7 +130,6 @@ public class AudioPlayer extends Singleton {
         stopFadeOutIfActive(); // In case fadeOut is happening
         curAmbience = ambienceTracks[index];
         curAmbience.setVolume(curAmbienceVolume);
-        curAmbience.setPosition(0f);
         curAmbience.setLooping(true);
         curAmbience.play();
     }
@@ -147,10 +146,19 @@ public class AudioPlayer extends Singleton {
         }
     }
 
-    /** Abruptly stops the current song + ambience */
+    /** Stops all loops and resets them to the beginning */
     public void stopAllLoops() {
         curSong.stop();
         curAmbience.stop();
+    }
+
+    /**
+     * Pauses all loops. When play is invoked again, it will start from where the
+     * song was paused
+     */
+    public void pauseAllLoops() {
+        curSong.pause();
+        curAmbience.pause();
     }
 
     /** Fades out the current song + ambience, and then stops them. */
