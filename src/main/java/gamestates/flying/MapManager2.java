@@ -1,7 +1,6 @@
 package gamestates.flying;
 
-import java.awt.image.BufferedImage;
-
+import entities.MyCollisionImage;
 import main_classes.Game;
 
 /**
@@ -9,7 +8,7 @@ import main_classes.Game;
  * and associated numerical values in Flying.
  */
 public class MapManager2 {
-   public BufferedImage clImg;
+   public MyCollisionImage clImg;
    public int clImgHeight;
    public int clImgWidth;
    public float clYOffset;

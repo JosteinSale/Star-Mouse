@@ -1,9 +1,9 @@
 package utils;
 
 import java.util.HashMap;
-import java.awt.image.BufferedImage;
+
+import entities.MyCollisionImage;
 import rendering.MyImage;
-import static utils.Constants.RESOURCES_PATH;
 
 /**
  * This class will keep all images in the game.
@@ -18,8 +18,8 @@ import static utils.Constants.RESOURCES_PATH;
 public class Images extends Singleton {
    private HashMap<String, MyImage> imagesToBeKeptInMemory;
    private HashMap<String, MyImage> imagesToBeFlushed;
-   private HashMap<String, BufferedImage> collisionImagesToBeFlushed;
-   public static MyImage pixel = ResourceLoader.getImage(RESOURCES_PATH + "miscImages/pixel.png");
+   private HashMap<String, MyCollisionImage> collisionImagesToBeFlushed;
+   public static MyImage pixel = ResourceLoader.getImage("miscImages/pixel.png");
 
    // Menus
    public static final String BASIC_MOUSE = "BasicMouse.png";
@@ -112,7 +112,6 @@ public class Images extends Singleton {
    }
 
    private MyImage getImage(String imageName, boolean keepInMemory) {
-      imageName = RESOURCES_PATH + imageName;
       if (imagesToBeFlushed.containsKey(imageName)) {
          return imagesToBeFlushed.get(imageName);
       } else if (imagesToBeKeptInMemory.containsKey(imageName)) {
@@ -129,12 +128,12 @@ public class Images extends Singleton {
       }
    }
 
-   private BufferedImage getCollisionImage(String imageName) {
+   private MyCollisionImage getCollisionImage(String imageName) {
       if (collisionImagesToBeFlushed.containsKey(imageName)) {
          return collisionImagesToBeFlushed.get(imageName);
       } else {
          // Load image into memory and return it.
-         BufferedImage image = ResourceLoader.getCollisionImage(imageName);
+         MyCollisionImage image = ResourceLoader.getCollisionImage(imageName);
          this.collisionImagesToBeFlushed.put(imageName, image);
          return image;
       }
@@ -145,79 +144,79 @@ public class Images extends Singleton {
          imagesToBeFlushed.get(imgName).dispose();
       }
       for (String imgName : collisionImagesToBeFlushed.keySet()) {
-         collisionImagesToBeFlushed.get(imgName).flush();
+         collisionImagesToBeFlushed.get(imgName).dispose();
       }
       imagesToBeFlushed.clear();
       collisionImagesToBeFlushed.clear();
    }
 
    public MyImage getBossSprite(String fileName) {
-      fileName = "/bossMode/sprites/" + fileName;
+      fileName = "bossMode/sprites/" + fileName;
       return this.getImage(fileName, false);
    }
 
    public MyImage getCutsceneImage(String fileName, boolean keepInMemory) {
-      fileName = "/cutsceneImages/" + fileName;
+      fileName = "cutsceneImages/" + fileName;
       return this.getImage(fileName, keepInMemory);
    }
 
    public MyImage getBossBackground(String fileName) {
-      fileName = "/bossMode/backgrounds/" + fileName;
+      fileName = "bossMode/backgrounds/" + fileName;
       return this.getImage(fileName, false);
    }
 
    public MyImage getExpImageLandscape(String fileName) {
-      fileName = "/exploring/images/landscapes/" + fileName;
+      fileName = "exploring/images/landscapes/" + fileName;
       return this.getImage(fileName, false);
    }
 
    public MyImage getExpImageBackground(String fileName) {
-      fileName = "/exploring/images/backgrounds/" + fileName;
+      fileName = "exploring/images/backgrounds/" + fileName;
       return this.getImage(fileName, false);
    }
 
    public MyImage getFlyImageBackground(String fileName) {
-      fileName = "/flying/images/backgrounds/" + fileName;
+      fileName = "flying/images/backgrounds/" + fileName;
       return this.getImage(fileName, false);
    }
 
    public MyImage getFlyImageForeground(String fileName) {
-      fileName = "/flying/images/foregrounds/" + fileName;
+      fileName = "flying/images/foregrounds/" + fileName;
       return this.getImage(fileName, false);
    }
 
-   public BufferedImage getExpImageCollision(String fileName) {
-      fileName = "/exploring/images/collision/" + fileName;
+   public MyCollisionImage getExpImageCollision(String fileName) {
+      fileName = "exploring/images/collision/" + fileName;
       return this.getCollisionImage(fileName);
    }
 
-   public BufferedImage getFlyImageCollision(String fileName) {
-      fileName = "/flying/images/collision/" + fileName;
+   public MyCollisionImage getFlyImageCollision(String fileName) {
+      fileName = "flying/images/collision/" + fileName;
       return this.getCollisionImage(fileName);
    }
 
-   public BufferedImage getBossCollisionImg(String fileName) {
-      fileName = "/bossMode/collision/" + fileName;
+   public MyCollisionImage getBossCollisionImg(String fileName) {
+      fileName = "bossMode/collision/" + fileName;
       return this.getCollisionImage(fileName);
    }
 
    public MyImage getExpImageForeground(String fileName) {
-      fileName = "/exploring/images/foregrounds/" + fileName;
+      fileName = "exploring/images/foregrounds/" + fileName;
       return this.getImage(fileName, false);
    }
 
    public MyImage getMiscImage(String fileName, boolean keepInMemory) {
-      fileName = "/miscImages/" + fileName;
+      fileName = "miscImages/" + fileName;
       return this.getImage(fileName, keepInMemory);
    }
 
    public MyImage getExpImageSprite(String fileName, boolean keepInMemory) {
-      fileName = "/exploring/images/sprites/" + fileName;
+      fileName = "exploring/images/sprites/" + fileName;
       return this.getImage(fileName, keepInMemory);
    }
 
    public MyImage getFlyImageSprite(String fileName, boolean keepInMemory) {
-      fileName = "/flying/images/sprites/" + fileName;
+      fileName = "flying/images/sprites/" + fileName;
       return this.getImage(fileName, keepInMemory);
    }
 

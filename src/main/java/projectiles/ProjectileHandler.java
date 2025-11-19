@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import audio.AudioPlayer;
+import entities.MyCollisionImage;
 import entities.flying.ShootingPlayer;
 import entities.flying.enemies.Enemy;
 import entities.flying.enemies.EnemyManager;
@@ -30,7 +31,7 @@ public class ProjectileHandler extends Singleton {
    public ArrayList<BombExplosion> bombExplosions;
    protected Rectangle2D.Float screenBox;
 
-   protected BufferedImage clImg;
+   protected MyCollisionImage clImg;
 
    protected boolean powerUp = false;
    protected int lazerShootTick = 0;
@@ -334,7 +335,7 @@ public class ProjectileHandler extends Singleton {
       player.setBombs(amount);
    }
 
-   public void setClImg(BufferedImage clImg) {
+   public void setClImg(MyCollisionImage clImg) {
       this.clImg = clImg;
    }
 

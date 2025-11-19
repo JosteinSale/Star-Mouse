@@ -5,9 +5,9 @@ import static utils.Constants.Flying.ActionConstants.*;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import entities.MyCollisionImage;
 import entities.flying.PlayerFly;
 import main_classes.Game;
 import utils.Constants.Audio;
@@ -202,6 +202,6 @@ public class PlayerBoss extends PlayerFly {
    }
 
    @Override
-   public void setClImg(BufferedImage clImg) {
+   public void setClImg(MyCollisionImage clImg) {
       /* Do nothing */}
 }

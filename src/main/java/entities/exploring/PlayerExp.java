@@ -7,15 +7,15 @@ import static utils.HelpMethods.CollidesWithNpc;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import entities.Entity;
+import entities.MyCollisionImage;
 import main_classes.Game;
 
 public class PlayerExp extends Entity {
    private Game game;
-   private BufferedImage collisionImg;
+   private MyCollisionImage collisionImg;
 
    private boolean poseActive = false;
    public int playerAction;
@@ -182,7 +182,7 @@ public class PlayerExp extends Entity {
    }
 
    public void flush() {
-      this.collisionImg.flush();
+      this.collisionImg.dispose();
       this.collisionImg = null;
    }
 }

@@ -2,13 +2,14 @@ package utils;
 
 import static utils.Constants.Exploring.Cutscenes.*;
 
-import java.awt.Color;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.graphics.Color;
+
 import cutscenes.Cutscene;
+import entities.MyCollisionImage;
 import entities.exploring.*;
 import game_events.*;
 import gamestates.Gamestate;
@@ -19,9 +20,11 @@ import utils.parsing.CutsceneParser;
 
 public class HelpMethods {
 
-    public static boolean IsSolid(int pixelX, int pixelY, BufferedImage collisionImg) {
-        Color c = new Color(collisionImg.getRGB(pixelX, pixelY));
-        if (c.getRed() > 0 && c.getRed() < 100) {
+    public static boolean IsSolid(int pixelX, int pixelY, MyCollisionImage collisionImg) {
+        int pix = collisionImg.getImage().getPixel(pixelX, pixelY);
+        Color c = new Color();
+        Color.rgba8888ToColor(c, pix);
+        if (c.r > 0.0f && c.r < 0.39f) { // 0.39f ~ 100 int
             return true;
         } else {
             return false;
@@ -32,7 +35,7 @@ public class HelpMethods {
      * Checks the four corners of the hitbox,
      * and returns true if any of them touches something solid
      */
-    public static boolean CollidesWithMap(Rectangle2D.Float hitbox, BufferedImage collisionImg) {
+    public static boolean CollidesWithMap(Rectangle2D.Float hitbox, MyCollisionImage collisionImg) {
         float newX1 = (hitbox.x) / 3;
         float newY1 = (hitbox.y) / 3;
         float newX2 = (hitbox.x + hitbox.width) / 3;

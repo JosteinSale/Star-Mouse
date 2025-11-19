@@ -1,9 +1,8 @@
 package rendering.exploring;
 
-import java.awt.image.BufferedImage;
-
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import entities.MyCollisionImage;
 import gamestates.exploring.MapManager1;
 import main_classes.Game;
 import rendering.MyImage;
@@ -13,7 +12,7 @@ import utils.Images;
 
 public class RenderMap1 implements Render {
    private MapManager1 map;
-   protected BufferedImage clImg;
+   protected MyCollisionImage clImg;
    protected MyImage landScapeImg;
    protected MyImage bgImg;
    protected MyImage fgImg;

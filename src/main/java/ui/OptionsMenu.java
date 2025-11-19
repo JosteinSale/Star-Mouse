@@ -38,8 +38,8 @@ public class OptionsMenu extends Singleton {
       this.game = game;
       this.audioPlayer = audioPlayer;
       this.controlsMenu = new ControlsMenu(game, audioPlayer);
-      musicPercent = fromGainToPercent(audioPlayer.getMusicVolume());
-      sfxPercent = fromGainToPercent(audioPlayer.getSfxVolume());
+      musicPercent = (int) (audioPlayer.getMusicVolume() * 100);
+      sfxPercent = (int) (audioPlayer.getSfxVolume() * 100);
       calcVolumeXs();
    }
 
@@ -50,30 +50,6 @@ public class OptionsMenu extends Singleton {
    private void calcVolumeXs() {
       musicSliderX = (int) (sliderMinX + ((sliderBarWidth - 16) * (musicPercent / 100f))) - 25;
       sfxSliderX = (int) (sliderMinX + ((sliderBarWidth - 16) * (sfxPercent / 100f))) - 25;
-   }
-
-   /**
-    * Takes the actual song / sfx-gain, and converts it to percent.
-    * Since volume gain seems to be working logarithmically, this method
-    * converts the gain to percent exponentially.
-    * 
-    * @param gain
-    * @return
-    */
-   private int fromGainToPercent(float gain) {
-      return (int) Math.pow(10, gain) * 10;
-   }
-
-   /**
-    * Takes the volume percent and converts it to actual volume gain.
-    * Since volume gain seems to be working logarithmically, this method
-    * converts percent to gain logarithmically.
-    * 
-    * @param gain
-    * @return
-    */
-   private float fromPercentToGain(int percent) {
-      return (float) Math.log10(percent / 10);
    }
 
    public void update() {
@@ -122,8 +98,7 @@ public class OptionsMenu extends Singleton {
          } else if (musicPercent <= 0) {
             musicPercent = 0;
          }
-         float newVolume = fromPercentToGain(musicPercent);
-         audioPlayer.setSongVolume(newVolume);
+         audioPlayer.setSongVolume(musicPercent / 100f);
       } else if (selected == SFX_VOLUME) {
          sfxPercent += 10 * change;
          if (sfxPercent > 100) {
@@ -131,8 +106,7 @@ public class OptionsMenu extends Singleton {
          } else if (sfxPercent <= 0) {
             sfxPercent = 0;
          }
-         float newVolume = fromPercentToGain(sfxPercent);
-         audioPlayer.setSfxVolume(newVolume);
+         audioPlayer.setSfxVolume(sfxPercent / 100f);
       }
       calcVolumeXs();
    }

@@ -1,10 +1,10 @@
 package projectiles;
 
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import audio.AudioPlayer;
+import entities.MyCollisionImage;
 import entities.bossmode.IBoss;
 import entities.bossmode.IBossPart;
 import entities.bossmode.PlayerBoss;
@@ -177,7 +177,7 @@ public class ProjectileHandler2 extends ProjectileHandler {
    // ----------------- Unused methods ----------------------
 
    @Override
-   public void setClImg(BufferedImage clImg) {
+   public void setClImg(MyCollisionImage clImg) {
       /* Do nothing */}
 
    @Override

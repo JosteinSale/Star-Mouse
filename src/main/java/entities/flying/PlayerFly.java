@@ -6,11 +6,11 @@ import static utils.HelpMethods.IsSolid;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import audio.AudioPlayer;
 import entities.Entity;
+import entities.MyCollisionImage;
 import entities.flying.enemies.Enemy;
 import main_classes.Game;
 import ui.StatusDisplay;
@@ -19,7 +19,7 @@ import utils.Constants.Audio;
 public class PlayerFly extends Entity implements ShootingPlayer {
    protected Game game;
    protected AudioPlayer audioPlayer;
-   protected BufferedImage clImg;
+   protected MyCollisionImage clImg;
    public ShipFlame flame;
    public StatusDisplay statusDisplay;
    protected Rectangle2D.Float teleportHitbox; // When the player teleports, a 'kill hitbox' materializes
@@ -462,7 +462,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       this.statusDisplay.setKilledEnemies(nr);
    }
 
-   public void setClImg(BufferedImage clImg) {
+   public void setClImg(MyCollisionImage clImg) {
       this.clImg = clImg;
    }
 
