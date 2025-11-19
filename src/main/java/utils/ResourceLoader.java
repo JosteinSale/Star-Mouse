@@ -103,7 +103,8 @@ public class ResourceLoader {
 
    /*
     * This method might seem a bit stupid, but it fixes a peculiar issue:
-    * When the game is exported as a jar, the way folders and files are located
+    * Normally I would try to list all files in a folder.
+    * But when the game is exported as a jar, the way folders and files are located
     * changes. This makes it complicated to list all files in a folder, apparently.
     * This method ensures that we can get the exact name of the file to read
     * (which works better with LibGDX).
