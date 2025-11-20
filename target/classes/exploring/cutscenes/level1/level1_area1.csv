@@ -40,7 +40,7 @@ endSequence
 info;You found a present!
 playSFX;pickup
 endSequence
-info;Open your inventory and select it to inspect it.
+info;Open your inventory with {pause} to inspect it.
 setRequirementMet;0;1
 addToInventory;GRADUATION PRESENT;For a special someone on their special day. I hope he likes it!;item_present.png
 endSequence
