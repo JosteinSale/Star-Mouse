@@ -63,7 +63,7 @@ endSequence
 fillScreen;_;false
 fade;in;black;1
 endSequence
-fadeHeader;in;50;10;Press SPACE to wake up
+fadeHeader;in;50;10;Press {interact} to wake up
 wait;1
 endSequence
 bigDialogue;Max;naked_eyes_shut;6;30;.
@@ -78,9 +78,9 @@ setOverlayImage;false;_
 wait;60
 endSequence
 playSFX;infoBox
-info;Press SPACE to interact / advance
+info;Press {interact} to interact / advance
 endSequence
-info;WASD-keys to move
+info;Move with {up}, {down}, {left}, {right}.
 endSequence
-info;ENTER to open menu / inventory
+info;{pause} to open menu / inventory
 endSequence

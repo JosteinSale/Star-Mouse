@@ -1,6 +1,7 @@
 package utils.parsing;
 
 import static utils.HelpMethods.ParseDirection;
+import static utils.parsing.DynamicValueParser.InsertDynamicValues;
 
 import java.util.HashMap;
 
@@ -79,7 +80,8 @@ public class CutsceneParser {
 
    private static InfoBoxEvent parseInfoBox(String[] lineData) {
       String text = lineData[1];
-      return new InfoBoxEvent(text);
+      String textWithDynamicValues = InsertDynamicValues(text);
+      return new InfoBoxEvent(textWithDynamicValues);
    }
 
    private static SetGameplayEvent parseSetGamePlayActive(String[] lineData) {
@@ -96,7 +98,8 @@ public class CutsceneParser {
       Integer yPos = Integer.parseInt(lineData[2]);
       Integer fadeSpeed = Integer.parseInt(lineData[3]);
       String headerText = lineData[4];
-      return new FadeHeaderEvent(inOut, yPos, fadeSpeed, headerText);
+      String textWithDynamicValues = InsertDynamicValues(headerText);
+      return new FadeHeaderEvent(inOut, yPos, fadeSpeed, textWithDynamicValues);
    }
 
    private static BigDialogueEvent parseBigDialogue(String[] lineData) {
@@ -104,7 +107,8 @@ public class CutsceneParser {
       Integer portraitIndex = Integer.parseInt(lineData[3]);
       Integer speed = Integer.parseInt(lineData[4]);
       String text = lineData[5];
-      return new BigDialogueEvent(name, speed, text, portraitIndex);
+      String textWithDynamicValues = InsertDynamicValues(text);
+      return new BigDialogueEvent(name, speed, textWithDynamicValues, portraitIndex);
    }
 
    private static NoSkipDialogueEvent parseNoSkipDialogue(String[] lineData) {
@@ -112,7 +116,8 @@ public class CutsceneParser {
       Integer portraitIndex = Integer.parseInt(lineData[3]);
       Integer speed = Integer.parseInt(lineData[4]);
       String text = lineData[5];
-      return new NoSkipDialogueEvent(name, speed, text, portraitIndex);
+      String textWithDynamicValues = InsertDynamicValues(text);
+      return new NoSkipDialogueEvent(name, speed, textWithDynamicValues, portraitIndex);
    }
 
    private static SmallDialogueEvent parseSmallDialogue(String[] lineData) {
@@ -120,7 +125,8 @@ public class CutsceneParser {
       Integer portraitIndex = Integer.parseInt(lineData[3]);
       Integer speed = Integer.parseInt(lineData[4]);
       String text = lineData[5];
-      return new SmallDialogueEvent(name, speed, text, portraitIndex);
+      String textWithDynamicValues = InsertDynamicValues(text);
+      return new SmallDialogueEvent(name, speed, textWithDynamicValues, portraitIndex);
    }
 
    private static FadeEvent parseFade(String[] lineData) {
@@ -164,7 +170,8 @@ public class CutsceneParser {
       String question = lineData[1];
       String leftChoice = lineData[2];
       String rightChoice = lineData[3];
-      return new InfoChoiceEvent(question, leftChoice, rightChoice);
+      String questionWithDynamicValues = InsertDynamicValues(question);
+      return new InfoChoiceEvent(questionWithDynamicValues, leftChoice, rightChoice);
    }
 
    private static SetStartingCutsceneEvent parseSetStartCutscene(String[] lineData) {

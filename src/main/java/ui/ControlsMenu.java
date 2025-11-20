@@ -61,7 +61,7 @@ public class ControlsMenu extends Singleton {
    private void setKeyNames() {
       keyNames = new ArrayList<>();
       for (String variant : kbVariantNames) {
-         KeyboardInputs.KeyBindingVariant kbv = keyboardInputs.getKeyBindingVariant(variant);
+         KeyboardInputs.KeyBindingVariant kbv = keyboardInputs.getKeyBinding(variant);
          String[] keysAsStrings = new String[] {
                Input.Keys.toString(kbv.up),
                Input.Keys.toString(kbv.down),

@@ -12,30 +12,15 @@ import utils.Singleton;
 
 public class KeyboardInputs extends Singleton implements InputProcessor {
    private Game game;
-   public int up;
-   public int down;
-   public int right;
-   public int left;
-   public int interact;
-   public int shootBomb;
-   public int teleport;
-   public int pause;
-   public int toggleFullscreen;
 
-   public HashMap<String, KeyBindingVariant> keyBindingVariants;
    public static final String VARIANT_A = "A";
    public static final String VARIANT_B = "B";
    public static final String VARIANT_C = "C";
    public static String currentVariant = VARIANT_C;
+   private static final HashMap<String, KeyBindingVariant> keyBindingVariants = new HashMap<>();
 
-   public KeyboardInputs(Game game) {
-      this.game = game;
-      this.constructKeyBindingVariants();
-      this.setNewKeyBinding(currentVariant);
-   }
-
-   private void constructKeyBindingVariants() {
-      // Variant A:
+   static {
+      // populate the static map once
       KeyBindingVariant kbvA = new KeyBindingVariant();
       kbvA.up = Input.Keys.W;
       kbvA.down = Input.Keys.S;
@@ -47,7 +32,6 @@ public class KeyboardInputs extends Singleton implements InputProcessor {
       kbvA.pause = Input.Keys.ENTER;
       kbvA.toggleFullscreen = Input.Keys.ESCAPE;
 
-      // Variant B:
       KeyBindingVariant kbvB = new KeyBindingVariant();
       kbvB.up = Input.Keys.UP;
       kbvB.down = Input.Keys.DOWN;
@@ -59,7 +43,6 @@ public class KeyboardInputs extends Singleton implements InputProcessor {
       kbvB.pause = Input.Keys.ENTER;
       kbvB.toggleFullscreen = Input.Keys.ESCAPE;
 
-      // Variant C:
       KeyBindingVariant kbvC = new KeyBindingVariant();
       kbvC.up = Input.Keys.UP;
       kbvC.down = Input.Keys.DOWN;
@@ -71,58 +54,56 @@ public class KeyboardInputs extends Singleton implements InputProcessor {
       kbvC.pause = Input.Keys.ENTER;
       kbvC.toggleFullscreen = Input.Keys.ESCAPE;
 
-      // Construct the hashmap
-      keyBindingVariants = new HashMap<>();
       keyBindingVariants.put(VARIANT_A, kbvA);
       keyBindingVariants.put(VARIANT_B, kbvB);
       keyBindingVariants.put(VARIANT_C, kbvC);
    }
+   private static KeyBindingVariant kb = keyBindingVariants.get(currentVariant);
 
-   public void setNewKeyBinding(String variant) {
-      currentVariant = variant;
-      KeyBindingVariant kbv = keyBindingVariants.get(variant);
-      this.up = kbv.up;
-      this.down = kbv.down;
-      this.right = kbv.right;
-      this.left = kbv.left;
-      this.interact = kbv.interact;
-      this.shootBomb = kbv.shootBomb;
-      this.teleport = kbv.teleport;
-      this.pause = kbv.pause;
-      this.toggleFullscreen = kbv.toggleFullscreen;
+   public KeyboardInputs(Game game) {
+      this.game = game;
    }
 
-   public KeyBindingVariant getKeyBindingVariant(String variant) {
+   public void setNewKeyBinding(String newVariant) {
+      currentVariant = newVariant;
+      kb = keyBindingVariants.get(newVariant);
+   }
+
+   public KeyBindingVariant getKeyBinding(String variant) {
       return keyBindingVariants.get(variant);
+   }
+
+   public static KeyBindingVariant getCurrentKeyBinding() {
+      return keyBindingVariants.get(currentVariant);
    }
 
    @Override
    public boolean keyDown(int keycode) {
-      if (keycode == up) {
+      if (keycode == kb.up) {
          game.upIsPressed = true;
       }
-      if (keycode == down) {
+      if (keycode == kb.down) {
          game.downIsPressed = true;
       }
-      if (keycode == right) {
+      if (keycode == kb.right) {
          game.rightIsPressed = true;
       }
-      if (keycode == left) {
+      if (keycode == kb.left) {
          game.leftIsPressed = true;
       }
-      if (keycode == interact) {
+      if (keycode == kb.interact) {
          game.interactIsPressed = true;
       }
-      if (keycode == teleport) {
+      if (keycode == kb.teleport) {
          game.teleportIsPressed = true;
       }
-      if (keycode == shootBomb) {
+      if (keycode == kb.shootBomb) {
          game.bombIsPressed = true;
       }
-      if (keycode == pause) {
+      if (keycode == kb.pause) {
          game.pauseIsPressed = true;
       }
-      if (keycode == toggleFullscreen) {
+      if (keycode == kb.toggleFullscreen) {
          game.fullScreenIsPressed = true;
       }
       if (Gamestate.state == Gamestate.LEVEL_EDITOR) {
@@ -134,31 +115,31 @@ public class KeyboardInputs extends Singleton implements InputProcessor {
 
    @Override
    public boolean keyUp(int keycode) {
-      if (keycode == up) {
+      if (keycode == kb.up) {
          game.upIsPressed = false;
       }
-      if (keycode == down) {
+      if (keycode == kb.down) {
          game.downIsPressed = false;
       }
-      if (keycode == right) {
+      if (keycode == kb.right) {
          game.rightIsPressed = false;
       }
-      if (keycode == left) {
+      if (keycode == kb.left) {
          game.leftIsPressed = false;
       }
-      if (keycode == interact) {
+      if (keycode == kb.interact) {
          game.interactIsPressed = false;
       }
-      if (keycode == teleport) {
+      if (keycode == kb.teleport) {
          game.teleportIsPressed = false;
       }
-      if (keycode == shootBomb) {
+      if (keycode == kb.shootBomb) {
          game.bombIsPressed = false;
       }
-      if (keycode == pause) {
+      if (keycode == kb.pause) {
          game.pauseIsPressed = false;
       }
-      if (keycode == Input.Keys.ESCAPE) {
+      if (keycode == kb.toggleFullscreen) {
          game.fullScreenIsPressed = false;
       }
       return true;
@@ -195,7 +176,7 @@ public class KeyboardInputs extends Singleton implements InputProcessor {
    }
 
    // Container class for holding different keybindings
-   public class KeyBindingVariant {
+   public static class KeyBindingVariant {
       public int up;
       public int down;
       public int right;
