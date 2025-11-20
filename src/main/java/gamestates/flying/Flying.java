@@ -224,7 +224,6 @@ public class Flying extends State {
    }
 
    private void checkCheckPoint() {
-      System.out.println(mapManager.yProgess);
       if (checkPointReached) {
          return;
       } else if (mapManager.yProgess >= FlyLevelInfo.getCheckPoint(level)) {
