@@ -3,6 +3,7 @@ package ui;
 import static utils.HelpMethods.GetCharacterIndex;
 
 import main_classes.Game;
+import utils.parsing.DynamicValueParser;
 
 public class SmallDialogueBox {
     private Game game;
@@ -24,7 +25,7 @@ public class SmallDialogueBox {
         this.totalLetters = text.length();
         this.currentLetter = 0;
         this.aniTick = 0;
-        this.text = text;
+        this.text = DynamicValueParser.InsertDynamicValues(text); // TODO - Decide: do it here?
         this.name = name;
         this.tickPerFrame = speed;
         this.characterIndex = GetCharacterIndex(name);

@@ -1,17 +1,27 @@
 package inputs;
 
 import com.badlogic.gdx.InputProcessor;
-
-import java.util.HashMap;
-
 import com.badlogic.gdx.Input;
-
+import java.util.HashMap;
 import gamestates.Gamestate;
 import main_classes.Game;
 import utils.Singleton;
 
 public class KeyboardInputs extends Singleton implements InputProcessor {
    private Game game;
+
+   // Container class for holding different keybindings
+   public static class KeyBindingVariant {
+      public int up;
+      public int down;
+      public int right;
+      public int left;
+      public int interact;
+      public int shootBomb;
+      public int teleport;
+      public int pause;
+      public int toggleFullscreen;
+   }
 
    public static final String VARIANT_A = "A";
    public static final String VARIANT_B = "B";
@@ -64,7 +74,7 @@ public class KeyboardInputs extends Singleton implements InputProcessor {
       this.game = game;
    }
 
-   public void setNewKeyBinding(String newVariant) {
+   public static void setNewKeyBinding(String newVariant) {
       currentVariant = newVariant;
       kb = keyBindingVariants.get(newVariant);
    }
@@ -109,7 +119,6 @@ public class KeyboardInputs extends Singleton implements InputProcessor {
       if (Gamestate.state == Gamestate.LEVEL_EDITOR) {
          // game.getLevelEditor().handleKeyboardInputs(keycode); // TODO
       }
-
       return false;
    }
 
@@ -175,16 +184,4 @@ public class KeyboardInputs extends Singleton implements InputProcessor {
       return false;
    }
 
-   // Container class for holding different keybindings
-   public static class KeyBindingVariant {
-      public int up;
-      public int down;
-      public int right;
-      public int left;
-      public int interact;
-      public int shootBomb;
-      public int teleport;
-      public int pause;
-      public int toggleFullscreen;
-   }
 }

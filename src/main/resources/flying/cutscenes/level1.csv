@@ -6,7 +6,7 @@ endSequence
 fadeHeader;in;350;10;Skies over Apolis
 wait;150
 endSequence
-startAmbience;1
+startAmbience;0
 fadeHeader;out;350;10;Skies over Apolis
 fellowShips;100;400;440;300;400;500;700;400;560;900;400;620
 wait;100

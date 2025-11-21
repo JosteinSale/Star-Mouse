@@ -48,6 +48,7 @@ public class DynamicValueParser {
          case "left" -> Input.Keys.toString(kb.left).toUpperCase();
          case "right" -> Input.Keys.toString(kb.right).toUpperCase();
          case "interact" -> Input.Keys.toString(kb.interact).toUpperCase();
+         case "teleport" -> Input.Keys.toString(kb.teleport).toUpperCase();
          case "shootBomb" -> Input.Keys.toString(kb.shootBomb).toUpperCase();
          case "pause" -> Input.Keys.toString(kb.pause).toUpperCase();
          case "toggleFullscreen" -> Input.Keys.toString(kb.toggleFullscreen).toUpperCase();

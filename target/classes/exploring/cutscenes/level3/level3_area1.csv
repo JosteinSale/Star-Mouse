@@ -114,7 +114,7 @@ wait;60
 endSequence
 fillScreen;black;false
 fade;in;black;5
-startAmbience;2;   // is needed because we override the justEntered-method with a cutscene.
+startAmbience;1;   // is needed because we override the justEntered-method with a cutscene.
 endSequence
 
 cutscene;false;automatic;8

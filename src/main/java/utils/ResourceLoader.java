@@ -37,12 +37,12 @@ public class ResourceLoader {
    }
 
    public static Music getSong(String string) {
-      Music music = Gdx.audio.newMusic(Gdx.files.internal("audio/" + string));
+      Music music = Gdx.audio.newMusic(Gdx.files.internal("audioOgg/" + string));
       return music;
    }
 
    public static Sound getSound(String string) {
-      Sound sound = Gdx.audio.newSound(Gdx.files.internal("audio/" + string));
+      Sound sound = Gdx.audio.newSound(Gdx.files.internal("audioOgg/" + string));
       return sound;
    }
 

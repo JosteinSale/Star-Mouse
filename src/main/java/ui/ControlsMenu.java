@@ -115,7 +115,7 @@ public class ControlsMenu extends Singleton {
    }
 
    private void setNewKeyBinding() {
-      keyboardInputs.setNewKeyBinding(kbVariantNames.get(selectedKeyBindingIndex));
+      KeyboardInputs.setNewKeyBinding(kbVariantNames.get(selectedKeyBindingIndex));
    }
 
    private void goDown() {

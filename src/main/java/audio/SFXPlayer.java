@@ -31,27 +31,27 @@ public class SFXPlayer extends Singleton {
         // SFX:
         this.sfx = new ArrayList<>();
         String[] SFXfileNames = {
-                "SFX - Lazer10.wav",
-                "SFX - BombShoot.wav",
-                "SFX - Teleport.wav",
-                "SFX - ShipCrash1.5.wav",
-                "SFX - SmallExplosion3.6.wav",
-                "SFX - BigExplosion2.wav",
-                "SFX - BombPickup.wav",
-                "SFX - Powerup2.wav",
-                "SFX - Powerup3.wav",
-                "SFX - Cursor1.wav",
-                "SFX - Select2.wav",
-                "SFX - MenuSound.wav",
-                "SFX - ItemPickup.wav",
-                "SFX - Success.wav",
-                "SFX - InfoBox2.wav",
-                "SFX - BigExplosion3.wav",
-                "SFX - Hurt2.wav",
-                "SFX - Death.wav",
-                "SFX - MetallicWarning.wav",
-                "SFX - Rudinger1Death.wav",
-                "SFX - CathedralShot.wav"
+                "SFX - Lazer10.ogg",
+                "SFX - BombShoot.ogg",
+                "SFX - Teleport.ogg",
+                "SFX - ShipCrash1.5.ogg",
+                "SFX - SmallExplosion3.6.ogg",
+                "SFX - BigExplosion2.ogg",
+                "SFX - BombPickup.ogg",
+                "SFX - Powerup2.ogg",
+                "SFX - Powerup3.ogg",
+                "SFX - Cursor1.ogg",
+                "SFX - Select2.ogg",
+                "SFX - MenuSound.ogg",
+                "SFX - ItemPickup.ogg",
+                "SFX - Success.ogg",
+                "SFX - InfoBox2.ogg",
+                "SFX - BigExplosion3.ogg",
+                "SFX - Hurt2.ogg",
+                "SFX - Death.ogg",
+                "SFX - MetallicWarning.ogg",
+                "SFX - Rudinger1Death.ogg",
+                "SFX - CathedralShot.ogg"
         };
         for (int i = 0; i < SFXfileNames.length; i++) {
             sfx.add(ResourceLoader.getSound(SFXfileNames[i]));
@@ -60,29 +60,29 @@ public class SFXPlayer extends Singleton {
         // Voiceclips
         this.voiceClips = new HashMap<>();
         HashMap<String, String> characterToSoundMap = new HashMap<>();
-        characterToSoundMap.put("Max", "VoiceClip - Max.wav");
-        characterToSoundMap.put("Oliver", "VoiceClip - Oliver.wav");
-        characterToSoundMap.put("Lance", "VoiceClip - Feno.wav");
-        characterToSoundMap.put("Charlotte", "VoiceClip - Charlotte.wav");
-        characterToSoundMap.put("Nina", "VoiceClip - Nina.wav");
-        characterToSoundMap.put("Shady pilot", "VoiceClip - ShadyPilot.wav");
-        characterToSoundMap.put("Speaker", "VoiceClip - Speaker.wav");
-        characterToSoundMap.put("Sign", "VoiceClip - Sign.wav");
-        characterToSoundMap.put("Lt.Red", "VoiceClip - Lt.Red.wav");
-        characterToSoundMap.put("Russel", "VoiceClip - Russel.wav");
-        characterToSoundMap.put("Emma", "VoiceClip - Emma.wav");
-        characterToSoundMap.put("Nathan", "VoiceClip - Nathan.wav");
-        characterToSoundMap.put("Frida", "VoiceClip - Frida.wav");
-        characterToSoundMap.put("Mechanic", "VoiceClip - ShadyPilot.wav");
-        characterToSoundMap.put("Skye", "VoiceClip - Skye.wav");
-        characterToSoundMap.put("Zack", "VoiceClip - Zack.wav");
-        characterToSoundMap.put("Gard", "VoiceClip - Gard.wav");
-        characterToSoundMap.put("Feno", "VoiceClip - Feno.wav");
-        characterToSoundMap.put("Rudinger", "VoiceClip - Rudinger2.wav");
-        characterToSoundMap.put("???", "VoiceClip - Rudinger2.wav");
-        characterToSoundMap.put("Raze", "VoiceClip - Raze.wav");
-        characterToSoundMap.put("????", "VoiceClip - Raze.wav");
-        characterToSoundMap.put("Drone", "VoiceClip - Drone.wav");
+        characterToSoundMap.put("Max", "VoiceClip - Max.ogg");
+        characterToSoundMap.put("Oliver", "VoiceClip - Oliver.ogg");
+        characterToSoundMap.put("Lance", "VoiceClip - Feno.ogg");
+        characterToSoundMap.put("Charlotte", "VoiceClip - Charlotte.ogg");
+        characterToSoundMap.put("Nina", "VoiceClip - Nina.ogg");
+        characterToSoundMap.put("Shady pilot", "VoiceClip - ShadyPilot.ogg");
+        characterToSoundMap.put("Speaker", "VoiceClip - Speaker.ogg");
+        characterToSoundMap.put("Sign", "VoiceClip - Sign.ogg");
+        characterToSoundMap.put("Lt.Red", "VoiceClip - Lt.Red.ogg");
+        characterToSoundMap.put("Russel", "VoiceClip - Russel.ogg");
+        characterToSoundMap.put("Emma", "VoiceClip - Emma.ogg");
+        characterToSoundMap.put("Nathan", "VoiceClip - Nathan.ogg");
+        characterToSoundMap.put("Frida", "VoiceClip - Frida.ogg");
+        characterToSoundMap.put("Mechanic", "VoiceClip - ShadyPilot.ogg");
+        characterToSoundMap.put("Skye", "VoiceClip - Skye.ogg");
+        characterToSoundMap.put("Zack", "VoiceClip - Zack.ogg");
+        characterToSoundMap.put("Gard", "VoiceClip - Gard.ogg");
+        characterToSoundMap.put("Feno", "VoiceClip - Feno.ogg");
+        characterToSoundMap.put("Rudinger", "VoiceClip - Rudinger2.ogg");
+        characterToSoundMap.put("???", "VoiceClip - Rudinger2.ogg");
+        characterToSoundMap.put("Raze", "VoiceClip - Raze.ogg");
+        characterToSoundMap.put("????", "VoiceClip - Raze.ogg");
+        characterToSoundMap.put("Drone", "VoiceClip - Drone.ogg");
 
         for (String characterName : characterToSoundMap.keySet()) {
             voiceClips.put(characterName,

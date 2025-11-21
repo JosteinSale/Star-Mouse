@@ -24,7 +24,7 @@ public class Constants {
         public static final int NUMBER_SELECT_HEIGHT = 81 * 3;
         public static final int ITEM_BOX_WIDTH = 130 * 3;
         public static final int ITEM_BOX_HEIGHT = 66 * 3;
-        public static final int INFOBOX_MAX_LETTERS = 27;
+        public static final int INFOBOX_MAX_LETTERS = 30;
         public static final int DIALOGUE_MAX_LETTERS = 32;
         public static final int ITEM_MAX_LETTERS = 24;
         public static final float FONT_SIZE_ITEM = 20f;
@@ -192,9 +192,8 @@ public class Constants {
         public static final int SONG_BACK_TO_APO = 10;
 
         // Ambience (don't change these indexes!)
-        public static final int AMBIENCE_SILENCE = 0;
-        public static final int AMBIENCE_ROCKET_ENGINE = 1;
-        public static final int AMBIENCE_WIND = 2;
+        public static final int AMBIENCE_ROCKET_ENGINE = 0;
+        public static final int AMBIENCE_WIND = 1;
 
         public static int GetFlyLevelSong(int level) {
             switch (level) {

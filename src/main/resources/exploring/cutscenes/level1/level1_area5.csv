@@ -33,7 +33,7 @@ setSprite;player;true;2;5;alert
 wait;60
 endSequence
 stopAllLoops
-startAmbience;3;alarm
+startAmbience;2;alarm
 setRedLight;true
 wait;120
 endSequence

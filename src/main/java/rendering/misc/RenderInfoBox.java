@@ -37,7 +37,7 @@ public class RenderInfoBox implements Render {
          DrawUtils.drawText(
                sb, MyColor.BLACK, DrawUtils.infoFont,
                infoBox.formattedStrings.get(i),
-               infoX + 60, infoY + 60 + (i * 40));
+               infoX + 30, infoY + 60 + (i * 40));
       }
    }
 }

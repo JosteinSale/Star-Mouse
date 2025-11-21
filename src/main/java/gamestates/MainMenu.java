@@ -97,8 +97,8 @@ public class MainMenu extends State {
         // Activate testing mode
         game.testingMode = true;
 
-        Gamestate stateToTest = Gamestate.FLYING;
-        int level = 1;
+        Gamestate stateToTest = Gamestate.LEVEL_SELECT;
+        int level = 4;
         game.getLevelSelect().testUnlockAllLevelsUpTo(13);
 
         switch (stateToTest) {

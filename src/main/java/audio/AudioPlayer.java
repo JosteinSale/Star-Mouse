@@ -7,28 +7,29 @@ import utils.Singleton;
 
 public class AudioPlayer extends Singleton {
     private SFXPlayer sfxPlayer;
+    // These indexes can't be changed, or else stuff breaks >:[
+    // TODO - find better solution
     private String[] songFileNames = {
-            "Song - Tutorial (FINISHED)3.wav",
-            "Song - The Academy ver3.wav",
-            "Song - Skies Over Apolis.wav",
-            "Song - Main Menu.wav",
-            "Song - Vyke.wav",
-            "Song - Vyke Ambush.wav",
-            "Song - Grand Reaper.wav",
-            "Song - Rudinger Theme.wav",
-            "Song - Asteroid Escape.wav",
-            "Song - Apo Explodes.wav",
-            "Song - The Dark.wav",
-            "Song - The Dark (Ending).wav",
-            "Song - Cathedral.wav"
+            "Song - Tutorial (FINISHED)3.ogg",
+            "Song - The Academy ver3.ogg",
+            "Song - Skies Over Apolis.ogg",
+            "Song - Main Menu.ogg",
+            "Song - Vyke.ogg",
+            "Song - Vyke Ambush.ogg",
+            "Song - Grand Reaper.ogg",
+            "Song - Rudinger Theme.ogg",
+            "Song - Asteroid Escape.ogg",
+            "Song - Apo Explodes.ogg",
+            "Song - The Dark.ogg",
+            "Song - The Dark (Ending).ogg",
+            "Song - Cathedral.ogg"
     };
     private String[] ambienceFileNames = {
-            "Ambience - Silence.wav",
-            "Ambience - RocketEngineQuiet.wav",
-            "Ambience - Wind.wav",
-            "Ambience - Alarm.wav",
-            "Ambience - Hangar.wav",
-            "Ambience - Cave.wav"
+            "Ambience - RocketEngineQuiet.ogg",
+            "Ambience - Wind.ogg",
+            "Ambience - Alarm.ogg",
+            "Ambience - Hangar.ogg",
+            "Ambience - Cave.ogg"
     };
     private Music[] songs;
     private Music[] ambienceTracks;
@@ -101,6 +102,11 @@ public class AudioPlayer extends Singleton {
         if (index == 99) {
             return;
         }
+        // If we start a new song while the old is still playing, 2 songs will play
+        // at once.
+        if (curSong.isPlaying()) {
+            curSong.stop();
+        }
         this.curSongIndex = index;
         this.curSongVolume = setSongVolume;
         this.curSongLooping = shouldLoop;
@@ -124,6 +130,9 @@ public class AudioPlayer extends Singleton {
     public void startAmbienceLoop(int index) {
         if (index == 99) {
             return;
+        }
+        if (curAmbience.isPlaying()) {
+            curAmbience.stop();
         }
         this.curAmbienceIndex = index;
         this.curAmbienceVolume = setAmbienceVolume;

@@ -6,7 +6,7 @@ endSequence
 fadeHeader;in;350;10;Take off from Vyke
 wait;150
 endSequence
-startAmbience;1
+startAmbience;0
 fadeHeader;out;350;10;Take off from Vyke
 fellowShips;100;400;140;300;400;200;700;400;260
 wait;100
