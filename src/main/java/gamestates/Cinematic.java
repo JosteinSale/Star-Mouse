@@ -38,8 +38,6 @@ import utils.ResourceLoader;
  */
 public class Cinematic extends State {
 
-   public static final String CINEMATICS_FILE_PATH = "/src/main/resources/cinematic/cutscenes";
-
    private EventHandler eventHandler;
    private AudioPlayer audioPlayer;
    private CutsceneManagerCinematic cutsceneManager;

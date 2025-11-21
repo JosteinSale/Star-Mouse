@@ -215,7 +215,7 @@ public class LevelSelect extends State {
          alphaFade = 255;
          Gamestate.state = Gamestate.EXPLORING;
          game.getAudioPlayer().stopAmbience();
-         this.game.getExploring().loadLevel(levelToEnter);
+         this.game.getExploring().loadLevel(levelToEnter, 1);
          this.game.getExploring().update();
          System.gc();
       }

@@ -68,10 +68,9 @@ public class MainMenu extends State {
     private void handleInteractPressed() {
         game.interactIsPressed = false;
         if (selectedIndex == TESTING) {
-            // audioPlayer.stopAllLoops();
-            // audioPlayer.playSFX(Audio.SFX_STARTGAME);
-            // this.enterTestingMode();
-            audioPlayer.playSFX(Audio.SFX_HURT);
+            audioPlayer.stopAllLoops();
+            audioPlayer.playSFX(Audio.SFX_STARTGAME);
+            this.enterTestingMode();
         } else if (selectedIndex == NEW_GAME) {
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
             this.loadSaveMenu.activate(LoadSaveMenu.NEW_GAME);
@@ -99,8 +98,9 @@ public class MainMenu extends State {
         // Activate testing mode
         game.testingMode = true;
 
-        Gamestate stateToTest = Gamestate.LEVEL_SELECT;
-        int level = 4;
+        Gamestate stateToTest = Gamestate.EXPLORING;
+        int level = 1;
+        int area = 1;
         game.getLevelSelect().testUnlockAllLevelsUpTo(13);
 
         switch (stateToTest) {
@@ -109,7 +109,7 @@ public class MainMenu extends State {
                 Gamestate.state = Gamestate.LEVEL_SELECT;
                 return;
             case EXPLORING:
-                game.getExploring().loadLevel(level); // Area is currently specified in that method
+                game.getExploring().loadLevel(level, area);
                 game.getExploring().update();
                 Gamestate.state = Gamestate.EXPLORING;
                 return;

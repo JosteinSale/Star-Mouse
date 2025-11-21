@@ -79,7 +79,7 @@ public class Game extends ApplicationAdapter {
       viewport = new FitViewport(GAME_DEFAULT_WIDTH, GAME_DEFAULT_HEIGHT, camera);
       KeyboardInputs kbInputs = new KeyboardInputs(this);
       Gdx.input.setInputProcessor(kbInputs);
-      camera.setToOrtho(true, 1050, 750);
+      camera.setToOrtho(true, Game.GAME_DEFAULT_WIDTH, Game.GAME_DEFAULT_HEIGHT);
 
       // Main game objects
       this.initializeSaveData();
