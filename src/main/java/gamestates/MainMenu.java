@@ -27,7 +27,7 @@ public class MainMenu extends State {
     private int bgSlideDir = 1;
     private int cursorMinY = 480;
     private int cursorMaxY = 700;
-    public int cursorX = 280;
+    public int cursorX = 310;
     public int cursorY = cursorMinY;
     public int cursorYStep = (cursorMaxY - cursorMinY) / 5;
     private int selectedIndex = 0;
@@ -68,9 +68,10 @@ public class MainMenu extends State {
     private void handleInteractPressed() {
         game.interactIsPressed = false;
         if (selectedIndex == TESTING) {
-            audioPlayer.stopAllLoops();
-            audioPlayer.playSFX(Audio.SFX_STARTGAME);
-            this.enterTestingMode();
+            // audioPlayer.stopAllLoops();
+            // audioPlayer.playSFX(Audio.SFX_STARTGAME);
+            // this.enterTestingMode();
+            audioPlayer.playSFX(Audio.SFX_HURT);
         } else if (selectedIndex == NEW_GAME) {
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
             this.loadSaveMenu.activate(LoadSaveMenu.NEW_GAME);
@@ -78,9 +79,10 @@ public class MainMenu extends State {
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
             this.loadSaveMenu.activate(LoadSaveMenu.LOAD_SAVE);
         } else if (selectedIndex == LEVEL_EDITOR) {
-            audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
-            audioPlayer.stopAllLoops();
-            Gamestate.state = Gamestate.LEVEL_EDITOR;
+            // audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
+            // audioPlayer.stopAllLoops();
+            // Gamestate.state = Gamestate.LEVEL_EDITOR;
+            audioPlayer.playSFX(Audio.SFX_HURT);
         } else if (selectedIndex == OPTIONS) {
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
             optionsMenu.setActive(true);

@@ -92,7 +92,7 @@ public class RenderMainMenu extends Singleton implements Render {
       }
       DrawUtils.drawImage(
             sb, titleImg,
-            280, 100,
+            275, 100,
             500, 200);
 
       // Cursor

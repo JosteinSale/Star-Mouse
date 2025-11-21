@@ -1,2 +1,3 @@
-# Big file -> Don't upload to git
+# Big files -> Don't upload to git
+data.jar
 StarMouse.jar
