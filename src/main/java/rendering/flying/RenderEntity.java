@@ -9,7 +9,6 @@ import entities.flying.enemies.Enemy;
 import entities.flying.enemies.EnemyManager;
 import entities.flying.pickupItems.PickupItem;
 import projectiles.Explosion;
-import rendering.MyColor;
 import rendering.MySubImage;
 import utils.DrawUtils;
 import utils.HelpMethods2;
@@ -38,6 +37,11 @@ public class RenderEntity {
    public void draw(SpriteBatch sb) {
       // PickupItems
       drawPickupItems(sb);
+
+      if (enemyManager == null) {
+         // EnemyManager is null in bossMode (for now)
+         return;
+      }
 
       // Enemies
       ArrayList<Enemy> copy = new ArrayList<>(enemyManager.activeEnemiesOnScreen);

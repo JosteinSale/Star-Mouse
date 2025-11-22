@@ -30,7 +30,7 @@ public class MachineHeart extends DefaultBossPart {
 
    private boolean startDocking;
    private boolean endDocking;
-   private boolean abortAttack; // Becomes true if endDocking is finished.
+   private boolean isDone; // Becomes true if endDocking is finished.
    private int nrOfCollisions = 0; // Collisions with player
    private int behaviorTick = 0;
    private int followDuration = 500;
@@ -126,7 +126,7 @@ public class MachineHeart extends DefaultBossPart {
            // Then abort the attack
          if (this.behaviorTick >= 120) {
             this.endDocking = false;
-            this.abortAttack = true;
+            this.isDone = true;
          }
       }
    }
@@ -209,12 +209,12 @@ public class MachineHeart extends DefaultBossPart {
       this.isVisible = false;
       this.behaviorTick = 0;
       this.nrOfCollisions = 0;
-      this.abortAttack = false;
+      this.isDone = false;
    }
 
    @Override
    public boolean shouldAbort() {
-      return this.abortAttack;
+      return this.isDone;
    }
 
    @Override

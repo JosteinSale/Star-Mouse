@@ -13,17 +13,22 @@ import entities.bossmode.IBoss;
 import entities.bossmode.IBossPart;
 import entities.bossmode.PlayerBoss;
 import entities.bossmode.VulnerableComponent;
+import entities.flying.EntityFactory;
+import entities.flying.pickupItems.PickupItem;
 import main_classes.Game;
 import projectiles.ProjectileHandler2;
 import projectiles.shootPatterns.FanPattern;
 import projectiles.shootPatterns.HeatSeekingPattern;
+import static entities.flying.EntityFactory.TypeConstants.REPAIR;
 import ui.BossHealthDisplay;
 
 public class Rudinger1 implements IBoss {
    public BossActionHandler actionHandler;
    private AnimatedComponentFactory animationFactory;
+   private EntityFactory entityFactory;
    private BossHealthDisplay healthDisplay;
    public boolean visible;
+   private ArrayList<PickupItem> pickupItems;
 
    // Coordinates
    public float mainBodyXPos;
@@ -64,8 +69,11 @@ public class Rudinger1 implements IBoss {
    private int HP = maxHP;
 
    public Rudinger1(Game game, PlayerBoss player, ProjectileHandler2 projectileHandler,
-         AnimatedComponentFactory animationFactory) {
+         AnimatedComponentFactory animationFactory, ArrayList<PickupItem> pickupItems,
+         EntityFactory entityFactory) {
       this.animationFactory = animationFactory;
+      this.entityFactory = entityFactory;
+      this.pickupItems = pickupItems;
       this.actionHandler = new BossActionHandler();
       this.healthDisplay = new BossHealthDisplay("Grand Reaper", maxHP);
       this.constructMainBody();
@@ -226,14 +234,26 @@ public class Rudinger1 implements IBoss {
             new ArrayList<DefaultBossPart>(Arrays.asList(
                   machineHeart)),
             new ArrayList<>());
-
    }
 
    @Override
    public void update() {
       actionHandler.update();
       updateAnimatedComponents();
+      addRepairAtEndOfCycle();
       healthDisplay.update();
+   }
+
+   private void addRepairAtEndOfCycle() {
+      // If the boss has just ended its last action in the cycle...
+      if (actionHandler.getNameOfCurrentAction().equals(MACHINE_HEART)
+            && actionHandler.shouldAbort()) {
+         // ...then add a repair.
+         String name = entityFactory.getName(REPAIR);
+         PickupItem repair = entityFactory.getNewPickupItem(
+               name, mainGunPoint.x - 30, mainGunPoint.y + 100);
+         pickupItems.add(repair);
+      }
    }
 
    private void updateAnimatedComponents() {

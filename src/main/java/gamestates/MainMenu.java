@@ -98,7 +98,7 @@ public class MainMenu extends State {
         // Activate testing mode
         game.testingMode = true;
 
-        Gamestate stateToTest = Gamestate.EXPLORING;
+        Gamestate stateToTest = Gamestate.BOSS_MODE;
         int level = 1;
         int area = 1;
         game.getLevelSelect().testUnlockAllLevelsUpTo(13);

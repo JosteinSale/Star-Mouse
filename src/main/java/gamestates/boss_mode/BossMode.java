@@ -15,10 +15,13 @@ import entities.bossmode.PlayerBoss;
 import entities.bossmode.rudinger1.Rudinger1;
 import entities.bossmode.AnimatedComponentFactory;
 import entities.bossmode.IBoss;
+import entities.flying.EntityFactory;
 import entities.flying.enemies.EnemyManager;
+import entities.flying.pickupItems.PickupItem;
 import game_events.*;
 import gamestates.Gamestate;
 import gamestates.State;
+import gamestates.flying.Flying;
 import main_classes.Game;
 import projectiles.ProjectileHandler;
 import projectiles.ProjectileHandler2;
@@ -32,6 +35,8 @@ public class BossMode extends State {
    private PlayerBoss player;
    private ProjectileHandler2 projectileHandler;
    private AnimatedComponentFactory animationFactory;
+   public ArrayList<PickupItem> pickupItems;
+   public EntityFactory entityFactory;
    private AudioPlayer audioPlayer;
    private CutsceneManagerBoss cutsceneManager;
    private IBoss boss;
@@ -46,59 +51,63 @@ public class BossMode extends State {
 
    public BossMode(Game game) {
       super(game);
-      this.audioPlayer = game.getAudioPlayer();
+      audioPlayer = game.getAudioPlayer();
       initClasses();
    }
 
    private void initClasses() {
       Rectangle2D.Float playerHitbox = new Rectangle2D.Float(500f, 600f, 50f, 50f);
-      this.player = new PlayerBoss(game, playerHitbox);
-      this.projectileHandler = new ProjectileHandler2(
+      player = new PlayerBoss(game, playerHitbox);
+      entityFactory = new EntityFactory(player);
+
+      pickupItems = new ArrayList<>();
+      projectileHandler = new ProjectileHandler2(
             game,
             game.getAudioPlayer(),
             player,
             new EnemyManager(null, null, null));
-      this.animationFactory = new AnimatedComponentFactory();
-      this.pauseOverlay = new PauseBoss(game, this, game.getOptionsMenu());
-      this.gameoverOverlay = new GameoverOverlay2(game, this);
+      animationFactory = new AnimatedComponentFactory();
+      pauseOverlay = new PauseBoss(game, this, game.getOptionsMenu());
+      gameoverOverlay = new GameoverOverlay2(game, this);
 
       EventHandler eventHandler = new EventHandler();
       eventHandler.addEventListener(this::doReaction);
       TextboxManager textboxManager = game.getTextboxManager();
-      this.cutsceneManager = new CutsceneManagerBoss(game, eventHandler, textboxManager, Gamestate.BOSS_MODE);
+
+      cutsceneManager = new CutsceneManagerBoss(game, eventHandler, textboxManager, Gamestate.BOSS_MODE);
    }
 
    public void doReaction(GeneralEvent event) {
       if (event instanceof TextBoxEvent tbEvt) {
-         this.cutsceneManager.activateTextbox(tbEvt);
+         cutsceneManager.activateTextbox(tbEvt);
       } else if (event instanceof StartSongEvent evt) {
-         this.shouldMusicPlay = true;
-         this.audioPlayer.startSong(evt.index(), 0, true);
+         shouldMusicPlay = true;
+         audioPlayer.startSong(evt.index(), 0, true);
       } else if (event instanceof StartAmbienceEvent evt) {
-         this.shouldAmbiencePlay = true;
+         shouldAmbiencePlay = true;
          audioPlayer.startAmbienceLoop(evt.index());
       } else if (event instanceof StopLoopsEvent) {
-         this.shouldAmbiencePlay = false;
-         this.shouldMusicPlay = false;
-         this.audioPlayer.stopAllLoops();
+         shouldAmbiencePlay = false;
+         shouldMusicPlay = false;
+         audioPlayer.stopAllLoops();
       } else if (event instanceof FadeOutLoopEvent) {
-         this.shouldAmbiencePlay = false;
-         this.shouldMusicPlay = false;
+         shouldAmbiencePlay = false;
+         shouldMusicPlay = false;
          audioPlayer.fadeOutAllLoops();
       } else if (event instanceof PlaySFXEvent evt) {
          audioPlayer.playSFX(evt.SFXIndex());
       } else if (event instanceof GoToFlyingEvent) {
-         this.goToFlying();
+         goToFlying();
       } else if (event instanceof SetBossVisibleEvent evt) {
-         this.boss.setVisible(evt.visible());
+         boss.setVisible(evt.visible());
       } else if (event instanceof ObjectMoveEvent evt) {
-         this.cutsceneManager.moveObject(evt);
+         cutsceneManager.moveObject(evt);
       } else if (event instanceof ClearObjectsEvent) {
-         this.cutsceneManager.clearObjects();
+         cutsceneManager.clearObjects();
       } else if (event instanceof SetVisibleEvent evt) {
-         this.player.setVisible(evt.visible());
+         player.setVisible(evt.visible());
       } else {
-         this.cutsceneManager.activateEffect(event);
+         cutsceneManager.activateEffect(event);
       }
    }
 
@@ -114,9 +123,9 @@ public class BossMode extends State {
       // Render stuff
       game.getView().getRenderCutscene().setCutsceneManager(game.getFlying().getCutsceneManager());
 
-      this.player.reset();
-      this.pause = false;
-      this.gameOver = false;
+      player.reset();
+      pause = false;
+      gameOver = false;
 
       Gamestate.state = Gamestate.FLYING;
    }
@@ -134,15 +143,15 @@ public class BossMode extends State {
       game.getView().getRenderBossMode().loadBoss(bossNr);
       loadCutscenes(bossNr);
       projectileHandler.setBoss(bossNr, boss);
-      this.startCutscene(0);
+      startCutscene(0);
    }
 
    private void setPlayerBossParts() {
-      this.player.setBoss(this.boss.getBossParts());
+      player.setBoss(boss.getBossParts());
    }
 
    private void loadCutscenes(int bossNr) {
-      this.cutsceneManager.clear();
+      cutsceneManager.clear();
       List<String> cutsceneData = ResourceLoader.getBossCutsceneData(bossNr);
       ArrayList<ArrayList<Cutscene>> cutscenes = GetCutscenes(cutsceneData);
       for (ArrayList<Cutscene> cutscenesForTrigger : cutscenes) {
@@ -153,7 +162,9 @@ public class BossMode extends State {
    private void loadBoss(int bossNr) {
       switch (bossNr) {
          case 1:
-            this.boss = new Rudinger1(game, this.player, this.projectileHandler, this.animationFactory);
+            boss = new Rudinger1(
+                  game, player, projectileHandler,
+                  animationFactory, pickupItems, entityFactory);
             return;
          default:
             throw new IllegalArgumentException("No boss available for bossNr: " + bossNr);
@@ -163,17 +174,18 @@ public class BossMode extends State {
    public void update() {
       checkKeyboardInputs();
       if (pause) {
-         this.pauseOverlay.update();
+         pauseOverlay.update();
       } else if (gameOver) {
-         this.gameoverOverlay.update();
+         gameoverOverlay.update();
       } else if (cutsceneManager.isActive()) {
-         this.player.updateOnlyFlame();
+         player.updateOnlyFlame();
          cutsceneManager.handleKeyBoardInputs();
          cutsceneManager.update();
       } else {
-         this.player.update(0, 0);
-         this.boss.update();
-         this.projectileHandler.update(boss.getXPos(), boss.getYPos(), 0);
+         player.update(0, 0);
+         Flying.updatePickupItems(pickupItems, 0f, player, projectileHandler, audioPlayer);
+         boss.update();
+         projectileHandler.update(boss.getXPos(), boss.getYPos(), 0);
          checkBossDeath();
       }
    }
@@ -181,43 +193,44 @@ public class BossMode extends State {
    private void checkKeyboardInputs() {
       if (game.pauseIsPressed) {
          game.pauseIsPressed = false;
-         this.flipPause();
+         flipPause();
       }
    }
 
    public void flipPause() {
       if (pause == false) {
-         this.pause = true;
+         pause = true;
          game.getAudioPlayer().pauseAllLoops();
       } else {
-         this.pause = false;
+         pause = false;
          if (shouldMusicPlay) {
-            this.audioPlayer.continueCurrentSong();
+            audioPlayer.continueCurrentSong();
          }
          if (shouldAmbiencePlay) {
-            this.audioPlayer.continueCurrentAmbience();
+            audioPlayer.continueCurrentAmbience();
          }
       }
    }
 
    private void checkBossDeath() {
       if (boss.isDead()) {
-         this.killBoss(); // Yup. Kill the dead boss.
+         killBoss(); // Yup. Kill the dead boss.
       }
    }
 
    /** Resets the player, current boss and projectileHandler. */
    public void resetBossMode() {
-      this.projectileHandler.reset();
-      this.projectileHandler.resetBombs(false);
-      this.cutsceneManager.reset();
-      this.player.reset();
-      this.boss.reset();
-      this.gameoverOverlay.reset();
-      this.pause = false;
-      this.gameOver = false;
-      this.shouldAmbiencePlay = false;
-      this.shouldMusicPlay = false;
+      pickupItems.clear();
+      projectileHandler.reset();
+      projectileHandler.resetBombs(false);
+      cutsceneManager.reset();
+      player.reset();
+      boss.reset();
+      gameoverOverlay.reset();
+      pause = false;
+      gameOver = false;
+      shouldAmbiencePlay = false;
+      shouldMusicPlay = false;
    }
 
    /** Is called from the gameOverOverlay */
@@ -232,8 +245,8 @@ public class BossMode extends State {
 
    /** Is called from the pauseOverlay */
    public void skipBossMode() {
-      this.resetBossMode();
-      this.goToFlying();
+      resetBossMode();
+      goToFlying();
    }
 
    public void killPlayer() {
@@ -251,34 +264,34 @@ public class BossMode extends State {
     */
    public void killBoss() {
       game.getAudioPlayer().stopAllLoops();
-      this.shouldAmbiencePlay = false;
-      this.shouldMusicPlay = false;
-      this.projectileHandler.reset();
-      this.startCutscene(1);
+      shouldAmbiencePlay = false;
+      shouldMusicPlay = false;
+      projectileHandler.reset();
+      startCutscene(1);
    }
 
    public DefaultCutsceneManager getCutsceneManager() {
-      return this.cutsceneManager;
+      return cutsceneManager;
    }
 
    public PlayerBoss getPlayer() {
-      return this.player;
+      return player;
    }
 
    public IBoss getBoss() {
-      return this.boss;
+      return boss;
    }
 
    public ProjectileHandler getProjectileHandler() {
-      return this.projectileHandler;
+      return projectileHandler;
    }
 
    public PauseBoss getPauseOverlay() {
-      return this.pauseOverlay;
+      return pauseOverlay;
    }
 
    public GameoverOverlay2 getGameOverOverlay() {
-      return this.gameoverOverlay;
+      return gameoverOverlay;
    }
 
 }

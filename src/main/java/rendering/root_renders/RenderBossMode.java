@@ -12,6 +12,7 @@ import rendering.boss_mode.RenderBossHealth;
 import rendering.boss_mode.RenderGameOver2;
 import rendering.boss_mode.RenderPauseBoss;
 import rendering.boss_mode.RenderRudinger1;
+import rendering.flying.RenderEntity;
 import rendering.flying.RenderPlayerFly;
 import rendering.flying.RenderProjectiles;
 import rendering.misc.RenderCutscene;
@@ -26,6 +27,7 @@ public class RenderBossMode extends Singleton implements Render {
    private Images images;
    private BossMode bossMode;
    private RenderBossMap mapManager;
+   private RenderEntity rEntity;
    private RenderPlayerFly rPlayer;
    private RenderCutscene rCutscene;
    private RenderProjectiles rProjectiles;
@@ -40,6 +42,7 @@ public class RenderBossMode extends Singleton implements Render {
       this.bossMode = game.getBossMode();
       this.mapManager = new RenderBossMap();
       this.rPlayer = new RenderPlayerFly(game, bossMode.getPlayer());
+      this.rEntity = new RenderEntity(null, bossMode.pickupItems, bossMode.entityFactory, images);
       this.rCutscene = rCutscene;
       this.rProjectiles = new RenderProjectiles(bossMode.getProjectileHandler(), images);
       this.rPause = new RenderPauseBoss(bossMode.getPauseOverlay(), rOptions, images);
@@ -70,6 +73,7 @@ public class RenderBossMode extends Singleton implements Render {
       mapManager.draw(sb);
       rPlayer.draw(sb);
       rBoss.draw(sb);
+      rEntity.draw(sb);
       rProjectiles.draw(sb);
       rCutscene.draw(sb);
       if (bossMode.gameOver) {

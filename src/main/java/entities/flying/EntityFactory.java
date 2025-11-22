@@ -283,12 +283,7 @@ public class EntityFactory {
       }
    }
 
-   public PickupItem getNewPickupItem(String[] lineData) {
-      // Parsing the data
-      String name = lineData[0];
-      float x = Float.parseFloat(lineData[1]);
-      float y = Float.parseFloat(lineData[2]);
-
+   public PickupItem getNewPickupItem(String name, float x, float y) {
       // Extracting necessary info
       EntityInfo info = this.pickupInfo.get(name);
       int typeConstant = info.typeConstant;
@@ -308,4 +303,13 @@ public class EntityFactory {
             throw new IllegalArgumentException("No enemy constructor for type " + typeConstant);
       }
    }
+
+   public PickupItem getPickupItemFromLineData(String[] lineData) {
+      // Parsing the data
+      String name = lineData[0];
+      float x = Float.parseFloat(lineData[1]);
+      float y = Float.parseFloat(lineData[2]);
+      return this.getNewPickupItem(name, x, y);
+   }
+
 }

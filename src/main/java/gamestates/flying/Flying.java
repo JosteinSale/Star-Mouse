@@ -121,7 +121,7 @@ public class Flying extends State {
          if (entryName.equals("automaticTrigger")) {
             automaticTriggers.add(GetAutomaticTrigger(lineData));
          } else if (entityFactory.isPickupItemRegistered(entryName)) {
-            pickupItems.add(entityFactory.getNewPickupItem(lineData));
+            pickupItems.add(entityFactory.getPickupItemFromLineData(lineData));
          }
       }
    }
@@ -192,7 +192,7 @@ public class Flying extends State {
       checkCheckPoint();
       moveCutscenes();
       player.update(mapManager.clYOffset, mapManager.clXOffset);
-      updatePickupItems();
+      updatePickupItems(pickupItems, fgCurSpeed, player, projectileHandler, audioPlayer);
       enemyManager.update(fgCurSpeed);
       projectileHandler.update(
             mapManager.clYOffset, mapManager.clXOffset, fgCurSpeed);
@@ -233,7 +233,9 @@ public class Flying extends State {
       }
    }
 
-   private void updatePickupItems() {
+   public static void updatePickupItems(
+         ArrayList<PickupItem> pickupItems, float fgCurSpeed,
+         PlayerFly player, ProjectileHandler projectileHandler, AudioPlayer audioPlayer) {
       for (PickupItem p : pickupItems) {
          p.update(fgCurSpeed);
          if (p.isActive() && (p.getHitbox().intersects(player.getHitbox()))) {
