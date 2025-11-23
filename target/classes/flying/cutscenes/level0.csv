@@ -30,9 +30,6 @@ cutscene;true;automatic;2
 smallDialogue;Max;normal;0;2;Use {interact} to shoot.
 wait;200
 endSequence
-smallDialogue;Max;normal;0;2;Hold it to shoot contineously.
-wait;240
-endSequence
 
 cutscene;true;automatic;3
 smallDialogue;Oliver;normal;0;2;Can we practice teleportation?

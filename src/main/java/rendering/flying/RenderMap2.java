@@ -11,7 +11,7 @@ import utils.Images;
 public class RenderMap2 {
    private Images images;
    private MapManager2 map;
-   protected MyImage fgImg;
+   protected MyImage clImg;
    protected MyImage bgImg;
    private int bgImgHeight;
 
@@ -22,7 +22,7 @@ public class RenderMap2 {
 
    public void loadNewMap(int lvl, int bgImgHeight) {
       this.bgImg = images.getFlyImageBackground("level" + Integer.toString(lvl) + "_bg.png");
-      this.fgImg = images.getFlyImageForeground("level" + Integer.toString(lvl) + "_fg.png");
+      this.clImg = images.getFlyImageForeground("level" + Integer.toString(lvl) + "_cl.png");
       this.bgImgHeight = bgImgHeight;
    }
 
@@ -32,7 +32,7 @@ public class RenderMap2 {
             0, (int) map.bgYOffset,
             Game.GAME_DEFAULT_WIDTH, bgImgHeight);
       DrawUtils.drawImage(
-            sb, fgImg,
+            sb, clImg,
             -150, (int) map.clYOffset,
             map.clImgWidth, map.clImgHeight);
    }

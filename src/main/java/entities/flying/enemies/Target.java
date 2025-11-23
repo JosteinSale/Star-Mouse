@@ -14,7 +14,7 @@ public class Target extends Entity implements Enemy {
    private static final int TAKING_DAMAGE = 0;
 
    private float startY;
-   private int maxHP = 10;
+   private int maxHP = 20;
    private int HP = maxHP;
    private boolean onScreen = false;
    private boolean dead = false;

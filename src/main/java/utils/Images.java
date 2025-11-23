@@ -181,7 +181,7 @@ public class Images extends Singleton {
    }
 
    public MyImage getFlyImageForeground(String fileName) {
-      fileName = "flying/images/foregrounds/" + fileName;
+      fileName = "flying/images/collision/" + fileName;
       return this.getImage(fileName, false);
    }
 
