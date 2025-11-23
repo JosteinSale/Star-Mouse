@@ -5,6 +5,7 @@ import java.awt.geom.Rectangle2D;
 
 import entities.flying.EntityInfo;
 import gamestates.LevelEditor;
+import main_classes.Game;
 import rendering.MyColor;
 import rendering.MyImage;
 import rendering.MySubImage;
@@ -33,6 +34,11 @@ public class RenderLevelEditor extends Singleton {
    }
 
    private void drawMapAndText(SpriteBatch sb) {
+      // White background
+      DrawUtils.fillRect(sb, MyColor.WHITE,
+            0, 0,
+            Game.GAME_DEFAULT_WIDTH, Game.GAME_DEFAULT_HEIGHT);
+
       // Map
       DrawUtils.drawImage(
             sb, clImg,

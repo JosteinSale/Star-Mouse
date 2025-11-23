@@ -56,8 +56,6 @@ public class RenderBossMode extends Singleton implements Render {
       setBossRender(bossNr);
    }
 
-   // TODO - Check if the desired render has already been loaded
-   // before constructing a new one.
    private void setBossRender(int bossNr) {
       switch (bossNr) {
          case 1:

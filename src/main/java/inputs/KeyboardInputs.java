@@ -88,36 +88,36 @@ public class KeyboardInputs extends Singleton implements InputProcessor {
    }
 
    @Override
-   public boolean keyDown(int keycode) {
-      if (keycode == kb.up) {
+   public boolean keyDown(int key) {
+      if (key == kb.up) {
          game.upIsPressed = true;
       }
-      if (keycode == kb.down) {
+      if (key == kb.down) {
          game.downIsPressed = true;
       }
-      if (keycode == kb.right) {
+      if (key == kb.right) {
          game.rightIsPressed = true;
       }
-      if (keycode == kb.left) {
+      if (key == kb.left) {
          game.leftIsPressed = true;
       }
-      if (keycode == kb.interact) {
+      if (key == kb.interact) {
          game.interactIsPressed = true;
       }
-      if (keycode == kb.teleport) {
+      if (key == kb.teleport) {
          game.teleportIsPressed = true;
       }
-      if (keycode == kb.shootBomb) {
+      if (key == kb.shootBomb) {
          game.bombIsPressed = true;
       }
-      if (keycode == kb.pause) {
+      if (key == kb.pause) {
          game.pauseIsPressed = true;
       }
-      if (keycode == kb.toggleFullscreen) {
+      if (key == kb.toggleFullscreen) {
          game.fullScreenIsPressed = true;
       }
       if (Gamestate.state == Gamestate.LEVEL_EDITOR) {
-         // game.getLevelEditor().handleKeyboardInputs(keycode); // TODO
+         game.getLevelEditor().handleKeyboardInputs(key);
       }
       return false;
    }
@@ -176,7 +176,10 @@ public class KeyboardInputs extends Singleton implements InputProcessor {
 
    @Override
    public boolean mouseMoved(int screenX, int screenY) {
-      return false;
+      if (Gamestate.state == Gamestate.LEVEL_EDITOR) {
+         game.getLevelEditor().mouseMoved(screenX, screenY);
+      }
+      return true;
    }
 
    @Override

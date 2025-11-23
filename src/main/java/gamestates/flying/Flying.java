@@ -99,7 +99,7 @@ public class Flying extends State {
       loadCutscenes(lvl);
       player.onLevelStart();
       this.setRenders(lvl, FlyLevelInfo.getBgImgHeight(lvl));
-      // startAt(-10000); // For testing purposes
+      // startAt(15000); // For testing purposes
    }
 
    /**
@@ -333,16 +333,16 @@ public class Flying extends State {
 
    /** Used only for testing porposes */
    private void startAt(int y) {
-      mapManager.yProgess = -y;
-      mapManager.clYOffset -= y;
-      mapManager.bgYOffset -= y * (bgCurSpeed / fgCurSpeed);
+      mapManager.yProgess = y;
+      mapManager.clYOffset += y;
+      mapManager.bgYOffset += y * (bgCurSpeed / fgCurSpeed);
       for (PickupItem p : pickupItems) {
-         p.getHitbox().y -= y;
+         p.getHitbox().y += y;
       }
       for (AutomaticTrigger trigger : automaticTriggers) {
-         trigger.getHitbox().y -= y;
+         trigger.getHitbox().y += y;
       }
-      enemyManager.moveAllEnemies(y);
+      enemyManager.moveAllEnemies(-y);
    }
 
    /**

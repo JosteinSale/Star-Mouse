@@ -3,9 +3,10 @@ package gamestates;
 import static entities.flying.EntityFactory.TypeConstants.*;
 
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.badlogic.gdx.Input;
 
 import entities.flying.EntityFactory;
 import entities.flying.EntityInfo;
@@ -16,20 +17,19 @@ import utils.ResourceLoader;
 /**
  * Draws all entities on screen, with their hitbox represented in black.
  * Entity names, -shootTimers, -directions and -hitboxes are held in separate
- * lists.
- * Thus a specific entity is only identifies by it's common index in the
+ * lists. Thus a specific entity is only identifies by it's common index in the
  * different lists.
  * 
  * Set the level variable to the desired level.
- * When the levelEditor is started, it loads levelData from the specified level.
+ * When the levelEditor is started, it loads levelData for the specified level.
  * 
- * See comments in keyPressed-method for controls.
+ * This gamestate has its own controls (see comments in keyPressed-method).
  * When you're satisfied with the placement of enemies, you can print the data
  * to the console, and copy-paste it into the levelData-file (overwriting the
- * entity entries). See the 'handleKeyboardInputs'-method for controls.
+ * entity entries).
  */
 public class LevelEditor extends State {
-   public Integer level = 4;
+   public Integer level = 0;
    public EntityFactory entityFactory;
    private ArrayList<String> levelData;
    public ArrayList<String> addedEntityNames;
@@ -57,22 +57,22 @@ public class LevelEditor extends State {
          Game game, EntityFactory entityFactory) {
       super(game);
       this.entityFactory = entityFactory;
-      this.hitboxes = new ArrayList<>();
-      this.shootTimers = new ArrayList<>();
-      this.directions = new ArrayList<>();
-      this.levelData = new ArrayList<>();
-      this.addedEntityNames = new ArrayList<>();
-      this.selectedEntity = 0;
-      this.selectedName = entityFactory.getName(selectedEntity);
+      hitboxes = new ArrayList<>();
+      shootTimers = new ArrayList<>();
+      directions = new ArrayList<>();
+      levelData = new ArrayList<>();
+      addedEntityNames = new ArrayList<>();
+      selectedEntity = 0;
+      selectedName = entityFactory.getName(selectedEntity);
       loadLevelData(level);
       calcMapValues(level);
    }
 
    private void calcMapValues(int lvl) {
-      this.clImgHeight = FlyLevelInfo.getClImgHeight(lvl) * 3;
-      this.clImgWidth = 450 * 3;
-      this.clYOffset = Game.GAME_DEFAULT_HEIGHT - clImgHeight + 150;
-      this.clXOffset = -150;
+      clImgHeight = FlyLevelInfo.getClImgHeight(lvl) * 3;
+      clImgWidth = 450 * 3;
+      clYOffset = Game.GAME_DEFAULT_HEIGHT - clImgHeight + 150;
+      clXOffset = -150;
    }
 
    private void loadLevelData(Integer level) {
@@ -87,7 +87,7 @@ public class LevelEditor extends State {
             int yCor = Integer.parseInt(lineData[2]);
             int dir = Integer.parseInt(lineData[3]);
             int shootTimer = Integer.parseInt(lineData[4]);
-            addEntityToList(false, entryName, xCor, yCor, dir, shootTimer);
+            registerEntityInstance(false, entryName, xCor, yCor, dir, shootTimer);
          }
       }
    }
@@ -95,59 +95,63 @@ public class LevelEditor extends State {
    /**
     * Controls:
     * ---------------------------------------------
-    * ENTER Return to Main Menu
-    * w / s Change screen
-    * x Change entity
-    * UP / DOWN / LEFT / RIGHT Change cursor position
-    * f Change entity direction
-    * a / d Change shootTimer
-    * SPACE Add / delete entity
-    * p Print levelData in console
+    * ENTER - Return to Main Menu
+    * W / S - Change screen
+    * Z / C - Change entity
+    * UP / DOWN / LEFT / RIGHT - Change cursor position
+    * F - Change entity direction
+    * A / D - Change shootTimer
+    * SPACE - Add / delete entity
+    * P - Print levelData in console
     */
-   // public void handleKeyboardInputs(KeyEvent e) {
-   // if (game.upIsPressed) {
-   // game.upIsPressed = false;
-   // this.changeScreen(UP);
-   // } else if (game.downIsPressed) {
-   // game.downIsPressed = false;
-   // this.changeScreen(DOWN);
-   // } else if (game.leftIsPressed) {
-   // game.leftIsPressed = false;
-   // this.shootTimer -= 10;
-   // } else if (game.rightIsPressed) {
-   // game.rightIsPressed = false;
-   // this.shootTimer += 10;
-   // } else if (game.interactIsPressed) {
-   // game.interactIsPressed = false;
-   // int adjustedY = cursorY + mapYOffset;
-   // String name = entityFactory.getName(selectedEntity);
-   // addEntityToList(true, name, cursorX, adjustedY, curDirection,
-   // this.shootTimer);
-   // } else if (game.pauseIsPressed) {
-   // game.resetMainMenu();
-   // Gamestate.state = Gamestate.MAIN_MENU;
-   // }
-   // // Here we use som KeyEvents, but if it leads to trouble we can add booleans
-   // in
-   // // game-object.
-   // else if (e.getKeyCode() == KeyEvent.VK_UP) {
-   // this.cursorY -= cursorSpeed;
-   // } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-   // this.cursorY += cursorSpeed;
-   // } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-   // this.cursorX -= cursorSpeed;
-   // } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-   // this.cursorX += cursorSpeed;
-   // } else if (e.getKeyCode() == KeyEvent.VK_X) {
-   // selectedEntity = (selectedEntity + 1) % entityFactory.getAmountOfEntities();
-   // selectedName = entityFactory.getName(selectedEntity);
-   // } else if (e.getKeyCode() == KeyEvent.VK_F) {
-   // game.bombIsPressed = false;
-   // curDirection *= -1;
-   // } else if (e.getKeyCode() == KeyEvent.VK_P) {
-   // printLevelData();
-   // }
-   // }
+   public void handleKeyboardInputs(int key) {
+      switch (key) {
+         case Input.Keys.W -> changeScreen(UP);
+         case Input.Keys.S -> changeScreen(DOWN);
+         case Input.Keys.A -> shootTimer -= 10;
+         case Input.Keys.D -> shootTimer += 10;
+         case Input.Keys.SPACE -> addEntity();
+         case Input.Keys.ENTER -> goToMainMenu();
+         case Input.Keys.UP -> cursorY -= cursorSpeed;
+         case Input.Keys.DOWN -> cursorY += cursorSpeed;
+         case Input.Keys.LEFT -> cursorX -= cursorSpeed;
+         case Input.Keys.RIGHT -> cursorX += cursorSpeed;
+         case Input.Keys.C -> toggleSelectedEntity("RIGHT");
+         case Input.Keys.Z -> toggleSelectedEntity("LEFT");
+         case Input.Keys.F -> curDirection *= -1;
+         case Input.Keys.P -> printLevelData();
+         default -> { // Do nothing
+         }
+      }
+   }
+
+   public void mouseMoved(int screenX, int screenY) {
+      // We'll snap the cursor to a grid of 10 px, to keep placement consistent
+      cursorX = (screenX / cursorSpeed) * cursorSpeed;
+      cursorY = (screenY / cursorSpeed) * cursorSpeed;
+   }
+
+   private void goToMainMenu() {
+      game.resetMainMenu();
+      Gamestate.state = Gamestate.MAIN_MENU;
+   }
+
+   private void addEntity() {
+      int adjustedY = cursorY + mapYOffset;
+      String name = entityFactory.getName(selectedEntity);
+      registerEntityInstance(true, name, cursorX, adjustedY, curDirection, shootTimer);
+   }
+
+   private void toggleSelectedEntity(String direction) {
+      int amountOfEntities = entityFactory.getAmountOfEntities();
+      if (direction.equals("RIGHT")) {
+         selectedEntity = (selectedEntity + 1) % amountOfEntities;
+      } else if (direction.equals("LEFT")) {
+         selectedEntity = (selectedEntity - 1 + amountOfEntities)
+               % amountOfEntities;
+      }
+      selectedName = entityFactory.getName(selectedEntity);
+   }
 
    private void printLevelData() {
       for (String line : levelData) {
@@ -156,8 +160,8 @@ public class LevelEditor extends State {
    }
 
    private void changeScreen(int upDown) { // up = 1, down = -1
-      this.clYOffset += Game.GAME_DEFAULT_HEIGHT * upDown;
-      this.mapYOffset -= Game.GAME_DEFAULT_HEIGHT * upDown;
+      clYOffset += Game.GAME_DEFAULT_HEIGHT * upDown;
+      mapYOffset -= Game.GAME_DEFAULT_HEIGHT * upDown;
    }
 
    /**
@@ -167,7 +171,8 @@ public class LevelEditor extends State {
     * the 'fromEditor'-boolean represents whether this method is called from the
     * levelEditor.
     */
-   private void addEntityToList(boolean calledFromEditor, String name, int x, int y, int direction, int shootTimer) {
+   private void registerEntityInstance(boolean calledFromEditor, String name, int x, int y, int direction,
+         int shootTimer) {
       EntityInfo info = entityFactory.getEntityInfo(name);
       if (calledFromEditor) {
          // Adjusting x and y to represent hitbox.x- and -y
@@ -184,19 +189,19 @@ public class LevelEditor extends State {
             return; // Abort the method.
          case BLASTERDRONE:
             // Blasterdrones have a standard shootTimer of 30
-            this.addModifiedEntry(info.name, x, y, direction, 30, hitbox);
+            addModifiedEntry(info.name, x, y, direction, 30, hitbox);
             break;
          case FLAMEDRONE:
             // Flamedrones have a standard shootTimer of 120
-            this.addModifiedEntry(info.name, x, y, direction, 120, hitbox);
+            addModifiedEntry(info.name, x, y, direction, 120, hitbox);
             break;
          case POWERUP, BOMB, REPAIR, TARGET, SMALLSHIP, TANKDRONE, KAMIKAZEDRONE:
             // Entities without shootTimer will have standard value of 0.
-            this.addModifiedEntry(info.name, x, y, direction, 0, hitbox);
+            addModifiedEntry(info.name, x, y, direction, 0, hitbox);
             break;
          default:
             // All other enemies:
-            this.addModifiedEntry(name, x, y, direction, shootTimer, hitbox);
+            addModifiedEntry(name, x, y, direction, shootTimer, hitbox);
             break;
       }
       addedEntityNames.add(name);
