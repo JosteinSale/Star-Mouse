@@ -29,7 +29,7 @@ import utils.ResourceLoader;
  * entity entries).
  */
 public class LevelEditor extends State {
-   public Integer level = 0;
+   public Integer level = 1;
    public EntityFactory entityFactory;
    private ArrayList<String> levelData;
    public ArrayList<String> addedEntityNames;

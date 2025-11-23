@@ -82,7 +82,6 @@ drone;860;-12490;1;140
 drone;960;-12490;1;180
 bomb;730;-14030;1;0
 powerup;20;-14390;1;0
-smallShip;30;-15120;1;0
 smallShip;160;-15120;1;0
 smallShip;20;-15410;1;0
 smallShip;130;-15410;1;0
@@ -143,3 +142,4 @@ smallShip;540;-23820;1;0
 octaDrone;220;-24170;1;60
 octaDrone;730;-24170;1;60
 blasterDrone;250;-21480;1;30
+smallShip;306;-15120;1;0
