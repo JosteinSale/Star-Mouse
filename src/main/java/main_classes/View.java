@@ -111,4 +111,8 @@ public class View extends Singleton {
       return this.rBossMode;
    }
 
+   public RenderLevelEditor getRenderLevelEditor() {
+      return this.rLevelEditor;
+   }
+
 }

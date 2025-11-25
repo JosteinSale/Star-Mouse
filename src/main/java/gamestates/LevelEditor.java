@@ -29,7 +29,7 @@ import utils.ResourceLoader;
  * entity entries).
  */
 public class LevelEditor extends State {
-   public Integer level = 1;
+   public Integer level;
    public EntityFactory entityFactory;
    private ArrayList<String> levelData;
    public ArrayList<String> addedEntityNames;
@@ -43,7 +43,7 @@ public class LevelEditor extends State {
    public int clImgWidth;
    public int clYOffset;
    public float clXOffset;
-   public int mapYOffset = 0;
+   public int mapYOffset;
    private int selectedEntity;
    public String selectedName;
 
@@ -53,19 +53,24 @@ public class LevelEditor extends State {
    public int cursorY = 400;
    private int cursorSpeed = 10;
 
-   public LevelEditor(
-         Game game, EntityFactory entityFactory) {
+   public LevelEditor(Game game) {
       super(game);
-      this.entityFactory = entityFactory;
+      this.entityFactory = new EntityFactory(null);
+   }
+
+   public void loadLevel(int level) {
+      this.level = level;
       hitboxes = new ArrayList<>();
       shootTimers = new ArrayList<>();
       directions = new ArrayList<>();
       levelData = new ArrayList<>();
       addedEntityNames = new ArrayList<>();
       selectedEntity = 0;
+      mapYOffset = 0;
       selectedName = entityFactory.getName(selectedEntity);
       loadLevelData(level);
       calcMapValues(level);
+      game.getView().getRenderLevelEditor().loadLevel(level);
    }
 
    private void calcMapValues(int lvl) {
@@ -133,6 +138,7 @@ public class LevelEditor extends State {
 
    private void goToMainMenu() {
       game.resetMainMenu();
+      game.flushImages();
       Gamestate.state = Gamestate.MAIN_MENU;
    }
 

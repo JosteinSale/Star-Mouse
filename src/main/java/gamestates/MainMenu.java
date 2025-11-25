@@ -22,6 +22,7 @@ public class MainMenu extends State {
    private AudioPlayer audioPlayer;
    private LoadSaveMenu loadSaveMenu;
    private OptionsMenu optionsMenu;
+   private LevelEditor levelEditor;
    public String[] alternatives = { "Testing", "New Game", "Load Save", "Level Editor", "Options", "Quit" };
    public float bgX = -50;
    private int bgSlideDir = 1;
@@ -42,11 +43,19 @@ public class MainMenu extends State {
    private static final int OPTIONS = 4;
    private static final int QUIT = 5;
 
-   public MainMenu(Game game, OptionsMenu optionsMenu) {
+   // Testing stuff:
+   private final int lvlToEdit = 1;
+   private Gamestate testState = Gamestate.EXPLORING;
+   private int testLevel = 2;
+   private int testArea = 2;
+   private int tstUnlockedLevels = 13;
+
+   public MainMenu(Game game) {
       super(game);
-      this.optionsMenu = optionsMenu;
+      this.optionsMenu = game.getOptionsMenu();
       this.audioPlayer = game.getAudioPlayer();
       this.loadSaveMenu = new LoadSaveMenu(game, game.getTextboxManager().getInfoChoice());
+      this.levelEditor = game.getLevelEditor();
    }
 
    private void handleKeyBoardInputs() {
@@ -80,6 +89,7 @@ public class MainMenu extends State {
       } else if (selectedIndex == LEVEL_EDITOR) {
          audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
          audioPlayer.stopAllLoops();
+         levelEditor.loadLevel(1);
          Gamestate.state = Gamestate.LEVEL_EDITOR;
       } else if (selectedIndex == OPTIONS) {
          audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
@@ -96,29 +106,24 @@ public class MainMenu extends State {
    private void enterTestingMode() {
       // Activate testing mode
       game.testingMode = true;
-
-      Gamestate stateToTest = Gamestate.EXPLORING;
-      int level = 2;
-      int area = 2;
-      game.getLevelSelect().testUnlockAllLevelsUpTo(13);
-
-      switch (stateToTest) {
+      game.getLevelSelect().testUnlockAllLevelsUpTo(tstUnlockedLevels);
+      switch (testState) {
          case LEVEL_SELECT:
             game.getLevelSelect().reset();
             Gamestate.state = Gamestate.LEVEL_SELECT;
             return;
          case EXPLORING:
-            game.getExploring().loadLevel(level, area);
+            game.getExploring().loadLevel(testLevel, testArea);
             game.getExploring().update();
             Gamestate.state = Gamestate.EXPLORING;
             return;
          case FLYING:
-            game.getFlying().loadLevel(level);
+            game.getFlying().loadLevel(testLevel);
             game.getFlying().update();
             Gamestate.state = Gamestate.FLYING;
             return;
          case BOSS_MODE:
-            game.getBossMode().loadNewBoss(level);
+            game.getBossMode().loadNewBoss(testLevel);
             game.getBossMode().update();
             Gamestate.state = Gamestate.BOSS_MODE;
             return;

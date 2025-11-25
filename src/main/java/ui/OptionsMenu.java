@@ -34,9 +34,9 @@ public class OptionsMenu extends Singleton {
    private int musicPercent;
    private int sfxPercent;
 
-   public OptionsMenu(Game game, AudioPlayer audioPlayer) {
+   public OptionsMenu(Game game) {
       this.game = game;
-      this.audioPlayer = audioPlayer;
+      this.audioPlayer = game.getAudioPlayer();
       this.controlsMenu = new ControlsMenu(game, audioPlayer);
       musicPercent = (int) (audioPlayer.getMusicVolume() * 100);
       sfxPercent = (int) (audioPlayer.getSfxVolume() * 100);

@@ -16,15 +16,20 @@ import utils.Singleton;
 
 public class RenderLevelEditor extends Singleton {
 
+   private Images images;
    private LevelEditor le;
    private EntityImages entityImages;
    private MyImage clImg;
 
    public RenderLevelEditor(LevelEditor levelEditor, EntityImages entityImages, Images images) {
+      this.images = images;
       this.le = levelEditor;
       this.entityImages = entityImages;
+   }
+
+   public void loadLevel(int level) {
       this.clImg = images.getFlyImageForeground(
-            "level" + Integer.toString(levelEditor.level) + "_cl.png");
+            "level" + Integer.toString(le.level) + "_cl.png");
    }
 
    public void draw(SpriteBatch sb) {

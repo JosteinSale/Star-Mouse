@@ -86,14 +86,14 @@ public class Game extends ApplicationAdapter {
       this.audioPlayer = new AudioPlayer();
       this.images = new Images();
       this.textBoxManager = new TextboxManager(this);
-      this.optionsMenu = new OptionsMenu(this, audioPlayer);
+      this.optionsMenu = new OptionsMenu(this);
       this.startScreen = new StartScreen(this);
-      this.mainMenu = new MainMenu(this, optionsMenu);
+      this.levelEditor = new LevelEditor(this);
+      this.mainMenu = new MainMenu(this);
       this.exploring = new Exploring(this);
       this.levelSelect = new LevelSelect(this);
       this.flying = new Flying(this);
       this.bossMode = new BossMode(this);
-      this.levelEditor = new LevelEditor(this, flying.getEntityFactory());
       this.cinematic = new Cinematic(this);
       this.drawSaving = new DrawSaving();
       this.view = new View(this);
