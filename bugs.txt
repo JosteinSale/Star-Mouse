@@ -5,4 +5,4 @@
 2. Level 3 area 1: When you go to area 2 and return, the alarm goes off O_O''
 
 3. Flying level 4: rocketEngine ambience continues after the death skull disappears.
- - Would be cooler if it disappeared
+ - Would be cooler if the rocketEngine was quiet here.

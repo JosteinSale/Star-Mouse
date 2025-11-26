@@ -60,35 +60,25 @@ public class Area {
    private void loadAreaData(List<String> areaData, int levelIndex, int areaIndex) {
       for (String line : areaData) {
          String[] lineData = line.split(";");
-         if (lineData[0].equals("ambience")) {
-            this.ambienceIndex = Integer.parseInt(lineData[1]);
-         } else if (lineData[0].equals("song")) {
-            this.song = Integer.parseInt(lineData[1]);
-            this.musicEnabled = Boolean.parseBoolean(lineData[2]);
-         } else if (lineData[0].equals("player")) {
-            player = GetPlayer(game, lineData, levelIndex, areaIndex);
-         } else if (lineData[0].equals("object")) {
-            InteractableObject object = GetInteractableObject(lineData);
-            interactableObject.add(object);
-         } else if (lineData[0].equals("door")) {
-            Door door = GetDoor(lineData);
-            doors.add(door);
-         } else if (lineData[0].equals("portal")) {
-            Portal portal = GetPortal(lineData);
-            portals.add(portal);
-         } else if (lineData[0].equals("oliver")) {
-            this.npcManager.addNpc(GetOliver(lineData));
-         } else if (lineData[0].equals("gard")) {
-            this.npcManager.addNpc(GetGard(lineData));
-         } else if (lineData[0].equals("npc")) {
-            this.npcManager.addNpc(GetStandardNpc(lineData));
-         } else if (lineData[0].equals("automaticTrigger")) {
-            AutomaticTrigger trigger = GetAutomaticTrigger(lineData);
-            this.automaticTriggers.add(trigger);
-         } else if (lineData[0].equals("")) {
-            // "" Doesn't mean anything - That's okay: do nothing.
-         } else {
-            throw new IllegalArgumentException("Couldn't parse " + line);
+         String typeOfEntry = lineData.length > 0 ? lineData[0] : "";
+
+         switch (typeOfEntry) {
+            case "ambience" -> this.ambienceIndex = Integer.parseInt(lineData[1]);
+            case "song" -> {
+               this.song = Integer.parseInt(lineData[1]);
+               this.musicEnabled = Boolean.parseBoolean(lineData[2]);
+            }
+            case "player" -> player = GetPlayer(game, lineData, levelIndex, areaIndex);
+            case "object" -> interactableObject.add(GetInteractableObject(lineData));
+            case "door" -> doors.add(GetDoor(lineData));
+            case "portal" -> portals.add(GetPortal(lineData));
+            case "oliver" -> this.npcManager.addNpc(GetOliver(lineData));
+            case "gard" -> this.npcManager.addNpc(GetGard(lineData));
+            case "npc" -> this.npcManager.addNpc(GetStandardNpc(lineData));
+            case "automaticTrigger" -> this.automaticTriggers.add(GetAutomaticTrigger(lineData));
+            case "" -> {
+               /* ignore empty lines */ }
+            default -> throw new IllegalArgumentException("Couldn't parse " + line);
          }
       }
    }
@@ -101,10 +91,15 @@ public class Area {
    }
 
    private void loadEventReactions() {
-      this.eventHandler.addEventListener(this::doReaction);
+      this.eventHandler.addEventListener(this::reactToCutsceneEvent);
    }
 
-   public void doReaction(GeneralEvent event) {
+   /**
+    * Takes an even from a cutscene, and checks:
+    * 1. if the event triggers an action in the are, or
+    * 2. if the event triggers an effect in the cutsceneManager
+    */
+   public void reactToCutsceneEvent(GeneralEvent event) {
       if (event instanceof GoToAreaEvent evt) {
          int newArea = evt.area();
          int reenterDir = evt.reenterDir();
@@ -113,25 +108,32 @@ public class Area {
          this.goToArea(newArea, reenterDir, newSong, newAmbience);
       } else if (event instanceof TextBoxEvent tbEvt) {
          this.cutsceneManager.activateTextbox(tbEvt);
+
       } else if (event instanceof SetVisibleEvent evt) {
          this.player.setVisible(evt.visible());
+
       } else if (event instanceof SetStartingCutsceneEvent evt) {
          this.setNewStartingCutscene(
                evt.triggerObject(), evt.elementNr(), evt.cutsceneIndex());
+
       } else if (event instanceof SetRequirementMetEvent evt) {
          this.doors.get(evt.doorIndex()).setRequirementMet(evt.requirementIndex());
+
       } else if (event instanceof SetPlayerSheetEvent evt) {
          this.player.setCURRENT_SPRITE_SHEET(evt.sheetIndex());
+
       } else if (event instanceof SetDirEvent evt) {
          if (evt.entityName().equals("player")) {
             this.player.setDirection(evt.dir());
          } else {
             this.npcManager.setNpcDir(evt.entityName(), evt.dir());
          }
+
       } else if (event instanceof AddToInventoryEvent evt) {
          InventoryItem item = new InventoryItem(
                evt.name(), evt.description());
          this.exploring.addToInventory(item);
+
       } else if (event instanceof UpdateInventoryEvent evt) {
          if (evt.type().equals("bombs")) {
             int prevAmount = game.getProgressValues().getBombs();
@@ -141,18 +143,25 @@ public class Area {
             game.getProgressValues().setCredits(prevAmount + evt.amount());
          }
          exploring.updatePauseInventory();
+
       } else if (event instanceof StartSongEvent evt) {
          this.audioPlayer.startSong(evt.index(), 0, evt.shouldLoop());
+
       } else if (event instanceof StopLoopsEvent) {
          this.audioPlayer.stopAllLoops();
+
       } else if (event instanceof FadeOutLoopEvent) {
          this.audioPlayer.fadeOutAllLoops();
+
       } else if (event instanceof MusicEnabledEvent evt) {
          this.musicEnabled = evt.enabled();
+
       } else if (event instanceof StartAmbienceEvent evt) {
          audioPlayer.startAmbienceLoop(evt.index());
+
       } else if (event instanceof PlaySFXEvent evt) {
          audioPlayer.playSFX(evt.SFXIndex());
+
       } else if (event instanceof SetSpriteEvent evt) {
          if (evt.entity().equals("player")) {
             this.player.setSprite(evt.poseActive(), evt.colIndex(), evt.rowIndex());
@@ -160,24 +169,32 @@ public class Area {
             this.npcManager.setSprite(
                   evt.entity(), evt.poseActive(), evt.colIndex(), evt.rowIndex());
          }
+
       } else if (event instanceof MechanicDisplayEvent) {
          this.exploring.setMechanicActive(true);
+
       } else if (event instanceof GoToFlyingEvent evt) {
          this.goToFlying(evt.lvl());
+
       } else if (event instanceof PurchaseEvent evt) {
          int opt = 2;
          if (this.exploring.playerHasEnoughCredits(evt.credits())) {
             opt = 1;
          }
          this.cutsceneManager.jumpToCutscene(opt);
+
       } else if (event instanceof ReattatchCameraEvent) {
          this.reAttatchCamera();
+
       } else if (event instanceof ObjectMoveEvent evt) {
          this.cutsceneManager.moveObject(evt);
+
       } else if (event instanceof ClearObjectsEvent) {
          this.cutsceneManager.clearObjects();
+
       } else if (event instanceof StartCinematicEvent evt) {
          this.goToCinematic(evt.fileName(), evt.returnGamestate());
+
       } else {
          this.cutsceneManager.activateEffect(event);
       }
