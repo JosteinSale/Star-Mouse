@@ -1,6 +1,7 @@
 package entities.exploring;
 
 import static utils.Constants.Exploring.DirectionConstants.*;
+import static utils.Constants.Exploring.Cutscenes.OLIVER;
 
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
@@ -8,7 +9,7 @@ import java.awt.geom.Rectangle2D.Float;
 import entities.Entity;
 
 public class Oliver extends Entity implements NPC {
-   private String name = "Oliver";
+   private String name = OLIVER;
    private Rectangle2D.Float triggerBox;
    private int xDrawOffset = 80;
    private int yDrawOffset = 30;
@@ -79,7 +80,7 @@ public class Oliver extends Entity implements NPC {
    }
 
    @Override
-   public void setNewStartingCutscene(int startCutscene) {
+   public void setStartCutscene(int startCutscene) {
       this.startCutscene = startCutscene;
    }
 

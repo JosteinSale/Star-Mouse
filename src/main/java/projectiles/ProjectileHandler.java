@@ -1,7 +1,6 @@
 package projectiles;
 
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import audio.AudioPlayer;
@@ -119,10 +118,12 @@ public class ProjectileHandler extends Singleton {
          Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
                hitbox.x + 25, hitbox.y + 66, 32, 33);
          this.allProjectiles.add(new DroneProjectile(prjctHitbox));
+
       } else if (type == BLASTERDRONE) {
          Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
                hitbox.x + 15, hitbox.y + 90, 32, 33);
          this.allProjectiles.add(new DroneProjectile(prjctHitbox));
+
       } else if (type == OCTADRONE) {
          double radius = hitbox.getWidth();
          for (int i = 0; i < 8; i++) {
@@ -135,14 +136,17 @@ public class ProjectileHandler extends Singleton {
                   (float) x, (float) y, 25, 25);
             this.allProjectiles.add(new OctaProjectile(prjctHitbox, xSpeed, ySpeed));
          }
+
       } else if (type == REAPERDRONE) {
          Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
                hitbox.x + 85, hitbox.y + 160, 300, 24);
          this.allProjectiles.add(new ReaperProjectile(prjctHitbox));
+
       } else if (type == FLAMEDRONE) {
          Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
                (hitbox.x - 130), (hitbox.y + 160), 378, 195);
          this.allProjectiles.add(new FlameProjectile(prjctHitbox));
+
       } else if (type == WASPDRONE) {
          if (dir == 1) { // Facing right
             int xSpeed = 3;

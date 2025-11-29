@@ -1,14 +1,14 @@
-cutscene;true;object;0
+cutscene;true;Ship
 info;I can't leave yet.
 playSFX;infoBox
 endSequence
 
-cutscene;true;object;1
+cutscene;true;BrokenCannon
 info;The remains of a Saber cannon.
 playSFX;infoBox
 endSequence
 
-cutscene;true;npc;2
+cutscene;true;Mechanic
 bigDialogue;Mechanic;normal;0;2;A lot of pilots bit the dust back there.
 endSequence
 bigDialogue;Mechanic;normal;0;2;I suppose things are looking pretty grim, huh?
@@ -22,7 +22,7 @@ endSequence
 info;The mechanic offers you 1000 credits worth of service!
 playSFX;pickup
 updateInventory;credits;1000
-setStartCutscene;npc;0;1
+setStartCutscene;Mechanic;1
 endSequence
 playSFX;infoBox
 mechanicDisplay
@@ -33,17 +33,17 @@ endSequence
 bigDialogue;Mechanic;normal;0;3;It's not a pretty scene back there.
 endSequence
 
-cutscene;true;npc;2
+cutscene;true;Mechanic
 playSFX;infoBox
 mechanicDisplay
 wait;1
 endSequence
 
-cutscene;true;npc;3
+cutscene;true;Gard
 info;omg Gard is so handsome
 endSequence
 
-cutscene;false;automatic;4
+cutscene;false;apoExplodes
 fillScreen;black;true
 wait;1
 endSequence
@@ -57,12 +57,12 @@ fade;in;black;5
 startAmbience;4;   // is needed because we override the justEntered-method with a cutscene.
 endSequence
 
-cutscene;false;automatic;5
+cutscene;false;talkToTheMechanic
 info;This might be your only chance to talk to the mechanic
 playSFX;infoBox
 endSequence
 
-cutscene;false;automatic;6
+cutscene;false;deathOfSkye
 setPlayerSheet;2
 setDir;player;right
 wait;60

@@ -2,11 +2,12 @@ package entities.exploring;
 
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
+import static utils.Constants.Exploring.Cutscenes.GARD;
 
 import entities.Entity;
 
 public class Gard extends Entity implements NPC {
-   private String name = "Gard";
+   private String name = GARD;
    private Rectangle2D.Float triggerBox;
    private int xDrawOffset = 80;
    private int yDrawOffset = 30;
@@ -96,7 +97,7 @@ public class Gard extends Entity implements NPC {
    }
 
    @Override
-   public void setNewStartingCutscene(int startCutscene) {
+   public void setStartCutscene(int startCutscene) {
       this.startCutscene = startCutscene;
    }
 

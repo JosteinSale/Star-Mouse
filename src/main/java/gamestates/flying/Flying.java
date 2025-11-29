@@ -1,13 +1,13 @@
 package gamestates.flying;
 
-import static utils.Constants.Exploring.Cutscenes.AUTOMATIC;
+import static utils.Constants.Exploring.Cutscenes.AUTOMATIC_TRIGGER;
 import static utils.Constants.Flying.REPAIR_HEALTH;
 import static entities.flying.EntityFactory.TypeConstants.DRONE;
 import static entities.flying.EntityFactory.TypeConstants.BOMB;
 import static entities.flying.EntityFactory.TypeConstants.REPAIR;
 import static entities.flying.EntityFactory.TypeConstants.POWERUP;
 import static utils.HelpMethods.GetAutomaticTrigger;
-import static utils.HelpMethods.GetCutscenes;
+import static utils.HelpMethods.ParseCutscenes;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -129,10 +129,7 @@ public class Flying extends State {
    private void loadCutscenes(Integer level) {
       this.cutsceneManager.clear();
       List<String> cutsceneData = ResourceLoader.getFlyCutsceneData(level);
-      ArrayList<ArrayList<Cutscene>> cutscenes = GetCutscenes(cutsceneData);
-      for (ArrayList<Cutscene> cutscenesForTrigger : cutscenes) {
-         cutsceneManager.addCutscene(cutscenesForTrigger);
-      }
+      cutsceneManager.addCutscenes(ParseCutscenes(cutsceneData));
    }
 
    private void loadEventReactions() {
@@ -261,15 +258,14 @@ public class Flying extends State {
    }
 
    private void checkCutsceneTriggers() {
-      int index = 0;
       for (AutomaticTrigger trigger : automaticTriggers) {
          if ((trigger.getHitbox().y > 0) && (trigger.getHitbox().y < 10)) {
             if (!trigger.hasPlayed()) {
-               this.cutsceneManager.startCutscene(index, AUTOMATIC, automaticTriggers.get(index).getStartCutscene());
+               String entityName = trigger.getName();
+               this.cutsceneManager.startCutscene(entityName, trigger.getStartCutscene());
                trigger.setPlayed(true);
             }
          }
-         index += 1;
       }
    }
 

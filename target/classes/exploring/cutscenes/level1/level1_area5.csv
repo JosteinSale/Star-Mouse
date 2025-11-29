@@ -1,22 +1,22 @@
-cutscene;true;object;0
+cutscene;true;sign
 bigDialogue;Sign;normal;0;2;If you want to leave an area, just climb into your ship!
 endSequence
 
-cutscene;true;object;1
+cutscene;true;Saber
 info;Your trusty Saber
 playSFX;infoBox
 endSequence
 
-cutscene;true;object;2
+cutscene;true;ladder
 infoChoice;Leave area?;No;Yes
 playSFX;infoBox
 endSequence
 
-cutscene;true;object;2
+cutscene;true;ladder
 wait;1
 endSequence
 
-cutscene;false;object;2
+cutscene;false;ladder
 wait;60
 endSequence
 wait;65
@@ -108,6 +108,6 @@ goToFlying;1
 wait;1
 endSequence
 
-cutscene;true;npc;3
+cutscene;true;oliver
 info;That's Oliver lol
 endSequence

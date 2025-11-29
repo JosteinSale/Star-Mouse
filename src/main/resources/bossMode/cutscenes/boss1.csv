@@ -1,4 +1,4 @@
-cutscene;true;automatic;0
+cutscene;true;boss
 fillScreen;black;true
 setBossVisible;false
 addObject;rowOfDrones;drones1;10;200;3;3;4;1
@@ -121,7 +121,7 @@ startSong;6;true
 wait;1
 endSequence
 
-cutscene;true;automatic;0
+cutscene;true;boss
 setBossVisible;false
 playSFX;19
 addObject;rudinger1Death;bossDeath;11;-15;3;3;4;2

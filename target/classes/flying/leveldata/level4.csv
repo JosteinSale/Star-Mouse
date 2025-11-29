@@ -1,16 +1,16 @@
 automaticTrigger;0f;2f;10f;10f;openingCutscene
-automaticTrigger;0f;-3000f;10f;10f;pursuing drones!
-automaticTrigger;0f;-7000f;10f;10f;Out of the asteroids
-automaticTrigger;0f;-9000f;10f;10f;Rudinger's defences
-automaticTrigger;0f;-11700f;10f;10f;Checkpoint
-automaticTrigger;0f;-13000f;10f;10f;Do your worst
-automaticTrigger;0f;-15000f;10f;10f;Gard dies
-automaticTrigger;0f;-18000f;10f;10f;I made it
-automaticTrigger;0f;-19300f;10f;10f;Apo is up
-automaticTrigger;0f;-20300f;10f;10f;What the hell?
-automaticTrigger;0f;-22500f;10f;10f;Shock
-automaticTrigger;0f;-26500f;10f;10f;They did this?
-automaticTrigger;0f;-27600f;10f;10f;endLevel
+automaticTrigger;0f;-3000f;10f;10f;thereTheyAre
+automaticTrigger;0f;-7000f;10f;10f;outOfTheAsteroids
+automaticTrigger;0f;-9000f;10f;10f;rudingersDefences
+automaticTrigger;0f;-11700f;10f;10f;checkpointReached
+automaticTrigger;0f;-13000f;10f;10f;doYourWorst
+automaticTrigger;0f;-15000f;10f;10f;gardDies
+automaticTrigger;0f;-18000f;10f;10f;thankYouGard
+automaticTrigger;0f;-19300f;10f;10f;apoIsComingUp
+automaticTrigger;0f;-20300f;10f;10f;whatTheHell
+automaticTrigger;0f;-22500f;10f;10f;shock
+automaticTrigger;0f;-26500f;10f;10f;theyDidThis
+automaticTrigger;0f;-27600f;10f;10f;levelFinished
 smallAsteroid;568;-1792;-1;440
 smallAsteroid;748;-1982;-1;440
 smallAsteroid;328;-2162;1;400

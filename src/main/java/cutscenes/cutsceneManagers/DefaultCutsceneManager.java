@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import cutscenes.Cutscene;
+import cutscenes.CutscenesForEntity;
+import cutscenes.Sequence;
 import cutscenes.effects.AdvancableEffect;
 import cutscenes.effects.CutsceneEffect;
 import cutscenes.effects.DrawableEffect;
 import cutscenes.effects.UpdatableEffect;
-
-import static utils.Constants.Exploring.Cutscenes.*;
 
 import game_events.EventHandler;
 import game_events.GeneralEvent;
@@ -37,19 +37,13 @@ public class DefaultCutsceneManager {
    protected ArrayList<UpdatableEffect> updateableEffects; // Will be updated
    public ArrayList<DrawableEffect> drawableEffects; // Will be drawn
 
-   // Cutscenes: are organized by which kind of object triggers them
-   private ArrayList<ArrayList<Cutscene>> objectCutscenes;
-   private ArrayList<ArrayList<Cutscene>> doorCutscenes;
-   private ArrayList<ArrayList<Cutscene>> npcCutscenes;
-   protected ArrayList<ArrayList<Cutscene>> automaticCutscenes;
-
+   // Cutscenes:
+   private HashMap<String, CutscenesForEntity> cutscenesForEntities;
+   protected String entityName; // E.g. "door2"
+   protected int cutsceneIndex; // e.g. cutscene #1 (for "door2")
    protected boolean active = false;
    protected boolean canAdvance = true;
    protected boolean cutsceneJump = false;
-
-   protected int triggerType; // object | npc | door | automatic. TODO - Use ENUM?
-   protected int elementNr; // e.g. door #2
-   protected int cutsceneIndex; // e.g. cutscene #1 (for door #2)
 
    public DefaultCutsceneManager(Game game, EventHandler eventHandler, ITextboxManager textboxManager,
          Gamestate state) {
@@ -61,31 +55,11 @@ public class DefaultCutsceneManager {
       this.allEffects = new HashMap<>();
       this.updateableEffects = new ArrayList<>();
       this.drawableEffects = new ArrayList<>();
-
-      this.objectCutscenes = new ArrayList<>();
-      this.doorCutscenes = new ArrayList<>();
-      this.npcCutscenes = new ArrayList<>();
-      this.automaticCutscenes = new ArrayList<>();
+      this.cutscenesForEntities = new HashMap<>();
    }
 
-   public void addCutscene(ArrayList<Cutscene> cutscenesForElement) {
-      int trigger = cutscenesForElement.get(0).getTrigger();
-      getCutsceneListForTrigger(trigger).add(cutscenesForElement);
-   }
-
-   protected ArrayList<ArrayList<Cutscene>> getCutsceneListForTrigger(int trigger) {
-      switch (trigger) {
-         case OBJECT:
-            return objectCutscenes;
-         case DOOR:
-            return doorCutscenes;
-         case NPC:
-            return npcCutscenes;
-         case AUTOMATIC:
-            return automaticCutscenes;
-         default:
-            throw new IllegalArgumentException("No cutscene-list available for " + trigger);
-      }
+   public void addCutscenes(HashMap<String, CutscenesForEntity> cutscenesForEntities) {
+      this.cutscenesForEntities = cutscenesForEntities;
    }
 
    /**
@@ -111,17 +85,19 @@ public class DefaultCutsceneManager {
     * (except standard fades). Returns false if the cutscene has been played
     * before, and is not resettable.
     */
-   public boolean startCutscene(int elementNr, int triggerType, int cutsceneIndex) {
+   public boolean startCutscene(String entityName, int cutsceneIndex) {
+      if (!cutscenesForEntities.containsKey(entityName)) {
+         throw new IllegalArgumentException("No cutscene for entity '" + entityName + "'.");
+      }
       this.cutsceneIndex = cutsceneIndex;
-      this.triggerType = triggerType;
-      this.elementNr = elementNr;
-      Cutscene cutscene = getCutsceneListForTrigger(triggerType).get(elementNr).get(cutsceneIndex);
+      this.entityName = entityName;
+      Cutscene cutscene = cutscenesForEntities.get(entityName).getAllCutscenes().get(cutsceneIndex);
       if (cutscene.hasPlayed() && !cutscene.canReset()) {
          return false;
       } else {
          this.active = true;
-         ArrayList<GeneralEvent> firstSequence = cutscene.getFirstSequence();
-         for (GeneralEvent event : firstSequence) {
+         Sequence firstSequence = cutscene.getFirstSequence();
+         for (GeneralEvent event : firstSequence.events) {
             eventHandler.addEvent(event);
          }
          eventHandler.triggerEvents();
@@ -174,7 +150,7 @@ public class DefaultCutsceneManager {
       }
       if (cutsceneJump) { // TODO - can this be done differently?
          this.cutsceneJump = false;
-         startCutscene(elementNr, triggerType, cutsceneIndex);
+         startCutscene(entityName, cutsceneIndex);
       }
    }
 
@@ -209,10 +185,10 @@ public class DefaultCutsceneManager {
     */
    private void goToNextSequence() {
       textBoxManager.resetBooleans();
-      Cutscene cutscene = getCutsceneListForTrigger(triggerType).get(elementNr).get(cutsceneIndex);
+      Cutscene cutscene = cutscenesForEntities.get(entityName).getAllCutscenes().get(cutsceneIndex);
       if (cutscene.hasMoreSequences()) {
-         ArrayList<GeneralEvent> nextSequence = cutscene.getNextSequence();
-         for (GeneralEvent event : nextSequence) {
+         Sequence nextSequence = cutscene.getNextSequence();
+         for (GeneralEvent event : nextSequence.events) {
             eventHandler.addEvent(event);
          }
          eventHandler.triggerEvents();
@@ -230,7 +206,7 @@ public class DefaultCutsceneManager {
    }
 
    public void resetCurrentCutscene() {
-      Cutscene cutscene = getCutsceneListForTrigger(triggerType).get(elementNr).get(cutsceneIndex);
+      Cutscene cutscene = cutscenesForEntities.get(entityName).getAllCutscenes().get(cutsceneIndex);
       this.resetCutscene(cutscene);
    }
 
@@ -251,24 +227,20 @@ public class DefaultCutsceneManager {
    }
 
    public void clearCutscenes() {
-      this.objectCutscenes.clear();
-      this.doorCutscenes.clear();
-      this.npcCutscenes.clear();
-      this.automaticCutscenes.clear();
+      this.cutscenesForEntities.clear();
    }
 
    /**
     * Usually the effects will inactivate themselves automatically, or it's done
-    * manually in a cutscene. But sometimes (e.g. when exiting a finished flying
-    * level), some effects may not be reset properly. Then you can call this method
-    * manuallyto reset all effects.
+    * manually via a specific event. But sometimes (e.g. when exiting a finished
+    * flying level), some effects may not be reset. Then call this method.
     *
     * NOTE: some effects may continue to be updated and drawn after all the
     * cutscene sequences have been executed. E.g. the FellowShipEffect. Therefore,
     * you shouldn't call this method in the advance()-method, as it will abort the
     * effect too early.
     */
-   private void resetEffectsManually() {
+   private void resetEffects() {
       for (CutsceneEffect effect : allEffects.values()) {
          effect.reset();
       }
@@ -282,6 +254,6 @@ public class DefaultCutsceneManager {
       active = false;
       canAdvance = true;
       this.textBoxManager.resetBooleans();
-      this.resetEffectsManually();
+      this.resetEffects();
    }
 }

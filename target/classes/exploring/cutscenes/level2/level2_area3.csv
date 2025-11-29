@@ -1,4 +1,4 @@
-cutscene;false;object;0
+cutscene;false;clothingRack
 info;A clothing rack with old, discarded pilot jackets.
 playSFX;infoBox
 endSequence
@@ -7,30 +7,30 @@ endSequence
 info;You found 500 credits!
 playSFX;pickup
 updateInventory;credits;500
-setStartCutscene;object;0;1
+setStartCutscene;clothingRack;1
 endSequence
 
-cutscene;true;object;0
+cutscene;true;clothingRack
 playSFX;infoBox
 info;Nothing more of use here.
 endSequence
 
-cutscene;false;object;1
+cutscene;false;bombBox
 playSFX;infoBox
 info;An unopened box. You search through it.
 endSequence
 info;You found 1 bomb!
 playSFX;pickup
 updateInventory;bombs;1
-setStartCutscene;object;1;1
+setStartCutscene;bombBox;1
 endSequence
 
-cutscene;true;object;1
+cutscene;true;bombBox
 playSFX;infoBox
 info;It's empty.
 endSequence
 
-cutscene;false;object;2
+cutscene;false;cabinet
 playSFX;infoBox
 info;You open the cabinet and rummage through it.
 endSequence
@@ -39,10 +39,10 @@ playSFX;pickup
 endSequence
 info;Squeezing it makes it say "It's gonna to be alright".
 addToInventory;COMFORT PET PLUSHIE;"It's gonna be alright";item_plushie.png
-setStartCutscene;object;2;1
+setStartCutscene;cabinet;1
 endSequence
 
-cutscene;true;object;2
+cutscene;true;cabinet
 playSFX;infoBox
 info;Nothing more of interest here.
 endSequence

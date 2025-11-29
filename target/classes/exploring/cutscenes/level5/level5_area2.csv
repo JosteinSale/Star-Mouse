@@ -1,4 +1,4 @@
-cutscene;false;automatic;0
+cutscene;false;maxCries
 setDir;player;up
 wait;100
 endSequence

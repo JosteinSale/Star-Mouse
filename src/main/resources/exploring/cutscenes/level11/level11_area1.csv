@@ -1,13 +1,13 @@
-cutscene;true;object;0
+cutscene;true;exitSaber
 playSFX;infoBox
 infoChoice;Leave area?;No;Yes
 endSequence
 
-cutscene;true;object;0
+cutscene;true;exitSaber
 wait;1
 endSequence
 
-cutscene;true;object;0
+cutscene;true;exitSaber
 goToFlying;11
 wait;1
 endSequence

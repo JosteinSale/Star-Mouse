@@ -1,13 +1,13 @@
-cutscene;true;object;0
+cutscene;true;exitSaber
 playSFX;infoBox
 infoChoice;Leave area?;No;Yes
 endSequence
 
-cutscene;true;object;0
+cutscene;true;exitSaber
 wait;1
 endSequence
 
-cutscene;false;object;0
+cutscene;false;exitSaber
 bigDialogue;Lt.Red;normal;0;2;Hold it Max.
 endSequence
 bigDialogue;Lt.Red;normal;0;2;We're going to have a briefing, and I'd like you to attend.
@@ -59,7 +59,7 @@ goToFlying;2
 wait;1
 endSequence
 
-cutscene;true;npc;1
+cutscene;true;Lt.Red
 bigDialogue;Lt.Red;normal;0;2;Good to see you made it, Max.
 endSequence
 bigDialogue;Max;normal;0;2;Lieutenant, has any of the cadets made it back yet?
@@ -79,7 +79,7 @@ endSequence
 bigDialogue;Max;normal;0;2;...Yes Lieutenant.
 endSequence
 
-cutscene;false;automatic;2
+cutscene;false;fadeIn
 fillScreen;black;true
 wait;60
 endSequence

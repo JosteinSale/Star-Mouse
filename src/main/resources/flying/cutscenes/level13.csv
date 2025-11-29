@@ -1,4 +1,4 @@
-cutscene;true;automatic;0
+cutscene;true;automaticTrigger;0
 fade;out;black;5
 endSequence
 setGameplayActive;false

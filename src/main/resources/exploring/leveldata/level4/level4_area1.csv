@@ -2,9 +2,9 @@ ambience;99
 song;99;false
 player;441;795;45f;18f;0
 object;420;780;54f;30f;Ship
-object;2757;666;375f;60f;Broken cannon
+object;2757;666;375f;60f;BrokenCannon
 npc;1020;690f;120f;100f;Mechanic;60;80;false
 gard;3620;495f;100f;120f;0;false
-automaticTrigger;441;795;45f;18f;Loading level
-automaticTrigger;800;720;24f;150f;Should talk to the mechanic
-automaticTrigger;3450;600;24f;150f;Death of Skye
+automaticTrigger;441;795;45f;18f;apoExplodes
+automaticTrigger;800;720;24f;150f;talkToTheMechanic
+automaticTrigger;3450;600;24f;150f;deathOfSkye

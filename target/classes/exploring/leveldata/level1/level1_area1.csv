@@ -4,6 +4,6 @@ player;480f;510f;45f;18f;0
 object;339f;402f;117f;130f;bed
 object;507f;411f;126f;24f;drawer
 object;627f;456f;78f;42f;game
-object;300f;550f;39f;30f;present
+object;300f;550f;39f;30f;cabinet
 door;741f;519f;51f;69f;2;bedroomDoor;2;1
 automaticTrigger;460f;480f;100f;100f;openingCutscene

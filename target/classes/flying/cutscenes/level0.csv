@@ -1,4 +1,4 @@
-cutscene;true;automatic;0
+cutscene;true;openingCutscene
 setGameplayActive;false
 fillScreen;black;true
 wait;120
@@ -16,7 +16,7 @@ fade;in;black;10
 startSong;0;true
 endSequence
 
-cutscene;true;automatic;1
+cutscene;true;howToMove
 smallDialogue;Max;happy;1;2;Alright, let's do this!
 wait;180
 endSequence
@@ -26,12 +26,12 @@ smallDialogue;Max;normal;0;2;Use {up}, {down}, {left}, {right} to move!
 wait;240
 endSequence
 
-cutscene;true;automatic;2
+cutscene;true;howToShoot
 smallDialogue;Max;normal;0;2;Use {interact} to shoot.
 wait;200
 endSequence
 
-cutscene;true;automatic;3
+cutscene;true;howToTeleport
 smallDialogue;Oliver;normal;0;2;Can we practice teleportation?
 wait;240
 endSequence
@@ -42,7 +42,7 @@ smallDialogue;Max;normal;0;2;...then tap left/right.
 wait;240
 endSequence
 
-cutscene;true;automatic;4
+cutscene;true;teleportThroughObstacles
 smallDialogue;Max;normal;0;4;Remember
 wait;100
 endSequence
@@ -50,12 +50,12 @@ smallDialogue;Max;thoughtful;5;2;You can teleport through obstacles.
 wait;240
 endSequence
 
-cutscene;true;automatic;5
+cutscene;true;teleportKill
 smallDialogue;Max;normal;0;2;Try to teleport through a target!
 wait;360
 endSequence
 
-cutscene;true;automatic;6
+cutscene;true;powerups
 smallDialogue;Max;normal;0;2;Powerups make your shots stronger!
 wait;240
 endSequence
@@ -65,7 +65,7 @@ smallDialogue;Max;normal;0;2;Repairs can... uh... repair.
 wait;200
 endSequence
 
-cutscene;true;automatic;7
+cutscene;true;bombs
 smallDialogue;Max;thoughtful;5;2;Pick up those bombs!
 wait;240
 endSequence
@@ -73,12 +73,12 @@ smallDialogue;Max;normal;0;2;Shoot them with {shootBomb}
 wait;200
 endSequence
 
-cutscene;true;automatic;8
+cutscene;true;useBombsSparingly
 smallDialogue;Max;eyes_closed;4;2;But use them sparingly, they're not cheap.
 wait;240
 endSequence
 
-cutscene;true;automatic;9
+cutscene;true;nicelyDone
 smallDialogue;Max;laughing;3;2;Nice, looks like you got the hang of it!
 wait;200
 endSequence
@@ -87,7 +87,7 @@ wait;200
 fadeOutLoops
 endSequence
 
-cutscene;true;automatic;10
+cutscene;true;levelFinished
 fade;out;black;5
 endSequence
 setGameplayActive;false

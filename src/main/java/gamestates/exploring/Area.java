@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import audio.AudioPlayer;
-import cutscenes.Cutscene;
 import cutscenes.cutsceneManagers.CutsceneManagerExp;
 import cutscenes.cutsceneManagers.DefaultCutsceneManager;
 import entities.exploring.*;
@@ -63,19 +62,19 @@ public class Area {
          String typeOfEntry = lineData.length > 0 ? lineData[0] : "";
 
          switch (typeOfEntry) {
-            case "ambience" -> this.ambienceIndex = Integer.parseInt(lineData[1]);
-            case "song" -> {
+            case AMBIENCE -> this.ambienceIndex = Integer.parseInt(lineData[1]);
+            case SONG -> {
                this.song = Integer.parseInt(lineData[1]);
                this.musicEnabled = Boolean.parseBoolean(lineData[2]);
             }
-            case "player" -> player = GetPlayer(game, lineData, levelIndex, areaIndex);
-            case "object" -> interactableObject.add(GetInteractableObject(lineData));
-            case "door" -> doors.add(GetDoor(lineData));
-            case "portal" -> portals.add(GetPortal(lineData));
-            case "oliver" -> this.npcManager.addNpc(GetOliver(lineData));
-            case "gard" -> this.npcManager.addNpc(GetGard(lineData));
-            case "npc" -> this.npcManager.addNpc(GetStandardNpc(lineData));
-            case "automaticTrigger" -> this.automaticTriggers.add(GetAutomaticTrigger(lineData));
+            case PLAYER -> player = GetPlayer(game, lineData, levelIndex, areaIndex);
+            case OBJECT -> interactableObject.add(GetInteractableObject(lineData));
+            case DOOR -> doors.add(GetDoor(lineData));
+            case PORTAL -> portals.add(GetPortal(lineData));
+            case OLIVER -> this.npcManager.addNpc(GetOliver(lineData));
+            case GARD -> this.npcManager.addNpc(GetGard(lineData));
+            case NPC -> this.npcManager.addNpc(GetStandardNpc(lineData));
+            case AUTOMATIC_TRIGGER -> this.automaticTriggers.add(GetAutomaticTrigger(lineData));
             case "" -> {
                /* ignore empty lines */ }
             default -> throw new IllegalArgumentException("Couldn't parse " + line);
@@ -84,10 +83,7 @@ public class Area {
    }
 
    private void loadCutscenes(List<String> cutsceneData) {
-      ArrayList<ArrayList<Cutscene>> cutscenes = GetCutscenes(cutsceneData);
-      for (ArrayList<Cutscene> cutscenesForElement : cutscenes) {
-         cutsceneManager.addCutscene(cutscenesForElement);
-      }
+      cutsceneManager.addCutscenes(ParseCutscenes(cutsceneData));
    }
 
    private void loadEventReactions() {
@@ -114,7 +110,7 @@ public class Area {
 
       } else if (event instanceof SetStartingCutsceneEvent evt) {
          this.setNewStartingCutscene(
-               evt.triggerObject(), evt.elementNr(), evt.cutsceneIndex());
+               evt.triggerObject(), evt.cutsceneIndex());
 
       } else if (event instanceof SetRequirementMetEvent evt) {
          this.doors.get(evt.doorIndex()).setRequirementMet(evt.requirementIndex());
@@ -284,13 +280,15 @@ public class Area {
 
    /**
     * Checks if the player intersects any automaticTriggers.
-    * If so, it starts the correct cutscene for that trigger.
+    * If so, it starts the correct cutscene for that trigger
+    * (if it hasn't already played).
     */
    private void checkAutomaticTriggers() {
       int triggerIndex = getAutomaticCutsceneTrigger();
       if ((triggerIndex >= 0) && !cutsceneManager.isActive()) {
          int startCutscene = automaticTriggers.get(triggerIndex).getStartCutscene();
-         if (cutsceneManager.startCutscene(triggerIndex, AUTOMATIC, startCutscene)) {
+         String entityName = automaticTriggers.get(triggerIndex).getName();
+         if (cutsceneManager.startCutscene(entityName, startCutscene)) {
             // If cutscene has not been played before:
             player.resetAll();
             justEntered = false;
@@ -337,8 +335,10 @@ public class Area {
 
    private void checkObjectInteraction() {
       for (int i = 0; i < interactableObject.size(); i++) {
-         if (player.getHitbox().intersects(interactableObject.get(i).getHitbox())) {
-            cutsceneManager.startCutscene(i, OBJECT, interactableObject.get(i).getStartCutscene());
+         InteractableObject ob = interactableObject.get(i);
+         if (player.getHitbox().intersects(ob.getHitbox())) {
+            String entityName = ob.getName();
+            cutsceneManager.startCutscene(entityName, ob.getStartCutscene());
             player.resetAll();
          }
       }
@@ -346,16 +346,18 @@ public class Area {
 
    private void checkDoorInteraction() {
       for (int i = 0; i < doors.size(); i++) {
-         if (player.getHitbox().intersects(doors.get(i).getHitbox())) {
-            if (!doors.get(i).areRequirementsMet()) {
-               cutsceneManager.startCutscene(i, DOOR, doors.get(i).getStartCutscene());
+         Door door = doors.get(i);
+         if (player.getHitbox().intersects(door.getHitbox())) {
+            if (!door.areRequirementsMet()) {
+               String entityName = door.getName();
+               cutsceneManager.startCutscene(entityName, door.getStartCutscene());
                player.resetAll();
             } else {
                cutsceneManager.startStandardFade(FADE_OUT);
                player.resetAll();
                GoToAreaEvent event = new GoToAreaEvent(
-                     doors.get(i).getAreaItLeadsTo(),
-                     doors.get(i).getReenterDir());
+                     door.getAreaItLeadsTo(),
+                     door.getReenterDir());
                this.eventHandler.addEvent(event);
             }
          }
@@ -364,8 +366,10 @@ public class Area {
 
    private void checkNPCInteraction() {
       for (int i = 0; i < npcManager.getAmount(); i++) {
-         if (player.getHitbox().intersects(npcManager.getNpc(i).getTriggerBox())) {
-            cutsceneManager.startCutscene(i, NPC, npcManager.getNpc(i).getStartCutscene());
+         NPC npc = npcManager.getNpc(i);
+         if (player.getHitbox().intersects(npc.getTriggerBox())) {
+            String entityName = npc.getName();
+            cutsceneManager.startCutscene(entityName, npc.getStartCutscene());
             player.resetAll();
          }
       }
@@ -403,21 +407,34 @@ public class Area {
       }
    }
 
-   private void setNewStartingCutscene(int triggerObject, int elementNr, int cutsceneIndex) {
-      switch (triggerObject) {
-         case OBJECT:
-            this.interactableObject.get(elementNr).setStartCutscene(cutsceneIndex);
-            break;
-         case DOOR:
-            this.doors.get(elementNr).setStartCutscene(cutsceneIndex);
-            break;
-         case NPC:
-            this.npcManager.setNewStartingCutscene(elementNr, cutsceneIndex);
-            break;
-         case AUTOMATIC:
-            this.automaticTriggers.get(elementNr).setStartCutscene(cutsceneIndex);
-            break;
+   private void setNewStartingCutscene(String entityName, int cutsceneIndex) {
+      // This is a bit dumb but I don't have a better solution right now
+      for (Door door : doors) {
+         if (door.getName().equals(entityName)) {
+            door.setStartCutscene(cutsceneIndex);
+            return;
+         }
       }
+      for (InteractableObject ob : interactableObject) {
+         if (ob.getName().equals(entityName)) {
+            ob.setStartCutscene(cutsceneIndex);
+            return;
+         }
+      }
+      for (AutomaticTrigger trigger : automaticTriggers) {
+         if (trigger.getName().equals(entityName)) {
+            trigger.setStartCutscene(cutsceneIndex);
+            return;
+         }
+      }
+      for (NPC npc : npcManager.allNpcs) {
+         if (npc.getName().equals(entityName)) {
+            npc.setStartCutscene(cutsceneIndex);
+            return;
+         }
+      }
+      // No matches -> throw exception
+      throw new IllegalStateException("Wasn't able to find entity with name '" + entityName + "'.");
    }
 
    public PlayerExp getPlayer() {

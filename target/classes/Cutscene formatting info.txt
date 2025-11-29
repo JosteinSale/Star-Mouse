@@ -257,6 +257,7 @@ START CINEMATIC
 --------------------
 [0] = startCinematic (String), [1] = fileName (String), [2] = returnGamestate (Gamestate)
 * Must be used in combination with an advancable effect
+* Note: the fileName must also be used as the name of the cutscene in the cinematic-cutscene sheet
 
 
 EXIT CINEMATIC

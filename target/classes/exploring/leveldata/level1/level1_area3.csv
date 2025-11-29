@@ -12,4 +12,4 @@ npc;1440f;430f;100f;69f;Lance;90;100;false
 npc;1480f;625f;90f;72f;Charlotte;60;113;true
 npc;1650f;625f;70f;72f;Nina;120;103;true
 npc;1955f;453f;80f;126f;Shady pilot;70;40;false
-automaticTrigger;702f;705f;200f;40f;oliverAcademyCutscene1
+automaticTrigger;702f;705f;200f;40f;oliverAcademyCutscene

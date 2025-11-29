@@ -1,4 +1,4 @@
-cutscene;true;object;0
+cutscene;true;destroyedDrone
 playSFX;infoBox
 info;You search the drone.
 endSequence
@@ -7,23 +7,23 @@ endSequence
 info;Should be worth about 1000 credits!
 playSFX;pickup
 updateInventory;credits;1000
-setStartCutscene;object;0;1
+setStartCutscene;destroyedDrone;1
 endSequence
 bigDialogue;Drone;normal;1;3;####### ###!
 endSequence
 info;(The drone doesn't seem too happy about it).
 endSequence
 
-cutscene;true;object;0
+cutscene;true;destroyedDrone
 playSFX;infoBox
 info;Nothing more of use here.
 endSequence
 
-cutscene;true;npc;1
+cutscene;true;Nathan
 bigDialogue;Nathan;normal;0;2;That thing reeks of malice...
 endSequence
 
-cutscene;false;automatic;2
+cutscene;false;droneSpeaks
 setDir;player;right
 moveCamera;300;0;120
 endSequence

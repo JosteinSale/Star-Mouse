@@ -4,4 +4,4 @@ player;570f;140f;45f;18f;2
 object;1044f;1680f;429f;228f;destroyedDrone
 portal;510f;30f;161f;36f;1;2;exit
 npc;732f;1563f;100f;100f;Nathan;80;80;false
-automaticTrigger;666f;1608f;24f;240f;drone_speaks!
+automaticTrigger;666f;1608f;24f;240f;droneSpeaks

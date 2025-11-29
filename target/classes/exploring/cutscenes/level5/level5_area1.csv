@@ -1,9 +1,9 @@
-cutscene;true;object;0
+cutscene;true;Saber
 playSFX;infoBox
 info;I can't leave yet.
 endSequence
 
-cutscene;false;automatic;1
+cutscene;false;fadeInAtStartOfLevel
 fillScreen;black;true
 setPlayerSheet;2
 wait;60

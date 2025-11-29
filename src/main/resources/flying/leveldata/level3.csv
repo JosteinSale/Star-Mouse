@@ -1,20 +1,20 @@
 automaticTrigger;0f;2f;10f;10f;openingCutscene
-automaticTrigger;0f;-1600f;10f;10f;This is crazy!
-automaticTrigger;0f;-3000f;10f;10f;watch your 6!
-automaticTrigger;0f;-5000f;10f;10f;Shots and asteroids
-automaticTrigger;0f;-6000f;10f;10f;Big asteroids!
-automaticTrigger;0f;-11000f;10f;10f;Checkpoint!
-automaticTrigger;0f;-11400f;10f;10f;More shots and asteroids.
-automaticTrigger;0f;-13200f;10f;10f;Zack dies.
-automaticTrigger;0f;-15750f;10f;10f;Use teleport to get through!
-automaticTrigger;0f;-17250f;10f;10f;Frida dies.
-automaticTrigger;0f;-19000f;10f;10f;Even more shots and asteroids.
-automaticTrigger;0f;-20500f;10f;10f;Nathan dies.
-automaticTrigger;0f;-21700f;10f;10f;Still lots of shots
-automaticTrigger;0f;-22500f;10f;10f;Find shelter
-automaticTrigger;0f;-23300f;10f;10f;Final barrage of shots
-automaticTrigger;0f;-24300f;10f;10f;Skye dies.
-automaticTrigger;0f;-25200f;10f;10f;endLevel
+automaticTrigger;0f;-1600f;10f;10f;shootThemDown
+automaticTrigger;0f;-3000f;10f;10f;watchYourSix
+automaticTrigger;0f;-5000f;10f;10f;shotsFromBehind
+automaticTrigger;0f;-6000f;10f;10f;bigBouldersAhead
+automaticTrigger;0f;-11000f;10f;10f;checkpointReached
+automaticTrigger;0f;-11400f;10f;10f;moreShotsFromBehind
+automaticTrigger;0f;-13200f;10f;10f;zackDies
+automaticTrigger;0f;-15750f;10f;10f;useTeleportToGetThrough
+automaticTrigger;0f;-17250f;10f;10f;fridaDies
+automaticTrigger;0f;-19000f;10f;10f;theEnemeyIsPersistent
+automaticTrigger;0f;-20500f;10f;10f;nathanDies
+automaticTrigger;0f;-21700f;10f;10f;yupStillMoreShots
+automaticTrigger;0f;-22500f;10f;10f;findShelter
+automaticTrigger;0f;-23300f;10f;10f;finalBarrageOfShots
+automaticTrigger;0f;-24300f;10f;10f;skyeDies
+automaticTrigger;0f;-25200f;10f;10f;levelFinished
 smallAsteroid;118;-1702;1;330
 smallAsteroid;878;-2452;-1;440
 smallAsteroid;878;-2062;-1;510

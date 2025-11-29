@@ -1,10 +1,5 @@
 package cutscenes.cutsceneManagers;
 
-import static utils.Constants.Exploring.Cutscenes.AUTOMATIC;
-
-import java.util.ArrayList;
-
-import cutscenes.Cutscene;
 import cutscenes.effects.FadeEffect;
 import cutscenes.effects.FadeHeaderEffect;
 import cutscenes.effects.FillScreenEffect;
@@ -40,17 +35,6 @@ public class CutsceneManagerCinematic extends DefaultCutsceneManager {
       this.addEffect(new FillScreenEffect());
       this.addEffect(new FadeEffect(this.eventHandler, this));
       this.addEffect(new FadeHeaderEffect());
-   }
-
-   @Override
-   public void addCutscene(ArrayList<Cutscene> cutscenesForElement) {
-      // We always put cinematic cutscenes in the AUTOMATIC-list. Check this:
-      for (Cutscene c : cutscenesForElement) {
-         if (c.getTrigger() != AUTOMATIC) {
-            throw new IllegalArgumentException("Only use AUTOMATIC as triggerobject for cinematic cutscenes");
-         }
-      }
-      this.automaticCutscenes.add(cutscenesForElement);
    }
 
    /** Will be called in the update-loop from Cinematic */

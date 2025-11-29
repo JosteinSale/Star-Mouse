@@ -1,68 +1,68 @@
-cutscene;true;object;0
+cutscene;true;locker#1
 info;You search through locker #1...
 playSFX;infoBox
 endSequence
 info;You found 100 credits!
 playSFX;pickup
 updateInventory;credits;100
-setStartCutscene;object;0;1
+setStartCutscene;locker#1;1
 endSequence
 
-cutscene;true;object;0
+cutscene;true;locker#1
 info;Nothing more of use here.
 playSFX;infoBox
 endSequence
 
-cutscene;true;object;1
+cutscene;true;locker#2
 info;You search through locker #2...
 playSFX;infoBox
 endSequence
 info;It's empty
-setStartCutscene;object;1;1
+setStartCutscene;locker#2;1
 endSequence
 
-cutscene;true;object;1
+cutscene;true;locker#2
 playSFX;infoBox
 info;It's empty
 endSequence
 
-cutscene;true;object;2
+cutscene;true;locker#3
 playSFX;infoBox
 info;You search through locker #3...
 endSequence
 info;You found 200 credits!
 playSFX;pickup
 updateInventory;credits;200
-setStartCutscene;object;2;1
+setStartCutscene;locker#3;1
 endSequence
 
-cutscene;true;object;2
+cutscene;true;locker#3
 playSFX;infoBox
 info;Nothing more of use here.
 endSequence
 
-cutscene;true;door;3
+cutscene;true;storageDoor
 numberDisplay;6;7;3;0
 endSequence
 
-cutscene;false;door;3
+cutscene;false;storageDoor
 setRequirementMet;0;0
 playSFX;success
 info;You hear a short beep. The door unlocks itself!
 endSequence
 
-cutscene;true;door;3
+cutscene;true;storageDoor
 playSFX;infoBox
 info;Nothing happened...
 endSequence
 
-cutscene;true;npc;4
+cutscene;true;oliver
 bigDialogue;Oliver;normal;0;2;Changed your mind?
 endSequence
 infoChoice;Go flying with Oliver?;Yes;No
 endSequence
 
-cutscene;false;automatic;4
+cutscene;false;oliver
 bigDialogue;Max;happy;1;2;Let's do it!
 endSequence
 bigDialogue;Oliver;happy;1;3;Great, thanks!
@@ -91,21 +91,21 @@ endSequence
 bigDialogue;Max;happy;1;2;Good luck!
 endSequence
 wait;1
-setStartCutscene;npc;0;3
+setStartCutscene;oliver;3
 startSong;1;true
 endSequence
 
-cutscene;true;automatic;4
+cutscene;true;oliver
 wait;1
 endSequence
 
-cutscene;true;automatic;4
+cutscene;true;oliver
 bigDialogue;Oliver;happy;1;2;Want to go again?
 endSequence
 infoChoice;Go flying with Oliver?;Yes;No
 endSequence
 
-cutscene;true;npc;4
+cutscene;true;oliver
 fade;out;black;5
 endSequence
 fillScreen;black;true
@@ -123,25 +123,25 @@ bigDialogue;Oliver;happy;1;2;Just let me know if you want to go again!
 startSong;1;true
 endSequence
 
-cutscene;true;npc;4
+cutscene;true;oliver
 wait;1
 endSequence
 
-cutscene;true;npc;5
+cutscene;true;Lance
 bigDialogue;Lance;nervous;0;3;Man, the nerves are killing me...
 endSequence
 bigDialogue;Lance;nervous;1;2;Oh, and uh... stay away from my locker Max
 endSequence
 
-cutscene;true;npc;6
+cutscene;true;Charlotte
 bigDialogue;Charlotte;normal;0;1;Hi Max! 
 endSequence
 
-cutscene;true;npc;7
+cutscene;true;Nina
 bigDialogue;Nina;normal;0;1;Wish us good luck at the exam today!
 endSequence
 
-cutscene;true;npc;8
+cutscene;true;Shady pilot
 bigDialogue;Shady pilot;normal;0;2;Hey buddy. I can sell you a bomb for 300 credits if you're interested.
 endSequence
 bigDialogue;Shady pilot;normal;0;2;So whadda' you say?
@@ -149,15 +149,15 @@ endSequence
 infoChoice;Buy 1 bomb for 300 credits?;No;Yes
 endSequence
 
-cutscene;true;npc;8
+cutscene;true;Shady pilot
 bigDialogue;Shady pilot;normal;0;2;Suit yourself
 endSequence
 
-cutscene;true;npc;8
+cutscene;true;Shady pilot
 purchase;300
 endSequence
 
-cutscene;true;npc;8
+cutscene;true;Shady pilot
 bigDialogue;Shady pilot;normal;0;2;Just don't tell anyone where you got it, 'kay?
 endSequence
 playSFX;pickup
@@ -166,11 +166,11 @@ updateInventory;bombs;1
 updateInventory;credits;-300
 endSequence
 
-cutscene;true;npc;8
+cutscene;true;Shady pilot
 bigDialogue;Shady pilot;normal;0;2;You ain't got the credits pal
 endSequence
 
-cutscene;false;automatic;9
+cutscene;false;oliverAcademyCutscene
 setDir;player;up
 wait;60
 endSequence
@@ -261,7 +261,7 @@ endSequence
 infoChoice;Go flying with Oliver?;Yes;No
 endSequence
 
-cutscene;false;automatic;9
+cutscene;false;oliverAcademyCutscene
 bigDialogue;Max;happy;1;2;Sure! It'll be fun
 endSequence
 bigDialogue;Oliver;happy;1;3;Great, thanks!
@@ -291,10 +291,10 @@ bigDialogue;Max;happy;1;2;Good luck!
 endSequence
 startSong;1;true
 wait;1
-setStartCutscene;npc;0;3
+setStartCutscene;oliver;3
 endSequence
 
-cutscene;false;automatic;9
+cutscene;false;oliverAcademyCutscene
 bigDialogue;Max;happy;1;2;There's no need for that, I'm certain you know the basics in and out!
 endSequence
 bigDialogue;Oliver;happy;1;2;...Thanks. Yeah you're probably right.

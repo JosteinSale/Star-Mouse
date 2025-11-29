@@ -78,7 +78,7 @@ public class CutsceneManagerExp extends DefaultCutsceneManager {
          int playerChoice = this.textBoxManager.getSelectedOption();
          this.advance(); // Stops the current cutscene
          this.cutsceneIndex = cutsceneIndex + playerChoice;
-         this.startCutscene(elementNr, triggerType, cutsceneIndex); // Starts the next one
+         this.startCutscene(entityName, cutsceneIndex); // Starts the next one
       }
    }
 
@@ -95,7 +95,7 @@ public class CutsceneManagerExp extends DefaultCutsceneManager {
          this.numberDisplay.reset();
          this.advance(); // Stops the current cutscene
          this.cutsceneIndex = cutsceneIndex + answerGiven;
-         this.startCutscene(elementNr, triggerType, cutsceneIndex); // Starts the next one
+         this.startCutscene(entityName, cutsceneIndex); // Starts the next one
       }
    }
 

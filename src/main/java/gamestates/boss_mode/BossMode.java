@@ -1,14 +1,13 @@
 package gamestates.boss_mode;
 
-import static utils.Constants.Exploring.Cutscenes.AUTOMATIC;
-import static utils.HelpMethods.GetCutscenes;
+import static utils.HelpMethods.ParseCutscenes;
+import static utils.Constants.Exploring.Cutscenes.BOSS;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
 import audio.AudioPlayer;
-import cutscenes.Cutscene;
 import cutscenes.cutsceneManagers.CutsceneManagerBoss;
 import cutscenes.cutsceneManagers.DefaultCutsceneManager;
 import entities.bossmode.PlayerBoss;
@@ -111,11 +110,6 @@ public class BossMode extends State {
       }
    }
 
-   /** A wrapper method which abstracts away unecessary arguments */
-   private void startCutscene(int i) {
-      cutsceneManager.startCutscene(0, AUTOMATIC, i);
-   }
-
    /** Should be called from the boss-defeated-cutscene. */
    private void goToFlying() {
       game.getFlying().setBombsWhenBossIsFinished(projectileHandler.getBombsAtEndOfLevel());
@@ -146,6 +140,11 @@ public class BossMode extends State {
       startCutscene(0);
    }
 
+   /** Wrapper method which strips away unecessary arguments */
+   private void startCutscene(int i) {
+      cutsceneManager.startCutscene(BOSS, i);
+   }
+
    private void setPlayerBossParts() {
       player.setBoss(boss.getBossParts());
    }
@@ -153,10 +152,7 @@ public class BossMode extends State {
    private void loadCutscenes(int bossNr) {
       cutsceneManager.clear();
       List<String> cutsceneData = ResourceLoader.getBossCutsceneData(bossNr);
-      ArrayList<ArrayList<Cutscene>> cutscenes = GetCutscenes(cutsceneData);
-      for (ArrayList<Cutscene> cutscenesForTrigger : cutscenes) {
-         cutsceneManager.addCutscene(cutscenesForTrigger);
-      }
+      cutsceneManager.addCutscenes(ParseCutscenes(cutsceneData));
    }
 
    private void loadBoss(int bossNr) {

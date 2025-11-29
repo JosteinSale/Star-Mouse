@@ -4,33 +4,33 @@ import java.awt.geom.Rectangle2D;
 
 public interface NPC {
 
-    public void update();
+   public void update();
 
-    public Rectangle2D.Float getHitbox();
+   public Rectangle2D.Float getHitbox();
 
-    public Rectangle2D.Float getTriggerBox();
+   public Rectangle2D.Float getTriggerBox();
 
-    public void setNewStartingCutscene(int startCutscene);
+   public void setStartCutscene(int startCutscene);
 
-    public int getStartCutscene();
+   public int getStartCutscene();
 
-    public String getName();
+   public String getName();
 
-    public void setDir(int dir);
+   public void setDir(int dir);
 
-    public void setSprite(boolean poseActive, int colIndex, int rowIndex);
+   public void setSprite(boolean poseActive, int colIndex, int rowIndex);
 
-    public void setAction(int action);
+   public void setAction(int action);
 
-    public void adjustPos(float deltaX, float deltaY);
+   public void adjustPos(float deltaX, float deltaY);
 
-    public boolean inForeground();
+   public boolean inForeground();
 
-    public float getXDrawOffset();
+   public float getXDrawOffset();
 
-    public float getYDrawOffset();
+   public float getYDrawOffset();
 
-    public int getAction();
+   public int getAction();
 
-    public int getAniIndex();
+   public int getAniIndex();
 }

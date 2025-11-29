@@ -1,14 +1,10 @@
 package gamestates;
 
-import static utils.HelpMethods.GetCutscenes;
-import static utils.Constants.Exploring.Cutscenes.AUTOMATIC;
+import static utils.HelpMethods.ParseCutscenes;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import audio.AudioPlayer;
-import cutscenes.Cutscene;
 import cutscenes.cutsceneManagers.CutsceneManagerCinematic;
 import cutscenes.cutsceneManagers.DefaultCutsceneManager;
 import game_events.ClearObjectsEvent;
@@ -42,9 +38,6 @@ public class Cinematic extends State {
    private AudioPlayer audioPlayer;
    private CutsceneManagerCinematic cutsceneManager;
    private Gamestate returnGamestate;
-   private HashMap<String, Integer> indexMap;
-   // The defaultCutsceneManager operates with indexes and not filenames.
-   // Thus we need a map for this.
 
    public Cinematic(Game game) {
       super(game);
@@ -52,7 +45,6 @@ public class Cinematic extends State {
       this.eventHandler = new EventHandler();
       this.cutsceneManager = new CutsceneManagerCinematic(
             game, eventHandler, game.getTextboxManager(), Gamestate.CINEMATIC);
-      this.indexMap = new HashMap<>();
       this.loadEventReactions();
    }
 
@@ -84,22 +76,9 @@ public class Cinematic extends State {
       }
    }
 
-   private void addFilenameToIndexMap(String fileName) {
-      int index = indexMap.size();
-      this.indexMap.put(fileName, index);
-   }
-
-   private void loadCutsceneData(String fileName) {
-      List<String> cutsceneData = ResourceLoader.getCinematicData(fileName);
-      ArrayList<ArrayList<Cutscene>> cutscenes = GetCutscenes(cutsceneData);
-      for (ArrayList<Cutscene> cutscenesForElement : cutscenes) {
-         cutsceneManager.addCutscene(cutscenesForElement);
-      }
-   }
-
    private void loadCutscene(String filename) {
-      this.loadCutsceneData(filename);
-      this.addFilenameToIndexMap(filename);
+      List<String> cutsceneData = ResourceLoader.getCinematicData(filename);
+      cutsceneManager.addCutscenes(ParseCutscenes(cutsceneData));
    }
 
    /**
@@ -114,8 +93,7 @@ public class Cinematic extends State {
       this.returnGamestate = returnGamestate;
       this.loadCutscene(fileName);
       game.getView().getRenderCutscene().setCutsceneManager(cutsceneManager);
-      this.cutsceneManager.startCutscene(
-            indexMap.get(fileName), AUTOMATIC, 0);
+      this.cutsceneManager.startCutscene(fileName, 0);
    }
 
    public void exitCinematic() {
@@ -123,7 +101,6 @@ public class Cinematic extends State {
       this.cutsceneManager.resetCurrentCutscene();
       setReturnCutsceneManager(returnGamestate);
       Gamestate.state = this.returnGamestate;
-      System.gc();
    }
 
    /**

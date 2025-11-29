@@ -65,7 +65,7 @@ public class Rudinger1 implements IBoss {
    private final String MACHINE_HEART = "MACHINE_HEART";
 
    // Damage
-   private int maxHP = 3000;
+   private int maxHP = 100;
    private int HP = maxHP;
 
    public Rudinger1(Game game, PlayerBoss player, ProjectileHandler2 projectileHandler,

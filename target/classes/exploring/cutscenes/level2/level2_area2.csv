@@ -1,19 +1,19 @@
-cutscene;true;door;0
+cutscene;true;lockerRoomDoor
 numberDisplay;2;2;5;8
 endSequence
 
-cutscene;false;door;0
+cutscene;false;lockerRoomDoor
 setRequirementMet;0;0
 playSFX;success
 info;You hear a short beep. The door unlocks itself!
 endSequence
 
-cutscene;true;door;0
+cutscene;true;lockerRoomDoor
 playSFX;infoBox
 info;Nothing happened...
 endSequence
 
-cutscene;true;npc;1
+cutscene;true;Russel
 bigDialogue;Russel;depressed;1;2;I can't believe it...
 endSequence
 bigDialogue;Russel;depressed;1;2;We we're crushed back there.
@@ -27,44 +27,44 @@ endSequence
 bigDialogue;Russel;depressed;1;2;They just attacked.
 endSequence
 
-cutscene;true;npc;2
+cutscene;true;Emma
 bigDialogue;Emma;sad;0;4;Po didn't make it...
 endSequence
 
-cutscene;true;npc;3
+cutscene;true;Nathan
 bigDialogue;Nathan;edgy;0;2;Those bastards... Just wait until I get back in my Saber!
 endSequence
 
-cutscene;true;npc;4
+cutscene;true;Frida
 bigDialogue;Frida;normal;0;2;We've got to stay calm and listen to the lieutenant!
 endSequence
 
-cutscene;false;npc;5
+cutscene;false;Mechanic
 bigDialogue;Mechanic;normal;0;2;Hi, I'm the mechanic. Nice to meet ya'.
 endSequence
 bigDialogue;Mechanic;normal;0;2;I can upgrade your ship and weapons, for a price. 
 endSequence
 bigDialogue;Mechanic;normal;0;2;No credits, no service. And no refunds.
 endSequence
-setStartCutscene;npc;4;1
+setStartCutscene;Mechanic;1
 playSFX;infoBox
 mechanicDisplay
 wait;1
 endSequence
 
-cutscene;true;npc;5
+cutscene;true;Mechanic
 playSFX;infoBox
 mechanicDisplay
 wait;1
 endSequence
 
-cutscene;true;npc;6
+cutscene;true;Skye
 bigDialogue;Skye;normal;0;2;Brave defenders of the planet... That's what they call us pilots.
 endSequence
 bigDialogue;Skye;normal;0;2;Are we worthy of such praise?
 endSequence
 
-cutscene;true;npc;7
+cutscene;true;Zack
 bigDialogue;Zack;normal;0;2;There's been talk about a counterattack.
 endSequence
 bigDialogue;Zack;thoughtful;1;2;If you ask me, that's a bit premature.
@@ -72,10 +72,10 @@ endSequence
 bigDialogue;Zack;normal;0;2;Oh by the way: the code to the locker room is 2258.
 endSequence
 
-cutscene;true;npc;8
+cutscene;true;Gard
 bigDialogue;Gard;normal;0;2;We have to stay vigilant!
 endSequence
 
-cutscene;true;npc;9
+cutscene;true;Feno
 bigDialogue;Feno;sad;0;30;...
 endSequence

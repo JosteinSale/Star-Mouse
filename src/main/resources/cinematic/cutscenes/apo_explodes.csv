@@ -1,4 +1,4 @@
-cutscene;true;automatic;0
+cutscene;true;apo_explodes.csv
 fillScreen;black;true
 setOverlayImage;true;apo_explodes_bg.png;1;1
 addObject;cathedral;cathedral;250;100;3;3;3;2

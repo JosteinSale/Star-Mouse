@@ -1,39 +1,39 @@
-cutscene;true;object;0
+cutscene;true;bed
 info;Your bed. Semi-comfortable.
 playSFX;infoBox
 endSequence
 
-cutscene;true;objectChoice;1
+cutscene;true;drawer
 info;A drawer full of clothes. There's a pilot jacket.
 playSFX;infoBox
 endSequence
 infoChoice;Get dressed?;Yes;No
 endSequence
 
-cutscene;true;object;1
+cutscene;true;drawer
 info;You got dressed!
 playSFX;success
 setPlayerSheet;0
-setStartCutscene;object;1;3
+setStartCutscene;drawer;3
 setRequirementMet;0;0
-setStartCutscene;door;0;1
+setStartCutscene;bedroomDoor;1
 endSequence
 
-cutscene;true;object;1
+cutscene;true;drawer
 wait;1
 endSequence
 
-cutscene;true;object;1
+cutscene;true;drawer
 playSFX;infoBox
 info;A drawer now slightly less full of clothes.
 endSequence
 
-cutscene;true;object;2
+cutscene;true;game
 playSFX;infoBox
 info;Duties first, gaming later.
 endSequence
 
-cutscene;false;object;3
+cutscene;false;cabinet
 playSFX;infoBox
 info;You open the cabinet and rummage through it.
 endSequence
@@ -42,18 +42,18 @@ playSFX;pickup
 endSequence
 info;Open your inventory with {pause} to inspect it.
 setRequirementMet;0;1
-addToInventory;GRADUATION PRESENT;For a special someone on their special day. I hope he likes it!;item_present.png
+addToInventory;GRADUATION PRESENT;For my brother on his special day. I hope he likes it!;item_present.png
 endSequence
 
-cutscene;true;door;4
+cutscene;true;bedroomDoor
 bigDialogue;Max;naked_normal;7;2;I'm not dressed...
 endSequence
 
-cutscene;true;door;4
+cutscene;true;bedroomDoor
 bigDialogue;Max;thoughtful;5;2;I feel like I've forgotten something
 endSequence
 
-cutscene;false;automatic;5
+cutscene;false;openingCutscene
 setPlayerVisible;false
 setOverlayImage;true;overlayBed.png
 fillScreen;black;true

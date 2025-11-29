@@ -1,4 +1,4 @@
-cutscene;true;automatic;0
+cutscene;true;openingCutscene
 setGameplayActive;false
 fillScreen;black;true
 wait;120
@@ -27,22 +27,22 @@ endSequence
 wait;160;    // Wait for fellowships to exit screen
 endSequence
 
-cutscene;true;automatic;1
+cutscene;true;enteringTheCity
 smallDialogue;Russel;serious;0;2;We're approaching the city.
 wait;240
 endSequence
 
-cutscene;true;automatic;2
+cutscene;true;nathanSaysNooo
 smallDialogue;Nathan;angry;1;2;Nooo!
 wait;200
 endSequence
 
-cutscene;true;automatic;3
+cutscene;true;poCallsForHelp
 smallDialogue;Po;screaming;0;2;HELP!
 wait;200
 endSequence
 
-cutscene;true;automatic;4
+cutscene;true;checkpointReached
 fadeHeader;in;350;60;Checkpoint reached
 wait;150
 endSequence
@@ -50,7 +50,7 @@ fadeHeader;out;350;60;Checkpoint reached
 wait;5
 endSequence
 
-cutscene;true;automatic;5;      // TODO - Make this cutscene depend on amount of ships destroyed
+cutscene;true;everyoneRetreat;      // TODO - Make this cutscene depend on amount of ships destroyed
 smallDialogue;Lt.Red;serious;0;2;The city is lost!
 wait;180
 endSequence
@@ -61,12 +61,12 @@ smallDialogue;Lt.Red;serious;0;2;We'll regroup on Vyke.
 wait;180
 endSequence
 
-cutscene;true;automatic;6
+cutscene;true;fadeOutLoops
 fadeOutLoops
 wait;1
 endSequence
 
-cutscene;true;automatic;7
+cutscene;true;levelFinished
 fade;out;black;5
 endSequence
 setGameplayActive;false

@@ -217,7 +217,6 @@ public class LevelSelect extends State {
          game.getAudioPlayer().stopAmbience();
          this.game.getExploring().loadLevel(levelToEnter, 1);
          this.game.getExploring().update();
-         System.gc();
       }
    }
 

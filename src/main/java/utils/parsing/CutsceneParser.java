@@ -175,10 +175,9 @@ public class CutsceneParser {
    }
 
    private static SetStartingCutsceneEvent parseSetStartCutscene(String[] lineData) {
-      int triggerObject = HelpMethods.ParseTrigger(lineData[1]);
-      Integer elementNr = Integer.parseInt(lineData[2]);
-      Integer newStartingCutscene = Integer.parseInt(lineData[3]);
-      return new SetStartingCutsceneEvent(triggerObject, elementNr, newStartingCutscene);
+      String entityName = lineData[1];
+      Integer newStartingCutscene = Integer.parseInt(lineData[2]);
+      return new SetStartingCutsceneEvent(entityName, newStartingCutscene);
    }
 
    private static SetRequirementMetEvent parseSetRequirementMet(String[] lineData) {

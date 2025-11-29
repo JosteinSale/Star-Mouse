@@ -1,4 +1,4 @@
-cutscene;true;automatic;0
+cutscene;true;openingCutscene
 setGameplayActive;false
 fillScreen;black;true
 wait;120
@@ -30,12 +30,12 @@ endSequence
 wait;200;     // Wait for Gard's ship to exit the screen
 endSequence
 
-cutscene;true;automatic;1
+cutscene;true;thereTheyAre
 smallDialogue;Gard;angry;1;2;There they are!
 wait;180
 endSequence
 
-cutscene;true;automatic;2
+cutscene;true;outOfTheAsteroids
 smallDialogue;Max;angry;8;2;We're out of the asteroid field!
 wait;180
 endSequence
@@ -54,12 +54,12 @@ smallDialogue;Gard;normal;0;2;We must stay on our toes!
 wait;180
 endSequence
 
-cutscene;true;automatic;3
+cutscene;true;rudingersDefences
 smallDialogue;Max;angry;8;2;Here they come!
 wait;120
 endSequence
 
-cutscene;true;automatic;4
+cutscene;true;checkpointReached
 fadeHeader;in;350;60;Checkpoint reached
 wait;150
 endSequence
@@ -67,12 +67,12 @@ fadeHeader;out;350;60;Checkpoint reached
 wait;5
 endSequence
 
-cutscene;true;automatic;5
+cutscene;true;doYourWorst
 smallDialogue;Gard;angry;1;2;Come on, do your worst!
 wait;180
 endSequence
 
-cutscene;true;automatic;6
+cutscene;true;gardDies
 smallDialogue;Gard;angry;1;2;Agh... This is it for me...
 wait;180
 endSequence
@@ -85,7 +85,7 @@ smallDialogue;Max;surprised;10;2;GARD!
 wait;120
 endSequence
 
-cutscene;true;automatic;7
+cutscene;true;thankYouGard
 smallDialogue;Max;angry;8;2;...I'm through...
 wait;180
 endSequence
@@ -93,17 +93,17 @@ smallDialogue;Max;sad;12;2;Thank you, Gard...
 wait;180
 endSequence
 
-cutscene;true;automatic;8
+cutscene;true;apoIsComingUp
 smallDialogue;Max;angry;8;2;Apo is coming up.
 wait;180
 endSequence
 
-cutscene;true;automatic;9
+cutscene;true;whatTheHell
 smallDialogue;Max;nervous;9;2;What the...?
 wait;180
 endSequence
 
-cutscene;true;automatic;10
+cutscene;true;shock
 smallDialogue;Max;nervous;9;2; 
 wait;180
 endSequence
@@ -132,7 +132,7 @@ smallDialogue;Max;crying;13;5;Oliver, I'm sorry...
 wait;240
 endSequence
 
-cutscene;true;automatic;11
+cutscene;true;theyDidThis
 smallDialogue;Max;dark eyes;14;5;...That ship... 
 wait;180
 endSequence
@@ -141,7 +141,7 @@ fadeOutLoops
 wait;180
 endSequence
 
-cutscene;true;automatic;12
+cutscene;true;levelFinished
 fade;out;black;5
 endSequence
 setGameplayActive;false

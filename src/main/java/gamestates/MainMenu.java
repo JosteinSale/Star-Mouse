@@ -44,7 +44,7 @@ public class MainMenu extends State {
    private static final int QUIT = 5;
 
    // Testing stuff - Change as needed:
-   private Gamestate testState = Gamestate.BOSS_MODE;
+   private Gamestate testState = Gamestate.LEVEL_SELECT;
    private int testLevel = 1;
    private int testArea = 2;
    private int tstUnlockedLevels = 13;
@@ -76,36 +76,31 @@ public class MainMenu extends State {
 
    private void handleInteractPressed() {
       game.interactIsPressed = false;
-      switch (selectedIndex) {
 
+      switch (selectedIndex) {
          case TESTING:
             audioPlayer.stopAllLoops();
             audioPlayer.playSFX(Audio.SFX_STARTGAME);
             this.enterTestingMode();
             return;
-
          case NEW_GAME:
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
             this.loadSaveMenu.activate(LoadSaveMenu.NEW_GAME);
             return;
-
          case LOAD_SAVE:
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
             this.loadSaveMenu.activate(LoadSaveMenu.LOAD_SAVE);
             return;
-
          case LEVEL_EDITOR:
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
             audioPlayer.stopAllLoops();
             levelEditor.loadLevel(levelEditorLvl);
             Gamestate.state = Gamestate.LEVEL_EDITOR;
             return;
-
          case OPTIONS:
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
             optionsMenu.setActive(true);
             return;
-
          default:
             Gamestate.state = Gamestate.QUIT;
 
@@ -121,7 +116,6 @@ public class MainMenu extends State {
       game.getLevelSelect().testUnlockAllLevelsUpTo(tstUnlockedLevels);
 
       switch (testState) {
-
          case LEVEL_SELECT:
             game.getLevelSelect().reset();
             Gamestate.state = Gamestate.LEVEL_SELECT;
