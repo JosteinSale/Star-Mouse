@@ -185,7 +185,7 @@ public class ProjectileHandler2 extends ProjectileHandler {
       /* Do nothing */}
 
    @Override
-   protected void checkBombCollision(Projectile p, float yLevelOffset, float xLevelOffset) {
+   protected void handleBombCollision(Projectile p, float yLevelOffset, float xLevelOffset) {
       /* Do nothing */}
 
 }

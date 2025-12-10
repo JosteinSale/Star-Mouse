@@ -91,7 +91,7 @@ public class FlameDrone extends Entity implements Enemy {
    }
 
    @Override
-   public void takeShootDamage(int damage) {
+   public void takeDamage(int damage) {
       this.HP -= damage;
       if (this.action != PREPARING_TO_SHOOT) {
          this.action = TAKING_DAMAGE;
@@ -103,8 +103,8 @@ public class FlameDrone extends Entity implements Enemy {
    }
 
    @Override
-   public void takeCollisionDamage(int damage) {
-      this.takeShootDamage(damage);
+   public void onCollision(int damage) {
+      this.takeDamage(damage);
    }
 
    @Override

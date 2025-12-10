@@ -13,7 +13,6 @@ import audio.AudioPlayer;
 import entities.flying.EntityFactory;
 import entities.flying.PlayerFly;
 import projectiles.Explosion;
-import utils.ResourceLoader;
 import utils.Constants.Audio;
 
 public class EnemyManager {
@@ -39,15 +38,13 @@ public class EnemyManager {
       this.killedEnemiesAtCheckpoint = new ArrayList<>();
    }
 
-   public void loadEnemiesForLvl(int lvl) {
+   public void loadEnemiesForLvl(List<String> levelData) {
       allEnemies.clear();
       activeEnemiesOnScreen.clear();
       explosions.clear();
       killedEnemies.clear();
       killedEnemiesAtCheckpoint.clear();
-
-      List<String> enemyData = ResourceLoader.getFlyLevelData(lvl);
-      for (String line : enemyData) {
+      for (String line : levelData) {
          String[] lineData = line.split(";");
          String entryName = lineData[0];
          if (entityFactory.isEnemyRegistered(entryName)) {
@@ -63,12 +60,13 @@ public class EnemyManager {
          enemy.update(levelYSpeed);
          if (enemy.isOnScreen() && !enemy.isDead()) {
             activeEnemiesOnScreen.add(enemy);
-            if (enemy.isSmall() && player.teleportDamagesEnemy(enemy.getHitbox())) {
-               enemy.takeShootDamage(teleportDmg);
-               checkIfDead(enemy);
-            } else if (player.collidesWithEnemy(enemy.getHitbox())) { // Also pushes player in opposite direction
-               enemy.takeCollisionDamage(collisionDmg);
-               checkIfDead(enemy);
+            if (player.teleportDamagesEnemy(enemy.getHitbox()) && enemy.isSmall()) {
+               enemy.takeDamage(teleportDmg);
+            } else if (player.checkAndHandleCollisionWithEnemy(enemy.getHitbox())) {
+               enemy.onCollision(collisionDmg);
+            }
+            if (enemy.isDead()) {
+               handleEnemyDeath(enemy);
             }
          }
       }
@@ -76,20 +74,17 @@ public class EnemyManager {
 
    /**
     * Can be called from this object, and the ProjectileHandler.
-    * Checks if the enemy is dead, and if so, plays SFX, increases killed enemies
-    * and adds explosion.
+    * Plays SFX, increases killed enemies and adds explosion.
     * 
     * @param enemy
     */
-   public void checkIfDead(Enemy enemy) {
-      if (enemy.isDead()) {
-         audioPlayer.playSFX(Audio.SFX_SMALL_EXPLOSION);
-         increaseKilledEnemies(enemy.getType());
-         if (enemy.isSmall()) {
-            this.addSmallExplosion(enemy.getHitbox());
-         } else {
-            this.addBigExplosion(enemy.getHitbox());
-         }
+   public void handleEnemyDeath(Enemy enemy) {
+      audioPlayer.playSFX(Audio.SFX_SMALL_EXPLOSION);
+      increaseKilledEnemies(enemy.getType());
+      if (enemy.isSmall()) {
+         this.addSmallExplosion(enemy.getHitbox());
+      } else {
+         this.addBigExplosion(enemy.getHitbox());
       }
    }
 
@@ -181,8 +176,6 @@ public class EnemyManager {
       this.explosions.clear();
       for (Enemy enemy : allEnemies) {
          enemy.resetTo(y);
-         // It's a tiny bit unecessary to do it on all enemies in case we're going
-         // to a checkpoint, but it saves us a bit of troublesome coding
       }
    }
 

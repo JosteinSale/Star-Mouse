@@ -179,6 +179,7 @@ public class ProjectileHandler extends Singleton {
       for (Projectile p : allProjectiles) {
          p.getHitbox().x += p.getXSpeed();
          p.getHitbox().y += p.getYSpeed();
+         p.updateCollisionPixels();
       }
    }
 
@@ -205,55 +206,89 @@ public class ProjectileHandler extends Singleton {
     * If a projectile collides with the map or with an enemy/player,
     * it's set to inactive.
     */
-   // TODO - clean up this messy method >:(
    protected void checkProjectileCollisions(float yLevelOffset, float xLevelOffset) {
       for (Projectile p : allProjectiles) {
-         if (p.isActive()) {
-            if (p.getType() == BOMB_PROJECTILE) {
-               checkBombCollision(p, yLevelOffset, xLevelOffset);
-            } else {
-               for (Enemy enemy : enemyManager.getActiveEnemiesOnScreen()) {
-                  if (!enemy.isDead()) {
-                     if (p.getHitbox().intersects(enemy.getHitbox())) {
-                        p.setActive(false);
-                        enemy.takeShootDamage(p.getDamage());
-                        enemyManager.checkIfDead(enemy);
-                        if (!enemy.isSmall()) {
-                           projectileHits.add(new ProjectileHit(
-                                 (int) (p.getHitbox().x - 10),
-                                 (int) (p.getHitbox().y) + 20,
-                                 0)); // Small hit
-                        }
-                        break;
-                     }
-                  }
-               }
-               if (p.getHitbox().intersects(player.getHitbox())) {
-                  p.setActive(false);
-                  player.takeShootDamage(p.getDamage());
-                  audioPlayer.playSFX(Audio.SFX_HURT);
-                  projectileHits.add(new ProjectileHit(
-                        (int) (player.getHitbox().x - 10),
-                        (int) (player.getHitbox().y),
-                        1)); // Big hit
-                  break;
-               }
-               p.updateCollisionPixels();
-               for (int[] cor : p.getCollisionPixels()) {
-                  int xPos = cor[0] + (int) (xLevelOffset / 3);
-                  int yPos = cor[1] - (int) (yLevelOffset / 3);
-                  if (IsSolid(xPos, yPos, clImg)) {
-                     p.setActive(false);
-                     projectileHits.add(new ProjectileHit((cor[0] * 3) - 10, cor[1] * 3, 0));
-                     break;
-                  }
+         if (!p.isActive()) {
+            continue;
+         }
+         if (p.getType() == BOMB_PROJECTILE) {
+            // Bombs are handled specifically
+            handleBombCollision(p, yLevelOffset, xLevelOffset);
+         } else {
+            // All other projectiles are handled the same
+            boolean collidedWithEnemy = handleProjectileCollisionWithEnemy(p);
+            if (!collidedWithEnemy) {
+               boolean collidedWithPlayer = handleProjectileCollisionWithPlayer(p);
+               if (!collidedWithPlayer) {
+                  handleProjectileCollisionWithMap(p, yLevelOffset, xLevelOffset);
                }
             }
          }
       }
    }
 
-   protected void checkBombCollision(Projectile p, float yLevelOffset, float xLevelOffset) {
+   /**
+    * Handles any potential collision between a single projectile and the map,
+    * and returns true if a collision was registered.
+    */
+   private boolean handleProjectileCollisionWithMap(Projectile p, float yLevelOffset, float xLevelOffset) {
+      for (int[] cor : p.getCollisionPixels()) {
+         int xPos = cor[0] + (int) (xLevelOffset / 3);
+         int yPos = cor[1] - (int) (yLevelOffset / 3);
+         if (IsSolid(xPos, yPos, clImg)) {
+            p.setActive(false);
+            projectileHits.add(new ProjectileHit((cor[0] * 3) - 10, cor[1] * 3, 0));
+            return true;
+         }
+      }
+      return false;
+   }
+
+   /**
+    * Handles any potential collision between a single projectile and the player,
+    * and returns true if a collision was registered.
+    */
+   private boolean handleProjectileCollisionWithPlayer(Projectile p) {
+      if (p.getHitbox().intersects(player.getHitbox())) {
+         p.setActive(false);
+         player.takeShootDamage(p.getDamage());
+         audioPlayer.playSFX(Audio.SFX_HURT);
+         projectileHits.add(new ProjectileHit(
+               (int) (player.getHitbox().x - 10),
+               (int) (player.getHitbox().y),
+               1)); // Big hit
+         return true;
+      }
+      return false;
+   }
+
+   /**
+    * Handles any potential collision between a single projectile and the enemies,
+    * and returns true if a collision was registered.
+    */
+   private boolean handleProjectileCollisionWithEnemy(Projectile p) {
+      for (Enemy enemy : enemyManager.getActiveEnemiesOnScreen()) {
+         if (enemy.isDead()) {
+            continue;
+         }
+         if (p.getHitbox().intersects(enemy.getHitbox())) {
+            p.setActive(false);
+            enemy.takeDamage(p.getDamage());
+            // The enemy just took damage, so might be dead now
+            if (enemy.isDead())
+               enemyManager.handleEnemyDeath(enemy);
+            projectileHits.add(new ProjectileHit(
+                  (int) (p.getHitbox().x - 10),
+                  (int) (p.getHitbox().y) + 20,
+                  0)); // Small hit
+            return true;
+         }
+      }
+      return false;
+   }
+
+   protected void handleBombCollision(Projectile p, float yLevelOffset, float xLevelOffset) {
+      // 1. Checks collision with enemy
       for (Enemy enemy : enemyManager.getActiveEnemiesOnScreen()) {
          if (p.getHitbox().intersects(enemy.getHitbox())) {
             p.setActive(false);
@@ -262,7 +297,7 @@ public class ProjectileHandler extends Singleton {
             return;
          }
       }
-      p.updateCollisionPixels();
+      // 2. Checks collision with map
       for (int[] cor : p.getCollisionPixels()) {
          int xPos = cor[0] + (int) (xLevelOffset / 3);
          int yPos = cor[1] - (int) (yLevelOffset / 3);
@@ -281,25 +316,31 @@ public class ProjectileHandler extends Singleton {
 
    protected void updateBombExplosions(float fgSpeed) {
       int toRemove = 0;
+      // 1. Update all bombexplosions
       for (BombExplosion b : bombExplosions) {
          if (b.isDone()) {
             toRemove += 1;
-         } else {
-            b.update(fgSpeed);
-            if (b.explosionHappens()) {
-               for (Enemy enemy : enemyManager.getActiveEnemiesOnScreen()) {
-                  enemy.takeShootDamage(explosionDamage);
-                  if (enemy.isDead()) {
-                     enemyManager.addSmallExplosion(enemy.getHitbox());
-                     enemyManager.increaseKilledEnemies(enemy.getType());
-                  }
-               }
-            }
+            continue;
+         }
+         b.update(fgSpeed);
+         if (b.explosionHappens()) {
+            handleBombKill();
          }
       }
+      // 2. Remove those that are done
       while (toRemove > 0) {
          bombExplosions.remove(0);
          toRemove -= 1;
+      }
+   }
+
+   private void handleBombKill() {
+      for (Enemy enemy : enemyManager.getActiveEnemiesOnScreen()) {
+         enemy.takeDamage(explosionDamage);
+         if (enemy.isDead()) {
+            enemyManager.addSmallExplosion(enemy.getHitbox());
+            enemyManager.increaseKilledEnemies(enemy.getType());
+         }
       }
    }
 

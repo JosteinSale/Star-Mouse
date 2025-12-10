@@ -192,7 +192,7 @@ public class PlayerBoss extends PlayerFly {
 
    // Methods we don't use will do nothing / return false.
    @Override
-   public boolean collidesWithEnemy(Rectangle2D.Float enemyHitbox) {
+   public boolean checkAndHandleCollisionWithEnemy(Rectangle2D.Float enemyHitbox) {
       return false;
    }
 

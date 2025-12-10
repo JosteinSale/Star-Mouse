@@ -1,6 +1,5 @@
 package gamestates.flying;
 
-import static utils.Constants.Exploring.Cutscenes.AUTOMATIC_TRIGGER;
 import static utils.Constants.Flying.REPAIR_HEALTH;
 import static entities.flying.EntityFactory.TypeConstants.DRONE;
 import static entities.flying.EntityFactory.TypeConstants.BOMB;
@@ -14,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import audio.AudioPlayer;
-import cutscenes.Cutscene;
 import cutscenes.cutsceneManagers.CutsceneManagerFly;
 import cutscenes.cutsceneManagers.DefaultCutsceneManager;
 import entities.exploring.AutomaticTrigger;
@@ -94,8 +92,9 @@ public class Flying extends State {
       player.setClImg(mapManager.clImg);
       projectileHandler.setClImg(mapManager.clImg);
       projectileHandler.setBombs(game.getProgressValues().getBombs());
-      enemyManager.loadEnemiesForLvl(lvl);
-      loadPickupItems(lvl);
+      List<String> levelData = ResourceLoader.getFlyLevelData(lvl);
+      enemyManager.loadEnemiesForLvl(levelData);
+      loadLevelData(levelData);
       loadCutscenes(lvl);
       player.onLevelStart();
       this.setRenders(lvl, FlyLevelInfo.getBgImgHeight(lvl));
@@ -111,10 +110,9 @@ public class Flying extends State {
       game.getView().getRenderCutscene().setCutsceneManager(cutsceneManager);
    }
 
-   private void loadPickupItems(Integer level) {
+   private void loadLevelData(List<String> levelData) {
       pickupItems.clear();
       automaticTriggers.clear();
-      List<String> levelData = ResourceLoader.getFlyLevelData(level);
       for (String line : levelData) {
          String[] lineData = line.split(";");
          String entryName = lineData[0];
@@ -471,8 +469,10 @@ public class Flying extends State {
    }
 
    /** Is called from Player. Is needed for big enemies */
-   public void checkIfDead(Enemy enemy) {
-      this.enemyManager.checkIfDead(enemy);
+   public void checkIfDeadAndHandleDeath(Enemy enemy) {
+      if (enemy.isDead()) {
+         this.enemyManager.handleEnemyDeath(enemy);
+      }
    }
 
    private void updateChartingY() {

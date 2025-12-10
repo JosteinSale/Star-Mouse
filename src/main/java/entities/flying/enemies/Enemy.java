@@ -6,68 +6,68 @@ import entities.flying.EntityInfo;
 
 public interface Enemy {
 
-  /**
-   * If the enemy is small, the player can teleport through it and kill it.
-   * Big enemies can not be teleported through, and if the player attempts it,
-   * he will collide just like he would with the map.
-   * 
-   * @return
-   */
-  public boolean isSmall();
+   /**
+    * If the enemy is small, the player can teleport through it and kill it.
+    * Big enemies can not be teleported through, and if the player attempts it,
+    * he will collide just like he would with the map.
+    * 
+    * @return
+    */
+   public boolean isSmall();
 
-  /**
-   * Updates y-pos with levelYSpeed.
-   * Also if the enemy is onScreen and !isDead: updates individual movement,
-   * aniTick and shootTick.
-   */
-  public void update(float levelYSpeed);
+   /**
+    * Updates y-pos with levelYSpeed.
+    * Also if the enemy is onScreen and !isDead: updates individual movement,
+    * aniTick and shootTick.
+    */
+   public void update(float levelYSpeed);
 
-  public Rectangle2D.Float getHitbox();
+   public Rectangle2D.Float getHitbox();
 
-  public int getType();
+   public int getType();
 
-  /**
-   * Will be called in projecileHandler when the enemy is hit by a projectile.
-   * Reduces the enemy's HP by the specified amount. Also sets the enemies
-   * status to TAKING_DAMAGE. If HP falls below 0, it sets 'dead' to true.
-   */
-  public void takeShootDamage(int damage);
+   /**
+    * Will be called in projecileHandler when the enemy is hit by a projectile.
+    * Reduces the enemy's HP by the specified amount. Also sets the enemies
+    * status to TAKING_DAMAGE. If HP falls below 0, it sets 'dead' to true.
+    */
+   public void takeDamage(int damage);
 
-  /**
-   * Will be called by the enemymanager if the player collides with the enemy.
-   * Is useful if there is distinct behavior for the enemy upon collision.
-   * If not, you can simply do a call to takeShootDamage in the implementation.
-   */
-  public void takeCollisionDamage(int damage);
+   /**
+    * Will be called by the enemymanager if the player collides with the enemy.
+    * Is useful if there is distinct behavior for the enemy upon collision.
+    * If not, you can simply do a call to takeShootDamage in the implementation.
+    */
+   public void onCollision(int damage);
 
-  /**
-   * Returns true if the enemy can shoot at the current frame. Enemies can only
-   * shoot at specific intervals
-   */
-  public boolean canShoot();
+   /**
+    * Returns true if the enemy can shoot at the current frame. Enemies can only
+    * shoot at specific intervals
+    */
+   public boolean canShoot();
 
-  /** Resets the shoot-timer */
-  public void resetShootTick();
+   /** Resets the shoot-timer */
+   public void resetShootTick();
 
-  public boolean isDead();
+   public boolean isDead();
 
-  /** Is used for drawing and to update individual behavior */
-  public boolean isOnScreen();
+   /** Is used for drawing and to update individual behavior */
+   public boolean isOnScreen();
 
-  /** Resets the enemy position, active-status, aniIndex, HP and shootTimer */
-  public void resetTo(float y);
+   /** Resets the enemy position, active-status, aniIndex, HP and shootTimer */
+   public void resetTo(float y);
 
-  /**
-   * Needed for projectileHandler and drawing. 1 = facing right, -1 = facing left.
-   */
-  public int getDir();
+   /**
+    * Needed for projectileHandler and drawing. 1 = facing right, -1 = facing left.
+    */
+   public int getDir();
 
-  /** Is used for drawing */
-  public EntityInfo getInfo();
+   /** Is used for drawing */
+   public EntityInfo getInfo();
 
-  /** Returns the enemy's current action (IDLE, TAKING_DAMAGE...) */
-  public int getAction();
+   /** Returns the enemy's current action (IDLE, TAKING_DAMAGE...) */
+   public int getAction();
 
-  /** Returns the current animation index in the spritesheet of the enemy */
-  public int getAniIndex();
+   /** Returns the current animation index in the spritesheet of the enemy */
+   public int getAniIndex();
 }

@@ -72,7 +72,7 @@ public class TankDrone extends Entity implements Enemy {
    }
 
    @Override
-   public void takeShootDamage(int damage) {
+   public void takeDamage(int damage) {
       this.HP -= damage;
       this.action = TAKING_DAMAGE;
       this.damageTick = damageFrames;
@@ -82,8 +82,8 @@ public class TankDrone extends Entity implements Enemy {
    }
 
    @Override
-   public void takeCollisionDamage(int damage) {
-      this.takeShootDamage(damage);
+   public void onCollision(int damage) {
+      this.takeDamage(damage);
    }
 
    @Override

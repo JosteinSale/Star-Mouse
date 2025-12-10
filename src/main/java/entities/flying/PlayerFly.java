@@ -110,7 +110,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       int prevAction = planeAction;
       handleKeyboardInputs();
       movePlayer();
-      checkMapCollision(yLevelOffset, xLevelOffset);
+      checkAndHandleCollision(yLevelOffset, xLevelOffset);
       if (planeAction != prevAction) {
          aniIndex = 0;
       }
@@ -209,7 +209,13 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       }
    }
 
-   /** Moves the player hitbox, and prevents it from going off screen */
+   /**
+    * Moves the player hitbox, and prevents it from going off screen.
+    * Then it updates the collision pixels
+    * 
+    * @param deltaX
+    * @param deltaY
+    */
    protected void adjustPos(float deltaX, float deltaY) {
       hitbox.x += deltaX;
       hitbox.y += deltaY;
@@ -229,11 +235,14 @@ public class PlayerFly extends Entity implements ShootingPlayer {
          hitbox.y = Game.GAME_DEFAULT_HEIGHT - hitbox.height - edgeDist;
          ySpeed = 0;
       }
+      updateCollisionPixels();
    }
 
-   // Remember, this is called AFTER player has teleported. Thus the hitbox should
-   // be
-   // positioned in relation to where the player WAS, just before they teleported.
+   /**
+    * Remember, this is called AFTER player has teleported. Thus the hitbox should
+    * be positioned in relation to where the player WAS, just before they
+    * teleported.
+    */
    protected void adjustTeleportHitbox() {
       teleportHitbox.y = hitbox.y;
       if (flipX == 1) {
@@ -243,15 +252,21 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       }
    }
 
-   private void checkMapCollision(float yLevelOffset, float xLevelOffset) {
+   /**
+    * Handles teleport/normal collision with the map, and teleport collision with
+    * big enemies.
+    */
+   private void checkAndHandleCollision(float yLevelOffset, float xLevelOffset) {
       if ((planeAction == TELEPORTING_RIGHT) || (planeAction == TELEPORTING_LEFT)) {
-         checkTeleportCollision(yLevelOffset, xLevelOffset);
+         checkAndHandleTeleportCollision(yLevelOffset, xLevelOffset);
       } else {
          int nrOfCollisions = 0;
          while (collidesWithMap(yLevelOffset, xLevelOffset)) {
+            int collidingPixel = getPixelThatCollides(yLevelOffset, xLevelOffset);
+            pushInOppositeDirectionOf(collidingPixel, pushDistance);
             nrOfCollisions += 1;
             if (nrOfCollisions > 2) { // failsafe, if the player gets stuck
-               this.HP = 0;
+               this.HP = 0; // kill player
                takeCollisionDmg();
                return;
             }
@@ -263,63 +278,74 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       }
    }
 
-   private void checkTeleportCollision(float yLevelOffset, float xLevelOffset) {
+   private void checkAndHandleTeleportCollision(float yLevelOffset, float xLevelOffset) {
       // Checks map
       if (collidesWithMap(yLevelOffset, xLevelOffset)) {
-         undoTeleportAndTakeDamage();
-         while (!collidesWithMap(yLevelOffset, xLevelOffset)) {
-            hitbox.x += (teleportDistance / 10 * flipX);
-         }
+         handleTeleportCollisionWithWall(yLevelOffset, xLevelOffset);
       }
       // Checks big enemies
       else {
-         // This list will usually have 0, at most 2-3 enemies.
          ArrayList<Enemy> bigEnemies = game.getFlying().getBigEnemies();
          for (Enemy e : bigEnemies) {
             if (hitbox.intersects(e.getHitbox())) {
-               undoTeleportAndTakeDamage();
-               e.takeCollisionDamage(10);
-               game.getFlying().checkIfDead(e);
-               while (!hitbox.intersects(e.getHitbox())) {
-                  hitbox.x += (teleportDistance / 10 * flipX);
-               }
-               hitbox.x -= (teleportDistance / 10 * flipX);
-               // We need to move player a bit more, because we don't use the collidesWithMap-
-               // method as a condition for the loop, and this method moves player if true.
+               handleTeleportCollisionWithBigEnemy(e, yLevelOffset, xLevelOffset);
             }
          }
       }
    }
 
    /**
-    * Should be called if the player tried to teleport into something
-    * that couldn't be teleported into. It resets the player to the previous
-    * position, takes damage, and plays SFX.
+    * Should be called if the player tried to teleport into a big enemy.
+    * It moves the player back outside the wall, takes damage, and plays SFX.
     */
-   protected void undoTeleportAndTakeDamage() {
+   private void handleTeleportCollisionWithBigEnemy(Enemy e, float yLevelOffset, float xLevelOffset) {
       this.planeAction = TAKING_COLLISION_DAMAGE;
-      hitbox.x -= (teleportDistance * flipX);
-      updateCollisionPixels();
+      while (e.getHitbox().intersects(hitbox)) {
+         int xMove = -(teleportDistance / 10 * flipX);
+         adjustPos(xMove, 0);
+      }
+      takeCollisionDmg();
+      audioPlayer.playSFX(Audio.SFX_COLLISION);
+      e.onCollision(10);
+      game.getFlying().checkIfDeadAndHandleDeath(e);
+   }
+
+   /**
+    * Should be called if the player tried to teleport into a wall.
+    * It moves the player back outside the wall, takes damage, and plays SFX.
+    */
+   protected void handleTeleportCollisionWithWall(float yLevelOffset, float xLevelOffset) {
+      this.planeAction = TAKING_COLLISION_DAMAGE;
+      while (collidesWithMap(yLevelOffset, xLevelOffset)) {
+         int xMove = -(teleportDistance / 10 * flipX);
+         adjustPos(xMove, 0);
+      }
       takeCollisionDmg();
       audioPlayer.playSFX(Audio.SFX_COLLISION);
    }
 
    private boolean collidesWithMap(float yLevelOffset, float xLevelOffset) {
-      updateCollisionPixels();
       for (int i = 0; i < 9; i++) {
          if (IsSolid(
                (int) (collisionXs[i] + xLevelOffset) / 3,
                (int) (collisionYs[i] - yLevelOffset) / 3,
                clImg)) {
-            if ((planeAction != TELEPORTING_RIGHT) && (planeAction != TELEPORTING_LEFT)) {
-               // Trengs fordi denne metoden kan kalles fra 2 forskjellige steder
-               pushInOppositeDirectionOf(i, pushDistance);
-            }
-            this.updateCollisionPixels();
             return true;
          }
       }
       return false;
+   }
+
+   private int getPixelThatCollides(float yLevelOffset, float xLevelOffset) {
+      for (int i = 0; i < 9; i++) {
+         if (IsSolid(
+               (int) (collisionXs[i] + xLevelOffset) / 3,
+               (int) (collisionYs[i] - yLevelOffset) / 3,
+               clImg)) {
+            return i;
+         }
+      }
+      return -1;
    }
 
    /**
@@ -335,7 +361,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
     * Make this method in enemyManager, call getPlayerPixels(),
     * check those pixels for each enemy).
     */
-   public boolean collidesWithEnemy(Rectangle2D.Float enemyHitbox) {
+   public boolean checkAndHandleCollisionWithEnemy(Rectangle2D.Float enemyHitbox) {
       if (hitbox.intersects(enemyHitbox)) {
          for (int i = 0; i < 9; i++) {
             Point point = new Point((int) collisionXs[i], (int) collisionYs[i]);
@@ -343,7 +369,6 @@ public class PlayerFly extends Entity implements ShootingPlayer {
                takeCollisionDmg();
                audioPlayer.playSFX(Audio.SFX_COLLISION);
                pushInOppositeDirectionOf(i, pushDistance);
-               this.updateCollisionPixels();
                this.resetSpeed();
                return true;
             }
@@ -476,6 +501,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       hitbox.x = 500f;
       hitbox.y = 400f;
       updateCollisionPixels();
+      resetSpeed();
       planeAction = IDLE;
    }
 }

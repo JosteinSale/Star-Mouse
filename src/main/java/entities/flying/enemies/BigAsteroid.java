@@ -78,12 +78,12 @@ public class BigAsteroid extends Entity implements Enemy {
    }
 
    @Override
-   public void takeShootDamage(int damage) {
+   public void takeDamage(int damage) {
       // Do nothing
    }
 
    @Override
-   public void takeCollisionDamage(int damage) {
+   public void onCollision(int damage) {
       this.reduceAsteroidSpeed();
    }
 

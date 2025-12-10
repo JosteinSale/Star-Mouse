@@ -2,5 +2,4 @@
  - Some targets loaded twice?
  - EnemyManager :: increaseKilledEnemies called too many times?
 
-2. Flying level 4: rocketEngine ambience continues after the death skull disappears.
- - Would be cooler if the rocketEngine was quiet here.
+2. Flying level 4: after the Death skull appears, rocket engine ambience can be turned back on if you pause and then unpause

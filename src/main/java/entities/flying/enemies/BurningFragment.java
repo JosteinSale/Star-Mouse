@@ -100,7 +100,7 @@ public class BurningFragment extends Entity implements Enemy {
    }
 
    @Override
-   public void takeShootDamage(int damage) {
+   public void takeDamage(int damage) {
       this.HP -= damage;
       this.action = TAKING_DAMAGE;
       this.damageTick = damageFrames;
@@ -110,7 +110,7 @@ public class BurningFragment extends Entity implements Enemy {
    }
 
    @Override
-   public void takeCollisionDamage(int damage) {
+   public void onCollision(int damage) {
       // The asteroid explodes immediately upon colliding with the player.
       dead = true;
    }
