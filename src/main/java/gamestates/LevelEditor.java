@@ -104,6 +104,7 @@ public class LevelEditor extends State {
     * W / S - Change screen
     * Z / C - Change entity
     * UP / DOWN / LEFT / RIGHT - Change cursor position
+    * MOUSE MOVE - Change cursor position
     * F - Change entity direction
     * A / D - Change shootTimer
     * SPACE - Add / delete entity
@@ -131,7 +132,8 @@ public class LevelEditor extends State {
    }
 
    public void mouseMoved(int screenX, int screenY) {
-      // We'll snap the cursor to a grid of 10 px, to keep placement consistent
+      // We'll snap the cursor to a grid with cell size = cursorSpeed,
+      // to keep placement consistent
       cursorX = (screenX / cursorSpeed) * cursorSpeed;
       cursorY = (screenY / cursorSpeed) * cursorSpeed;
    }

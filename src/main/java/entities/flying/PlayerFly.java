@@ -253,28 +253,33 @@ public class PlayerFly extends Entity implements ShootingPlayer {
    }
 
    /**
-    * Handles teleport/normal collision with the map, and teleport collision with
-    * big enemies.
+    * Handles teleport collision (which includes the map and big enemies),
+    * and normal collision (which only includes the map).
+    * Other collision (with enemies) is handled in the EnemyManager.
     */
    private void checkAndHandleCollision(float yLevelOffset, float xLevelOffset) {
       if ((planeAction == TELEPORTING_RIGHT) || (planeAction == TELEPORTING_LEFT)) {
          checkAndHandleTeleportCollision(yLevelOffset, xLevelOffset);
       } else {
-         int nrOfCollisions = 0;
-         while (collidesWithMap(yLevelOffset, xLevelOffset)) {
-            int collidingPixel = getPixelThatCollides(yLevelOffset, xLevelOffset);
-            pushInOppositeDirectionOf(collidingPixel, pushDistance);
-            nrOfCollisions += 1;
-            if (nrOfCollisions > 2) { // failsafe, if the player gets stuck
-               this.HP = 0; // kill player
-               takeCollisionDmg();
-               return;
-            }
-         }
-         if (nrOfCollisions > 0) {
+         checkAndHandleNormalMapCollision(yLevelOffset, xLevelOffset);
+      }
+   }
+
+   private void checkAndHandleNormalMapCollision(float yLevelOffset, float xLevelOffset) {
+      int nrOfCollisions = 0;
+      while (collidesWithMap(yLevelOffset, xLevelOffset)) {
+         int collidingPixel = getPixelThatCollides(yLevelOffset, xLevelOffset);
+         pushInOppositeDirectionOf(collidingPixel, pushDistance);
+         nrOfCollisions += 1;
+         if (nrOfCollisions > 2) { // failsafe, if the player gets stuck
+            this.HP = 0; // kill player
             takeCollisionDmg();
-            audioPlayer.playSFX(Audio.SFX_COLLISION);
+            return;
          }
+      }
+      if (nrOfCollisions > 0) {
+         takeCollisionDmg();
+         audioPlayer.playSFX(Audio.SFX_COLLISION);
       }
    }
 
@@ -296,7 +301,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
 
    /**
     * Should be called if the player tried to teleport into a big enemy.
-    * It moves the player back outside the wall, takes damage, and plays SFX.
+    * It moves the player back outside the enemy, takes damage, and plays SFX.
     */
    private void handleTeleportCollisionWithBigEnemy(Enemy e, float yLevelOffset, float xLevelOffset) {
       this.planeAction = TAKING_COLLISION_DAMAGE;

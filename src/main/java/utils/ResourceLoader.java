@@ -107,7 +107,7 @@ public class ResourceLoader {
     * But when the game is exported as a jar, the way folders and files are located
     * changes. This makes it complicated to list all files in a folder, apparently.
     * This method ensures that we can get the exact name of the file to read
-    * (which works better with LibGDX).
+    * (which works better when loading with Gdx.files.internal).
     */
    private static ArrayList<List<String>> readAllCsvFilesInFolder(String folderName, Integer lvl) {
       ArrayList<List<String>> allCsvData = new ArrayList<>();
@@ -131,7 +131,7 @@ public class ResourceLoader {
    }
 
    private static int getNumberOfAreasInLevel(Integer level) {
-      int nrOfLevels = switch (level) {
+      int nrOfAreas = switch (level) {
          case 1 -> 5;
          case 2 -> 3;
          case 3 -> 2;
@@ -148,7 +148,7 @@ public class ResourceLoader {
          default -> throw new IllegalArgumentException(
                "Amount of levels not specified for level: " + level);
       };
-      return nrOfLevels;
+      return nrOfAreas;
    }
 
 }
