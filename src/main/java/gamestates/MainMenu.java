@@ -45,7 +45,7 @@ public class MainMenu extends State {
 
    // Testing stuff - Change as needed:
    private Gamestate testState = Gamestate.FLYING;
-   private int testLevel = 2;
+   private int testLevel = 3;
    private int testArea = 2;
    private int tstUnlockedLevels = 13;
    private int levelEditorLvl = 1;

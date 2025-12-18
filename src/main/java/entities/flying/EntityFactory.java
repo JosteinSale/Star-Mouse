@@ -100,22 +100,22 @@ public class EntityFactory {
             0, 0);
       this.registerEntity(
             TARGET,
-            Images.TARGET_SPRITE, 20, 20, 2, 4,
+            Images.TARGET_SPRITE, 20, 20, 2, 2,
             getName(TARGET), 60, 60, 0, 0,
             1, 0);
       this.registerEntity(
             DRONE,
-            Images.DRONE_SPRITE, 30, 30, 2, 3,
+            Images.DRONE_SPRITE, 30, 30, 2, 2,
             getName(DRONE), 78, 66, 4, 10,
             1, 0);
       this.registerEntity(
             SMALLSHIP,
-            Images.SMALLSHIP_SPRITE, 30, 30, 2, 4,
+            Images.SMALLSHIP_SPRITE, 30, 30, 2, 2,
             getName(SMALLSHIP), 60, 30, 16, 30,
             1, 0);
       this.registerEntity(
             OCTADRONE,
-            Images.OCTADRONE_SPRITE, 30, 30, 2, 4,
+            Images.OCTADRONE_SPRITE, 30, 30, 2, 2,
             getName(OCTADRONE), 80, 80, 5, 5,
             1, 0);
       this.registerEntity(
@@ -125,7 +125,7 @@ public class EntityFactory {
             1, 0);
       this.registerEntity(
             BLASTERDRONE,
-            Images.BLASTERDRONE_SPRITE, 30, 30, 2, 4,
+            Images.BLASTERDRONE_SPRITE, 30, 30, 2, 2,
             getName(BLASTERDRONE), 60, 90, 15, 0,
             1, 0);
       this.registerEntity(
@@ -140,12 +140,12 @@ public class EntityFactory {
             1, 0);
       this.registerEntity(
             WASPDRONE,
-            Images.WASPDRONE_SPRITE, 40, 40, 2, 4,
+            Images.WASPDRONE_SPRITE, 40, 40, 2, 2,
             getName(WASPDRONE), 90, 90, 15, 15,
             1, 0);
       this.registerEntity(
             KAMIKAZEDRONE,
-            Images.KAMIKAZEDRONE_SPRITE, 30, 30, 2, 4,
+            Images.KAMIKAZEDRONE_SPRITE, 30, 30, 2, 2,
             getName(KAMIKAZEDRONE), 75, 75, 8, 8,
             1, 0);
       this.registerEntity(

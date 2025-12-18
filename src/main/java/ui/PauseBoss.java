@@ -59,7 +59,7 @@ public class PauseBoss extends Singleton {
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
             optionsMenu.setActive(true);
          } else if (selectedIndex == MAIN_MENU) {
-            game.getFlying().resetFlying();
+            game.getFlying().resetValuesOnExit();
             audioPlayer.stopAllLoops();
             bossMode.resetBossMode();
             game.resetMainMenu();

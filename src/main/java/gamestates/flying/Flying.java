@@ -98,7 +98,7 @@ public class Flying extends State {
       loadCutscenes(lvl);
       player.onLevelStart();
       this.setRenders(lvl, FlyLevelInfo.getBgImgHeight(lvl));
-      // startAt(15000); // For testing purposes
+      startAt(7000); // For testing purposes
    }
 
    /**
@@ -185,7 +185,7 @@ public class Flying extends State {
       checkPause();
       moveMaps();
       checkCheckPoint();
-      moveCutscenes();
+      moveCutsceneTriggers();
       player.update(mapManager.clYOffset, mapManager.clXOffset);
       updatePickupItems(pickupItems, fgCurSpeed, player, projectileHandler, audioPlayer);
       enemyManager.update(fgCurSpeed);
@@ -249,7 +249,7 @@ public class Flying extends State {
       }
    }
 
-   private void moveCutscenes() {
+   private void moveCutsceneTriggers() {
       for (AutomaticTrigger trigger : automaticTriggers) {
          trigger.getHitbox().y += fgCurSpeed;
       }
@@ -284,7 +284,7 @@ public class Flying extends State {
       if (this.level != 0) {
          transferBombsToProgValues();
       }
-      this.resetFlying();
+      this.resetValuesOnExit();
       if (this.level == 0) {
          Gamestate.state = Gamestate.EXPLORING;
          game.getView().getRenderCutscene().setCutsceneManager(game.getExploring().getCurrentCutsceneManager());
@@ -301,7 +301,7 @@ public class Flying extends State {
     * GameOverOverlay
     */
    public void exitToMainMenu() {
-      this.resetFlying();
+      this.resetValuesOnExit();
       game.resetMainMenu();
       Gamestate.state = Gamestate.MAIN_MENU;
    }
@@ -340,15 +340,20 @@ public class Flying extends State {
    }
 
    /**
-    * Resets all non-level-specific values in flying-mode.
-    * Should be called both when exiting and resetting the
-    * current level.
-    * (Level-specific values are set in the 'loadLevel'-method and
-    * 'resetLevel'-method)
+    * Resets values that needs to be cleared when exiting flying-mode.
+    * (Other values are reset when loading a new level)
     */
-   public void resetFlying() {
-      pause = false;
+   public void resetValuesOnExit() {
+      resetGeneralValues();
       checkPointReached = false;
+   }
+
+   /**
+    * Resets the most general values in flying-mode. Does not reset things that
+    * require specific logic, such as enemy positions, song position, etc.
+    */
+   private void resetGeneralValues() {
+      pause = false;
       gamePlayActive = true;
       levelFinished = false;
       gameOver = false;
@@ -370,36 +375,32 @@ public class Flying extends State {
    }
 
    /**
-    * Not to be confused with the resetFlying()-method. This method should be
-    * called
-    * when the player has died, and resets the level.
-    * It should reset (not reload) all level-specific variables,
-    * like enemies, pickup-items and map-offsets.
+    * This method is called when the player has died, and resets the level.
+    * The player may choose to reset to either the start of the level,
+    * or to the last checkpoint reached.
     */
-   public void resetLevel(boolean toCheckPoint) {
-      checkPointReached = toCheckPoint;
+   public void restartLevel(boolean toCheckPoint) {
+      // 1. Reset general values
+      resetGeneralValues();
 
-      // Determine resetpoints:
+      // 2. Reset checkpointReached if needed
+      if (!toCheckPoint) {
+         checkPointReached = false;
+      }
+
+      // 3. Determine resetpoints:
       float resetYPos = FlyLevelInfo.getResetPoint(level);
       float songResetPos = FlyLevelInfo.getSongResetPoint(level);
       if (toCheckPoint) {
          resetYPos = FlyLevelInfo.getCheckPoint(level) + 100f; // +100 to avoid cutscene and get faster into action
          songResetPos = FlyLevelInfo.getSongCheckPoint(level);
       }
-      // Reset:
-      resetLevelValues(toCheckPoint);
+      // 4. Reset objects:
       resetObjects(toCheckPoint, resetYPos);
 
-      // Restart audio
+      // 5. Restart audio
       audioPlayer.startSong(song, songResetPos, shouldSongLoop);
       audioPlayer.startAmbienceLoop(Audio.AMBIENCE_ROCKET_ENGINE);
-   }
-
-   private void resetLevelValues(boolean toCheckPoint) {
-      // If the player has reached checkPoint, but decides to reset level to start:
-      if (!toCheckPoint) {
-         this.checkPointReached = false;
-      }
    }
 
    private void resetObjects(boolean toCheckPoint, float resetYPos) {

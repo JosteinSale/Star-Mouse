@@ -3,9 +3,7 @@ package entities.flying.enemies;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
-import entities.Entity;
 import entities.flying.EntityInfo;
-import main_classes.Game;
 
 /**
  * The SmallAsteroid will use the shootInterval and direction
@@ -17,35 +15,17 @@ import main_classes.Game;
  * 
  * If it makes contact with player, it explodes.
  */
-public class SmallAsteroid extends Entity implements Enemy {
-   private EntityInfo info;
-
-   private int VARIANT_INDEX; // Each asteroid will be randomized to look like 1 of 4 variants.
-   private static final int IDLE = 0;
-   private static final int TAKING_DAMAGE = 1;
-
-   private float startY;
-   private float startX;
-   private int maxHP = 30;
-   private int HP = maxHP;
-   private boolean onScreen = false;
-   private boolean dead = false;
-
-   private int action = IDLE;
-   private int aniIndex = 0;
-   private int aniTick;
-   private int aniTickPerFrame = 3;
-   private int damageFrames = 10;
-   private int damageTick = 0;
-
+public class SmallAsteroid extends BaseEnemy {
+   private int VARIANT_INDEX; // Each asteroid will be randomized to look like 1 of 4 variant
    private int xSpeed;
    private int ySpeed;
 
    public SmallAsteroid(Rectangle2D.Float hitbox, EntityInfo info, int shootInterval, int direction) {
-      super(hitbox);
-      startY = hitbox.y;
-      startX = hitbox.x;
-      this.info = info;
+      super(hitbox, info);
+      maxHP = 30;
+      HP = maxHP;
+      IDLE = 0;
+      TAKING_DAMAGE = 1;
 
       // Randomize the look of the asteroid into 1 of 4 variants.
       Random rand = new Random();
@@ -74,59 +54,14 @@ public class SmallAsteroid extends Entity implements Enemy {
    }
 
    @Override
-   public void update(float levelYSpeed) {
-      hitbox.y += levelYSpeed;
-      onScreen = (((hitbox.y + hitbox.height) > 0) && (hitbox.y < Game.GAME_DEFAULT_HEIGHT));
-      if (onScreen) {
-         updateAniTick();
-         updateBehavior();
-      }
-   }
-
-   private void updateBehavior() {
+   protected void updateCustomBehavior(float __) {
       hitbox.y += ySpeed;
       hitbox.x += xSpeed;
    }
 
-   private void updateAniTick() {
-      aniTick++;
-      if (aniTick >= aniTickPerFrame) {
-         aniTick = 0;
-         aniIndex++;
-         if (aniIndex >= 2) {
-            aniIndex = 0;
-         }
-      }
-      if (action == TAKING_DAMAGE) {
-         damageTick--;
-         if (damageTick <= 0) {
-            action = IDLE;
-         }
-      }
-   }
-
+   @Override
    public boolean canShoot() {
       return false;
-   }
-
-   @Override
-   public Rectangle2D.Float getHitbox() {
-      return this.hitbox;
-   }
-
-   @Override
-   public int getType() {
-      return info.typeConstant;
-   }
-
-   @Override
-   public void takeDamage(int damage) {
-      this.HP -= damage;
-      this.action = TAKING_DAMAGE;
-      this.damageTick = damageFrames;
-      if (HP <= 0) {
-         dead = true;
-      }
    }
 
    @Override
@@ -136,54 +71,12 @@ public class SmallAsteroid extends Entity implements Enemy {
    }
 
    @Override
-   public boolean isDead() {
-      return dead;
-   }
-
-   @Override
-   public int getDir() {
-      return 1; // Only one dir
-   }
-
-   @Override
-   public boolean isOnScreen() {
-      return onScreen;
-   }
-
-   @Override
-   public boolean isSmall() {
-      return true;
-   }
-
    public void resetShootTick() {
       // Do nothing
    }
 
    @Override
-   public void resetTo(float y) {
-      hitbox.y = startY + y;
-      hitbox.x = startX;
-      action = IDLE;
-      HP = maxHP;
-      onScreen = false;
-      dead = false;
-      aniTick = 0;
-      aniIndex = 0;
-      damageTick = 0;
-   }
-
-   @Override
-   public EntityInfo getInfo() {
-      return info;
-   }
-
-   @Override
    public int getAction() {
       return action + (VARIANT_INDEX * 2);
-   }
-
-   @Override
-   public int getAniIndex() {
-      return aniIndex;
    }
 }

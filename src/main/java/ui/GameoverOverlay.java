@@ -76,15 +76,13 @@ public class GameoverOverlay extends Singleton {
          flying.getGame().interactIsPressed = false;
          if (selectedIndex == RESTART_LEVEL) {
             this.cursorY = cursorMinY;
-            flying.resetFlying();
-            flying.resetLevel(false);
+            flying.restartLevel(false);
          } else if (selectedIndex == LAST_CHECKPOINT) {
             if (!flying.checkPointReached) {
                audioPlayer.playSFX(Audio.SFX_HURT);
             } else {
                this.cursorY = cursorMinY;
-               flying.resetFlying();
-               flying.resetLevel(true);
+               flying.restartLevel(true);
             }
          } else if (selectedIndex == MAIN_MENU) {
             // We do not need to reset the level, since the loadLevel-method will be called
