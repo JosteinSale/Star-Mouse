@@ -3,6 +3,20 @@ package utils;
 import java.util.HashMap;
 import java.util.function.Function;
 
+/**
+ * A container for resources that can be kept in memory or flushed.
+ * Whenever a caller requests a resource, we first check if the resource
+ * already exists in this container. If so, we just pass along the existing
+ * reference instead of loading an entirely new resource.
+ * This ensures that only one instance of a given resource will exist in memory
+ * atthe time.
+ * 
+ * Also it enables centralized loading and flushing of resources.
+ *
+ * 
+ * @param <T> The type of resource being stored.
+ *
+ */
 public class ResourceContainer<T extends Resource> {
    public HashMap<String, T> resourcesToBeKeptInMemory;
    public HashMap<String, T> resourcesToBeFlushed;

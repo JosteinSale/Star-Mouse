@@ -16,6 +16,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
+import audio.MyMusic;
+import audio.MySound;
 import entities.MyCollisionImage;
 import rendering.MyImage;
 
@@ -36,14 +38,14 @@ public class ResourceLoader {
       return new MyCollisionImage(clImg);
    }
 
-   public static Music getSong(String string) {
+   public static MyMusic getSong(String string) {
       Music music = Gdx.audio.newMusic(Gdx.files.internal("audioOgg/" + string));
-      return music;
+      return new MyMusic(music);
    }
 
-   public static Sound getSound(String string) {
+   public static MySound getSound(String string) {
       Sound sound = Gdx.audio.newSound(Gdx.files.internal("audioOgg/" + string));
-      return sound;
+      return new MySound(sound);
    }
 
    private static BitmapFont generateFont(String filePath, float size) {

@@ -265,6 +265,10 @@ public class Game extends ApplicationAdapter {
       this.images.flush();
    }
 
+   public void flushAudio() {
+      this.audioPlayer.flush();
+   }
+
    public ProgressValues getProgressValues() {
       return saveData.getProgValuesFor(selectedSaveFile);
    }

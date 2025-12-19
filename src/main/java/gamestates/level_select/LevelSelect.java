@@ -204,8 +204,13 @@ public class LevelSelect extends State {
       if (alphaFade < 0) {
          alphaFade = 0;
          fadeInActive = false;
-         this.game.flushImages();
+         flushResources();
       }
+   }
+
+   private void flushResources() {
+      game.flushImages();
+      game.flushAudio();
    }
 
    /** Also handles transition to Exploring */

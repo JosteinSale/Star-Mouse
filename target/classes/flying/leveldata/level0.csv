@@ -6,7 +6,7 @@ automaticTrigger;0f;-9400f;10f;10f;teleportThroughObstacles
 automaticTrigger;0f;-11400f;10f;10f;teleportKill
 automaticTrigger;0f;-12600f;10f;10f;powerups
 automaticTrigger;0f;-13800f;10f;10f;bombs
-automaticTrigger;0f;-15300f;10f;10f;useBombsSparinglys
+automaticTrigger;0f;-15300f;10f;10f;useBombsSparingly
 automaticTrigger;0f;-17100f;10f;10f;nicelyDone
 automaticTrigger;0f;-18000f;10f;10f;levelFinished
 target;510;-2790;1;0

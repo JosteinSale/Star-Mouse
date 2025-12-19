@@ -5,13 +5,6 @@ import rendering.MyImage;
 
 /**
  * This class will keep all images in the game.
- * Whenever a class requests to load an image, we first check if the image
- * already exists in this container. If so, we just pass along the existing
- * reference instead of loading an entirely new image.
- * This ensures that only one instance of a given image will exist in memory at
- * the time.
- * 
- * Also it enables centralized loading and flushing of images.
  */
 public class Images extends Singleton {
    private ResourceContainer<MyImage> myImages;
