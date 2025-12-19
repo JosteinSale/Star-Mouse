@@ -3,6 +3,8 @@ package rendering;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import utils.Resource;
+
 /**
  * A wrapper for a texture, for use in the rendering classes.
  * It provides abstraction from the concrete image implementation.
@@ -11,7 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  * have to change it once in this object + once in the DrawUtils-class,
  * instead of having to change it in every single rendering class.
  */
-public class MyImage {
+public class MyImage implements Resource {
    private Texture texture;
 
    public MyImage(Texture texture) {
@@ -35,7 +37,8 @@ public class MyImage {
       return new MySubImage(region);
    }
 
-   public void dispose() {
+   @Override
+   public void flush() {
       texture.dispose();
    }
 }

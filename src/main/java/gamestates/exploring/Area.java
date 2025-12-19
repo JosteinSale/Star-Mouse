@@ -494,10 +494,6 @@ public class Area {
       return this.mapManager;
    }
 
-   public void flushImages() {
-      this.player.flush();
-   }
-
    public NpcManager getNpcManager() {
       return this.npcManager;
    }

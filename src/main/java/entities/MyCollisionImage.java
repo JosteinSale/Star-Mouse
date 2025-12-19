@@ -2,6 +2,8 @@ package entities;
 
 import com.badlogic.gdx.graphics.Pixmap;
 
+import utils.Resource;
+
 /**
  * A wrapper for a collision image, for use in the model classes.
  * It provides abstraction from the concrete image implementation.
@@ -9,7 +11,7 @@ import com.badlogic.gdx.graphics.Pixmap;
  * Thus if we want to change the type of image being used in the game, we simply
  * have to change it once in this object + once in the ResourceLoader class.
  */
-public class MyCollisionImage {
+public class MyCollisionImage implements Resource {
 
    private Pixmap collisionImg;
 
@@ -29,7 +31,8 @@ public class MyCollisionImage {
       return collisionImg.getHeight();
    }
 
-   public void dispose() {
+   @Override
+   public void flush() {
       if (!collisionImg.isDisposed()) {
          collisionImg.dispose();
       }

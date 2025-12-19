@@ -124,9 +124,6 @@ public class Exploring extends State {
    }
 
    public void flushAreas() {
-      for (Area area : areas) {
-         area.flushImages();
-      }
       areas.clear();
    }
 

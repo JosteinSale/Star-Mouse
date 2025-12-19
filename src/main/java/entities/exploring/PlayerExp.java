@@ -180,9 +180,4 @@ public class PlayerExp extends Entity {
             break;
       }
    }
-
-   public void flush() {
-      this.collisionImg.dispose();
-      this.collisionImg = null;
-   }
 }

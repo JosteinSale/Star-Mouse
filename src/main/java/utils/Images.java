@@ -1,7 +1,5 @@
 package utils;
 
-import java.util.HashMap;
-
 import entities.MyCollisionImage;
 import rendering.MyImage;
 
@@ -16,10 +14,9 @@ import rendering.MyImage;
  * Also it enables centralized loading and flushing of images.
  */
 public class Images extends Singleton {
-   private HashMap<String, MyImage> imagesToBeKeptInMemory;
-   private HashMap<String, MyImage> imagesToBeFlushed;
-   private HashMap<String, MyCollisionImage> collisionImagesToBeFlushed;
-   public static MyImage pixel = ResourceLoader.getImage("miscImages/pixel.png");
+   private ResourceContainer<MyImage> myImages;
+   private ResourceContainer<MyCollisionImage> myCollisionImages;
+   public static MyImage pixel = (MyImage) ResourceLoader.getImage("miscImages/pixel.png");
 
    // Menus
    public static final String BASIC_MOUSE = "BasicMouse.png";
@@ -106,48 +103,21 @@ public class Images extends Singleton {
    public static final String SMALL_ENTITY_SPRITES = "sprites_all.png";
 
    public Images() {
-      this.imagesToBeKeptInMemory = new HashMap<>();
-      this.imagesToBeFlushed = new HashMap<>();
-      this.collisionImagesToBeFlushed = new HashMap<>();
+      this.myImages = new ResourceContainer<>(s -> (MyImage) ResourceLoader.getImage(s));
+      this.myCollisionImages = new ResourceContainer<>(s -> (MyCollisionImage) ResourceLoader.getCollisionImage(s));
    }
 
    private MyImage getImage(String imageName, boolean keepInMemory) {
-      if (imagesToBeFlushed.containsKey(imageName)) {
-         return imagesToBeFlushed.get(imageName);
-      } else if (imagesToBeKeptInMemory.containsKey(imageName)) {
-         return imagesToBeKeptInMemory.get(imageName);
-      } else {
-         // Load image into memory and return it.
-         MyImage image = ResourceLoader.getImage(imageName);
-         if (keepInMemory) {
-            this.imagesToBeKeptInMemory.put(imageName, image);
-         } else {
-            this.imagesToBeFlushed.put(imageName, image);
-         }
-         return image;
-      }
+      return myImages.getResource(imageName, keepInMemory);
    }
 
    private MyCollisionImage getCollisionImage(String imageName) {
-      if (collisionImagesToBeFlushed.containsKey(imageName)) {
-         return collisionImagesToBeFlushed.get(imageName);
-      } else {
-         // Load image into memory and return it.
-         MyCollisionImage image = ResourceLoader.getCollisionImage(imageName);
-         this.collisionImagesToBeFlushed.put(imageName, image);
-         return image;
-      }
+      return myCollisionImages.getResource(imageName, false);
    }
 
    public void flush() {
-      for (String imgName : imagesToBeFlushed.keySet()) {
-         imagesToBeFlushed.get(imgName).dispose();
-      }
-      for (String imgName : collisionImagesToBeFlushed.keySet()) {
-         collisionImagesToBeFlushed.get(imgName).dispose();
-      }
-      imagesToBeFlushed.clear();
-      collisionImagesToBeFlushed.clear();
+      myImages.flush();
+      myCollisionImages.flush();
    }
 
    public MyImage getBossSprite(String fileName) {

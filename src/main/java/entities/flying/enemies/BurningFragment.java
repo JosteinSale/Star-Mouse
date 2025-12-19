@@ -45,16 +45,6 @@ public class BurningFragment extends BaseEnemy {
    }
 
    @Override
-   public void takeDamage(int damage) {
-      this.HP -= damage;
-      this.action = TAKING_DAMAGE;
-      this.damageTick = damageFrames;
-      if (HP <= 0) {
-         dead = true;
-      }
-   }
-
-   @Override
    protected int getSpriteAmount() {
       return 8;
    }
