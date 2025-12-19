@@ -189,6 +189,8 @@ public class Game extends ApplicationAdapter {
             break; // No update method
          case QUIT:
          default:
+            flushAudio();
+            flushImages();
             Gdx.app.exit();
             break;
       }
