@@ -6,6 +6,7 @@ import rendering.Render;
 import ui.InfoChoice;
 import utils.DrawUtils;
 import utils.Images;
+import utils.Singleton;
 
 import static utils.Constants.UI.CURSOR_HEIGHT;
 import static utils.Constants.UI.CURSOR_WIDTH;
@@ -16,7 +17,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 import static utils.Constants.UI.INFOBOX_HEIGHT;
 
-public class RenderInfoChoice implements Render {
+public class RenderInfoChoice extends Singleton implements Render {
    private InfoChoice ic;
    private MyImage background;
    private MyImage cursorImg;

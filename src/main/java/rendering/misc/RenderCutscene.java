@@ -26,6 +26,7 @@ import ui.TextboxManager;
 import utils.DrawUtils;
 import utils.HelpMethods2;
 import utils.Images;
+import utils.Singleton;
 
 import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_HEIGHT;
 import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_WIDTH;
@@ -43,7 +44,7 @@ import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_WIDTH;
  * Call the setCutsceneManager-method to do this.
  * 
  */
-public class RenderCutscene implements Render {
+public class RenderCutscene extends Singleton implements Render {
    private Images images;
    private DefaultCutsceneManager cutsceneManager;
    private RenderNumberDisplay rNumberDisplay;

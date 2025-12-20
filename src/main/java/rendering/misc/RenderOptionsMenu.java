@@ -8,6 +8,7 @@ import ui.ControlsMenu;
 import ui.OptionsMenu;
 import utils.DrawUtils;
 import utils.Images;
+import utils.Singleton;
 
 import static utils.Constants.UI.OPTIONS_HEIGHT;
 import static utils.Constants.UI.OPTIONS_WIDTH;
@@ -18,7 +19,7 @@ import static utils.Constants.UI.SLIDER_WIDTH;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class RenderOptionsMenu implements Render {
+public class RenderOptionsMenu extends Singleton implements Render {
    private OptionsMenu optionsMenu;
    private ControlsMenu controlsMenu;
    private RenderControlsMenu rControlsMenu;

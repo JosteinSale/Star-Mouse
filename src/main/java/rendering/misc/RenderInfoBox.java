@@ -9,11 +9,12 @@ import rendering.Render;
 import ui.InfoBox;
 import utils.DrawUtils;
 import utils.Images;
+import utils.Singleton;
 
 import static utils.Constants.UI.INFOBOX_WIDTH;
 import static utils.Constants.UI.INFOBOX_HEIGHT;
 
-public class RenderInfoBox implements Render {
+public class RenderInfoBox extends Singleton implements Render {
    private InfoBox infoBox;
    private MyImage infoBoxImg;
    private int infoX = Game.GAME_DEFAULT_WIDTH / 2 - INFOBOX_WIDTH / 2;

@@ -1,7 +1,5 @@
 package rendering.boss_mode;
 
-import java.awt.Graphics;
-
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import entities.bossmode.AnimatedComponent;

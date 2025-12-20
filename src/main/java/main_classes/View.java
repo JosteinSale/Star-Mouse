@@ -21,8 +21,6 @@ import utils.Singleton;
 /**
  * The View initializes one specialized render-object for each gamestate,
  * and calls the draw-method on them.
- * NOTE: All renders are supposed to be treated like singleton-objects.
- * (We should enforce this later).
  * 
  * Some rendering tasks can be re-used, and are thus split up into smaller
  * objects that can be passed along to the root-renders that need them.
