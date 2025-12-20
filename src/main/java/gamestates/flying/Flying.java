@@ -1,10 +1,8 @@
 package gamestates.flying;
 
 import static utils.Constants.Flying.REPAIR_HEALTH;
-import static entities.flying.EntityFactory.TypeConstants.DRONE;
-import static entities.flying.EntityFactory.TypeConstants.BOMB;
-import static entities.flying.EntityFactory.TypeConstants.REPAIR;
-import static entities.flying.EntityFactory.TypeConstants.POWERUP;
+import static entities.flying.EnemyFactory.TypeConstants.DRONE;
+import static entities.flying.pickupItems.PickupItemFactory.TypeConstants.*;
 import static utils.HelpMethods.GetAutomaticTrigger;
 import static utils.HelpMethods.ParseCutscenes;
 
@@ -16,11 +14,12 @@ import audio.AudioPlayer;
 import cutscenes.cutsceneManagers.CutsceneManagerFly;
 import cutscenes.cutsceneManagers.DefaultCutsceneManager;
 import entities.exploring.AutomaticTrigger;
-import entities.flying.EntityFactory;
+import entities.flying.EnemyFactory;
 import entities.flying.PlayerFly;
 import entities.flying.enemies.Enemy;
 import entities.flying.enemies.EnemyManager;
 import entities.flying.pickupItems.PickupItem;
+import entities.flying.pickupItems.PickupItemFactory;
 import game_events.*;
 import gamestates.Gamestate;
 import gamestates.State;
@@ -40,7 +39,7 @@ public class Flying extends State {
    private LevelFinishedOverlay levelFinishedOverlay;
    private GameoverOverlay gameoverOverlay;
    private MapManager2 mapManager;
-   private EntityFactory entityFactory;
+   private PickupItemFactory pickupFactory;
    private EnemyManager enemyManager;
    private ProjectileHandler projectileHandler;
    private PlayerFly player;
@@ -74,8 +73,8 @@ public class Flying extends State {
    private void initClasses(OptionsMenu optionsMenu) {
       Rectangle2D.Float playerHitbox = new Rectangle2D.Float(500f, 400f, 50f, 50f);
       this.player = new PlayerFly(game, playerHitbox);
-      this.entityFactory = new EntityFactory(player);
-      this.enemyManager = new EnemyManager(player, entityFactory, audioPlayer);
+      this.pickupFactory = new PickupItemFactory();
+      this.enemyManager = new EnemyManager(player, audioPlayer);
       this.projectileHandler = new ProjectileHandler(game, audioPlayer, player, enemyManager);
       this.eventHandler = new EventHandler();
       this.cutsceneManager = new CutsceneManagerFly(Gamestate.FLYING, game, eventHandler, game.getTextboxManager());
@@ -118,8 +117,8 @@ public class Flying extends State {
          String entryName = lineData[0];
          if (entryName.equals("automaticTrigger")) {
             automaticTriggers.add(GetAutomaticTrigger(lineData));
-         } else if (entityFactory.isPickupItemRegistered(entryName)) {
-            pickupItems.add(entityFactory.getPickupItemFromLineData(lineData));
+         } else if (pickupFactory.isPickupItemRegistered(entryName)) {
+            pickupItems.add(pickupFactory.getPickupItemFromLineData(lineData));
          }
       }
    }
@@ -480,8 +479,8 @@ public class Flying extends State {
       mapManager.yProgess += fgCurSpeed;
    }
 
-   public EntityFactory getEntityFactory() {
-      return this.entityFactory;
+   public EnemyFactory getEnemyFactory() {
+      return this.enemyManager.getEnemyFactory();
    }
 
    public MapManager2 getMapManager() {

@@ -3,11 +3,12 @@ package rendering.flying;
 import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import entities.flying.EntityFactory;
+import entities.flying.EnemyFactory;
 import entities.flying.EntityInfo;
 import entities.flying.enemies.Enemy;
 import entities.flying.enemies.EnemyManager;
 import entities.flying.pickupItems.PickupItem;
+import entities.flying.pickupItems.PickupItemFactory;
 import projectiles.Explosion;
 import rendering.MySubImage;
 import utils.DrawUtils;
@@ -23,15 +24,13 @@ public class RenderEntity {
    private EntityImages entityImgs;
 
    public RenderEntity(
-         EnemyManager enemyManager,
-         ArrayList<PickupItem> pickupItems,
-         EntityFactory entityFactory, Images images) {
+         EnemyManager enemyManager, ArrayList<PickupItem> pickupItems, Images images) {
       this.enemyManager = enemyManager;
       this.pickupItems = pickupItems;
       this.explosionAnimation = HelpMethods2.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.EXPLOSION, true),
             5, EXPLOSION_SPRITE_SIZE, EXPLOSION_SPRITE_SIZE);
-      this.entityImgs = new EntityImages(entityFactory, images);
+      this.entityImgs = new EntityImages(new EnemyFactory(null), new PickupItemFactory(), images);
    }
 
    public void draw(SpriteBatch sb) {
@@ -50,7 +49,7 @@ public class RenderEntity {
          // drawEnemyHitbox(enemy.getHitbox(), g);
       }
       // Explosions
-      for (Explosion ex : enemyManager.explosions) { // ConcurrentModificationException
+      for (Explosion ex : enemyManager.explosions) {
          DrawUtils.drawSubImage(
                sb, explosionAnimation[ex.getAniIndex()],
                ex.getX(), ex.getY(),

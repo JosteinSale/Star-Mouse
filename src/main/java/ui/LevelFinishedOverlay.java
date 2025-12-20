@@ -1,6 +1,6 @@
 package ui;
 
-import static entities.flying.EntityFactory.TypeConstants.*;
+import static entities.flying.EnemyFactory.TypeConstants.*;
 
 import java.util.ArrayList;
 

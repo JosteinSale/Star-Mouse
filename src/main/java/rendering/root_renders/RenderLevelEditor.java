@@ -66,8 +66,8 @@ public class RenderLevelEditor extends Singleton {
    }
 
    private void drawEntities(SpriteBatch sb) {
-      for (int i = 0; i < le.addedEntityNames.size(); i++) {
-         EntityInfo info = le.entityFactory.getEntityInfo(le.addedEntityNames.get(i));
+      for (int i = 0; i < le.addedEntities.size(); i++) {
+         EntityInfo info = le.getEntityInfo(le.addedEntities.get(i));
          Rectangle2D hitbox = le.hitboxes.get(i);
 
          // Text
@@ -104,7 +104,7 @@ public class RenderLevelEditor extends Singleton {
    }
 
    private void drawCursor(SpriteBatch sb) {
-      EntityInfo info = le.entityFactory.getEntityInfo(le.selectedName);
+      EntityInfo info = le.getEntityInfo(le.selectedEntity);
       MySubImage img = entityImages.getImageFor(
             info.typeConstant, info.editorImgRow, info.editorImgCol);
       DrawUtils.drawSubImage(

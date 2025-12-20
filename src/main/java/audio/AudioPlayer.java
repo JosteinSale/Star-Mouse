@@ -51,7 +51,6 @@ public class AudioPlayer extends Singleton {
    private int volumeFadeTick = 0;
    private int volumeFadeChangeInterval = 20;
 
-   /** Private constructor, to ensure that we never make a new one. */
    public AudioPlayer() {
       loadAudio();
    }
@@ -182,7 +181,9 @@ public class AudioPlayer extends Singleton {
          curAmbienceVolume = Math.max(curAmbienceVolume - volumeFadeSpeed, 0);
          curSong.setVolume(curSongVolume);
          curAmbience.setVolume(curAmbienceVolume);
-         if (curSongVolume == 0) {
+         // Check if both songVolume and ambienceVolume are 0. We need to check both,
+         // in case the user has turned down the volume for one of them.
+         if (curSongVolume == 0 && curAmbienceVolume == 0) {
             curSong.stop();
             curAmbience.stop();
             curSongVolume = setSongVolume;

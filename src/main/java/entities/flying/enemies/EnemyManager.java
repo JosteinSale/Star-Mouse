@@ -1,7 +1,7 @@
 package entities.flying.enemies;
 
-import static entities.flying.EntityFactory.TypeConstants.BURNING_FRAGMENT;
-import static entities.flying.EntityFactory.TypeConstants.SMALL_ASTEROID;
+import static entities.flying.EnemyFactory.TypeConstants.BURNING_FRAGMENT;
+import static entities.flying.EnemyFactory.TypeConstants.SMALL_ASTEROID;
 import static utils.Constants.Flying.SpriteSizes.EXPLOSION_SPRITE_SIZE;
 
 import java.awt.geom.Rectangle2D;
@@ -10,14 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import audio.AudioPlayer;
-import entities.flying.EntityFactory;
+import entities.flying.EnemyFactory;
 import entities.flying.PlayerFly;
 import projectiles.Explosion;
 import utils.Constants.Audio;
 
 public class EnemyManager {
    PlayerFly player;
-   private EntityFactory entityFactory;
+   private EnemyFactory enemyFactory;
    private AudioPlayer audioPlayer;
    private ArrayList<Enemy> allEnemies;
    public ArrayList<Enemy> activeEnemiesOnScreen;
@@ -27,10 +27,10 @@ public class EnemyManager {
    private ArrayList<Integer> killedEnemies; // Contains the enemyTypes
    private ArrayList<Integer> killedEnemiesAtCheckpoint;
 
-   public EnemyManager(PlayerFly player, EntityFactory entityFactory, AudioPlayer audioPlayer) {
+   public EnemyManager(PlayerFly player, AudioPlayer audioPlayer) {
       this.player = player;
       this.audioPlayer = audioPlayer;
-      this.entityFactory = entityFactory;
+      this.enemyFactory = new EnemyFactory(player);
       allEnemies = new ArrayList<>();
       activeEnemiesOnScreen = new ArrayList<>();
       this.explosions = new ArrayList<>();
@@ -47,8 +47,8 @@ public class EnemyManager {
       for (String line : levelData) {
          String[] lineData = line.split(";");
          String entryName = lineData[0];
-         if (entityFactory.isEnemyRegistered(entryName)) {
-            this.allEnemies.add(entityFactory.GetNewEnemy(lineData));
+         if (enemyFactory.isEnemyRegistered(entryName)) {
+            this.allEnemies.add(enemyFactory.GetNewEnemy(lineData));
          }
       }
    }
@@ -190,5 +190,9 @@ public class EnemyManager {
          }
       }
       return bigEnemies;
+   }
+
+   public EnemyFactory getEnemyFactory() {
+      return this.enemyFactory;
    }
 }

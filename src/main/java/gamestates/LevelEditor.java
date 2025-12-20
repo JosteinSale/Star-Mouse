@@ -1,15 +1,18 @@
 package gamestates;
 
-import static entities.flying.EntityFactory.TypeConstants.*;
+import static entities.flying.EnemyFactory.TypeConstants.*;
+import static entities.flying.pickupItems.PickupItemFactory.TypeConstants.*;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.badlogic.gdx.Input;
 
-import entities.flying.EntityFactory;
+import entities.flying.EnemyFactory;
 import entities.flying.EntityInfo;
+import entities.flying.pickupItems.PickupItemFactory;
 import gamestates.flying.FlyLevelInfo;
 import main_classes.Game;
 import utils.ResourceLoader;
@@ -30,12 +33,14 @@ import utils.ResourceLoader;
  */
 public class LevelEditor extends State {
    public Integer level;
-   public EntityFactory entityFactory;
+   public EnemyFactory enemyFactory;
+   public PickupItemFactory pickupFactory;
    private ArrayList<String> levelData;
-   public ArrayList<String> addedEntityNames;
+   public ArrayList<Integer> addedEntities;
    public ArrayList<Rectangle> hitboxes;
    public ArrayList<Integer> shootTimers;
    public ArrayList<Integer> directions;
+   private HashMap<String, Integer> entityNameToTypeMap;
 
    private static final int UP = 1;
    private static final int DOWN = -1;
@@ -44,8 +49,7 @@ public class LevelEditor extends State {
    public int clYOffset;
    public float clXOffset;
    public int mapYOffset;
-   private int selectedEntity;
-   public String selectedName;
+   public int selectedEntity;
 
    public int curDirection = 1; // 1 = right, -1 = left
    public int shootTimer = 100; // Drones : 100 - 160, Octadrones : 60 - 180
@@ -55,7 +59,15 @@ public class LevelEditor extends State {
 
    public LevelEditor(Game game) {
       super(game);
-      this.entityFactory = new EntityFactory(null);
+      this.enemyFactory = new EnemyFactory(null);
+      this.pickupFactory = new PickupItemFactory();
+      constructEntityNameToTypeMap();
+   }
+
+   private void constructEntityNameToTypeMap() {
+      this.entityNameToTypeMap = new HashMap<>();
+      this.entityNameToTypeMap.putAll(enemyFactory.getEnemyInfoMap());
+      this.entityNameToTypeMap.putAll(pickupFactory.getPickupInfoMap());
    }
 
    public void loadLevel(int level) {
@@ -64,10 +76,9 @@ public class LevelEditor extends State {
       shootTimers = new ArrayList<>();
       directions = new ArrayList<>();
       levelData = new ArrayList<>();
-      addedEntityNames = new ArrayList<>();
+      addedEntities = new ArrayList<>();
       selectedEntity = 0;
       mapYOffset = 0;
-      selectedName = entityFactory.getName(selectedEntity);
       loadLevelData(level);
       calcMapValues(level);
       game.getView().getRenderLevelEditor().loadLevel(level);
@@ -85,8 +96,8 @@ public class LevelEditor extends State {
       for (String line : levelData) {
          String[] lineData = line.split(";");
          String entryName = lineData[0];
-         if (entityFactory.isEnemyRegistered(entryName) ||
-               entityFactory.isPickupItemRegistered(entryName)) {
+         if (enemyFactory.isEnemyRegistered(entryName) ||
+               pickupFactory.isPickupItemRegistered(entryName)) {
             // Entity successfully identified.
             int xCor = Integer.parseInt(lineData[1]);
             int yCor = Integer.parseInt(lineData[2]);
@@ -146,19 +157,23 @@ public class LevelEditor extends State {
 
    private void addEntity() {
       int adjustedY = cursorY + mapYOffset;
-      String name = entityFactory.getName(selectedEntity);
+      // Maybe a bit over-engineered, but it works:
+      String name = entityNameToTypeMap.entrySet().stream()
+            .filter(entry -> entry.getValue() == selectedEntity)
+            .map(entry -> entry.getKey())
+            .findFirst()
+            .orElse(null);
       registerEntityInstance(true, name, cursorX, adjustedY, curDirection, shootTimer);
    }
 
    private void toggleSelectedEntity(String direction) {
-      int amountOfEntities = entityFactory.getAmountOfEntities();
+      int amountOfEntities = entityNameToTypeMap.size();
       if (direction.equals("RIGHT")) {
          selectedEntity = (selectedEntity + 1) % amountOfEntities;
       } else if (direction.equals("LEFT")) {
          selectedEntity = (selectedEntity - 1 + amountOfEntities)
                % amountOfEntities;
       }
-      selectedName = entityFactory.getName(selectedEntity);
    }
 
    private void printLevelData() {
@@ -179,16 +194,17 @@ public class LevelEditor extends State {
     * the 'fromEditor'-boolean represents whether this method is called from the
     * levelEditor.
     */
-   private void registerEntityInstance(boolean calledFromEditor, String name, int x, int y, int direction,
-         int shootTimer) {
-      EntityInfo info = entityFactory.getEntityInfo(name);
+   private void registerEntityInstance(
+         boolean calledFromEditor, String name, int x, int y,
+         int direction, int shootTimer) {
+      int typeConstant = entityNameToTypeMap.get(name);
+      EntityInfo info = getEntityInfo(typeConstant);
       if (calledFromEditor) {
          // Adjusting x and y to represent hitbox.x- and -y
          x += info.drawOffsetX;
          y += info.drawOffsetY;
       }
       Rectangle hitbox = new Rectangle(x, y, info.hitboxW, info.hitboxH);
-      int typeConstant = info.typeConstant;
 
       // Handle delete, and modify + add entries.
       switch (typeConstant) {
@@ -197,22 +213,31 @@ public class LevelEditor extends State {
             return; // Abort the method.
          case BLASTERDRONE:
             // Blasterdrones have a standard shootTimer of 30
-            addModifiedEntry(info.name, x, y, direction, 30, hitbox);
+            addModifiedEntry(name, x, y, direction, 30, hitbox);
             break;
          case FLAMEDRONE:
             // Flamedrones have a standard shootTimer of 120
-            addModifiedEntry(info.name, x, y, direction, 120, hitbox);
+            addModifiedEntry(name, x, y, direction, 120, hitbox);
             break;
          case POWERUP, BOMB, REPAIR, TARGET, SMALLSHIP, TANKDRONE, KAMIKAZEDRONE:
             // Entities without shootTimer will have standard value of 0.
-            addModifiedEntry(info.name, x, y, direction, 0, hitbox);
+            addModifiedEntry(name, x, y, direction, 0, hitbox);
             break;
          default:
             // All other enemies:
             addModifiedEntry(name, x, y, direction, shootTimer, hitbox);
             break;
       }
-      addedEntityNames.add(name);
+      addedEntities.add(typeConstant);
+   }
+
+   // Is public to be accessible from RenderLevelEditor
+   public EntityInfo getEntityInfo(int typeConstant) {
+      if (enemyFactory.enemyInfo.containsKey(typeConstant)) {
+         return enemyFactory.enemyInfo.get(typeConstant);
+      } else {
+         return pickupFactory.pickupInfo.get(typeConstant);
+      }
    }
 
    private void deleteOverlappingEntity(Rectangle deleteHitbox) {
@@ -229,7 +254,7 @@ public class LevelEditor extends State {
    }
 
    private void removeEntry(int indexToRemove) {
-      addedEntityNames.remove(indexToRemove);
+      addedEntities.remove(indexToRemove);
       levelData.remove(indexToRemove);
       hitboxes.remove(indexToRemove);
       directions.remove(indexToRemove);

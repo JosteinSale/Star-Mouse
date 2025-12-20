@@ -7,7 +7,6 @@ package entities.flying;
 public class EntityInfo {
    public final int typeConstant;
    public final String spriteSheet;
-   public final String name; // The name in the levelData-sheet.
    public final int spriteW;
    public final int spriteH;
    public final int rows;
@@ -21,7 +20,7 @@ public class EntityInfo {
 
    public EntityInfo(int typeConstant,
          String spriteSheet, int spriteW, int spriteH, int rows, int cols,
-         String name, int hitboxW, int hitboxH, int drawOffsetX, int drawOffsetY,
+         int hitboxW, int hitboxH, int drawOffsetX, int drawOffsetY,
          int editorImgRow, int editorImgCol) {
       this.typeConstant = typeConstant;
       this.spriteSheet = spriteSheet;
@@ -29,7 +28,6 @@ public class EntityInfo {
       this.spriteH = spriteH;
       this.rows = rows;
       this.cols = cols;
-      this.name = name;
       this.hitboxW = hitboxW;
       this.hitboxH = hitboxH;
       this.drawOffsetX = drawOffsetX;

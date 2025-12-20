@@ -7,6 +7,8 @@ import java.util.HashMap;
  * It represents a single animated component which cannot be interacted with.
  * It takes a collection of AnimationInfo-objects, and a single spritesheet.
  * 
+ * Its typical use case is for entities with complex animations and behavior.
+ * 
  * Change the animation action as needed.
  * Change the xPos and yPos as needed.
  * 

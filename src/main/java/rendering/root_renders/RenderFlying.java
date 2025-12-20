@@ -34,8 +34,7 @@ public class RenderFlying extends Singleton implements Render {
       this.rMap = new RenderMap2(flying.getMapManager(), game.getImages());
       this.rPlayer = new RenderPlayerFly(game, flying.getPlayer());
       this.rEntity = new RenderEntity(
-            flying.getEnemyManager(), flying.getPickupItems(),
-            flying.getEntityFactory(), game.getImages());
+            flying.getEnemyManager(), flying.getPickupItems(), game.getImages());
       this.rProjectiles = new RenderProjectiles(flying.getProjectileHandler(), game.getImages());
       this.rCutscene = rCutscene;
       this.rGameOver = new RenderGameOver(flying.getGameOverOverlay(), game.getImages());

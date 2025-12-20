@@ -14,7 +14,6 @@ import entities.bossmode.PlayerBoss;
 import entities.bossmode.rudinger1.Rudinger1;
 import entities.bossmode.AnimatedComponentFactory;
 import entities.bossmode.IBoss;
-import entities.flying.EntityFactory;
 import entities.flying.enemies.EnemyManager;
 import entities.flying.pickupItems.PickupItem;
 import game_events.*;
@@ -35,7 +34,6 @@ public class BossMode extends State {
    private ProjectileHandler2 projectileHandler;
    private AnimatedComponentFactory animationFactory;
    public ArrayList<PickupItem> pickupItems;
-   public EntityFactory entityFactory;
    private AudioPlayer audioPlayer;
    private CutsceneManagerBoss cutsceneManager;
    private IBoss boss;
@@ -57,14 +55,13 @@ public class BossMode extends State {
    private void initClasses() {
       Rectangle2D.Float playerHitbox = new Rectangle2D.Float(500f, 600f, 50f, 50f);
       player = new PlayerBoss(game, playerHitbox);
-      entityFactory = new EntityFactory(player);
 
       pickupItems = new ArrayList<>();
       projectileHandler = new ProjectileHandler2(
             game,
             game.getAudioPlayer(),
             player,
-            new EnemyManager(null, null, null));
+            new EnemyManager(null, null));
       animationFactory = new AnimatedComponentFactory();
       pauseOverlay = new PauseBoss(game, this, game.getOptionsMenu());
       gameoverOverlay = new GameoverOverlay2(game, this);
@@ -160,7 +157,7 @@ public class BossMode extends State {
          case 1:
             boss = new Rudinger1(
                   game, player, projectileHandler,
-                  animationFactory, pickupItems, entityFactory);
+                  animationFactory, pickupItems);
             return;
          default:
             throw new IllegalArgumentException("No boss available for bossNr: " + bossNr);

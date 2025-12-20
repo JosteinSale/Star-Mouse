@@ -14,7 +14,7 @@ import utils.Singleton;
 
 import static utils.Constants.Flying.SpriteSizes.*;
 import static utils.Constants.Flying.TypeConstants.BOMB_PROJECTILE;
-import static entities.flying.EntityFactory.TypeConstants.*;
+import static entities.flying.EnemyFactory.TypeConstants.*;
 import static utils.Constants.Flying.TypeConstants.DRONE_PROJECTILE;
 import static utils.HelpMethods.IsSolid;
 import static utils.Constants.Audio;

@@ -13,19 +13,19 @@ import entities.bossmode.IBoss;
 import entities.bossmode.IBossPart;
 import entities.bossmode.PlayerBoss;
 import entities.bossmode.VulnerableComponent;
-import entities.flying.EntityFactory;
 import entities.flying.pickupItems.PickupItem;
+import entities.flying.pickupItems.PickupItemFactory;
 import main_classes.Game;
 import projectiles.ProjectileHandler2;
 import projectiles.shootPatterns.FanPattern;
 import projectiles.shootPatterns.HeatSeekingPattern;
-import static entities.flying.EntityFactory.TypeConstants.REPAIR;
+import static entities.flying.pickupItems.PickupItemFactory.TypeConstants.REPAIR;
 import ui.BossHealthDisplay;
 
 public class Rudinger1 implements IBoss {
    public BossActionHandler actionHandler;
    private AnimatedComponentFactory animationFactory;
-   private EntityFactory entityFactory;
+   private PickupItemFactory pickupItemFactory;
    private BossHealthDisplay healthDisplay;
    public boolean visible;
    private ArrayList<PickupItem> pickupItems;
@@ -69,10 +69,9 @@ public class Rudinger1 implements IBoss {
    private int HP = maxHP;
 
    public Rudinger1(Game game, PlayerBoss player, ProjectileHandler2 projectileHandler,
-         AnimatedComponentFactory animationFactory, ArrayList<PickupItem> pickupItems,
-         EntityFactory entityFactory) {
+         AnimatedComponentFactory animationFactory, ArrayList<PickupItem> pickupItems) {
       this.animationFactory = animationFactory;
-      this.entityFactory = entityFactory;
+      this.pickupItemFactory = new PickupItemFactory();
       this.pickupItems = pickupItems;
       this.actionHandler = new BossActionHandler();
       this.healthDisplay = new BossHealthDisplay("Grand Reaper", maxHP);
@@ -249,9 +248,8 @@ public class Rudinger1 implements IBoss {
       if (actionHandler.getNameOfCurrentAction().equals(MACHINE_HEART)
             && actionHandler.shouldAbort()) {
          // ...then add a repair.
-         String name = entityFactory.getName(REPAIR);
-         PickupItem repair = entityFactory.getNewPickupItem(
-               name, mainGunPoint.x - 30, mainGunPoint.y + 100);
+         PickupItem repair = pickupItemFactory.getNewPickupItem(
+               REPAIR, mainGunPoint.x - 30, mainGunPoint.y + 100);
          pickupItems.add(repair);
       }
    }
