@@ -62,8 +62,7 @@ public class PauseBoss extends Singleton {
             game.getFlying().resetValuesOnExit();
             audioPlayer.stopAllLoops();
             bossMode.resetBossMode();
-            game.resetMainMenu();
-            Gamestate.state = Gamestate.MAIN_MENU;
+            game.returnToMainMenu();
          } else if (selectedIndex == SKIP_LEVEL) {
             bossMode.flipPause();
             audioPlayer.stopAllLoops();

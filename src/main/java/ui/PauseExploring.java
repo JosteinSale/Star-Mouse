@@ -3,7 +3,6 @@ package ui;
 import java.util.ArrayList;
 
 import audio.AudioPlayer;
-import gamestates.Gamestate;
 import main_classes.Game;
 import utils.Constants.Audio;
 import utils.Singleton;
@@ -80,10 +79,7 @@ public class PauseExploring extends Singleton {
          } else if (selectedIndex == MAIN_MENU) {
             this.flipActive();
             audioPlayer.stopAllLoops();
-            game.resetMainMenu();
-            // TODO - make resetMethod for Exploring.
-            // TODO - make fadeOut. Make public reset-method that resets fade-boolean
-            Gamestate.state = Gamestate.MAIN_MENU;
+            game.returnToMainMenu();
          } else if (selectedIndex == SKIP_LEVEL) {
             this.flipActive();
             game.getExploring().skipLevel();

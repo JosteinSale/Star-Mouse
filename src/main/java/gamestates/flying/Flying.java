@@ -301,8 +301,7 @@ public class Flying extends State {
     */
    public void exitToMainMenu() {
       this.resetValuesOnExit();
-      game.resetMainMenu();
-      Gamestate.state = Gamestate.MAIN_MENU;
+      game.returnToMainMenu();
    }
 
    private void transferBombsToProgValues() {

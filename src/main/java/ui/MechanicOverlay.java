@@ -25,10 +25,10 @@ public class MechanicOverlay extends Singleton {
          { "", "", "" }
    };
    public int selectedIndex = 3;
-   private static int UPGRADE_LAZER = 0;
-   private static int UPGRADE_SHIP = 1;
-   private static int BUY_BOMB = 2;
-   private static int EXIT = 3;
+   private static final int UPGRADE_LAZER = 0;
+   private static final int UPGRADE_SHIP = 1;
+   private static final int BUY_BOMB = 2;
+   private static final int EXIT = 3;
    private int lazerPrice = 1000;
    private int shieldPrice = 800;
    private int bombPrice = 500;

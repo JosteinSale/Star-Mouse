@@ -15,7 +15,7 @@ import utils.ResourceLoader;
 public class Exploring extends State {
    private AudioPlayer audioPlayer;
    private int currentLevel;
-   public int currentArea; // Is set in the loadLevel-method. Can be altered for testing purposes.
+   public int currentArea;
    private ArrayList<Area> areas;
    private PauseExploring pauseOverlay;
    private MechanicOverlay mechanicOverlay;

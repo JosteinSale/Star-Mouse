@@ -1,7 +1,7 @@
 {
-   "java.configuration.updateBuildConfiguration": "interactive",
-   "maven.view": "flat",
-   "files.watcherExclude": {
-      "**/target": true
-   }
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "maven.view": "flat",
+  "files.watcherExclude": {
+    "**/target": true
+  }
 }

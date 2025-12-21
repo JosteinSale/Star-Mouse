@@ -86,8 +86,7 @@ public class GameoverOverlay2 extends Singleton {
          } else if (selectedIndex == MAIN_MENU) {
             this.cursorY = cursorMinY;
             bossMode.resetBossMode();
-            game.resetMainMenu();
-            Gamestate.state = Gamestate.MAIN_MENU;
+            game.returnToMainMenu();
          }
       }
    }

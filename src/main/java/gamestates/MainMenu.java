@@ -203,11 +203,12 @@ public class MainMenu extends State {
    }
 
    /** Should be called whenever the player returns to the main menu */
-   public void reset() {
+   public void returnToMainMenu() {
       game.testingMode = false;
       fader.startFadeIn(Fader.MEDIUM_FAST_FADE, null);
       audioPlayer.startSong(Audio.SONG_MAIN_MENU, 0, true);
       game.getLevelSelect().clearAll();
+      Gamestate.state = Gamestate.MAIN_MENU;
    }
 
    public OptionsMenu getOptionsMenu() {

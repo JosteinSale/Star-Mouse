@@ -259,9 +259,9 @@ public class Area {
 
    private void handleJustEntered() {
       checkIfAudioShouldStart();
-      fader.startFadeIn(Fader.FAST_FADE, null);
       justEntered = false;
       player.resetAll();
+      fader.startFadeIn(Fader.FAST_FADE, null);
    }
 
    /**

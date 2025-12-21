@@ -15,8 +15,11 @@ import gamestates.exploring.Exploring;
 import gamestates.flying.Flying;
 import gamestates.level_select.LevelSelect;
 import inputs.KeyboardInputs;
+import rendering.MyColor;
 import ui.OptionsMenu;
 import ui.TextboxManager;
+import utils.DrawUtils;
+import utils.Fader;
 import utils.Images;
 
 import com.badlogic.gdx.ApplicationAdapter;
@@ -49,6 +52,7 @@ public class Game extends ApplicationAdapter {
    private Viewport viewport;
 
    // Special objects
+   private Fader fader;
    private View view;
    private Images images;
    private OptionsMenu optionsMenu;
@@ -97,6 +101,7 @@ public class Game extends ApplicationAdapter {
       this.cinematic = new Cinematic(this);
       this.drawSaving = new DrawSaving();
       this.view = new View(this);
+      this.fader = new Fader();
       optionsMenu.setKeyboardInputs(kbInputs);
    }
 
@@ -140,10 +145,18 @@ public class Game extends ApplicationAdapter {
       batch.begin();
       view.draw(batch);
       drawSaving.draw(batch);
+      drawFader(batch);
       batch.end();
 
       update(); // Updates the game logic
       checkWindowResize();
+   }
+
+   private void checkWindowResize() {
+      if (fullScreenIsPressed) {
+         fullScreenIsPressed = false;
+         this.toggleFullScreen();
+      }
    }
 
    @Override
@@ -163,6 +176,7 @@ public class Game extends ApplicationAdapter {
    private void update() {
       audioPlayer.update();
       drawSaving.update();
+      fader.update();
       switch (Gamestate.state) {
          case START_SCREEN:
             startScreen.update();
@@ -196,10 +210,13 @@ public class Game extends ApplicationAdapter {
       }
    }
 
-   private void checkWindowResize() {
-      if (fullScreenIsPressed) {
-         fullScreenIsPressed = false;
-         this.toggleFullScreen();
+   public void returnToMainMenu() {
+      fader.startFadeOut(Fader.MEDIUM_FAST_FADE, () -> mainMenu.returnToMainMenu());
+   }
+
+   private void drawFader(SpriteBatch sb) {
+      if (fader.isFading()) {
+         DrawUtils.fillScreen(sb, new MyColor(0, 0, 0, fader.getAlpha()));
       }
    }
 
@@ -249,10 +266,6 @@ public class Game extends ApplicationAdapter {
 
    public SaveData getSaveData() {
       return this.saveData;
-   }
-
-   public void resetMainMenu() {
-      this.mainMenu.reset();
    }
 
    public View getView() {
