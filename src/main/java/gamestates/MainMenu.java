@@ -110,7 +110,7 @@ public class MainMenu extends State {
     * not save any data.
     */
    private void enterTestingMode() {
-      game.testingMode = true; // Activate testing mode
+      game.testingMode = true;
       game.getLevelSelect().testUnlockAllLevelsUpTo(tstUnlockedLevels);
 
       switch (testState) {
