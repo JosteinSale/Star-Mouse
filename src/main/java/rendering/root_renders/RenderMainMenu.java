@@ -70,11 +70,6 @@ public class RenderMainMenu extends Singleton implements Render {
       else if (mainMenu.getLoadSaveMenu().isActive()) {
          rLoadSave.draw(sb);
       }
-
-      // Fade
-      if (mainMenu.fader.isFading()) {
-         DrawUtils.fillScreen(sb, new MyColor(0, 0, 0, mainMenu.fader.getAlpha()));
-      }
    }
 
    private void drawMainMenu(SpriteBatch sb) {

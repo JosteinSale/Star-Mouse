@@ -150,8 +150,7 @@ public class LevelEditor extends State {
    }
 
    private void goToMainMenu() {
-      game.flushImages();
-      game.returnToMainMenu();
+      game.returnToMainMenu(() -> game.flushImages());
    }
 
    private void addEntity() {

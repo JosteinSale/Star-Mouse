@@ -51,6 +51,9 @@ public class PauseExploring extends Singleton {
 
    /** Handles keyboardInputs for the this pause menu (not the options menu) */
    private void handleKeyBoardInputs() {
+      if (game.isFading()) {
+         return;
+      }
       if (game.upIsPressed) {
          game.upIsPressed = false;
          audioPlayer.playSFX(Audio.SFX_CURSOR);
@@ -77,9 +80,8 @@ public class PauseExploring extends Singleton {
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
             optionsMenu.setActive(true);
          } else if (selectedIndex == MAIN_MENU) {
-            this.flipActive();
             audioPlayer.stopAllLoops();
-            game.returnToMainMenu();
+            game.returnToMainMenu(() -> this.flipActive());
          } else if (selectedIndex == SKIP_LEVEL) {
             this.flipActive();
             game.getExploring().skipLevel();

@@ -1,7 +1,6 @@
 package ui;
 
 import audio.AudioPlayer;
-import gamestates.Gamestate;
 import gamestates.boss_mode.BossMode;
 import main_classes.Game;
 import utils.Constants.Audio;
@@ -59,10 +58,11 @@ public class PauseBoss extends Singleton {
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
             optionsMenu.setActive(true);
          } else if (selectedIndex == MAIN_MENU) {
-            game.getFlying().resetValuesOnExit();
             audioPlayer.stopAllLoops();
-            bossMode.resetBossMode();
-            game.returnToMainMenu();
+            game.returnToMainMenu(() -> {
+               game.getFlying().resetValuesOnExit();
+               bossMode.resetBossMode();
+            });
          } else if (selectedIndex == SKIP_LEVEL) {
             bossMode.flipPause();
             audioPlayer.stopAllLoops();

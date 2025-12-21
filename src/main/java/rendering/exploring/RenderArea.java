@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import entities.exploring.PlayerExp;
 import gamestates.exploring.Area;
 import main_classes.Game;
-import rendering.MyColor;
 import rendering.MySubImage;
 import rendering.Render;
 import utils.DrawUtils;
@@ -77,11 +76,6 @@ public class RenderArea implements Render {
       // Foreground
       rNPCs.drawFgNpcs(sb, xLevelOffset, yLevelOffset);
       rMap.drawForeground(sb);
-
-      // Fading
-      if (area.fader.isFading()) {
-         DrawUtils.fillScreen(sb, new MyColor(0, 0, 0, area.fader.getAlpha()));
-      }
 
       // Hitboxes
       // drawHitboxes(g, mapManager.xLevelOffset, mapManager.yLevelOffset);

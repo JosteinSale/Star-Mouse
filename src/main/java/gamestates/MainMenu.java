@@ -19,8 +19,6 @@ import utils.Constants.Audio;
  * - Quit: quits the game (duh).
  */
 public class MainMenu extends State {
-
-   public Fader fader;
    private AudioPlayer audioPlayer;
    private LoadSaveMenu loadSaveMenu;
    private OptionsMenu optionsMenu;
@@ -43,7 +41,7 @@ public class MainMenu extends State {
    private static final int QUIT = 5;
 
    // Testing stuff - Change as needed:
-   private Gamestate testState = Gamestate.EXPLORING;
+   private Gamestate testState = Gamestate.BOSS_MODE;
    private int testLevel = 1;
    private int testArea = 2;
    private int tstUnlockedLevels = 13;
@@ -55,8 +53,7 @@ public class MainMenu extends State {
       this.audioPlayer = game.getAudioPlayer();
       this.loadSaveMenu = new LoadSaveMenu(game, game.getTextboxManager().getInfoChoice());
       this.levelEditor = game.getLevelEditor();
-      this.fader = new Fader();
-      fader.startFadeIn(Fader.MEDIUM_FAST_FADE, null);
+
    }
 
    private void handleKeyBoardInputs() {
@@ -118,8 +115,8 @@ public class MainMenu extends State {
 
       switch (testState) {
          case LEVEL_SELECT:
-            game.getLevelSelect().reset();
             Gamestate.state = Gamestate.LEVEL_SELECT;
+            game.getLevelSelect().returnToLevelSelect();
             return;
          case EXPLORING:
             game.getExploring().loadLevel(testLevel, testArea);
@@ -143,9 +140,8 @@ public class MainMenu extends State {
 
    public void update() {
       moveBackGround();
-
-      if (fader.isFading()) {
-         fader.update();
+      if (game.isFading()) {
+         return;
       } else if (optionsMenu.isActive()) {
          optionsMenu.update();
       } else if (loadSaveMenu.isActive()) {
@@ -165,14 +161,14 @@ public class MainMenu extends State {
    }
 
    public void startTransitionToGame() {
-      fader.startFadeOut(Fader.MEDIUM_FAST_FADE, () -> startGame());
       audioPlayer.stopAllLoops();
       audioPlayer.playSFX(Audio.SFX_STARTGAME);
+      game.fadeToBlack(Fader.MEDIUM_FAST_FADE, () -> startGame());
    }
 
    private void startGame() {
       loadSaveMenu.deActivate();
-      game.getLevelSelect().reset();
+      game.getLevelSelect().returnToLevelSelect();
       game.getLevelSelect().transferUnlockedLevelsToLayout();
       Gamestate.state = Gamestate.LEVEL_SELECT;
    }
@@ -205,7 +201,7 @@ public class MainMenu extends State {
    /** Should be called whenever the player returns to the main menu */
    public void returnToMainMenu() {
       game.testingMode = false;
-      fader.startFadeIn(Fader.MEDIUM_FAST_FADE, null);
+      game.fadeFromBlack(Fader.MEDIUM_FAST_FADE, null);
       audioPlayer.startSong(Audio.SONG_MAIN_MENU, 0, true);
       game.getLevelSelect().clearAll();
       Gamestate.state = Gamestate.MAIN_MENU;

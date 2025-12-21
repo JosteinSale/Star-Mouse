@@ -12,7 +12,6 @@ import utils.Images;
 import utils.Singleton;
 
 public class RenderStartScreen extends Singleton implements Render {
-
    private StartScreen startScreen;
    private MyImage mouseImg;
    private int mouseImgW = 100 * 3;
@@ -40,10 +39,5 @@ public class RenderStartScreen extends Singleton implements Render {
             sb, MyColor.WHITE, DrawUtils.infoFont,
             "Press SPACE",
             430, 600);
-
-      // Fade
-      if (startScreen.fader.isFading()) {
-         DrawUtils.fillScreen(sb, new MyColor(0, 0, 0, startScreen.fader.getAlpha()));
-      }
    }
 }

@@ -148,7 +148,7 @@ public class Game extends ApplicationAdapter {
       drawFader(batch);
       batch.end();
 
-      update(); // Updates the game logic
+      update();
       checkWindowResize();
    }
 
@@ -210,8 +210,35 @@ public class Game extends ApplicationAdapter {
       }
    }
 
-   public void returnToMainMenu() {
-      fader.startFadeOut(Fader.MEDIUM_FAST_FADE, () -> mainMenu.returnToMainMenu());
+   // ------ Fading Stuff ------
+
+   public boolean isFading() {
+      return fader.isFading();
+   }
+
+   public void fadeFromBlack(float fadeSpeed, Runnable onFadeComplete) {
+      fader.fadeFromBlack(fadeSpeed, onFadeComplete);
+   }
+
+   public void fadeToBlack(float fadeSpeed, Runnable onFadeComplete) {
+      fader.fadeToBlack(fadeSpeed, onFadeComplete);
+   }
+
+   /**
+    * Initiates a fade to black, and then executes the given cleanup method
+    * (or not, if null). The method can be i.e a reset method for the
+    * calling state.
+    * Then it goes to the mainMenu.
+    * 
+    * @param cleanupMethod
+    */
+   public void returnToMainMenu(Runnable cleanupMethod) {
+      fader.fadeToBlack(Fader.MEDIUM_FAST_FADE, () -> {
+         if (cleanupMethod != null) {
+            cleanupMethod.run();
+         }
+         mainMenu.returnToMainMenu();
+      });
    }
 
    private void drawFader(SpriteBatch sb) {
@@ -219,6 +246,8 @@ public class Game extends ApplicationAdapter {
          DrawUtils.fillScreen(sb, new MyColor(0, 0, 0, fader.getAlpha()));
       }
    }
+
+   // ------ Getters ------
 
    public StartScreen getStartScreen() {
       return this.startScreen;

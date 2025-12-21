@@ -6,6 +6,7 @@ import data_storage.ProgressValues;
 import gamestates.Gamestate;
 import gamestates.State;
 import main_classes.Game;
+import utils.Fader;
 
 /**
  * Keeps track of unlocked levels, and sets levelLayout based on that.
@@ -18,9 +19,6 @@ public class LevelSelect extends State {
 
    public float bgX = -50;
    private int bgSlideDir = 1;
-   public int alphaFade = 255;
-   public boolean fadeInActive = true;
-   public boolean fadeOutActive = false;
 
    private final int LEVEL1_THRESHOLD2 = 130;
    private final int LEVEL1_THRESHOLD1 = 100;
@@ -58,10 +56,8 @@ public class LevelSelect extends State {
    public void update() {
       ProgressValues progValues = game.getProgressValues();
       moveBackGround();
-      if (fadeInActive) {
-         updateFadeIn();
-      } else if (fadeOutActive) {
-         updateFadeOut();
+      if (game.isFading()) {
+         return;
       } else {
          levelLayouts.get(progValues.levelLayout - 1).update();
       }
@@ -181,8 +177,15 @@ public class LevelSelect extends State {
    }
 
    public void goToLevel(int level) {
-      this.fadeOutActive = true;
       this.levelToEnter = level;
+      game.fadeToBlack(Fader.MEDIUM_FAST_FADE, () -> goToExploring());
+   }
+
+   private void goToExploring() {
+      Gamestate.state = Gamestate.EXPLORING;
+      game.getAudioPlayer().stopAmbience();
+      this.game.getExploring().loadLevel(levelToEnter, 1);
+      this.game.getExploring().update();
    }
 
    private void moveBackGround() {
@@ -194,36 +197,14 @@ public class LevelSelect extends State {
       }
    }
 
-   private void updateFadeIn() {
-      this.alphaFade -= 5;
-      if (alphaFade < 0) {
-         alphaFade = 0;
-         fadeInActive = false;
-         flushResources();
-      }
+   /** Should be called when you return to levelSelect */
+   public void returnToLevelSelect() {
+      game.fadeFromBlack(Fader.MEDIUM_FAST_FADE, () -> flushResources());
    }
 
    private void flushResources() {
       game.flushImages();
       game.flushAudio();
-   }
-
-   /** Also handles transition to Exploring */
-   private void updateFadeOut() {
-      this.alphaFade += 5;
-      if (alphaFade > 255) {
-         alphaFade = 255;
-         Gamestate.state = Gamestate.EXPLORING;
-         game.getAudioPlayer().stopAmbience();
-         this.game.getExploring().loadLevel(levelToEnter, 1);
-         this.game.getExploring().update();
-      }
-   }
-
-   /** Should be called whenever the player returns to LevelSelect */
-   public void reset() {
-      this.fadeOutActive = false;
-      this.fadeInActive = true;
    }
 
    /** Should be called when the player returns to the main menu */

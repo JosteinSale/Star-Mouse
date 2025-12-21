@@ -5,8 +5,8 @@ package utils;
  */
 public class Fader {
    private float alpha = 0.0f;
-   private boolean fadingIn = false;
-   private boolean fadingOut = false;
+   private boolean fadingFromBlack = false;
+   private boolean fadingToBlack = false;
    private float fadeSpeed;
    private Runnable onFadeComplete;
    public static final float SLOW_FADE = 0.01f;
@@ -16,37 +16,45 @@ public class Fader {
    public Fader() {
    }
 
-   public void startFadeIn(float fadeSpeed, Runnable onFadeComplete) {
-      this.fadingIn = true;
-      this.fadingOut = false;
+   /**
+    * Starts a fade from black.
+    * When the fade is finished, it calls the onFadeComplete-method.
+    */
+   public void fadeFromBlack(float fadeSpeed, Runnable onFadeComplete) {
+      this.fadingFromBlack = true;
+      this.fadingToBlack = false;
       this.fadeSpeed = fadeSpeed;
       this.alpha = 1.0f; // Start fully opaque
       this.onFadeComplete = onFadeComplete;
    }
 
-   public void startFadeOut(float fadeSpeed, Runnable onFadeComplete) {
-      this.fadingOut = true;
-      this.fadingIn = false;
+   /**
+    * Starts a fade to black
+    * When the fade is finished, it calls the onFadeComplete-method.
+    */
+   public void fadeToBlack(float fadeSpeed, Runnable onFadeComplete) {
+      this.fadingToBlack = true;
+      this.fadingFromBlack = false;
       this.fadeSpeed = fadeSpeed;
       this.alpha = 0.0f; // Start fully transparent
       this.onFadeComplete = onFadeComplete;
    }
 
    public void update() {
-      if (fadingIn) {
+      if (fadingFromBlack) {
          alpha -= fadeSpeed;
          if (alpha <= 0.0f) {
             alpha = 0.0f;
-            fadingIn = false;
+            fadingFromBlack = false;
             if (onFadeComplete != null) {
                onFadeComplete.run();
             }
          }
-      } else if (fadingOut) {
+      } else if (fadingToBlack) {
          alpha += fadeSpeed;
          if (alpha >= 1.0f) {
             alpha = 1.0f;
-            fadingOut = false;
+            fadingToBlack = false;
             if (onFadeComplete != null) {
                onFadeComplete.run();
             }
@@ -59,6 +67,6 @@ public class Fader {
    }
 
    public boolean isFading() {
-      return fadingIn || fadingOut;
+      return fadingFromBlack || fadingToBlack;
    }
 }

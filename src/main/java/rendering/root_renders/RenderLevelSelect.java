@@ -65,11 +65,6 @@ public class RenderLevelSelect extends Singleton implements Render {
 
       // Current layout
       drawCurrentLayout(sb);
-
-      // Fade
-      if (levelSelect.fadeInActive || levelSelect.fadeOutActive) {
-         DrawUtils.fillScreen(sb, new MyColor(0, 0, 0, levelSelect.alphaFade));
-      }
    }
 
    private void drawCurrentLayout(SpriteBatch sb) {

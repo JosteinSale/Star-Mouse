@@ -165,6 +165,8 @@ public class BossMode extends State {
    }
 
    public void update() {
+      if (game.isFading())
+         return;
       checkKeyboardInputs();
       if (pause) {
          pauseOverlay.update();

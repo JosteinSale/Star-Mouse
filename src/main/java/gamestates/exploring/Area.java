@@ -24,7 +24,6 @@ public class Area {
    private Integer song;
    private Integer ambienceIndex;
 
-   public Fader fader;
    private MapManager1 mapManager;
    private PlayerExp player;
    private NpcManager npcManager;
@@ -50,7 +49,6 @@ public class Area {
       npcManager = new NpcManager();
       automaticTriggers = new ArrayList<>();
       eventHandler = new EventHandler();
-      fader = new Fader();
       loadAreaData(areaData, levelIndex, areaIndex);
       TextboxManager textboxManager = game.getTextboxManager();
       cutsceneManager = new CutsceneManagerExp(
@@ -248,11 +246,10 @@ public class Area {
       } else if (justEntered) { // justEntered is only handled when no cutscene is active
          handleJustEntered();
       }
-      fader.update();
       player.update(
             npcManager.getHitboxes(),
             cutsceneManager.isActive(),
-            fader.isFading());
+            game.isFading());
       adjustOffsets();
       npcManager.update(); // If NPCs have behavior independent of cutscenes
    }
@@ -261,7 +258,7 @@ public class Area {
       checkIfAudioShouldStart();
       justEntered = false;
       player.resetAll();
-      fader.startFadeIn(Fader.FAST_FADE, null);
+      game.fadeFromBlack(Fader.FAST_FADE, null);
    }
 
    /**
@@ -302,15 +299,16 @@ public class Area {
     */
    private void checkPortalInteraction() {
       int portalIndex = getPortalIntersectingPlayer();
-      if ((portalIndex >= 0 && !fader.isFading())) {
+      if ((portalIndex >= 0 && !game.isFading())) {
          int reenterDir = portals.get(portalIndex).getReenterDir();
          int newArea = portals.get(portalIndex).getAreaItLeadsTo();
-         fader.startFadeOut(Fader.FAST_FADE, () -> goToArea(newArea, reenterDir));
+         player.resetAll();
+         game.fadeToBlack(Fader.FAST_FADE, () -> goToArea(newArea, reenterDir));
       }
    }
 
    private void handleKeyBoardInputs() {
-      if (justEntered || fader.isFading()) {
+      if (justEntered || game.isFading()) {
          return;
       } else if (cutsceneManager.isActive()) {
          cutsceneManager.handleKeyBoardInputs();
@@ -348,7 +346,8 @@ public class Area {
             } else {
                int newArea = door.getAreaItLeadsTo();
                int reenterDir = door.getReenterDir();
-               fader.startFadeOut(Fader.FAST_FADE, () -> goToArea(newArea, reenterDir));
+               player.resetAll();
+               game.fadeToBlack(Fader.FAST_FADE, () -> goToArea(newArea, reenterDir));
             }
          }
       }

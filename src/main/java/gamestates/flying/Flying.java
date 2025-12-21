@@ -161,6 +161,9 @@ public class Flying extends State {
    }
 
    public void update() {
+      if (game.isFading()) {
+         return;
+      }
       if (gameOver) {
          gameoverOverlay.update();
       } else if (pause) {
@@ -278,8 +281,8 @@ public class Flying extends State {
       mapManager.bgYOffset += bgCurSpeed;
    }
 
+   /** Is called from the levelFinishedOverlay */
    public void exitFinishedLevel() {
-      // Credits are updated in LevelFinishedOverlay.
       if (this.level != 0) {
          transferBombsToProgValues();
       }
@@ -288,10 +291,10 @@ public class Flying extends State {
          Gamestate.state = Gamestate.EXPLORING;
          game.getView().getRenderCutscene().setCutsceneManager(game.getExploring().getCurrentCutsceneManager());
       } else {
-         game.getLevelSelect().reset();
          game.getLevelSelect().updateUnlockedLevels(level, enemyManager.getFinalKilledEnemies().size());
          game.saveDataToDisc();
          Gamestate.state = Gamestate.LEVEL_SELECT;
+         game.getLevelSelect().returnToLevelSelect();
       }
    }
 
@@ -300,8 +303,7 @@ public class Flying extends State {
     * GameOverOverlay
     */
    public void exitToMainMenu() {
-      this.resetValuesOnExit();
-      game.returnToMainMenu();
+      game.returnToMainMenu(() -> resetValuesOnExit());
    }
 
    private void transferBombsToProgValues() {
