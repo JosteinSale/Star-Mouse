@@ -22,7 +22,7 @@ import static entities.flying.EnemyFactory.TypeConstants.*;
  */
 public class EnemyFactory {
    public HashMap<Integer, EntityInfo> enemyInfo;
-   private HashMap<String, Integer> constantToNameMap;
+   private HashMap<String, Integer> nameToTypeMap;
    private PlayerFly player; // Some enemies might need the player for their constructor.
 
    public static class TypeConstants {
@@ -43,26 +43,26 @@ public class EnemyFactory {
 
    public EnemyFactory(PlayerFly player) {
       this.enemyInfo = new HashMap<>();
-      this.constantToNameMap = new HashMap<>();
+      this.nameToTypeMap = new HashMap<>();
       this.player = player;
-      this.constructConstantToNameMap();
+      this.constructNameToConstantMap();
       this.registerAllEntities();
    }
 
-   private void constructConstantToNameMap() {
-      this.constantToNameMap.put("target", TARGET);
-      this.constantToNameMap.put("drone", DRONE);
-      this.constantToNameMap.put("smallShip", SMALLSHIP);
-      this.constantToNameMap.put("blasterDrone", BLASTERDRONE);
-      this.constantToNameMap.put("tankDrone", TANKDRONE);
-      this.constantToNameMap.put("octaDrone", OCTADRONE);
-      this.constantToNameMap.put("reaperDrone", REAPERDRONE);
-      this.constantToNameMap.put("flameDrone", FLAMEDRONE);
-      this.constantToNameMap.put("waspDrone", WASPDRONE);
-      this.constantToNameMap.put("kamikazeDrone", KAMIKAZEDRONE);
-      this.constantToNameMap.put("smallAsteroid", SMALL_ASTEROID);
-      this.constantToNameMap.put("bigAsteroid", BIG_ASTEROID);
-      this.constantToNameMap.put("burningFragment", BURNING_FRAGMENT);
+   private void constructNameToConstantMap() {
+      this.nameToTypeMap.put("target", TARGET);
+      this.nameToTypeMap.put("drone", DRONE);
+      this.nameToTypeMap.put("smallShip", SMALLSHIP);
+      this.nameToTypeMap.put("blasterDrone", BLASTERDRONE);
+      this.nameToTypeMap.put("tankDrone", TANKDRONE);
+      this.nameToTypeMap.put("octaDrone", OCTADRONE);
+      this.nameToTypeMap.put("reaperDrone", REAPERDRONE);
+      this.nameToTypeMap.put("flameDrone", FLAMEDRONE);
+      this.nameToTypeMap.put("waspDrone", WASPDRONE);
+      this.nameToTypeMap.put("kamikazeDrone", KAMIKAZEDRONE);
+      this.nameToTypeMap.put("smallAsteroid", SMALL_ASTEROID);
+      this.nameToTypeMap.put("bigAsteroid", BIG_ASTEROID);
+      this.nameToTypeMap.put("burningFragment", BURNING_FRAGMENT);
    }
 
    private void registerAllEntities() {
@@ -163,12 +163,12 @@ public class EnemyFactory {
     * delete)
     */
    public int getAmountOfEntities() {
-      return this.constantToNameMap.size();
+      return this.nameToTypeMap.size();
    }
 
    /** Call the check if the given string is associated with an enemy */
    public boolean isEnemyRegistered(String name) {
-      return this.constantToNameMap.containsKey(name);
+      return this.nameToTypeMap.containsKey(name);
    }
 
    /**
@@ -186,7 +186,7 @@ public class EnemyFactory {
       int shootTimer = Integer.parseInt(lineData[4]);
 
       // Extracting necessary info
-      EntityInfo info = this.enemyInfo.get(constantToNameMap.get(name));
+      EntityInfo info = this.enemyInfo.get(nameToTypeMap.get(name));
       int typeConstant = info.typeConstant;
       int hitboxW = info.hitboxW;
       int hitboxH = info.hitboxH;
@@ -227,7 +227,7 @@ public class EnemyFactory {
       }
    }
 
-   public HashMap<String, Integer> getEnemyInfoMap() {
-      return this.constantToNameMap;
+   public HashMap<String, Integer> getNameToTypeMap() {
+      return this.nameToTypeMap;
    }
 }

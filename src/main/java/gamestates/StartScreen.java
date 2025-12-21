@@ -3,30 +3,23 @@ package gamestates;
 import audio.AudioPlayer;
 import main_classes.Game;
 import utils.Constants.Audio;
+import utils.Fader;
 
 public class StartScreen extends State {
-   public int alphaFade = 0;
-   public boolean fadeActive = false;
+   public Fader fader;
    private AudioPlayer audioPlayer;
 
    public StartScreen(Game game) {
       super(game);
       this.audioPlayer = game.getAudioPlayer();
+      this.fader = new Fader();
    }
 
    public void update() {
-      if (fadeActive) {
-         updateFade();
+      if (fader.isFading()) {
+         fader.update();
       } else {
          handleKeyBoardInputs();
-      }
-   }
-
-   private void updateFade() {
-      this.alphaFade += 5;
-      if (alphaFade > 255) {
-         alphaFade = 255;
-         goToMainMenu();
       }
    }
 
@@ -38,7 +31,7 @@ public class StartScreen extends State {
    private void handleKeyBoardInputs() {
       if (game.interactIsPressed) {
          game.interactIsPressed = false;
-         fadeActive = true;
+         fader.startFadeOut(Fader.MEDIUM_FAST_FADE, () -> goToMainMenu());
          audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
       }
    }

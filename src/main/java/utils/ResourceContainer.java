@@ -47,8 +47,8 @@ public class ResourceContainer<T extends Resource> {
    }
 
    public void flush() {
-      for (String resName : resourcesToBeFlushed.keySet()) {
-         resourcesToBeFlushed.get(resName).flush();
+      for (String resource : resourcesToBeFlushed.keySet()) {
+         resourcesToBeFlushed.get(resource).flush();
       }
       resourcesToBeFlushed.clear();
    }

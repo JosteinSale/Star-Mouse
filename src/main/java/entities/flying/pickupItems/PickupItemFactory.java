@@ -10,7 +10,7 @@ import static entities.flying.pickupItems.PickupItemFactory.TypeConstants.*;
 
 public class PickupItemFactory {
    public HashMap<Integer, EntityInfo> pickupInfo;
-   private HashMap<String, Integer> constantToNameMap;
+   private HashMap<String, Integer> nameToTypeMap;
 
    public static class TypeConstants {
       public static final int DELETE = 0;
@@ -21,16 +21,16 @@ public class PickupItemFactory {
 
    public PickupItemFactory() {
       this.pickupInfo = new HashMap<>();
-      this.constantToNameMap = new HashMap<>();
-      this.constructConstantToNameMap();
+      this.nameToTypeMap = new HashMap<>();
+      this.constructNameToConstantMap();
       this.registerAllEntities();
    }
 
-   private void constructConstantToNameMap() {
-      this.constantToNameMap.put("delete", DELETE);
-      this.constantToNameMap.put("powerup", POWERUP);
-      this.constantToNameMap.put("repair", REPAIR);
-      this.constantToNameMap.put("bomb", BOMB);
+   private void constructNameToConstantMap() {
+      this.nameToTypeMap.put("delete", DELETE);
+      this.nameToTypeMap.put("powerup", POWERUP);
+      this.nameToTypeMap.put("repair", REPAIR);
+      this.nameToTypeMap.put("bomb", BOMB);
    }
 
    private void registerAllEntities() {
@@ -65,7 +65,7 @@ public class PickupItemFactory {
 
    /** Call the check if the given string is associated with a pickupItem */
    public boolean isPickupItemRegistered(String name) {
-      return this.constantToNameMap.containsKey(name);
+      return this.nameToTypeMap.containsKey(name);
    }
 
    public PickupItem getNewPickupItem(int typeConstant, float x, float y) {
@@ -93,12 +93,12 @@ public class PickupItemFactory {
       String name = lineData[0];
       float x = Float.parseFloat(lineData[1]);
       float y = Float.parseFloat(lineData[2]);
-      int typeConstant = this.constantToNameMap.get(name);
+      int typeConstant = this.nameToTypeMap.get(name);
       return this.getNewPickupItem(typeConstant, x, y);
    }
 
-   public HashMap<String, Integer> getPickupInfoMap() {
-      return this.constantToNameMap;
+   public HashMap<String, Integer> getNameToTypeMap() {
+      return this.nameToTypeMap;
    }
 
 }

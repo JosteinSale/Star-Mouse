@@ -15,6 +15,7 @@ import gamestates.Gamestate;
 import main_classes.Game;
 import ui.InventoryItem;
 import ui.TextboxManager;
+import utils.Fader;
 
 public class Area {
    private Game game;
@@ -23,6 +24,7 @@ public class Area {
    private Integer song;
    private Integer ambienceIndex;
 
+   public Fader fader;
    private MapManager1 mapManager;
    private PlayerExp player;
    private NpcManager npcManager;
@@ -47,10 +49,11 @@ public class Area {
       portals = new ArrayList<>();
       npcManager = new NpcManager();
       automaticTriggers = new ArrayList<>();
-      this.eventHandler = new EventHandler();
+      eventHandler = new EventHandler();
+      fader = new Fader();
       loadAreaData(areaData, levelIndex, areaIndex);
       TextboxManager textboxManager = game.getTextboxManager();
-      this.cutsceneManager = new CutsceneManagerExp(
+      cutsceneManager = new CutsceneManagerExp(
             Gamestate.EXPLORING, game, this, eventHandler, textboxManager, player, npcManager);
       loadEventReactions();
       loadCutscenes(cutsceneData);
@@ -96,13 +99,7 @@ public class Area {
     * 2. if the event triggers an effect in the cutsceneManager
     */
    public void reactToCutsceneEvent(GeneralEvent event) {
-      if (event instanceof GoToAreaEvent evt) {
-         int newArea = evt.area();
-         int reenterDir = evt.reenterDir();
-         int newSong = this.exploring.getSongForArea(newArea);
-         int newAmbience = this.exploring.getAmbienceForArea(newArea);
-         this.goToArea(newArea, reenterDir, newSong, newAmbience);
-      } else if (event instanceof TextBoxEvent tbEvt) {
+      if (event instanceof TextBoxEvent tbEvt) {
          this.cutsceneManager.activateTextbox(tbEvt);
 
       } else if (event instanceof SetVisibleEvent evt) {
@@ -196,7 +193,9 @@ public class Area {
       }
    }
 
-   private void goToArea(int newArea, int reenterDir, int newSong, int newAmbience) {
+   private void goToArea(int newArea, int reenterDir) {
+      int newSong = exploring.getSongForArea(newArea);
+      int newAmbience = exploring.getAmbienceForArea(newArea);
       checkStopAudio(newSong, newAmbience);
       player.setDirection(reenterDir);
       player.adjustReenterPos(reenterDir);
@@ -243,24 +242,24 @@ public class Area {
    public void update() {
       handleKeyBoardInputs();
       checkAutomaticTriggers();
-      checkPortals();
-      if (justEntered) {
-         handleJustEntered();
-      }
+      checkPortalInteraction();
       if (cutsceneManager.isActive()) {
          cutsceneManager.update();
+      } else if (justEntered) { // justEntered is only handled when no cutscene is active
+         handleJustEntered();
       }
+      fader.update();
       player.update(
             npcManager.getHitboxes(),
             cutsceneManager.isActive(),
-            cutsceneManager.isStandardFadeActive());
+            fader.isFading());
       adjustOffsets();
-      npcManager.update(); // Hvis npc's skal ha oppførsel some er uavhengig av cutscenes.
+      npcManager.update(); // If NPCs have behavior independent of cutscenes
    }
 
    private void handleJustEntered() {
       checkIfAudioShouldStart();
-      cutsceneManager.startStandardFade(FADE_IN);
+      fader.startFadeIn(Fader.FAST_FADE, null);
       justEntered = false;
       player.resetAll();
    }
@@ -298,36 +297,30 @@ public class Area {
 
    /**
     * Checks if the player intersects any portals.
-    * If so, it starts a standard fade,
-    * resets the player, adjusts player position away from the portalHitbox,
-    * and triggers a GoToArea-event.
+    * If so, it starts a fade-out, and after the fade is complete,
+    * it goes to the area the portal leads to.
     */
-   private void checkPortals() {
+   private void checkPortalInteraction() {
       int portalIndex = getPortalIntersectingPlayer();
-      if ((portalIndex >= 0 && !cutsceneManager.isStandardFadeActive())) {
+      if ((portalIndex >= 0 && !fader.isFading())) {
          int reenterDir = portals.get(portalIndex).getReenterDir();
-         cutsceneManager.startStandardFade(FADE_OUT);
-         player.resetAll();
-         GoToAreaEvent event = new GoToAreaEvent(
-               portals.get(portalIndex).getAreaItLeadsTo(),
-               reenterDir);
-         this.eventHandler.addEvent(event);
+         int newArea = portals.get(portalIndex).getAreaItLeadsTo();
+         fader.startFadeOut(Fader.FAST_FADE, () -> goToArea(newArea, reenterDir));
       }
    }
 
    private void handleKeyBoardInputs() {
-      if (cutsceneManager.isStandardFadeActive()) {
+      if (justEntered || fader.isFading()) {
          return;
       } else if (cutsceneManager.isActive()) {
          cutsceneManager.handleKeyBoardInputs();
       } else if (game.interactIsPressed) {
          game.interactIsPressed = false;
-         checkHitboxes();
+         handleSpacePressed();
       }
    }
 
-   /** Is used when the player presses SPACEBAR */
-   private void checkHitboxes() {
+   private void handleSpacePressed() {
       checkObjectInteraction();
       checkDoorInteraction();
       checkNPCInteraction();
@@ -353,12 +346,9 @@ public class Area {
                cutsceneManager.startCutscene(entityName, door.getStartCutscene());
                player.resetAll();
             } else {
-               cutsceneManager.startStandardFade(FADE_OUT);
-               player.resetAll();
-               GoToAreaEvent event = new GoToAreaEvent(
-                     door.getAreaItLeadsTo(),
-                     door.getReenterDir());
-               this.eventHandler.addEvent(event);
+               int newArea = door.getAreaItLeadsTo();
+               int reenterDir = door.getReenterDir();
+               fader.startFadeOut(Fader.FAST_FADE, () -> goToArea(newArea, reenterDir));
             }
          }
       }

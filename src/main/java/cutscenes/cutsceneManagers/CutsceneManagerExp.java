@@ -4,7 +4,6 @@ import cutscenes.effects.*;
 import entities.exploring.NpcManager;
 import entities.exploring.PlayerExp;
 import game_events.EventHandler;
-import game_events.FadeEvent;
 import game_events.ObjectMoveEvent;
 import gamestates.Gamestate;
 import gamestates.exploring.Area;
@@ -19,7 +18,6 @@ public class CutsceneManagerExp extends DefaultCutsceneManager {
    private NumberDisplay numberDisplay;
 
    // Effects that need to be accessible from the area
-   private FadeEffect fadeEffect;
    private ScreenShakeEffect shakeEffect;
    private ObjectMoveEffect objectMoveEffect;
 
@@ -47,13 +45,12 @@ public class CutsceneManagerExp extends DefaultCutsceneManager {
       // Effects that need to be accessible from the cutsceneManager:
       this.objectMoveEffect = new ObjectMoveEffect(game);
       this.shakeEffect = new ScreenShakeEffect(this.area);
-      this.fadeEffect = new FadeEffect(this.eventHandler, this);
       this.addEffect(objectMoveEffect);
-      this.addEffect(fadeEffect);
       this.addEffect(shakeEffect);
 
       // Effects that need to be drawn on top
       this.addEffect(new FillScreenEffect());
+      this.addEffect(new FadeEffect(this.eventHandler, this));
    }
 
    /** Is called from the state's update-loop if the cutsceneManager is active */
@@ -97,23 +94,6 @@ public class CutsceneManagerExp extends DefaultCutsceneManager {
          this.cutsceneIndex = cutsceneIndex + answerGiven;
          this.startCutscene(entityName, cutsceneIndex); // Starts the next one
       }
-   }
-
-   /**
-    * Starts a standard fade in/out.
-    * A standard fade circumvents the 'activateEffect'-method, and thus 'canAdvace'
-    * remains true. Instead, use the 'isStandardFadeActive'-method to prevent
-    * handling of user input during this time.
-    */
-   public void startStandardFade(String in_out) {
-      FadeEvent evt = new FadeEvent(in_out, "black", 10, true);
-      this.active = true;
-      this.fadeEffect.activate(evt);
-   }
-
-   /** Can be called from area to check if a fade is active */
-   public boolean isStandardFadeActive() {
-      return (this.fadeEffect.isStandardFadeActive());
    }
 
    /** Can be called from area to check if a shake is active */

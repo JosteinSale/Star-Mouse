@@ -42,8 +42,8 @@ public class RenderStartScreen extends Singleton implements Render {
             430, 600);
 
       // Fade
-      if (startScreen.fadeActive) {
-         DrawUtils.fillScreen(sb, new MyColor(0, 0, 0, startScreen.alphaFade));
+      if (startScreen.fader.isFading()) {
+         DrawUtils.fillScreen(sb, new MyColor(0, 0, 0, startScreen.fader.getAlpha()));
       }
    }
 }

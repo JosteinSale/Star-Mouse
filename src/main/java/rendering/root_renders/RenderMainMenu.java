@@ -72,8 +72,8 @@ public class RenderMainMenu extends Singleton implements Render {
       }
 
       // Fade
-      if (mainMenu.fadeInActive || mainMenu.fadeOutActive) {
-         DrawUtils.fillScreen(sb, new MyColor(0, 0, 0, mainMenu.alphaFade));
+      if (mainMenu.fader.isFading()) {
+         DrawUtils.fillScreen(sb, new MyColor(0, 0, 0, mainMenu.fader.getAlpha()));
       }
    }
 

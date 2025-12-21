@@ -4,6 +4,7 @@ import audio.AudioPlayer;
 import main_classes.Game;
 import ui.LoadSaveMenu;
 import ui.OptionsMenu;
+import utils.Fader;
 import utils.Constants.Audio;
 
 /**
@@ -19,6 +20,7 @@ import utils.Constants.Audio;
  */
 public class MainMenu extends State {
 
+   public Fader fader;
    private AudioPlayer audioPlayer;
    private LoadSaveMenu loadSaveMenu;
    private OptionsMenu optionsMenu;
@@ -32,9 +34,6 @@ public class MainMenu extends State {
    public int cursorY = cursorMinY;
    public int cursorYStep = (cursorMaxY - cursorMinY) / 5;
    private int selectedIndex = 0;
-   public int alphaFade = 255;
-   public boolean fadeInActive = true;
-   public boolean fadeOutActive = false;
 
    private static final int TESTING = 0;
    private static final int NEW_GAME = 1;
@@ -44,8 +43,8 @@ public class MainMenu extends State {
    private static final int QUIT = 5;
 
    // Testing stuff - Change as needed:
-   private Gamestate testState = Gamestate.FLYING;
-   private int testLevel = 0;
+   private Gamestate testState = Gamestate.EXPLORING;
+   private int testLevel = 1;
    private int testArea = 2;
    private int tstUnlockedLevels = 13;
    private int levelEditorLvl = 1;
@@ -56,6 +55,8 @@ public class MainMenu extends State {
       this.audioPlayer = game.getAudioPlayer();
       this.loadSaveMenu = new LoadSaveMenu(game, game.getTextboxManager().getInfoChoice());
       this.levelEditor = game.getLevelEditor();
+      this.fader = new Fader();
+      fader.startFadeIn(Fader.MEDIUM_FAST_FADE, null);
    }
 
    private void handleKeyBoardInputs() {
@@ -143,10 +144,8 @@ public class MainMenu extends State {
    public void update() {
       moveBackGround();
 
-      if (fadeInActive) {
-         updateFadeIn();
-      } else if (fadeOutActive) {
-         updateFadeOut();
+      if (fader.isFading()) {
+         fader.update();
       } else if (optionsMenu.isActive()) {
          optionsMenu.update();
       } else if (loadSaveMenu.isActive()) {
@@ -166,30 +165,13 @@ public class MainMenu extends State {
    }
 
    public void startTransitionToGame() {
-      this.fadeOutActive = true;
+      fader.startFadeOut(Fader.MEDIUM_FAST_FADE, () -> startGame());
       audioPlayer.stopAllLoops();
       audioPlayer.playSFX(Audio.SFX_STARTGAME);
    }
 
-   private void updateFadeIn() {
-      this.alphaFade -= 5;
-      if (alphaFade < 0) {
-         alphaFade = 0;
-         fadeInActive = false;
-      }
-   }
-
-   /** Also handles transition to new state */
-   private void updateFadeOut() {
-      this.alphaFade += 5;
-      if (alphaFade > 255) {
-         this.loadSaveMenu.deActivate();
-         alphaFade = 255;
-         startGame();
-      }
-   }
-
    private void startGame() {
+      loadSaveMenu.deActivate();
       game.getLevelSelect().reset();
       game.getLevelSelect().transferUnlockedLevelsToLayout();
       Gamestate.state = Gamestate.LEVEL_SELECT;
@@ -223,9 +205,7 @@ public class MainMenu extends State {
    /** Should be called whenever the player returns to the main menu */
    public void reset() {
       game.testingMode = false;
-      this.fadeInActive = true;
-      this.fadeOutActive = false;
-      this.alphaFade = 255;
+      fader.startFadeIn(Fader.MEDIUM_FAST_FADE, null);
       audioPlayer.startSong(Audio.SONG_MAIN_MENU, 0, true);
       game.getLevelSelect().clearAll();
    }

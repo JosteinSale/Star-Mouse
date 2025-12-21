@@ -66,8 +66,8 @@ public class LevelEditor extends State {
 
    private void constructEntityNameToTypeMap() {
       this.entityNameToTypeMap = new HashMap<>();
-      this.entityNameToTypeMap.putAll(enemyFactory.getEnemyInfoMap());
-      this.entityNameToTypeMap.putAll(pickupFactory.getPickupInfoMap());
+      this.entityNameToTypeMap.putAll(enemyFactory.getNameToTypeMap());
+      this.entityNameToTypeMap.putAll(pickupFactory.getNameToTypeMap());
    }
 
    public void loadLevel(int level) {

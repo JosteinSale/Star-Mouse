@@ -8,12 +8,8 @@ import gamestates.State;
 import main_classes.Game;
 
 /**
- * OBS: we should probably wait with implementing more logic until we have more
- * paths.
- * 
  * Keeps track of unlocked levels, and sets levelLayout based on that.
  * Handles most of the logic regarding levelInfo, killCount and unlocked levels.
- * Keeps the nescessary images, and passes references to the LevelLayouts.
  */
 public class LevelSelect extends State {
    private ArrayList<BaseLevelLayout> levelLayouts;
@@ -138,7 +134,6 @@ public class LevelSelect extends State {
          if (killCount >= lvl.getThreshold()) {
             hasEnoughKills = true;
          }
-         ;
          levelToUnlock = lvl.getNext(hasEnoughKills);
       }
       return levelToUnlock;

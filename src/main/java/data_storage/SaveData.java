@@ -24,8 +24,7 @@ public class SaveData extends Singleton {
    public ProgressValues progValues3;
 
    // OBS: It's important to include an empty constructor, that can serve as a
-   // default
-   // constructor when the data is read.
+   // default constructor when the data is read.
    public SaveData() {
    }
 

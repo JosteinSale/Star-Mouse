@@ -6,3 +6,5 @@
    they can choose to do that.
 
 2. Flying level 4: after the Death skull appears, rocket engine ambience can be turned back on if you pause and then unpause
+
+3. Technical improvement - See if there's a better way to handle starting a song the first time you enter an exploring-level.
