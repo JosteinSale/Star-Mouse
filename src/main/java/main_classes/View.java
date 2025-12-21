@@ -2,7 +2,9 @@ package main_classes;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import data_storage.DrawSaving;
 import gamestates.Gamestate;
+import rendering.MyColor;
 import rendering.misc.RenderCutscene;
 import rendering.misc.RenderInfoBox;
 import rendering.misc.RenderInfoChoice;
@@ -15,6 +17,7 @@ import rendering.root_renders.RenderLevelEditor;
 import rendering.root_renders.RenderLevelSelect;
 import rendering.root_renders.RenderMainMenu;
 import rendering.root_renders.RenderStartScreen;
+import utils.DrawUtils;
 import utils.Images;
 import utils.Singleton;
 
@@ -29,6 +32,8 @@ import utils.Singleton;
  * to its respective model, + any additional renderers it may need.
  */
 public class View extends Singleton {
+   private Game game;
+   private DrawSaving drawSaving;
    private RenderStartScreen rStartScreen;
    private RenderInfoBox rInfoBox;
    private RenderInfoChoice rInfoChoice;
@@ -44,6 +49,8 @@ public class View extends Singleton {
 
    public View(Game game) {
       Images images = game.getImages();
+      this.game = game;
+      this.drawSaving = game.getDrawSaving();
       this.rStartScreen = new RenderStartScreen(game.getStartScreen(), images);
       this.rInfoBox = new RenderInfoBox(game.getTextboxManager().getInfoBox(), images);
       this.rInfoChoice = new RenderInfoChoice(
@@ -61,34 +68,42 @@ public class View extends Singleton {
             game.getLevelEditor(), rFlying.getEntityImages(), images);
    }
 
-   public void draw(SpriteBatch g) {
+   public void draw(SpriteBatch sb) {
       switch (Gamestate.state) {
          case START_SCREEN:
-            rStartScreen.draw(g);
+            rStartScreen.draw(sb);
             break;
          case MAIN_MENU:
-            rMainMenu.draw(g);
+            rMainMenu.draw(sb);
             break;
          case LEVEL_SELECT:
-            rLevelSelect.draw(g);
+            rLevelSelect.draw(sb);
             break;
          case EXPLORING:
-            rExploring.draw(g);
+            rExploring.draw(sb);
             break;
          case FLYING:
-            rFlying.draw(g);
+            rFlying.draw(sb);
             break;
          case BOSS_MODE:
-            rBossMode.draw(g);
+            rBossMode.draw(sb);
             break;
          case CINEMATIC:
-            rCinematic.draw(g);
+            rCinematic.draw(sb);
             break;
          case LEVEL_EDITOR:
-            rLevelEditor.draw(g);
+            rLevelEditor.draw(sb);
             break;
          default:
             break;
+      }
+      drawSaving.draw(sb);
+      drawFader(sb);
+   }
+
+   private void drawFader(SpriteBatch sb) {
+      if (game.getFader().isFading()) {
+         DrawUtils.fillScreen(sb, new MyColor(0, 0, 0, game.getFader().getAlpha()));
       }
    }
 

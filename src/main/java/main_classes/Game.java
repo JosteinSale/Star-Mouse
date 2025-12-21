@@ -15,10 +15,8 @@ import gamestates.exploring.Exploring;
 import gamestates.flying.Flying;
 import gamestates.level_select.LevelSelect;
 import inputs.KeyboardInputs;
-import rendering.MyColor;
 import ui.OptionsMenu;
 import ui.TextboxManager;
-import utils.DrawUtils;
 import utils.Fader;
 import utils.Images;
 
@@ -53,13 +51,13 @@ public class Game extends ApplicationAdapter {
 
    // Special objects
    private Fader fader;
+   private DrawSaving drawSaving;
    private View view;
    private Images images;
    private OptionsMenu optionsMenu;
    private AudioPlayer audioPlayer;
    private TextboxManager textBoxManager;
    private SaveData saveData;
-   private DrawSaving drawSaving;
    private int selectedSaveFile = 1;
 
    // Keyboard inputs
@@ -89,6 +87,8 @@ public class Game extends ApplicationAdapter {
       this.initializeSaveData();
       this.audioPlayer = new AudioPlayer();
       this.images = new Images();
+      this.drawSaving = new DrawSaving();
+      this.fader = new Fader();
       this.textBoxManager = new TextboxManager(this);
       this.optionsMenu = new OptionsMenu(this);
       this.startScreen = new StartScreen(this);
@@ -99,9 +99,7 @@ public class Game extends ApplicationAdapter {
       this.flying = new Flying(this);
       this.bossMode = new BossMode(this);
       this.cinematic = new Cinematic(this);
-      this.drawSaving = new DrawSaving();
       this.view = new View(this);
-      this.fader = new Fader();
       optionsMenu.setKeyboardInputs(kbInputs);
    }
 
@@ -144,8 +142,6 @@ public class Game extends ApplicationAdapter {
 
       batch.begin();
       view.draw(batch);
-      drawSaving.draw(batch);
-      drawFader(batch);
       batch.end();
 
       update();
@@ -241,12 +237,6 @@ public class Game extends ApplicationAdapter {
       });
    }
 
-   private void drawFader(SpriteBatch sb) {
-      if (fader.isFading()) {
-         DrawUtils.fillScreen(sb, new MyColor(0, 0, 0, fader.getAlpha()));
-      }
-   }
-
    // ------ Getters ------
 
    public StartScreen getStartScreen() {
@@ -315,5 +305,13 @@ public class Game extends ApplicationAdapter {
 
    public ProgressValues getProgressValues() {
       return saveData.getProgValuesFor(selectedSaveFile);
+   }
+
+   public Fader getFader() {
+      return this.fader;
+   }
+
+   public DrawSaving getDrawSaving() {
+      return this.drawSaving;
    }
 }
