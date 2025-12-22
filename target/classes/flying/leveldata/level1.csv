@@ -6,10 +6,8 @@ automaticTrigger;0f;-13500f;10f;10f;checkpointReached
 automaticTrigger;0f;-25000f;10f;10f;everyoneRetreat
 automaticTrigger;0f;-27700f;10f;10f;fadeOutLoops
 automaticTrigger;0f;-28000f;10f;10f;levelFinished
-drone;250;-4060;1;160
 drone;380;-4140;1;140
 drone;620;-4140;1;140
-drone;750;-4060;1;160
 drone;870;-4140;1;150
 smallShip;890;-1930;-1;0
 smallShip;890;-2040;-1;0
@@ -27,7 +25,6 @@ smallShip;830;-4890;-1;0
 octaDrone;320;-5180;1;100
 octaDrone;600;-5090;1;80
 repair;340;-5940;1;0
-drone;500;-4060;1;120
 drone;190;-5660;1;100
 drone;750;-5660;1;100
 drone;470;-5660;1;150
@@ -143,3 +140,6 @@ octaDrone;220;-24170;1;60
 octaDrone;730;-24170;1;60
 blasterDrone;250;-21480;1;30
 smallShip;306;-15120;1;0
+drone;254;-4000;1;160
+drone;734;-4000;1;160
+drone;494;-4000;1;120
