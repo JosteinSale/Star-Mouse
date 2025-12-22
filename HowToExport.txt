@@ -1,0 +1,12 @@
+1. Use maven plugin to export a jar
+2. Cut and paste the jar into game_export/StarMouse/
+3. Open game_export/launch4j/launch4j.exe
+4. In launch4j:
+   .Set output file to StarMouse.exe
+   .Select StarMouse.jar as the jar file
+   .Go to Classpath and select the same jar file
+   .Go to JRE, and type the name of the java-folder, e.g. 'javaRuntimeEnvironment'
+   .For Icon, select StarMouse\src\main\resources\miscImages\desktop_icon.ico
+   .Go to Header, and select GUI as Header type.
+   .Click on the cog 'Build Wrapper', type name 'StarMouse'
+5. The exe has been created. Delete the excess jar and html file.
