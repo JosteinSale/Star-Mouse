@@ -1,6 +1,7 @@
 package audio;
 
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 
 import utils.ResourceContainer;
 import utils.ResourceLoader;
@@ -51,14 +52,24 @@ public class AudioPlayer extends Singleton {
    private int volumeFadeTick = 0;
    private int volumeFadeChangeInterval = 20;
 
+   private Sound keepAliveSound;
+   private long keepAliveId;
+
    public AudioPlayer() {
       loadAudio();
+      startKeepAliveSound();
+   }
+
+   private void startKeepAliveSound() {
+      // Some audio drivers go to sleep if no sound is playing. This keeps them alive.
+      keepAliveSound = ResourceLoader.getSound("keepAliveSound.wav").get();
+      keepAliveId = keepAliveSound.loop(1f); // Volume needs to be not 0
    }
 
    private void loadAudio() {
       this.sfxPlayer = new SFXPlayer(curSfxVolume);
-      this.songs = new ResourceContainer<>(s -> (MyMusic) ResourceLoader.getSong(s));
-      this.ambienceTracks = new ResourceContainer<>(s -> (MyMusic) ResourceLoader.getSong(s));
+      this.songs = new ResourceContainer<>(s -> ResourceLoader.getSong(s));
+      this.ambienceTracks = new ResourceContainer<>(s -> ResourceLoader.getSong(s));
 
       // Initial assignments: needed to avoid nullpointers
       String mainMenuSong = songFileNames[3];
@@ -103,13 +114,13 @@ public class AudioPlayer extends Singleton {
       stopFadeOutIfActive(); // In case fadeOut is happening
       curSong = songs.getResource(songFileNames[index], false).get();
       curSong.setVolume(curSongVolume);
+      curSong.setPosition(startPos);
       if (curSongLooping) {
          curSong.setLooping(true);
          curSong.play();
       } else {
          curSong.play();
       }
-      curSong.setPosition(startPos);
    }
 
    /**
