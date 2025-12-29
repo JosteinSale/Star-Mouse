@@ -1,6 +1,7 @@
 package audio;
 
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 
 import utils.ResourceContainer;
 import utils.ResourceLoader;
@@ -34,31 +35,43 @@ public class AudioPlayer extends Singleton {
    };
    private ResourceContainer<MyMusic> songs;
    private ResourceContainer<MyMusic> ambienceTracks;
-   private Integer curSongIndex = 0; // Used to check if a given song is playing.
-   private Integer curAmbienceIndex = 0; // Used to check if a given ambience is playing.
-   private boolean curSongLooping; // Is needed whenever we restart a song.
+   private Integer curSongIndex = 0;
+   private Integer curAmbienceIndex = 0;
+   private boolean curSongLooping;
    private Music curSong;
    private Music curAmbience;
 
-   private float setSongVolume = 0.71f; // The player's selected volume
+   private float setSongVolume = 0.71f;
    private float setAmbienceVolume = 0.91f;
-   private float curSongVolume = 0.71f; // Used for fading
-   private float curSfxVolume = 0.91f; // Needed for voices
-   private float curAmbienceVolume = 0.91f;
+   private float setSfxVolume = 0.91f;
 
+   // Fading stuff
+   private float songFadeVolume = 0.71f;
+   private float ambienceFadeVolume = 0.91f;
    private float volumeFadeSpeed = 0.05f;
    private boolean fadeOutActive = false;
    private int volumeFadeTick = 0;
    private int volumeFadeChangeInterval = 20;
 
+   // Silent track, which we play to keep audio drivers alive
+   private Sound keepAliveSound;
+   private long keepAliveId;
+
    public AudioPlayer() {
       loadAudio();
+      startKeepAliveSound();
+   }
+
+   private void startKeepAliveSound() {
+      // Some audio drivers go to sleep if no sound is playing. This keeps them alive.
+      keepAliveSound = ResourceLoader.getSound("keepAliveSound.wav").get();
+      keepAliveId = keepAliveSound.loop(1f); // Volume needs to be high
    }
 
    private void loadAudio() {
-      this.sfxPlayer = new SFXPlayer(curSfxVolume);
-      this.songs = new ResourceContainer<>(s -> (MyMusic) ResourceLoader.getSong(s));
-      this.ambienceTracks = new ResourceContainer<>(s -> (MyMusic) ResourceLoader.getSong(s));
+      this.sfxPlayer = new SFXPlayer(setSfxVolume);
+      this.songs = new ResourceContainer<>(s -> ResourceLoader.getSong(s));
+      this.ambienceTracks = new ResourceContainer<>(s -> ResourceLoader.getSong(s));
 
       // Initial assignments: needed to avoid nullpointers
       String mainMenuSong = songFileNames[3];
@@ -98,18 +111,18 @@ public class AudioPlayer extends Singleton {
          curSong.stop();
       }
       this.curSongIndex = index;
-      this.curSongVolume = setSongVolume;
+      this.songFadeVolume = setSongVolume;
       this.curSongLooping = shouldLoop;
       stopFadeOutIfActive(); // In case fadeOut is happening
       curSong = songs.getResource(songFileNames[index], false).get();
-      curSong.setVolume(curSongVolume);
+      curSong.setVolume(songFadeVolume);
+      curSong.setPosition(startPos);
       if (curSongLooping) {
          curSong.setLooping(true);
          curSong.play();
       } else {
          curSong.play();
       }
-      curSong.setPosition(startPos);
    }
 
    /**
@@ -125,10 +138,10 @@ public class AudioPlayer extends Singleton {
          curAmbience.stop();
       }
       this.curAmbienceIndex = index;
-      this.curAmbienceVolume = setAmbienceVolume;
+      this.ambienceFadeVolume = setAmbienceVolume;
       stopFadeOutIfActive(); // In case fadeOut is happening
       curAmbience = ambienceTracks.getResource(ambienceFileNames[index], false).get();
-      curAmbience.setVolume(curAmbienceVolume);
+      curAmbience.setVolume(ambienceFadeVolume);
       curAmbience.setLooping(true);
       curAmbience.play();
    }
@@ -177,17 +190,17 @@ public class AudioPlayer extends Singleton {
       this.volumeFadeTick++;
       if (volumeFadeTick > volumeFadeChangeInterval) {
          volumeFadeTick = 0;
-         curSongVolume = Math.max(curSongVolume - volumeFadeSpeed, 0);
-         curAmbienceVolume = Math.max(curAmbienceVolume - volumeFadeSpeed, 0);
-         curSong.setVolume(curSongVolume);
-         curAmbience.setVolume(curAmbienceVolume);
+         songFadeVolume = Math.max(songFadeVolume - volumeFadeSpeed, 0);
+         ambienceFadeVolume = Math.max(ambienceFadeVolume - volumeFadeSpeed, 0);
+         curSong.setVolume(songFadeVolume);
+         curAmbience.setVolume(ambienceFadeVolume);
          // Check if both songVolume and ambienceVolume are 0. We need to check both,
          // in case the user has turned down the volume for one of them.
-         if (curSongVolume == 0 && curAmbienceVolume == 0) {
+         if (songFadeVolume == 0 && ambienceFadeVolume == 0) {
             curSong.stop();
             curAmbience.stop();
-            curSongVolume = setSongVolume;
-            curAmbienceVolume = setAmbienceVolume;
+            songFadeVolume = setSongVolume;
+            ambienceFadeVolume = setAmbienceVolume;
             this.fadeOutActive = false;
             volumeFadeTick = 0;
          }
@@ -208,18 +221,18 @@ public class AudioPlayer extends Singleton {
    public void setSongVolume(float volume) {
       float adjustedVolume = adjustToSafeVolume(volume);
       this.setSongVolume = adjustedVolume;
-      this.curSongVolume = adjustedVolume;
+      this.songFadeVolume = adjustedVolume;
       curSong.setVolume(adjustedVolume);
    }
 
    /** Is called from the OptionsMenu. Goes for both ambience and sfx */
    public void setSfxVolume(float volume) {
       float adjustedVolume = adjustToSafeVolume(volume);
-      this.curSfxVolume = adjustedVolume;
+      this.setSfxVolume = adjustedVolume;
       this.sfxPlayer.setVolume(adjustedVolume);
 
       this.setAmbienceVolume = adjustedVolume;
-      this.curAmbienceVolume = adjustedVolume;
+      this.ambienceFadeVolume = adjustedVolume;
       curAmbience.setVolume(adjustedVolume);
    }
 
