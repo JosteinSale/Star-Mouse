@@ -1,15 +1,8 @@
 package main_classes;
 
 import audio.AudioPlayer;
-import data_storage.DataStorage;
-import data_storage.DrawSaving;
-import data_storage.ProgressValues;
-import data_storage.SaveData;
-import gamestates.Cinematic;
-import gamestates.Gamestate;
-import gamestates.LevelEditor;
-import gamestates.MainMenu;
-import gamestates.StartScreen;
+import data_storage.*;
+import gamestates.*;
 import gamestates.boss_mode.BossMode;
 import gamestates.exploring.Exploring;
 import gamestates.flying.Flying;
