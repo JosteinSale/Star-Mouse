@@ -85,9 +85,6 @@ public class GameoverOverlay extends Singleton {
                flying.restartLevel(true);
             }
          } else if (selectedIndex == MAIN_MENU) {
-            // We do not need to reset the level, since the loadLevel-method will be called
-            // when the player reenters flying.
-            this.cursorY = cursorMinY;
             flying.exitToMainMenu();
          }
       }
@@ -112,6 +109,7 @@ public class GameoverOverlay extends Singleton {
    }
 
    public void reset() {
+      cursorY = cursorMinY;
       deathAnimationActive = true;
       aniTick = 0;
       aniIndex = 0;
