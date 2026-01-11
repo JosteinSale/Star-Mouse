@@ -117,8 +117,10 @@ public class RenderProjectiles {
 
    private void drawProjectileHit(SpriteBatch sb, ProjectileHit ph) {
       int scale = switch (ph.getType()) {
-         case 0 -> 3;
-         default -> 5;
+         case ProjectileHit.SMALL_HIT -> 3;
+         case ProjectileHit.BIG_HIT -> 5;
+         default -> throw new IllegalArgumentException(
+               "No projectileHit scale defined for projectileHit of type: " + ph.getType());
       };
       DrawUtils.drawSubImage(
             sb, hitAnimation[ph.getAniIndex()],

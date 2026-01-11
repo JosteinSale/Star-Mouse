@@ -21,6 +21,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
    protected AudioPlayer audioPlayer;
    protected MyCollisionImage clImg;
    public ShipFlame flame;
+   public ShipSmoke shipSmoke;
    public StatusDisplay statusDisplay;
    protected Rectangle2D.Float teleportHitbox; // When the player teleports, a 'kill hitbox' materializes
    protected int teleportKillWidth = 100; // Width of said hitbox
@@ -57,6 +58,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       this.audioPlayer = game.getAudioPlayer();
       updateCollisionPixels();
       this.flame = new ShipFlame();
+      this.shipSmoke = new ShipSmoke(this);
       this.teleportHitbox = new Rectangle2D.Float(
             hitbox.x, hitbox.y, teleportKillWidth, hitbox.height);
       this.teleportKillOffset = (int) (teleportDistance - hitbox.width - teleportKillWidth) / 2;
@@ -106,9 +108,10 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       collisionYs[8] = hitbox.y + hitbox.height;
    }
 
-   public void update(float yLevelOffset, float xLevelOffset) {
+   public void update(float yLevelOffset, float xLevelOffset, float yLevelSpeed) {
       int prevAction = planeAction;
       handleKeyboardInputs();
+      handleKeyboardNotPressed();
       movePlayer();
       checkAndHandleCollision(yLevelOffset, xLevelOffset);
       if (planeAction != prevAction) {
@@ -116,60 +119,73 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       }
       updateAniTick();
       flame.update();
+      shipSmoke.update(yLevelSpeed);
       statusDisplay.update();
    }
 
    protected void handleKeyboardInputs() {
-
-      // First: handles behaviour based on whether keys are pressed
-      if ((planeAction == TAKING_COLLISION_DAMAGE)) { // Player can't control the plane while
-         iFrameCount += 1; // taking collision damage.
+      // 1. Don't handle keyboardinputs while taking damage.
+      if ((planeAction == TAKING_COLLISION_DAMAGE)) {
+         iFrameCount += 1;
          if (iFrameCount > iFrames) {
             planeAction = IDLE;
             iFrameCount = 0;
          }
-      } else {
-         if (game.rightIsPressed && game.teleportIsPressed && (teleportBuffer == 0)) {
-            planeAction = TELEPORTING_RIGHT;
-            teleportBuffer = teleportCoolDown;
-            flipX = 1;
-            return;
-         } else if (game.leftIsPressed && game.teleportIsPressed && (teleportBuffer == 0)) {
-            planeAction = TELEPORTING_LEFT;
-            teleportBuffer = teleportCoolDown;
-            flipX = -1;
-            return;
+         return;
+      }
+      // 2.Handle teleporting
+      if (game.rightIsPressed && game.teleportIsPressed && (teleportBuffer == 0)) {
+         planeAction = TELEPORTING_RIGHT;
+         teleportBuffer = teleportCoolDown;
+         flipX = 1;
+         return;
+      } else if (game.leftIsPressed && game.teleportIsPressed && (teleportBuffer == 0)) {
+         planeAction = TELEPORTING_LEFT;
+         teleportBuffer = teleportCoolDown;
+         flipX = -1;
+         return;
+      } else if (game.rightIsPressed && game.teleportIsPressed && (teleportBuffer != 0)) {
+         // If waiting for opportunity to teleport:
+         // keep plane still to maintain stability
+         planeAction = FLYING_RIGHT;
+         return;
+      } else if (game.leftIsPressed && game.teleportIsPressed && (teleportBuffer != 0)) {
+         planeAction = FLYING_LEFT;
+         return;
+      }
+      // 3. Handle regular movement
+      // 3.1 Up or down
+      if (game.upIsPressed) {
+         planeAction = IDLE;
+         ySpeed -= acceleration;
+         if (ySpeed < -playerMaxSpeed) {
+            ySpeed = -playerMaxSpeed;
          }
-         if (game.upIsPressed) {
-            planeAction = IDLE;
-            ySpeed -= acceleration;
-            if (ySpeed < -playerMaxSpeed) {
-               ySpeed = -playerMaxSpeed;
-            }
-         } else if (game.downIsPressed) {
-            planeAction = IDLE;
-            ySpeed += acceleration;
-            if (ySpeed > playerMaxSpeed) {
-               ySpeed = playerMaxSpeed;
-            }
-         }
-         if (game.leftIsPressed) {
-            planeAction = FLYING_LEFT;
-            xSpeed -= acceleration;
-            if (xSpeed < -playerMaxSpeed) {
-               xSpeed = -playerMaxSpeed;
-            }
-         }
-         if (game.rightIsPressed) {
-            planeAction = FLYING_RIGHT;
-            xSpeed += acceleration;
-            if (xSpeed > playerMaxSpeed) {
-               xSpeed = playerMaxSpeed;
-            }
+      } else if (game.downIsPressed) {
+         planeAction = IDLE;
+         ySpeed += acceleration;
+         if (ySpeed > playerMaxSpeed) {
+            ySpeed = playerMaxSpeed;
          }
       }
+      // 3.2 Left or Right
+      if (game.leftIsPressed) {
+         planeAction = FLYING_LEFT;
+         xSpeed -= acceleration;
+         if (xSpeed < -playerMaxSpeed) {
+            xSpeed = -playerMaxSpeed;
+         }
+      } else if (game.rightIsPressed) {
+         planeAction = FLYING_RIGHT;
+         xSpeed += acceleration;
+         if (xSpeed > playerMaxSpeed) {
+            xSpeed = playerMaxSpeed;
+         }
+      }
+   }
 
-      // Second: handles behaviour based on whether keys are NOT pressed
+   // Handles behaviour based on whether keys are NOT pressed
+   protected void handleKeyboardNotPressed() {
       if (!(game.leftIsPressed || game.rightIsPressed)) {
          if (xSpeed < 0) {
             xSpeed += acceleration / 2;
@@ -255,7 +271,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
    /**
     * Handles teleport collision (which includes the map and big enemies),
     * and normal collision (which only includes the map).
-    * Other collision (with enemies) is handled in the EnemyManager.
+    * Collission with enemies is handled in the EnemyManager.
     */
    private void checkAndHandleCollision(float yLevelOffset, float xLevelOffset) {
       if ((planeAction == TELEPORTING_RIGHT) || (planeAction == TELEPORTING_LEFT)) {
@@ -359,12 +375,6 @@ public class PlayerFly extends Entity implements ShootingPlayer {
     * If so, it checks collisionpixels (an extensive operation).
     * If a collision has occured, player takes damage and is pushed in opposite
     * direction.
-    * 
-    * (This method could be improved: instead of making 9 new points for each
-    * enemy,
-    * make 9 points once, and then check each enemyhitbox that is close enough.
-    * Make this method in enemyManager, call getPlayerPixels(),
-    * check those pixels for each enemy).
     */
    public boolean checkAndHandleCollisionWithEnemy(Rectangle2D.Float enemyHitbox) {
       if (hitbox.intersects(enemyHitbox)) {
@@ -503,6 +513,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       statusDisplay.setHP(this.HP);
       statusDisplay.setBlinking(false);
       statusDisplay.setKilledEnemies(0);
+      shipSmoke.reset();
       hitbox.x = 500f;
       hitbox.y = 400f;
       updateCollisionPixels();

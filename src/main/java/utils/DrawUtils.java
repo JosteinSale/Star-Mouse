@@ -26,6 +26,14 @@ public class DrawUtils {
 
    private static final GlyphLayout layout = new GlyphLayout();
 
+   public static void drawTransparentImage(SpriteBatch batch, MyImage img, int x, int y, int width, int height,
+         float alpha) {
+      Color prev = batch.getColor().cpy();
+      batch.setColor(1f, 1f, 1f, alpha);
+      drawImage(batch, img, x, y, width, height);
+      batch.setColor(prev);
+   }
+
    public static void drawImage(SpriteBatch batch, MyImage img, int x, int y, int width, int height) {
       Texture texture = img.getTexture();
       batch.draw(texture,

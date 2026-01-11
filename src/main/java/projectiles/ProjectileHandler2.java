@@ -112,8 +112,7 @@ public class ProjectileHandler2 extends ProjectileHandler {
    private void onBossCollision(Projectile p, IBossPart bp) {
       p.setActive(false);
       if (p.getType() == PLAYER_PROJECTILE) {
-         projectileHits.add(new ProjectileHit(
-               (int) p.getHitbox().x, (int) p.getHitbox().y, 0));
+         projectileHits.add(ProjectileHit.GetNewProjectilHitForEnemyOrMap(p));
          bp.onProjectileHit();
       } else { // Bombs
          addBombExplosion(p.getHitbox());
@@ -127,7 +126,7 @@ public class ProjectileHandler2 extends ProjectileHandler {
    private void onMapCollision(Projectile p) {
       p.setActive(false);
       if (p.getType() == PLAYER_PROJECTILE) {
-         projectileHits.add(new ProjectileHit((int) (p.getHitbox().x - 10), (int) p.getHitbox().y, 0));
+         projectileHits.add(ProjectileHit.GetNewProjectilHitForEnemyOrMap(p));
       } else { // Bombs
          addBombExplosion(p.getHitbox());
          audioPlayer.playSFX(Audio.SFX_BIG_EXPLOSION);
@@ -142,10 +141,7 @@ public class ProjectileHandler2 extends ProjectileHandler {
          p.setActive(false);
          player.takeShootDamage(p.getDamage());
          audioPlayer.playSFX(Audio.SFX_HURT);
-         projectileHits.add(new ProjectileHit(
-               (int) (player.getHitbox().x - 10),
-               (int) (player.getHitbox().y),
-               1)); // Big hit
+         projectileHits.add(ProjectileHit.GetNewProjectilHitForPlayer(player));
       }
 
    }

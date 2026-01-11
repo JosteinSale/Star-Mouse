@@ -1,6 +1,7 @@
 package rendering.flying;
 
 import entities.flying.PlayerFly;
+import entities.flying.ShipSmoke;
 import main_classes.Game;
 import rendering.MyColor;
 import rendering.MyImage;
@@ -9,9 +10,12 @@ import rendering.Render;
 import utils.DrawUtils;
 import utils.HelpMethods2;
 import utils.Images;
+import java.awt.Point;
 
 import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_HEIGHT;
 import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_WIDTH;
+
+import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -22,6 +26,7 @@ public class RenderPlayerFly implements Render {
    private PlayerFly player;
    private MySubImage[][] animations;
    private MySubImage[] flameAnimations;
+   private MyImage shipSmokeImg;
    private MyImage tpShadowImg;
 
    // Status display
@@ -61,6 +66,9 @@ public class RenderPlayerFly implements Render {
       this.animations = HelpMethods2.GetUnscaled2DAnimationArray(
             shipImg, 7, 6, SHIP_SPRITE_WIDTH, SHIP_SPRITE_HEIGHT);
 
+      // Ship Smoke
+      shipSmokeImg = images.getFlyImageSprite(Images.SHIP_SMOKE_POINT, true);
+
       // Status display
       this.bombImg = images.getFlyImageSprite(
             Images.BOMB_SPRITE, true);
@@ -85,6 +93,8 @@ public class RenderPlayerFly implements Render {
          if (!game.downIsPressed) {
             drawFlame(sb, player.hitbox.x + 3f, player.hitbox.y + player.hitbox.height);
          }
+
+         drawShipSmoke(sb);
 
          // Player
          int actionIndex = player.planeAction;
@@ -111,6 +121,27 @@ public class RenderPlayerFly implements Render {
           * (int) (teleportHitbox.width * Game.SCALE),
           * (int) (teleportHitbox.height * Game.SCALE));
           */
+      }
+   }
+
+   private void drawShipSmoke(SpriteBatch sb) {
+      // Left smoke trail
+      for (int i = 0; i < player.shipSmoke.leftTrailingSmokePoints.size(); i++) {
+         Point.Float point = player.shipSmoke.leftTrailingSmokePoints.get(i);
+         DrawUtils.drawTransparentImage(
+               sb, shipSmokeImg,
+               (int) point.x, (int) point.y,
+               10, 20,
+               ShipSmoke.getAlphaForPoint(i));
+      }
+      // Right smoke trail
+      for (int i = 0; i < player.shipSmoke.rightTrailingSmokePoints.size(); i++) {
+         Point.Float point = player.shipSmoke.rightTrailingSmokePoints.get(i);
+         DrawUtils.drawTransparentImage(
+               sb, shipSmokeImg,
+               (int) point.x, (int) point.y,
+               10, 20,
+               ShipSmoke.getAlphaForPoint(i));
       }
    }
 

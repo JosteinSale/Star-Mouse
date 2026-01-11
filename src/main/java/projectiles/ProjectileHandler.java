@@ -237,7 +237,7 @@ public class ProjectileHandler extends Singleton {
          int yPos = cor[1] - (int) (yLevelOffset / 3);
          if (IsSolid(xPos, yPos, clImg)) {
             p.setActive(false);
-            projectileHits.add(new ProjectileHit((cor[0] * 3) - 10, cor[1] * 3, 0));
+            projectileHits.add(ProjectileHit.GetNewProjectilHitForEnemyOrMap(p));
             return true;
          }
       }
@@ -253,10 +253,7 @@ public class ProjectileHandler extends Singleton {
          p.setActive(false);
          player.takeShootDamage(p.getDamage());
          audioPlayer.playSFX(Audio.SFX_HURT);
-         projectileHits.add(new ProjectileHit(
-               (int) (player.getHitbox().x - 10),
-               (int) (player.getHitbox().y),
-               1)); // Big hit
+         projectileHits.add(ProjectileHit.GetNewProjectilHitForPlayer(player));
          return true;
       }
       return false;
@@ -275,12 +272,10 @@ public class ProjectileHandler extends Singleton {
             p.setActive(false);
             enemy.takeDamage(p.getDamage());
             // The enemy just took damage, so might be dead now
-            if (enemy.isDead())
+            if (enemy.isDead()) {
                enemyManager.handleEnemyDeath(enemy);
-            projectileHits.add(new ProjectileHit(
-                  (int) (p.getHitbox().x - 10),
-                  (int) (p.getHitbox().y) + 20,
-                  0)); // Small hit
+            }
+            projectileHits.add(ProjectileHit.GetNewProjectilHitForEnemyOrMap(p));
             return true;
          }
       }

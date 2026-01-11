@@ -44,9 +44,10 @@ public class PlayerBoss extends PlayerFly {
    }
 
    @Override
-   public void update(float yLevelOffset, float xLevelOffset) {
+   public void update(float yLevelOffset, float xLevelOffset, float yLevelSpeed) {
       int prevAction = planeAction;
       handleKeyboardInputs();
+      handleKeyboardNotPressed();
       movePlayer();
       updateCollisionPixels();
       checkBossInteraction();
@@ -115,11 +116,6 @@ public class PlayerBoss extends PlayerFly {
     * If so, it checks the collisionPixels against the bossPart.
     * If a collision has occured, it pushes the player in the opposite direction,
     * takes damage, plays SFX, and notifies the bossPart.
-    * 
-    * (This method could be improved: instead of making 9 new points for each
-    * enemy, make 9 points once, and then check each enemyhitbox that is close
-    * enough. Make this method in enemyManager, call getPlayerPixels(),
-    * check those pixels for each enemy).
     */
    private void checkBossCollision() {
       if (isInvincible()) {

@@ -81,6 +81,7 @@ public class Images extends Singleton {
    public static final String BIG_ASTEROID_SPRITE = "sprites_bigAsteroid.png";
    public static final String BURNING_FRAGMENT_SPRITE = "sprites_burningFragment.png";
    public static final String FLAME_PROJECTILE = "sprites_droneFlame.png";
+   public static final String SHIP_SMOKE_POINT = "ship_smoke_point.png";
 
    // Sprites - BossMode
    public static final String ROTATING_LAZER_SPRITE = "rotatingLazer.png";
