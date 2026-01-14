@@ -11,7 +11,7 @@ public class ShipSmoke {
    // We will represent each trail as a list of smoke points
    public ArrayList<Point.Float> leftTrailingSmokePoints;
    public ArrayList<Point.Float> rightTrailingSmokePoints;
-   private static final int AMOUNT_OF_POINTS = 60;
+   private static final int AMOUNT_OF_POINTS = 20;
    private PlayerFly player;
    private int LEFT = 1;
    private int RIGHT = -1;
