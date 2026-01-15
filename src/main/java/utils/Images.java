@@ -9,7 +9,7 @@ import rendering.MyImage;
 public class Images extends Singleton {
    private ResourceContainer<MyImage> myImages;
    private ResourceContainer<MyCollisionImage> myCollisionImages;
-   public static MyImage pixel = (MyImage) ResourceLoader.getImage("miscImages/pixel.png");
+   public static MyImage pixel = ResourceLoader.getImage("miscImages/pixel.png");
 
    // Menus
    public static final String BASIC_MOUSE = "BasicMouse.png";
@@ -97,8 +97,8 @@ public class Images extends Singleton {
    public static final String SMALL_ENTITY_SPRITES = "sprites_all.png";
 
    public Images() {
-      this.myImages = new ResourceContainer<>(s -> (MyImage) ResourceLoader.getImage(s));
-      this.myCollisionImages = new ResourceContainer<>(s -> (MyCollisionImage) ResourceLoader.getCollisionImage(s));
+      this.myImages = new ResourceContainer<>(s -> ResourceLoader.getImage(s));
+      this.myCollisionImages = new ResourceContainer<>(s -> ResourceLoader.getCollisionImage(s));
    }
 
    private MyImage getImage(String imageName, boolean keepInMemory) {
