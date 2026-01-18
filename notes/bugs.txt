@@ -8,7 +8,9 @@
       they can choose to do that.
    -HINT FOR SOLUTION:
       .When I started OBS studio as administrator (to give more priority to the rendering stuff),
-      the game ran smoothly in windowed mode too! 
+      the game ran smoothly in windowed mode too (sometimes).
 
 
 2. Flying level 4: after the Death skull appears, rocket engine ambience can be turned back on if you pause and then unpause
+
+3. In Boss mode, if you don't pick up the repair, it persist into the next cutscene. Remove the repair, if it exists.

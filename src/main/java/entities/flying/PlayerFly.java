@@ -108,7 +108,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       collisionYs[8] = hitbox.y + hitbox.height;
    }
 
-   public void update(float yLevelOffset, float xLevelOffset, float yLevelSpeed) {
+   public void update(float yLevelOffset, float xLevelOffset) {
       int prevAction = planeAction;
       handleKeyboardInputs();
       handleKeyboardNotPressed();
@@ -119,7 +119,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       }
       updateAniTick();
       flame.update();
-      shipSmoke.update(yLevelSpeed);
+      shipSmoke.update();
       statusDisplay.update();
    }
 

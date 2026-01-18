@@ -177,7 +177,7 @@ public class BossMode extends State {
          cutsceneManager.handleKeyBoardInputs();
          cutsceneManager.update();
       } else {
-         player.update(0, 0, 2f); // TODO - Technically no levelSpeed
+         player.update(0, 0);
          Flying.updatePickupItems(pickupItems, 0f, player, projectileHandler, audioPlayer);
          boss.update();
          projectileHandler.update(boss.getXPos(), boss.getYPos(), 0);
@@ -262,6 +262,7 @@ public class BossMode extends State {
       shouldAmbiencePlay = false;
       shouldMusicPlay = false;
       projectileHandler.reset();
+      pickupItems.clear();
       startCutscene(1);
    }
 

@@ -44,7 +44,7 @@ public class PlayerBoss extends PlayerFly {
    }
 
    @Override
-   public void update(float yLevelOffset, float xLevelOffset, float yLevelSpeed) {
+   public void update(float yLevelOffset, float xLevelOffset) {
       int prevAction = planeAction;
       handleKeyboardInputs();
       handleKeyboardNotPressed();

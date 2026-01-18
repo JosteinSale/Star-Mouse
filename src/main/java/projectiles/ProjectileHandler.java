@@ -84,6 +84,9 @@ public class ProjectileHandler extends Singleton {
       }
    }
 
+   /**
+    * Adds two player projectiles, one each in front of the ship's cannons
+    */
    protected void addPlayerProjectile(float xPos, float yPos) {
       Rectangle2D.Float hitbox1 = new Rectangle2D.Float(
             xPos - 8, yPos - 30, PLAYER_PRJT_SPRITE_W, PLAYER_PRJT_SPRITE_H);

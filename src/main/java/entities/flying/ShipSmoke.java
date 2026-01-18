@@ -12,6 +12,7 @@ public class ShipSmoke {
    public ArrayList<Point.Float> leftTrailingSmokePoints;
    public ArrayList<Point.Float> rightTrailingSmokePoints;
    private static final int AMOUNT_OF_POINTS = 20;
+   private static final float SMOKE_SPEED = 4f;
    private PlayerFly player;
    private int LEFT = 1;
    private int RIGHT = -1;
@@ -22,7 +23,7 @@ public class ShipSmoke {
       this.rightTrailingSmokePoints = new ArrayList<>();
    }
 
-   public void update(float ySpeed) {
+   public void update() {
       if (leftTrailingSmokePoints.size() > AMOUNT_OF_POINTS) {
          leftTrailingSmokePoints.remove(0);
       }
@@ -37,8 +38,8 @@ public class ShipSmoke {
       rightTrailingSmokePoints.add(rightPoint);
 
       // Move all points downwards
-      leftTrailingSmokePoints.forEach(point -> point.y += 2 * ySpeed);
-      rightTrailingSmokePoints.forEach(point -> point.y += 2 * ySpeed);
+      leftTrailingSmokePoints.forEach(point -> point.y += SMOKE_SPEED);
+      rightTrailingSmokePoints.forEach(point -> point.y += SMOKE_SPEED);
    }
 
    private Point.Float getNewSmokePoint(int direction) {

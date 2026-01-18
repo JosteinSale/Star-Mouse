@@ -188,7 +188,7 @@ public class Flying extends State {
       moveMaps();
       checkCheckPoint();
       moveCutsceneTriggers();
-      player.update(mapManager.clYOffset, mapManager.clXOffset, fgCurSpeed);
+      player.update(mapManager.clYOffset, mapManager.clXOffset);
       updatePickupItems(pickupItems, fgCurSpeed, player, projectileHandler, audioPlayer);
       enemyManager.update(fgCurSpeed);
       projectileHandler.update(
