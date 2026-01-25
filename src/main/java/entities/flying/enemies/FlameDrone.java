@@ -50,11 +50,6 @@ public class FlameDrone extends BaseEnemy {
    }
 
    @Override
-   public void resetShootTick() {
-      // Do nothing
-   }
-
-   @Override
    protected int getSpriteAmount() {
       switch (action) {
          case TAKING_DAMAGE:

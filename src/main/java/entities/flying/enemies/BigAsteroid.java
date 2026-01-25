@@ -94,11 +94,6 @@ public class BigAsteroid extends BaseEnemy {
    }
 
    @Override
-   public void resetShootTick() {
-      // Do nothing
-   }
-
-   @Override
    public void resetTo(float y) {
       hitbox.y = startY + y;
       hitbox.x = startX;

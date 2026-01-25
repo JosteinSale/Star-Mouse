@@ -71,11 +71,6 @@ public class SmallAsteroid extends BaseEnemy {
    }
 
    @Override
-   public void resetShootTick() {
-      // Do nothing
-   }
-
-   @Override
    public int getAction() {
       return action + (VARIANT_INDEX * 2);
    }

@@ -58,11 +58,6 @@ public class KamikazeDrone extends BaseEnemy {
    }
 
    @Override
-   public void resetShootTick() {
-      // Do nothing
-   }
-
-   @Override
    protected int getSpriteAmount() {
       return 2;
    }

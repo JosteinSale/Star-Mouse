@@ -26,7 +26,7 @@ public class KeyboardInputs extends Singleton implements InputProcessor {
    public static final String VARIANT_A = "A";
    public static final String VARIANT_B = "B";
    public static final String VARIANT_C = "C";
-   public static String currentVariant = VARIANT_A;
+   public static String currentVariant = VARIANT_C;
    private static final HashMap<String, KeyBindingVariant> keyBindingVariants = new HashMap<>();
 
    static {

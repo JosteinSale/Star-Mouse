@@ -60,11 +60,11 @@ public class Images extends Singleton {
    public static final String BOMB_PICKUP_SPRITE = "sprite_bombPickup.png";
    public static final String BOMB_SPRITE = "sprite_bomb.png";
    public static final String BOMB_EXPLOSION_SPRITE = "sprite_bombExplosion.png";
-   public static final String PLAYER_PROJECTILE_BLUE = "player_prjct1.png";
-   public static final String PLAYER_PROJECTILE_GREEN = "player_prjct2.png";
-   public static final String DRONE_PROJECTILE = "drone_projectile.png";
-   public static final String OCTADRONE_PROJECTILE = "octadrone_projectile.png";
-   public static final String REAPERDRONE_PROJECTILE = "reaper_projectile.png";
+   public static final String PLAYER_PROJECTILE_BLUE = "projectile_player1.png";
+   public static final String PLAYER_PROJECTILE_GREEN = "projectile_player2.png";
+   public static final String DRONE_PROJECTILE = "projectile_drone.png";
+   public static final String OCTADRONE_PROJECTILE = "projectile_octadrone.png";
+   public static final String REAPERDRONE_PROJECTILE = "projectile_reaper.png";
    public static final String PROJECTILE_HIT = "sprites_projectileHit.png";
    public static final String EXPLOSION = "sprites_explosion.png";
    public static final String TARGET_SPRITE = "sprites_target.png";
@@ -82,6 +82,11 @@ public class Images extends Singleton {
    public static final String BURNING_FRAGMENT_SPRITE = "sprites_burningFragment.png";
    public static final String FLAME_PROJECTILE = "sprites_droneFlame.png";
    public static final String SHIP_SMOKE_POINT = "ship_smoke_point.png";
+   public static final String BLUE_GLOW_SMALL = "glow_blue_small.png";
+   public static final String GREEN_GLOW_SMALL = "glow_green_small.png";
+   public static final String ORANGE_GLOW_BIG = "glow_orange_big.png";
+   public static final String REAPER_GLOW = "glow_reaper.png";
+   public static final String WHITE_CIRCLE = "white_circle.png";
 
    // Sprites - BossMode
    public static final String ROTATING_LAZER_SPRITE = "rotatingLazer.png";
@@ -90,7 +95,7 @@ public class Images extends Singleton {
    public static final String ENERGY_BALL_SPRITE = "energyBall.png";
    public static final String HEATSEEKING_LAZER_SPRITE = "heatSeekingLazer.png";
    public static final String MACHINE_HEART_SPRITE = "machineHeart.png";
-   public static final String BOSS_PROJECTILE1 = "bossProjectile1.png";
+   public static final String BOSS_PROJECTILE1 = "projectile_boss1.png";
    public static final String EMPTY_IMAGE = "nonImg.png"; // An empty image
 
    // Sprites - LevelEditor

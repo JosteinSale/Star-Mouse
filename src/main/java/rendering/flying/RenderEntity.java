@@ -11,6 +11,7 @@ import entities.flying.pickupItems.PickupItem;
 import entities.flying.pickupItems.PickupItemFactory;
 import projectiles.Explosion;
 import rendering.MySubImage;
+import rendering.misc.RenderGlow;
 import utils.DrawUtils;
 import utils.HelpMethods2;
 import utils.Images;
@@ -22,6 +23,7 @@ public class RenderEntity {
    private EnemyManager enemyManager;
    private MySubImage[] explosionAnimation;
    private EntityImages entityImgs;
+   private RenderGlow rGlow;
 
    public RenderEntity(
          EnemyManager enemyManager, ArrayList<PickupItem> pickupItems, Images images) {
@@ -31,6 +33,7 @@ public class RenderEntity {
             images.getFlyImageSprite(Images.EXPLOSION, true),
             5, EXPLOSION_SPRITE_SIZE, EXPLOSION_SPRITE_SIZE);
       this.entityImgs = new EntityImages(new EnemyFactory(null), new PickupItemFactory(), images);
+      this.rGlow = new RenderGlow(images);
    }
 
    public void draw(SpriteBatch sb) {
@@ -91,6 +94,10 @@ public class RenderEntity {
             (int) (enemy.getHitbox().y - eInfo.drawOffsetY),
             eInfo.spriteW * 3 * dir,
             eInfo.spriteH * 3);
+      // Glow
+      if (enemy.hasGlow()) {
+         rGlow.draw(sb, enemy.getGlow());
+      }
    }
 
    // private void drawEnemyHitbox(Float hitbox, SpriteBatch sb) {

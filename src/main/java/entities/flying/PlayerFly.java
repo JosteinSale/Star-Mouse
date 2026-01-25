@@ -23,6 +23,8 @@ public class PlayerFly extends Entity implements ShootingPlayer {
    public ShipFlame flame;
    public ShipSmoke shipSmoke;
    public StatusDisplay statusDisplay;
+   public Glow leftLazerGlow;
+   public Glow rightLazerGlow;
    protected Rectangle2D.Float teleportHitbox; // When the player teleports, a 'kill hitbox' materializes
    protected int teleportKillWidth = 100; // Width of said hitbox
    protected int teleportKillOffset; // The distance between the players hitbox and the teleport kill hitbox
@@ -59,6 +61,9 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       updateCollisionPixels();
       this.flame = new ShipFlame();
       this.shipSmoke = new ShipSmoke(this);
+      this.leftLazerGlow = new Glow(Glow.BLUE_GLOW_SMALL, 1.0f);
+      this.rightLazerGlow = new Glow(Glow.BLUE_GLOW_SMALL, 1.0f);
+      setGlowPositions();
       this.teleportHitbox = new Rectangle2D.Float(
             hitbox.x, hitbox.y, teleportKillWidth, hitbox.height);
       this.teleportKillOffset = (int) (teleportDistance - hitbox.width - teleportKillWidth) / 2;
@@ -119,6 +124,8 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       }
       updateAniTick();
       flame.update();
+      leftLazerGlow.update();
+      rightLazerGlow.update();
       shipSmoke.update();
       statusDisplay.update();
    }
@@ -252,6 +259,12 @@ public class PlayerFly extends Entity implements ShootingPlayer {
          ySpeed = 0;
       }
       updateCollisionPixels();
+      setGlowPositions();
+   }
+
+   protected void setGlowPositions() {
+      leftLazerGlow.setPos(hitbox.x - 52, hitbox.y - 40);
+      rightLazerGlow.setPos(hitbox.x - 44 + hitbox.width, hitbox.y - 40);
    }
 
    /**
@@ -489,6 +502,12 @@ public class PlayerFly extends Entity implements ShootingPlayer {
    }
 
    @Override
+   public void onLazerShoot() {
+      leftLazerGlow.start();
+      rightLazerGlow.start();
+   }
+
+   @Override
    public void setMaxHp(int hp) {
       this.statusDisplay.setMaxHP(hp);
    }
@@ -509,6 +528,9 @@ public class PlayerFly extends Entity implements ShootingPlayer {
    public void reset() {
       this.visible = true;
       this.aniIndex = 0;
+      leftLazerGlow.reset();
+      rightLazerGlow.reset();
+      setGlowType(Glow.BLUE_GLOW_SMALL);
       HP = maxHP;
       statusDisplay.setHP(this.HP);
       statusDisplay.setBlinking(false);
@@ -520,4 +542,10 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       resetSpeed();
       planeAction = IDLE;
    }
+
+   public void setGlowType(int glowType) {
+      leftLazerGlow.setGlowType(glowType);
+      rightLazerGlow.setGlowType(glowType);
+   }
+
 }

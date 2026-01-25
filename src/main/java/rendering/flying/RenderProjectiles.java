@@ -9,6 +9,7 @@ import projectiles.PlayerProjectile;
 import projectiles.Projectile;
 import projectiles.ProjectileHandler;
 import projectiles.ProjectileHit;
+import rendering.MyImage;
 import rendering.MySubImage;
 import utils.DrawUtils;
 import utils.HelpMethods2;
@@ -45,6 +46,7 @@ public class RenderProjectiles {
 
    protected MySubImage[] hitAnimation;
    protected MySubImage[] bombExplosionAnimation;
+   protected MyImage whiteGlow;
 
    public RenderProjectiles(ProjectileHandler projectileHandler, Images images) {
       this.projectileHandler = projectileHandler;
@@ -55,29 +57,46 @@ public class RenderProjectiles {
       // Projectiles
       this.plPrjctRegular = new ProjectileDrawInfo(
             images.getFlyImageSprite(Images.PLAYER_PROJECTILE_BLUE, true),
-            16, 52, 0, 0);
+            16, 52, 0, 0,
+            true, 0.3f,
+            17, 23, 50, 50);
+
       this.plPrjctPowerup = new ProjectileDrawInfo(
             images.getFlyImageSprite(Images.PLAYER_PROJECTILE_GREEN, true),
-            16, 52, 0, 0);
+            16, 52, 0, 0,
+            true, 0.3f,
+            17, 23, 50, 50);
+
       this.bombPrjct = new ProjectileDrawInfo(
             images.getFlyImageSprite(Images.BOMB_SPRITE, true),
             (int) (BOMB_PRJT_SPRITE_SIZE * 2.5f), (int) (BOMB_PRJT_SPRITE_SIZE * 2.5f),
-            20, 18);
+            20, 18,
+            false, 0f, 0, 0, 0, 0);
+
       this.dronePrjct = new ProjectileDrawInfo(
             images.getFlyImageSprite(Images.DRONE_PROJECTILE, true),
-            32, 32, 0, 0);
+            32, 32, 0, 0,
+            true, 0.3f, 12, 12, 55, 55);
+
       this.octadronePrcjt = new ProjectileDrawInfo(
             images.getFlyImageSprite(Images.OCTADRONE_PROJECTILE, true),
-            25, 25, 0, 0);
+            25, 25, 0, 0,
+            true, 0.3f, 9, 9, 42, 42);
+
       this.reaperdronePrjct = new ProjectileDrawInfo(
             images.getFlyImageSprite(Images.REAPERDRONE_PROJECTILE, true),
-            REAPERDRONE_PRJT_SPRITE_W * 3, REAPERDRONE_PRJT_SPRITE_H * 3, 0, 0);
+            REAPERDRONE_PRJT_SPRITE_W * 3, REAPERDRONE_PRJT_SPRITE_H * 3, 0, 0,
+            false, 0f, 0, 0, 0, 0);
+
       this.flamedronPrjct = new ProjectileDrawInfo(
             images.getFlyImageSprite(Images.FLAME_PROJECTILE, true),
-            FLAME_PRJT_SPRITE_W * 3, FLAME_PRJT_SPRITE_H * 3, 36, 35);
+            FLAME_PRJT_SPRITE_W * 3, FLAME_PRJT_SPRITE_H * 3, 36, 35,
+            false, 0f, 0, 0, 0, 0);
+
       this.bossProjct1 = new ProjectileDrawInfo(
             images.getFlyImageSprite(Images.BOSS_PROJECTILE1, true),
-            70, 70, 0, 0);
+            70, 70, 0, 0,
+            true, 0.3f, 20, 20, 110, 110);
 
       // Hit animation, bomb explosion animation
       this.hitAnimation = HelpMethods2.GetUnscaled1DAnimationArray(
@@ -91,7 +110,11 @@ public class RenderProjectiles {
             BOMBEXPLOSION_SPRITE_WIDTH * 3,
             BOMBEXPLOSION_SPRITE_HEIGHT * 3,
             (BOMBEXPLOSION_SPRITE_WIDTH * 3) / 2,
-            (BOMBEXPLOSION_SPRITE_HEIGHT * 3) / 2);
+            (BOMBEXPLOSION_SPRITE_HEIGHT * 3) / 2,
+            false, 0f, 0, 0, 0, 0);
+
+      // Glow for projectiles
+      this.whiteGlow = images.getFlyImageSprite(Images.WHITE_CIRCLE, true);
    }
 
    public void draw(SpriteBatch sb) {
@@ -133,7 +156,15 @@ public class RenderProjectiles {
             sb, info.img,
             (int) (p.getHitbox().x - info.drawOffsetX),
             (int) (p.getHitbox().y - info.drawOffsetY),
-            info.drawWidth, info.drawHeight);
+            info.width, info.height);
+      if (info.hasGlow) {
+         DrawUtils.drawTransparentImage(
+               sb, whiteGlow,
+               (int) (p.getHitbox().x - info.glowDrawOffsetX),
+               (int) (p.getHitbox().y - info.glowDrawOffsetY),
+               info.glowWidth, info.glowHeight,
+               info.glowAlpha);
+      }
    }
 
    private void drawBombExplosion(BombExplosion b, SpriteBatch sb) {
@@ -141,7 +172,7 @@ public class RenderProjectiles {
             sb, bombExplosionAnimation[b.aniIndex],
             b.x - bombExplInfo.drawOffsetX,
             b.y - bombExplInfo.drawOffsetY,
-            bombExplInfo.drawWidth, bombExplInfo.drawHeight);
+            bombExplInfo.width, bombExplInfo.height);
    }
 
    /** Matches the projectile type with a ProjectileDrawInfo */

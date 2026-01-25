@@ -5,7 +5,7 @@ import entities.flying.EntityInfo;
 
 public class Target extends BaseEnemy {
    public Target(Rectangle2D.Float hitbox, EntityInfo info) {
-      super(hitbox, info, 0);
+      super(hitbox, info);
       maxHP = 20;
       HP = maxHP;
    }
@@ -17,10 +17,5 @@ public class Target extends BaseEnemy {
 
    public boolean canShoot() {
       return false;
-   }
-
-   @Override
-   public void resetShootTick() {
-      // Do nothing
    }
 }

@@ -12,4 +12,6 @@ public interface ShootingPlayer {
    public void takeShootDamage(int damage);
 
    public void setMaxHp(int hp);
+
+   public void onLazerShoot();
 }

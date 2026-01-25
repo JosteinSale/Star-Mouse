@@ -71,6 +71,7 @@ public class ProjectileHandler extends Singleton {
 
    protected void checkPlayerShoot() {
       if (game.interactIsPressed && lazerShootTick == 0) {
+         player.onLazerShoot();
          lazerShootTick = lazerShootBuffer;
          this.addPlayerProjectile(player.getHitbox().x, player.getHitbox().y);
          audioPlayer.playSFX(Audio.SFX_LAZER);
@@ -111,7 +112,7 @@ public class ProjectileHandler extends Singleton {
       for (Enemy enemy : enemyManager.getActiveEnemiesOnScreen()) {
          if (enemy.canShoot()) {
             addEnemeyProjectile(enemy.getType(), enemy.getHitbox(), enemy.getDir());
-            enemy.resetShootTick();
+            enemy.onShoot();
          }
       }
    }

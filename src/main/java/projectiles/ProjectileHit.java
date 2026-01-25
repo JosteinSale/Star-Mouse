@@ -54,7 +54,7 @@ public class ProjectileHit {
    public static ProjectileHit GetNewProjectilHitForEnemyOrMap(Projectile p) {
       return new ProjectileHit(
             (int) p.getHitbox().x - 15,
-            (int) p.getHitbox().y + 15,
+            (int) p.getHitbox().y + 5,
             SMALL_HIT);
    }
 

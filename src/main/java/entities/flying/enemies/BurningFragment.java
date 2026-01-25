@@ -54,9 +54,4 @@ public class BurningFragment extends BaseEnemy {
       // The asteroid explodes immediately upon colliding with the player.
       dead = true;
    }
-
-   @Override
-   public void resetShootTick() {
-      // Do nothing
-   }
 }

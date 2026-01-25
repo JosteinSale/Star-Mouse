@@ -8,6 +8,7 @@ import java.awt.geom.Rectangle2D.Float;
 import java.util.ArrayList;
 
 import entities.MyCollisionImage;
+import entities.flying.Glow;
 import entities.flying.PlayerFly;
 import main_classes.Game;
 import utils.Constants.Audio;
@@ -57,6 +58,9 @@ public class PlayerBoss extends PlayerFly {
       updateCustomIframes();
       updateAniTick();
       flame.update();
+      leftLazerGlow.update();
+      rightLazerGlow.update();
+      shipSmoke.update();
       statusDisplay.update();
    }
 
@@ -87,6 +91,7 @@ public class PlayerBoss extends PlayerFly {
          hitbox.y = Game.GAME_DEFAULT_HEIGHT - hitbox.height - edgeDist;
          ySpeed = 0;
       }
+      setGlowPositions();
    }
 
    private void checkBossInteraction() {
@@ -177,6 +182,9 @@ public class PlayerBoss extends PlayerFly {
       this.visible = true;
       this.aniIndex = 0;
       this.resetSpeed();
+      leftLazerGlow.reset();
+      rightLazerGlow.reset();
+      setGlowType(Glow.BLUE_GLOW_SMALL);
       HP = maxHP;
       statusDisplay.setHP(this.HP);
       statusDisplay.setBlinking(false);

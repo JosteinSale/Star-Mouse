@@ -7,6 +7,7 @@ import rendering.MyColor;
 import rendering.MyImage;
 import rendering.MySubImage;
 import rendering.Render;
+import rendering.misc.RenderGlow;
 import utils.DrawUtils;
 import utils.HelpMethods2;
 import utils.Images;
@@ -14,8 +15,6 @@ import java.awt.Point;
 
 import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_HEIGHT;
 import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_WIDTH;
-
-import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -26,6 +25,7 @@ public class RenderPlayerFly implements Render {
    private PlayerFly player;
    private MySubImage[][] animations;
    private MySubImage[] flameAnimations;
+   private RenderGlow rGlow;
    private MyImage shipSmokeImg;
    private MyImage tpShadowImg;
 
@@ -48,6 +48,7 @@ public class RenderPlayerFly implements Render {
       this.game = game;
       this.player = player;
       this.loadImages(game.getImages());
+      this.rGlow = new RenderGlow(game.getImages());
    }
 
    private void loadImages(Images images) {
@@ -94,6 +95,7 @@ public class RenderPlayerFly implements Render {
             drawFlame(sb, player.hitbox.x + 3f, player.hitbox.y + player.hitbox.height);
          }
 
+         // Ship smoke
          drawShipSmoke(sb);
 
          // Player
@@ -108,7 +110,13 @@ public class RenderPlayerFly implements Render {
                (int) (player.hitbox.x - 20), (int) (player.hitbox.y - 20),
                SHIP_SPRITE_WIDTH * 3, SHIP_SPRITE_HEIGHT * 3);
 
+         // Status display
          drawStatusDisplay(sb);
+
+         // Glows from shooting
+         rGlow.draw(sb, player.leftLazerGlow);
+         rGlow.draw(sb, player.rightLazerGlow);
+
          // g.setColor(Color.RED);
          // this.drawHitbox(g, 0, 0);
 

@@ -4,6 +4,7 @@ import java.awt.geom.Rectangle2D;
 
 import entities.Entity;
 import entities.flying.EntityInfo;
+import entities.flying.Glow;
 import main_classes.Game;
 
 /**
@@ -19,6 +20,7 @@ import main_classes.Game;
  */
 public abstract class BaseEnemy extends Entity implements Enemy {
    protected EntityInfo info;
+   public Glow glow; // Can be null
    protected float startY;
    protected float startX;
    protected int maxHP = 60;
@@ -39,12 +41,13 @@ public abstract class BaseEnemy extends Entity implements Enemy {
    protected int shootTick = 0;
    protected int shootInterval;
 
-   public BaseEnemy(Rectangle2D.Float hitbox, EntityInfo info, int shootInterval) {
+   public BaseEnemy(Rectangle2D.Float hitbox, EntityInfo info, int shootInterval, Glow glow) {
       super(hitbox);
       this.info = info;
       startY = hitbox.y;
       startX = hitbox.x;
       this.shootInterval = shootInterval;
+      this.glow = glow;
    }
 
    public BaseEnemy(Rectangle2D.Float hitbox, EntityInfo info) {
@@ -141,10 +144,6 @@ public abstract class BaseEnemy extends Entity implements Enemy {
       return true;
    }
 
-   public void resetShootTick() {
-      this.shootTick = 0;
-   }
-
    protected int getSpriteAmount() {
       if (action == TAKING_DAMAGE) {
          return 2;
@@ -157,6 +156,7 @@ public abstract class BaseEnemy extends Entity implements Enemy {
    public void resetTo(float y) {
       hitbox.y = startY + y;
       hitbox.x = startX;
+      glow.reset();
       action = IDLE;
       HP = maxHP;
       onScreen = false;
@@ -185,6 +185,24 @@ public abstract class BaseEnemy extends Entity implements Enemy {
    @Override
    public int getAniIndex() {
       return this.aniIndex;
+   }
+
+   @Override
+   public void onShoot() {
+      if (glow != null) {
+         glow.start();
+      }
+      this.shootTick = 0;
+   }
+
+   @Override
+   public boolean hasGlow() {
+      return glow != null;
+   }
+
+   @Override
+   public Glow getGlow() {
+      return this.glow;
    }
 
 }

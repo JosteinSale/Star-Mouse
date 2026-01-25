@@ -3,6 +3,7 @@ package entities.flying.enemies;
 import java.awt.geom.Rectangle2D;
 
 import entities.flying.EntityInfo;
+import entities.flying.Glow;
 
 public interface Enemy {
 
@@ -46,9 +47,6 @@ public interface Enemy {
     */
    public boolean canShoot();
 
-   /** Resets the shoot-timer */
-   public void resetShootTick();
-
    public boolean isDead();
 
    /** Is used for drawing and to update individual behavior */
@@ -70,4 +68,14 @@ public interface Enemy {
 
    /** Returns the current animation index in the spritesheet of the enemy */
    public int getAniIndex();
+
+   /**
+    * Called when the enemy shoots a projectile. Can activate enemy-specific
+    * effects, like shoot glow or sound effects.
+    */
+   public void onShoot();
+
+   public boolean hasGlow();
+
+   public Glow getGlow();
 }

@@ -30,9 +30,4 @@ public class SmallShip extends BaseEnemy {
    public int getDir() {
       return this.direction;
    }
-
-   @Override
-   public void resetShootTick() {
-      // Do nothing
-   }
 }
