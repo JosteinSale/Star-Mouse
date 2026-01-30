@@ -114,8 +114,8 @@ public class RenderPlayerFly implements Render {
          drawStatusDisplay(sb);
 
          // Glows from shooting
-         rGlow.draw(sb, player.leftLazerGlow);
-         rGlow.draw(sb, player.rightLazerGlow);
+         rGlow.drawAnimatedGlow(sb, player.leftLazerGlow);
+         rGlow.drawAnimatedGlow(sb, player.rightLazerGlow);
 
          // g.setColor(Color.RED);
          // this.drawHitbox(g, 0, 0);

@@ -4,6 +4,7 @@ import java.awt.geom.Rectangle2D;
 
 import entities.Entity;
 import entities.flying.EntityInfo;
+import entities.flying.AnimatedGlow;
 
 public class DefaultPickupitem extends Entity implements PickupItem {
    private EntityInfo info;
@@ -64,6 +65,12 @@ public class DefaultPickupitem extends Entity implements PickupItem {
    @Override
    public EntityInfo getDrawInfo() {
       return this.info;
+   }
+
+   @Override
+   public AnimatedGlow getGlow() {
+      // TODO Auto-generated method stub
+      throw new UnsupportedOperationException("Unimplemented method 'getGlow'");
    }
 
 }

@@ -2,11 +2,11 @@ package entities.flying.enemies;
 
 import java.awt.geom.Rectangle2D;
 import entities.flying.EntityInfo;
-import entities.flying.Glow;
+import entities.flying.AnimatedGlow;
 
 public class Drone extends BaseEnemy {
    public Drone(Rectangle2D.Float hitbox, EntityInfo info, int shootInterval) {
-      super(hitbox, info, shootInterval, new Glow(Glow.ORANGE_GLOW_BIG, 1f));
+      super(hitbox, info, shootInterval, new AnimatedGlow(AnimatedGlow.ORANGE_GLOW_BIG, 1f));
       setGlowPosition();
    }
 

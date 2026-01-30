@@ -23,8 +23,8 @@ public class PlayerFly extends Entity implements ShootingPlayer {
    public ShipFlame flame;
    public ShipSmoke shipSmoke;
    public StatusDisplay statusDisplay;
-   public Glow leftLazerGlow;
-   public Glow rightLazerGlow;
+   public AnimatedGlow leftLazerGlow;
+   public AnimatedGlow rightLazerGlow;
    protected Rectangle2D.Float teleportHitbox; // When the player teleports, a 'kill hitbox' materializes
    protected int teleportKillWidth = 100; // Width of said hitbox
    protected int teleportKillOffset; // The distance between the players hitbox and the teleport kill hitbox
@@ -61,8 +61,8 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       updateCollisionPixels();
       this.flame = new ShipFlame();
       this.shipSmoke = new ShipSmoke(this);
-      this.leftLazerGlow = new Glow(Glow.BLUE_GLOW_SMALL, 1.0f);
-      this.rightLazerGlow = new Glow(Glow.BLUE_GLOW_SMALL, 1.0f);
+      this.leftLazerGlow = new AnimatedGlow(AnimatedGlow.BLUE_GLOW_SMALL, 1.0f);
+      this.rightLazerGlow = new AnimatedGlow(AnimatedGlow.BLUE_GLOW_SMALL, 1.0f);
       setGlowPositions();
       this.teleportHitbox = new Rectangle2D.Float(
             hitbox.x, hitbox.y, teleportKillWidth, hitbox.height);
@@ -530,7 +530,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       this.aniIndex = 0;
       leftLazerGlow.reset();
       rightLazerGlow.reset();
-      setGlowType(Glow.BLUE_GLOW_SMALL);
+      setGlowType(AnimatedGlow.BLUE_GLOW_SMALL);
       HP = maxHP;
       statusDisplay.setHP(this.HP);
       statusDisplay.setBlinking(false);

@@ -3,7 +3,7 @@ package entities.flying.enemies;
 import java.awt.geom.Rectangle2D;
 
 import entities.flying.EntityInfo;
-import entities.flying.Glow;
+import entities.flying.AnimatedGlow;
 
 public interface Enemy {
 
@@ -77,5 +77,5 @@ public interface Enemy {
 
    public boolean hasGlow();
 
-   public Glow getGlow();
+   public AnimatedGlow getGlow();
 }

@@ -3,12 +3,12 @@ package entities.flying.enemies;
 import java.awt.geom.Rectangle2D;
 
 import entities.flying.EntityInfo;
-import entities.flying.Glow;
+import entities.flying.AnimatedGlow;
 
 public class BlasterDrone extends BaseEnemy {
 
    public BlasterDrone(Rectangle2D.Float hitbox, EntityInfo info) {
-      super(hitbox, info, 60, new Glow(Glow.ORANGE_GLOW_BIG, 1f));
+      super(hitbox, info, 60, new AnimatedGlow(AnimatedGlow.ORANGE_GLOW_BIG, 1f));
       startY = hitbox.y;
       this.info = info;
       maxHP = 80;

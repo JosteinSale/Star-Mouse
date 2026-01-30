@@ -2,17 +2,17 @@ package entities.flying;
 
 /**
  * A glowing effect in the game. Used for shooting effects and other visual
- * enhancements.
+ * enhancements. Can be static or animated.
  * 
- * Call start() method to activate the glow effect.
- * Call update() method in the game loop to update the glow's animation.
+ * Call start() method to activate the glow effect (only affects animated
+ * glows). Call update() method in the game loop to update the glow's animation
+ * (also only affects animated glows).
  * Change the position of the glow using setPos(x, y) method.
  * 
- * To check if the glow is active (e.g. for rendering), use isActive() method.
+ * To check if an animated glow is active (e.g. for rendering), use isActive()
+ * method.
  */
-public class Glow {
-   // If we make more glows in the future, we can add custom behaviors in
-   // subclasses.
+public class AnimatedGlow {
    public static final int ORANGE_GLOW_BIG = 1;
    public static final int BLUE_GLOW_SMALL = 2;
    public static final int GREEN_GLOW_SMALL = 3;
@@ -27,10 +27,9 @@ public class Glow {
 
    private float x;
    private float y;
-
    private boolean active = false;
 
-   public Glow(int glowType, float scale) {
+   public AnimatedGlow(int glowType, float scale) {
       this.glowType = glowType;
       this.scale = scale;
    }
@@ -55,14 +54,14 @@ public class Glow {
       if (aniTick > aniSpeed) {
          aniTick = 0;
          aniIndex++;
-         if (aniIndex > GetLastAniIndex()) {
+         if (aniIndex > lastIndexInAnimation()) {
             active = false;
             aniIndex = 0;
          }
       }
    }
 
-   private int GetLastAniIndex() {
+   private int lastIndexInAnimation() {
       switch (glowType) {
          case ORANGE_GLOW_BIG:
          case REAPER_GLOW:

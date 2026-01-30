@@ -1,9 +1,9 @@
 package entities.flying.pickupItems;
 
-import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 
 import entities.flying.EntityInfo;
+import entities.flying.AnimatedGlow;
 
 /**
  * An item that player can pick up in flying mode.
@@ -11,19 +11,21 @@ import entities.flying.EntityInfo;
  */
 public interface PickupItem {
 
-    public void update(float yLevelSpeed);
+   public void update(float yLevelSpeed);
 
-    public boolean isActive();
+   public boolean isActive();
 
-    public int getAniIndex();
+   public int getAniIndex();
 
-    public void setActive(boolean active);
+   public void setActive(boolean active);
 
-    public Rectangle2D.Float getHitbox();
+   public Rectangle2D.Float getHitbox();
 
-    public EntityInfo getDrawInfo();
+   public EntityInfo getDrawInfo();
 
-    public int getType();
+   public int getType();
 
-    public void resetTo(float startY);
+   public void resetTo(float startY);
+
+   public AnimatedGlow getGlow();
 }

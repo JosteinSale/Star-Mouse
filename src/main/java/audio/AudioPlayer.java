@@ -41,13 +41,13 @@ public class AudioPlayer extends Singleton {
    private Music curSong;
    private Music curAmbience;
 
-   private float setSongVolume = 0.71f;
+   private float setSongVolume = 0f; // Default 0.71
    private float setAmbienceVolume = 0.91f;
    private float setSfxVolume = 0.91f;
 
    // Fading stuff
-   private float songFadeVolume = 0.71f;
-   private float ambienceFadeVolume = 0.91f;
+   private float songFadeVolume = setSongVolume;
+   private float ambienceFadeVolume = setAmbienceVolume;
    private float volumeFadeSpeed = 0.05f;
    private boolean fadeOutActive = false;
    private int volumeFadeTick = 0;
@@ -55,7 +55,6 @@ public class AudioPlayer extends Singleton {
 
    // Silent track, which we play to keep audio drivers alive
    private Sound keepAliveSound;
-   private long keepAliveId;
 
    public AudioPlayer() {
       loadAudio();
@@ -65,7 +64,7 @@ public class AudioPlayer extends Singleton {
    private void startKeepAliveSound() {
       // Some audio drivers go to sleep if no sound is playing. This keeps them alive.
       keepAliveSound = ResourceLoader.getSound("keepAliveSound.wav").get();
-      keepAliveId = keepAliveSound.loop(1f); // Volume needs to be high
+      keepAliveSound.loop(1f); // Volume needs to be high
    }
 
    private void loadAudio() {

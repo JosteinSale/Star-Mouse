@@ -2,7 +2,7 @@ package entities.flying.enemies;
 
 import java.awt.geom.Rectangle2D;
 import entities.flying.EntityInfo;
-import entities.flying.Glow;
+import entities.flying.AnimatedGlow;
 
 /**
  * The ReaperDrone shoots 3 wide, fast projectiles in fast succession.
@@ -10,7 +10,7 @@ import entities.flying.Glow;
  */
 public class ReaperDrone extends BaseEnemy {
    public ReaperDrone(Rectangle2D.Float hitbox, EntityInfo info, int shootInterval) {
-      super(hitbox, info, shootInterval, new Glow(Glow.REAPER_GLOW, 1.5f));
+      super(hitbox, info, shootInterval, new AnimatedGlow(AnimatedGlow.REAPER_GLOW, 1.5f));
       maxHP = 150;
       HP = maxHP;
       setGlowPosition();

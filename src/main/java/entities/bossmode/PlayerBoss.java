@@ -8,7 +8,7 @@ import java.awt.geom.Rectangle2D.Float;
 import java.util.ArrayList;
 
 import entities.MyCollisionImage;
-import entities.flying.Glow;
+import entities.flying.AnimatedGlow;
 import entities.flying.PlayerFly;
 import main_classes.Game;
 import utils.Constants.Audio;
@@ -184,7 +184,7 @@ public class PlayerBoss extends PlayerFly {
       this.resetSpeed();
       leftLazerGlow.reset();
       rightLazerGlow.reset();
-      setGlowType(Glow.BLUE_GLOW_SMALL);
+      setGlowType(AnimatedGlow.BLUE_GLOW_SMALL);
       HP = maxHP;
       statusDisplay.setHP(this.HP);
       statusDisplay.setBlinking(false);

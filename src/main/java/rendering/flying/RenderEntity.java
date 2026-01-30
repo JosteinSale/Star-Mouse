@@ -96,7 +96,7 @@ public class RenderEntity {
             eInfo.spriteH * 3);
       // Glow
       if (enemy.hasGlow()) {
-         rGlow.draw(sb, enemy.getGlow());
+         rGlow.drawAnimatedGlow(sb, enemy.getGlow());
       }
    }
 

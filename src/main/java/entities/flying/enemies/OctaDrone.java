@@ -3,11 +3,11 @@ package entities.flying.enemies;
 import java.awt.geom.Rectangle2D;
 
 import entities.flying.EntityInfo;
-import entities.flying.Glow;
+import entities.flying.AnimatedGlow;
 
 public class OctaDrone extends BaseEnemy {
    public OctaDrone(Rectangle2D.Float hitbox, EntityInfo info, int shootTimer) {
-      super(hitbox, info, shootTimer, new Glow(Glow.ORANGE_GLOW_BIG, 1f));
+      super(hitbox, info, shootTimer, new AnimatedGlow(AnimatedGlow.ORANGE_GLOW_BIG, 1f));
       maxHP = 85;
       HP = maxHP;
       setGlowPosition();

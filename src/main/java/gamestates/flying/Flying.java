@@ -15,7 +15,7 @@ import cutscenes.cutsceneManagers.CutsceneManagerFly;
 import cutscenes.cutsceneManagers.DefaultCutsceneManager;
 import entities.exploring.AutomaticTrigger;
 import entities.flying.EnemyFactory;
-import entities.flying.Glow;
+import entities.flying.AnimatedGlow;
 import entities.flying.PlayerFly;
 import entities.flying.enemies.Enemy;
 import entities.flying.enemies.EnemyManager;
@@ -98,7 +98,7 @@ public class Flying extends State {
       loadCutscenes(lvl);
       player.onLevelStart();
       this.setRenders(lvl, FlyLevelInfo.getBgImgHeight(lvl));
-      // startAt(6000); // For testing purposes
+      startAt(1000); // For testing purposes
    }
 
    /**
@@ -240,7 +240,7 @@ public class Flying extends State {
             p.setActive(false);
             if (p.getType() == POWERUP) {
                projectileHandler.setPowerup(true);
-               player.setGlowType(Glow.GREEN_GLOW_SMALL);
+               player.setGlowType(AnimatedGlow.GREEN_GLOW_SMALL);
                audioPlayer.playSFX(Audio.SFX_POWERUP);
             } else if (p.getType() == REPAIR) {
                player.increaseHealth(REPAIR_HEALTH);

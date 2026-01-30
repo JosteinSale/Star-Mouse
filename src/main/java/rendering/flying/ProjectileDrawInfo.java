@@ -1,5 +1,6 @@
 package rendering.flying;
 
+import entities.flying.StaticGlow;
 import rendering.MyImage;
 
 /**
@@ -13,27 +14,21 @@ public class ProjectileDrawInfo {
    protected int drawOffsetX;
    protected int drawOffsetY;
 
-   protected boolean hasGlow;
-   protected float glowAlpha;
-   protected int glowWidth;
-   protected int glowHeight;
+   protected StaticGlow glow;
    protected int glowDrawOffsetX;
    protected int glowDrawOffsetY;
 
    public ProjectileDrawInfo(
          MyImage img, int drawWidth, int drawHeight,
-         int drawOffsetX, int drawOffsetY, boolean hasGlow, float glowAlpha,
-         int glowDrawOffsetX, int glowDrawOffsetY, int glowDrawWidth, int glowDrawHeight) {
+         int drawOffsetX, int drawOffsetY, StaticGlow glow,
+         int glowDrawOffsetX, int glowDrawOffsetY) {
       this.img = img;
       this.width = drawWidth;
       this.height = drawHeight;
       this.drawOffsetX = drawOffsetX;
       this.drawOffsetY = drawOffsetY;
-      this.hasGlow = hasGlow;
-      this.glowAlpha = glowAlpha;
+      this.glow = glow;
       this.glowDrawOffsetX = glowDrawOffsetX;
       this.glowDrawOffsetY = glowDrawOffsetY;
-      this.glowWidth = glowDrawWidth;
-      this.glowHeight = glowDrawHeight;
    }
 }

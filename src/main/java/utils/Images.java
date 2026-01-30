@@ -86,7 +86,7 @@ public class Images extends Singleton {
    public static final String GREEN_GLOW_SMALL = "glow_green_small.png";
    public static final String ORANGE_GLOW_BIG = "glow_orange_big.png";
    public static final String REAPER_GLOW = "glow_reaper.png";
-   public static final String WHITE_CIRCLE = "white_circle.png";
+   public static final String WHITE_GLOW_BIG = "glow_white_big.png";
 
    // Sprites - BossMode
    public static final String ROTATING_LAZER_SPRITE = "rotatingLazer.png";
