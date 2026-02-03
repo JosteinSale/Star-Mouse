@@ -64,8 +64,9 @@ public class RenderEntity {
    private void drawPickupItems(SpriteBatch sb) {
       for (PickupItem p : pickupItems) {
          // drawHitbox(g, 0, 0);
-         EntityInfo info = p.getDrawInfo();
          if (p.isActive()) {
+            EntityInfo info = p.getDrawInfo();
+            rGlow.drawStaticGlow(sb, p.getGlow());
             DrawUtils.drawSubImage(
                   sb, entityImgs.getImageFor(
                         info.typeConstant, 0, p.getAniIndex()),

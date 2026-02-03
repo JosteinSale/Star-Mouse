@@ -11,10 +11,11 @@ package entities.flying;
  * To check if an animated glow is active (e.g. for rendering), use isActive()
  */
 public class StaticGlow {
-   public static final int WHITE_GLOW_SMALL = 5;
-   public static final int WHITE_GLOW_MEDIUM = 6;
-   public static final int WHITE_GLOW_BIG = 7;
-   public static final int WHITE_GLOW_BIGGEST = 8;
+   public static final int WHITE_GLOW_SMALL = 1;
+   public static final int WHITE_GLOW_MEDIUM = 2;
+   public static final int WHITE_GLOW_BIG = 3;
+   public static final int WHITE_GLOW_BIGGEST = 4;
+   public static final int WHITE_GLOW_DYNAMIC = 5;
 
    private int glowType;
    private float alpha = 1f;

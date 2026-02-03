@@ -4,10 +4,11 @@ import java.awt.geom.Rectangle2D;
 
 import entities.Entity;
 import entities.flying.EntityInfo;
-import entities.flying.AnimatedGlow;
+import entities.flying.StaticGlow;
 
 public class DefaultPickupitem extends Entity implements PickupItem {
    private EntityInfo info;
+   protected StaticGlow glow;
    private float startY;
    private int aniIndex;
    private int aniTick;
@@ -15,17 +16,20 @@ public class DefaultPickupitem extends Entity implements PickupItem {
    protected int nrOfImages;
    private boolean active = true;
 
-   public DefaultPickupitem(Rectangle2D.Float hitbox, EntityInfo info, int aniTickPerFrame, int nrOfImages) {
+   public DefaultPickupitem(Rectangle2D.Float hitbox, EntityInfo info, int aniTickPerFrame, int nrOfImages,
+         StaticGlow glow) {
       super(hitbox);
       startY = hitbox.y;
       this.info = info;
       this.aniTickPerFrame = aniTickPerFrame;
       this.nrOfImages = nrOfImages;
+      this.glow = glow;
    }
 
    public void update(float yLevelSpeed) {
       this.hitbox.y += yLevelSpeed;
       aniTick++;
+      setGlowPos();
       if (aniTick == aniTickPerFrame) {
          aniIndex++;
          aniTick = 0;
@@ -33,6 +37,10 @@ public class DefaultPickupitem extends Entity implements PickupItem {
             aniIndex = 0;
          }
       }
+   }
+
+   protected void setGlowPos() {
+      // Default implementation does nothing. Subclasses may override.
    }
 
    public boolean isActive() {
@@ -68,9 +76,8 @@ public class DefaultPickupitem extends Entity implements PickupItem {
    }
 
    @Override
-   public AnimatedGlow getGlow() {
-      // TODO Auto-generated method stub
-      throw new UnsupportedOperationException("Unimplemented method 'getGlow'");
+   public StaticGlow getGlow() {
+      return this.glow;
    }
 
 }

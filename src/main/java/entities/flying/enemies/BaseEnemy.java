@@ -156,7 +156,8 @@ public abstract class BaseEnemy extends Entity implements Enemy {
    public void resetTo(float y) {
       hitbox.y = startY + y;
       hitbox.x = startX;
-      glow.reset();
+      if (glow != null)
+         glow.reset();
       action = IDLE;
       HP = maxHP;
       onScreen = false;
@@ -189,9 +190,8 @@ public abstract class BaseEnemy extends Entity implements Enemy {
 
    @Override
    public void onShoot() {
-      if (glow != null) {
+      if (glow != null)
          glow.start();
-      }
       this.shootTick = 0;
    }
 

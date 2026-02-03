@@ -80,6 +80,11 @@ public class RenderGlow {
          case WHITE_GLOW_BIGGEST:
             drawStatic(sb, glow, whiteGlow, 0);
             break;
+         case WHITE_GLOW_DYNAMIC:
+            drawStatic(sb, glow, whiteGlow, 1);
+            drawStatic(sb, glow, whiteGlow, 2);
+            drawStatic(sb, glow, whiteGlow, 3);
+            break;
       }
    }
 

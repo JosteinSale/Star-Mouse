@@ -3,7 +3,7 @@ package entities.flying.pickupItems;
 import java.awt.geom.Rectangle2D;
 
 import entities.flying.EntityInfo;
-import entities.flying.AnimatedGlow;
+import entities.flying.StaticGlow;
 
 /**
  * An item that player can pick up in flying mode.
@@ -27,5 +27,5 @@ public interface PickupItem {
 
    public void resetTo(float startY);
 
-   public AnimatedGlow getGlow();
+   public StaticGlow getGlow();
 }
