@@ -98,7 +98,7 @@ public class Flying extends State {
       loadCutscenes(lvl);
       player.onLevelStart();
       this.setRenders(lvl, FlyLevelInfo.getBgImgHeight(lvl));
-      // startAt(1000); // For testing purposes
+      // startAt(10000); // For testing purposes
    }
 
    /**

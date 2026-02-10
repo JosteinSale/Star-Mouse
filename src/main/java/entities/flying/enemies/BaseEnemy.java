@@ -35,9 +35,7 @@ public abstract class BaseEnemy extends Entity implements Enemy {
    protected int aniIndex = 0;
    protected int aniTick;
    protected int aniTickPerFrame = 4;
-   protected int damageFrames = 10;
    protected int damageTick = 0;
-
    protected int shootTick = 0;
    protected int shootInterval;
 
@@ -118,7 +116,7 @@ public abstract class BaseEnemy extends Entity implements Enemy {
    public void takeDamage(int damage) {
       this.HP -= damage;
       this.action = TAKING_DAMAGE;
-      this.damageTick = damageFrames;
+      damageTick = 4;
       if (HP <= 0) {
          dead = true;
       }
@@ -145,11 +143,7 @@ public abstract class BaseEnemy extends Entity implements Enemy {
    }
 
    protected int getSpriteAmount() {
-      if (action == TAKING_DAMAGE) {
-         return 2;
-      } else {
-         return 1;
-      }
+      return 1;
    }
 
    @Override
@@ -164,7 +158,6 @@ public abstract class BaseEnemy extends Entity implements Enemy {
       dead = false;
       aniTick = 0;
       aniIndex = 0;
-      damageTick = 0;
       shootTick = 0;
    }
 

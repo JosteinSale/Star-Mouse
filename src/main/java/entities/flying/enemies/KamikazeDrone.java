@@ -59,6 +59,10 @@ public class KamikazeDrone extends BaseEnemy {
 
    @Override
    protected int getSpriteAmount() {
-      return 2;
+      if (action == IDLE) {
+         return 2;
+      } else {
+         return 1;
+      }
    }
 }

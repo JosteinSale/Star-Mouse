@@ -24,8 +24,6 @@ public class SmallAsteroid extends BaseEnemy {
       super(hitbox, info);
       maxHP = 30;
       HP = maxHP;
-      IDLE = 0;
-      TAKING_DAMAGE = 1;
 
       // Randomize the look of the asteroid into 1 of 4 variants.
       Random rand = new Random();

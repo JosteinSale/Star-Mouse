@@ -39,21 +39,26 @@ public class FlameDrone extends BaseEnemy {
 
    @Override
    public void takeDamage(int damage) {
-      this.HP -= damage;
       if (this.action != PREPARING_TO_SHOOT) {
          this.action = TAKING_DAMAGE;
+         damageTick = 4;
       }
-      this.damageTick = damageFrames;
+      this.HP -= damage;
       if (HP <= 0) {
          dead = true;
       }
    }
 
    @Override
+   public void onShoot() {
+      // Don't reset shootTick - The flamedrone will only shoot once.
+   }
+
+   @Override
    protected int getSpriteAmount() {
       switch (action) {
          case TAKING_DAMAGE:
-            return 2;
+            return 1;
          case PREPARING_TO_SHOOT:
             return 6;
          case IDLE:
