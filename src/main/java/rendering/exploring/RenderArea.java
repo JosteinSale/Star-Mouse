@@ -1,6 +1,6 @@
 package rendering.exploring;
 
-import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -8,7 +8,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import entities.exploring.PlayerExp;
 import gamestates.exploring.Area;
 import main_classes.Game;
+import main_classes.Testing;
 import rendering.MySubImage;
+import rendering.MyColor;
 import rendering.Render;
 import utils.DrawUtils;
 import utils.HelpMethods2;
@@ -18,6 +20,7 @@ import static utils.Constants.Exploring.Sprites.STANDARD_SPRITE_HEIGHT;
 import static utils.Constants.Exploring.Sprites.STANDARD_SPRITE_WIDTH;
 
 public class RenderArea implements Render {
+   private Game game;
    private Area area;
    private RenderMap1 rMap;
    private RenderNPCs rNPCs;
@@ -31,6 +34,7 @@ public class RenderArea implements Render {
    private final int SAD_SPRITE = 2;
 
    public RenderArea(Game game, Area area, int levelIndex, int areaIndex) {
+      this.game = game;
       this.area = area;
       this.rMap = new RenderMap1(area.getMapManager(), game.getImages(), levelIndex, areaIndex);
       this.rNPCs = new RenderNPCs(game, area.getNpcManager());
@@ -78,7 +82,9 @@ public class RenderArea implements Render {
       rMap.drawForeground(sb);
 
       // Hitboxes
-      // drawHitboxes(g, mapManager.xLevelOffset, mapManager.yLevelOffset);
+      if (Testing.drawHitboxes) {
+         drawHitboxes(sb, xLevelOffset, yLevelOffset);
+      }
    }
 
    public void drawPlayer(SpriteBatch sb, int xLevelOffset, int yLevelOffset) {
@@ -93,24 +99,14 @@ public class RenderArea implements Render {
       }
    }
 
-   private void drawHitboxes(Graphics g, int xLevelOffset, int yLevelOffset) {
-      // g.setColor(Color.RED);
-      // player.drawHitbox(g, xLevelOffset, yLevelOffset);
-
-      // for (InteractableObject ob : interactableObject) {
-      // ob.drawHitbox(g, xLevelOffset, yLevelOffset);
-      // }
-      // for (Door door : doors) {
-      // door.drawHitbox(g, xLevelOffset, yLevelOffset);
-      // }
-      // for (Portal portal : portals) {
-      // portal.drawHitbox(g, xLevelOffset, yLevelOffset);
-      // }
-      // npcManager.drawHitboxes(g, xLevelOffset, yLevelOffset);
-
-      // for (AutomaticTrigger trigger : automaticTriggers) {
-      // trigger.drawHitbox(g, xLevelOffset, yLevelOffset);
-      // }
+   private void drawHitboxes(SpriteBatch sb, int xLevelOffset, int yLevelOffset) {
+      for (Rectangle2D.Float hitbox : area.getAllHitboxes()) {
+         DrawUtils.fillRect(sb, MyColor.RED,
+               (int) (hitbox.x - xLevelOffset),
+               (int) (hitbox.y - yLevelOffset),
+               (int) hitbox.width,
+               (int) hitbox.height);
+      }
    }
 
 }

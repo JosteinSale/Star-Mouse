@@ -3,6 +3,7 @@ package audio;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
+import main_classes.Testing;
 import utils.ResourceContainer;
 import utils.ResourceLoader;
 import utils.Singleton;
@@ -41,7 +42,7 @@ public class AudioPlayer extends Singleton {
    private Music curSong;
    private Music curAmbience;
 
-   private float setSongVolume = 0f; // Default 0.71
+   private float setSongVolume = 0.61f;
    private float setAmbienceVolume = 0.91f;
    private float setSfxVolume = 0.91f;
 
@@ -65,6 +66,15 @@ public class AudioPlayer extends Singleton {
       // Some audio drivers go to sleep if no sound is playing. This keeps them alive.
       keepAliveSound = ResourceLoader.getSound("keepAliveSound.wav").get();
       keepAliveSound.loop(1f); // Volume needs to be high
+   }
+
+   public void setTestVolumes() {
+      if (!Testing.playMusic) {
+         setSongVolume(0f);
+      }
+      if (!Testing.playSFX) {
+         setSfxVolume(0f);
+      }
    }
 
    private void loadAudio() {

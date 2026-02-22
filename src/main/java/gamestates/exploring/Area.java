@@ -3,6 +3,7 @@ package gamestates.exploring;
 import static utils.Constants.Exploring.Cutscenes.*;
 import static utils.HelpMethods.*;
 
+import java.awt.geom.Rectangle2D.Float;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -489,5 +490,24 @@ public class Area {
 
    public DefaultCutsceneManager getCutsceneManager() {
       return this.cutsceneManager;
+   }
+
+   public ArrayList<Float> getAllHitboxes() {
+      ArrayList<Float> hitboxes = new ArrayList<>();
+      hitboxes.add(player.getHitbox());
+      hitboxes.addAll(npcManager.getHitboxes());
+      for (InteractableObject ob : interactableObject) {
+         hitboxes.add(ob.getHitbox());
+      }
+      for (Door door : doors) {
+         hitboxes.add(door.getHitbox());
+      }
+      for (Portal portal : portals) {
+         hitboxes.add(portal.getHitbox());
+      }
+      for (AutomaticTrigger trigger : automaticTriggers) {
+         hitboxes.add(trigger.getHitbox());
+      }
+      return hitboxes;
    }
 }

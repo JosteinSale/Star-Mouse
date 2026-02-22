@@ -2,6 +2,7 @@ package gamestates;
 
 import audio.AudioPlayer;
 import main_classes.Game;
+import main_classes.Testing;
 import ui.LoadSaveMenu;
 import ui.OptionsMenu;
 import utils.Fader;
@@ -39,13 +40,6 @@ public class MainMenu extends State {
    private static final int LEVEL_EDITOR = 3;
    private static final int OPTIONS = 4;
    private static final int QUIT = 5;
-
-   // Testing stuff - Change as needed:
-   private Gamestate testState = Gamestate.FLYING;
-   private int testLevel = 2;
-   private int testArea = 2;
-   private int tstUnlockedLevels = 13;
-   private int levelEditorLvl = 1;
 
    public MainMenu(Game game) {
       super(game);
@@ -92,7 +86,7 @@ public class MainMenu extends State {
          case LEVEL_EDITOR:
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
             audioPlayer.stopAllLoops();
-            levelEditor.loadLevel(levelEditorLvl);
+            levelEditor.loadLevel(Testing.levelEditorLvl);
             Gamestate.state = Gamestate.LEVEL_EDITOR;
             return;
          case OPTIONS:
@@ -110,26 +104,27 @@ public class MainMenu extends State {
     * not save any data.
     */
    private void enterTestingMode() {
-      game.testingMode = true;
-      game.getLevelSelect().testUnlockAllLevelsUpTo(tstUnlockedLevels);
+      Testing.testingMode = true;
+      audioPlayer.setTestVolumes();
+      game.getLevelSelect().testUnlockAllLevelsUpTo(Testing.tstUnlockedLevels);
 
-      switch (testState) {
+      switch (Testing.testState) {
          case LEVEL_SELECT:
             Gamestate.state = Gamestate.LEVEL_SELECT;
             game.getLevelSelect().returnToLevelSelect();
             return;
          case EXPLORING:
-            game.getExploring().loadLevel(testLevel, testArea);
+            game.getExploring().loadLevel(Testing.testLevel, Testing.testArea);
             game.getExploring().update();
             Gamestate.state = Gamestate.EXPLORING;
             return;
          case FLYING:
-            game.getFlying().loadLevel(testLevel);
+            game.getFlying().loadLevel(Testing.testLevel);
             game.getFlying().update();
             Gamestate.state = Gamestate.FLYING;
             return;
          case BOSS_MODE:
-            game.getBossMode().loadNewBoss(testLevel);
+            game.getBossMode().loadNewBoss(Testing.testLevel);
             game.getBossMode().update();
             Gamestate.state = Gamestate.BOSS_MODE;
             return;
@@ -200,7 +195,7 @@ public class MainMenu extends State {
 
    /** Should be called whenever the player returns to the main menu */
    public void returnToMainMenu() {
-      game.testingMode = false;
+      Testing.testingMode = false;
       game.fadeFromBlack(Fader.MEDIUM_FAST_FADE, null);
       audioPlayer.startSong(Audio.SONG_MAIN_MENU, 0, true);
       game.getLevelSelect().clearAll();

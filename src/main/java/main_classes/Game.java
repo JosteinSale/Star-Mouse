@@ -64,9 +64,6 @@ public class Game extends ApplicationAdapter {
    public boolean pauseIsPressed = false;
    public boolean fullScreenIsPressed = false;
 
-   // Testing mode. This is modified from the Main Menu
-   public boolean testingMode = false;
-
    @Override
    public void create() {
       // LibGdx stuff
@@ -119,7 +116,7 @@ public class Game extends ApplicationAdapter {
     * disc. If the game is in testing mode, no saving will happen.
     */
    public void saveDataToDisc() {
-      if (!testingMode) {
+      if (Testing.testingMode) {
          DataStorage.saveData(this.saveData);
          drawSaving.start();
       }

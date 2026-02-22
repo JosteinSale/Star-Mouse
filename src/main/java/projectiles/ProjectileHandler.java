@@ -2,6 +2,7 @@ package projectiles;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.List;
 
 import audio.AudioPlayer;
 import entities.MyCollisionImage;
@@ -416,5 +417,13 @@ public class ProjectileHandler extends Singleton {
          default:
             throw new IllegalArgumentException("Projectile type " + evt.type() + " is not supported yet.");
       }
+   }
+
+   public List<Rectangle2D.Float> getAllHitboxes() {
+      List<Rectangle2D.Float> hitboxes = new ArrayList<>(allProjectiles.size());
+      for (Projectile p : allProjectiles) {
+         hitboxes.add(p.getHitbox());
+      }
+      return hitboxes;
    }
 }

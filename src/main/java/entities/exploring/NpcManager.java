@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class NpcManager {
    public ArrayList<NPC> allNpcs = new ArrayList<>();
-   ArrayList<Rectangle2D.Float> hitboxes = new ArrayList<>();
+   private ArrayList<Rectangle2D.Float> hitboxes = new ArrayList<>();
 
    public NpcManager() {
    }

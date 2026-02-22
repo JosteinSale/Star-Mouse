@@ -1,9 +1,13 @@
 package rendering.root_renders;
 
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import gamestates.flying.Flying;
 import main_classes.Game;
+import rendering.MyColor;
 import rendering.Render;
 import rendering.flying.EntityImages;
 import rendering.flying.RenderEntity;
@@ -15,6 +19,7 @@ import rendering.flying.RenderPlayerFly;
 import rendering.flying.RenderProjectiles;
 import rendering.misc.RenderCutscene;
 import rendering.misc.RenderOptionsMenu;
+import utils.DrawUtils;
 import utils.Singleton;
 
 public class RenderFlying extends Singleton implements Render {
@@ -50,6 +55,7 @@ public class RenderFlying extends Singleton implements Render {
          rPlayer.draw(sb);
          rEntity.draw(sb);
          rProjectiles.draw(sb);
+         drawHitboxes(sb);
       }
       if (!flying.gameOver) {
          rCutscene.draw(sb);
@@ -60,6 +66,16 @@ public class RenderFlying extends Singleton implements Render {
          rPause.draw(sb);
       } else if (flying.levelFinished) {
          rLevelFinished.draw(sb);
+      }
+   }
+
+   private void drawHitboxes(SpriteBatch sb) {
+      for (Rectangle2D.Float hitbox : flying.getAllHitboxes()) {
+         DrawUtils.fillRect(sb, MyColor.RED,
+               (int) hitbox.x,
+               (int) hitbox.y,
+               (int) hitbox.width,
+               (int) hitbox.height);
       }
    }
 

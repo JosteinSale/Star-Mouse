@@ -7,6 +7,7 @@ import static utils.HelpMethods.GetAutomaticTrigger;
 import static utils.HelpMethods.ParseCutscenes;
 
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Float;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,7 @@ import game_events.*;
 import gamestates.Gamestate;
 import gamestates.State;
 import main_classes.Game;
+import projectiles.Projectile;
 import projectiles.ProjectileHandler;
 import ui.GameoverOverlay;
 import ui.LevelFinishedOverlay;
@@ -520,5 +522,22 @@ public class Flying extends State {
 
    public ArrayList<PickupItem> getPickupItems() {
       return this.pickupItems;
+   }
+
+   public ArrayList<Float> getAllHitboxes() {
+      ArrayList<Float> allHitboxes = new ArrayList<>();
+      allHitboxes.add(player.getHitbox());
+      for (Enemy enemy : enemyManager.activeEnemiesOnScreen) {
+         allHitboxes.add(enemy.getHitbox());
+      }
+      for (PickupItem p : pickupItems) {
+         if (p.isActive()) {
+            allHitboxes.add(p.getHitbox());
+         }
+      }
+      for (Rectangle2D.Float projectileHitbox : projectileHandler.getAllHitboxes()) {
+         allHitboxes.add(projectileHitbox);
+      }
+      return allHitboxes;
    }
 }
