@@ -25,8 +25,6 @@ public class CutsceneManagerBoss extends DefaultCutsceneManager {
       this.addEffect(new WaitEffect());
       this.addEffect(new FillScreenEffect());
       this.addEffect(new FadeEffect(this.eventHandler, this));
-      // this.shakeEffect = new ScreenShakeEffect(this.area);
-      // this.addEffect(new SetOverlayEffect()); // We might not need it?
    }
 
    /** Is called from the state's update-loop if the cutsceneManager is active */

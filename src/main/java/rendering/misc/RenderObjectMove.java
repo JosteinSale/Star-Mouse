@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import cutscenes.effects.SimpleAnimation;
 import rendering.MySubImage;
 import rendering.Render;
-import utils.DrawUtils;
 import utils.HelpMethods2;
 import utils.Images;
 
@@ -107,13 +106,7 @@ public class RenderObjectMove implements Render {
    public void draw(SpriteBatch sb) {
       int index = 0;
       for (SimpleAnimation sa : simpleAnimations) {
-         MySubImage subImg = spriteArrays.get(index)[sa.aniIndex];
-         DrawUtils.drawSubImage(
-               sb, subImg,
-               (int) sa.xPos,
-               (int) sa.yPos,
-               (int) (subImg.getWidth() * sa.scaleW),
-               (int) (subImg.getHeight() * sa.scaleH));
+         RenderSimpleAnimation.draw(sb, sa, spriteArrays.get(index));
          index++;
       }
    }
@@ -122,5 +115,4 @@ public class RenderObjectMove implements Render {
       this.simpleAnimations.clear();
       this.spriteArrays.clear();
    }
-
 }

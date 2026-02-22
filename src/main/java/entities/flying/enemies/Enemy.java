@@ -7,6 +7,9 @@ import entities.flying.AnimatedGlow;
 
 public interface Enemy {
 
+   public static final int RIGHT = 1;
+   public static final int LEFT = -1;
+
    /**
     * If the enemy is small, the player can teleport through it and kill it.
     * Big enemies can not be teleported through, and if the player attempts it,

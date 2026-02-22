@@ -69,28 +69,28 @@ public class EnemyFactory {
       // TARGET
       enemyInfo.put(TARGET, new EntityInfo(
             TARGET,
-            Images.TARGET_SPRITE, 20, 20, 2, 2,
+            Images.TARGET_SPRITE, 20, 20, 2, 1,
             60, 60, 0, 0,
             1, 0));
 
       // DRONE
       enemyInfo.put(DRONE, new EntityInfo(
             DRONE,
-            Images.DRONE_SPRITE, 30, 30, 2, 2,
+            Images.DRONE_SPRITE, 30, 30, 2, 1,
             78, 66, 4, 10,
             1, 0));
 
       // SMALLSHIP
       enemyInfo.put(SMALLSHIP, new EntityInfo(
             SMALLSHIP,
-            Images.SMALLSHIP_SPRITE, 30, 30, 2, 2,
+            Images.SMALLSHIP_SPRITE, 30, 30, 2, 1,
             60, 30, 16, 30,
             1, 0));
 
       // OCTADRONE
       enemyInfo.put(OCTADRONE, new EntityInfo(
             OCTADRONE,
-            Images.OCTADRONE_SPRITE, 30, 30, 2, 2,
+            Images.OCTADRONE_SPRITE, 30, 30, 2, 1,
             80, 80, 5, 5,
             1, 0));
 
@@ -104,28 +104,28 @@ public class EnemyFactory {
       // BLASTERDRONE
       enemyInfo.put(BLASTERDRONE, new EntityInfo(
             BLASTERDRONE,
-            Images.BLASTERDRONE_SPRITE, 30, 30, 2, 2,
+            Images.BLASTERDRONE_SPRITE, 30, 30, 2, 1,
             60, 90, 15, 0,
             1, 0));
 
       // REAPERDRONE
       enemyInfo.put(REAPERDRONE, new EntityInfo(
             REAPERDRONE,
-            Images.REAPERDRONE_SPRITE, 210, 80, 2, 2,
+            Images.REAPERDRONE_SPRITE, 210, 80, 2, 1,
             510, 150, 60, 45,
             1, 0));
 
       // FLAMEDRONE
       enemyInfo.put(FLAMEDRONE, new EntityInfo(
             FLAMEDRONE,
-            Images.FLAMEDRONE_SPRITE, 132, 128, 3, 6,
+            Images.FLAMEDRONE_SPRITE, 132, 128, 2, 1,
             120, 120, 138, 30,
             1, 0));
 
       // WASPDRONE
       enemyInfo.put(WASPDRONE, new EntityInfo(
             WASPDRONE,
-            Images.WASPDRONE_SPRITE, 40, 40, 2, 2,
+            Images.WASPDRONE_SPRITE, 40, 40, 2, 1,
             90, 90, 15, 15,
             1, 0));
 
@@ -139,7 +139,7 @@ public class EnemyFactory {
       // SMALL_ASTEROID
       enemyInfo.put(SMALL_ASTEROID, new EntityInfo(
             SMALL_ASTEROID,
-            Images.SMALL_ASTEROID_SPRITE, 30, 30, 8, 2,
+            Images.SMALL_ASTEROID_SPRITE, 30, 30, 8, 1,
             75, 75, 8, 8,
             6, 0));
 

@@ -114,6 +114,7 @@ public abstract class BaseEnemy extends Entity implements Enemy {
 
    @Override
    public void takeDamage(int damage) {
+      aniIndex = 0;
       this.HP -= damage;
       this.action = TAKING_DAMAGE;
       damageTick = 4;
@@ -129,7 +130,7 @@ public abstract class BaseEnemy extends Entity implements Enemy {
 
    @Override
    public int getDir() {
-      return 1; // Only one dir
+      return Enemy.RIGHT;
    }
 
    @Override

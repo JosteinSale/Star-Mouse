@@ -7,11 +7,13 @@ import entities.flying.EnemyFactory;
 import entities.flying.EntityInfo;
 import entities.flying.enemies.Enemy;
 import entities.flying.enemies.EnemyManager;
+import entities.flying.enemies.FlameDrone;
 import entities.flying.pickupItems.PickupItem;
 import entities.flying.pickupItems.PickupItemFactory;
 import projectiles.Explosion;
 import rendering.MySubImage;
 import rendering.misc.RenderGlow;
+import rendering.misc.RenderSimpleAnimation;
 import utils.DrawUtils;
 import utils.HelpMethods2;
 import utils.Images;
@@ -22,6 +24,7 @@ public class RenderEntity {
    private ArrayList<PickupItem> pickupItems;
    private EnemyManager enemyManager;
    private MySubImage[] explosionAnimation;
+   private MySubImage[] flameShootAnimation;
    private EntityImages entityImgs;
    private RenderGlow rGlow;
 
@@ -32,6 +35,9 @@ public class RenderEntity {
       this.explosionAnimation = HelpMethods2.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.EXPLOSION, true),
             5, EXPLOSION_SPRITE_SIZE, EXPLOSION_SPRITE_SIZE);
+      this.flameShootAnimation = HelpMethods2.GetUnscaled1DAnimationArray(
+            images.getFlyImageSprite(Images.FLAME_SHOOT, true),
+            6, 132, 100);
       this.entityImgs = new EntityImages(new EnemyFactory(null), new PickupItemFactory(), images);
       this.rGlow = new RenderGlow(images);
    }
@@ -82,10 +88,7 @@ public class RenderEntity {
       EntityInfo eInfo = enemy.getInfo();
       int drawXOffset = eInfo.drawOffsetX;
       int dir = enemy.getDir();
-      if (dir == -1) {
-         // Enemy is facing left ->
-         // We flip image vertically by multiplying width with -1 (below),
-         // and adjust x-position accordingly.
+      if (dir == Enemy.LEFT) {
          drawXOffset -= 3 * eInfo.spriteW;
       }
       DrawUtils.drawSubImage(
@@ -98,6 +101,13 @@ public class RenderEntity {
       // Glow
       if (enemy.hasGlow()) {
          rGlow.drawAnimatedGlow(sb, enemy.getGlow());
+      }
+      // Special case for flame drone's flame animation
+      if (enemy.getType() == EnemyFactory.TypeConstants.FLAMEDRONE) {
+         FlameDrone fd = (FlameDrone) enemy;
+         if (fd.isPreparingToShoot()) {
+            RenderSimpleAnimation.draw(sb, fd.flameAnimation, flameShootAnimation);
+         }
       }
    }
 
