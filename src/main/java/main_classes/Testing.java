@@ -12,7 +12,7 @@ public final class Testing {
 
    // General stuff
    public static final Gamestate testState = Gamestate.BOSS_MODE;
-   public static final boolean drawHitboxes = true;
+   public static final boolean drawHitboxes = false;
    public static final int unlockedLevels = 13;
    public static final boolean playMusic = true;
    public static final boolean playSFX = true;

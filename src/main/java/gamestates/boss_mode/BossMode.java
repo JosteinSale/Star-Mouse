@@ -21,7 +21,6 @@ import gamestates.Gamestate;
 import gamestates.State;
 import gamestates.flying.Flying;
 import main_classes.Game;
-import main_classes.Testing;
 import projectiles.ProjectileHandler;
 import projectiles.ProjectileHandler2;
 import ui.GameoverOverlay2;
@@ -303,6 +302,21 @@ public class BossMode extends State {
       restartBossSong();
       audioPlayer.startAmbienceLoop(Audio.AMBIENCE_ROCKET_ENGINE);
 
+   }
+
+   public ArrayList<Rectangle2D.Float> getAllHitboxes() {
+      ArrayList<Rectangle2D.Float> allHitboxes = new ArrayList<>();
+      allHitboxes.add(player.getHitbox());
+      getBoss().getBossParts().forEach(part -> allHitboxes.add(part.getNonRotatedHitbox()));
+      for (PickupItem p : pickupItems) {
+         if (p.isActive()) {
+            allHitboxes.add(p.getHitbox());
+         }
+      }
+      for (Rectangle2D.Float projectileHitbox : projectileHandler.getAllHitboxes()) {
+         allHitboxes.add(projectileHitbox);
+      }
+      return allHitboxes;
    }
 
 }
