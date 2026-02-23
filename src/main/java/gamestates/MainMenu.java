@@ -106,7 +106,7 @@ public class MainMenu extends State {
    private void enterTestingMode() {
       Testing.testingMode = true;
       audioPlayer.setTestVolumes();
-      game.getLevelSelect().testUnlockAllLevelsUpTo(Testing.tstUnlockedLevels);
+      game.getLevelSelect().testUnlockAllLevelsUpTo(Testing.unlockedLevels);
 
       switch (Testing.testState) {
          case LEVEL_SELECT:
@@ -114,17 +114,17 @@ public class MainMenu extends State {
             game.getLevelSelect().returnToLevelSelect();
             return;
          case EXPLORING:
-            game.getExploring().loadLevel(Testing.testLevel, Testing.testArea);
+            game.getExploring().loadLevel(Testing.exploringLevel, Testing.exploringArea);
             game.getExploring().update();
             Gamestate.state = Gamestate.EXPLORING;
             return;
          case FLYING:
-            game.getFlying().loadLevel(Testing.testLevel);
+            game.getFlying().loadLevel(Testing.flyingLevel);
             game.getFlying().update();
             Gamestate.state = Gamestate.FLYING;
             return;
          case BOSS_MODE:
-            game.getBossMode().loadNewBoss(Testing.testLevel);
+            game.getBossMode().loadNewBoss(Testing.bossNr);
             game.getBossMode().update();
             Gamestate.state = Gamestate.BOSS_MODE;
             return;

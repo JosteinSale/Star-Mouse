@@ -114,10 +114,13 @@ smallDialogue;Max;shocked;10;2;
 wait;180
 endSequence
 stopAllLoops
+soundEnabled;false;ambience
+soundEnabled;false;music
 setGameplayActive;false
 setOverlayImage;true;overlayDeath.png
 wait;300
 endSequence
+soundEnabled;true;music
 startSong;11;false
 setOverlayImage;false;overlayDeath.png
 setGameplayActive;true

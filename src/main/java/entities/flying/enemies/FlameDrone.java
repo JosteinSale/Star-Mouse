@@ -18,7 +18,7 @@ public class FlameDrone extends BaseEnemy {
       HP = maxHP;
       this.flameAnimation = new SimpleAnimation(
             getFlameAnimationX(), getFlameAnimationY(),
-            1f, 1f, 5, 6);
+            3f, 3f, 5, 6);
    }
 
    private int getFlameAnimationX() {

@@ -7,16 +7,27 @@ import gamestates.Gamestate;
  * testing purposes.
  */
 public final class Testing {
-   // Is changed from MainMenu. Don't modify.
+   // Is changed from MainMenu - Don't modify.
    public static boolean testingMode = false;
 
-   // Testing variables. Modify as needed.
-   public static final Gamestate testState = Gamestate.FLYING;
+   // General stuff
+   public static final Gamestate testState = Gamestate.BOSS_MODE;
    public static final boolean drawHitboxes = true;
-   public static final int testLevel = 1;
-   public static final int testArea = 2;
-   public static final int tstUnlockedLevels = 13;
-   public static final int levelEditorLvl = 1;
-   public static final boolean playMusic = false;
+   public static final int unlockedLevels = 13;
+   public static final boolean playMusic = true;
    public static final boolean playSFX = true;
+
+   // Exploring
+   public static final int exploringLevel = 1;
+   public static final int exploringArea = 2;
+
+   // Flying
+   public static final int flyingStartY = 22000;
+   public static final int flyingLevel = 1;
+
+   // Boss Mode
+   public static final int bossNr = 1;
+
+   // Level Editor
+   public static final int levelEditorLvl = 1;
 }

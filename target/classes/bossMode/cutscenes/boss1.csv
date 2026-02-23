@@ -118,6 +118,7 @@ endSequence
 clearObjects
 setBossVisible;true
 startSong;6;true
+startAmbience;0;rocketEngine
 wait;1
 endSequence
 

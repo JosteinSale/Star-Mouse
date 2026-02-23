@@ -1,7 +1,6 @@
 package rendering.root_renders;
 
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 

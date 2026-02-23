@@ -57,7 +57,7 @@ public class CutsceneParser {
       parseMap.put("startAmbience", CutsceneParser::parseStartAmbience);
       parseMap.put("fadeOutLoops", CutsceneParser::parseFadeOutLoops);
       parseMap.put("stopAllLoops", CutsceneParser::parseStopAllLoops);
-      parseMap.put("musicEnabled", CutsceneParser::parseMusicEnabled);
+      parseMap.put("soundEnabled", CutsceneParser::parseSoundEnabled);
       parseMap.put("playSFX", CutsceneParser::parsePlaySFX);
       parseMap.put("setSprite", CutsceneParser::parseSetSprite);
       parseMap.put("screenShake", CutsceneParser::parseScreenShake);
@@ -274,9 +274,10 @@ public class CutsceneParser {
       return new StopLoopsEvent();
    }
 
-   private static MusicEnabledEvent parseMusicEnabled(String[] lineData) {
+   private static SoundEnabledEvent parseSoundEnabled(String[] lineData) {
       Boolean enabled = Boolean.parseBoolean(lineData[1]);
-      return new MusicEnabledEvent(enabled);
+      String soundType = lineData[2];
+      return new SoundEnabledEvent(enabled, soundType);
    }
 
    private static PlaySFXEvent parsePlaySFX(String[] lineData) {

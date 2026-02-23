@@ -26,7 +26,7 @@ import game_events.*;
 import gamestates.Gamestate;
 import gamestates.State;
 import main_classes.Game;
-import projectiles.Projectile;
+import main_classes.Testing;
 import projectiles.ProjectileHandler;
 import ui.GameoverOverlay;
 import ui.LevelFinishedOverlay;
@@ -54,6 +54,8 @@ public class Flying extends State {
    private Integer level;
    private int song;
    public boolean shouldSongLoop;
+   public boolean ambienceEnabled = true;
+   public boolean musicEnabled = true;
    public boolean pause = false;
    public boolean gamePlayActive = true;
    public boolean levelFinished = false;
@@ -100,7 +102,9 @@ public class Flying extends State {
       loadCutscenes(lvl);
       player.onLevelStart();
       this.setRenders(lvl, FlyLevelInfo.getBgImgHeight(lvl));
-      // startAt(12000); // For testing purposes
+      if (Testing.testingMode) {
+         startAt(Testing.flyingStartY);
+      }
    }
 
    /**
@@ -158,6 +162,12 @@ public class Flying extends State {
          this.projectileHandler.addCustomProjectile(evt);
       } else if (event instanceof GoToBossEvent evt) {
          goToBossMode(evt.bossNr());
+      } else if (event instanceof SoundEnabledEvent evt) {
+         switch (evt.soundType()) {
+            case SoundEnabledEvent.AMBIENCE -> this.ambienceEnabled = evt.enabled();
+            case SoundEnabledEvent.MUSIC -> this.musicEnabled = evt.enabled();
+            default -> throw new IllegalArgumentException("SoundType not supported: " + evt.soundType());
+         }
       } else {
          this.cutsceneManager.activateEffect(event);
       }
@@ -214,8 +224,12 @@ public class Flying extends State {
       // 2. If we are exiting pause:
       else {
          this.pause = false;
-         this.audioPlayer.continueCurrentAmbience();
-         this.audioPlayer.continueCurrentSong();
+         if (musicEnabled) {
+            this.audioPlayer.continueCurrentSong();
+         }
+         if (ambienceEnabled) {
+            this.audioPlayer.continueCurrentAmbience();
+         }
       }
    }
 
@@ -361,6 +375,8 @@ public class Flying extends State {
       gamePlayActive = true;
       levelFinished = false;
       gameOver = false;
+      musicEnabled = true;
+      ambienceEnabled = true;
       fgCurSpeed = fgNormalSpeed;
       bgCurSpeed = bgNormalSpeed;
       player.reset();
@@ -403,8 +419,12 @@ public class Flying extends State {
       resetObjects(toCheckPoint, resetYPos);
 
       // 5. Restart audio
-      audioPlayer.startSong(song, songResetPos, shouldSongLoop);
-      audioPlayer.startAmbienceLoop(Audio.AMBIENCE_ROCKET_ENGINE);
+      if (musicEnabled) {
+         audioPlayer.startSong(song, songResetPos, shouldSongLoop);
+      }
+      if (ambienceEnabled) {
+         audioPlayer.startAmbienceLoop(Audio.AMBIENCE_ROCKET_ENGINE);
+      }
    }
 
    private void resetObjects(boolean toCheckPoint, float resetYPos) {

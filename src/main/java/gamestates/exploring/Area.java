@@ -145,9 +145,11 @@ public class Area {
       } else if (event instanceof FadeOutLoopEvent) {
          this.audioPlayer.fadeOutAllLoops();
 
-      } else if (event instanceof MusicEnabledEvent evt) {
-         this.musicEnabled = evt.enabled();
-
+      } else if (event instanceof SoundEnabledEvent evt) {
+         switch (evt.soundType()) {
+            case SoundEnabledEvent.MUSIC -> this.musicEnabled = evt.enabled();
+            default -> throw new IllegalArgumentException("SoundType not supported: " + evt.soundType());
+         }
       } else if (event instanceof StartAmbienceEvent evt) {
          audioPlayer.startAmbienceLoop(evt.index());
 

@@ -21,6 +21,7 @@ import gamestates.Gamestate;
 import gamestates.State;
 import gamestates.flying.Flying;
 import main_classes.Game;
+import main_classes.Testing;
 import projectiles.ProjectileHandler;
 import projectiles.ProjectileHandler2;
 import ui.GameoverOverlay2;
@@ -41,8 +42,8 @@ public class BossMode extends State {
 
    private PauseBoss pauseOverlay;
    private GameoverOverlay2 gameoverOverlay;
-   public boolean shouldAmbiencePlay = false;
-   public boolean shouldMusicPlay = false;
+   public boolean ambienceEnabled = false;
+   public boolean musicEnabled = false;
    public boolean pause = false;
    public boolean gameOver = false;
 
@@ -77,18 +78,18 @@ public class BossMode extends State {
       if (event instanceof TextBoxEvent tbEvt) {
          cutsceneManager.activateTextbox(tbEvt);
       } else if (event instanceof StartSongEvent evt) {
-         shouldMusicPlay = true;
+         musicEnabled = true;
          audioPlayer.startSong(evt.index(), 0, true);
       } else if (event instanceof StartAmbienceEvent evt) {
-         shouldAmbiencePlay = true;
+         ambienceEnabled = true;
          audioPlayer.startAmbienceLoop(evt.index());
       } else if (event instanceof StopLoopsEvent) {
-         shouldAmbiencePlay = false;
-         shouldMusicPlay = false;
+         ambienceEnabled = false;
+         musicEnabled = false;
          audioPlayer.stopAllLoops();
       } else if (event instanceof FadeOutLoopEvent) {
-         shouldAmbiencePlay = false;
-         shouldMusicPlay = false;
+         ambienceEnabled = false;
+         musicEnabled = false;
          audioPlayer.fadeOutAllLoops();
       } else if (event instanceof PlaySFXEvent evt) {
          audioPlayer.playSFX(evt.SFXIndex());
@@ -198,10 +199,10 @@ public class BossMode extends State {
          game.getAudioPlayer().pauseAllLoops();
       } else {
          pause = false;
-         if (shouldMusicPlay) {
+         if (musicEnabled) {
             audioPlayer.continueCurrentSong();
          }
-         if (shouldAmbiencePlay) {
+         if (ambienceEnabled) {
             audioPlayer.continueCurrentAmbience();
          }
       }
@@ -224,8 +225,8 @@ public class BossMode extends State {
       gameoverOverlay.reset();
       pause = false;
       gameOver = false;
-      shouldAmbiencePlay = false;
-      shouldMusicPlay = false;
+      ambienceEnabled = false;
+      musicEnabled = false;
    }
 
    /** Is called from the gameOverOverlay */
@@ -234,8 +235,10 @@ public class BossMode extends State {
          case 1 -> Audio.SONG_BOSS1;
          default -> throw new IllegalArgumentException("No song available for boss nr: " + bossNr);
       };
-      shouldMusicPlay = true;
+      musicEnabled = true;
+      ambienceEnabled = true;
       game.getAudioPlayer().startSong(songNr, 0f, true);
+      game.getAudioPlayer().startAmbienceLoop(Audio.AMBIENCE_ROCKET_ENGINE);
    }
 
    /** Is called from the pauseOverlay */
@@ -259,8 +262,8 @@ public class BossMode extends State {
     */
    public void killBoss() {
       game.getAudioPlayer().stopAllLoops();
-      shouldAmbiencePlay = false;
-      shouldMusicPlay = false;
+      ambienceEnabled = false;
+      musicEnabled = false;
       projectileHandler.reset();
       pickupItems.clear();
       startCutscene(1);
@@ -288,6 +291,18 @@ public class BossMode extends State {
 
    public GameoverOverlay2 getGameOverOverlay() {
       return gameoverOverlay;
+   }
+
+   /** Currently only supports skipping the intro cutscene */
+   public void skipIntroCutscene() {
+      cutsceneManager.reset();
+      player.setVisible(true);
+      boss.setVisible(true);
+      ambienceEnabled = true;
+      musicEnabled = true;
+      restartBossSong();
+      audioPlayer.startAmbienceLoop(Audio.AMBIENCE_ROCKET_ENGINE);
+
    }
 
 }

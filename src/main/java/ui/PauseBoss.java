@@ -16,14 +16,15 @@ public class PauseBoss extends Singleton {
    private final int OPTIONS = 1;
    private final int MAIN_MENU = 2;
    private final int SKIP_LEVEL = 3;
-   public String[] menuOptions = { "Continue", "Options", "Main Menu", "Skip Level" };
+   private final int SKIP_INTRO = 4;
+   public String[] menuOptions = { "Continue", "Options", "Main Menu", "Skip Level", "Skip Intro" };
    private int selectedIndex = 0;
 
    public int cursorX = 320;
    public int cursorMinY = 350;
    private int cursorMaxY = 550;
    public int cursorY = cursorMinY;
-   public int menuOptionsDiff = (cursorMaxY - cursorMinY) / 3;
+   public int menuOptionsDiff = (cursorMaxY - cursorMinY) / 4;
 
    public PauseBoss(Game game, BossMode bossMode, OptionsMenu optionsMenu) {
       this.game = game;
@@ -51,30 +52,36 @@ public class PauseBoss extends Singleton {
          goUp();
       } else if (game.interactIsPressed) {
          game.interactIsPressed = false;
+         handleInteractPressed();
+      }
+   }
 
-         if (selectedIndex == CONTINUE) {
-            bossMode.flipPause();
-         } else if (selectedIndex == OPTIONS) {
-            audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
-            optionsMenu.setActive(true);
-         } else if (selectedIndex == MAIN_MENU) {
-            audioPlayer.stopAllLoops();
-            game.returnToMainMenu(() -> {
-               game.getFlying().resetValuesOnExit();
-               bossMode.resetBossMode();
-            });
-         } else if (selectedIndex == SKIP_LEVEL) {
-            bossMode.flipPause();
-            audioPlayer.stopAllLoops();
-            bossMode.skipBossMode();
-         }
+   private void handleInteractPressed() {
+      if (selectedIndex == CONTINUE) {
+         bossMode.flipPause();
+      } else if (selectedIndex == OPTIONS) {
+         audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
+         optionsMenu.setActive(true);
+      } else if (selectedIndex == MAIN_MENU) {
+         audioPlayer.stopAllLoops();
+         game.returnToMainMenu(() -> {
+            game.getFlying().resetValuesOnExit();
+            bossMode.resetBossMode();
+         });
+      } else if (selectedIndex == SKIP_LEVEL) {
+         bossMode.flipPause();
+         audioPlayer.stopAllLoops();
+         bossMode.skipBossMode();
+      } else if (selectedIndex == SKIP_INTRO) {
+         bossMode.flipPause();
+         bossMode.skipIntroCutscene();
       }
    }
 
    private void goDown() {
       this.cursorY += menuOptionsDiff;
       this.selectedIndex++;
-      if (selectedIndex > 3) {
+      if (selectedIndex > 4) {
          selectedIndex = 0;
          cursorY = cursorMinY;
       }
@@ -84,7 +91,7 @@ public class PauseBoss extends Singleton {
       this.cursorY -= menuOptionsDiff;
       this.selectedIndex--;
       if (selectedIndex < 0) {
-         selectedIndex = 3;
+         selectedIndex = 4;
          cursorY = cursorMaxY;
       }
    }

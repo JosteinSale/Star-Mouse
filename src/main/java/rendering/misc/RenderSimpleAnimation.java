@@ -13,8 +13,8 @@ public class RenderSimpleAnimation {
             sb, subImg,
             (int) sa.xPos,
             (int) sa.yPos,
-            (int) (subImg.getWidth() * 3 * sa.scaleW),
-            (int) (subImg.getHeight() * 3 * sa.scaleH));
+            (int) (subImg.getWidth() * sa.scaleW),
+            (int) (subImg.getHeight() * sa.scaleH));
 
    }
 }

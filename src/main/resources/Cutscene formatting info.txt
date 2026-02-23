@@ -185,10 +185,10 @@ FADE OUT LOOPS
 * Must be used in combination with a method that calls advance(), like wait();
 
 
-MUSIC ENABLED
+SOUND ENABLED
 --------------------
-[0] = musicEnabled (String), [1] = enabled (boolean)
-* This toggles whether music is started in the JustEntered-method.
+[0] = musicEnabled (String), [1] = enabled (boolean), [2] = soundType (String)
+* SoundType can be "sfx", "ambience" or "music"
 
 
 START AMBIENCE

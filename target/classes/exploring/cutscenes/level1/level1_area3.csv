@@ -188,7 +188,7 @@ bigDialogue;Max;eyes_shut;4;8;So...
 endSequence
 bigDialogue;Max;happy;1;1;Clear skies, perfect flying conditions.
 setDir;player;right
-musicEnabled;true
+soundEnabled;true;music
 startSong;1;true
 endSequence
 bigDialogue;Max;happy;1;1;You couldn't ask for a finer day!
