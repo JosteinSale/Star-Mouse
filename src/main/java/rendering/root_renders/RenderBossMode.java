@@ -3,6 +3,8 @@ package rendering.root_renders;
 import java.awt.geom.Rectangle2D;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Polygon;
 
 import entities.bossmode.rudinger1.Rudinger1;
 import gamestates.boss_mode.BossMode;
@@ -85,12 +87,24 @@ public class RenderBossMode extends Singleton implements Render {
    }
 
    private void drawHitboxes(SpriteBatch sb) {
-      for (Rectangle2D.Float hitbox : bossMode.getAllHitboxes()) {
+      for (Rectangle2D.Float hitbox : bossMode.getAllNonRotatedHitboxes()) {
          DrawUtils.fillRect(sb, MyColor.RED,
                (int) hitbox.x,
                (int) hitbox.y,
                (int) hitbox.width,
                (int) hitbox.height);
+      }
+   }
+
+   public void draw(ShapeRenderer sr) {
+      if (Testing.drawHitboxes) {
+         drawHitboxes(sr);
+      }
+   }
+
+   public void drawHitboxes(ShapeRenderer sr) {
+      for (Polygon hitbox : bossMode.getAllRotatedHitboxes()) {
+         DrawUtils.drawRotatedPolygon(sr, hitbox, MyColor.RED);
       }
    }
 }

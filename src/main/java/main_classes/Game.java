@@ -18,6 +18,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
@@ -40,6 +41,7 @@ public class Game extends ApplicationAdapter {
    // LibGDX-stuff
    private final OrthographicCamera camera = new OrthographicCamera();
    private SpriteBatch batch;
+   private ShapeRenderer shapeRender;
    private Viewport viewport;
 
    // Special objects
@@ -68,6 +70,7 @@ public class Game extends ApplicationAdapter {
    public void create() {
       // LibGdx stuff
       batch = new SpriteBatch();
+      shapeRender = new ShapeRenderer();
       viewport = new FitViewport(GAME_DEFAULT_WIDTH, GAME_DEFAULT_HEIGHT, camera);
       KeyboardInputs kbInputs = new KeyboardInputs(this);
       Gdx.input.setInputProcessor(kbInputs);
@@ -127,12 +130,17 @@ public class Game extends ApplicationAdapter {
       Gdx.gl.glClearColor(0, 0, 0, 1); // Clear screen
       Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-      // Set the projection matrix BEFORE batch.begin()
+      // Sprites
       batch.setProjectionMatrix(camera.combined);
-
       batch.begin();
-      view.draw(batch);
+      view.drawSprites(batch);
       batch.end();
+
+      // Shapes
+      shapeRender.setProjectionMatrix(camera.combined);
+      shapeRender.begin(ShapeRenderer.ShapeType.Line);
+      view.drawShapes(shapeRender);
+      shapeRender.end();
 
       update();
       checkWindowResize();

@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -115,5 +117,10 @@ public class DrawUtils {
       float x = rect.x + (rect.width - layout.width) / 2;
       float y = rect.y - layout.height * 2 + rect.height;
       font.draw(batch, layout, x, y);
+   }
+
+   public static void drawRotatedPolygon(ShapeRenderer sr, Polygon polygon, MyColor color) {
+      sr.setColor(color.getColor());
+      sr.polygon(polygon.getTransformedVertices());
    }
 }

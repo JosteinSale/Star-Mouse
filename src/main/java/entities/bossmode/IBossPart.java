@@ -3,6 +3,8 @@ package entities.bossmode;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 
+import com.badlogic.gdx.math.Polygon;
+
 /**
  * An interface that represents a default BossPart. It has methods for updating
  * the
@@ -143,4 +145,6 @@ public interface IBossPart {
     * This method is made to be overwritten with custom behavior for the bossPart.
     */
    public void finishAttack();
+
+   public Polygon getRotatedHitbox();
 }

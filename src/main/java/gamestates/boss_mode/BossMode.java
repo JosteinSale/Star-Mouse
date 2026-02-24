@@ -7,6 +7,8 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.math.Polygon;
+
 import audio.AudioPlayer;
 import cutscenes.cutsceneManagers.CutsceneManagerBoss;
 import cutscenes.cutsceneManagers.DefaultCutsceneManager;
@@ -304,10 +306,9 @@ public class BossMode extends State {
 
    }
 
-   public ArrayList<Rectangle2D.Float> getAllHitboxes() {
+   public ArrayList<Rectangle2D.Float> getAllNonRotatedHitboxes() {
       ArrayList<Rectangle2D.Float> allHitboxes = new ArrayList<>();
       allHitboxes.add(player.getHitbox());
-      getBoss().getBossParts().forEach(part -> allHitboxes.add(part.getNonRotatedHitbox()));
       for (PickupItem p : pickupItems) {
          if (p.isActive()) {
             allHitboxes.add(p.getHitbox());
@@ -316,6 +317,12 @@ public class BossMode extends State {
       for (Rectangle2D.Float projectileHitbox : projectileHandler.getAllHitboxes()) {
          allHitboxes.add(projectileHitbox);
       }
+      return allHitboxes;
+   }
+
+   public ArrayList<Polygon> getAllRotatedHitboxes() {
+      ArrayList<Polygon> allHitboxes = new ArrayList<>();
+      getBoss().getBossParts().forEach(part -> allHitboxes.add(part.getRotatedHitbox()));
       return allHitboxes;
    }
 

@@ -1,6 +1,7 @@
 package main_classes;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import data_storage.DrawSaving;
 import gamestates.Gamestate;
@@ -68,7 +69,7 @@ public class View extends Singleton {
             game.getLevelEditor(), rFlying.getEntityImages(), images);
    }
 
-   public void draw(SpriteBatch sb) {
+   public void drawSprites(SpriteBatch sb) {
       switch (Gamestate.state) {
          case START_SCREEN:
             rStartScreen.draw(sb);
@@ -99,6 +100,16 @@ public class View extends Singleton {
       }
       drawSaving.draw(sb);
       drawFader(sb);
+   }
+
+   public void drawShapes(ShapeRenderer sr) {
+      switch (Gamestate.state) {
+         case BOSS_MODE:
+            rBossMode.draw(sr);
+            break;
+         default:
+            break;
+      }
    }
 
    private void drawFader(SpriteBatch sb) {

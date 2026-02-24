@@ -1,9 +1,12 @@
 package entities.bossmode;
 
 import java.awt.Point;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Area;
+
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Polygon;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Float;
 
 /**
  * A BossPart represents an animated part of a boss that can be rotated, moved
@@ -23,9 +26,8 @@ import java.awt.geom.Rectangle2D;
  */
 abstract public class DefaultBossPart implements IBossPart {
    public Rectangle2D.Float nonRotatedHitbox;
-   protected Area rotatedArea; // Is used to check collision
+   protected Polygon rotatedHitbox; // Is used to check collision
    public Double rotation = 0.0;
-   protected AffineTransform af; // Is used in rotation operations
    protected Boolean collisionEnabled = false;
    public boolean isVisible = false;
    public AnimatedComponent animation;
@@ -42,7 +44,18 @@ abstract public class DefaultBossPart implements IBossPart {
    public DefaultBossPart(Rectangle2D.Float hitbox, AnimatedComponent animation) {
       this.nonRotatedHitbox = hitbox;
       this.animation = animation;
-      this.updateCollisionArea();
+      constructCollisionPolygon(hitbox);
+      updateCollisionArea();
+   }
+
+   private void constructCollisionPolygon(Float hitbox) {
+      float[] verts = {
+            0, 0,
+            hitbox.width, 0,
+            hitbox.width, hitbox.height,
+            0, hitbox.height
+      };
+      this.rotatedHitbox = new Polygon(verts);
    }
 
    @Override
@@ -62,38 +75,28 @@ abstract public class DefaultBossPart implements IBossPart {
    }
 
    private void updateCollisionArea() {
-      // Make an Area-object using the non rotated hitbox
-      Area area = new Area(nonRotatedHitbox);
-
-      // Create an AffineTransform-object
-      this.af = new AffineTransform();
-
-      // Rotate this object according to current rotation, around the hitbox center.
-      af.rotate(this.rotation, nonRotatedHitbox.getCenterX(), nonRotatedHitbox.getCenterY());
-
-      // Create a new rotated area, by rotating the original area using the
-      // AffineTransform.
-      rotatedArea = area.createTransformedArea(af);
+      rotatedHitbox.setOrigin(nonRotatedHitbox.width / 2f, nonRotatedHitbox.height / 2f);
+      rotatedHitbox.setPosition(nonRotatedHitbox.x, nonRotatedHitbox.y);
+      rotatedHitbox.setRotation((float) (rotation * MathUtils.radiansToDegrees));
    }
 
    @Override
    public boolean containsPoint(Point p) {
-      return rotatedArea.contains(p);
+      return rotatedHitbox.contains(p.x, p.y);
    }
 
    @Override
    public boolean intersectsRect(Rectangle2D.Float hb) {
-      return rotatedArea.intersects(hb);
+      Polygon otherHitbox = new Polygon(new float[] {
+            0, 0,
+            hb.width, 0,
+            hb.width, hb.height,
+            0, hb.height
+      });
+      otherHitbox.setOrigin(hb.width / 2f, hb.height / 2f);
+      otherHitbox.setPosition(hb.x, hb.y);
+      return Intersector.overlapConvexPolygons(rotatedHitbox, otherHitbox);
    }
-
-   /**
-    * Draw rotated hitbox. OBS: NOT SCALED TO Game.SCALE!
-    * (We would need to create a new Area-object, which is expensive)
-    */
-   // public void drawRotatedHitbox(Graphics2D g2) {
-   // g2.setColor(Color.BLACK);
-   // g2.draw(rotatedArea);
-   // }
 
    @Override
    public Rectangle2D.Float getNonRotatedHitbox() {
@@ -118,6 +121,11 @@ abstract public class DefaultBossPart implements IBossPart {
    @Override
    public void updateAnimations() {
       animation.updateAnimations();
+   }
+
+   @Override
+   public Polygon getRotatedHitbox() {
+      return this.rotatedHitbox;
    }
 
    @Override
