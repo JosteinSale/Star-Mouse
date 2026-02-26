@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import gamestates.flying.Flying;
 import main_classes.Game;
+import main_classes.Testing;
 import rendering.MyColor;
 import rendering.Render;
 import rendering.flying.EntityImages;
@@ -69,12 +70,14 @@ public class RenderFlying extends Singleton implements Render {
    }
 
    private void drawHitboxes(SpriteBatch sb) {
-      for (Rectangle2D.Float hitbox : flying.getAllHitboxes()) {
-         DrawUtils.fillRect(sb, MyColor.RED,
-               (int) hitbox.x,
-               (int) hitbox.y,
-               (int) hitbox.width,
-               (int) hitbox.height);
+      if (Testing.drawHitboxes) {
+         for (Rectangle2D.Float hitbox : flying.getAllHitboxes()) {
+            DrawUtils.fillRect(sb, MyColor.RED,
+                  (int) hitbox.x,
+                  (int) hitbox.y,
+                  (int) hitbox.width,
+                  (int) hitbox.height);
+         }
       }
    }
 
