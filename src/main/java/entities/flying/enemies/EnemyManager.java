@@ -60,7 +60,7 @@ public class EnemyManager {
          enemy.update(levelYSpeed);
          if (enemy.isOnScreen() && !enemy.isDead()) {
             activeEnemiesOnScreen.add(enemy);
-            if (player.teleportDamagesEnemy(enemy.getHitbox()) && enemy.isSmall()) {
+            if (player.teleportHitsEnemy(enemy.getHitbox()) && enemy.isSmall()) {
                enemy.takeDamage(teleportDmg);
             } else if (player.checkAndHandleCollisionWithEnemy(enemy.getHitbox())) {
                enemy.onCollision(collisionDmg);

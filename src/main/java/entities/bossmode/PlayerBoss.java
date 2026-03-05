@@ -201,7 +201,7 @@ public class PlayerBoss extends PlayerFly {
    }
 
    @Override
-   public boolean teleportDamagesEnemy(Rectangle2D.Float enemyHitbox) {
+   public boolean teleportHitsEnemy(Rectangle2D.Float enemyHitbox) {
       return false;
    }
 

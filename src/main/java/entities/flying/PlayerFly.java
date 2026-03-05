@@ -405,7 +405,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       return false;
    }
 
-   public boolean teleportDamagesEnemy(Rectangle2D.Float enemyHitbox) {
+   public boolean teleportHitsEnemy(Rectangle2D.Float enemyHitbox) {
       if (planeAction == TELEPORTING_RIGHT || planeAction == TELEPORTING_LEFT) {
          if (teleportHitbox.intersects(enemyHitbox)) {
             return true;

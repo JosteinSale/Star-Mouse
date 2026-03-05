@@ -10,7 +10,7 @@ Aiming to be a 3-5 hour game (with twists and turns along the way), it's a big u
 
 ## Usage
 
-- Java version 8 or later is required.
+- Java version 17 or later is required.
 - At present its only possible to run the game if you have a clone of the repository on your computer.
   - (I'm aiming to make an executable jar-file available in the future).
 - At present, the only branch available is the development branch, which may be in a inconsistent state due to testing.
