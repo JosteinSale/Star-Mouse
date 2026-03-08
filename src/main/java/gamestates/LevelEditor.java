@@ -2,6 +2,9 @@ package gamestates;
 
 import static entities.flying.EnemyFactory.TypeConstants.*;
 import static entities.flying.pickupItems.PickupItemFactory.TypeConstants.*;
+import static utils.Constants.Flying.COLLISION_MAP_X_OFFSET;
+import static utils.Constants.Flying.COLLISION_MAP_Y_OFFSET;
+import static utils.Constants.Flying.COLLISION_MAP_WIDTH;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -19,7 +22,7 @@ import utils.ResourceLoader;
 
 /**
  * Draws all entities on screen, with their hitbox represented in black.
- * Entity names, -shootTimers, -directions and -hitboxes are held in separate
+ * Entity names, -shootTimers, -flipXs and -hitboxes are held in separate
  * lists. Thus a specific entity is only identifies by it's common index in the
  * different lists.
  * 
@@ -39,23 +42,29 @@ public class LevelEditor extends State {
    public ArrayList<Integer> addedEntities;
    public ArrayList<Rectangle> hitboxes;
    public ArrayList<Integer> shootTimers;
-   public ArrayList<Integer> directions;
+   public ArrayList<Integer> flipXs;
    private HashMap<String, Integer> entityNameToTypeMap;
 
-   private static final int UP = 1;
-   private static final int DOWN = -1;
-   public int clImgHeight;
-   public int clImgWidth;
-   public int clYOffset;
-   public float clXOffset;
-   public int mapYOffset;
-   public int selectedEntity;
-
-   public int curDirection = 1; // 1 = right, -1 = left
-   public int shootTimer = 100; // Drones : 100 - 160, Octadrones : 60 - 180
+   // Cursor
    public int cursorX = 500;
    public int cursorY = 400;
-   private int cursorSpeed = 10;
+   private int gridSize = 10;
+   private static final int UP = 1;
+   private static final int DOWN = 2;
+   private static final int RIGHT = 3;
+   private static final int LEFT = 4;
+
+   // Enemy stuff
+   public int selectedEntity;
+   public int flipEnemy = 1; // 1 for right, -1 for left.
+   public int shootTimer = 100;
+
+   // Map
+   public int clImgHeight;
+   public int clImgWidth;
+   public int clImgY;
+   public int clImgX;
+   private int screenNr = 0; // Increases or decreases by 1 every time we change screen vertically.
 
    public LevelEditor(Game game) {
       super(game);
@@ -74,11 +83,11 @@ public class LevelEditor extends State {
       this.level = level;
       hitboxes = new ArrayList<>();
       shootTimers = new ArrayList<>();
-      directions = new ArrayList<>();
+      flipXs = new ArrayList<>();
       levelData = new ArrayList<>();
       addedEntities = new ArrayList<>();
       selectedEntity = 0;
-      mapYOffset = 0;
+      screenNr = 0;
       loadLevelData(level);
       calcMapValues(level);
       game.getView().getRenderLevelEditor().loadLevel(level);
@@ -86,9 +95,17 @@ public class LevelEditor extends State {
 
    private void calcMapValues(int lvl) {
       clImgHeight = FlyLevelInfo.getClImgHeight(lvl) * 3;
-      clImgWidth = 450 * 3;
-      clYOffset = Game.GAME_DEFAULT_HEIGHT - clImgHeight + 150;
-      clXOffset = -150;
+      clImgWidth = COLLISION_MAP_WIDTH;
+      clImgY = setClImgY();
+      clImgX = -COLLISION_MAP_X_OFFSET;
+   }
+
+   public int getEditorY() {
+      return screenNr * Game.GAME_DEFAULT_HEIGHT;
+   }
+
+   private int setClImgY() {
+      return -clImgHeight + COLLISION_MAP_Y_OFFSET + getEditorY() + Game.GAME_DEFAULT_HEIGHT;
    }
 
    private void loadLevelData(Integer level) {
@@ -125,17 +142,20 @@ public class LevelEditor extends State {
       switch (key) {
          case Input.Keys.W -> changeScreen(UP);
          case Input.Keys.S -> changeScreen(DOWN);
-         case Input.Keys.A -> shootTimer -= 10;
-         case Input.Keys.D -> shootTimer += 10;
+         case Input.Keys.A -> changeScreen(LEFT);
+         case Input.Keys.D -> changeScreen(RIGHT);
          case Input.Keys.SPACE -> addEntity();
          case Input.Keys.ENTER -> goToMainMenu();
-         case Input.Keys.UP -> cursorY -= cursorSpeed;
-         case Input.Keys.DOWN -> cursorY += cursorSpeed;
-         case Input.Keys.LEFT -> cursorX -= cursorSpeed;
-         case Input.Keys.RIGHT -> cursorX += cursorSpeed;
-         case Input.Keys.C -> toggleSelectedEntity("RIGHT");
-         case Input.Keys.Z -> toggleSelectedEntity("LEFT");
-         case Input.Keys.F -> curDirection *= -1;
+
+         // TODO - replace cursor movement with mouse movement, and add mapping for
+         // shootTimer +/- controls.
+         case Input.Keys.UP -> cursorY -= gridSize;
+         case Input.Keys.DOWN -> cursorY += gridSize;
+         case Input.Keys.LEFT -> cursorX -= gridSize;
+         case Input.Keys.RIGHT -> cursorX += gridSize;
+         case Input.Keys.C -> toggleSelectedEntity(RIGHT);
+         case Input.Keys.Z -> toggleSelectedEntity(LEFT);
+         case Input.Keys.F -> flipEnemy *= -1;
          case Input.Keys.P -> printLevelData();
          default -> { // Do nothing
          }
@@ -143,10 +163,10 @@ public class LevelEditor extends State {
    }
 
    public void mouseMoved(int screenX, int screenY) {
-      // We'll snap the cursor to a grid with cell size = cursorSpeed,
+      // We'll snap the cursor to a grid with size of 10,
       // to keep placement consistent
-      cursorX = (screenX / cursorSpeed) * cursorSpeed;
-      cursorY = (screenY / cursorSpeed) * cursorSpeed;
+      cursorX = (screenX / gridSize) * gridSize;
+      cursorY = (screenY / gridSize) * gridSize;
    }
 
    private void goToMainMenu() {
@@ -154,21 +174,21 @@ public class LevelEditor extends State {
    }
 
    private void addEntity() {
-      int adjustedY = cursorY + mapYOffset;
+      int adjustedY = cursorY - getEditorY();
       // Maybe a bit over-engineered, but it works:
       String name = entityNameToTypeMap.entrySet().stream()
             .filter(entry -> entry.getValue() == selectedEntity)
             .map(entry -> entry.getKey())
             .findFirst()
             .orElse(null);
-      registerEntityInstance(true, name, cursorX, adjustedY, curDirection, shootTimer);
+      registerEntityInstance(true, name, cursorX, adjustedY, flipEnemy, shootTimer);
    }
 
-   private void toggleSelectedEntity(String direction) {
+   private void toggleSelectedEntity(int direction) {
       int amountOfEntities = entityNameToTypeMap.size();
-      if (direction.equals("RIGHT")) {
+      if (direction == RIGHT) {
          selectedEntity = (selectedEntity + 1) % amountOfEntities;
-      } else if (direction.equals("LEFT")) {
+      } else if (direction == LEFT) {
          selectedEntity = (selectedEntity - 1 + amountOfEntities)
                % amountOfEntities;
       }
@@ -180,9 +200,24 @@ public class LevelEditor extends State {
       }
    }
 
-   private void changeScreen(int upDown) { // up = 1, down = -1
-      clYOffset += Game.GAME_DEFAULT_HEIGHT * upDown;
-      mapYOffset -= Game.GAME_DEFAULT_HEIGHT * upDown;
+   private void changeScreen(int direction) {
+      switch (direction) {
+         case UP -> {
+            screenNr += 1;
+            clImgY = setClImgY();
+         }
+         case DOWN -> {
+            screenNr -= 1;
+            clImgY = setClImgY();
+         }
+         case RIGHT -> {
+            clImgX -= 200;
+         }
+         case LEFT -> {
+            clImgX += 200;
+         }
+      }
+
    }
 
    /**
@@ -255,7 +290,7 @@ public class LevelEditor extends State {
       addedEntities.remove(indexToRemove);
       levelData.remove(indexToRemove);
       hitboxes.remove(indexToRemove);
-      directions.remove(indexToRemove);
+      flipXs.remove(indexToRemove);
       shootTimers.remove(indexToRemove);
    }
 
@@ -268,7 +303,7 @@ public class LevelEditor extends State {
       // Other relevant info
       hitboxes.add(hitbox);
       shootTimers.add(shootTimer);
-      directions.add(direction);
+      flipXs.add(direction);
    }
 
 }

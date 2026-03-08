@@ -47,13 +47,13 @@ public class RenderLevelEditor extends Singleton {
       // Map
       DrawUtils.drawImage(
             sb, clImg,
-            (int) le.clXOffset, le.clYOffset,
+            (int) le.clImgX, le.clImgY,
             le.clImgWidth, le.clImgHeight);
 
       // Top text
       DrawUtils.drawText(
             sb, MyColor.BLACK, DrawUtils.infoFont,
-            "direction : " + Integer.toString(le.curDirection),
+            "direction : " + Integer.toString(le.flipEnemy),
             20, 20);
       DrawUtils.drawText(
             sb, MyColor.BLACK, DrawUtils.infoFont,
@@ -61,7 +61,7 @@ public class RenderLevelEditor extends Singleton {
             20, 50);
       DrawUtils.drawText(
             sb, MyColor.BLACK, DrawUtils.infoFont,
-            "y :" + Integer.toString(le.mapYOffset),
+            "y :" + Integer.toString(le.getEditorY()),
             700, 20);
    }
 
@@ -75,30 +75,30 @@ public class RenderLevelEditor extends Singleton {
                sb, MyColor.BLACK, DrawUtils.infoFont,
                Integer.toString(le.shootTimers.get(i)),
                (int) hitbox.getX(),
-               (int) (hitbox.getY() - le.mapYOffset - 20));
+               (int) (hitbox.getY() + le.getEditorY() - 20));
 
          // Hitbox
          DrawUtils.fillRect(
                sb, MyColor.BLACK,
-               (float) hitbox.getX(), (float) (hitbox.getY() - le.mapYOffset),
+               (float) hitbox.getX(), (float) (hitbox.getY() + le.getEditorY()),
                (float) hitbox.getWidth(), (float) hitbox.getHeight());
 
          // Image
-         int dir = le.directions.get(i);
-         int xOffset = info.drawOffsetX;
-         int yOffset = info.drawOffsetY;
+         int flipX = le.flipXs.get(i);
+         int xDrawOffset = info.drawOffsetX;
+         int yDrawOffset = info.drawOffsetY;
          int spriteW = info.spriteW;
          int spriteH = info.spriteH;
-         if (dir == -1) {
-            xOffset -= 3 * spriteW;
+         if (flipX == -1) {
+            xDrawOffset -= 3 * spriteW;
          }
          MySubImage img = entityImages.getImageFor(
                info.typeConstant, info.editorImgRow, info.editorImgCol);
          DrawUtils.drawSubImage(
                sb, img,
-               (int) (hitbox.getX() - xOffset),
-               (int) (hitbox.getY() - yOffset - le.mapYOffset),
-               spriteW * 3 * dir,
+               (int) (hitbox.getX() - xDrawOffset),
+               (int) (hitbox.getY() - yDrawOffset + le.getEditorY()),
+               spriteW * 3 * flipX,
                spriteH * 3);
       }
    }

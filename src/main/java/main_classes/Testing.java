@@ -23,11 +23,11 @@ public final class Testing {
 
    // Flying
    public static final int flyingStartY = 0;
-   public static final int flyingLevel = 3;
+   public static final int flyingLevel = 0;
 
    // Boss Mode
    public static final int bossNr = 1;
 
    // Level Editor
-   public static final int levelEditorLvl = 1;
+   public static final int levelEditorLvl = 0;
 }
