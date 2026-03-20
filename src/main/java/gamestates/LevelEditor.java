@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
 import entities.flying.EnemyFactory;
@@ -56,7 +57,7 @@ public class LevelEditor extends State {
 
    // Enemy stuff
    public int selectedEntity;
-   public int flipEnemy = 1; // 1 for right, -1 for left.
+   public int enemyFlipX = 1; // 1 for right, -1 for left.
    public int shootTimer = 100;
 
    // Map
@@ -140,33 +141,39 @@ public class LevelEditor extends State {
     */
    public void handleKeyboardInputs(int key) {
       switch (key) {
-         case Input.Keys.W -> changeScreen(UP);
-         case Input.Keys.S -> changeScreen(DOWN);
-         case Input.Keys.A -> changeScreen(LEFT);
-         case Input.Keys.D -> changeScreen(RIGHT);
+         case Input.Keys.W -> moveScreen(UP);
+         case Input.Keys.S -> moveScreen(DOWN);
+         case Input.Keys.A -> moveScreen(LEFT);
+         case Input.Keys.D -> moveScreen(RIGHT);
          case Input.Keys.SPACE -> addEntity();
          case Input.Keys.ENTER -> goToMainMenu();
 
-         // TODO - replace cursor movement with mouse movement, and add mapping for
-         // shootTimer +/- controls.
+         // TODO - replace these with shootTimer adjustments.
          case Input.Keys.UP -> cursorY -= gridSize;
          case Input.Keys.DOWN -> cursorY += gridSize;
          case Input.Keys.LEFT -> cursorX -= gridSize;
          case Input.Keys.RIGHT -> cursorX += gridSize;
+
          case Input.Keys.C -> toggleSelectedEntity(RIGHT);
          case Input.Keys.Z -> toggleSelectedEntity(LEFT);
-         case Input.Keys.F -> flipEnemy *= -1;
+         case Input.Keys.F -> enemyFlipX *= -1;
          case Input.Keys.P -> printLevelData();
          default -> { // Do nothing
          }
       }
    }
 
-   public void mouseMoved(int screenX, int screenY) {
+   public void mouseMoved(int mouseX, int mouseY) {
+      // Adjust input x and y to correspond to the currentgame scale
+      float scale = Game.GAME_DEFAULT_HEIGHT / (float) Gdx.graphics.getHeight();
+      int x = (int) (mouseX * scale);
+      int y = (int) (mouseY * scale);
+
       // We'll snap the cursor to a grid with size of 10,
       // to keep placement consistent
-      cursorX = (screenX / gridSize) * gridSize;
-      cursorY = (screenY / gridSize) * gridSize;
+      int xAdjust = scale < 1 ? 150 : 0;
+      cursorX = (x / gridSize) * gridSize - xAdjust;
+      cursorY = (y / gridSize) * gridSize;
    }
 
    private void goToMainMenu() {
@@ -181,7 +188,7 @@ public class LevelEditor extends State {
             .map(entry -> entry.getKey())
             .findFirst()
             .orElse(null);
-      registerEntityInstance(true, name, cursorX, adjustedY, flipEnemy, shootTimer);
+      registerEntityInstance(true, name, cursorX, adjustedY, enemyFlipX, shootTimer);
    }
 
    private void toggleSelectedEntity(int direction) {
@@ -200,7 +207,7 @@ public class LevelEditor extends State {
       }
    }
 
-   private void changeScreen(int direction) {
+   private void moveScreen(int direction) {
       switch (direction) {
          case UP -> {
             screenNr += 1;

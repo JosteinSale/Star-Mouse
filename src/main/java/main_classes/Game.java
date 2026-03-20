@@ -119,7 +119,7 @@ public class Game extends ApplicationAdapter {
     * disc. If the game is in testing mode, no saving will happen.
     */
    public void saveDataToDisc() {
-      if (Testing.testingMode) {
+      if (!Testing.testingMode) {
          DataStorage.saveData(this.saveData);
          drawSaving.start();
       }
