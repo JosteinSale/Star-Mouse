@@ -9,51 +9,65 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <libgdx.version>1.11.0</libgdx.version>
+        <junit.version>6.1.0-M1</junit.version>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.13.0</version>
-        </dependency>
-        <dependency>
+
+      <!-- LibGDX dependencies -->
+      <dependency>
+         <groupId>com.fasterxml.jackson.core</groupId>
+         <artifactId>jackson-databind</artifactId>
+         <version>2.13.0</version>
+      </dependency>
+
+      <dependency>
 			<groupId>com.badlogicgames.gdx</groupId>
 			<artifactId>gdx-lwjgl3-glfw-awt-macos</artifactId>
 			<version>${libgdx.version}</version>
-		</dependency>
-        <!--libGDX graphics library – https://libgdx.com/ -->
+	   </dependency>
+
 		<dependency>
 			<groupId>com.badlogicgames.gdx</groupId>
 			<artifactId>gdx</artifactId>
 			<version>${libgdx.version}</version>
 		</dependency>
-		<!-- Platform-specific libraries -->
+		
 		<dependency>
 			<groupId>com.badlogicgames.gdx</groupId>
 			<artifactId>gdx-platform</artifactId>
 			<version>${libgdx.version}</version>
 			<classifier>natives-desktop</classifier>
 		</dependency>
+
 		<dependency>
 			<groupId>com.badlogicgames.gdx</groupId>
 			<artifactId>gdx-backend-lwjgl3</artifactId>
 			<version>${libgdx.version}</version>
 		</dependency>
-        <!--FreeTypeFont-->
-        <dependency>
+
+      <dependency>
         	<groupId>com.badlogicgames.gdx</groupId>
        		<artifactId>gdx-freetype</artifactId>
         	<version>${libgdx.version}</version>
     	</dependency>
-         <!-- Native FreeType support -->
-        <dependency>
-            <groupId>com.badlogicgames.gdx</groupId>
-            <artifactId>gdx-freetype-platform</artifactId>
-            <version>${libgdx.version}</version>
-            <classifier>natives-desktop</classifier>
-            <scope>runtime</scope>
-        </dependency>
+      
+      <dependency>
+         <groupId>com.badlogicgames.gdx</groupId>
+         <artifactId>gdx-freetype-platform</artifactId>
+         <version>${libgdx.version}</version>
+         <classifier>natives-desktop</classifier>
+         <scope>runtime</scope>
+      </dependency>
+
+      <!-- JUnit dependencies -->
+      <dependency>
+         <groupId>org.junit.jupiter</groupId>
+         <artifactId>junit-jupiter-engine</artifactId>
+         <version>${junit.version}</version>
+         <scope>test</scope>
+      </dependency>
+
     </dependencies>
 
     <build>
@@ -72,6 +86,15 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.0</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.1.2</version>
+                <configuration>
+                    <useModulePath>false</useModulePath>
+                </configuration>
             </plugin>
 
         </plugins>
