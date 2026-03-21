@@ -21,11 +21,16 @@ import utils.parsing.CutsceneParser;
 
 public class HelpMethods {
 
+   /**
+    * Checks if the pixel at the given coordinates is solid (i.e. collidable).
+    * Solid is defined as the red value in RGBA of the pixel being > 0 && < 100.
+    */
    public static boolean IsSolid(int pixelX, int pixelY, MyCollisionImage collisionImg) {
       int pix = collisionImg.getImage().getPixel(pixelX, pixelY);
       Color c = new Color();
+      System.out.println("Pixel color at x: " + pixelX + ", y: " + pixelY + " is: " + pix);
       Color.rgba8888ToColor(c, pix);
-      if (c.r > 0.0f && c.r < 0.39f) { // 0.39f ~ 100 int
+      if (c.r >= 0.0f && c.r < 0.39f) { // 0.39f ~ 100 int
          return true;
       } else {
          return false;
@@ -34,13 +39,16 @@ public class HelpMethods {
 
    /**
     * Checks the four corners of the hitbox,
-    * and returns true if any of them touches something solid
+    * and returns true if any of them touches something solid.
+    * Note: the coordinates of the hitbox are divided by 3, to match the scale of
+    * the collision image.
     */
    public static boolean CollidesWithMap(Rectangle2D.Float hitbox, MyCollisionImage collisionImg) {
       float newX1 = (hitbox.x) / 3;
       float newY1 = (hitbox.y) / 3;
       float newX2 = (hitbox.x + hitbox.width) / 3;
       float newY2 = (hitbox.y + hitbox.height) / 3;
+      System.out.println("Checking collision at x: " + newX1 + ", y: " + newY1 + " and x: " + newX2 + ", y: " + newY2);
       if (!IsSolid((int) newX1, (int) newY1, collisionImg) &&
             !IsSolid((int) newX2, (int) newY1, collisionImg) &&
             !IsSolid((int) newX1, (int) newY2, collisionImg) &&
@@ -330,7 +338,7 @@ public class HelpMethods {
       for (String word : words) {
          if ((letterCount + word.length()) > lineLengthLimit) {
             // Add new
-            formattedStrings.add(line);
+            formattedStrings.add(line.trim());
             line = word + " ";
             letterCount = word.length() + 1; // +1 for space
          } else {
