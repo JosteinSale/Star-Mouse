@@ -12,6 +12,7 @@ import entities.flying.enemies.EnemyManager;
 import game_events.AddProjectileEvent;
 import main_classes.Game;
 import utils.Singleton;
+import inputs.Inputs;
 
 import static utils.Constants.Flying.SpriteSizes.*;
 import static utils.Constants.Flying.TypeConstants.BOMB_PROJECTILE;
@@ -71,13 +72,13 @@ public class ProjectileHandler extends Singleton {
    }
 
    protected void checkPlayerShoot() {
-      if (game.interactIsPressed && lazerShootTick == 0) {
+      if (Inputs.interactIsPressed && lazerShootTick == 0) {
          player.onLazerShoot();
          lazerShootTick = lazerShootBuffer;
          this.addPlayerProjectile(player.getHitbox().x, player.getHitbox().y);
          audioPlayer.playSFX(Audio.SFX_LAZER);
       }
-      if (game.bombIsPressed && bombShootTick == 0 && nrOfBombs > 0) {
+      if (Inputs.bombIsPressed && bombShootTick == 0 && nrOfBombs > 0) {
          nrOfBombs--;
          audioPlayer.playSFX(Audio.SFX_BOMBSHOOT);
          bombShootTick = bombShootBuffer;

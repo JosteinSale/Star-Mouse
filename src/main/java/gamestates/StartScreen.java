@@ -3,6 +3,7 @@ package gamestates;
 import audio.AudioPlayer;
 import main_classes.Game;
 import utils.Constants.Audio;
+import inputs.Inputs;
 
 public class StartScreen extends State {
    private AudioPlayer audioPlayer;
@@ -19,8 +20,8 @@ public class StartScreen extends State {
    }
 
    private void handleKeyBoardInputs() {
-      if (game.interactIsPressed) {
-         game.interactIsPressed = false;
+      if (Inputs.interactIsPressed) {
+         Inputs.interactIsPressed = false;
          audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
          game.returnToMainMenu(null);
       }

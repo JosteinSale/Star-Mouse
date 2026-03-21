@@ -5,6 +5,7 @@ import gamestates.boss_mode.BossMode;
 import main_classes.Game;
 import utils.Constants.Audio;
 import utils.Singleton;
+import inputs.Inputs;
 
 /**
  * For use in BossMode.
@@ -68,16 +69,16 @@ public class GameoverOverlay2 extends Singleton {
    }
 
    private void handleKeyboardInputs() {
-      if (game.downIsPressed) {
+      if (Inputs.downIsPressed) {
          audioPlayer.playSFX(Audio.SFX_CURSOR);
-         game.downIsPressed = false;
+         Inputs.downIsPressed = false;
          goDown();
-      } else if (game.upIsPressed) {
+      } else if (Inputs.upIsPressed) {
          audioPlayer.playSFX(Audio.SFX_CURSOR);
-         game.upIsPressed = false;
+         Inputs.upIsPressed = false;
          goUp();
-      } else if (game.interactIsPressed) {
-         game.interactIsPressed = false;
+      } else if (Inputs.interactIsPressed) {
+         Inputs.interactIsPressed = false;
          if (selectedIndex == RESTART_BOSS) {
             this.cursorY = cursorMinY;
             bossMode.resetBossMode();

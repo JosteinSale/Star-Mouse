@@ -4,6 +4,7 @@ import audio.AudioPlayer;
 import gamestates.flying.Flying;
 import utils.Constants.Audio;
 import utils.Singleton;
+import inputs.Inputs;
 
 public class PauseFlying extends Singleton {
    private AudioPlayer audioPlayer;
@@ -52,16 +53,16 @@ public class PauseFlying extends Singleton {
       if (flying.getGame().isFading()) {
          return;
       }
-      if (flying.getGame().downIsPressed) {
-         flying.getGame().downIsPressed = false;
+      if (Inputs.downIsPressed) {
+         Inputs.downIsPressed = false;
          audioPlayer.playSFX(Audio.SFX_CURSOR);
          goDown();
-      } else if (flying.getGame().upIsPressed) {
-         flying.getGame().upIsPressed = false;
+      } else if (Inputs.upIsPressed) {
+         Inputs.upIsPressed = false;
          audioPlayer.playSFX(Audio.SFX_CURSOR);
          goUp();
-      } else if (flying.getGame().interactIsPressed) {
-         flying.getGame().interactIsPressed = false;
+      } else if (Inputs.interactIsPressed) {
+         Inputs.interactIsPressed = false;
 
          if (selectedIndex == CONTINUE) {
             this.flying.flipPause();

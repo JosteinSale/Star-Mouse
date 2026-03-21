@@ -4,6 +4,7 @@ import audio.AudioPlayer;
 import gamestates.flying.Flying;
 import utils.Constants.Audio;
 import utils.Singleton;
+import inputs.Inputs;
 
 /**
  * Should be updated and drawn when the player dies. It does the following:
@@ -64,16 +65,16 @@ public class GameoverOverlay extends Singleton {
    }
 
    private void handleKeyboardInputs() {
-      if (flying.getGame().downIsPressed) {
+      if (Inputs.downIsPressed) {
          audioPlayer.playSFX(Audio.SFX_CURSOR);
-         flying.getGame().downIsPressed = false;
+         Inputs.downIsPressed = false;
          goDown();
-      } else if (flying.getGame().upIsPressed) {
+      } else if (Inputs.upIsPressed) {
          audioPlayer.playSFX(Audio.SFX_CURSOR);
-         flying.getGame().upIsPressed = false;
+         Inputs.upIsPressed = false;
          goUp();
-      } else if (flying.getGame().interactIsPressed) {
-         flying.getGame().interactIsPressed = false;
+      } else if (Inputs.interactIsPressed) {
+         Inputs.interactIsPressed = false;
          if (selectedIndex == RESTART_LEVEL) {
             this.cursorY = cursorMinY;
             flying.restartLevel(false);

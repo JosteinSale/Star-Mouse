@@ -13,6 +13,7 @@ import cutscenes.cutsceneManagers.DefaultCutsceneManager;
 import entities.exploring.*;
 import game_events.*;
 import gamestates.Gamestate;
+import inputs.Inputs;
 import main_classes.Game;
 import ui.InventoryItem;
 import ui.TextboxManager;
@@ -315,8 +316,8 @@ public class Area {
          return;
       } else if (cutsceneManager.isActive()) {
          cutsceneManager.handleKeyBoardInputs();
-      } else if (game.interactIsPressed) {
-         game.interactIsPressed = false;
+      } else if (Inputs.interactIsPressed) {
+         Inputs.interactIsPressed = false;
          handleSpacePressed();
       }
    }

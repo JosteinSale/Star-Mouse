@@ -20,6 +20,7 @@ import game_events.StopLoopsEvent;
 import game_events.TextBoxEvent;
 import main_classes.Game;
 import utils.ResourceLoader;
+import inputs.Inputs;
 
 /**
  * A gamestate that will exclusively be for cutscenes.
@@ -123,8 +124,8 @@ public class Cinematic extends State {
    }
 
    private void handleKeyBoardInputs() {
-      if (game.pauseIsPressed) {
-         game.pauseIsPressed = false;
+      if (Inputs.pauseIsPressed) {
+         Inputs.pauseIsPressed = false;
          audioPlayer.stopAllLoops();
          this.exitCinematic();
       } else {

@@ -8,6 +8,7 @@ import gamestates.flying.Flying;
 import main_classes.Game;
 import utils.Constants.Audio;
 import utils.Singleton;
+import inputs.Inputs;
 
 /**
  * Fades in "Level Finished" header, draws level stats in a sexy way,
@@ -63,8 +64,8 @@ public class LevelFinishedOverlay extends Singleton {
    }
 
    private void handleKeyboardInputs() {
-      if (flying.getGame().interactIsPressed) {
-         flying.getGame().interactIsPressed = false;
+      if (Inputs.interactIsPressed) {
+         Inputs.interactIsPressed = false;
          this.flying.audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
          this.flying.exitFinishedLevel();
       }

@@ -22,6 +22,7 @@ import game_events.*;
 import gamestates.Gamestate;
 import gamestates.State;
 import gamestates.flying.Flying;
+import inputs.Inputs;
 import main_classes.Game;
 import projectiles.ProjectileHandler;
 import projectiles.ProjectileHandler2;
@@ -188,8 +189,8 @@ public class BossMode extends State {
    }
 
    private void checkKeyboardInputs() {
-      if (game.pauseIsPressed) {
-         game.pauseIsPressed = false;
+      if (Inputs.pauseIsPressed) {
+         Inputs.pauseIsPressed = false;
          flipPause();
       }
    }

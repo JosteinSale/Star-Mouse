@@ -7,6 +7,7 @@ import game_events.EventHandler;
 import game_events.ObjectMoveEvent;
 import gamestates.Gamestate;
 import gamestates.exploring.Area;
+import inputs.Inputs;
 import main_classes.Game;
 import ui.ITextboxManager;
 import ui.NumberDisplay;
@@ -59,19 +60,19 @@ public class CutsceneManagerExp extends DefaultCutsceneManager {
          this.handleInfoChoiceInputs();
       } else if (numberDisplay.isActive()) {
          this.handleNumberDisplayInputs();
-      } else if (game.interactIsPressed) {
-         game.interactIsPressed = false;
+      } else if (Inputs.interactIsPressed) {
+         Inputs.interactIsPressed = false;
          this.advance();
       }
    }
 
    private void handleInfoChoiceInputs() {
-      if ((game.leftIsPressed) || (game.rightIsPressed)) {
-         game.leftIsPressed = false;
-         game.rightIsPressed = false;
+      if ((Inputs.leftIsPressed) || (Inputs.rightIsPressed)) {
+         Inputs.leftIsPressed = false;
+         Inputs.rightIsPressed = false;
          this.textBoxManager.toggleOptions();
-      } else if (game.interactIsPressed) {
-         game.interactIsPressed = false;
+      } else if (Inputs.interactIsPressed) {
+         Inputs.interactIsPressed = false;
          int playerChoice = this.textBoxManager.getSelectedOption();
          this.advance(); // Stops the current cutscene
          this.cutsceneIndex = cutsceneIndex + playerChoice;
@@ -82,8 +83,8 @@ public class CutsceneManagerExp extends DefaultCutsceneManager {
    private void handleNumberDisplayInputs() {
       // The act of changing the numbers on the display is handled in the
       // NumberDisplay itself.
-      if (game.interactIsPressed) {
-         game.interactIsPressed = false;
+      if (Inputs.interactIsPressed) {
+         Inputs.interactIsPressed = false;
          int answerGiven = 2; // 1 = right, 2 = wrong
          if (numberDisplay.isCodeCorrect()) {
             answerGiven = 1;

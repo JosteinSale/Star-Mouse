@@ -5,6 +5,7 @@ import data_storage.ProgressValues;
 import main_classes.Game;
 import utils.Constants.Audio;
 import utils.Singleton;
+import inputs.Inputs;
 
 public class MechanicOverlay extends Singleton {
    private Game game;
@@ -98,22 +99,22 @@ public class MechanicOverlay extends Singleton {
          handleBuy();
          return;
       } else if (infoBoxActive) {
-         if (game.interactIsPressed) {
-            game.interactIsPressed = false;
+         if (Inputs.interactIsPressed) {
+            Inputs.interactIsPressed = false;
             this.infoBoxActive = false;
          }
          return;
       }
-      if (game.downIsPressed) {
-         game.downIsPressed = false;
+      if (Inputs.downIsPressed) {
+         Inputs.downIsPressed = false;
          goDown();
          audioPlayer.playSFX(Audio.SFX_CURSOR);
-      } else if (game.upIsPressed) {
-         game.upIsPressed = false;
+      } else if (Inputs.upIsPressed) {
+         Inputs.upIsPressed = false;
          goUp();
          audioPlayer.playSFX(Audio.SFX_CURSOR);
-      } else if (game.interactIsPressed) {
-         game.interactIsPressed = false;
+      } else if (Inputs.interactIsPressed) {
+         Inputs.interactIsPressed = false;
 
          if (selectedIndex == EXIT) {
             game.getExploring().setMechanicActive(false);
@@ -159,8 +160,8 @@ public class MechanicOverlay extends Singleton {
    }
 
    private void handleBuy() {
-      if (game.interactIsPressed) {
-         game.interactIsPressed = false;
+      if (Inputs.interactIsPressed) {
+         Inputs.interactIsPressed = false;
          infoChoiceActive = false;
          if (infoChoice.getSelectedOption() == 1) { // Player answered 'yes'
             audioPlayer.playSFX(Audio.SFX_INVENTORY_PICKUP);
@@ -174,10 +175,10 @@ public class MechanicOverlay extends Singleton {
                   "You bought " + buyNames[selectedIndex] +
                         " and lost " + Integer.toString(prices[selectedIndex]) + " credits!");
          }
-      } else if (game.leftIsPressed || game.rightIsPressed) { // Toggle options
+      } else if (Inputs.leftIsPressed || Inputs.rightIsPressed) { // Toggle options
          audioPlayer.playSFX(Audio.SFX_CURSOR);
-         game.leftIsPressed = false;
-         game.rightIsPressed = false;
+         Inputs.leftIsPressed = false;
+         Inputs.rightIsPressed = false;
          infoChoice.toggle();
       }
    }

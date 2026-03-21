@@ -2,6 +2,7 @@ package gamestates.level_select;
 
 import main_classes.Game;
 import utils.Constants.Audio;
+import inputs.Inputs;
 
 /**
  * If the player is on his second playthrough, and path 3 is not unlocked,
@@ -45,21 +46,21 @@ public class LevelLayout2 extends BaseLevelLayout {
    }
 
    private void handleKeyBoardInputs() {
-      if (game.interactIsPressed) {
+      if (Inputs.interactIsPressed) {
          handleInteractPressed();
-      } else if (game.rightIsPressed) {
+      } else if (Inputs.rightIsPressed) {
          this.handleRightPressed();
-      } else if (game.leftIsPressed) {
+      } else if (Inputs.leftIsPressed) {
          this.handleLeftPressed();
-      } else if (game.downIsPressed) {
+      } else if (Inputs.downIsPressed) {
          this.handleDownPressed();
-      } else if (game.upIsPressed) {
+      } else if (Inputs.upIsPressed) {
          this.handleUpPressed();
       }
    }
 
    private void handleUpPressed() {
-      game.upIsPressed = false;
+      Inputs.upIsPressed = false;
       audioPlayer.playSFX(Audio.SFX_CURSOR);
       if (selectedIndex == 0) {
          // If at first level, go up to path 2.
@@ -71,7 +72,7 @@ public class LevelLayout2 extends BaseLevelLayout {
    }
 
    private void handleDownPressed() {
-      game.downIsPressed = false;
+      Inputs.downIsPressed = false;
       audioPlayer.playSFX(Audio.SFX_CURSOR);
       if (selectedIndex == 0) {
          // If at first level, go down to path 1.
@@ -83,7 +84,7 @@ public class LevelLayout2 extends BaseLevelLayout {
    }
 
    private void handleLeftPressed() {
-      game.leftIsPressed = false;
+      Inputs.leftIsPressed = false;
       audioPlayer.playSFX(Audio.SFX_CURSOR);
       if (selectedIndex == 5) {
          // If at the start of path 2, go left to level 1.
@@ -95,7 +96,7 @@ public class LevelLayout2 extends BaseLevelLayout {
    }
 
    private void handleRightPressed() {
-      game.rightIsPressed = false;
+      Inputs.rightIsPressed = false;
       audioPlayer.playSFX(Audio.SFX_CURSOR);
       if (selectedIndex < 8 && selectedIndex != 4) {
          // If not at the end of either paths: go right.
@@ -104,7 +105,7 @@ public class LevelLayout2 extends BaseLevelLayout {
    }
 
    private void handleInteractPressed() {
-      game.interactIsPressed = false;
+      Inputs.interactIsPressed = false;
       int selectedLvl = selectedIndex + 1;
 
       // 1. If the selected index is unlocked.

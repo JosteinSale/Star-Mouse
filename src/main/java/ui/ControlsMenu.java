@@ -6,7 +6,7 @@ import java.util.Arrays;
 import com.badlogic.gdx.Input;
 
 import audio.AudioPlayer;
-import inputs.KeyboardInputs;
+import inputs.Inputs;
 import main_classes.Game;
 import utils.Constants.Audio;
 import utils.Singleton;
@@ -22,12 +22,12 @@ public class ControlsMenu extends Singleton {
    private int selectedMenuIndex = 1;
 
    // Keybinding stuff
-   private KeyboardInputs keyboardInputs;
+   private Inputs keyboardInputs;
    public ArrayList<String> kbVariantNames = new ArrayList<>(Arrays.asList(
-         KeyboardInputs.VARIANT_A,
-         KeyboardInputs.VARIANT_B,
-         KeyboardInputs.VARIANT_C));
-   public int selectedKeyBindingIndex = kbVariantNames.indexOf(KeyboardInputs.currentVariant);
+         Inputs.VARIANT_A,
+         Inputs.VARIANT_B,
+         Inputs.VARIANT_C));
+   public int selectedKeyBindingIndex = kbVariantNames.indexOf(Inputs.currentVariant);
    public ArrayList<String[]> keyNames; // The string representations of the keybinding variants
    public String[] actionNames = {
          "Up",
@@ -53,7 +53,7 @@ public class ControlsMenu extends Singleton {
       this.audioPlayer = audioPlayer;
    }
 
-   public void setKeyboardInputs(KeyboardInputs keyboardInputs) {
+   public void setKeyboardInputs(Inputs keyboardInputs) {
       this.keyboardInputs = keyboardInputs;
       setKeyNames();
    }
@@ -61,7 +61,7 @@ public class ControlsMenu extends Singleton {
    private void setKeyNames() {
       keyNames = new ArrayList<>();
       for (String variant : kbVariantNames) {
-         KeyboardInputs.KeyBindingVariant kbv = keyboardInputs.getKeyBinding(variant);
+         Inputs.KeyBindingVariant kbv = keyboardInputs.getKeyBinding(variant);
          String[] keysAsStrings = new String[] {
                Input.Keys.toString(kbv.up),
                Input.Keys.toString(kbv.down),
@@ -82,16 +82,16 @@ public class ControlsMenu extends Singleton {
    }
 
    private void handleKeyBoardInputs() {
-      if (game.downIsPressed) {
-         game.downIsPressed = false;
+      if (Inputs.downIsPressed) {
+         Inputs.downIsPressed = false;
          goDown();
          audioPlayer.playSFX(Audio.SFX_CURSOR);
-      } else if (game.upIsPressed) {
-         game.upIsPressed = false;
+      } else if (Inputs.upIsPressed) {
+         Inputs.upIsPressed = false;
          goUp();
          audioPlayer.playSFX(Audio.SFX_CURSOR);
-      } else if (game.interactIsPressed) {
-         game.interactIsPressed = false;
+      } else if (Inputs.interactIsPressed) {
+         Inputs.interactIsPressed = false;
          handleInteractPressed();
       }
    }
@@ -115,7 +115,7 @@ public class ControlsMenu extends Singleton {
    }
 
    private void setNewKeyBinding() {
-      KeyboardInputs.setNewKeyBinding(kbVariantNames.get(selectedKeyBindingIndex));
+      Inputs.setNewKeyBinding(kbVariantNames.get(selectedKeyBindingIndex));
    }
 
    private void goDown() {

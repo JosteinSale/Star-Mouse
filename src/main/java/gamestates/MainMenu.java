@@ -7,6 +7,7 @@ import ui.LoadSaveMenu;
 import ui.OptionsMenu;
 import utils.Fader;
 import utils.Constants.Audio;
+import inputs.Inputs;
 
 /**
  * The MainMenu is the gateway into the different game states:
@@ -51,23 +52,23 @@ public class MainMenu extends State {
    }
 
    private void handleKeyBoardInputs() {
-      if (game.upIsPressed) {
-         game.upIsPressed = false;
+      if (Inputs.upIsPressed) {
+         Inputs.upIsPressed = false;
          audioPlayer.playSFX(Audio.SFX_CURSOR);
          moveCursorUp();
          reduceIndex();
-      } else if (game.downIsPressed) {
-         game.downIsPressed = false;
+      } else if (Inputs.downIsPressed) {
+         Inputs.downIsPressed = false;
          audioPlayer.playSFX(Audio.SFX_CURSOR);
          moveCursorDown();
          increaseIndex();
-      } else if (game.interactIsPressed) {
+      } else if (Inputs.interactIsPressed) {
          this.handleInteractPressed();
       }
    }
 
    private void handleInteractPressed() {
-      game.interactIsPressed = false;
+      Inputs.interactIsPressed = false;
 
       switch (selectedIndex) {
          case TESTING:

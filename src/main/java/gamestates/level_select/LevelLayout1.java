@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import main_classes.Game;
 import utils.Constants.Audio;
+import inputs.Inputs;
 
 /**
  * LevelLayout1 will always be displayed if the player is on his first
@@ -42,16 +43,16 @@ public class LevelLayout1 extends BaseLevelLayout {
    }
 
    private void handleKeyboardInputs() {
-      if (game.interactIsPressed) {
+      if (Inputs.interactIsPressed) {
          handleInteractPressed();
-      } else if (game.rightIsPressed) {
-         game.rightIsPressed = false;
+      } else if (Inputs.rightIsPressed) {
+         Inputs.rightIsPressed = false;
          audioPlayer.playSFX(Audio.SFX_CURSOR);
          if (selectedIndex < 4) {
             selectedIndex++;
          }
-      } else if (game.leftIsPressed) {
-         game.leftIsPressed = false;
+      } else if (Inputs.leftIsPressed) {
+         Inputs.leftIsPressed = false;
          audioPlayer.playSFX(Audio.SFX_CURSOR);
          if (selectedIndex > 0) {
             selectedIndex--;
@@ -61,7 +62,7 @@ public class LevelLayout1 extends BaseLevelLayout {
 
    /** Should be called when interact is pressed */
    private void handleInteractPressed() {
-      game.interactIsPressed = false;
+      Inputs.interactIsPressed = false;
       // 1. If the selected index is the next level in the path:
       if (selectedIndex == levelsInCurrentPath.size() - 1) {
          audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);

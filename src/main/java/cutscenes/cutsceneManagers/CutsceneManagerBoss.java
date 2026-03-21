@@ -7,6 +7,7 @@ import cutscenes.effects.WaitEffect;
 import game_events.EventHandler;
 import game_events.ObjectMoveEvent;
 import gamestates.Gamestate;
+import inputs.Inputs;
 import main_classes.Game;
 import ui.ITextboxManager;
 
@@ -29,8 +30,8 @@ public class CutsceneManagerBoss extends DefaultCutsceneManager {
 
    /** Is called from the state's update-loop if the cutsceneManager is active */
    public void handleKeyBoardInputs() {
-      if (game.interactIsPressed) {
-         game.interactIsPressed = false;
+      if (Inputs.interactIsPressed) {
+         Inputs.interactIsPressed = false;
          this.advance();
       }
    }

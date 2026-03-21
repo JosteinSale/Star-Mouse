@@ -28,9 +28,10 @@ public class HelpMethods {
    public static boolean IsSolid(int pixelX, int pixelY, MyCollisionImage collisionImg) {
       int pix = collisionImg.getImage().getPixel(pixelX, pixelY);
       Color c = new Color();
-      System.out.println("Pixel color at x: " + pixelX + ", y: " + pixelY + " is: " + pix);
       Color.rgba8888ToColor(c, pix);
-      if (c.r >= 0.0f && c.r < 0.39f) { // 0.39f ~ 100 int
+      // Note that a value of c.r == 0 is used to signify 'no pixel' in the collision
+      // image, so we don't want to treat it as solid
+      if (c.r > 0.0f && c.r < 0.39f) { // 0.39f ~ 100 int
          return true;
       } else {
          return false;
@@ -48,7 +49,6 @@ public class HelpMethods {
       float newY1 = (hitbox.y) / 3;
       float newX2 = (hitbox.x + hitbox.width) / 3;
       float newY2 = (hitbox.y + hitbox.height) / 3;
-      System.out.println("Checking collision at x: " + newX1 + ", y: " + newY1 + " and x: " + newX2 + ", y: " + newY2);
       if (!IsSolid((int) newX1, (int) newY1, collisionImg) &&
             !IsSolid((int) newX2, (int) newY1, collisionImg) &&
             !IsSolid((int) newX1, (int) newY2, collisionImg) &&

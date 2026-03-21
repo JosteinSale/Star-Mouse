@@ -2,8 +2,8 @@ package utils.parsing;
 
 import com.badlogic.gdx.Input;
 
-import inputs.KeyboardInputs;
-import inputs.KeyboardInputs.KeyBindingVariant;
+import inputs.Inputs;
+import inputs.Inputs.KeyBindingVariant;
 
 public class DynamicValueParser {
 
@@ -41,7 +41,7 @@ public class DynamicValueParser {
    }
 
    private static String parseWord(String w) {
-      KeyBindingVariant kb = KeyboardInputs.getCurrentKeyBinding();
+      KeyBindingVariant kb = Inputs.getCurrentKeyBinding();
       String parsedW = switch (w) {
          case "up" -> Input.Keys.toString(kb.up).toUpperCase();
          case "down" -> Input.Keys.toString(kb.down).toUpperCase();

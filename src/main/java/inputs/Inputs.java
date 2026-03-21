@@ -7,8 +7,26 @@ import gamestates.Gamestate;
 import main_classes.Game;
 import utils.Singleton;
 
-public class KeyboardInputs extends Singleton implements InputProcessor {
+public class Inputs extends Singleton implements InputProcessor {
    private Game game;
+
+   // Keyboard inpups
+   public static boolean upIsPressed = false;
+   public static boolean downIsPressed = false;
+   public static boolean rightIsPressed = false;
+   public static boolean leftIsPressed = false;
+   public static boolean interactIsPressed = false;
+   public static boolean teleportIsPressed = false;
+   public static boolean bombIsPressed = false;
+   public static boolean pauseIsPressed = false;
+   public static boolean fullScreenIsPressed = false;
+
+   // Keybdinding variants
+   public static final String VARIANT_A = "A";
+   public static final String VARIANT_B = "B";
+   public static final String VARIANT_C = "C";
+   public static String currentVariant = VARIANT_C;
+   private static final HashMap<String, KeyBindingVariant> keyBindingVariants = new HashMap<>();
 
    // Container class for holding different keybindings
    public static class KeyBindingVariant {
@@ -23,14 +41,8 @@ public class KeyboardInputs extends Singleton implements InputProcessor {
       public int toggleFullscreen;
    }
 
-   public static final String VARIANT_A = "A";
-   public static final String VARIANT_B = "B";
-   public static final String VARIANT_C = "C";
-   public static String currentVariant = VARIANT_C;
-   private static final HashMap<String, KeyBindingVariant> keyBindingVariants = new HashMap<>();
-
    static {
-      // populate the static map once
+      // Construct different keybinding variants
       KeyBindingVariant kbvA = new KeyBindingVariant();
       kbvA.up = Input.Keys.W;
       kbvA.down = Input.Keys.S;
@@ -70,7 +82,7 @@ public class KeyboardInputs extends Singleton implements InputProcessor {
    }
    private static KeyBindingVariant kb = keyBindingVariants.get(currentVariant);
 
-   public KeyboardInputs(Game game) {
+   public Inputs(Game game) {
       this.game = game;
    }
 
@@ -90,31 +102,31 @@ public class KeyboardInputs extends Singleton implements InputProcessor {
    @Override
    public boolean keyDown(int key) {
       if (key == kb.up) {
-         game.upIsPressed = true;
+         upIsPressed = true;
       }
       if (key == kb.down) {
-         game.downIsPressed = true;
+         downIsPressed = true;
       }
       if (key == kb.right) {
-         game.rightIsPressed = true;
+         rightIsPressed = true;
       }
       if (key == kb.left) {
-         game.leftIsPressed = true;
+         leftIsPressed = true;
       }
       if (key == kb.interact) {
-         game.interactIsPressed = true;
+         interactIsPressed = true;
       }
       if (key == kb.teleport) {
-         game.teleportIsPressed = true;
+         teleportIsPressed = true;
       }
       if (key == kb.shootBomb) {
-         game.bombIsPressed = true;
+         bombIsPressed = true;
       }
       if (key == kb.pause) {
-         game.pauseIsPressed = true;
+         pauseIsPressed = true;
       }
       if (key == kb.toggleFullscreen) {
-         game.fullScreenIsPressed = true;
+         fullScreenIsPressed = true;
       }
       if (Gamestate.state == Gamestate.LEVEL_EDITOR) {
          game.getLevelEditor().handleKeyboardInputs(key);
@@ -125,31 +137,31 @@ public class KeyboardInputs extends Singleton implements InputProcessor {
    @Override
    public boolean keyUp(int keycode) {
       if (keycode == kb.up) {
-         game.upIsPressed = false;
+         upIsPressed = false;
       }
       if (keycode == kb.down) {
-         game.downIsPressed = false;
+         downIsPressed = false;
       }
       if (keycode == kb.right) {
-         game.rightIsPressed = false;
+         rightIsPressed = false;
       }
       if (keycode == kb.left) {
-         game.leftIsPressed = false;
+         leftIsPressed = false;
       }
       if (keycode == kb.interact) {
-         game.interactIsPressed = false;
+         interactIsPressed = false;
       }
       if (keycode == kb.teleport) {
-         game.teleportIsPressed = false;
+         teleportIsPressed = false;
       }
       if (keycode == kb.shootBomb) {
-         game.bombIsPressed = false;
+         bombIsPressed = false;
       }
       if (keycode == kb.pause) {
-         game.pauseIsPressed = false;
+         pauseIsPressed = false;
       }
       if (keycode == kb.toggleFullscreen) {
-         game.fullScreenIsPressed = false;
+         fullScreenIsPressed = false;
       }
       return true;
    }

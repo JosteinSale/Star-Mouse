@@ -6,6 +6,7 @@ import audio.AudioPlayer;
 import main_classes.Game;
 import utils.Constants.Audio;
 import utils.Singleton;
+import inputs.Inputs;
 
 public class PauseExploring extends Singleton {
    private Game game;
@@ -54,26 +55,26 @@ public class PauseExploring extends Singleton {
       if (game.isFading()) {
          return;
       }
-      if (game.upIsPressed) {
-         game.upIsPressed = false;
+      if (Inputs.upIsPressed) {
+         Inputs.upIsPressed = false;
          audioPlayer.playSFX(Audio.SFX_CURSOR);
          moveCursorUp();
          takeIndexUp();
-      } else if (game.downIsPressed) {
-         game.downIsPressed = false;
+      } else if (Inputs.downIsPressed) {
+         Inputs.downIsPressed = false;
          audioPlayer.playSFX(Audio.SFX_CURSOR);
          moveCursorDown();
          takeIndexDown();
-      } else if (game.rightIsPressed) {
-         game.rightIsPressed = false;
+      } else if (Inputs.rightIsPressed) {
+         Inputs.rightIsPressed = false;
          audioPlayer.playSFX(Audio.SFX_CURSOR);
          takeIndexRight();
-      } else if (game.leftIsPressed) {
-         game.leftIsPressed = false;
+      } else if (Inputs.leftIsPressed) {
+         Inputs.leftIsPressed = false;
          audioPlayer.playSFX(Audio.SFX_CURSOR);
          takeIndexLeft();
-      } else if (game.interactIsPressed) {
-         game.interactIsPressed = false;
+      } else if (Inputs.interactIsPressed) {
+         Inputs.interactIsPressed = false;
          if (selectedIndex == CONTINUE) {
             this.flipActive();
          } else if (selectedIndex == OPTIONS) {

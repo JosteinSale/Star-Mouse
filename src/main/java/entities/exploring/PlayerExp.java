@@ -11,10 +11,10 @@ import java.util.ArrayList;
 
 import entities.Entity;
 import entities.MyCollisionImage;
+import inputs.Inputs;
 import main_classes.Game;
 
 public class PlayerExp extends Entity {
-   private Game game;
    private MyCollisionImage collisionImg;
 
    private boolean poseActive = false;
@@ -30,7 +30,6 @@ public class PlayerExp extends Entity {
 
    public PlayerExp(Game game, Float hitbox, int direction, Integer level, Integer area) {
       super(hitbox);
-      this.game = game;
       this.playerDirection = direction;
       playerAction = STANDING;
       String imgName = "level" + level.toString() + "_area" + area.toString();
@@ -52,7 +51,7 @@ public class PlayerExp extends Entity {
    }
 
    private void handleKeyboardInputs(ArrayList<Rectangle2D.Float> npcHitboxes) {
-      if (game.leftIsPressed) {
+      if (Inputs.leftIsPressed) {
          playerAction = WALKING_LEFT;
          playerDirection = LEFT;
          hitbox.x -= playerSpeed;
@@ -60,7 +59,7 @@ public class PlayerExp extends Entity {
             hitbox.x += playerSpeed;
          }
       }
-      if (game.upIsPressed && !(game.leftIsPressed && game.rightIsPressed)) {
+      if (Inputs.upIsPressed && !(Inputs.leftIsPressed && Inputs.rightIsPressed)) {
          playerAction = WALKING_UP;
          playerDirection = UP;
          hitbox.y -= playerSpeed;
@@ -68,7 +67,7 @@ public class PlayerExp extends Entity {
             hitbox.y += playerSpeed;
          }
       }
-      if (game.rightIsPressed) {
+      if (Inputs.rightIsPressed) {
          playerAction = WALKING_RIGHT;
          playerDirection = RIGHT;
          hitbox.x += playerSpeed;
@@ -76,7 +75,7 @@ public class PlayerExp extends Entity {
             hitbox.x -= playerSpeed;
          }
       }
-      if (game.downIsPressed && !(game.leftIsPressed && game.rightIsPressed)) {
+      if (Inputs.downIsPressed && !(Inputs.leftIsPressed && Inputs.rightIsPressed)) {
          playerAction = WALKING_DOWN;
          playerDirection = DOWN;
          hitbox.y += playerSpeed;
@@ -88,11 +87,11 @@ public class PlayerExp extends Entity {
    }
 
    private void handleStandingAnimation() {
-      if (!game.upIsPressed && !game.downIsPressed && !game.leftIsPressed && !game.rightIsPressed) {
+      if (!Inputs.upIsPressed && !Inputs.downIsPressed && !Inputs.leftIsPressed && !Inputs.rightIsPressed) {
          playerAction = STANDING;
          return;
       }
-      if ((game.upIsPressed && game.downIsPressed) || (game.leftIsPressed && game.rightIsPressed)) {
+      if ((Inputs.upIsPressed && Inputs.downIsPressed) || (Inputs.leftIsPressed && Inputs.rightIsPressed)) {
          playerAction = STANDING;
       }
    }
@@ -115,10 +114,10 @@ public class PlayerExp extends Entity {
    }
 
    public void resetAll() {
-      game.downIsPressed = false;
-      game.rightIsPressed = false;
-      game.leftIsPressed = false;
-      game.upIsPressed = false;
+      Inputs.downIsPressed = false;
+      Inputs.rightIsPressed = false;
+      Inputs.leftIsPressed = false;
+      Inputs.upIsPressed = false;
       this.playerAction = STANDING;
       this.aniTick = 0;
       this.aniIndex = 0;

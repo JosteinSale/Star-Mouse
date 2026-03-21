@@ -131,12 +131,11 @@ public class LevelEditor extends State {
     * Controls:
     * ---------------------------------------------
     * ENTER - Return to Main Menu
-    * W / S - Change screen
-    * Z / C - Change entity
-    * UP / DOWN / LEFT / RIGHT - Change cursor position
     * MOUSE MOVE - Change cursor position
+    * WASD - Move screen
+    * Z / C - Change entity
+    * UP / DOWN - Change shootTimer
     * F - Change entity direction
-    * A / D - Change shootTimer
     * SPACE - Add / delete entity
     * P - Print levelData in console
     */
@@ -148,13 +147,8 @@ public class LevelEditor extends State {
          case Input.Keys.D -> moveScreen(RIGHT);
          case Input.Keys.SPACE -> addEntity();
          case Input.Keys.ENTER -> goToMainMenu();
-
-         // TODO - replace these with shootTimer adjustments.
-         case Input.Keys.UP -> cursorY -= gridSize;
-         case Input.Keys.DOWN -> cursorY += gridSize;
-         case Input.Keys.LEFT -> cursorX -= gridSize;
-         case Input.Keys.RIGHT -> cursorX += gridSize;
-
+         case Input.Keys.UP -> shootTimer += 10;
+         case Input.Keys.DOWN -> shootTimer -= 10;
          case Input.Keys.C -> toggleSelectedEntity(RIGHT);
          case Input.Keys.Z -> toggleSelectedEntity(LEFT);
          case Input.Keys.F -> enemyFlipX *= -1;

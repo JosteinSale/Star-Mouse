@@ -6,6 +6,7 @@ import java.util.List;
 import audio.AudioPlayer;
 import cutscenes.cutsceneManagers.DefaultCutsceneManager;
 import gamestates.State;
+import inputs.Inputs;
 import main_classes.Game;
 import ui.InventoryItem;
 import ui.MechanicOverlay;
@@ -55,8 +56,8 @@ public class Exploring extends State {
    }
 
    private void checkPause() {
-      if (game.pauseIsPressed) {
-         game.pauseIsPressed = false;
+      if (Inputs.pauseIsPressed) {
+         Inputs.pauseIsPressed = false;
          this.pauseOverlay.flipActive();
       }
    }

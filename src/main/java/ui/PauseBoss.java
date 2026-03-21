@@ -5,6 +5,7 @@ import gamestates.boss_mode.BossMode;
 import main_classes.Game;
 import utils.Constants.Audio;
 import utils.Singleton;
+import inputs.Inputs;
 
 public class PauseBoss extends Singleton {
    private Game game;
@@ -42,16 +43,16 @@ public class PauseBoss extends Singleton {
    }
 
    private void handleKeyboardInputs() {
-      if (game.downIsPressed) {
-         game.downIsPressed = false;
+      if (Inputs.downIsPressed) {
+         Inputs.downIsPressed = false;
          audioPlayer.playSFX(Audio.SFX_CURSOR);
          goDown();
-      } else if (game.upIsPressed) {
-         game.upIsPressed = false;
+      } else if (Inputs.upIsPressed) {
+         Inputs.upIsPressed = false;
          audioPlayer.playSFX(Audio.SFX_CURSOR);
          goUp();
-      } else if (game.interactIsPressed) {
-         game.interactIsPressed = false;
+      } else if (Inputs.interactIsPressed) {
+         Inputs.interactIsPressed = false;
          handleInteractPressed();
       }
    }

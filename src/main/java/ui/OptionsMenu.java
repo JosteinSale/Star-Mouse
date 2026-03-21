@@ -1,7 +1,7 @@
 package ui;
 
 import audio.AudioPlayer;
-import inputs.KeyboardInputs;
+import inputs.Inputs;
 import main_classes.Game;
 import utils.Constants.Audio;
 import utils.Singleton;
@@ -43,7 +43,7 @@ public class OptionsMenu extends Singleton {
       calcVolumeXs();
    }
 
-   public void setKeyboardInputs(KeyboardInputs keyboardInputs) {
+   public void setKeyboardInputs(Inputs keyboardInputs) {
       controlsMenu.setKeyboardInputs(keyboardInputs);
    }
 
@@ -61,24 +61,24 @@ public class OptionsMenu extends Singleton {
    }
 
    private void handleKeyBoardInputs() {
-      if (game.downIsPressed) {
-         game.downIsPressed = false;
+      if (Inputs.downIsPressed) {
+         Inputs.downIsPressed = false;
          goDown();
          audioPlayer.playSFX(Audio.SFX_CURSOR);
-      } else if (game.upIsPressed) {
-         game.upIsPressed = false;
+      } else if (Inputs.upIsPressed) {
+         Inputs.upIsPressed = false;
          goUp();
          audioPlayer.playSFX(Audio.SFX_CURSOR);
-      } else if (game.rightIsPressed) {
-         game.rightIsPressed = false;
+      } else if (Inputs.rightIsPressed) {
+         Inputs.rightIsPressed = false;
          changeVolume(selectedIndex, UP);
          audioPlayer.playSFX(Audio.SFX_CURSOR);
-      } else if (game.leftIsPressed) {
-         game.leftIsPressed = false;
+      } else if (Inputs.leftIsPressed) {
+         Inputs.leftIsPressed = false;
          changeVolume(selectedIndex, DOWN);
          audioPlayer.playSFX(Audio.SFX_CURSOR);
-      } else if (game.interactIsPressed) {
-         game.interactIsPressed = false;
+      } else if (Inputs.interactIsPressed) {
+         Inputs.interactIsPressed = false;
          if (selectedIndex == RETURN) {
             this.active = false;
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);

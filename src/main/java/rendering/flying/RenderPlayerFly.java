@@ -12,6 +12,7 @@ import utils.DrawUtils;
 import utils.HelpMethods2;
 import utils.Images;
 import java.awt.Point;
+import inputs.Inputs;
 
 import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_HEIGHT;
 import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_WIDTH;
@@ -85,13 +86,13 @@ public class RenderPlayerFly implements Render {
    public void draw(SpriteBatch sb) {
       if (player.visible) {
          // Teleport shadows
-         if (game.teleportIsPressed) {
+         if (Inputs.teleportIsPressed) {
             drawShadow(sb, player.teleportDistance);
             drawShadow(sb, -player.teleportDistance);
          }
 
          // Flame
-         if (!game.downIsPressed) {
+         if (!Inputs.downIsPressed) {
             drawFlame(sb, player.hitbox.x + 3f, player.hitbox.y + player.hitbox.height);
          }
 

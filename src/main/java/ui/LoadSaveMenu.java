@@ -5,6 +5,7 @@ import data_storage.ProgressValues;
 import main_classes.Game;
 import utils.Constants.Audio;
 import utils.Singleton;
+import inputs.Inputs;
 
 /**
  * This menu handles loading of a previous game, and starting a new game.
@@ -54,21 +55,21 @@ public class LoadSaveMenu extends Singleton {
    }
 
    private void handleMenuKbInputs() {
-      if (game.downIsPressed) {
-         game.downIsPressed = false;
+      if (Inputs.downIsPressed) {
+         Inputs.downIsPressed = false;
          goDown();
          audioPlayer.playSFX(Audio.SFX_CURSOR);
-      } else if (game.upIsPressed) {
-         game.upIsPressed = false;
+      } else if (Inputs.upIsPressed) {
+         Inputs.upIsPressed = false;
          goUp();
          audioPlayer.playSFX(Audio.SFX_CURSOR);
-      } else if (game.interactIsPressed) {
+      } else if (Inputs.interactIsPressed) {
          this.handleMenuInteractpressed();
       }
    }
 
    private void handleMenuInteractpressed() {
-      game.interactIsPressed = false;
+      Inputs.interactIsPressed = false;
       if (selectedIndex == RETURN) {
          this.active = false;
          audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
@@ -113,12 +114,12 @@ public class LoadSaveMenu extends Singleton {
    }
 
    private void handleInfoChoiceKbInputs() {
-      if (game.leftIsPressed || game.rightIsPressed) {
-         game.leftIsPressed = false;
-         game.rightIsPressed = false;
+      if (Inputs.leftIsPressed || Inputs.rightIsPressed) {
+         Inputs.leftIsPressed = false;
+         Inputs.rightIsPressed = false;
          this.infoChoice.toggle();
-      } else if (game.interactIsPressed) {
-         game.interactIsPressed = false;
+      } else if (Inputs.interactIsPressed) {
+         Inputs.interactIsPressed = false;
          this.infoChoiceActive = false;
          int selectedOption = infoChoice.getSelectedOption();
          if (selectedOption == 2) { // NO - do nothing

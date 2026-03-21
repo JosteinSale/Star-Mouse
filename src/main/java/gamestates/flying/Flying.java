@@ -25,6 +25,7 @@ import entities.flying.pickupItems.PickupItemFactory;
 import game_events.*;
 import gamestates.Gamestate;
 import gamestates.State;
+import inputs.Inputs;
 import main_classes.Game;
 import main_classes.Testing;
 import projectiles.ProjectileHandler;
@@ -209,8 +210,8 @@ public class Flying extends State {
    }
 
    private void checkPause() {
-      if (game.pauseIsPressed) {
-         game.pauseIsPressed = false;
+      if (Inputs.pauseIsPressed) {
+         Inputs.pauseIsPressed = false;
          this.flipPause();
       }
    }

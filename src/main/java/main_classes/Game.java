@@ -7,7 +7,7 @@ import gamestates.boss_mode.BossMode;
 import gamestates.exploring.Exploring;
 import gamestates.flying.Flying;
 import gamestates.level_select.LevelSelect;
-import inputs.KeyboardInputs;
+import inputs.Inputs;
 import ui.OptionsMenu;
 import ui.TextboxManager;
 import utils.Fader;
@@ -55,24 +55,13 @@ public class Game extends ApplicationAdapter {
    private SaveData saveData;
    private int selectedSaveFile = 1;
 
-   // Keyboard inputs
-   public boolean upIsPressed = false;
-   public boolean downIsPressed = false;
-   public boolean rightIsPressed = false;
-   public boolean leftIsPressed = false;
-   public boolean interactIsPressed = false;
-   public boolean teleportIsPressed = false;
-   public boolean bombIsPressed = false;
-   public boolean pauseIsPressed = false;
-   public boolean fullScreenIsPressed = false;
-
    @Override
    public void create() {
       // LibGdx stuff
       batch = new SpriteBatch();
       shapeRender = new ShapeRenderer();
       viewport = new FitViewport(GAME_DEFAULT_WIDTH, GAME_DEFAULT_HEIGHT, camera);
-      KeyboardInputs kbInputs = new KeyboardInputs(this);
+      Inputs kbInputs = new Inputs(this);
       Gdx.input.setInputProcessor(kbInputs);
       camera.setToOrtho(true, Game.GAME_DEFAULT_WIDTH, Game.GAME_DEFAULT_HEIGHT);
 
@@ -147,8 +136,8 @@ public class Game extends ApplicationAdapter {
    }
 
    private void checkWindowResize() {
-      if (fullScreenIsPressed) {
-         fullScreenIsPressed = false;
+      if (Inputs.fullScreenIsPressed) {
+         Inputs.fullScreenIsPressed = false;
          this.toggleFullScreen();
       }
    }

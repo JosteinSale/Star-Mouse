@@ -25,7 +25,7 @@ public class HelpMethodsTest {
       Pixmap pixmap = mock(Pixmap.class);
       MyCollisionImage imgMock = new MyCollisionImage(pixmap);
 
-      int color1 = 0x00000000; // Red is 0 -> should collide
+      int color1 = 0x01000000; // Red is 1 -> should collide
       when(pixmap.getPixel(anyInt(), anyInt())).thenReturn(color1);
       assertTrue(HelpMethods.IsSolid(0, 0, imgMock));
 
@@ -37,7 +37,7 @@ public class HelpMethodsTest {
       when(pixmap.getPixel(anyInt(), anyInt())).thenReturn(color3);
       assertFalse(HelpMethods.IsSolid(0, 0, imgMock));
 
-      int color4 = 0x00FFFFFF; // Other colors don't affect the result.
+      int color4 = 0x01FFFFFF; // Other colors don't affect the result.
       when(pixmap.getPixel(anyInt(), anyInt())).thenReturn(color4);
       assertTrue(HelpMethods.IsSolid(0, 0, imgMock));
 
@@ -68,7 +68,7 @@ public class HelpMethodsTest {
       Pixmap pixmap = mock(Pixmap.class);
       MyCollisionImage imgMock = new MyCollisionImage(pixmap);
       Point pixel = new Point(10, 10);
-      int solidColor = 0x00000000; // Red is 0 -> should collide
+      int solidColor = 0x01000000; // Red is 1 -> should collide
       int nonSolidColor = 0x64000000; // Red is 100 -> should not collide
       int hbSize = 30;
 

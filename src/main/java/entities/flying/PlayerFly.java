@@ -12,6 +12,7 @@ import audio.AudioPlayer;
 import entities.Entity;
 import entities.MyCollisionImage;
 import entities.flying.enemies.Enemy;
+import inputs.Inputs;
 import main_classes.Game;
 import ui.StatusDisplay;
 import utils.Constants.Audio;
@@ -141,34 +142,34 @@ public class PlayerFly extends Entity implements ShootingPlayer {
          return;
       }
       // 2.Handle teleporting
-      if (game.rightIsPressed && game.teleportIsPressed && (teleportBuffer == 0)) {
+      if (Inputs.rightIsPressed && Inputs.teleportIsPressed && (teleportBuffer == 0)) {
          planeAction = TELEPORTING_RIGHT;
          teleportBuffer = teleportCoolDown;
          flipX = 1;
          return;
-      } else if (game.leftIsPressed && game.teleportIsPressed && (teleportBuffer == 0)) {
+      } else if (Inputs.leftIsPressed && Inputs.teleportIsPressed && (teleportBuffer == 0)) {
          planeAction = TELEPORTING_LEFT;
          teleportBuffer = teleportCoolDown;
          flipX = -1;
          return;
-      } else if (game.rightIsPressed && game.teleportIsPressed && (teleportBuffer != 0)) {
+      } else if (Inputs.rightIsPressed && Inputs.teleportIsPressed && (teleportBuffer != 0)) {
          // If waiting for opportunity to teleport:
          // keep plane still to maintain stability
          planeAction = FLYING_RIGHT;
          return;
-      } else if (game.leftIsPressed && game.teleportIsPressed && (teleportBuffer != 0)) {
+      } else if (Inputs.leftIsPressed && Inputs.teleportIsPressed && (teleportBuffer != 0)) {
          planeAction = FLYING_LEFT;
          return;
       }
       // 3. Handle regular movement
       // 3.1 Up or down
-      if (game.upIsPressed) {
+      if (Inputs.upIsPressed) {
          planeAction = IDLE;
          ySpeed -= acceleration;
          if (ySpeed < -playerMaxSpeed) {
             ySpeed = -playerMaxSpeed;
          }
-      } else if (game.downIsPressed) {
+      } else if (Inputs.downIsPressed) {
          planeAction = IDLE;
          ySpeed += acceleration;
          if (ySpeed > playerMaxSpeed) {
@@ -176,13 +177,13 @@ public class PlayerFly extends Entity implements ShootingPlayer {
          }
       }
       // 3.2 Left or Right
-      if (game.leftIsPressed) {
+      if (Inputs.leftIsPressed) {
          planeAction = FLYING_LEFT;
          xSpeed -= acceleration;
          if (xSpeed < -playerMaxSpeed) {
             xSpeed = -playerMaxSpeed;
          }
-      } else if (game.rightIsPressed) {
+      } else if (Inputs.rightIsPressed) {
          planeAction = FLYING_RIGHT;
          xSpeed += acceleration;
          if (xSpeed > playerMaxSpeed) {
@@ -193,7 +194,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
 
    // Handles behaviour based on whether keys are NOT pressed
    protected void handleKeyboardNotPressed() {
-      if (!(game.leftIsPressed || game.rightIsPressed)) {
+      if (!(Inputs.leftIsPressed || Inputs.rightIsPressed)) {
          if (xSpeed < 0) {
             xSpeed += acceleration / 2;
          } else if (xSpeed > 0) {
@@ -206,7 +207,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
             planeAction = IDLE;
          }
       }
-      if (!(game.upIsPressed || game.downIsPressed)) {
+      if (!(Inputs.upIsPressed || Inputs.downIsPressed)) {
          if (ySpeed < 0) {
             ySpeed += acceleration / 2;
          } else if (ySpeed > 0) {
