@@ -1,7 +1,8 @@
 package rendering.root_renders;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import java.awt.geom.Rectangle2D;
+
+import java.awt.Rectangle;
 
 import entities.flying.EntityInfo;
 import gamestates.LevelEditor;
@@ -68,19 +69,20 @@ public class RenderLevelEditor extends Singleton {
    private void drawEntities(SpriteBatch sb) {
       for (int i = 0; i < le.addedEntities.size(); i++) {
          EntityInfo info = le.getEntityInfo(le.addedEntities.get(i));
-         Rectangle2D hitbox = le.hitboxes.get(i);
+         Rectangle hitbox = le.hitboxes.get(i);
+         int hbX = (int) hitbox.getX() + le.editorXOffset;
+         int hbY = (int) hitbox.getY() + le.getEditorY();
 
          // Text
          DrawUtils.drawText(
                sb, MyColor.BLACK, DrawUtils.infoFont,
                Integer.toString(le.shootTimers.get(i)),
-               (int) hitbox.getX(),
-               (int) (hitbox.getY() + le.getEditorY() - 20));
+               hbX, hbY - 20);
 
          // Hitbox
          DrawUtils.fillRect(
                sb, MyColor.BLACK,
-               (float) hitbox.getX(), (float) (hitbox.getY() + le.getEditorY()),
+               (float) hbX, (float) hbY,
                (float) hitbox.getWidth(), (float) hitbox.getHeight());
 
          // Image
@@ -96,8 +98,8 @@ public class RenderLevelEditor extends Singleton {
                info.typeConstant, info.editorImgRow, info.editorImgCol);
          DrawUtils.drawSubImage(
                sb, img,
-               (int) (hitbox.getX() - xDrawOffset),
-               (int) (hitbox.getY() - yDrawOffset + le.getEditorY()),
+               hbX - xDrawOffset,
+               hbY - yDrawOffset,
                spriteW * 3 * flipX,
                spriteH * 3);
       }

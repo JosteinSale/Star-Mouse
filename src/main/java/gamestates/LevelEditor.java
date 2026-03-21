@@ -65,6 +65,7 @@ public class LevelEditor extends State {
    public int clImgWidth;
    public int clImgY;
    public int clImgX;
+   public int editorXOffset = 0;
    private int screenNr = 0; // Increases or decreases by 1 every time we change screen vertically.
 
    public LevelEditor(Game game) {
@@ -182,13 +183,14 @@ public class LevelEditor extends State {
 
    private void addEntity() {
       int adjustedY = cursorY - getEditorY();
+      int adjustedX = cursorX - editorXOffset;
       // Maybe a bit over-engineered, but it works:
       String name = entityNameToTypeMap.entrySet().stream()
             .filter(entry -> entry.getValue() == selectedEntity)
             .map(entry -> entry.getKey())
             .findFirst()
             .orElse(null);
-      registerEntityInstance(true, name, cursorX, adjustedY, enemyFlipX, shootTimer);
+      registerEntityInstance(true, name, adjustedX, adjustedY, enemyFlipX, shootTimer);
    }
 
    private void toggleSelectedEntity(int direction) {
@@ -219,9 +221,11 @@ public class LevelEditor extends State {
          }
          case RIGHT -> {
             clImgX -= 200;
+            editorXOffset -= 200;
          }
          case LEFT -> {
             clImgX += 200;
+            editorXOffset += 200;
          }
       }
 
