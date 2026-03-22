@@ -74,4 +74,8 @@ public class Cutscene {
    public Sequence getSequence(int i) {
       return this.sequences.get(i);
    }
+
+   public int amountOfSequences() {
+      return sequences.size();
+   }
 }
