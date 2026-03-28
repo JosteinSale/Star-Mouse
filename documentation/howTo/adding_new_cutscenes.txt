@@ -1,26 +1,47 @@
 GENERAL STUFF:
--Each element can have several cutscenes. 
- (That's why we include the elementNr in the cutscene-header, so that we know which element
-  the cutscene belongs to).
-  .The setStartCutscene-event can be used to change between which cutscenes are started 
-  whenever an element is interacted with.
-  .This could be in response to certain requirements being met, or a certain infoChoice-option
-   being taken.
-
--Only effects that implement the Advancable-interface will advance the the cutscene
- to the next sequence. This means that non-Advancable cutscene entries must be used in
- combination with an advancable effect, like wait.
- .To see which effects are advancable, see the effect implementation.
-
+* Each cutscene will be associated with an entity in the levelData sheet.
+   .Whenever an entity is interacted with in the game, the cutsceneManager
+    will look for a cutscene with that same name, and then start that cutscene.
+* Each entity can have several cutscenes. They are differentiated by index,
+  which is automatically inferred by counting the amount of cutscenes 
+  belonging to an entity, in the cutscene sheet.
+  Which cutscene is started when the player interacts with the entity, 
+  is determined by the index given as argument in the program code.
+  (This index can be changed by the setStartCutscene-event; see below documentation).
+* Each cutscene is divided into sequences, signified by the "endSequence"-keyword.
+* Each sequence can have several events. Once a sequence is initiated, all events
+  in that sequence will be activated at once.
+* We can advance to the next cutscene in 2 ways:
+   .Having a dialogue/textBox-event.
+   .Having an Advancable event.
+* Each sequence must contain either of these two.
+   .Advancable effects implement the AdvancableEffect interface. These are:
+      .fade
+      .moveCamera
+      .npcWalk
+      .playerWalk
+      .screenShake
+      .wait
+   .Dialogue/textBox-events are:
+      .info
+      .infoChoice
+      .dialogue
+      .noSkipDialogue
+      .smallDialogue
 
 NEW CUTSCENE
 --------------------
-[0] = cutscene, [1] = canReset (boolean), [2] = triggerObject (string), [3] = totalElementNr (in sheet)
-
+[0] = cutscene, [1] = canReset (boolean), [2] = entityName (string)
 * Each element in an area (except player) must have at least one cutscene
-* The cutscenes must be ordered like their respective elements
-    .E.g the third npc in the levelData-sheet will trigger the third 
-    npc-Cutscene in the cutscene-sheet.
+
+END SEQUENCE
+--------------------
+[0] = endSequence
+
+
+END CUTSCENE
+--------------------
+empty line
 
 
 INFOBOX-EVENT
@@ -37,7 +58,7 @@ INFO CHOICE
 
 * leftAnswer sends the player to the cutscene immediately after the one in question.
 * rightAnswer sends the player to the cutscene 2 steps ahead.
-* Both must have the same triggerObject as the original cutscene.
+* Both must have the same entityName as the original cutscene.
 
 
 DIALOGUE-EVENT
@@ -97,10 +118,14 @@ SET OVERLAY IMAGE
 [0] = setOverlayImage, [1] = active (boolean), [2] = fileName (String)
 
 
-SET STARTING CUTSCENE-INDEX FOR ELEMENT
+SET STARTING CUTSCENE-INDEX FOR ENTITY
 --------------------
-[0] = setStartCutscene, [1] = triggerObject (string), [2] = elementNrIndex (e.g door #0), 
+[0] = setStartCutscene, [1] = entityName (string), [2] = (not used), 
 [3] = newStartCutsceneIndex
+* This event can be used to change between which cutscenes are started 
+  whenever an entity is interacted with.
+* This could be e.g. when certain requirements being met, or a certain infoChoice-option
+  being taken.
 
 
 SET REQUIREMENT MET
@@ -123,7 +148,7 @@ NPC WALK
 --------------------
 [0] = npcWalk (string), [1] = npcName (not used), [2] = npcIndex, 
 [3] = direction (string), [4] = targetX, [5] = targetY, [6] = framesDuration
-* npcIndex = e.g. npc #0
+* npcIndex = e.g. npc #0 (in the levelData sheet)
 
 
 SET DIRECTION
@@ -263,13 +288,3 @@ START CINEMATIC
 EXIT CINEMATIC
 [0] = exitCinematic (String)
 * Does not need to be used in combination with an advancable effect
-
-
-END SEQUENCE
---------------------
-[0] = endSequence
-
-
-END CUTSCENE
---------------------
-empty line

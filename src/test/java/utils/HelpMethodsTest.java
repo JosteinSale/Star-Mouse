@@ -101,8 +101,8 @@ public class HelpMethodsTest {
       // We construct an input consisting of the first few cutscenes in the game.
       // It containts 4 unique entities (bed, drawer, game, cabinet)
       // The bed has 1 cutscene, the drawer has 3 cutscenes, the game has 1 cutscene
-      // and the cabinet has 2 cutscenes. Each custcene has 1 or more sequences,
-      // and the sequcnes have 1 or more events.
+      // and the cabinet has 1 cutscene. Each custcene has 1 or more sequences,
+      // and the sequence have 1 or more events.
       String[] input = {
             "cutscene;true;bed",
             "info;Your bed. Semi-comfortable.",

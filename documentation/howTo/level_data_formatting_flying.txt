@@ -1,0 +1,9 @@
+FLYING LEVELDATA
+
+AUTOMATIC TRIGGER:
+[0] = automaticTrigger (String), [1] = hitbox.x, [2] = hitbox.y, [3] = hitbox.width
+[4] = hitbox.height, [5] = cutsceneName
+
+
+ALL ENTITIES:
+[0] = name (String), [1] = hitbox.x, [2] = hitbox.y, [3] = direction (int), [4] = shootTimer
