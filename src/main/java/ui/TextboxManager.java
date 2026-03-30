@@ -1,11 +1,11 @@
 package ui;
 
-import game_events.BigDialogueEvent;
-import game_events.InfoBoxEvent;
-import game_events.InfoChoiceEvent;
-import game_events.NoSkipDialogueEvent;
-import game_events.SmallDialogueEvent;
-import game_events.TextBoxEvent;
+import cutscenes.events.BigDialogueEvent;
+import cutscenes.events.InfoBoxEvent;
+import cutscenes.events.InfoChoiceEvent;
+import cutscenes.events.NoSkipDialogueEvent;
+import cutscenes.events.SmallDialogueEvent;
+import cutscenes.events.TextBoxEvent;
 import main_classes.Game;
 import utils.Singleton;
 

@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
 import cutscenes.FellowShip;
-import cutscenes.cutsceneManagers.CutsceneManagerExp;
-import cutscenes.cutsceneManagers.DefaultCutsceneManager;
+import cutscenes.cutscene_managers.CutsceneManagerExp;
+import cutscenes.cutscene_managers.DefaultCutsceneManager;
 import cutscenes.effects.DrawableEffect;
 import cutscenes.effects.FadeEffect;
 import cutscenes.effects.FadeHeaderEffect;

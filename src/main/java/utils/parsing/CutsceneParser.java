@@ -5,8 +5,8 @@ import static utils.parsing.DynamicValueParser.InsertDynamicValues;
 
 import java.util.HashMap;
 
-import game_events.*;
-import gamestates.Gamestate;
+import cutscenes.events.*;
+import game_states.Gamestate;
 import utils.HelpMethods;
 
 /** A parser which can parse all GeneralEvents. */

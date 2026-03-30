@@ -2,7 +2,7 @@ package rendering.misc;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import entities.bossmode.AnimatedComponent;
+import entities.boss_mode.AnimatedComponent;
 import rendering.MySubImage;
 import utils.DrawUtils;
 import utils.HelpMethods2;

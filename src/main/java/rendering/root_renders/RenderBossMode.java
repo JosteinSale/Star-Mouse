@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Polygon;
 
-import entities.bossmode.rudinger1.Rudinger1;
-import gamestates.boss_mode.BossMode;
+import entities.boss_mode.rudinger1.Rudinger1;
+import game_states.boss_mode.BossMode;
 import main_classes.Game;
 import main_classes.Testing;
 import rendering.MyColor;

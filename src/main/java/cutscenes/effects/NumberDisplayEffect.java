@@ -1,8 +1,8 @@
 package cutscenes.effects;
 
-import game_events.GeneralEvent;
-import game_events.NumberDisplayEvent;
-import gamestates.Gamestate;
+import cutscenes.events.GeneralEvent;
+import cutscenes.events.NumberDisplayEvent;
+import game_states.Gamestate;
 import ui.NumberDisplay;
 
 /**

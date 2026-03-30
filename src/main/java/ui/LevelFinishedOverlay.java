@@ -4,7 +4,7 @@ import static entities.flying.EnemyFactory.TypeConstants.*;
 
 import java.util.ArrayList;
 
-import gamestates.flying.Flying;
+import game_states.flying.Flying;
 import main_classes.Game;
 import utils.Constants.Audio;
 import utils.Singleton;

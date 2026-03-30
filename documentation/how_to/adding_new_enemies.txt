@@ -1,0 +1,16 @@
+0. Add sprite into images-folder
+1. Add enemy to EnemyFactory
+2. Add sprite name to LoadSave
+3. Make new enemy Object. Can use an existing enemy as template.
+4. If new projectile: add into Constants.Flying.TypeConstants, and update ProjectileHandler
+5. Add new entry in lvl_formatting_info.txt
+6. Update EnemyManager : loadEnemiesForLvl. Any unique behavior.
+7. Update RenderEntity : animationsArray, loadImgs.
+8. Update levelEditor :: loadEntityImages, loadLevelData, addEntityToList
+
+* Hitbox width/height is set in
+   -EnemyManager
+   -LevelEditor
+* Drawing x / y -offset is set in
+   -Object
+   -LevelEditor

@@ -3,10 +3,10 @@ package cutscenes.effects;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import game_events.AddObjectEvent;
-import game_events.GeneralEvent;
-import game_events.ObjectMoveEvent;
-import gamestates.Gamestate;
+import cutscenes.events.AddObjectEvent;
+import cutscenes.events.GeneralEvent;
+import cutscenes.events.ObjectMoveEvent;
+import game_states.Gamestate;
 import main_classes.Game;
 
 /**

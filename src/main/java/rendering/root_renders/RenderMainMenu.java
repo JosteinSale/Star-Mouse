@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
-import gamestates.MainMenu;
+import game_states.MainMenu;
 import main_classes.Game;
 import rendering.MyColor;
 import rendering.MyImage;

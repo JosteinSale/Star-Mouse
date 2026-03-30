@@ -1,7 +1,7 @@
 package ui;
 
 import audio.AudioPlayer;
-import gamestates.flying.Flying;
+import game_states.flying.Flying;
 import utils.Constants.Audio;
 import utils.Singleton;
 import inputs.Inputs;

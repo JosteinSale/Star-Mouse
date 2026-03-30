@@ -3,7 +3,7 @@ package rendering.exploring;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import entities.MyCollisionImage;
-import gamestates.exploring.MapManager1;
+import game_states.exploring.MapManager1;
 import main_classes.Game;
 import rendering.MyImage;
 import rendering.Render;

@@ -1,9 +1,9 @@
 package cutscenes.effects;
 
-import game_events.GeneralEvent;
-import game_events.ScreenShakeEvent;
-import gamestates.Gamestate;
-import gamestates.exploring.Area;
+import cutscenes.events.GeneralEvent;
+import cutscenes.events.ScreenShakeEvent;
+import game_states.Gamestate;
+import game_states.exploring.Area;
 
 public class ScreenShakeEffect implements UpdatableEffect, AdvancableEffect {
    private boolean active;
@@ -13,7 +13,7 @@ public class ScreenShakeEffect implements UpdatableEffect, AdvancableEffect {
    private int xLevelOffset;
    private int yLevelOffset;
    private int shakeSize = 10;
-   private int shakeDirection = 1;  // 1 = høyre/opp, -1 = venstre/ned
+   private int shakeDirection = 1; // 1 = høyre/opp, -1 = venstre/ned
 
    public ScreenShakeEffect(Area area) {
       this.area = area;
@@ -35,11 +35,9 @@ public class ScreenShakeEffect implements UpdatableEffect, AdvancableEffect {
       }
       if (yLevelOffset < shakeSize) {
          yLevelOffset += shakeSize;
-      }
-      else if ((xLevelOffset + shakeSize ) > area.getMaxLevelOffsetX()) {
+      } else if ((xLevelOffset + shakeSize) > area.getMaxLevelOffsetX()) {
          xLevelOffset -= shakeSize;
-      }
-      else if ((yLevelOffset + shakeSize ) > area.getMaxLevelOffsetY()) {
+      } else if ((yLevelOffset + shakeSize) > area.getMaxLevelOffsetY()) {
          yLevelOffset -= shakeSize;
       }
    }
@@ -60,8 +58,7 @@ public class ScreenShakeEffect implements UpdatableEffect, AdvancableEffect {
       if (this.duration == 0) {
          this.active = false;
          this.shouldAdvance = true;
-      }
-      else {
+      } else {
          updateScreenShake();
       }
    }
@@ -70,12 +67,11 @@ public class ScreenShakeEffect implements UpdatableEffect, AdvancableEffect {
       if (duration % 6 > 2) {
          int newXoffset = xLevelOffset + (shakeSize * shakeDirection);
          this.area.setXLevelOffset(newXoffset);
-     }
-     else {
+      } else {
          int newYoffset = yLevelOffset + (shakeSize * shakeDirection);
          this.area.setYLevelOffset(newYoffset);
          this.shakeDirection *= -1;
-     }
+      }
    }
 
    @Override
@@ -93,5 +89,5 @@ public class ScreenShakeEffect implements UpdatableEffect, AdvancableEffect {
    public boolean shouldAdvance() {
       return this.shouldAdvance;
    }
-   
+
 }

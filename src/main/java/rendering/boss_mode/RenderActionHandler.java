@@ -1,14 +1,15 @@
 package rendering.boss_mode;
 
-import entities.bossmode.BossActionHandler;
-import entities.bossmode.DefaultBossPart;
-import projectiles.shootPatterns.ShootPattern;
 import utils.Images;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import entities.boss_mode.BossActionHandler;
+import entities.boss_mode.DefaultBossPart;
+import projectiles.shoot_patterns.ShootPattern;
 
 public class RenderActionHandler {
    /*

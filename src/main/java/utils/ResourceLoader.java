@@ -39,12 +39,12 @@ public class ResourceLoader {
    }
 
    public static MyMusic getSong(String string) {
-      Music music = Gdx.audio.newMusic(Gdx.files.internal("audioOgg/" + string));
+      Music music = Gdx.audio.newMusic(Gdx.files.internal("audio_ogg/" + string));
       return new MyMusic(music);
    }
 
    public static MySound getSound(String string) {
-      Sound sound = Gdx.audio.newSound(Gdx.files.internal("audioOgg/" + string));
+      Sound sound = Gdx.audio.newSound(Gdx.files.internal("audio_ogg/" + string));
       return new MySound(sound);
    }
 
@@ -86,17 +86,17 @@ public class ResourceLoader {
    }
 
    public static List<String> getBossCutsceneData(Integer bossNr) {
-      FileHandle file = Gdx.files.internal("bossMode/cutscenes/boss" + bossNr + ".csv");
+      FileHandle file = Gdx.files.internal("boss_mode/cutscenes/boss" + bossNr + ".csv");
       return readCsvFile(file);
    }
 
    public static List<String> getFlyLevelData(Integer level) {
-      FileHandle file = Gdx.files.internal("flying/leveldata/level" + level + ".csv");
+      FileHandle file = Gdx.files.internal("flying/level_data/level" + level + ".csv");
       return readCsvFile(file);
    }
 
    public static ArrayList<List<String>> getExpLevelData(Integer lvl) {
-      return readAllCsvFilesInFolder("exploring/leveldata/", lvl);
+      return readAllCsvFilesInFolder("exploring/level_data/", lvl);
    }
 
    public static ArrayList<List<String>> getExpCutsceneData(Integer lvl) {

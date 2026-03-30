@@ -2,11 +2,11 @@ package main_classes;
 
 import audio.AudioPlayer;
 import data_storage.*;
-import gamestates.*;
-import gamestates.boss_mode.BossMode;
-import gamestates.exploring.Exploring;
-import gamestates.flying.Flying;
-import gamestates.level_select.LevelSelect;
+import game_states.*;
+import game_states.boss_mode.BossMode;
+import game_states.exploring.Exploring;
+import game_states.flying.Flying;
+import game_states.level_select.LevelSelect;
 import inputs.Inputs;
 import ui.OptionsMenu;
 import ui.TextboxManager;

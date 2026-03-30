@@ -1,15 +1,16 @@
 package cutscenes.effects;
 
-import game_events.GeneralEvent;
-import gamestates.Gamestate;
+import cutscenes.events.GeneralEvent;
+import game_states.Gamestate;
 
 public interface CutsceneEffect {
 
    /** Starts the cutscene effect */
    public void activate(GeneralEvent evt);
 
-   /** Gets the event associated with the effect, in the form of a new object.
-    * This method will be called by the cutsceneManager 
+   /**
+    * Gets the event associated with the effect, in the form of a new object.
+    * This method will be called by the cutsceneManager
     * to extract the string-representation of the class of the GeneralEvent.
     */
    public GeneralEvent getAssociatedEvent();
@@ -17,7 +18,10 @@ public interface CutsceneEffect {
    /** Returns true if the effect supports calling from the given state */
    public boolean supportsGamestate(Gamestate state);
 
-   /** Resets the cutscene effect. 
-    * Is needed when the cutsceneManager is reset, and when updatable effects are over. */
+   /**
+    * Resets the cutscene effect.
+    * Is needed when the cutsceneManager is reset, and when updatable effects are
+    * over.
+    */
    public void reset();
 }

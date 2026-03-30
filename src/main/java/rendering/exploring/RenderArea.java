@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import entities.exploring.PlayerExp;
-import gamestates.exploring.Area;
+import game_states.exploring.Area;
 import main_classes.Game;
 import main_classes.Testing;
 import rendering.MySubImage;

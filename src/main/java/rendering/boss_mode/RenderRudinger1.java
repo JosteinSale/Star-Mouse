@@ -2,7 +2,7 @@ package rendering.boss_mode;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import entities.bossmode.rudinger1.Rudinger1;
+import entities.boss_mode.rudinger1.Rudinger1;
 import rendering.MyImage;
 import rendering.misc.RenderAnimatedComponent;
 import utils.DrawUtils;

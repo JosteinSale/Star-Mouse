@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.awt.Rectangle;
 
 import entities.flying.EntityInfo;
-import gamestates.LevelEditor;
+import game_states.LevelEditor;
 import main_classes.Game;
 import rendering.MyColor;
 import rendering.MyImage;

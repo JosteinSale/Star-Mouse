@@ -3,12 +3,12 @@ package cutscenes.effects;
 import static utils.Constants.Exploring.Cutscenes.FADE_IN;
 import static utils.Constants.Exploring.Cutscenes.FADE_OUT;
 
-import cutscenes.cutsceneManagers.CutsceneManagerExp;
-import cutscenes.cutsceneManagers.DefaultCutsceneManager;
-import game_events.EventHandler;
-import game_events.FadeEvent;
-import game_events.GeneralEvent;
-import gamestates.Gamestate;
+import cutscenes.cutscene_managers.CutsceneManagerExp;
+import cutscenes.cutscene_managers.DefaultCutsceneManager;
+import cutscenes.events.EventHandler;
+import cutscenes.events.FadeEvent;
+import cutscenes.events.GeneralEvent;
+import game_states.Gamestate;
 
 /**
  * Note: in the event of standard fades, when fading out, the isActive-boolean

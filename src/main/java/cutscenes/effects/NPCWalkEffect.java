@@ -1,12 +1,12 @@
 package cutscenes.effects;
 
 import entities.exploring.NpcManager;
-import game_events.GeneralEvent;
-import game_events.NPCWalkEvent;
-import gamestates.Gamestate;
+import game_states.Gamestate;
 
 import static utils.Constants.Exploring.DirectionConstants.STANDING;
 
+import cutscenes.events.GeneralEvent;
+import cutscenes.events.NPCWalkEvent;
 
 // TODO - Inlcude support for having many NPC's walk at the same time?
 // Could have a list of xSpeed, ySpeed, and a list of active npc-indexes
@@ -29,7 +29,7 @@ public class NPCWalkEffect implements UpdatableEffect, AdvancableEffect {
       this.active = true;
       this.npcIndex = npcEvt.npcIndex();
       this.walkDuration = npcEvt.walkDuration();
-      this.npcManager.getNpc(npcIndex).setAction(npcEvt.sheetRowIndex()); 
+      this.npcManager.getNpc(npcIndex).setAction(npcEvt.sheetRowIndex());
 
       float xDistance = npcEvt.targetX() - this.npcManager.getNpc(npcIndex).getHitbox().x;
       float yDistance = npcEvt.targetY() - this.npcManager.getNpc(npcIndex).getHitbox().y;
@@ -55,7 +55,7 @@ public class NPCWalkEffect implements UpdatableEffect, AdvancableEffect {
          this.active = false;
          this.shouldAdvance = true;
          this.npcManager.getNpc(npcIndex).setAction(STANDING);
-        }
+      }
    }
 
    @Override
@@ -73,6 +73,5 @@ public class NPCWalkEffect implements UpdatableEffect, AdvancableEffect {
    public boolean shouldAdvance() {
       return this.shouldAdvance;
    }
-   
-}
 
+}

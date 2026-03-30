@@ -5,9 +5,9 @@ import java.util.ArrayList;
 
 import audio.AudioPlayer;
 import entities.MyCollisionImage;
-import entities.bossmode.IBoss;
-import entities.bossmode.IBossPart;
-import entities.bossmode.PlayerBoss;
+import entities.boss_mode.IBoss;
+import entities.boss_mode.IBossPart;
+import entities.boss_mode.PlayerBoss;
 import entities.flying.enemies.EnemyManager;
 import main_classes.Game;
 

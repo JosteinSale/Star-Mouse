@@ -1,7 +1,7 @@
 package ui;
 
 import audio.AudioPlayer;
-import gamestates.boss_mode.BossMode;
+import game_states.boss_mode.BossMode;
 import main_classes.Game;
 import utils.Constants.Audio;
 import utils.Singleton;

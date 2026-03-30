@@ -3,9 +3,9 @@ package cutscenes.effects;
 import java.util.ArrayList;
 
 import cutscenes.FellowShip;
-import game_events.FellowShipEvent;
-import game_events.GeneralEvent;
-import gamestates.Gamestate;
+import cutscenes.events.FellowShipEvent;
+import cutscenes.events.GeneralEvent;
+import game_states.Gamestate;
 
 public class FellowShipEffect implements UpdatableEffect, DrawableEffect {
    private boolean active;

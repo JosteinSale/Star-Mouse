@@ -5,14 +5,10 @@ import java.util.ArrayList;
 /**
  * Cutscenes are essentially sequences of events.
  * Each cutscene can have one or more sequences, which are stored in ArrayLists.
- * Each sequence can have one or more events, which are stored in ArrayLists.
  * 
  * To advance a cutscene, a sequence is drawn from the cutscene and added
- * to the eventhandler. There, all events will be triggered at once.
- * Events must implement the GeneralEvent interface.
- * 
- * Trigger-variable: the element which triggers the cutscene
- * (objects / doors / npc's / automatic triggerboxes).
+ * to the eventhandler. There, all events from the sequence will be triggered at
+ * once. Events must implement the GeneralEvent interface.
  */
 public class Cutscene {
    private ArrayList<Sequence> sequences;

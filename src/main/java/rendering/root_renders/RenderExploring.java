@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import cutscenes.cutsceneManagers.DefaultCutsceneManager;
-import gamestates.exploring.Area;
-import gamestates.exploring.Exploring;
+import cutscenes.cutscene_managers.DefaultCutsceneManager;
+import game_states.exploring.Area;
+import game_states.exploring.Exploring;
 import main_classes.Game;
 import rendering.Render;
 import rendering.exploring.RenderArea;

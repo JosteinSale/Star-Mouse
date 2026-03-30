@@ -2,9 +2,9 @@ package cutscenes.effects;
 
 import com.badlogic.gdx.math.Rectangle;
 
-import game_events.FadeHeaderEvent;
-import game_events.GeneralEvent;
-import gamestates.Gamestate;
+import cutscenes.events.FadeHeaderEvent;
+import cutscenes.events.GeneralEvent;
+import game_states.Gamestate;
 import main_classes.Game;
 
 /**

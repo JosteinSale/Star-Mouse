@@ -2,7 +2,7 @@ package rendering.boss_mode;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import entities.bossmode.DefaultBossPart;
+import entities.boss_mode.DefaultBossPart;
 import rendering.MySubImage;
 import utils.DrawUtils;
 import utils.HelpMethods2;

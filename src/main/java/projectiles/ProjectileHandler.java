@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import audio.AudioPlayer;
+import cutscenes.events.AddProjectileEvent;
 import entities.MyCollisionImage;
 import entities.flying.ShootingPlayer;
 import entities.flying.enemies.Enemy;
 import entities.flying.enemies.EnemyManager;
-import game_events.AddProjectileEvent;
 import main_classes.Game;
 import utils.Singleton;
 import inputs.Inputs;

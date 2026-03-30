@@ -1,11 +1,12 @@
 package cutscenes.effects;
 
-import game_events.GeneralEvent;
-import game_events.MoveCameraEvent;
-import gamestates.Gamestate;
-import gamestates.exploring.Area;
+import cutscenes.events.GeneralEvent;
+import cutscenes.events.MoveCameraEvent;
+import game_states.Gamestate;
+import game_states.exploring.Area;
 
-/** An effect that moves the camera a given amount of pixels, over a given
+/**
+ * An effect that moves the camera a given amount of pixels, over a given
  * duration. This de-attatches the camera from being locked on to the player.
  * Thus, it's important to re-attatch the camera (from a cutscene) once the
  * cutscene is over.
@@ -68,10 +69,9 @@ public class MoveCameraEffect implements UpdatableEffect, AdvancableEffect {
       }
    }
 
-
    @Override
    public boolean isActive() {
       return active;
    }
-   
+
 }

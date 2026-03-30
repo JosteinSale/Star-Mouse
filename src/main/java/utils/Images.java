@@ -9,7 +9,7 @@ import rendering.MyImage;
 public class Images extends Singleton {
    private ResourceContainer<MyImage> myImages;
    private ResourceContainer<MyCollisionImage> myCollisionImages;
-   public static MyImage pixel = ResourceLoader.getImage("miscImages/pixel.png");
+   public static MyImage pixel = ResourceLoader.getImage("misc_images/pixel.png");
 
    // Menus
    public static final String BASIC_MOUSE = "BasicMouse.png";
@@ -121,17 +121,17 @@ public class Images extends Singleton {
    }
 
    public MyImage getBossSprite(String fileName) {
-      fileName = "bossMode/sprites/" + fileName;
+      fileName = "boss_mode/sprites/" + fileName;
       return this.getImage(fileName, false);
    }
 
    public MyImage getCutsceneImage(String fileName, boolean keepInMemory) {
-      fileName = "cutsceneImages/" + fileName;
+      fileName = "cutscene_images/" + fileName;
       return this.getImage(fileName, keepInMemory);
    }
 
    public MyImage getBossBackground(String fileName) {
-      fileName = "bossMode/backgrounds/" + fileName;
+      fileName = "boss_mode/backgrounds/" + fileName;
       return this.getImage(fileName, false);
    }
 
@@ -166,7 +166,7 @@ public class Images extends Singleton {
    }
 
    public MyCollisionImage getBossCollisionImg(String fileName) {
-      fileName = "bossMode/collision/" + fileName;
+      fileName = "boss_mode/collision/" + fileName;
       return this.getCollisionImage(fileName);
    }
 
@@ -176,7 +176,7 @@ public class Images extends Singleton {
    }
 
    public MyImage getMiscImage(String fileName, boolean keepInMemory) {
-      fileName = "miscImages/" + fileName;
+      fileName = "misc_images/" + fileName;
       return this.getImage(fileName, keepInMemory);
    }
 

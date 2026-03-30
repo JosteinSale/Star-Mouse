@@ -1,6 +1,6 @@
 package ui;
 
-import game_events.TextBoxEvent;
+import cutscenes.events.TextBoxEvent;
 
 public interface ITextboxManager {
    public void toggleOptions();

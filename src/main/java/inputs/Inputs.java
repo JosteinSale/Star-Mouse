@@ -1,9 +1,12 @@
 package inputs;
 
 import com.badlogic.gdx.InputProcessor;
+
+import game_states.Gamestate;
+
 import com.badlogic.gdx.Input;
 import java.util.HashMap;
-import gamestates.Gamestate;
+
 import main_classes.Game;
 import utils.Singleton;
 

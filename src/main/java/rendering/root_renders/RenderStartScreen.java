@@ -2,7 +2,7 @@ package rendering.root_renders;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import gamestates.StartScreen;
+import game_states.StartScreen;
 import main_classes.Game;
 import rendering.MyColor;
 import rendering.MyImage;

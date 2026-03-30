@@ -1,8 +1,8 @@
 package cutscenes.effects;
 
-import game_events.GeneralEvent;
-import game_events.SetRedLightEvent;
-import gamestates.Gamestate;
+import cutscenes.events.GeneralEvent;
+import cutscenes.events.SetRedLightEvent;
+import game_states.Gamestate;
 
 public class RedLightEffect implements UpdatableEffect, DrawableEffect {
    private boolean active;

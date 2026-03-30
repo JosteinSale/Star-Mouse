@@ -1,9 +1,9 @@
 package cutscenes.effects;
 
+import cutscenes.events.GeneralEvent;
+import cutscenes.events.PlayerWalkEvent;
 import entities.exploring.PlayerExp;
-import game_events.GeneralEvent;
-import game_events.PlayerWalkEvent;
-import gamestates.Gamestate;
+import game_states.Gamestate;
 
 public class PlayerWalkEffect implements UpdatableEffect, AdvancableEffect {
    private boolean active;
@@ -22,7 +22,7 @@ public class PlayerWalkEffect implements UpdatableEffect, AdvancableEffect {
       PlayerWalkEvent playEvt = (PlayerWalkEvent) evt;
       this.active = true;
       this.walkDuration = playEvt.walkDuration();
-      this.player.setAction(playEvt.sheetRowIndex()); 
+      this.player.setAction(playEvt.sheetRowIndex());
 
       float xDistance = playEvt.targetX() - this.player.getHitbox().x;
       float yDistance = playEvt.targetY() - this.player.getHitbox().y;
@@ -66,5 +66,5 @@ public class PlayerWalkEffect implements UpdatableEffect, AdvancableEffect {
    public boolean shouldAdvance() {
       return this.shouldAdvance;
    }
-   
+
 }

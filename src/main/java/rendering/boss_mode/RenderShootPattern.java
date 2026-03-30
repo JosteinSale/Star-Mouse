@@ -2,8 +2,8 @@ package rendering.boss_mode;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import entities.bossmode.AnimatedComponent;
-import projectiles.shootPatterns.ShootPattern;
+import entities.boss_mode.AnimatedComponent;
+import projectiles.shoot_patterns.ShootPattern;
 import rendering.misc.RenderAnimatedComponent;
 import utils.Images;
 

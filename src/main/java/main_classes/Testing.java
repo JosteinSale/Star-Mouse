@@ -1,6 +1,6 @@
 package main_classes;
 
-import gamestates.Gamestate;
+import game_states.Gamestate;
 
 /**
  * Simple container class, which holds variables that can be manipulated for

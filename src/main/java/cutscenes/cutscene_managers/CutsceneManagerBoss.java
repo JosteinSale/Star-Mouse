@@ -1,0 +1,52 @@
+package cutscenes.cutscene_managers;
+
+import cutscenes.effects.FadeEffect;
+import cutscenes.effects.FillScreenEffect;
+import cutscenes.effects.ObjectMoveEffect;
+import cutscenes.effects.WaitEffect;
+import cutscenes.events.EventHandler;
+import cutscenes.events.ObjectMoveEvent;
+import game_states.Gamestate;
+import inputs.Inputs;
+import main_classes.Game;
+import ui.ITextboxManager;
+
+public class CutsceneManagerBoss extends DefaultCutsceneManager {
+   private ObjectMoveEffect objectMoveEffect;
+
+   public CutsceneManagerBoss(Game game, EventHandler eventHandler, ITextboxManager textboxManager, Gamestate state) {
+      super(game, eventHandler, textboxManager, state);
+      this.addCutsceneEffects();
+   }
+
+   /* OBS: drawable effects will be drawn in the order they are added */
+   private void addCutsceneEffects() {
+      this.objectMoveEffect = new ObjectMoveEffect(game);
+      this.addEffect(objectMoveEffect);
+      this.addEffect(new WaitEffect());
+      this.addEffect(new FillScreenEffect());
+      this.addEffect(new FadeEffect(this.eventHandler, this));
+   }
+
+   /** Is called from the state's update-loop if the cutsceneManager is active */
+   public void handleKeyBoardInputs() {
+      if (Inputs.interactIsPressed) {
+         Inputs.interactIsPressed = false;
+         this.advance();
+      }
+   }
+
+   /** Flushes out all cutscenes */
+   public void clear() {
+      this.clearCutscenes();
+   }
+
+   public void moveObject(ObjectMoveEvent evt) {
+      this.objectMoveEffect.moveObject(evt);
+   }
+
+   public void clearObjects() {
+      this.objectMoveEffect.reset();
+   }
+
+}

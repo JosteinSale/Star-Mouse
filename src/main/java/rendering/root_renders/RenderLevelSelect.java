@@ -8,9 +8,9 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import gamestates.level_select.BaseLevelLayout;
-import gamestates.level_select.LevelSelect;
-import gamestates.level_select.LevelSlot;
+import game_states.level_select.BaseLevelLayout;
+import game_states.level_select.LevelSelect;
+import game_states.level_select.LevelSlot;
 import main_classes.Game;
 import rendering.MyColor;
 import rendering.MyImage;

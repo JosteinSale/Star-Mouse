@@ -1,0 +1,302 @@
+GENERAL STUFF:
+
+* Brief summary:
+   .An Entity is associated with  List<Cutscene>
+   .Cutscene is                   List<Sequence>
+   .Sequence is                   List<Event>
+
+* Each cutscene will be associated with an entity in the levelData sheet.
+   .Whenever an entity is interacted with in the game, the cutsceneManager
+    will look for a cutscene with that same name, and then start that cutscene.
+   .E.g. when the player interacts with an object with the name "cupboard", 
+    the cutsceneManager will look for a cutscene with the name "cupboard" and start it.
+* Each entity can have several cutscenes. They are differentiated by index,
+  whichof is automatically inferred by counting the amount of cutscenes 
+  belonging to an entity, in the cutscene sheet.
+     .E.g if there are 3 cutscenes belonging to "cupboard", then the first 
+      of those will have index '0', and then the next will have '1', and the last '2'.
+  Which cutscene is started when the player interacts with the entity, 
+  is determined by the index given as argument in the program code.
+  (This index can be changed by the setStartCutscene-event; see below documentation).
+* Each cutscene is divided into sequences, signified by the "endSequence"-keyword.
+* Each sequence can have several events. Once a sequence is initiated, all events
+  in that sequence will be activated at once.
+* We can advance to the next cutscene in 2 ways:
+   .Having a dialogue/textBox-event.
+   .Having an Advancable event.
+* Each sequence must contain either of these two.
+   .Advancable effects implement the AdvancableEffect interface. These are:
+      .fade
+      .moveCamera
+      .npcWalk
+      .playerWalk
+      .screenShake
+      .wait
+   .Dialogue/textBox-events are:
+      .info
+      .infoChoice
+      .dialogue
+      .noSkipDialogue
+      .smallDialogue
+
+
+
+NEW CUTSCENE
+--------------------
+[0] = cutscene, [1] = canReset (boolean), [2] = entityName (string)
+* Each element in an area (except player) must have at least one cutscene
+
+END SEQUENCE
+--------------------
+[0] = endSequence
+
+
+END CUTSCENE
+--------------------
+empty line
+
+
+INFOBOX-EVENT
+--------------------
+[0] = info, [1] = text
+
+* Max ~50 letters total per info
+* Max 27 letters per word
+
+
+INFO CHOICE
+--------------------
+[0] = infoChoice, [1] = question (String), [2] = leftAnswer, [3] = rightAnswer
+
+* leftAnswer sends the player to the cutscene immediately after the one in question.
+* rightAnswer sends the player to the cutscene 2 steps ahead.
+* Both must have the same entityName as the original cutscene.
+
+
+DIALOGUE-EVENT
+--------------------
+[0] = dialogue, [1] = characterName (String), [2] = emotion (not used for event), 
+[3] = portraitIndex, [4] = speed (int), [5] = text (String)
+* Max ~90 letters total per dialogue (see notes in DialogueBox)
+* Max 32 letters per word
+* NOTE: by using in combination with the wait-method, you can block keyboardInputs from player.
+
+
+NO SKIP DIALOGUE
+--------------------
+[0] = noSkipDialogue, [1] = characterName (String), [2] = emotion (not used for event), 
+[3] = portraitIndex, [4] = speed (int), [5] = text (String)
+* NOTE: must be implemented in each cutsceneManagers handleKeyPressed-method
+
+
+SMALL DIALOGUE
+--------------------
+[0] = smallDialogue, [1] = characterName (String), [2] = emotion (not used for event), 
+[3] = portraitIndex, [4] = speed (int), [5] = text (String)
+* Max ~40 letters total per dialogue
+
+
+FADE
+--------------------
+[0] = fade, [1] = in/out (string), [2] = color (string), [3] = speed (int)
+* Color = black | white
+
+
+SET PLAYER VISIBLE
+--------------------
+[0] = setPlayerVisible, [1] = visible (boolean)
+
+
+FILL SCREEN
+--------------------
+[0] = fillScreen, [1] = color (string), [2] = active (boolean)
+
+
+FADE IN/OUT HEADER
+--------------------
+[0] = fadeHeader, [1] = in/out (string), [2] = y-pos, [3] = fadeSpeed, [4] = headerText
+
+
+WAIT
+--------------------
+[0] = wait, [1] = nrOfFrames (int)
+
+* This can also be used in order to advance events 
+  that are not advanced automatically, if needed. 
+
+
+SET OVERLAY IMAGE
+--------------------
+[0] = setOverlayImage, [1] = active (boolean), [2] = fileName (String)
+
+
+SET STARTING CUTSCENE-INDEX FOR ENTITY
+--------------------
+[0] = setStartCutscene, [1] = entityName (string), [2] = (not used), 
+[3] = newStartCutsceneIndex
+* This event can be used to change between which cutscenes are started 
+  whenever an entity is interacted with.
+* This could be e.g. when certain requirements being met, or a certain infoChoice-option
+  being taken.
+
+
+SET REQUIREMENT MET
+--------------------
+[0] = setRequirementMet, [1] = doorIndex, [2] = requirementIndex
+
+
+SET PLAYER SPRITESHEET
+--------------------
+[0] = setPlayerSheet, [1] = sheetIndex
+
+
+PLAYER WALK
+--------------------
+[0] = playerWalk (string), [1] = direction (string), [2] = targetX, 
+[3] = targetY, [4] = framesDuration
+
+
+NPC WALK
+--------------------
+[0] = npcWalk (string), [1] = npcName (not used), [2] = npcIndex, 
+[3] = direction (string), [4] = targetX, [5] = targetY, [6] = framesDuration
+* npcIndex = e.g. npc #0 (in the levelData sheet)
+
+
+SET DIRECTION
+--------------------
+[0] = setDir, [1] = entityName (String), [2] = dir (String)
+
+
+ADD TO INVENTORY  (items)
+--------------------
+[0] = addToInventory, [1] = itemName (String, capital letters), [2] = itemDescription,
+[3] = imageFileName (String)
+
+* Max 22 letter for itemName
+* Max ~60 letters for itemDescription
+
+
+UPDATE INVENTORY
+--------------------
+[0] = updateInventory, [1] = credits/bombs/health (String), [2] = amount (+/- int)
+
+
+PURCHASE (check if player has enough credits)
+--------------------
+[0] = purchase, [1] = amountOfCredits
+
+* If player has enough credits, cutscene +1 is started
+* Else, cutscene +2 is started
+
+
+GO TO FLYING 
+--------------------
+[0] = goToFlying (String), [1] = level
+* Note: clear away as much drawn objects as possible, and fill the screen with black 
+  first. Or else, during the transition, wrong frames / states may be drawn.
+
+
+GO TO BOSSMODE
+--------------------
+[0] = goToBoss (String), [1] = bossNr (int)
+* bossNr 1 = first boss.
+
+
+START SONG
+--------------------
+[0] = startSong (String), [1] = songIndex (int), [2] = shouldLoop (boolean)
+* This loops the song until it's stopped
+* If used alone, it needs to be used together with the wait-method
+
+
+STOP ALL LOOPS
+--------------------
+[0] = stopAllLoops (String)
+* If used alone, it needs to be used together with the wait-method
+
+
+FADE OUT LOOPS
+--------------------
+[0] = fadeOutLoops (String) 
+* Must be used in combination with a method that calls advance(), like wait();
+
+
+SOUND ENABLED
+--------------------
+[0] = musicEnabled (String), [1] = enabled (boolean), [2] = soundType (String)
+* SoundType can be "sfx", "ambience" or "music"
+
+
+START AMBIENCE
+--------------------
+[0] = startAmbience (String), [1] = ambienceIndex (int)
+* This loops the ambience track until it's stopped
+* 1 is rocketEngine
+
+
+PLAY SFX
+--------------------
+[0] = playSFX (String), [1] = whichSfx (String / int)
+* whichSfx = success/pickup/infoBox, or index
+
+
+SET SPRITE
+--------------------
+[0] = setSprite (String), [1] = entity (e.g. player / Oliver), [2] = poseActive (boolean)
+[3] = colIndex, [4] = rowIndex, [5] = description
+
+
+SCREEN SHAKE
+--------------------
+[0] = screenShake (String), [1] = duration (int)
+
+
+SET RED LIGHT
+--------------------
+[0] = setRedLight (String), [1] = active (boolean)
+* Needs to be turned off in a cutscene
+
+
+MOVE CAMERA
+--------------------
+[0] = moveCamera (String), [1] = deltaX, [2] = deltaY, [3] = duration.
+* OBS: remember to reattatch camera when cutscene is done.
+* Use the same numbers when moving the camera back to starting position (due to rounding)
+
+
+REATTATCH CAMERA
+--------------------
+[0] = reattatchCamera (String)
+
+
+ADD ANIMATED OBJECT
+--------------------
+[0] = addObject (String), [1] = objectName (String) *
+[2] = xPos (float), [3] = yPos (float)
+* for valid names, check the file names in SimpleAnimationFactory
+
+
+MOVE ANIMATED OBJECT
+--------------------
+[0] = objectMove (String), [1] = objectIndex, [2] = targetX, 
+[3] = targetY, [4] = duration (int)
+* OBS: moving is not an advancable effect, 
+  so it should be used in combination with e.g. wait.
+
+
+CLEAR ANIMATED OBJECTS
+--------------------
+[0] = clearObjects (string)
+
+
+START CINEMATIC
+--------------------
+[0] = startCinematic (String), [1] = fileName (String), [2] = returnGamestate (Gamestate)
+* Must be used in combination with an advancable effect
+* Note: the fileName must also be used as the name of the cutscene in the cinematic-cutscene sheet
+
+
+EXIT CINEMATIC
+[0] = exitCinematic (String)
+* Does not need to be used in combination with an advancable effect

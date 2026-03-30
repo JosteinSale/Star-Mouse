@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 
-import entities.bossmode.DefaultBossPart;
+import entities.boss_mode.DefaultBossPart;
 import main_classes.Game;
 import rendering.MyColor;
 import rendering.MyImage;

@@ -4,7 +4,7 @@ import java.awt.geom.Rectangle2D;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import gamestates.flying.Flying;
+import game_states.flying.Flying;
 import main_classes.Game;
 import main_classes.Testing;
 import rendering.MyColor;

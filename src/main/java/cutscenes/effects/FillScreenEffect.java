@@ -1,8 +1,8 @@
 package cutscenes.effects;
 
-import game_events.FillScreenEvent;
-import game_events.GeneralEvent;
-import gamestates.Gamestate;
+import cutscenes.events.FillScreenEvent;
+import cutscenes.events.GeneralEvent;
+import game_states.Gamestate;
 
 /** Fills the screen with a given color */
 public class FillScreenEffect implements DrawableEffect {

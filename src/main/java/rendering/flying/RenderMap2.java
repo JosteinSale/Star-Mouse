@@ -2,8 +2,8 @@ package rendering.flying;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import game_states.flying.MapManager2;
 import rendering.MyImage;
-import gamestates.flying.MapManager2;
 import main_classes.Game;
 import utils.DrawUtils;
 import utils.Images;

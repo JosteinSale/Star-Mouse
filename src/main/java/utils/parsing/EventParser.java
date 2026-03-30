@@ -1,6 +1,6 @@
 package utils.parsing;
 
-import game_events.GeneralEvent;
+import cutscenes.events.GeneralEvent;
 
 /** An interface for a parser for a single GeneralEvent */
 public interface EventParser {
