@@ -12,7 +12,7 @@ public final class Testing {
 
    // General stuff
    public static final Gamestate testState = Gamestate.FLYING;
-   public static final boolean drawHitboxes = false;
+   public static final boolean drawHitboxes = true;
    public static final int unlockedLevels = 13;
    public static final boolean playMusic = true;
    public static final boolean playSFX = true;
@@ -22,7 +22,7 @@ public final class Testing {
    public static final int exploringArea = 2;
 
    // Flying
-   public static final int flyingStartY = 0;
+   public static final int flyingStartY = 20;
    public static final int flyingLevel = 0;
 
    // Boss Mode

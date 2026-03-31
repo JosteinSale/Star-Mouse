@@ -39,6 +39,7 @@ public class EnemyFactory {
       public static final int SMALL_ASTEROID = 14;
       public static final int BIG_ASTEROID = 15;
       public static final int BURNING_FRAGMENT = 16;
+      public static final int CENTIPEDE = 17;
    }
 
    public EnemyFactory(PlayerFly player) {
@@ -63,6 +64,7 @@ public class EnemyFactory {
       this.nameToTypeMap.put("smallAsteroid", SMALL_ASTEROID);
       this.nameToTypeMap.put("bigAsteroid", BIG_ASTEROID);
       this.nameToTypeMap.put("burningFragment", BURNING_FRAGMENT);
+      this.nameToTypeMap.put("centipede", CENTIPEDE);
    }
 
    private void registerAllEntities() {
@@ -156,6 +158,13 @@ public class EnemyFactory {
             Images.BURNING_FRAGMENT_SPRITE, 50, 100, 2, 8,
             75, 75, 35, 210,
             0, 0));
+
+      // CENTIPEDE
+      enemyInfo.put(CENTIPEDE, new EntityInfo(
+            CENTIPEDE,
+            Images.CENTIPEDE_SPRITE, 80, 50, 1, 1,
+            81, 66, 80, 40,
+            0, 0));
    }
 
    /**
@@ -222,6 +231,8 @@ public class EnemyFactory {
             return new BigAsteroid(hitbox, info, shootTimer, dir);
          case BURNING_FRAGMENT:
             return new BurningFragment(hitbox, info, shootTimer);
+         case CENTIPEDE:
+            return new Centipede(hitbox, info, shootTimer);
          default:
             throw new IllegalArgumentException("No enemy constructor for type " + typeConstant);
       }

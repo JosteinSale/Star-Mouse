@@ -55,7 +55,6 @@ public class RenderEntity {
       ArrayList<Enemy> copy = new ArrayList<>(enemyManager.activeEnemiesOnScreen);
       for (Enemy enemy : copy) {
          drawEnemy(enemy, sb);
-         // drawEnemyHitbox(enemy.getHitbox(), g);
       }
       // Explosions
       for (Explosion ex : enemyManager.explosions) {
@@ -69,7 +68,6 @@ public class RenderEntity {
 
    private void drawPickupItems(SpriteBatch sb) {
       for (PickupItem p : pickupItems) {
-         // drawHitbox(g, 0, 0);
          if (p.isActive()) {
             EntityInfo info = p.getDrawInfo();
             rGlow.drawStaticGlow(sb, p.getGlow());
@@ -110,13 +108,6 @@ public class RenderEntity {
          }
       }
    }
-
-   // private void drawEnemyHitbox(Float hitbox, SpriteBatch sb) {
-   // DrawUtils.fillRect(
-   // sb, MyColor.RED,
-   // (int) hitbox.x, (int) hitbox.y,
-   // (int) hitbox.width, (int) hitbox.height);
-   // }
 
    public EntityImages getEntityImages() {
       return this.entityImgs;
