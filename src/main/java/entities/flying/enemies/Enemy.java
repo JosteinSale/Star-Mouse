@@ -1,6 +1,5 @@
 package entities.flying.enemies;
 
-import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 

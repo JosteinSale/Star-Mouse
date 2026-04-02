@@ -113,7 +113,7 @@ public class EnemyFactory {
       // FLAMEDRONE
       enemyInfo.put(FLAMEDRONE, new EntityInfo(
             FLAMEDRONE,
-            Images.FLAMEDRONE_SPRITE, 132, 128, 2, 1,
+            Images.FLAMEDRONE_SPRITE, 68, 68, 2, 1,
             120, 120, 0, 0));
 
       // WASPDRONE
