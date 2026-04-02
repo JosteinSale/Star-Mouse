@@ -30,8 +30,9 @@ public class SmallAsteroid extends BaseEnemy {
       int variantIndex = rand.nextInt(4);
       this.IDLE = IDLE + (variantIndex * 2);
       this.TAKING_DAMAGE = TAKING_DAMAGE + (variantIndex * 2);
+      this.animation = new AnimationFrame(IDLE, 0);
       this.allAnimations.clear();
-      this.allAnimations.add(new AnimationFrame(IDLE, 0));
+      this.allAnimations.add(this.animation);
 
       // Extract x- and y-Speed.
       this.extractXandYSpeed(shootInterval, direction);

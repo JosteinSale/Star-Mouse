@@ -390,26 +390,41 @@ public class PlayerFly extends Entity implements ShootingPlayer {
     * If a collision has occured, player takes damage and is pushed in opposite
     * direction.
     */
-   public boolean checkAndHandleCollisionWithEnemy(Rectangle2D.Float enemyHitbox) {
-      if (hitbox.intersects(enemyHitbox)) {
-         for (int i = 0; i < 9; i++) {
-            Point point = new Point((int) collisionXs[i], (int) collisionYs[i]);
-            if (enemyHitbox.contains(point)) {
-               takeCollisionDmg();
-               audioPlayer.playSFX(Audio.SFX_COLLISION);
-               pushInOppositeDirectionOf(i, pushDistance);
-               this.resetSpeed();
-               return true;
-            }
+   public boolean checkAndHandleCollisionWithEnemy(ArrayList<Rectangle2D.Float> hitboxesForEnemy) {
+      for (Rectangle2D.Float enemyHitbox : hitboxesForEnemy) {
+         if (hitbox.intersects(enemyHitbox)) {
+            onEnemyCollision(enemyHitbox);
+            return true;
          }
       }
       return false;
    }
 
-   public boolean teleportHitsEnemy(Rectangle2D.Float enemyHitbox) {
+   /**
+    * Finds the pixel in the player hitbox that collides with the enemy hitbox,
+    * and initiates collision response.
+    * 
+    * @param enemyHitbox
+    */
+   private void onEnemyCollision(Rectangle2D.Float enemyHitbox) {
+      for (int i = 0; i < 9; i++) {
+         Point point = new Point((int) collisionXs[i], (int) collisionYs[i]);
+         if (enemyHitbox.contains(point)) {
+            takeCollisionDmg();
+            audioPlayer.playSFX(Audio.SFX_COLLISION);
+            pushInOppositeDirectionOf(i, pushDistance);
+            this.resetSpeed();
+            return;
+         }
+      }
+   }
+
+   public boolean teleportHitsEnemy(ArrayList<Rectangle2D.Float> hitboxesForEnemy) {
       if (planeAction == TELEPORTING_RIGHT || planeAction == TELEPORTING_LEFT) {
-         if (teleportHitbox.intersects(enemyHitbox)) {
-            return true;
+         for (Rectangle2D.Float hitbox : hitboxesForEnemy) {
+            if (teleportHitbox.intersects(hitbox)) {
+               return true;
+            }
          }
       }
       return false;

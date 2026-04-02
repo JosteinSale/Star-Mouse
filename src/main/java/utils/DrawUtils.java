@@ -1,5 +1,7 @@
 package utils;
 
+import java.awt.geom.Rectangle2D;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -11,7 +13,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 
-import entities.boss_mode.DefaultBossPart;
 import entities.flying.enemies.Enemy;
 import main_classes.Game;
 import rendering.MyColor;
@@ -85,23 +86,23 @@ public class DrawUtils {
       batch.setColor(Color.WHITE);
    }
 
-   public static void drawRotatedBossPart(SpriteBatch batch, DefaultBossPart bp, MySubImage[][] imgs) {
-      int aniRow = bp.animation.getCurrentAniRow();
-      int aniIndex = bp.animation.aniIndex;
-      TextureRegion img = imgs[aniRow][aniIndex].getImage();
-      float centerX = (float) bp.nonRotatedHitbox.getCenterX();
-      float centerY = (float) bp.nonRotatedHitbox.getCenterY();
-      float width = img.getRegionWidth() * 3;
-      float height = img.getRegionHeight() * 3;
-
-      batch.draw(img,
-            (centerX - width / 2),
-            (centerY - height / 2),
-            (width / 2),
-            (height / 2),
+   public static void drawRotatedImage(SpriteBatch batch, Rectangle2D.Float hitbox,
+         int dir, double rotation, MySubImage img) {
+      float width = img.getWidth() * 3;
+      float height = img.getHeight() * 3;
+      float x = (float) hitbox.getCenterX() - width / 2;
+      float y = (float) hitbox.getCenterY() - height / 2;
+      if (dir == Enemy.LEFT) {
+         x += width;
+         width = -width; // flip horizontally
+      }
+      batch.draw(img.getImage(),
+            x, y,
+            width / 2,
+            height / 2,
             width, height,
             1f, -1f,
-            (float) (MathUtils.radiansToDegrees * bp.rotation));
+            (float) (MathUtils.radiansToDegrees * rotation));
    }
 
    public static void drawText(SpriteBatch batch, MyColor color, BitmapFont font, String text, int x, int y) {

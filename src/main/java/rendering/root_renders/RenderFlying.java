@@ -72,7 +72,7 @@ public class RenderFlying extends Singleton implements Render {
    private void drawHitboxes(SpriteBatch sb) {
       if (Testing.drawHitboxes) {
          for (Rectangle2D.Float hitbox : flying.getAllHitboxes()) {
-            DrawUtils.fillRect(sb, MyColor.RED,
+            DrawUtils.drawRect(sb, MyColor.RED,
                   (int) hitbox.x,
                   (int) hitbox.y,
                   (int) hitbox.width,

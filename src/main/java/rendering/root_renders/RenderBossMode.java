@@ -88,7 +88,7 @@ public class RenderBossMode extends Singleton implements Render {
 
    private void drawHitboxes(SpriteBatch sb) {
       for (Rectangle2D.Float hitbox : bossMode.getAllNonRotatedHitboxes()) {
-         DrawUtils.fillRect(sb, MyColor.RED,
+         DrawUtils.drawRect(sb, MyColor.RED,
                (int) hitbox.x,
                (int) hitbox.y,
                (int) hitbox.width,

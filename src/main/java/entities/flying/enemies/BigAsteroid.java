@@ -23,7 +23,6 @@ public class BigAsteroid extends BaseEnemy {
       startY = hitbox.y;
       startX = hitbox.x;
       this.info = info;
-      this.IDLE = 0;
       // Extract x- and y-Speed.
       this.extractXandYSpeed(shootInterval, direction);
       this.curXSpeed = startXSpeed;

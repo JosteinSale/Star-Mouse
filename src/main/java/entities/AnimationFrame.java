@@ -4,13 +4,16 @@ package entities;
  * Contains a row and column index, corresponding to a specific frame in a
  * sprite sheet.
  * 
- * Note: in this object, 'row' = 'action'. This is because an entity's
- * animation row corresponds to its action/state.
- * Also: in this object, 'col' = 'frame'. The spritesheet column
+ * Note: in this object, 'row' is equivalent to 'action'.
+ * This is because an entity's action/state corresponds to its row in the sprite
+ * sheet. For example, row 0 might be the idle animation, row 1 might be the
+ * taking damage animation, etc.
+ * 
+ * Also: in this object, 'col' is equivalent to 'frame'. The spritesheet column
  * corresponds to a current frame in an action's animation.
  * 
- * Sometimes it can be more intuitive to use get/setAction instead of
- * get/setRow, and get/setFrame instead of get/setCol.
+ * Depending on the context, it can be more intuitive to use get/setAction
+ * instead of get/setRow, and get/setFrame instead of get/setCol.
  */
 public class AnimationFrame {
    private int row; // = entity action
@@ -36,7 +39,7 @@ public class AnimationFrame {
       return col;
    }
 
-   /** Does the same as getCol */
+   /** Does the same as setCol */
    public void setFrame(int frame) {
       this.col = frame;
    }

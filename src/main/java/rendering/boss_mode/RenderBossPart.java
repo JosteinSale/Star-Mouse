@@ -27,7 +27,10 @@ public class RenderBossPart {
       if (!bp.isVisible) {
          return;
       } else {
-         DrawUtils.drawRotatedBossPart(sb, bp, animation);
+         int aniRow = bp.animation.getCurrentAniRow();
+         int aniIndex = bp.animation.aniIndex;
+         MySubImage img = animation[aniRow][aniIndex];
+         DrawUtils.drawRotatedImage(sb, bp.getNonRotatedHitbox(), 1, bp.rotation, img);
       }
    }
 }

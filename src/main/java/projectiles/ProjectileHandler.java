@@ -11,6 +11,7 @@ import entities.flying.ShootingPlayer;
 import entities.flying.enemies.Enemy;
 import entities.flying.enemies.EnemyManager;
 import main_classes.Game;
+import utils.Constants.Audio;
 import utils.Singleton;
 import inputs.Inputs;
 
@@ -274,7 +275,7 @@ public class ProjectileHandler extends Singleton {
          if (enemy.isDead()) {
             continue;
          }
-         if (p.getHitbox().intersects(enemy.getMainHitbox())) {
+         if (projectileIntersectsEnemy(p, enemy)) {
             p.setActive(false);
             enemy.takeDamage(p.getDamage());
             // The enemy just took damage, so might be dead now
@@ -288,10 +289,19 @@ public class ProjectileHandler extends Singleton {
       return false;
    }
 
+   protected boolean projectileIntersectsEnemy(Projectile p, Enemy enemy) {
+      for (Rectangle2D.Float hitbox : enemy.getAllHitboxes()) {
+         if (p.getHitbox().intersects(hitbox)) {
+            return true;
+         }
+      }
+      return false;
+   }
+
    protected void handleBombCollision(Projectile p, float yLevelOffset, float xLevelOffset) {
       // 1. Checks collision with enemy
       for (Enemy enemy : enemyManager.getActiveEnemiesOnScreen()) {
-         if (p.getHitbox().intersects(enemy.getMainHitbox())) {
+         if (projectileIntersectsEnemy(p, enemy)) {
             p.setActive(false);
             addBombExplosion(p.getHitbox());
             audioPlayer.playSFX(Audio.SFX_BIG_EXPLOSION);

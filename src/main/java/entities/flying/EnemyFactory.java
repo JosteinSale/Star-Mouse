@@ -72,99 +72,85 @@ public class EnemyFactory {
       enemyInfo.put(TARGET, new EntityInfo(
             TARGET,
             Images.TARGET_SPRITE, 20, 20, 2, 1,
-            60, 60, 0, 0,
-            1, 0));
+            60, 60, 0, 0));
 
       // DRONE
       enemyInfo.put(DRONE, new EntityInfo(
             DRONE,
             Images.DRONE_SPRITE, 30, 30, 2, 1,
-            78, 66, 4, 10,
-            1, 0));
+            78, 66, 0, 0));
 
       // SMALLSHIP
       enemyInfo.put(SMALLSHIP, new EntityInfo(
             SMALLSHIP,
             Images.SMALLSHIP_SPRITE, 30, 30, 2, 1,
-            60, 30, 16, 30,
-            1, 0));
+            60, 30, 0, 0));
 
       // OCTADRONE
       enemyInfo.put(OCTADRONE, new EntityInfo(
             OCTADRONE,
             Images.OCTADRONE_SPRITE, 30, 30, 2, 1,
-            80, 80, 5, 5,
-            1, 0));
+            80, 80, 0, 0));
 
       // TANKDRONE
       enemyInfo.put(TANKDRONE, new EntityInfo(
             TANKDRONE,
             Images.TANKDRONE_SPRITE, 30, 30, 2, 4,
-            80, 90, 5, 0,
-            1, 0));
+            80, 90, 0, 0));
 
       // BLASTERDRONE
       enemyInfo.put(BLASTERDRONE, new EntityInfo(
             BLASTERDRONE,
             Images.BLASTERDRONE_SPRITE, 30, 30, 2, 1,
-            60, 90, 15, 0,
-            1, 0));
+            60, 90, 0, 0));
 
       // REAPERDRONE
       enemyInfo.put(REAPERDRONE, new EntityInfo(
             REAPERDRONE,
             Images.REAPERDRONE_SPRITE, 210, 80, 2, 1,
-            510, 150, 60, 45,
-            1, 0));
+            510, 150, 0, 0));
 
       // FLAMEDRONE
       enemyInfo.put(FLAMEDRONE, new EntityInfo(
             FLAMEDRONE,
             Images.FLAMEDRONE_SPRITE, 132, 128, 2, 1,
-            120, 120, 138, 30,
-            1, 0));
+            120, 120, 0, 0));
 
       // WASPDRONE
       enemyInfo.put(WASPDRONE, new EntityInfo(
             WASPDRONE,
             Images.WASPDRONE_SPRITE, 40, 40, 2, 1,
-            90, 90, 15, 15,
-            1, 0));
+            90, 90, 0, 0));
 
       // KAMIKAZEDRONE
       enemyInfo.put(KAMIKAZEDRONE, new EntityInfo(
             KAMIKAZEDRONE,
             Images.KAMIKAZEDRONE_SPRITE, 30, 30, 2, 2,
-            75, 75, 8, 8,
-            1, 0));
+            75, 75, 0, 0));
 
       // SMALL_ASTEROID
       enemyInfo.put(SMALL_ASTEROID, new EntityInfo(
             SMALL_ASTEROID,
             Images.SMALL_ASTEROID_SPRITE, 30, 30, 8, 1,
-            75, 75, 8, 8,
-            6, 0));
+            75, 75, 0, 0));
 
       // BIG_ASTEROID
       enemyInfo.put(BIG_ASTEROID, new EntityInfo(
             BIG_ASTEROID,
             Images.BIG_ASTEROID_SPRITE, 90, 90, 1, 1,
-            220, 220, 25, 25,
-            0, 0));
+            220, 220, 0, 0));
 
       // BURNING_FRAGMENT
       enemyInfo.put(BURNING_FRAGMENT, new EntityInfo(
             BURNING_FRAGMENT,
-            Images.BURNING_FRAGMENT_SPRITE, 50, 100, 2, 8,
-            75, 75, 35, 210,
-            0, 0));
+            Images.BURNING_FRAGMENT_SPRITE, 50, 163, 2, 8,
+            75, 75, 0, 0));
 
       // CENTIPEDE
       enemyInfo.put(CENTIPEDE, new EntityInfo(
             CENTIPEDE,
             Images.CENTIPEDE_SPRITE, 80, 50, 2, 1,
-            81, 66, 80, 40,
-            0, 0));
+            81, 66, 0, 0));
    }
 
    /**

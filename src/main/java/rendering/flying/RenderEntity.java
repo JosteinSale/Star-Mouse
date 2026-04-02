@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import entities.flying.EnemyFactory;
-import entities.flying.EntityInfo;
 import entities.flying.enemies.Enemy;
 import entities.flying.enemies.EnemyManager;
 import entities.flying.enemies.FlameDrone;
@@ -69,36 +68,19 @@ public class RenderEntity {
    private void drawPickupItems(SpriteBatch sb) {
       for (PickupItem p : pickupItems) {
          if (p.isActive()) {
-            EntityInfo info = p.getDrawInfo();
             rGlow.drawStaticGlow(sb, p.getGlow());
-            DrawUtils.drawSubImage(
-                  sb, entityImgs.getImageFor(
-                        info.typeConstant, 0, p.getAniIndex()),
-                  (int) (p.getHitbox().x - info.drawOffsetX),
-                  (int) (p.getHitbox().y - info.drawOffsetY),
-                  info.spriteW * 3,
-                  info.spriteH * 3);
+            MySubImage img = entityImgs.getImageFor(p.getType(), 0, p.getAniIndex());
+            DrawUtils.drawRotatedImage(sb, p.getHitbox(), 1, 0.0, img);
          }
       }
    }
 
    private void drawEnemy(Enemy enemy, SpriteBatch sb) {
-      EntityInfo eInfo = enemy.getInfo();
-      int drawXOffset = eInfo.drawOffsetX;
-      int dir = enemy.getDir();
-      if (dir == Enemy.LEFT) {
-         drawXOffset -= 3 * eInfo.spriteW;
-      }
       // TODO - loop through all animation frames instead of just using the first one
-      int row = enemy.getAnimationFrames().get(0).getRow();
-      int col = enemy.getAnimationFrames().get(0).getCol();
-      DrawUtils.drawSubImage(
-            sb, entityImgs.getImageFor(
-                  eInfo.typeConstant, row, col),
-            (int) (enemy.getMainHitbox().x - drawXOffset),
-            (int) (enemy.getMainHitbox().y - eInfo.drawOffsetY),
-            eInfo.spriteW * 3 * dir,
-            eInfo.spriteH * 3);
+      int aniRow = enemy.getAnimationFrames().get(0).getRow();
+      int aniIndex = enemy.getAnimationFrames().get(0).getCol();
+      MySubImage img = entityImgs.getImageFor(enemy.getType(), aniRow, aniIndex);
+      DrawUtils.drawRotatedImage(sb, enemy.getMainHitbox(), enemy.getDir(), enemy.getRotation(), img);
       // Glow
       if (enemy.hasGlow()) {
          rGlow.drawAnimatedGlow(sb, enemy.getGlow());

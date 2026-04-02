@@ -194,14 +194,14 @@ public class PlayerBoss extends PlayerFly {
       planeAction = IDLE;
    }
 
-   // Methods we don't use will do nothing / return false.
+   // ----- Methods we don't use will do nothing / return false. -----
    @Override
-   public boolean checkAndHandleCollisionWithEnemy(Rectangle2D.Float enemyHitbox) {
+   public boolean checkAndHandleCollisionWithEnemy(ArrayList<Rectangle2D.Float> hitboxesForEnemy) {
       return false;
    }
 
    @Override
-   public boolean teleportHitsEnemy(Rectangle2D.Float enemyHitbox) {
+   public boolean teleportHitsEnemy(ArrayList<Rectangle2D.Float> hitboxesForEnemy) {
       return false;
    }
 

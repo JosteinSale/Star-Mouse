@@ -101,7 +101,7 @@ public class RenderArea implements Render {
 
    private void drawHitboxes(SpriteBatch sb, int xLevelOffset, int yLevelOffset) {
       for (Rectangle2D.Float hitbox : area.getAllHitboxes()) {
-         DrawUtils.fillRect(sb, MyColor.RED,
+         DrawUtils.drawRect(sb, MyColor.RED,
                (int) (hitbox.x - xLevelOffset),
                (int) (hitbox.y - yLevelOffset),
                (int) hitbox.width,

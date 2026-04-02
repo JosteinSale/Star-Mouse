@@ -17,8 +17,6 @@ public class BurningFragment extends BaseEnemy {
       maxHP = 30;
       HP = maxHP;
       aniTickPerFrame = 4;
-      IDLE = 0;
-      TAKING_DAMAGE = 1;
       this.extractYSpeed(shootInterval);
    }
 

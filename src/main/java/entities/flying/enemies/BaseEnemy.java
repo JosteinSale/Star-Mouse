@@ -1,5 +1,6 @@
 package entities.flying.enemies;
 
+import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -139,7 +140,7 @@ public abstract class BaseEnemy extends Entity implements Enemy {
 
    @Override
    public void takeDamage(int damage) {
-      animation.setCol(0);
+      animation.setFrame(0);
       this.HP -= damage;
       animation.setAction(TAKING_DAMAGE);
       damageTick = 4;
@@ -223,5 +224,4 @@ public abstract class BaseEnemy extends Entity implements Enemy {
    public double getRotation() {
       return 0.0;
    }
-
 }

@@ -159,7 +159,7 @@ public class LevelEditor extends State {
    }
 
    public void mouseMoved(int mouseX, int mouseY) {
-      // Adjust input x and y to correspond to the currentgame scale
+      // Adjust input x and y to correspond to the current game scale
       float scale = Game.GAME_DEFAULT_HEIGHT / (float) Gdx.graphics.getHeight();
       int x = (int) (mouseX * scale);
       int y = (int) (mouseY * scale);
@@ -239,8 +239,8 @@ public class LevelEditor extends State {
       EntityInfo info = getEntityInfo(typeConstant);
       if (calledFromEditor) {
          // Adjusting x and y to represent hitbox.x- and -y
-         x += info.drawOffsetX;
-         y += info.drawOffsetY;
+         x -= info.hitboxW / 2;
+         y -= info.hitboxH / 2;
       }
       Rectangle hitbox = new Rectangle(x, y, info.hitboxW, info.hitboxH);
 

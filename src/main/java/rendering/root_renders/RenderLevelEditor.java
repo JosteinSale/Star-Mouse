@@ -3,6 +3,7 @@ package rendering.root_renders;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 
 import entities.flying.EntityInfo;
 import game_states.LevelEditor;
@@ -87,21 +88,14 @@ public class RenderLevelEditor extends Singleton {
 
          // Image
          int flipX = le.flipXs.get(i);
-         int xDrawOffset = info.drawOffsetX;
-         int yDrawOffset = info.drawOffsetY;
-         int spriteW = info.spriteW;
-         int spriteH = info.spriteH;
-         if (flipX == -1) {
-            xDrawOffset -= 3 * spriteW;
-         }
          MySubImage img = entityImages.getImageFor(
                info.typeConstant, info.editorImgRow, info.editorImgCol);
-         DrawUtils.drawSubImage(
-               sb, img,
-               hbX - xDrawOffset,
-               hbY - yDrawOffset,
-               spriteW * 3 * flipX,
-               spriteH * 3);
+         Rectangle2D.Float adjustedHitbox = new Rectangle2D.Float(
+               (float) hitbox.getX() + le.editorXOffset,
+               (float) hitbox.getY() + le.getEditorY(),
+               (float) hitbox.getWidth(),
+               (float) hitbox.getHeight());
+         DrawUtils.drawRotatedImage(sb, adjustedHitbox, flipX, 0.0, img);
       }
    }
 
@@ -109,9 +103,13 @@ public class RenderLevelEditor extends Singleton {
       EntityInfo info = le.getEntityInfo(le.selectedEntity);
       MySubImage img = entityImages.getImageFor(
             info.typeConstant, info.editorImgRow, info.editorImgCol);
+      int width = info.spriteW * 3;
+      int height = info.spriteH * 3;
+      int x = le.cursorX - (width / 2);
+      int y = le.cursorY - (height / 2);
       DrawUtils.drawSubImage(
             sb, img,
-            le.cursorX, le.cursorY,
-            info.spriteW * 3, info.spriteH * 3);
+            x, y,
+            width, height);
    }
 }

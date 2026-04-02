@@ -13,15 +13,12 @@ public class EntityInfo {
    public final int cols;
    public final int hitboxW;
    public final int hitboxH;
-   public final int drawOffsetX;
-   public final int drawOffsetY;
    public final int editorImgRow;
    public final int editorImgCol;
 
    public EntityInfo(int typeConstant,
          String spriteSheet, int spriteW, int spriteH, int rows, int cols,
-         int hitboxW, int hitboxH, int drawOffsetX, int drawOffsetY,
-         int editorImgRow, int editorImgCol) {
+         int hitboxW, int hitboxH, int editorImgRow, int editorImgCol) {
       this.typeConstant = typeConstant;
       this.spriteSheet = spriteSheet;
       this.spriteW = spriteW;
@@ -30,8 +27,6 @@ public class EntityInfo {
       this.cols = cols;
       this.hitboxW = hitboxW;
       this.hitboxH = hitboxH;
-      this.drawOffsetX = drawOffsetX;
-      this.drawOffsetY = drawOffsetY;
       this.editorImgRow = editorImgRow;
       this.editorImgCol = editorImgCol;
    }

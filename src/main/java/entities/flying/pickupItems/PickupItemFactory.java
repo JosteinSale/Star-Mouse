@@ -38,29 +38,25 @@ public class PickupItemFactory {
       pickupInfo.put(DELETE, new EntityInfo(
             DELETE,
             Images.DELETE_SPRITE, 28, 30, 1, 1,
-            90, 90, 0, 0,
-            0, 0));
+            90, 90, 0, 0));
 
       // POWERUP
       pickupInfo.put(POWERUP, new EntityInfo(
             POWERUP,
             Images.POWERUP_SPRITE, 30, 30, 1, 7,
-            30, 50, 28, 20,
-            0, 0));
+            30, 50, 0, 0));
 
       // REPAIR
       pickupInfo.put(REPAIR, new EntityInfo(
             REPAIR,
             Images.REPAIR_SPRITE, 30, 30, 1, 4,
-            60, 60, 15, 15,
-            0, 0));
+            60, 60, 0, 0));
 
       // BOMB
       pickupInfo.put(BOMB, new EntityInfo(
             BOMB,
             Images.BOMB_PICKUP_SPRITE, 25, 25, 1, 2,
-            45, 45, 15, 18,
-            0, 0));
+            45, 45, 0, 0));
    }
 
    /** Call the check if the given string is associated with a pickupItem */
