@@ -113,7 +113,7 @@ public class ProjectileHandler extends Singleton {
    private void checkEnemeyShoot() {
       for (Enemy enemy : enemyManager.getActiveEnemiesOnScreen()) {
          if (enemy.canShoot()) {
-            addEnemeyProjectile(enemy.getType(), enemy.getHitbox(), enemy.getDir());
+            addEnemeyProjectile(enemy.getType(), enemy.getMainHitbox(), enemy.getDir());
             enemy.onShoot();
          }
       }
@@ -274,7 +274,7 @@ public class ProjectileHandler extends Singleton {
          if (enemy.isDead()) {
             continue;
          }
-         if (p.getHitbox().intersects(enemy.getHitbox())) {
+         if (p.getHitbox().intersects(enemy.getMainHitbox())) {
             p.setActive(false);
             enemy.takeDamage(p.getDamage());
             // The enemy just took damage, so might be dead now
@@ -291,7 +291,7 @@ public class ProjectileHandler extends Singleton {
    protected void handleBombCollision(Projectile p, float yLevelOffset, float xLevelOffset) {
       // 1. Checks collision with enemy
       for (Enemy enemy : enemyManager.getActiveEnemiesOnScreen()) {
-         if (p.getHitbox().intersects(enemy.getHitbox())) {
+         if (p.getHitbox().intersects(enemy.getMainHitbox())) {
             p.setActive(false);
             addBombExplosion(p.getHitbox());
             audioPlayer.playSFX(Audio.SFX_BIG_EXPLOSION);
@@ -339,7 +339,7 @@ public class ProjectileHandler extends Singleton {
       for (Enemy enemy : enemyManager.getActiveEnemiesOnScreen()) {
          enemy.takeDamage(explosionDamage);
          if (enemy.isDead()) {
-            enemyManager.addSmallExplosion(enemy.getHitbox());
+            enemyManager.addSmallExplosion(enemy.getMainHitbox());
             enemyManager.increaseKilledEnemies(enemy.getType());
          }
       }

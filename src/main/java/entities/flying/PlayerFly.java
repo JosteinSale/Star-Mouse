@@ -322,7 +322,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       else {
          ArrayList<Enemy> bigEnemies = game.getFlying().getBigEnemies();
          for (Enemy e : bigEnemies) {
-            if (hitbox.intersects(e.getHitbox())) {
+            if (hitbox.intersects(e.getMainHitbox())) {
                handleTeleportCollisionWithBigEnemy(e, yLevelOffset, xLevelOffset);
             }
          }
@@ -335,7 +335,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
     */
    private void handleTeleportCollisionWithBigEnemy(Enemy e, float yLevelOffset, float xLevelOffset) {
       this.planeAction = TAKING_COLLISION_DAMAGE;
-      while (e.getHitbox().intersects(hitbox)) {
+      while (e.getMainHitbox().intersects(hitbox)) {
          int xMove = -(teleportDistance / 10 * flipX);
          adjustPos(xMove, 0);
       }

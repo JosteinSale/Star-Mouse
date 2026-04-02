@@ -9,15 +9,4 @@ public class Centipede extends BaseEnemy {
    public Centipede(Rectangle2D.Float hitbox, EntityInfo info, int startTimer) {
       super(hitbox, info, startTimer, null);
    }
-
-   @Override
-   public int getAction() {
-      return 0;
-   }
-
-   @Override
-   public int getAniIndex() {
-      return 0;
-   }
-
 }

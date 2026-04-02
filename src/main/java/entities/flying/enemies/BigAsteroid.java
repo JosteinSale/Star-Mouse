@@ -23,6 +23,7 @@ public class BigAsteroid extends BaseEnemy {
       startY = hitbox.y;
       startX = hitbox.x;
       this.info = info;
+      this.IDLE = 0;
       // Extract x- and y-Speed.
       this.extractXandYSpeed(shootInterval, direction);
       this.curXSpeed = startXSpeed;
@@ -101,15 +102,4 @@ public class BigAsteroid extends BaseEnemy {
       curYSpeed = startYSpeed;
       onScreen = false;
    }
-
-   @Override
-   public int getAction() {
-      return 0; // Only one action
-   }
-
-   @Override
-   public int getAniIndex() {
-      return 0; // Only one image in animation
-   }
-
 }

@@ -58,8 +58,8 @@ public class KamikazeDrone extends BaseEnemy {
    }
 
    @Override
-   protected int getSpriteAmount() {
-      if (action == IDLE) {
+   protected int amountOfFrames() {
+      if (animation.getAction() == IDLE) {
          return 2;
       } else {
          return 1;

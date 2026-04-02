@@ -41,7 +41,7 @@ public class FlameDrone extends BaseEnemy {
    @Override
    public boolean canShoot() {
       if (shootTick == shootStarts) {
-         action = IDLE;
+         animation.setAction(IDLE);
          return true;
       }
       return false;

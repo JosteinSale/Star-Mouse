@@ -1,8 +1,10 @@
 package entities.flying.enemies;
 
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import entities.flying.EntityInfo;
+import entities.AnimationFrame;
 import entities.flying.AnimatedGlow;
 
 public interface Enemy {
@@ -26,7 +28,16 @@ public interface Enemy {
     */
    public void update(float levelYSpeed);
 
-   public Rectangle2D.Float getHitbox();
+   /**
+    * Returns the main hitbox of the enemy, which is considered the
+    * 'anchor' or the 'head' of the enemy.
+    */
+   public Rectangle2D.Float getMainHitbox();
+
+   /**
+    * Returns all hitboxes of the enemy, including the main hitbox.
+    */
+   public ArrayList<Rectangle2D.Float> getAllHitboxes();
 
    public int getType();
 
@@ -66,11 +77,12 @@ public interface Enemy {
    /** Is used for drawing */
    public EntityInfo getInfo();
 
-   /** Returns the enemy's current action (IDLE, TAKING_DAMAGE...) */
-   public int getAction();
-
-   /** Returns the current animation index in the spritesheet of the enemy */
-   public int getAniIndex();
+   /**
+    * Returns the current animation row and column in the spritesheet, for each
+    * hitbox. The order of elements in the list should be the same as the order of
+    * hitboxes returned by getAllHitboxes.
+    */
+   public ArrayList<AnimationFrame> getAnimationFrames();
 
    /**
     * Called when the enemy shoots a projectile. Can activate enemy-specific
@@ -81,4 +93,6 @@ public interface Enemy {
    public boolean hasGlow();
 
    public AnimatedGlow getGlow();
+
+   public double getRotation();
 }

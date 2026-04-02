@@ -3,6 +3,7 @@ package entities.flying.enemies;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
+import entities.AnimationFrame;
 import entities.flying.EntityInfo;
 
 /**
@@ -16,7 +17,6 @@ import entities.flying.EntityInfo;
  * If it makes contact with player, it explodes.
  */
 public class SmallAsteroid extends BaseEnemy {
-   private int VARIANT_INDEX; // Each asteroid will be randomized to look like 1 of 4 variant
    private int xSpeed;
    private int ySpeed;
 
@@ -27,7 +27,11 @@ public class SmallAsteroid extends BaseEnemy {
 
       // Randomize the look of the asteroid into 1 of 4 variants.
       Random rand = new Random();
-      this.VARIANT_INDEX = rand.nextInt(4);
+      int variantIndex = rand.nextInt(4);
+      this.IDLE = IDLE + (variantIndex * 2);
+      this.TAKING_DAMAGE = TAKING_DAMAGE + (variantIndex * 2);
+      this.allAnimations.clear();
+      this.allAnimations.add(new AnimationFrame(IDLE, 0));
 
       // Extract x- and y-Speed.
       this.extractXandYSpeed(shootInterval, direction);
@@ -66,10 +70,5 @@ public class SmallAsteroid extends BaseEnemy {
    public void onCollision(int damage) {
       // The asteroid explodes immediately upon colliding with the player.
       dead = true;
-   }
-
-   @Override
-   public int getAction() {
-      return action + (VARIANT_INDEX * 2);
    }
 }

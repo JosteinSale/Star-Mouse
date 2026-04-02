@@ -63,7 +63,7 @@ public class Images extends Singleton {
    public static final String PLAYER_PROJECTILE_BLUE = "projectile_player1.png";
    public static final String PLAYER_PROJECTILE_GREEN = "projectile_player2.png";
    public static final String DRONE_PROJECTILE = "projectile_drone.png";
-   public static final String OCTADRONE_PROJECTILE = "projectile_octadrone.png";
+   public static final String OCTADRONE_PROJECTILE = "projectile_octaDrone.png";
    public static final String REAPERDRONE_PROJECTILE = "projectile_reaper.png";
    public static final String PROJECTILE_HIT = "sprites_projectileHit.png";
    public static final String EXPLOSION = "sprites_explosion.png";

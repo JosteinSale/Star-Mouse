@@ -60,9 +60,9 @@ public class EnemyManager {
          enemy.update(levelYSpeed);
          if (enemy.isOnScreen() && !enemy.isDead()) {
             activeEnemiesOnScreen.add(enemy);
-            if (player.teleportHitsEnemy(enemy.getHitbox()) && enemy.isSmall()) {
+            if (player.teleportHitsEnemy(enemy.getMainHitbox()) && enemy.isSmall()) {
                enemy.takeDamage(teleportDmg);
-            } else if (player.checkAndHandleCollisionWithEnemy(enemy.getHitbox())) {
+            } else if (player.checkAndHandleCollisionWithEnemy(enemy.getMainHitbox())) {
                enemy.onCollision(collisionDmg);
             }
             if (enemy.isDead()) {
@@ -82,9 +82,9 @@ public class EnemyManager {
       audioPlayer.playSFX(Audio.SFX_SMALL_EXPLOSION);
       increaseKilledEnemies(enemy.getType());
       if (enemy.isSmall()) {
-         this.addSmallExplosion(enemy.getHitbox());
+         this.addSmallExplosion(enemy.getMainHitbox());
       } else {
-         this.addBigExplosion(enemy.getHitbox());
+         this.addBigExplosion(enemy.getMainHitbox());
       }
    }
 
@@ -164,7 +164,7 @@ public class EnemyManager {
    /** Is used with the 'startAt()'-method */
    public void moveAllEnemies(int yOffset) {
       for (Enemy enemy : allEnemies) {
-         enemy.getHitbox().y -= yOffset;
+         enemy.getMainHitbox().y -= yOffset;
       }
    }
 

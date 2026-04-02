@@ -45,7 +45,7 @@ public class BurningFragment extends BaseEnemy {
    }
 
    @Override
-   protected int getSpriteAmount() {
+   protected int amountOfFrames() {
       return 8;
    }
 

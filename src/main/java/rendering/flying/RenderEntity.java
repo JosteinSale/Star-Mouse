@@ -89,11 +89,14 @@ public class RenderEntity {
       if (dir == Enemy.LEFT) {
          drawXOffset -= 3 * eInfo.spriteW;
       }
+      // TODO - loop through all animation frames instead of just using the first one
+      int row = enemy.getAnimationFrames().get(0).getRow();
+      int col = enemy.getAnimationFrames().get(0).getCol();
       DrawUtils.drawSubImage(
             sb, entityImgs.getImageFor(
-                  eInfo.typeConstant, enemy.getAction(), enemy.getAniIndex()),
-            (int) (enemy.getHitbox().x - drawXOffset),
-            (int) (enemy.getHitbox().y - eInfo.drawOffsetY),
+                  eInfo.typeConstant, row, col),
+            (int) (enemy.getMainHitbox().x - drawXOffset),
+            (int) (enemy.getMainHitbox().y - eInfo.drawOffsetY),
             eInfo.spriteW * 3 * dir,
             eInfo.spriteH * 3);
       // Glow

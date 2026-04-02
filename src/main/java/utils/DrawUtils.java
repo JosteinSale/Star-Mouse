@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 
 import entities.boss_mode.DefaultBossPart;
+import entities.flying.enemies.Enemy;
 import main_classes.Game;
 import rendering.MyColor;
 import rendering.MyImage;
