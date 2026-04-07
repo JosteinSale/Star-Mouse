@@ -2,11 +2,102 @@ package entities.flying.enemies;
 
 import java.awt.geom.Rectangle2D;
 
+import entities.AnimationFrame;
 import entities.flying.EntityInfo;
 
 public class Centipede extends BaseEnemy {
+   private final int nrOfMiddleSegments = 6;
+   private final int distanceBetweenSegments = 80;
+   private final int attackPhaseDuration = 300;
+   private int attackPhaseTick = 0;
 
    public Centipede(Rectangle2D.Float hitbox, EntityInfo info, int startTimer) {
       super(hitbox, info, startTimer, null);
+      constructHitboxes();
+      constructAnimations();
    }
+
+   private void constructHitboxes() {
+      allHitboxes.clear();
+      // 1. Head
+      allHitboxes.add(hitbox);
+      // 2. Middle segment
+      for (int i = 1; i == nrOfMiddleSegments; i++) {
+         Rectangle2D.Float middleHitbox = new Rectangle2D.Float(
+               hitbox.x,
+               hitbox.y + (i * distanceBetweenSegments), // TODO - Make getX and getY method based on vector
+               hitbox.width,
+               hitbox.height);
+         allHitboxes.add(middleHitbox);
+         System.out.println(middleHitbox.y);
+      }
+      // 3. Tail
+      Rectangle2D.Float tailHitbox = new Rectangle2D.Float(
+            hitbox.x,
+            hitbox.y + ((nrOfMiddleSegments + 1) * distanceBetweenSegments), // TODO - Use getX and getY method
+            hitbox.width,
+            hitbox.height);
+      allHitboxes.add(tailHitbox);
+   }
+
+   private void constructAnimations() {
+      allAnimations.clear();
+      // 1. Head
+      allAnimations.add(animation);
+      // 2. Mmiddle segment
+      for (int i = 0; i < nrOfMiddleSegments; i++) {
+         AnimationFrame middleAnimation = new AnimationFrame(1, i);
+         allAnimations.add(middleAnimation);
+      }
+      // 3. Tail
+      AnimationFrame tailAnimation = new AnimationFrame(2, 0);
+      allAnimations.add(tailAnimation);
+   }
+
+   @Override
+   public boolean isOnScreen() {
+      return onScreen && attackPhaseActive();
+   }
+
+   private boolean attackPhaseActive() {
+      return attackPhaseTick > 1 && attackPhaseTick <= attackPhaseDuration;
+   }
+
+   @Override
+   protected void updateAniTick() {
+      // TODO - Update aniticks for each component
+
+   }
+
+   @Override
+   protected void updateCustomBehavior(float levelYSpeed) {
+      if (chargeTick >= chargeDone) {
+         attackPhaseTick++;
+         // TODO - Move hitboxes based on movement vector
+      }
+   }
+
+   @Override
+   protected void resetCustomVars() {
+      attackPhaseTick = 0;
+      constructHitboxes();
+   }
+
+   @Override
+   protected int amountOfFrames() {
+      return 8;
+   }
+
+   @Override
+   public double getRotation() {
+      // TODO - return rotation based on movement vector
+      return 0.0;
+   }
+
+   @Override
+   public boolean isSmall() {
+      // TODO - check if teleport killing works. If not -> big enemy
+      return true;
+   }
+
 }

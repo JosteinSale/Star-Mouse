@@ -33,7 +33,7 @@ public class EntityImages {
       }
    }
 
-   public MySubImage getImageFor(int enemyType, int aniAction, int aniIndex) {
-      return animations.get(enemyType)[aniAction][aniIndex];
+   public MySubImage getImageFor(int enemyType, int row, int col) {
+      return animations.get(enemyType)[row][col];
    }
 }

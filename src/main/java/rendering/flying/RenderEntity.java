@@ -1,8 +1,10 @@
 package rendering.flying;
 
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import entities.AnimationFrame;
 import entities.flying.EnemyFactory;
 import entities.flying.enemies.Enemy;
 import entities.flying.enemies.EnemyManager;
@@ -76,11 +78,13 @@ public class RenderEntity {
    }
 
    private void drawEnemy(Enemy enemy, SpriteBatch sb) {
-      // TODO - loop through all animation frames instead of just using the first one
-      int aniRow = enemy.getAnimationFrames().get(0).getRow();
-      int aniIndex = enemy.getAnimationFrames().get(0).getCol();
-      MySubImage img = entityImgs.getImageFor(enemy.getType(), aniRow, aniIndex);
-      DrawUtils.drawRotatedImage(sb, enemy.getMainHitbox(), enemy.getDir(), enemy.getRotation(), img);
+      // Enemy animations
+      ArrayList<Rectangle2D.Float> allHitboxes = enemy.getAllHitboxes();
+      for (int i = 0; i < allHitboxes.size(); i++) {
+         AnimationFrame af = enemy.getAnimationForHitbox(i);
+         MySubImage img = entityImgs.getImageFor(enemy.getType(), af.getRow(), af.getCol());
+         DrawUtils.drawRotatedImage(sb, enemy.getMainHitbox(), enemy.getDir(), enemy.getRotation(), img);
+      }
       // Glow
       if (enemy.hasGlow()) {
          rGlow.drawAnimatedGlow(sb, enemy.getGlow());

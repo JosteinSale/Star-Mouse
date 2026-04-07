@@ -40,7 +40,7 @@ public class FlameDrone extends BaseEnemy {
 
    @Override
    public boolean canShoot() {
-      if (shootTick == shootStarts) {
+      if (chargeTick == shootStarts) {
          animation.setAction(IDLE);
          return true;
       }
@@ -53,6 +53,6 @@ public class FlameDrone extends BaseEnemy {
    }
 
    public boolean isPreparingToShoot() {
-      return (shootTick >= charginStarts && shootTick < shootStarts);
+      return (chargeTick >= charginStarts && chargeTick < shootStarts);
    }
 }

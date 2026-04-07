@@ -1,6 +1,5 @@
 package entities.flying.enemies;
 
-import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -33,8 +32,8 @@ public abstract class BaseEnemy extends Entity implements Enemy {
    protected boolean dead = false;
    protected ArrayList<Rectangle2D.Float> allHitboxes; // will contain only one hitbox by default
    protected int damageTick = 0;
-   protected int shootTick = 0;
-   protected int shootInterval;
+   protected int chargeTick = 0;
+   protected int chargeDone;
 
    // Actions: correspond to a row in the spritesheet.
    protected int IDLE = 0;
@@ -46,7 +45,7 @@ public abstract class BaseEnemy extends Entity implements Enemy {
    protected int aniTick;
    protected int aniTickPerFrame = 4;
 
-   public BaseEnemy(Rectangle2D.Float hitbox, EntityInfo info, int shootInterval, AnimatedGlow glow) {
+   public BaseEnemy(Rectangle2D.Float hitbox, EntityInfo info, int chargeDone, AnimatedGlow glow) {
       super(hitbox);
       allHitboxes = new ArrayList<>();
       allHitboxes.add(hitbox);
@@ -58,7 +57,7 @@ public abstract class BaseEnemy extends Entity implements Enemy {
       this.info = info;
       startY = hitbox.y;
       startX = hitbox.x;
-      this.shootInterval = shootInterval;
+      this.chargeDone = chargeDone;
       this.glow = glow;
    }
 
@@ -78,7 +77,7 @@ public abstract class BaseEnemy extends Entity implements Enemy {
 
    @Override
    public void update(float levelYSpeed) {
-      hitbox.y += levelYSpeed;
+      allHitboxes.stream().forEach(h -> h.y += levelYSpeed);
 
       onScreen = (((hitbox.y + hitbox.height * 1.2) > 0) &&
             (hitbox.y - hitbox.height * 0.2 < Game.GAME_DEFAULT_HEIGHT));
@@ -95,6 +94,14 @@ public abstract class BaseEnemy extends Entity implements Enemy {
     * Override with custom behavior if needed
     */
    protected void updateCustomBehavior(float levelYSpeed) {
+      // Default behavior: Do nothing
+   }
+
+   /**
+    * Will be called only when the enemy is reset.
+    * Override with custom behavior if needed
+    */
+   protected void resetCustomVars() {
       // Default behavior: Do nothing
    }
 
@@ -116,11 +123,11 @@ public abstract class BaseEnemy extends Entity implements Enemy {
    }
 
    protected void updateShootTick() {
-      shootTick++;
+      chargeTick++;
    }
 
    public boolean canShoot() {
-      return shootTick == shootInterval;
+      return chargeTick == chargeDone;
    }
 
    @Override
@@ -180,12 +187,13 @@ public abstract class BaseEnemy extends Entity implements Enemy {
       if (glow != null)
          glow.reset();
       animation.setAction(IDLE);
+      animation.setCol(0);
       HP = maxHP;
       onScreen = false;
       dead = false;
       aniTick = 0;
-      animation.setCol(0);
-      shootTick = 0;
+      chargeTick = 0;
+      resetCustomVars();
    }
 
    @Override
@@ -199,15 +207,15 @@ public abstract class BaseEnemy extends Entity implements Enemy {
    }
 
    @Override
-   public ArrayList<AnimationFrame> getAnimationFrames() {
-      return allAnimations;
+   public AnimationFrame getAnimationForHitbox(int hitboxNr) {
+      return allAnimations.get(hitboxNr);
    }
 
    @Override
    public void onShoot() {
       if (glow != null)
          glow.start();
-      this.shootTick = 0;
+      this.chargeTick = 0;
    }
 
    @Override

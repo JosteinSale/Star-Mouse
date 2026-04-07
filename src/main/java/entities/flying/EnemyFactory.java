@@ -149,7 +149,7 @@ public class EnemyFactory {
       // CENTIPEDE
       enemyInfo.put(CENTIPEDE, new EntityInfo(
             CENTIPEDE,
-            Images.CENTIPEDE_SPRITE, 80, 50, 2, 1,
+            Images.CENTIPEDE_SPRITE, 100, 50, 3, 8,
             81, 66, 0, 0));
    }
 

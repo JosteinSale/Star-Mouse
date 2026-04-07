@@ -29,9 +29,9 @@ public class ReaperDrone extends BaseEnemy {
    @Override
    public boolean canShoot() {
       // Shoots 3 times in quick succession
-      return (shootTick == shootInterval ||
-            shootTick == (shootInterval + 20) ||
-            shootTick == (shootInterval + 40));
+      return (chargeTick == chargeDone ||
+            chargeTick == (chargeDone + 20) ||
+            chargeTick == (chargeDone + 40));
    }
 
    @Override

@@ -87,7 +87,7 @@ public class MainMenu extends State {
          case LEVEL_EDITOR:
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
             audioPlayer.stopAllLoops();
-            levelEditor.loadLevel(Testing.levelEditorLvl);
+            levelEditor.loadLevel(Testing.flyingLevel);
             Gamestate.state = Gamestate.LEVEL_EDITOR;
             return;
          case OPTIONS:

@@ -22,12 +22,9 @@ public final class Testing {
    public static final int exploringArea = 2;
 
    // Flying
-   public static final int flyingStartY = 12000;
-   public static final int flyingLevel = 2;
+   public static final int flyingStartY = 20;
+   public static final int flyingLevel = 0;
 
    // Boss Mode
    public static final int bossNr = 1;
-
-   // Level Editor
-   public static final int levelEditorLvl = 1;
 }

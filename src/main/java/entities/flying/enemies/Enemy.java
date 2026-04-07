@@ -78,11 +78,12 @@ public interface Enemy {
    public EntityInfo getInfo();
 
    /**
-    * Returns the current animation row and column in the spritesheet, for each
-    * hitbox. The order of elements in the list should be the same as the order of
-    * hitboxes returned by getAllHitboxes.
+    * Returns the current animation frame in the spritesheet, for the given
+    * hitbox number. Note: if getAllHitboxes().size() = n, then the hitboxNr
+    * should be between 0 and n-1, where 0 is the main hitbox, and n-1 is the last
+    * hitbox.
     */
-   public ArrayList<AnimationFrame> getAnimationFrames();
+   public AnimationFrame getAnimationForHitbox(int hitboxNr);
 
    /**
     * Called when the enemy shoots a projectile. Can activate enemy-specific
