@@ -83,7 +83,7 @@ public class RenderEntity {
       for (int i = 0; i < allHitboxes.size(); i++) {
          AnimationFrame af = enemy.getAnimationForHitbox(i);
          MySubImage img = entityImgs.getImageFor(enemy.getType(), af.getRow(), af.getCol());
-         DrawUtils.drawRotatedImage(sb, enemy.getMainHitbox(), enemy.getDir(), enemy.getRotation(), img);
+         DrawUtils.drawRotatedImage(sb, allHitboxes.get(i), enemy.getDir(), enemy.getRotation(), img);
       }
       // Glow
       if (enemy.hasGlow()) {

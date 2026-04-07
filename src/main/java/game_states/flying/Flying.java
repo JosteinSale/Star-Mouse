@@ -549,7 +549,7 @@ public class Flying extends State {
       ArrayList<Float> allHitboxes = new ArrayList<>();
       allHitboxes.add(player.getHitbox());
       for (Enemy enemy : enemyManager.activeEnemiesOnScreen) {
-         allHitboxes.add(enemy.getMainHitbox());
+         allHitboxes.addAll(enemy.getAllHitboxes());
       }
       for (PickupItem p : pickupItems) {
          if (p.isActive()) {

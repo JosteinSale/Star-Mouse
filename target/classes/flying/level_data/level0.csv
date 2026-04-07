@@ -9,8 +9,7 @@ automaticTrigger;0f;-13800f;10f;10f;bombs
 automaticTrigger;0f;-15300f;10f;10f;useBombsSparingly
 automaticTrigger;0f;-17100f;10f;10f;nicelyDone
 automaticTrigger;0f;-18000f;10f;10f;levelFinished
-centipede;240;-530;1;100
-centipede;570;-630;1;100
+centipede;570;-500;1;0
 target;510;-2790;1;0
 target;740;-2930;1;0
 target;670;-3560;1;0

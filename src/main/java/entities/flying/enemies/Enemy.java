@@ -96,4 +96,7 @@ public interface Enemy {
    public AnimatedGlow getGlow();
 
    public double getRotation();
+
+   /** For testing purposes */
+   public void adjustPosition(int deltaY);
 }

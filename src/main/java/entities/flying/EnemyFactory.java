@@ -178,7 +178,7 @@ public class EnemyFactory {
       float x = Float.parseFloat(lineData[1]);
       float y = Float.parseFloat(lineData[2]);
       int dir = Integer.parseInt(lineData[3]);
-      int shootTimer = Integer.parseInt(lineData[4]);
+      int chargeTimer = Integer.parseInt(lineData[4]);
 
       // Extracting necessary info
       EntityInfo info = this.enemyInfo.get(nameToTypeMap.get(name));
@@ -192,33 +192,33 @@ public class EnemyFactory {
          case TARGET:
             return new Target(hitbox, info);
          case DRONE:
-            return new Drone(hitbox, info, shootTimer);
+            return new Drone(hitbox, info, chargeTimer);
          case SMALLSHIP:
             return new SmallShip(hitbox, info, dir);
          case OCTADRONE:
-            return new OctaDrone(hitbox, info, shootTimer);
+            return new OctaDrone(hitbox, info, chargeTimer);
          case TANKDRONE:
             return new TankDrone(hitbox, info);
          case BLASTERDRONE:
             return new BlasterDrone(hitbox, info);
          case REAPERDRONE:
-            return new ReaperDrone(hitbox, info, shootTimer);
+            return new ReaperDrone(hitbox, info, chargeTimer);
          case FLAMEDRONE:
             return new FlameDrone(hitbox, info);
          case WASPDRONE:
-            return new WaspDrone(hitbox, info, dir, shootTimer);
+            return new WaspDrone(hitbox, info, dir, chargeTimer);
          case KAMIKAZEDRONE:
             KamikazeDrone kamikazeDrone = new KamikazeDrone(hitbox, info);
             kamikazeDrone.setPlayer(player);
             return kamikazeDrone;
          case SMALL_ASTEROID:
-            return new SmallAsteroid(hitbox, info, shootTimer, dir);
+            return new SmallAsteroid(hitbox, info, chargeTimer, dir);
          case BIG_ASTEROID:
-            return new BigAsteroid(hitbox, info, shootTimer, dir);
+            return new BigAsteroid(hitbox, info, chargeTimer, dir);
          case BURNING_FRAGMENT:
-            return new BurningFragment(hitbox, info, shootTimer);
+            return new BurningFragment(hitbox, info, chargeTimer);
          case CENTIPEDE:
-            return new Centipede(hitbox, info, shootTimer);
+            return new Centipede(hitbox, info, chargeTimer);
          default:
             throw new IllegalArgumentException("No enemy constructor for type " + typeConstant);
       }

@@ -162,9 +162,9 @@ public class EnemyManager {
    }
 
    /** Is used with the 'startAt()'-method */
-   public void moveAllEnemies(int yOffset) {
+   public void moveAllEnemies(int deltaY) {
       for (Enemy enemy : allEnemies) {
-         enemy.getMainHitbox().y -= yOffset;
+         enemy.adjustPosition(deltaY);
       }
    }
 

@@ -79,14 +79,18 @@ public abstract class BaseEnemy extends Entity implements Enemy {
    public void update(float levelYSpeed) {
       allHitboxes.stream().forEach(h -> h.y += levelYSpeed);
 
-      onScreen = (((hitbox.y + hitbox.height * 1.2) > 0) &&
-            (hitbox.y - hitbox.height * 0.2 < Game.GAME_DEFAULT_HEIGHT));
+      checkOnScreen(levelYSpeed);
 
       if (onScreen) {
          updateAniTick();
          updateShootTick();
          updateCustomBehavior(levelYSpeed);
       }
+   }
+
+   protected void checkOnScreen(float levelYSpeed) {
+      onScreen = (((hitbox.y + hitbox.height * 1.2) > 0) &&
+            (hitbox.y - hitbox.height * 0.2 < Game.GAME_DEFAULT_HEIGHT));
    }
 
    /**
@@ -231,5 +235,12 @@ public abstract class BaseEnemy extends Entity implements Enemy {
    @Override
    public double getRotation() {
       return 0.0;
+   }
+
+   /** Is used with the 'startAt()' method, for testing */
+   public void adjustPosition(int deltaY) {
+      for (Rectangle2D.Float hb : allHitboxes) {
+         hb.y -= deltaY;
+      }
    }
 }
