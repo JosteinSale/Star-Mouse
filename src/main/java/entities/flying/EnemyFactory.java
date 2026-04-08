@@ -2,6 +2,8 @@ package entities.flying;
 
 import java.util.HashMap;
 
+import com.badlogic.gdx.math.Vector2;
+
 import java.awt.geom.Rectangle2D;
 
 import utils.Images;
@@ -218,7 +220,7 @@ public class EnemyFactory {
          case BURNING_FRAGMENT:
             return new BurningFragment(hitbox, info, chargeTimer);
          case CENTIPEDE:
-            return new Centipede(hitbox, info, chargeTimer);
+            return new Centipede(hitbox, info, chargeTimer, new Vector2(3, -3));
          default:
             throw new IllegalArgumentException("No enemy constructor for type " + typeConstant);
       }

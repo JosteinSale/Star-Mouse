@@ -3,6 +3,8 @@ package entities.flying.enemies;
 import java.awt.geom.Rectangle2D;
 import java.util.Collections;
 
+import com.badlogic.gdx.math.Vector2;
+
 import entities.AnimationFrame;
 import entities.flying.EntityInfo;
 import main_classes.Game;
@@ -10,12 +12,33 @@ import main_classes.Game;
 public class Centipede extends BaseEnemy {
    private final int nrOfMiddleSegments = 8;
    private final int distanceBetweenSegments = 60;
-   private int attackPhaseTick = 0;
+   private final Rectangle2D.Float activeArea = new Rectangle2D.Float(
+         -200, -100, Game.GAME_DEFAULT_WIDTH + 400, Game.GAME_DEFAULT_HEIGHT + 200);
+   private Vector2 speedVector;
+   private Vector2 normalizedVector;
+   private double angle;
+   private boolean attackPhaseActive = false;
 
-   public Centipede(Rectangle2D.Float hitbox, EntityInfo info, int startTimer) {
+   public Centipede(Rectangle2D.Float hitbox, EntityInfo info, int startTimer, Vector2 directionVector) {
       super(hitbox, info, startTimer, null);
+      this.speedVector = directionVector;
+      this.normalizedVector = normalizeVector(directionVector);
+      this.angle = calculateAngle(normalizedVector);
       constructHitboxes();
       constructAnimations();
+   }
+
+   private Vector2 normalizeVector(Vector2 vector) {
+      Vector2 v = vector.cpy();
+      if (v.len() != 0) {
+         v.nor();
+      }
+      return v;
+   }
+
+   private double calculateAngle(Vector2 movementVector) {
+      // adjust by -90 degrees so sprite's native facing aligns with movement
+      return Math.atan2(movementVector.y, movementVector.x) + Math.PI / 2.0;
    }
 
    private void constructHitboxes() {
@@ -25,20 +48,32 @@ public class Centipede extends BaseEnemy {
       // 2. Middle segment
       for (int i = 1; i <= nrOfMiddleSegments; i++) {
          Rectangle2D.Float middleHitbox = new Rectangle2D.Float(
-               hitbox.x,
-               hitbox.y - (i * distanceBetweenSegments), // TODO - Make getX and getY method based on vector
+               hitbox.x + getAdjustedXOffset(i * distanceBetweenSegments),
+               hitbox.y + getAdjustedYOffset(i * distanceBetweenSegments),
                hitbox.width,
                hitbox.height);
          allHitboxes.add(middleHitbox);
       }
       // 3. Tail
       Rectangle2D.Float tailHitbox = new Rectangle2D.Float(
-            hitbox.x,
-            hitbox.y - ((nrOfMiddleSegments + 1) * distanceBetweenSegments), // TODO - Use getX and getY method
+            hitbox.x + getAdjustedXOffset((nrOfMiddleSegments + 1) * distanceBetweenSegments),
+            hitbox.y + getAdjustedYOffset((nrOfMiddleSegments + 1) * distanceBetweenSegments),
             hitbox.width,
             hitbox.height);
       allHitboxes.add(tailHitbox);
+
+      // 4. Reverse, since the head will be drawn last (on top)
       Collections.reverse(allHitboxes);
+   }
+
+   private float getAdjustedYOffset(int deltaY) {
+      // place segments behind the head along the negative movement direction
+      return (float) (-deltaY * normalizedVector.y);
+   }
+
+   private float getAdjustedXOffset(int deltaX) {
+      // place segments behind the head along the negative movement direction
+      return (float) (-deltaX * normalizedVector.x);
    }
 
    private void constructAnimations() {
@@ -53,6 +88,8 @@ public class Centipede extends BaseEnemy {
       // 3. Tail
       AnimationFrame tailAnimation = new AnimationFrame(2, 0);
       allAnimations.add(tailAnimation);
+
+      // 4. Reverse so that head is drawn last (= on top)
       Collections.reverse(allAnimations);
    }
 
@@ -62,8 +99,7 @@ public class Centipede extends BaseEnemy {
          return;
       }
       for (Rectangle2D.Float hb : allHitboxes) {
-         if (((hb.y + hb.height * 1.2) > 0) &&
-               (hb.y - hb.height * 0.2 < Game.GAME_DEFAULT_HEIGHT)) {
+         if (hb.intersects(activeArea)) {
             onScreen = true;
             return;
          }
@@ -73,11 +109,18 @@ public class Centipede extends BaseEnemy {
 
    @Override
    public boolean isOnScreen() {
-      return onScreen && attackPhaseActive();
+      return onScreen && attackPhaseActive;
    }
 
-   private boolean attackPhaseActive() {
-      return attackPhaseTick > 0;
+   @Override
+   protected void updateCustomBehavior(float levelYSpeed) {
+      if (chargeTick >= chargeDone) {
+         attackPhaseActive = true;
+         for (Rectangle2D.Float hb : allHitboxes) {
+            hb.x += speedVector.x;
+            hb.y += speedVector.y;
+         }
+      }
    }
 
    @Override
@@ -93,20 +136,11 @@ public class Centipede extends BaseEnemy {
          }
          // TODO - fix damage animation
       }
-
-   }
-
-   @Override
-   protected void updateCustomBehavior(float levelYSpeed) {
-      if (chargeTick >= chargeDone) {
-         attackPhaseTick++;
-         // TODO - Move hitboxes based on movement vector
-      }
    }
 
    @Override
    protected void resetCustomVars() {
-      attackPhaseTick = 0;
+      attackPhaseActive = false;
       constructHitboxes();
    }
 
@@ -117,14 +151,17 @@ public class Centipede extends BaseEnemy {
 
    @Override
    public double getRotation() {
-      // TODO - return rotation based on movement vector
-      return 3.14;
+      return angle;
    }
 
    @Override
    public boolean isSmall() {
-      // TODO - check if teleport killing works. If not -> big enemy
       return true;
+   }
+
+   @Override
+   public boolean canShoot() {
+      return false;
    }
 
 }

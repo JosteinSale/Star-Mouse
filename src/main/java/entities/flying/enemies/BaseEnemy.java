@@ -101,14 +101,6 @@ public abstract class BaseEnemy extends Entity implements Enemy {
       // Default behavior: Do nothing
    }
 
-   /**
-    * Will be called only when the enemy is reset.
-    * Override with custom behavior if needed
-    */
-   protected void resetCustomVars() {
-      // Default behavior: Do nothing
-   }
-
    protected void updateAniTick() {
       aniTick++;
       if (aniTick >= aniTickPerFrame) {
@@ -130,6 +122,7 @@ public abstract class BaseEnemy extends Entity implements Enemy {
       chargeTick++;
    }
 
+   @Override
    public boolean canShoot() {
       return chargeTick == chargeDone;
    }
@@ -198,6 +191,14 @@ public abstract class BaseEnemy extends Entity implements Enemy {
       aniTick = 0;
       chargeTick = 0;
       resetCustomVars();
+   }
+
+   /**
+    * Will be called only when the enemy is reset.
+    * Override with custom behavior if needed
+    */
+   protected void resetCustomVars() {
+      // Default behavior: Do nothing
    }
 
    @Override
