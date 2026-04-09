@@ -77,15 +77,17 @@ public abstract class BaseEnemy extends Entity implements Enemy {
 
    @Override
    public void update(float levelYSpeed) {
-      allHitboxes.stream().forEach(h -> h.y += levelYSpeed);
-
+      moveEnemyDown(levelYSpeed);
       checkOnScreen(levelYSpeed);
-
       if (onScreen) {
          updateAniTick();
          updateShootTick();
          updateCustomBehavior(levelYSpeed);
       }
+   }
+
+   protected void moveEnemyDown(float levelYSpeed) {
+      hitbox.y += levelYSpeed;
    }
 
    protected void checkOnScreen(float levelYSpeed) {

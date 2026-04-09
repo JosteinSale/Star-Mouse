@@ -1,6 +1,8 @@
 package entities.flying.enemies;
 
+import java.awt.Point;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.Collections;
 
 import com.badlogic.gdx.math.Vector2;
@@ -12,20 +14,29 @@ import main_classes.Game;
 public class Centipede extends BaseEnemy {
    private final int nrOfMiddleSegments = 8;
    private final int distanceBetweenSegments = 60;
-   private final Rectangle2D.Float activeArea = new Rectangle2D.Float(
+   private final Rectangle2D.Float onScreenArea = new Rectangle2D.Float(
          -200, -100, Game.GAME_DEFAULT_WIDTH + 400, Game.GAME_DEFAULT_HEIGHT + 200);
    private Vector2 speedVector;
    private Vector2 normalizedVector;
    private double angle;
    private boolean attackPhaseActive = false;
 
+   // Wiggle movement
+   private final int wiggleSpeed = 6;
+   private final int wiggleDistance = 30;
+   private double wiggleRotation;
+   private ArrayList<Point.Float> hitboxCenters;
+
    public Centipede(Rectangle2D.Float hitbox, EntityInfo info, int startTimer, Vector2 directionVector) {
       super(hitbox, info, startTimer, null);
+      this.maxHP = 150;
+      HP = maxHP;
       this.speedVector = directionVector;
       this.normalizedVector = normalizeVector(directionVector);
       this.angle = calculateAngle(normalizedVector);
       constructHitboxes();
       constructAnimations();
+      constructWiggleStuff();
    }
 
    private Vector2 normalizeVector(Vector2 vector) {
@@ -36,9 +47,9 @@ public class Centipede extends BaseEnemy {
       return v;
    }
 
-   private double calculateAngle(Vector2 movementVector) {
+   private double calculateAngle(Vector2 vector) {
       // adjust by -90 degrees so sprite's native facing aligns with movement
-      return Math.atan2(movementVector.y, movementVector.x) + Math.PI / 2.0;
+      return Math.atan2(vector.y, vector.x) + Math.PI / 2.0;
    }
 
    private void constructHitboxes() {
@@ -93,13 +104,29 @@ public class Centipede extends BaseEnemy {
       Collections.reverse(allAnimations);
    }
 
+   private void constructWiggleStuff() {
+      hitboxCenters = new ArrayList<>();
+      allHitboxes.forEach(hb -> hitboxCenters.add(
+            new Point.Float(hb.x + hb.width / 2, hb.y + hb.height / 2)));
+   }
+
+   @Override
+   protected void moveEnemyDown(float levelYSpeed) {
+      allHitboxes.forEach(hb -> {
+         hb.y += levelYSpeed;
+      });
+      hitboxCenters.forEach(p -> {
+         p.y += levelYSpeed;
+      });
+   }
+
    @Override
    protected void checkOnScreen(float levelYSpeed) {
       if (isDead()) {
          return;
       }
       for (Rectangle2D.Float hb : allHitboxes) {
-         if (hb.intersects(activeArea)) {
+         if (hb.intersects(onScreenArea)) {
             onScreen = true;
             return;
          }
@@ -116,10 +143,39 @@ public class Centipede extends BaseEnemy {
    protected void updateCustomBehavior(float levelYSpeed) {
       if (chargeTick >= chargeDone) {
          attackPhaseActive = true;
-         for (Rectangle2D.Float hb : allHitboxes) {
-            hb.x += speedVector.x;
-            hb.y += speedVector.y;
-         }
+         updateAttackPhase();
+      }
+   }
+
+   private void updateAttackPhase() {
+      // 1. Move in the direction of the speed vector
+      allHitboxes.forEach(hb -> {
+         hb.x += speedVector.x;
+         hb.y += speedVector.y;
+      });
+      hitboxCenters.forEach(p -> {
+         p.x += speedVector.x;
+         p.y += speedVector.y;
+      });
+
+      // 2. Wiggle movement
+      wiggleRotation = (wiggleRotation + wiggleSpeed) % 360;
+      for (int i = 0; i < allHitboxes.size(); i++) {
+         int wigglePhase = i * 20;
+         double wiggleR = (wiggleRotation + wigglePhase) % 360;
+         double rad = Math.toRadians(wiggleR);
+
+         // Oscillate perpendicular to movement direction
+         float scalar = (float) Math.cos(rad) * wiggleDistance;
+         float perpX = -normalizedVector.y;
+         float perpY = normalizedVector.x;
+         float xOffset = scalar * perpX;
+         float yOffset = scalar * perpY;
+
+         Point.Float center = hitboxCenters.get(i);
+         Rectangle2D.Float hb = allHitboxes.get(i);
+         hb.x = center.x - hb.width / 2 + xOffset;
+         hb.y = center.y - hb.height / 2 + yOffset;
       }
    }
 
@@ -142,6 +198,7 @@ public class Centipede extends BaseEnemy {
    protected void resetCustomVars() {
       attackPhaseActive = false;
       constructHitboxes();
+      constructWiggleStuff();
    }
 
    @Override
