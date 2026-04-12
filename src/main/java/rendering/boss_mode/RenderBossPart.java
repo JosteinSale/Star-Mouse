@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import entities.boss_mode.DefaultBossPart;
 import rendering.MySubImage;
 import utils.DrawUtils;
-import utils.HelpMethods2;
+import utils.HelpMethods;
 import utils.Images;
 
 /** Renders a single bossPart */
@@ -16,7 +16,7 @@ public class RenderBossPart {
    public RenderBossPart(DefaultBossPart bp, Images images) {
       this.bp = bp;
       if (bp.animation != null) {
-         this.animation = HelpMethods2.GetUnscaled2DAnimationArray(
+         this.animation = HelpMethods.GetUnscaled2DAnimationArray(
                images.getBossSprite(bp.animation.spriteName),
                bp.animation.rows, bp.animation.cols,
                bp.animation.spriteW, bp.animation.spriteH);

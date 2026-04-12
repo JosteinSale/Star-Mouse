@@ -6,7 +6,7 @@ import entities.flying.AnimatedGlow;
 import entities.flying.StaticGlow;
 import rendering.MySubImage;
 import utils.DrawUtils;
-import utils.HelpMethods2;
+import utils.HelpMethods;
 import utils.Images;
 
 import static entities.flying.AnimatedGlow.*;
@@ -27,22 +27,22 @@ public class RenderGlow {
    private int reaperSpriteWidth = 80;
 
    public RenderGlow(Images images) {
-      this.orangeGlowSmall = HelpMethods2.GetUnscaled1DAnimationArray(
+      this.orangeGlowSmall = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.ORANGE_GLOW_BIG, true),
             4, spriteSize, spriteSize);
 
-      this.blueGlowSmall = HelpMethods2.GetUnscaled1DAnimationArray(
+      this.blueGlowSmall = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.BLUE_GLOW_SMALL, true),
             2, spriteSize, spriteSize);
-      this.greenGlowSmall = HelpMethods2.GetUnscaled1DAnimationArray(
+      this.greenGlowSmall = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.GREEN_GLOW_SMALL, true),
             2, spriteSize, spriteSize);
 
-      this.reaperGlow = HelpMethods2.GetUnscaled1DAnimationArray(
+      this.reaperGlow = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.REAPER_GLOW, true),
             4, reaperSpriteWidth, spriteSize);
 
-      this.whiteGlow = HelpMethods2.GetUnscaled1DAnimationArray(
+      this.whiteGlow = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.WHITE_GLOW_BIG, true),
             4, spriteSize, spriteSize);
    }

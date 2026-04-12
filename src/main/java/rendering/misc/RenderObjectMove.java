@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import cutscenes.effects.SimpleAnimation;
 import rendering.MySubImage;
 import rendering.Render;
-import utils.HelpMethods2;
+import utils.HelpMethods;
 import utils.Images;
 
 /**
@@ -97,7 +97,7 @@ public class RenderObjectMove implements Render {
 
    private MySubImage[] getUnscaled1DAnimation(
          String imgName, boolean keepInMemory, int aniCols, int spriteW, int spriteH) {
-      return HelpMethods2.GetUnscaled1DAnimationArray(
+      return HelpMethods.GetUnscaled1DAnimationArray(
             images.getCutsceneImage(imgName, keepInMemory),
             aniCols, spriteW, spriteH);
    }

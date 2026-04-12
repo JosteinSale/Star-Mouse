@@ -8,7 +8,7 @@ import entities.flying.EntityInfo;
 import entities.flying.pickupItems.PickupItemFactory;
 import rendering.MyImage;
 import rendering.MySubImage;
-import utils.HelpMethods2;
+import utils.HelpMethods;
 import utils.Images;
 
 /**
@@ -27,8 +27,8 @@ public class EntityImages {
    private void addImagesFor(Collection<EntityInfo> c, Images images) {
       for (EntityInfo info : c) {
          MyImage spriteSheet = images.getFlyImageSprite(info.spriteSheet, true);
-         MySubImage[][] animation = HelpMethods2.GetEnemyAnimations(
-               spriteSheet, info.spriteW, info.spriteH, info.rows, info.cols);
+         MySubImage[][] animation = HelpMethods.GetUnscaled2DAnimationArray(
+               spriteSheet, info.rows, info.cols, info.spriteW, info.spriteH);
          animations.put(info.typeConstant, animation);
       }
    }

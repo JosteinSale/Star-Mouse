@@ -10,7 +10,7 @@ import rendering.MyImage;
 import rendering.MySubImage;
 import ui.GameoverOverlay;
 import utils.DrawUtils;
-import utils.HelpMethods2;
+import utils.HelpMethods;
 import utils.Images;
 
 import static utils.Constants.UI.CURSOR_HEIGHT;
@@ -34,7 +34,7 @@ public class RenderGameOver {
       this.pointerImg = images.getExpImageSprite(
             Images.CURSOR_SPRITE_WHITE, true);
 
-      this.deathAnimation = HelpMethods2.GetUnscaled1DAnimationArray(
+      this.deathAnimation = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.SHIP_DEATH_SPRITES, true),
             26, 40, 40);
    }

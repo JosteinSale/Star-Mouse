@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import entities.boss_mode.AnimatedComponent;
 import rendering.MySubImage;
 import utils.DrawUtils;
-import utils.HelpMethods2;
+import utils.HelpMethods;
 import utils.Images;
 
 /** Renders a single AnimatedComponent */
@@ -17,7 +17,7 @@ public class RenderAnimatedComponent {
       this.ac = ac;
       // TODO - If AnimatedComponents are to be used outside of BossMode,
       // we should put the sprites in a separate folder.
-      this.animation = HelpMethods2.GetUnscaled2DAnimationArray(
+      this.animation = HelpMethods.GetUnscaled2DAnimationArray(
             images.getBossSprite(ac.spriteName),
             ac.rows, ac.cols, ac.spriteW, ac.spriteH);
    }

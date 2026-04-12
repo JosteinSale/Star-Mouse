@@ -14,11 +14,10 @@ import main_classes.Game;
 public class Centipede extends BaseEnemy {
    private final int nrOfMiddleSegments = 8;
    private final int distanceBetweenSegments = 60;
-   private final Rectangle2D.Float onScreenArea = new Rectangle2D.Float(
-         -200, -100, Game.GAME_DEFAULT_WIDTH + 400, Game.GAME_DEFAULT_HEIGHT + 200);
-   private Vector2 speedVector;
-   private Vector2 normalizedVector;
-   private double angle;
+   private final Vector2 speedVector;
+   private final Vector2 normalizedVector;
+   private final double angle;
+   private final Rectangle2D.Float onScreenArea;
    private boolean attackPhaseActive = false;
 
    // Wiggle movement
@@ -34,6 +33,8 @@ public class Centipede extends BaseEnemy {
       this.speedVector = directionVector;
       this.normalizedVector = normalizeVector(directionVector);
       this.angle = calculateAngle(normalizedVector);
+      this.onScreenArea = new Rectangle2D.Float(
+            -200, -100, Game.GAME_DEFAULT_WIDTH + 400, Game.GAME_DEFAULT_HEIGHT + 200);
       constructHitboxes();
       constructAnimations();
       constructWiggleStuff();
@@ -125,8 +126,8 @@ public class Centipede extends BaseEnemy {
       if (isDead()) {
          return;
       }
-      for (Rectangle2D.Float hb : allHitboxes) {
-         if (hb.intersects(onScreenArea)) {
+      for (Point.Float p : hitboxCenters) {
+         if (onScreenArea.contains(p)) {
             onScreen = true;
             return;
          }

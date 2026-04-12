@@ -16,7 +16,7 @@ import rendering.MySubImage;
 import rendering.misc.RenderGlow;
 import rendering.misc.RenderSimpleAnimation;
 import utils.DrawUtils;
-import utils.HelpMethods2;
+import utils.HelpMethods;
 import utils.Images;
 
 import static utils.Constants.Flying.SpriteSizes.EXPLOSION_SPRITE_SIZE;
@@ -33,10 +33,10 @@ public class RenderEntity {
          EnemyManager enemyManager, ArrayList<PickupItem> pickupItems, Images images) {
       this.enemyManager = enemyManager;
       this.pickupItems = pickupItems;
-      this.explosionAnimation = HelpMethods2.GetUnscaled1DAnimationArray(
+      this.explosionAnimation = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.EXPLOSION, true),
             5, EXPLOSION_SPRITE_SIZE, EXPLOSION_SPRITE_SIZE);
-      this.flameShootAnimation = HelpMethods2.GetUnscaled1DAnimationArray(
+      this.flameShootAnimation = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.FLAME_SHOOT, true),
             6, 132, 100);
       this.entityImgs = new EntityImages(new EnemyFactory(null), new PickupItemFactory(), images);

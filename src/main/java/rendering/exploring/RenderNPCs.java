@@ -9,7 +9,7 @@ import rendering.MyImage;
 import rendering.MySubImage;
 import rendering.Render;
 import utils.DrawUtils;
-import utils.HelpMethods2;
+import utils.HelpMethods;
 import utils.Images;
 
 import static utils.Constants.Exploring.Sprites.STANDARD_SPRITE_HEIGHT;
@@ -35,17 +35,17 @@ public class RenderNPCs implements Render {
    }
 
    private void loadImages(Images images) {
-      standardNpcSprites = HelpMethods2.GetUnscaled1DAnimationArray(
+      standardNpcSprites = HelpMethods.GetUnscaled1DAnimationArray(
             images.getExpImageSprite(Images.STANDARD_NPC_SPRITES, true),
             16, 90, 60);
       gardSprites = images.getExpImageSprite(
             Images.GARD_SPRITES, true);
       oliverSprites = images.getExpImageSprite(
             Images.OLIVER_SPRITES, true);
-      gardAnimations = HelpMethods2.GetUnscaled2DAnimationArray(
+      gardAnimations = HelpMethods.GetUnscaled2DAnimationArray(
             gardSprites, 3, 4,
             STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
-      oliverAnimations = HelpMethods2.GetUnscaled2DAnimationArray(
+      oliverAnimations = HelpMethods.GetUnscaled2DAnimationArray(
             oliverSprites, 6, 4,
             STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
    }

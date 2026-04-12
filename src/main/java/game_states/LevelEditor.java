@@ -6,13 +6,16 @@ import static utils.Constants.Flying.COLLISION_MAP_X_OFFSET;
 import static utils.Constants.Flying.COLLISION_MAP_Y_OFFSET;
 import static utils.Constants.Flying.COLLISION_MAP_WIDTH;
 
+import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Vector2;
 
 import entities.flying.EnemyFactory;
 import entities.flying.EntityInfo;
@@ -41,10 +44,12 @@ public class LevelEditor extends State {
    public PickupItemFactory pickupFactory;
    private ArrayList<String> levelData;
    public ArrayList<Integer> addedEntities;
-   public ArrayList<Rectangle> hitboxes;
-   public ArrayList<Integer> shootTimers;
+   public ArrayList<Rectangle2D.Float> hitboxes;
+   public ArrayList<Integer> chargeTimers;
    public ArrayList<Integer> flipXs;
+   public ArrayList<Vector2> vectors;
    private HashMap<String, Integer> entityNameToTypeMap;
+   private HashMap<Integer, String> entityTypeToNameMap;
 
    // Cursor
    public int cursorX = 500;
@@ -59,6 +64,8 @@ public class LevelEditor extends State {
    public int selectedEntity;
    public int enemyFlipX = 1; // 1 for right, -1 for left.
    public int shootTimer = 100;
+   public boolean settingVector;
+   public Vector2 directionVector;
 
    // Map
    public int clImgHeight;
@@ -72,6 +79,7 @@ public class LevelEditor extends State {
       super(game);
       this.enemyFactory = new EnemyFactory(null);
       this.pickupFactory = new PickupItemFactory();
+      directionVector = new Vector2(0, 0);
       constructEntityNameToTypeMap();
    }
 
@@ -79,15 +87,22 @@ public class LevelEditor extends State {
       this.entityNameToTypeMap = new HashMap<>();
       this.entityNameToTypeMap.putAll(enemyFactory.getNameToTypeMap());
       this.entityNameToTypeMap.putAll(pickupFactory.getNameToTypeMap());
+      this.entityTypeToNameMap = new HashMap<>();
+      for (String name : entityNameToTypeMap.keySet()) {
+         int typeConstant = entityNameToTypeMap.get(name);
+         entityTypeToNameMap.put(typeConstant, name);
+      }
    }
 
    public void loadLevel(int level) {
       this.level = level;
+      this.settingVector = false;
       hitboxes = new ArrayList<>();
-      shootTimers = new ArrayList<>();
+      chargeTimers = new ArrayList<>();
       flipXs = new ArrayList<>();
       levelData = new ArrayList<>();
       addedEntities = new ArrayList<>();
+      vectors = new ArrayList<>();
       selectedEntity = 0;
       screenNr = 0;
       loadLevelData(level);
@@ -122,7 +137,10 @@ public class LevelEditor extends State {
             int yCor = Integer.parseInt(lineData[2]);
             int dir = Integer.parseInt(lineData[3]);
             int shootTimer = Integer.parseInt(lineData[4]);
-            registerEntityInstance(false, entryName, xCor, yCor, dir, shootTimer);
+            int vectorX = lineData.length > 5 ? Integer.parseInt(lineData[5]) : 0;
+            int vectorY = lineData.length > 6 ? Integer.parseInt(lineData[6]) : 0;
+            addEntity(false, entryName, xCor, yCor, dir, shootTimer, vectorX, vectorY);
+            settingVector = false;
          }
       }
    }
@@ -145,7 +163,7 @@ public class LevelEditor extends State {
          case Input.Keys.S -> moveScreen(DOWN);
          case Input.Keys.A -> moveScreen(LEFT);
          case Input.Keys.D -> moveScreen(RIGHT);
-         case Input.Keys.SPACE -> addEntity();
+         case Input.Keys.SPACE -> spacePressed();
          case Input.Keys.ENTER -> goToMainMenu();
          case Input.Keys.UP -> shootTimer += 10;
          case Input.Keys.DOWN -> shootTimer -= 10;
@@ -155,51 +173,6 @@ public class LevelEditor extends State {
          case Input.Keys.P -> printLevelData();
          default -> { // Do nothing
          }
-      }
-   }
-
-   public void mouseMoved(int mouseX, int mouseY) {
-      // Adjust input x and y to correspond to the current game scale
-      float scale = Game.GAME_DEFAULT_HEIGHT / (float) Gdx.graphics.getHeight();
-      int x = (int) (mouseX * scale);
-      int y = (int) (mouseY * scale);
-
-      // We'll snap the cursor to a grid with size of 10,
-      // to keep placement consistent
-      int xAdjust = scale < 1 ? 150 : 0;
-      cursorX = (x / gridSize) * gridSize - xAdjust;
-      cursorY = (y / gridSize) * gridSize;
-   }
-
-   private void goToMainMenu() {
-      game.returnToMainMenu(() -> game.flushImages());
-   }
-
-   private void addEntity() {
-      int adjustedY = cursorY - getEditorY();
-      int adjustedX = cursorX - editorXOffset;
-      // Maybe a bit over-engineered, but it works:
-      String name = entityNameToTypeMap.entrySet().stream()
-            .filter(entry -> entry.getValue() == selectedEntity)
-            .map(entry -> entry.getKey())
-            .findFirst()
-            .orElse(null);
-      registerEntityInstance(true, name, adjustedX, adjustedY, enemyFlipX, shootTimer);
-   }
-
-   private void toggleSelectedEntity(int direction) {
-      int amountOfEntities = entityNameToTypeMap.size();
-      if (direction == RIGHT) {
-         selectedEntity = (selectedEntity + 1) % amountOfEntities;
-      } else if (direction == LEFT) {
-         selectedEntity = (selectedEntity - 1 + amountOfEntities)
-               % amountOfEntities;
-      }
-   }
-
-   private void printLevelData() {
-      for (String line : levelData) {
-         System.out.println(line);
       }
    }
 
@@ -222,7 +195,21 @@ public class LevelEditor extends State {
             editorXOffset += 200;
          }
       }
+   }
 
+   private void spacePressed() {
+      int adjustedY = cursorY - getEditorY();
+      int adjustedX = cursorX - editorXOffset;
+      String name = entityTypeToNameMap.get(selectedEntity);
+
+      if (settingVector) {
+         addVectorToLastEntity();
+      } else {
+         addEntity(
+               true, name, adjustedX, adjustedY, enemyFlipX,
+               shootTimer, 0, 0);
+         adjustDirectionVector();
+      }
    }
 
    /**
@@ -232,9 +219,9 @@ public class LevelEditor extends State {
     * the 'fromEditor'-boolean represents whether this method is called from the
     * levelEditor.
     */
-   private void registerEntityInstance(
+   private void addEntity(
          boolean calledFromEditor, String name, int x, int y,
-         int direction, int shootTimer) {
+         int direction, int chargeTimer, int vectorX, int vectorY) {
       int typeConstant = entityNameToTypeMap.get(name);
       EntityInfo info = getEntityInfo(typeConstant);
       if (calledFromEditor) {
@@ -242,7 +229,7 @@ public class LevelEditor extends State {
          x -= info.hitboxW / 2;
          y -= info.hitboxH / 2;
       }
-      Rectangle hitbox = new Rectangle(x, y, info.hitboxW, info.hitboxH);
+      Rectangle2D.Float hitbox = new Rectangle2D.Float(x, y, info.hitboxW, info.hitboxH);
 
       // Handle delete, and modify + add entries.
       switch (typeConstant) {
@@ -251,22 +238,87 @@ public class LevelEditor extends State {
             return; // Abort the method.
          case BLASTERDRONE:
             // Blasterdrones have a standard shootTimer of 30
-            addModifiedEntry(name, x, y, direction, 30, hitbox);
+            addEntityToLists(name, x, y, direction, 30, hitbox, vectorX, vectorY);
             break;
          case FLAMEDRONE:
             // Flamedrones have a standard shootTimer of 120
-            addModifiedEntry(name, x, y, direction, 120, hitbox);
+            addEntityToLists(name, x, y, direction, 120, hitbox, vectorX, vectorY);
             break;
          case POWERUP, BOMB, REPAIR, TARGET, SMALLSHIP, TANKDRONE, KAMIKAZEDRONE:
             // Entities without shootTimer will have standard value of 0.
-            addModifiedEntry(name, x, y, direction, 0, hitbox);
+            addEntityToLists(name, x, y, direction, 0, hitbox, vectorX, vectorY);
+            break;
+         case CENTIPEDE:
+            settingVector = true;
+            addEntityToLists(name, x, y, direction, chargeTimer, hitbox, vectorX, vectorY);
             break;
          default:
             // All other enemies:
-            addModifiedEntry(name, x, y, direction, shootTimer, hitbox);
+            addEntityToLists(name, x, y, direction, chargeTimer, hitbox, vectorX, vectorY);
             break;
       }
       addedEntities.add(typeConstant);
+   }
+
+   private void addVectorToLastEntity() {
+      int entityIndex = addedEntities.size() - 1;
+      vectors.set(entityIndex, new Vector2(directionVector.x, directionVector.y));
+      String oldLevelData = levelData.get(entityIndex);
+      String newLevelData = oldLevelData + ";" + Integer.toString((int) directionVector.x) +
+            ";" + Integer.toString((int) directionVector.y);
+      levelData.set(entityIndex, newLevelData);
+      System.out.println(levelData.get(entityIndex));
+      settingVector = false;
+   }
+
+   public void mouseMoved(int mouseX, int mouseY) {
+      // Adjust input x and y to correspond to the current game scale
+      float scale = Game.GAME_DEFAULT_HEIGHT / (float) Gdx.graphics.getHeight();
+      int x = (int) (mouseX * scale);
+      int y = (int) (mouseY * scale);
+
+      // We'll snap the cursor to a grid with size of 10,
+      // to keep placement consistent
+      int xAdjust = scale < 1 ? 150 : 0;
+      cursorX = (x / gridSize) * gridSize - xAdjust;
+      cursorY = (y / gridSize) * gridSize;
+
+      adjustDirectionVector();
+      if (settingVector)
+         System.out.println(directionVector);
+   }
+
+   private void adjustDirectionVector() {
+      int entityIndex = addedEntities.size() - 1; // The vector will be belong to the most recently added entity.
+      int adjustedCursorY = cursorY - getEditorY();
+      int adjustedCursorX = cursorX - editorXOffset;
+      Rectangle2D.Float hitbox = hitboxes.get(entityIndex);
+      Point.Float vectorStartPoint = new Point.Float(
+            hitbox.x + hitbox.width / 2,
+            hitbox.y + hitbox.height / 2);
+      directionVector.set(
+            adjustedCursorX - vectorStartPoint.x,
+            adjustedCursorY - vectorStartPoint.y);
+   }
+
+   private void goToMainMenu() {
+      game.returnToMainMenu(() -> game.flushImages());
+   }
+
+   private void toggleSelectedEntity(int direction) {
+      int amountOfEntities = entityNameToTypeMap.size();
+      if (direction == RIGHT) {
+         selectedEntity = (selectedEntity + 1) % amountOfEntities;
+      } else if (direction == LEFT) {
+         selectedEntity = (selectedEntity - 1 + amountOfEntities)
+               % amountOfEntities;
+      }
+   }
+
+   private void printLevelData() {
+      for (String line : levelData) {
+         System.out.println(line);
+      }
    }
 
    // Is public to be accessible from RenderLevelEditor
@@ -278,7 +330,7 @@ public class LevelEditor extends State {
       }
    }
 
-   private void deleteOverlappingEntity(Rectangle deleteHitbox) {
+   private void deleteOverlappingEntity(Rectangle2D.Float deleteHitbox) {
       int indexToRemove = -1;
       for (int i = 0; i < hitboxes.size(); i++) {
          if (deleteHitbox.intersects(hitboxes.get(i))) {
@@ -296,19 +348,21 @@ public class LevelEditor extends State {
       levelData.remove(indexToRemove);
       hitboxes.remove(indexToRemove);
       flipXs.remove(indexToRemove);
-      shootTimers.remove(indexToRemove);
+      chargeTimers.remove(indexToRemove);
+      vectors.remove(indexToRemove);
    }
 
-   private void addModifiedEntry(
-         String name, int x, int y, int direction, int shootTimer, Rectangle hitbox) {
-      // LevelData-string:
-      levelData.add(name + ";" + Integer.toString(x) + ";" + Integer.toString(y) +
-            ";" + Integer.toString(direction) + ";" + Integer.toString(shootTimer));
-
-      // Other relevant info
+   private void addEntityToLists(
+         String name, int x, int y, int direction, int shootTimer, Rectangle2D.Float hitbox, int vectorX, int vectorY) {
+      String levelDataString = name + ";" + Integer.toString(x) + ";" + Integer.toString(y) +
+            ";" + Integer.toString(direction) + ";" + Integer.toString(shootTimer);
+      if (vectorX != 0 || vectorY != 0) {
+         levelDataString += ";" + Integer.toString(vectorX) + ";" + Integer.toString(vectorY);
+      }
+      levelData.add(levelDataString);
       hitboxes.add(hitbox);
-      shootTimers.add(shootTimer);
+      chargeTimers.add(shootTimer);
       flipXs.add(direction);
+      vectors.add(new Vector2(vectorX, vectorY));
    }
-
 }

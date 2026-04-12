@@ -102,6 +102,7 @@ public class Images extends Singleton {
 
    // Sprites - LevelEditor
    public static final String SMALL_ENTITY_SPRITES = "sprites_all.png";
+   public static final String VECTOR_SPRITE = "sprites_vector.png";
 
    public Images() {
       this.myImages = new ResourceContainer<>(s -> ResourceLoader.getImage(s));

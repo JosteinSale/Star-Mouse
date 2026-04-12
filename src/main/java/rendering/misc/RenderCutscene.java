@@ -24,7 +24,7 @@ import rendering.Render;
 import rendering.exploring.RenderNumberDisplay;
 import ui.TextboxManager;
 import utils.DrawUtils;
-import utils.HelpMethods2;
+import utils.HelpMethods;
 import utils.Images;
 import utils.Singleton;
 
@@ -67,7 +67,7 @@ public class RenderCutscene extends Singleton implements Render {
 
    private void loadImages(Images images) {
       shipImg = images.getFlyImageSprite(Images.FELLOWSHIP_SPRITES, true);
-      flameAnimations = HelpMethods2.GetUnscaled1DAnimationArray(
+      flameAnimations = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.SHIP_FLAME_SPRITES, true),
             2, 15, 15);
    }

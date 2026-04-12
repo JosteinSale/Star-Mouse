@@ -14,7 +14,7 @@ import rendering.MySubImage;
 import rendering.Render;
 import ui.GameoverOverlay2;
 import utils.DrawUtils;
-import utils.HelpMethods2;
+import utils.HelpMethods;
 import utils.Images;
 
 public class RenderGameOver2 implements Render {
@@ -35,7 +35,7 @@ public class RenderGameOver2 implements Render {
             Images.CURSOR_SPRITE_WHITE, true);
       MyImage deathImg = images.getFlyImageSprite(
             Images.SHIP_DEATH_SPRITES, true);
-      this.deathAnimation = HelpMethods2.GetUnscaled1DAnimationArray(
+      this.deathAnimation = HelpMethods.GetUnscaled1DAnimationArray(
             deathImg, 26, 40, 40);
    }
 

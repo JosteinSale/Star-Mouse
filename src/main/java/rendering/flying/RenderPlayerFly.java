@@ -9,7 +9,7 @@ import rendering.MySubImage;
 import rendering.Render;
 import rendering.misc.RenderGlow;
 import utils.DrawUtils;
-import utils.HelpMethods2;
+import utils.HelpMethods;
 import utils.Images;
 import java.awt.Point;
 import inputs.Inputs;
@@ -58,14 +58,14 @@ public class RenderPlayerFly implements Render {
             Images.TELEPORT_SHADOW, true);
 
       // Engine flame
-      this.flameAnimations = HelpMethods2.GetUnscaled1DAnimationArray(
+      this.flameAnimations = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.SHIP_FLAME_SPRITES, true),
             2, 15, 15);
 
       // Player Ship
       MyImage shipImg = images.getFlyImageSprite(
             Images.SHIP_SPRITES, true);
-      this.animations = HelpMethods2.GetUnscaled2DAnimationArray(
+      this.animations = HelpMethods.GetUnscaled2DAnimationArray(
             shipImg, 7, 6, SHIP_SPRITE_WIDTH, SHIP_SPRITE_HEIGHT);
 
       // Ship Smoke

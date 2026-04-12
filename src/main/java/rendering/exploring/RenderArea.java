@@ -13,7 +13,7 @@ import rendering.MySubImage;
 import rendering.MyColor;
 import rendering.Render;
 import utils.DrawUtils;
-import utils.HelpMethods2;
+import utils.HelpMethods;
 import utils.Images;
 
 import static utils.Constants.Exploring.Sprites.STANDARD_SPRITE_HEIGHT;
@@ -43,13 +43,13 @@ public class RenderArea implements Render {
 
    private void loadSprites(Images images) {
       playerSprites = new ArrayList<>();
-      MySubImage[][] normalSprites = HelpMethods2.GetUnscaled2DAnimationArray(
+      MySubImage[][] normalSprites = HelpMethods.GetUnscaled2DAnimationArray(
             images.getExpImageSprite(Images.PLAYER_EXP_SPRITES, true),
             6, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
-      MySubImage[][] nakedSprites = HelpMethods2.GetUnscaled2DAnimationArray(
+      MySubImage[][] nakedSprites = HelpMethods.GetUnscaled2DAnimationArray(
             images.getExpImageSprite(Images.PLAYER_EXP_SPRITES_NAKED, true),
             5, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
-      MySubImage[][] sadSprites = HelpMethods2.GetUnscaled2DAnimationArray(
+      MySubImage[][] sadSprites = HelpMethods.GetUnscaled2DAnimationArray(
             images.getExpImageSprite(Images.PLAYER_EXP_SPRITES_SAD, true),
             5, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
       playerSprites.add(normalSprites);
