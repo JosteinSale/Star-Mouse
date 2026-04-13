@@ -151,7 +151,7 @@ public class EnemyFactory {
       // CENTIPEDE
       enemyInfo.put(CENTIPEDE, new EntityInfo(
             CENTIPEDE,
-            Images.CENTIPEDE_SPRITE, 100, 50, 3, 8,
+            Images.CENTIPEDE_SPRITE, 100, 50, 6, 8,
             81, 66, 0, 0));
    }
 
@@ -220,7 +220,9 @@ public class EnemyFactory {
          case BURNING_FRAGMENT:
             return new BurningFragment(hitbox, info, chargeTimer);
          case CENTIPEDE:
-            return new Centipede(hitbox, info, chargeTimer, new Vector2(3, -3));
+            int vectorX = Integer.parseInt(lineData[5]);
+            int vectorY = Integer.parseInt(lineData[6]);
+            return new Centipede(hitbox, info, chargeTimer, new Vector2(vectorX, vectorY));
          default:
             throw new IllegalArgumentException("No enemy constructor for type " + typeConstant);
       }

@@ -146,13 +146,17 @@ public abstract class BaseEnemy extends Entity implements Enemy {
 
    @Override
    public void takeDamage(int damage) {
-      animation.setFrame(0);
       this.HP -= damage;
-      animation.setAction(TAKING_DAMAGE);
+      setAnimationsToDamage();
       damageTick = 4;
       if (HP <= 0) {
          dead = true;
       }
+   }
+
+   protected void setAnimationsToDamage() {
+      animation.setFrame(0);
+      animation.setAction(TAKING_DAMAGE);
    }
 
    @Override

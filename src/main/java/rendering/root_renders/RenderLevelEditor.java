@@ -111,14 +111,6 @@ public class RenderLevelEditor extends Singleton {
       }
    }
 
-   private void drawVectorText(SpriteBatch sb, Vector2 vector, double rotation, int hbX, int hbY) {
-      DrawUtils.drawText(
-            sb, MyColor.RED, DrawUtils.infoFont,
-            "x" + Integer.toString((int) vector.x) + " y" + Integer.toString((int) vector.y),
-            (int) (Math.cos(rotation) * 153 + hbX),
-            (int) (Math.sin(rotation) * 153 + hbY));
-   }
-
    private void drawCursor(SpriteBatch sb) {
       if (le.settingVector) {
          return;
@@ -153,5 +145,13 @@ public class RenderLevelEditor extends Singleton {
             (float) hitbox.getY() + le.getEditorY(),
             (float) hitbox.getWidth(),
             (float) hitbox.getHeight());
+   }
+
+   private void drawVectorText(SpriteBatch sb, Vector2 vector, double rotation, int hbX, int hbY) {
+      DrawUtils.drawText(
+            sb, MyColor.RED, DrawUtils.infoFont,
+            "x" + Integer.toString((int) vector.x) + " y" + Integer.toString((int) vector.y),
+            (int) (Math.cos(rotation) * 153 + hbX),
+            (int) (Math.sin(rotation) * 153 + hbY));
    }
 }

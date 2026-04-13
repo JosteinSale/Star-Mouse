@@ -282,10 +282,6 @@ public class LevelEditor extends State {
       int xAdjust = scale < 1 ? 150 : 0;
       cursorX = (x / gridSize) * gridSize - xAdjust;
       cursorY = (y / gridSize) * gridSize;
-
-      adjustDirectionVector();
-      if (settingVector)
-         System.out.println(directionVector);
    }
 
    private void adjustDirectionVector() {
@@ -297,8 +293,8 @@ public class LevelEditor extends State {
             hitbox.x + hitbox.width / 2,
             hitbox.y + hitbox.height / 2);
       directionVector.set(
-            adjustedCursorX - vectorStartPoint.x,
-            adjustedCursorY - vectorStartPoint.y);
+            (adjustedCursorX - vectorStartPoint.x) / 10,
+            (adjustedCursorY - vectorStartPoint.y) / 10);
    }
 
    private void goToMainMenu() {

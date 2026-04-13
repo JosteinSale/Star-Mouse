@@ -30,6 +30,7 @@ public class Centipede extends BaseEnemy {
       super(hitbox, info, startTimer, null);
       this.maxHP = 150;
       HP = maxHP;
+      this.TAKING_DAMAGE = 3;
       this.speedVector = directionVector;
       this.normalizedVector = normalizeVector(directionVector);
       this.angle = calculateAngle(normalizedVector);
@@ -191,8 +192,28 @@ public class Centipede extends BaseEnemy {
                af.setFrame(0);
             }
          }
-         // TODO - fix damage animation
       }
+      if (damageTick > 0) {
+         damageTick--;
+         if (damageTick <= 0) {
+            setAllAnimationsTo(IDLE);
+         }
+      }
+   }
+
+   private void setAllAnimationsTo(int action) {
+      for (int i = 0; i < allAnimations.size(); i++) {
+         switch (i) {
+            case 0 -> allAnimations.reversed().get(i).setAction(action); // Head
+            case (1 + nrOfMiddleSegments) -> allAnimations.reversed().get(i).setAction(action + 2); // Tail
+            default -> allAnimations.get(i).setAction(action + 1); // Middle segments
+         }
+      }
+   }
+
+   @Override
+   protected void setAnimationsToDamage() {
+      setAllAnimationsTo(TAKING_DAMAGE);
    }
 
    @Override
