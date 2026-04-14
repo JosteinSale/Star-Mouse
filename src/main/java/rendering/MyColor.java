@@ -30,6 +30,7 @@ public class MyColor {
    public static final MyColor LIGHT_BLUE = new MyColor(new Color(0.5f, 0.7f, 1f, 1f));
    public static final MyColor MAGENTA = new MyColor(Color.MAGENTA);
    public static final MyColor YELLOW = new MyColor(Color.YELLOW);
+   public static final MyColor BLUE = new MyColor(Color.BLUE);
 
    public MyColor(Color color) {
       this.color = new Color(color); // defensive copy

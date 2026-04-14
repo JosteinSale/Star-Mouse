@@ -21,8 +21,9 @@ public class Centipede extends BaseEnemy {
    private boolean attackPhaseActive = false;
 
    // Wiggle movement
-   private final int wiggleSpeed = 6;
-   private final int wiggleDistance = 30;
+   private final int wiggleSpeed = 8;
+   private final int wiggleAmplitude = 20;
+   private final int wigglePhase = 60;
    private double wiggleRotation;
    private ArrayList<Point.Float> hitboxCenters;
 
@@ -61,16 +62,16 @@ public class Centipede extends BaseEnemy {
       // 2. Middle segment
       for (int i = 1; i <= nrOfMiddleSegments; i++) {
          Rectangle2D.Float middleHitbox = new Rectangle2D.Float(
-               hitbox.x + getAdjustedXOffset(i * distanceBetweenSegments),
-               hitbox.y + getAdjustedYOffset(i * distanceBetweenSegments),
+               hitbox.x + angleAdjustedXPosition(i * distanceBetweenSegments),
+               hitbox.y + angleAdjustedYPosition(i * distanceBetweenSegments),
                hitbox.width,
                hitbox.height);
          allHitboxes.add(middleHitbox);
       }
       // 3. Tail
       Rectangle2D.Float tailHitbox = new Rectangle2D.Float(
-            hitbox.x + getAdjustedXOffset((nrOfMiddleSegments + 1) * distanceBetweenSegments),
-            hitbox.y + getAdjustedYOffset((nrOfMiddleSegments + 1) * distanceBetweenSegments),
+            hitbox.x + angleAdjustedXPosition((nrOfMiddleSegments + 1) * distanceBetweenSegments),
+            hitbox.y + angleAdjustedYPosition((nrOfMiddleSegments + 1) * distanceBetweenSegments),
             hitbox.width,
             hitbox.height);
       allHitboxes.add(tailHitbox);
@@ -79,12 +80,12 @@ public class Centipede extends BaseEnemy {
       Collections.reverse(allHitboxes);
    }
 
-   private float getAdjustedYOffset(int deltaY) {
+   private float angleAdjustedYPosition(int deltaY) {
       // place segments behind the head along the negative movement direction
       return (float) (-deltaY * normalizedVector.y);
    }
 
-   private float getAdjustedXOffset(int deltaX) {
+   private float angleAdjustedXPosition(int deltaX) {
       // place segments behind the head along the negative movement direction
       return (float) (-deltaX * normalizedVector.x);
    }
@@ -163,12 +164,12 @@ public class Centipede extends BaseEnemy {
       // 2. Wiggle movement
       wiggleRotation = (wiggleRotation + wiggleSpeed) % 360;
       for (int i = 0; i < allHitboxes.size(); i++) {
-         int wigglePhase = i * 20;
-         double wiggleR = (wiggleRotation + wigglePhase) % 360;
+         int phase = i * wigglePhase;
+         double wiggleR = (wiggleRotation + phase) % 360;
          double rad = Math.toRadians(wiggleR);
 
          // Oscillate perpendicular to movement direction
-         float scalar = (float) Math.cos(rad) * wiggleDistance;
+         float scalar = (float) Math.cos(rad) * wiggleAmplitude;
          float perpX = -normalizedVector.y;
          float perpY = normalizedVector.x;
          float xOffset = scalar * perpX;

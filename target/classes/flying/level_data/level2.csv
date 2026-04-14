@@ -5,8 +5,6 @@ automaticTrigger;0f;-12500f;10f;10f;sendInTheFlameDrones
 automaticTrigger;0f;-13100f;10f;10f;whoWasThat
 automaticTrigger;0f;-23900f;10f;10f;IThinkWeMadeIt
 automaticTrigger;0f;-25100f;10f;10f;levelFinished
-centipede;750;-703;1;0;-4;4
-centipede;-150;-923;1;400;5;-5
 reaperDrone;270;-2050;1;100
 reaperDrone;280;-3810;1;130
 octaDrone;235;-3225;1;100

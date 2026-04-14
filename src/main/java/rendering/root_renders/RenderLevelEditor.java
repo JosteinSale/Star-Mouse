@@ -29,13 +29,13 @@ public class RenderLevelEditor extends Singleton {
       this.images = images;
       this.le = levelEditor;
       this.entityImages = entityImages;
-      this.vectorImg = images.getFlyImageSprite(Images.VECTOR_SPRITE, false)
-            .getSubimage(0, 0, 102, 14);
    }
 
    public void loadLevel(int level) {
       this.clImg = images.getFlyImageForeground(
             "level" + Integer.toString(le.level) + "_cl.png");
+      this.vectorImg = images.getFlyImageSprite(Images.VECTOR_SPRITE, false)
+            .getSubimage(0, 0, 102, 14);
    }
 
    public void draw(SpriteBatch sb) {
@@ -149,7 +149,7 @@ public class RenderLevelEditor extends Singleton {
 
    private void drawVectorText(SpriteBatch sb, Vector2 vector, double rotation, int hbX, int hbY) {
       DrawUtils.drawText(
-            sb, MyColor.RED, DrawUtils.infoFont,
+            sb, MyColor.BLUE, DrawUtils.infoFont,
             "x" + Integer.toString((int) vector.x) + " y" + Integer.toString((int) vector.y),
             (int) (Math.cos(rotation) * 153 + hbX),
             (int) (Math.sin(rotation) * 153 + hbY));

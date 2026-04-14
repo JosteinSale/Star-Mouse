@@ -267,7 +267,6 @@ public class LevelEditor extends State {
       String newLevelData = oldLevelData + ";" + Integer.toString((int) directionVector.x) +
             ";" + Integer.toString((int) directionVector.y);
       levelData.set(entityIndex, newLevelData);
-      System.out.println(levelData.get(entityIndex));
       settingVector = false;
    }
 
@@ -282,9 +281,13 @@ public class LevelEditor extends State {
       int xAdjust = scale < 1 ? 150 : 0;
       cursorX = (x / gridSize) * gridSize - xAdjust;
       cursorY = (y / gridSize) * gridSize;
+      adjustDirectionVector();
    }
 
    private void adjustDirectionVector() {
+      if (addedEntities.size() == 0) {
+         return; // No entities to set vector for.
+      }
       int entityIndex = addedEntities.size() - 1; // The vector will be belong to the most recently added entity.
       int adjustedCursorY = cursorY - getEditorY();
       int adjustedCursorX = cursorX - editorXOffset;
