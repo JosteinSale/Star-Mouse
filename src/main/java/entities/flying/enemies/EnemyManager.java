@@ -82,7 +82,7 @@ public class EnemyManager {
       audioPlayer.playSFX(Audio.SFX_SMALL_EXPLOSION);
       increaseKilledEnemies(enemy.getType());
       if (enemy.isSmall()) {
-         this.addSmallExplosion(enemy.getMainHitbox());
+         this.addSmallExplosions(enemy.getAllHitboxes());
       } else {
          this.addBigExplosion(enemy.getMainHitbox());
       }
@@ -103,11 +103,13 @@ public class EnemyManager {
    }
 
    /** Makes an explosion centered in the enemy's hitbox */
-   public void addSmallExplosion(Rectangle2D.Float hb) {
+   public void addSmallExplosions(ArrayList<Rectangle2D.Float> hbas) {
       int size = EXPLOSION_SPRITE_SIZE * 3;
-      float x = (hb.x + hb.width / 2) - (size / 2);
-      float y = (hb.y + hb.height / 2) - (size / 2);
-      explosions.add(new Explosion((int) x, (int) y, size));
+      for (Rectangle2D.Float hb : hbas) {
+         float x = (hb.x + hb.width / 2) - (size / 2);
+         float y = (hb.y + hb.height / 2) - (size / 2);
+         explosions.add(new Explosion((int) x, (int) y, size));
+      }
    }
 
    /** Makes a big explosion centered in the enemy's hitbox */

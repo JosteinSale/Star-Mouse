@@ -349,7 +349,7 @@ public class ProjectileHandler extends Singleton {
       for (Enemy enemy : enemyManager.getActiveEnemiesOnScreen()) {
          enemy.takeDamage(explosionDamage);
          if (enemy.isDead()) {
-            enemyManager.addSmallExplosion(enemy.getMainHitbox());
+            enemyManager.addSmallExplosions(enemy.getAllHitboxes());
             enemyManager.increaseKilledEnemies(enemy.getType());
          }
       }

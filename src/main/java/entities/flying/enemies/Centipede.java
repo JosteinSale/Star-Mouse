@@ -25,7 +25,7 @@ public class Centipede extends BaseEnemy {
    private final int wiggleAmplitude = 20;
    private final int wigglePhase = 60;
    private double wiggleRotation;
-   private ArrayList<Point.Float> hitboxCenters;
+   private final ArrayList<Point.Float> hitboxCenters;
 
    public Centipede(Rectangle2D.Float hitbox, EntityInfo info, int startTimer, Vector2 directionVector) {
       super(hitbox, info, startTimer, null);
@@ -37,6 +37,7 @@ public class Centipede extends BaseEnemy {
       this.angle = calculateAngle(normalizedVector);
       this.onScreenArea = new Rectangle2D.Float(
             -200, -100, Game.GAME_DEFAULT_WIDTH + 400, Game.GAME_DEFAULT_HEIGHT + 200);
+      this.hitboxCenters = new ArrayList<>();
       constructHitboxes();
       constructAnimations();
       constructWiggleStuff();
@@ -108,7 +109,7 @@ public class Centipede extends BaseEnemy {
    }
 
    private void constructWiggleStuff() {
-      hitboxCenters = new ArrayList<>();
+      hitboxCenters.clear();
       allHitboxes.forEach(hb -> hitboxCenters.add(
             new Point.Float(hb.x + hb.width / 2, hb.y + hb.height / 2)));
    }
