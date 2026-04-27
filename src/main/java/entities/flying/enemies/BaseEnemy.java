@@ -81,7 +81,7 @@ public abstract class BaseEnemy extends Entity implements Enemy {
       checkOnScreen(levelYSpeed);
       if (onScreen) {
          updateAniTick();
-         updateShootTick();
+         updateChargeTick();
          updateCustomBehavior(levelYSpeed);
       }
    }
@@ -120,7 +120,7 @@ public abstract class BaseEnemy extends Entity implements Enemy {
       }
    }
 
-   protected void updateShootTick() {
+   protected void updateChargeTick() {
       chargeTick++;
    }
 

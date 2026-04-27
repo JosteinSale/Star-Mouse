@@ -11,7 +11,7 @@ public class Target extends BaseEnemy {
    }
 
    @Override
-   protected void updateShootTick() {
+   protected void updateChargeTick() {
       // Do nothing
    }
 

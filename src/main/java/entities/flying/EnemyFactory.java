@@ -42,6 +42,7 @@ public class EnemyFactory {
       public static final int BIG_ASTEROID = 15;
       public static final int BURNING_FRAGMENT = 16;
       public static final int CENTIPEDE = 17;
+      public static final int LURKER = 18;
    }
 
    public EnemyFactory(PlayerFly player) {
@@ -67,6 +68,7 @@ public class EnemyFactory {
       this.nameToTypeMap.put("bigAsteroid", BIG_ASTEROID);
       this.nameToTypeMap.put("burningFragment", BURNING_FRAGMENT);
       this.nameToTypeMap.put("centipede", CENTIPEDE);
+      this.nameToTypeMap.put("lurker", LURKER);
    }
 
    private void registerAllEntities() {
@@ -153,6 +155,12 @@ public class EnemyFactory {
             CENTIPEDE,
             Images.CENTIPEDE_SPRITE, 100, 50, 6, 8,
             81, 66, 0, 0));
+
+      // LURKER
+      enemyInfo.put(LURKER, new EntityInfo(
+            LURKER,
+            Images.LURKER_SPRITE, 40, 40, 2, 3,
+            100, 100, 0, 0));
    }
 
    /**
@@ -223,6 +231,10 @@ public class EnemyFactory {
             int vectorX = Integer.parseInt(lineData[5]);
             int vectorY = Integer.parseInt(lineData[6]);
             return new Centipede(hitbox, info, chargeTimer, new Vector2(vectorX, vectorY));
+         case LURKER:
+            Lurker lurker = new Lurker(hitbox, info, chargeTimer);
+            lurker.setPlayer(player);
+            return lurker;
          default:
             throw new IllegalArgumentException("No enemy constructor for type " + typeConstant);
       }
