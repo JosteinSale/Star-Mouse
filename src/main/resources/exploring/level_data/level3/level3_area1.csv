@@ -1,8 +1,8 @@
 ambience;1
 song;99;false
-player;1086;651;45f;18f;0
+player;1086;651;45f;18f;right
 object;993f;621f;60f;36f;exitSaber
-portal;228f;790f;261f;36f;2;3;toCliff
+portal;228f;790f;261f;36f;2;up;toCliff
 npc;1721f;490f;100f;100f;Lt.Red;80;80;false
 npc;2240f;690f;90f;100f;Frida;100;70;true
 npc;2750f;420f;90f;100f;Mechanic;60;80;false

@@ -1,10 +1,10 @@
 package cutscenes.effects;
 
+import entities.exploring.NPC;
 import entities.exploring.NpcManager;
 import game_states.Gamestate;
-
-import static utils.Constants.Exploring.DirectionConstants.STANDING;
-
+import utils.Constants.Direction;
+import utils.Constants.Exploring.CharacterAction;
 import cutscenes.events.GeneralEvent;
 import cutscenes.events.NPCWalkEvent;
 
@@ -29,7 +29,9 @@ public class NPCWalkEffect implements UpdatableEffect, AdvancableEffect {
       this.active = true;
       this.npcIndex = npcEvt.npcIndex();
       this.walkDuration = npcEvt.walkDuration();
-      this.npcManager.getNpc(npcIndex).setAction(npcEvt.sheetRowIndex());
+      NPC npc = npcManager.getNpc(npcIndex);
+      npc.setAction(CharacterAction.WALKING);
+      npc.setDir(npcEvt.dir());
 
       float xDistance = npcEvt.targetX() - this.npcManager.getNpc(npcIndex).getHitbox().x;
       float yDistance = npcEvt.targetY() - this.npcManager.getNpc(npcIndex).getHitbox().y;
@@ -39,7 +41,7 @@ public class NPCWalkEffect implements UpdatableEffect, AdvancableEffect {
 
    @Override
    public GeneralEvent getAssociatedEvent() {
-      return new NPCWalkEvent(0, 0, 0, 0, 0);
+      return new NPCWalkEvent(0, Direction.RIGHT, 0, 0, 0);
    }
 
    @Override
@@ -54,7 +56,7 @@ public class NPCWalkEffect implements UpdatableEffect, AdvancableEffect {
       if (walkDuration == 0) {
          this.active = false;
          this.shouldAdvance = true;
-         this.npcManager.getNpc(npcIndex).setAction(STANDING);
+         this.npcManager.getNpc(npcIndex).setAction(CharacterAction.STANDING);
       }
    }
 

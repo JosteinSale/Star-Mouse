@@ -1,6 +1,6 @@
 package entities.boss_mode;
 
-import static utils.Constants.Flying.ActionConstants.*;
+import static utils.Constants.Flying.PlaneAction.*;
 
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;

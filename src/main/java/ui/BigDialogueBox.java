@@ -1,7 +1,7 @@
 package ui;
 
 import static utils.Constants.UI.DIALOGUE_MAX_LETTERS;
-import static utils.HelpMethods.GetCharacterIndex;
+import static utils.parsing.LevelDataParser.GetCharacterIndex;
 import static utils.HelpMethods.ChopStringIntoLines;
 
 import java.util.ArrayList;

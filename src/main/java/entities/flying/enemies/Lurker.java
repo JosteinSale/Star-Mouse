@@ -17,7 +17,8 @@ public class Lurker extends BaseEnemy {
       super(hitbox, info, chargeDone, null);
       maxHP = 10;
       HP = maxHP;
-      aniTickPerFrame = 6;
+      animation.setAniTickPerFrame(6);
+      animation.setAmountOfFrames(3);
       lurkerPos = new Point2D.Float(hitbox.x, hitbox.y);
    }
 
@@ -48,7 +49,7 @@ public class Lurker extends BaseEnemy {
 
    private void jitterMovement() {
       float jitterAmount = 3f;
-      if (aniTick == 0) {
+      if (animation.getTick() == 0) {
          hitbox.x += (Math.random() - 0.5) * jitterAmount;
          hitbox.y += (Math.random() - 0.5) * jitterAmount;
       }
@@ -97,11 +98,6 @@ public class Lurker extends BaseEnemy {
    @Override
    public boolean canShoot() {
       return false;
-   }
-
-   @Override
-   protected int amountOfFrames() {
-      return 3;
    }
 
    @Override

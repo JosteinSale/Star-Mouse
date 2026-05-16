@@ -14,6 +14,7 @@ public class KamikazeDrone extends BaseEnemy {
       super(hitbox, info);
       maxHP = 60;
       HP = maxHP;
+      animation.setAmountOfFrames(2);
    }
 
    /**
@@ -47,22 +48,13 @@ public class KamikazeDrone extends BaseEnemy {
 
    @Override
    public void onCollision(int damage) {
+      this.takeDamage(damage);
       this.playerCollisions++;
-      this.HP -= damage;
       if (playerCollisions == 3) {
          // The drone explodes after 3 collisions
          this.HP = 0;
          dead = true;
          playerCollisions = 0;
-      }
-   }
-
-   @Override
-   protected int amountOfFrames() {
-      if (animation.getAction() == IDLE) {
-         return 2;
-      } else {
-         return 1;
       }
    }
 }

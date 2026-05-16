@@ -3,7 +3,10 @@ package entities.exploring;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
 
+import entities.AnimationFrame;
 import entities.Entity;
+import utils.Constants.Direction;
+import utils.Constants.Exploring.CharacterAction;
 
 public class StandardNpc extends Entity implements NPC {
    public String name;
@@ -12,6 +15,7 @@ public class StandardNpc extends Entity implements NPC {
    public int yDrawOffset;
    private int startCutscene = 0;
    public boolean inForeground;
+   private AnimationFrame animation;
 
    public StandardNpc(String name, Float hitbox, int xDrawOffset, int yDrawOffset,
          boolean inForeground) {
@@ -21,6 +25,9 @@ public class StandardNpc extends Entity implements NPC {
       this.xDrawOffset = xDrawOffset;
       this.yDrawOffset = yDrawOffset;
       this.inForeground = inForeground;
+      this.animation = new AnimationFrame(
+            0, 0,
+            8, 1);
    }
 
    @Override
@@ -58,7 +65,7 @@ public class StandardNpc extends Entity implements NPC {
    }
 
    @Override
-   public void setDir(int dir) {
+   public void setDir(Direction dir) {
       // Do nothing
    }
 
@@ -68,7 +75,7 @@ public class StandardNpc extends Entity implements NPC {
    }
 
    @Override
-   public void setAction(int action) {
+   public void setAction(CharacterAction action) {
       // Do nothing
    }
 
@@ -92,12 +99,7 @@ public class StandardNpc extends Entity implements NPC {
    }
 
    @Override
-   public int getAction() {
-      throw new IllegalArgumentException("Standard NPC's don't have actions");
-   }
-
-   @Override
-   public int getAniIndex() {
-      throw new IllegalArgumentException("Standard NPC's don't have animations");
+   public AnimationFrame getAnimation() {
+      return this.animation;
    }
 }

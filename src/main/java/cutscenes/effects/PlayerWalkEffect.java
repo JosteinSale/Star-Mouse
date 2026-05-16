@@ -4,6 +4,8 @@ import cutscenes.events.GeneralEvent;
 import cutscenes.events.PlayerWalkEvent;
 import entities.exploring.PlayerExp;
 import game_states.Gamestate;
+import utils.Constants.Direction;
+import utils.Constants.Exploring.CharacterAction;
 
 public class PlayerWalkEffect implements UpdatableEffect, AdvancableEffect {
    private boolean active;
@@ -22,7 +24,7 @@ public class PlayerWalkEffect implements UpdatableEffect, AdvancableEffect {
       PlayerWalkEvent playEvt = (PlayerWalkEvent) evt;
       this.active = true;
       this.walkDuration = playEvt.walkDuration();
-      this.player.setAction(playEvt.sheetRowIndex());
+      this.player.setAction(CharacterAction.WALKING);
 
       float xDistance = playEvt.targetX() - this.player.getHitbox().x;
       float yDistance = playEvt.targetY() - this.player.getHitbox().y;
@@ -32,7 +34,7 @@ public class PlayerWalkEffect implements UpdatableEffect, AdvancableEffect {
 
    @Override
    public GeneralEvent getAssociatedEvent() {
-      return new PlayerWalkEvent(0, 0, 0, 0);
+      return new PlayerWalkEvent(Direction.RIGHT, 0, 0, 0);
    }
 
    @Override

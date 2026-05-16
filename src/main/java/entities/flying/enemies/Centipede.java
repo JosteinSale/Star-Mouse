@@ -40,7 +40,7 @@ public class Centipede extends BaseEnemy {
       this.hitboxCenters = new ArrayList<>();
       constructHitboxes();
       constructAnimations();
-      constructWiggleStuff();
+      constructHitboxCenters();
    }
 
    private Vector2 normalizeVector(Vector2 vector) {
@@ -93,22 +93,33 @@ public class Centipede extends BaseEnemy {
 
    private void constructAnimations() {
       allAnimations.clear();
+      int aniTickPerFrame = 4;
+      int amountOfFrames = 8;
+
       // 1. Head
+      animation = new AnimationFrame(
+            IDLE, 0,
+            aniTickPerFrame, amountOfFrames);
       allAnimations.add(animation);
+
       // 2. Mmiddle segment
       for (int i = 0; i < nrOfMiddleSegments; i++) {
-         AnimationFrame middleAnimation = new AnimationFrame(1, (nrOfMiddleSegments - i) % 8);
+         AnimationFrame middleAnimation = new AnimationFrame(
+               1, (nrOfMiddleSegments - i) % 8,
+               aniTickPerFrame, amountOfFrames);
          allAnimations.add(middleAnimation);
       }
       // 3. Tail
-      AnimationFrame tailAnimation = new AnimationFrame(2, 0);
+      AnimationFrame tailAnimation = new AnimationFrame(
+            2, 0,
+            aniTickPerFrame, amountOfFrames);
       allAnimations.add(tailAnimation);
 
       // 4. Reverse so that head is drawn last (= on top)
       Collections.reverse(allAnimations);
    }
 
-   private void constructWiggleStuff() {
+   private void constructHitboxCenters() {
       hitboxCenters.clear();
       allHitboxes.forEach(hb -> hitboxCenters.add(
             new Point.Float(hb.x + hb.width / 2, hb.y + hb.height / 2)));
@@ -185,15 +196,8 @@ public class Centipede extends BaseEnemy {
 
    @Override
    protected void updateAniTick() {
-      aniTick++;
-      if (aniTick >= aniTickPerFrame) {
-         aniTick = 0;
-         for (AnimationFrame af : allAnimations) {
-            af.nextFrame();
-            if (af.getFrame() >= amountOfFrames()) {
-               af.setFrame(0);
-            }
-         }
+      for (AnimationFrame af : allAnimations) {
+         af.update();
       }
       if (damageTick > 0) {
          damageTick--;
@@ -206,9 +210,9 @@ public class Centipede extends BaseEnemy {
    private void setAllAnimationsTo(int action) {
       for (int i = 0; i < allAnimations.size(); i++) {
          switch (i) {
-            case 0 -> allAnimations.reversed().get(i).setAction(action); // Head
-            case (1 + nrOfMiddleSegments) -> allAnimations.reversed().get(i).setAction(action + 2); // Tail
-            default -> allAnimations.get(i).setAction(action + 1); // Middle segments
+            case (1 + nrOfMiddleSegments) -> allAnimations.get(i).setRow(action); // Head
+            case (0) -> allAnimations.get(i).setRow(action + 2); // Tail
+            default -> allAnimations.get(i).setRow(action + 1); // Middle segments
          }
       }
    }
@@ -222,12 +226,7 @@ public class Centipede extends BaseEnemy {
    protected void resetCustomVars() {
       attackPhaseActive = false;
       constructHitboxes();
-      constructWiggleStuff();
-   }
-
-   @Override
-   protected int amountOfFrames() {
-      return 8;
+      constructHitboxCenters();
    }
 
    @Override

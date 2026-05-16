@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import entities.exploring.PlayerExp;
+import entities.AnimationFrame;
 import game_states.exploring.Area;
 import main_classes.Game;
 import main_classes.Testing;
@@ -20,7 +21,6 @@ import static utils.Constants.Exploring.Sprites.STANDARD_SPRITE_HEIGHT;
 import static utils.Constants.Exploring.Sprites.STANDARD_SPRITE_WIDTH;
 
 public class RenderArea implements Render {
-   private Game game;
    private Area area;
    private RenderMap1 rMap;
    private RenderNPCs rNPCs;
@@ -34,7 +34,6 @@ public class RenderArea implements Render {
    private final int SAD_SPRITE = 2;
 
    public RenderArea(Game game, Area area, int levelIndex, int areaIndex) {
-      this.game = game;
       this.area = area;
       this.rMap = new RenderMap1(area.getMapManager(), game.getImages(), levelIndex, areaIndex);
       this.rNPCs = new RenderNPCs(game, area.getNpcManager());
@@ -45,13 +44,13 @@ public class RenderArea implements Render {
       playerSprites = new ArrayList<>();
       MySubImage[][] normalSprites = HelpMethods.GetUnscaled2DAnimationArray(
             images.getExpImageSprite(Images.PLAYER_EXP_SPRITES, true),
-            6, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
+            9, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
       MySubImage[][] nakedSprites = HelpMethods.GetUnscaled2DAnimationArray(
             images.getExpImageSprite(Images.PLAYER_EXP_SPRITES_NAKED, true),
-            5, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
+            9, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
       MySubImage[][] sadSprites = HelpMethods.GetUnscaled2DAnimationArray(
             images.getExpImageSprite(Images.PLAYER_EXP_SPRITES_SAD, true),
-            5, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
+            9, 4, STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
       playerSprites.add(normalSprites);
       playerSprites.add(nakedSprites);
       playerSprites.add(sadSprites);
@@ -89,10 +88,10 @@ public class RenderArea implements Render {
 
    public void drawPlayer(SpriteBatch sb, int xLevelOffset, int yLevelOffset) {
       PlayerExp player = area.getPlayer();
+      AnimationFrame animation = player.getAnimation();
       if (player.visible) {
-         // drawShadow(g, xLevelOffset, yLevelOffset);
          DrawUtils.drawSubImage(
-               sb, playerSprites.get(PlayerExp.CURRENT_SPRITE_SHEET)[player.playerAction][player.aniIndex],
+               sb, playerSprites.get(PlayerExp.CURRENT_SPRITE_SHEET)[animation.getRow()][animation.getCol()],
                (int) (player.hitbox.x - 113 - xLevelOffset),
                (int) (player.hitbox.y - 135 - yLevelOffset),
                playerSpriteWidth, playerSpriteHeight);

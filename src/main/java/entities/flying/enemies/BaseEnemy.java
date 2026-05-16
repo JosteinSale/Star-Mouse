@@ -42,8 +42,6 @@ public abstract class BaseEnemy extends Entity implements Enemy {
    // Animation(s)
    protected AnimationFrame animation;
    protected ArrayList<AnimationFrame> allAnimations; // will contain only one AnimationFrame by default
-   protected int aniTick;
-   protected int aniTickPerFrame = 4;
 
    public BaseEnemy(Rectangle2D.Float hitbox, EntityInfo info, int chargeDone, AnimatedGlow glow) {
       super(hitbox);
@@ -51,7 +49,7 @@ public abstract class BaseEnemy extends Entity implements Enemy {
       allHitboxes.add(hitbox);
 
       allAnimations = new ArrayList<>();
-      animation = new AnimationFrame(IDLE, 0);
+      animation = new AnimationFrame(IDLE, 0, 4, 1);
       allAnimations.add(animation);
 
       this.info = info;
@@ -67,7 +65,7 @@ public abstract class BaseEnemy extends Entity implements Enemy {
       allHitboxes.add(hitbox);
 
       allAnimations = new ArrayList<>();
-      animation = new AnimationFrame(IDLE, 0);
+      animation = new AnimationFrame(IDLE, 0, 4, 1);
       allAnimations.add(animation);
 
       this.info = info;
@@ -104,14 +102,8 @@ public abstract class BaseEnemy extends Entity implements Enemy {
    }
 
    protected void updateAniTick() {
-      aniTick++;
-      if (aniTick >= aniTickPerFrame) {
-         aniTick = 0;
-         animation.nextFrame();
-         if (animation.getFrame() >= amountOfFrames()) {
-            animation.setFrame(0);
-         }
-      }
+      animation.update();
+      // 2. Set action
       if (animation.getAction() == TAKING_DAMAGE) {
          damageTick--;
          if (damageTick <= 0) {
@@ -179,22 +171,16 @@ public abstract class BaseEnemy extends Entity implements Enemy {
       return true;
    }
 
-   protected int amountOfFrames() {
-      return 1;
-   }
-
    @Override
    public void resetTo(float y) {
       hitbox.y = startY + y;
       hitbox.x = startX;
       if (glow != null)
          glow.reset();
-      animation.setAction(IDLE);
-      animation.setCol(0);
+      animation.reset();
       HP = maxHP;
       onScreen = false;
       dead = false;
-      aniTick = 0;
       chargeTick = 0;
       resetCustomVars();
    }

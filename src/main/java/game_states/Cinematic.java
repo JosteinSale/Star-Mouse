@@ -1,6 +1,6 @@
 package game_states;
 
-import static utils.HelpMethods.ParseCutscenes;
+import static utils.parsing.CutsceneParser.ParseCutscenes;
 
 import java.util.List;
 

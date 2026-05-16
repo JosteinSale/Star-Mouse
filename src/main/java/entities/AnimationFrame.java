@@ -2,7 +2,7 @@ package entities;
 
 /**
  * Contains a row and column index, corresponding to a specific frame in a
- * sprite sheet.
+ * sprite sheet. Also provides methods to update and reset the animation.
  * 
  * Note: in this object, 'row' is equivalent to 'action'.
  * This is because an entity's action/state corresponds to its row in the sprite
@@ -18,10 +18,30 @@ package entities;
 public class AnimationFrame {
    private int row; // = entity action
    private int col; // = current animation frame for an action
+   private int aniTick;
+   private int aniTickPerFrame;
+   private int amountOfFrames;
+   private int startAction;
+   private int startColumn;
 
-   public AnimationFrame(int row, int col) {
-      this.row = row;
-      this.col = col;
+   public AnimationFrame(int startAction, int startColumn, int aniTickPerFrame, int amountOfFrames) {
+      this.startAction = row;
+      this.startColumn = startColumn;
+      this.row = startAction;
+      this.col = startColumn;
+      this.aniTickPerFrame = aniTickPerFrame;
+      this.amountOfFrames = amountOfFrames;
+   }
+
+   public void update() {
+      aniTick++;
+      if (aniTick >= aniTickPerFrame) {
+         aniTick = 0;
+         nextFrame();
+         if (getFrame() >= amountOfFrames) {
+            setFrame(0);
+         }
+      }
    }
 
    /** Does the same as getFrame */
@@ -44,7 +64,7 @@ public class AnimationFrame {
       this.col = frame;
    }
 
-   public void nextFrame() {
+   private void nextFrame() {
       col++;
    }
 
@@ -66,5 +86,23 @@ public class AnimationFrame {
    /** Same as setRow */
    public void setAction(int action) {
       this.row = action;
+   }
+
+   public int getTick() {
+      return this.aniTick;
+   }
+
+   public void reset() {
+      this.row = startAction;
+      this.col = startColumn;
+      aniTick = 0;
+   }
+
+   public void setAmountOfFrames(int amount) {
+      this.amountOfFrames = amount;
+   }
+
+   public void setAniTickPerFrame(int amount) {
+      this.aniTickPerFrame = amount;
    }
 };

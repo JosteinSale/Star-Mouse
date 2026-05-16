@@ -1,5 +1,6 @@
 package rendering.exploring;
 
+import entities.AnimationFrame;
 import entities.exploring.Gard;
 import entities.exploring.NPC;
 import entities.exploring.NpcManager;
@@ -75,10 +76,11 @@ public class RenderNPCs implements Render {
    }
 
    private MySubImage getSprite(NPC npc) {
+      AnimationFrame af = npc.getAnimation();
       if (npc instanceof Oliver) {
-         return oliverAnimations[npc.getAction()][npc.getAniIndex()];
+         return oliverAnimations[af.getRow()][af.getCol()];
       } else if (npc instanceof Gard) {
-         return gardAnimations[npc.getAction()][npc.getAniIndex()];
+         return gardAnimations[af.getRow()][af.getCol()];
       } else {
          return this.getStandardSprite(npc.getName());
       }

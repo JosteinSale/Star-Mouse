@@ -10,7 +10,7 @@ SONG:
 
 PLAYER:
 [0] = "player", [1] = hitbox-x, [2] = hitbox-y, [3] = hitbox-width, 
-[4] = hitbox-height, [5] = playerDir (int)
+[4] = hitbox-height, [5] = playerDir (String)
 
 OBJECT:
 [0] = "object", [1] = hitbox-x, [2] = hitbox-y, [3] = hitbox-width, 
@@ -19,18 +19,18 @@ OBJECT:
 DOOR:
 [0] = "door", [1] = hitbox-x, [2] = hitbox-y, [3] = hitbox-width, 
 [4] = hitbox-height, [5] = nrOfRequirments, [6] = name (String),
-[7] = areaDoorLeadsTo (int), [8] = playerDirUponReentering (int)
+[7] = areaDoorLeadsTo (int), [8] = playerDirUponReentering (String)
 * OBS: if a door will have cutscenes, every door before that must also have a 
  cutscene (e.g. just wait;1).
 
 PORTAL:
 [0] = "portal", [1] = hitbox-x, [2] = hitbox-y, [3] = hitbox-width, 
 [4] = hitbox-height, [6] = areaDoorLeadsTo (int), 
-[7] = playerDirUponReentering (int)
+[7] = playerDirUponReentering (String)
 
 NPC (special):
 [0] = npcName, [1] = hitbox-x, [2] = hitbox-y, [3] = hitbox-width, 
-[4] = hitbox-height, [5] = npcDir (int), [6] = inForeground (boolean)
+[4] = hitbox-height, [5] = npcDir (String), [6] = inForeground (boolean)
 
 NPC (regular):
 [0] = "npc", [1] = hitbox-x, [2] = hitbox-y, [3] = hitbox-width, 

@@ -1,6 +1,6 @@
 ambience;99
 song;99;false
-player;504f;702f;45f;18f;3
+player;504f;702f;45f;18f;up
 object;159f;417f;150f;162f;clothingRack
 object;147f;315f;30f;69f;leftCrate
 object;222f;261f;114f;63f;bombBox1
@@ -9,4 +9,4 @@ object;624f;264f;42f;48f;rightCrates1
 object;711f;279f;219f;132f;rightCrates2
 object;870f;435f;42f;30f;rightCrates3
 object;765f;500f;120f;100f;rightBox
-portal;450f;722f;144f;27f;3;3;exitPortal
+portal;450f;722f;144f;27f;3;up;exitPortal

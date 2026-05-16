@@ -2,11 +2,10 @@ package entities.flying;
 
 /**
  * A glowing effect in the game. Used for shooting effects and other visual
- * enhancements. Can be static or animated.
+ * enhancements.
  * 
- * Call start() method to activate the glow effect (only affects animated
- * glows). Call update() method in the game loop to update the glow's animation
- * (also only affects animated glows).
+ * Call start() method to activate the glow effect.
+ * Call update() method in the game loop to update the glow's animation.
  * Change the position of the glow using setPos(x, y) method.
  * 
  * To check if an animated glow is active (e.g. for rendering), use isActive()

@@ -4,11 +4,7 @@ package entities.flying;
  * A glowing effect in the game. Used for shooting effects and other visual
  * enhancements.
  * 
- * Call start() method to activate the glow effect
- * Call update() method in the game loop to update the glow's animation
  * Change the position of the glow using setPos(x, y) method.
- * 
- * To check if an animated glow is active (e.g. for rendering), use isActive()
  */
 public class StaticGlow {
    public static final int WHITE_GLOW_SMALL = 1;

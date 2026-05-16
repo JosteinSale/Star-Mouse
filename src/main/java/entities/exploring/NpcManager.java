@@ -3,6 +3,8 @@ package entities.exploring;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import utils.Constants.Direction;
+
 public class NpcManager {
    public ArrayList<NPC> allNpcs = new ArrayList<>();
    private ArrayList<Rectangle2D.Float> hitboxes = new ArrayList<>();
@@ -29,7 +31,7 @@ public class NpcManager {
       allNpcs.get(npcNr).setStartCutscene(cutsceneIndex);
    }
 
-   public void setNpcDir(String name, int dir) {
+   public void setNpcDir(String name, Direction dir) {
       for (NPC npc : allNpcs) {
          if (npc.getName().equals(name)) {
             npc.setDir(dir);

@@ -3,13 +3,15 @@ package entities.exploring;
 import java.awt.geom.Rectangle2D.Float;
 import java.util.ArrayList;
 
+import utils.Constants.Direction;
+
 public class Door extends InteractableObject {
     private int areaItLeadsTo;
-    private int reenterDir;
+    private Direction reenterDir;
     private ArrayList<Boolean> unlockRequirements;
     private int startCutscene = 0;
 
-    public Door(Float hitbox, int nrOfRequirements, String name, int areaItLeadsTo, int reenterDir) {
+    public Door(Float hitbox, int nrOfRequirements, String name, int areaItLeadsTo, Direction reenterDir) {
         super(hitbox, name);
         this.unlockRequirements = new ArrayList<>();
         for (int i = 0; i < nrOfRequirements; i++) {
@@ -37,7 +39,7 @@ public class Door extends InteractableObject {
         this.unlockRequirements.set(index, true);
     }
 
-    public int getReenterDir() {
+    public Direction getReenterDir() {
         return this.reenterDir;
     }
 
@@ -48,5 +50,5 @@ public class Door extends InteractableObject {
     public int getStartCutscene() {
         return this.startCutscene;
     }
-    
+
 }

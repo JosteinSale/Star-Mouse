@@ -4,7 +4,10 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
 import static utils.Constants.Exploring.Cutscenes.GARD;
 
+import entities.AnimationFrame;
 import entities.Entity;
+import utils.Constants.Direction;
+import utils.Constants.Exploring.CharacterAction;
 
 public class Gard extends Entity implements NPC {
    private String name = GARD;
@@ -13,30 +16,19 @@ public class Gard extends Entity implements NPC {
    private int yDrawOffset = 30;
    private int startCutscene = 0;
    private boolean inForeground;
-   private boolean poseActive = false;
 
-   // Actions
-   private int action = 0;
-   private final int STANDING = 0;
-   private final int WALKING_RIGHT = 1;
-   private final int WALKING_LEFT = 2;
+   private CharacterAction action;
+   private Direction direction;
+   private AnimationFrame animation;
 
-   // Directions
-   private int direction;
-   private final int RIGHT = 0;
-   private final int LEFT = 1;
-   private final int UP = 2;
-   private final int DOWN = 3;
-
-   private int aniTick = 0;
-   private int aniTickPerFrame = 8; // Antall ticks per gang animasjonen oppdateres
-   private int aniIndex = 0;
-
-   public Gard(Float hitbox, int direction, boolean inForeground) {
+   public Gard(Float hitbox, Direction direction, boolean inForeground) {
       super(hitbox);
       this.direction = direction;
       this.inForeground = inForeground;
       makeTriggerBox();
+      this.animation = new AnimationFrame(
+            0, 0,
+            8, 4);
    }
 
    private void makeTriggerBox() {
@@ -50,29 +42,10 @@ public class Gard extends Entity implements NPC {
    }
 
    private void updateAniTick() {
-      if (poseActive) {
+      if (action == CharacterAction.POSING) {
          return;
       }
-      aniTick++;
-      if (aniTick >= aniTickPerFrame) {
-         aniIndex++;
-         aniTick = 0;
-      }
-      if (aniIndex >= getSpriteAmount(action)) {
-         aniIndex = 0;
-      }
-      if (action == STANDING) {
-         aniIndex = direction;
-      }
-   }
-
-   private int getSpriteAmount(int action) {
-      switch (action) {
-         case WALKING_LEFT, WALKING_RIGHT, STANDING:
-            return 4;
-         default:
-            throw new IllegalArgumentException("No sprite amount for action " + action);
-      }
+      animation.update();
    }
 
    public void adjustPos(float deltaX, float deltaY) {
@@ -107,20 +80,19 @@ public class Gard extends Entity implements NPC {
    }
 
    @Override
-   public void setDir(int dir) {
+   public void setDir(Direction dir) {
       this.direction = dir;
    }
 
    @Override
    public void setSprite(boolean poseActive, int colIndex, int rowIndex) {
       if (poseActive == true) {
-         this.poseActive = true;
-         this.action = rowIndex;
-         this.aniIndex = colIndex;
+         this.action = CharacterAction.POSING;
+         animation.setRow(rowIndex);
+         animation.setCol(colIndex);
       } else {
-         this.poseActive = false;
-         this.aniIndex = 0;
-         this.aniTick = 0;
+         this.action = CharacterAction.STANDING;
+         animation.reset();
       }
    }
 
@@ -129,8 +101,30 @@ public class Gard extends Entity implements NPC {
       return this.inForeground;
    }
 
-   public void setAction(int action) {
+   public void setAction(CharacterAction action) {
       this.action = action;
+      animation.setRow(getAnimationRow());
+   }
+
+   private int getAnimationRow() {
+      switch (action) {
+         case STANDING:
+            int standingRow = switch (direction) {
+               case LEFT -> 0;
+               case RIGHT -> 1;
+               default -> throw new IllegalArgumentException("Not implemented yet " + action.toString());
+            };
+            return standingRow;
+         case WALKING:
+            int walkingRow = switch (direction) {
+               case LEFT -> 2;
+               case RIGHT -> 3;
+               default -> throw new IllegalArgumentException("Not implemented yet " + action.toString());
+            };
+            return walkingRow;
+         default:
+            throw new IllegalArgumentException("No animation row for action " + action.toString());
+      }
    }
 
    @Override
@@ -144,13 +138,8 @@ public class Gard extends Entity implements NPC {
    }
 
    @Override
-   public int getAction() {
-      return this.action;
-   }
-
-   @Override
-   public int getAniIndex() {
-      return this.aniIndex;
+   public AnimationFrame getAnimation() {
+      return this.animation;
    }
 
 }

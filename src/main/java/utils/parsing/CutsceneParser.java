@@ -1,24 +1,28 @@
 package utils.parsing;
 
-import static utils.HelpMethods.ParseDirection;
 import static utils.parsing.DynamicValueParser.InsertDynamicValues;
+import static utils.parsing.LevelDataParser.ParseDirection;
 
 import java.util.HashMap;
+import java.util.List;
 
+import cutscenes.Cutscene;
+import cutscenes.CutscenesForEntity;
+import cutscenes.Sequence;
 import cutscenes.events.*;
 import game_states.Gamestate;
-import utils.HelpMethods;
+import utils.Constants.Direction;
 
 /** A parser which can parse all GeneralEvents. */
 public class CutsceneParser {
 
    private static HashMap<String, EventParser> parseMap = new HashMap<>();
 
-   public static boolean canParseEntry(String entryName) {
+   private static boolean canParseEntry(String entryName) {
       return parseMap.containsKey(entryName);
    }
 
-   public static GeneralEvent parseEvent(String entryName, String[] lineData, int lineNr) {
+   private static GeneralEvent parseEvent(String entryName, String[] lineData, int lineNr) {
       try {
          return parseMap.get(entryName).parseEvent(lineData);
       } catch (ArrayIndexOutOfBoundsException e) {
@@ -76,7 +80,81 @@ public class CutsceneParser {
       parseMap.put("exitCinematic", CutsceneParser::parseExitCinematic);
    }
 
-   // ------------------- PARSERS ------------------- //
+   // ------------------- MAIN CUTSCENE PARSER ------------------- //
+
+   public static HashMap<String, CutscenesForEntity> ParseCutscenes(List<String> cutsceneData) {
+      HashMap<String, CutscenesForEntity> allCutscenes = new HashMap<>();
+      String entityName = ""; // Entity that triggers the cutscene, e.g. 'bed'
+      int cutsceneIndex = 0; // which cutscene we're currently handling, e.g. cutscene #2 for 'bed'
+
+      // 1st loop: creating the initial cutscene- and sequence objects
+      for (String line : cutsceneData) {
+         String[] lineData = line.split(";");
+         String entry = lineData[0];
+
+         // 1.1 Add CutsceneForEntity and Cutscenes
+         if (entry.equals("cutscene")) {
+            cutsceneIndex += 1;
+            String thisEntityName = lineData[2];
+            if (!thisEntityName.equals(entityName)) {
+               // We have arrived at a new entity -> Add new CutscenesForEntity
+               cutsceneIndex = 0;
+               entityName = thisEntityName;
+               allCutscenes.put(entityName, new CutscenesForEntity());
+            }
+            allCutscenes.get(entityName).addCutscene(new Cutscene());
+         }
+         // 1.2 Add Sequences
+         else if (entry.equals("endSequence")) {
+            allCutscenes.get(entityName).getAllCutscenes().get(cutsceneIndex).addSequence(new Sequence());
+         }
+      }
+      // 2nd loop: adding the data
+      entityName = "";
+      cutsceneIndex = 0;
+      int currentLine = 1; // used for debugging
+      int sequenceIndex = 0; // sequence we're currently handling, for a cutscene
+      for (String line : cutsceneData) {
+         String[] lineData = line.split(";");
+         String entry = lineData[0];
+
+         // 2.1. Try to parse cutscene specifics
+         if (entry.equals("cutscene")) {
+            sequenceIndex = 0;
+            Boolean canReset = Boolean.parseBoolean(lineData[1]);
+            String thisEntityName = lineData[2];
+            if (!thisEntityName.equals(entityName)) {
+               // We have arrived at a new entity
+               entityName = thisEntityName;
+               cutsceneIndex = 0;
+            }
+            allCutscenes.get(entityName).getAllCutscenes().get(cutsceneIndex).setCanReset(canReset);
+            allCutscenes.get(entityName).getAllCutscenes().get(cutsceneIndex).setName(entityName);
+         }
+         // 2.2. Try to parse GeneralEvent
+         else if (CutsceneParser.canParseEntry(entry)) {
+            GeneralEvent event = CutsceneParser.parseEvent(entry, lineData, currentLine);
+            allCutscenes.get(entityName).getAllCutscenes().get(cutsceneIndex)
+                  .getSequence(sequenceIndex).addEvent(event);
+         }
+         // 2.3. Check if the sequence is over
+         else if (entry.equals("endSequence")) {
+            sequenceIndex += 1;
+         }
+         // 2.4. Check if cutscene is over, signified by an empty line
+         else if (entry.equals("")) {
+            cutsceneIndex += 1;
+         }
+         // 2.5. No matches -> parsing failed
+         else {
+            throw new IllegalArgumentException("Couldn't parse '" + entry + "' at line " + currentLine);
+         }
+         currentLine += 1;
+      }
+      return allCutscenes;
+   }
+
+   // ------------------- INDIVIDUAL EVENT PARSERS ------------------- //
 
    private static InfoBoxEvent parseInfoBox(String[] lineData) {
       String text = lineData[1];
@@ -192,25 +270,25 @@ public class CutsceneParser {
    }
 
    private static PlayerWalkEvent parsePlayerWalk(String[] lineData) {
-      Integer sheetRowIndex = ParseDirection(lineData[1]) + 1;
+      Direction dir = ParseDirection(lineData[1]);
       Float targetX = Float.parseFloat(lineData[2]);
       Float targetY = Float.parseFloat(lineData[3]);
       Integer framesDuration = Integer.parseInt(lineData[4]);
-      return new PlayerWalkEvent(sheetRowIndex, targetX, targetY, framesDuration);
+      return new PlayerWalkEvent(dir, targetX, targetY, framesDuration);
    }
 
    private static NPCWalkEvent parseNpcWalk(String[] lineData) {
       Integer npcIndex = Integer.parseInt(lineData[2]);
-      Integer sheetRowIndex = ParseDirection(lineData[3]) + 1;
+      Direction dir = ParseDirection(lineData[3]);
       Float targetX = Float.parseFloat(lineData[4]);
       Float targetY = Float.parseFloat(lineData[5]);
       Integer framesDuration = Integer.parseInt(lineData[6]);
-      return new NPCWalkEvent(npcIndex, sheetRowIndex, targetX, targetY, framesDuration);
+      return new NPCWalkEvent(npcIndex, dir, targetX, targetY, framesDuration);
    }
 
    private static SetDirEvent parseSetDir(String[] lineData) {
       String entityName = lineData[1];
-      int dir = ParseDirection(lineData[2]);
+      Direction dir = ParseDirection(lineData[2]);
       return new SetDirEvent(entityName, dir);
    }
 
@@ -281,7 +359,7 @@ public class CutsceneParser {
    }
 
    private static PlaySFXEvent parsePlaySFX(String[] lineData) {
-      Integer index = HelpMethods.ParseSFX(lineData[1]);
+      Integer index = LevelDataParser.ParseSFX(lineData[1]);
       return new PlaySFXEvent(index);
    }
 
@@ -375,7 +453,7 @@ public class CutsceneParser {
 
    private static StartCinematicEvent parseStartCinematic(String[] lineData) {
       String fileName = lineData[1];
-      Gamestate returnGamestate = HelpMethods.ParseGameState(lineData[2]);
+      Gamestate returnGamestate = LevelDataParser.ParseGameState(lineData[2]);
       return new StartCinematicEvent(fileName, returnGamestate);
    }
 

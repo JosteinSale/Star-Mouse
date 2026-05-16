@@ -19,7 +19,7 @@ import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_WIDTH;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import static utils.Constants.Flying.ActionConstants.*;
+import static utils.Constants.Flying.PlaneAction.*;
 
 public class RenderPlayerFly implements Render {
    private Game game;
@@ -117,19 +117,6 @@ public class RenderPlayerFly implements Render {
          // Glows from shooting
          rGlow.drawAnimatedGlow(sb, player.leftLazerGlow);
          rGlow.drawAnimatedGlow(sb, player.rightLazerGlow);
-
-         // g.setColor(Color.RED);
-         // this.drawHitbox(g, 0, 0);
-
-         // Teleport hitbox
-         /*
-          * g.setColor(Color.RED);
-          * g.drawRect(
-          * (int) (teleportHitbox.x * Game.SCALE),
-          * (int) (teleportHitbox.y * Game.SCALE),
-          * (int) (teleportHitbox.width * Game.SCALE),
-          * (int) (teleportHitbox.height * Game.SCALE));
-          */
       }
    }
 

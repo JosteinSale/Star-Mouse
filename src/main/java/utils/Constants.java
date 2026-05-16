@@ -1,6 +1,14 @@
 package utils;
 
 public class Constants {
+
+   public static enum Direction {
+      LEFT,
+      RIGHT,
+      UP,
+      DOWN
+   }
+
    public static class UI {
       public static final int CURSOR_WIDTH = 20 * 3;
       public static final int CURSOR_HEIGHT = 11 * 3;
@@ -41,6 +49,12 @@ public class Constants {
 
    public static class Exploring {
 
+      public static enum CharacterAction {
+         STANDING,
+         WALKING,
+         POSING
+      }
+
       public static class Sprites {
          public static final int STANDARD_SPRITE_WIDTH = 90;
          public static final int STANDARD_SPRITE_HEIGHT = 60;
@@ -61,34 +75,6 @@ public class Constants {
          public static final String GARD = "gard";
          public static final String SONG = "song";
          public static final String AMBIENCE = "ambience";
-      }
-
-      // Dette er standard-verdier.
-      public static class DirectionConstants {
-         // Index for raden en animasjon har i spritesheet.
-         public static final int STANDING = 0;
-         public static final int WALKING_RIGHT = 1;
-         public static final int WALKING_LEFT = 2;
-         public static final int WALKING_DOWN = 3;
-         public static final int WALKING_UP = 4;
-
-         // Retningen spilleren peker mot
-         public static final int RIGHT = 0;
-         public static final int LEFT = 1;
-         public static final int DOWN = 2;
-         public static final int UP = 3;
-
-         // Kan ha første bokstaven i navnet stor for å signalisere at metoden er statisk
-         public static int GetSpriteAmount(int playerAction) {
-            /*
-             * switch(playerAction) {
-             * case STANDING:
-             * return 1;
-             * etc etc
-             * }
-             */
-            return 4;
-         }
       }
    }
 
@@ -131,7 +117,7 @@ public class Constants {
       }
 
       // Dette er standard-verdier.
-      public static class ActionConstants {
+      public static class PlaneAction {
          // Index for raden en animasjon har i spritesheet.
          public static final int IDLE = 0;
          public static final int FLYING_LEFT = 1;

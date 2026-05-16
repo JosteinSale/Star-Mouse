@@ -1,6 +1,6 @@
 package game_states.boss_mode;
 
-import static utils.HelpMethods.ParseCutscenes;
+import static utils.parsing.CutsceneParser.ParseCutscenes;
 import static utils.Constants.Exploring.Cutscenes.BOSS;
 
 import java.awt.geom.Rectangle2D;

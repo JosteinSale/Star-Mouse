@@ -3,8 +3,8 @@ package game_states.flying;
 import static utils.Constants.Flying.REPAIR_HEALTH;
 import static entities.flying.EnemyFactory.TypeConstants.DRONE;
 import static entities.flying.pickupItems.PickupItemFactory.TypeConstants.*;
-import static utils.HelpMethods.GetAutomaticTrigger;
-import static utils.HelpMethods.ParseCutscenes;
+import static utils.parsing.LevelDataParser.GetAutomaticTrigger;
+import static utils.parsing.CutsceneParser.ParseCutscenes;
 
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;

@@ -4,12 +4,12 @@ import ui.BigDialogueBox;
 import ui.SmallDialogueBox;
 import ui.TextboxManager;
 import utils.DrawUtils;
-import utils.HelpMethods;
 import utils.Images;
 
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import static utils.parsing.LevelDataParser.GetNameColor;
 
 import static utils.Constants.UI.*;
 
@@ -86,7 +86,7 @@ public class RenderTextBox implements Render {
 
    /** Must be set to get the correct name color */
    public void setDialogue(String name) {
-      this.nameColor = HelpMethods.GetNameColor(name);
+      this.nameColor = GetNameColor(name);
    }
 
    @Override

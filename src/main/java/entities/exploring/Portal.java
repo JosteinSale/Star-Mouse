@@ -3,6 +3,7 @@ package entities.exploring;
 import java.awt.geom.Rectangle2D;
 
 import entities.Entity;
+import utils.Constants.Direction;
 
 /**
  * When player touches the Portal-hitbox, he is automatically transported to
@@ -12,9 +13,9 @@ import entities.Entity;
  */
 public class Portal extends Entity {
    private int areaItLeadsTo;
-   private int reenterDir;
+   private Direction reenterDir;
 
-   public Portal(Rectangle2D.Float hitbox, int areaItLeadsTo, int reenterDir) {
+   public Portal(Rectangle2D.Float hitbox, int areaItLeadsTo, Direction reenterDir) {
       super(hitbox);
       this.areaItLeadsTo = areaItLeadsTo;
       this.reenterDir = reenterDir;
@@ -24,7 +25,7 @@ public class Portal extends Entity {
       return this.areaItLeadsTo;
    }
 
-   public int getReenterDir() {
+   public Direction getReenterDir() {
       return this.reenterDir;
    }
 

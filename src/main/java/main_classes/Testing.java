@@ -18,12 +18,12 @@ public final class Testing {
    public static final boolean playSFX = true;
 
    // Exploring
-   public static final int exploringLevel = 1;
-   public static final int exploringArea = 2;
+   public static final int exploringLevel = 2;
+   public static final int exploringArea = 1;
 
    // Flying
    public static final int flyingStartY = 0;
-   public static final int flyingLevel = 6;
+   public static final int flyingLevel = 5;
 
    // Boss Mode
    public static final int bossNr = 1;

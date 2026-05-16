@@ -1,6 +1,6 @@
 package ui;
 
-import static utils.HelpMethods.GetCharacterIndex;
+import static utils.parsing.LevelDataParser.GetCharacterIndex;
 
 import main_classes.Game;
 import utils.parsing.DynamicValueParser;

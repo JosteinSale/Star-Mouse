@@ -1,6 +1,6 @@
 package entities.flying;
 
-import static utils.Constants.Flying.ActionConstants.*;
+import static utils.Constants.Flying.PlaneAction.*;
 import static utils.HelpMethods.IsSolid;
 
 import java.awt.Point;

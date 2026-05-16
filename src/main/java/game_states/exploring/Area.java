@@ -1,7 +1,8 @@
 package game_states.exploring;
 
 import static utils.Constants.Exploring.Cutscenes.*;
-import static utils.HelpMethods.*;
+import static utils.parsing.LevelDataParser.*;
+import static utils.parsing.CutsceneParser.ParseCutscenes;
 
 import java.awt.geom.Rectangle2D.Float;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import inputs.Inputs;
 import main_classes.Game;
 import ui.InventoryItem;
 import ui.TextboxManager;
+import utils.Constants.Direction;
 import utils.Fader;
 
 public class Area {
@@ -113,7 +115,7 @@ public class Area {
          this.doors.get(evt.doorIndex()).setRequirementMet(evt.requirementIndex());
 
       } else if (event instanceof SetPlayerSheetEvent evt) {
-         this.player.setCURRENT_SPRITE_SHEET(evt.sheetIndex());
+         this.player.setCurrentSpriteSheet(evt.sheetIndex());
 
       } else if (event instanceof SetDirEvent evt) {
          if (evt.entityName().equals("player")) {
@@ -159,7 +161,7 @@ public class Area {
 
       } else if (event instanceof SetSpriteEvent evt) {
          if (evt.entity().equals("player")) {
-            this.player.setSprite(evt.poseActive(), evt.colIndex(), evt.rowIndex());
+            this.player.setPose(evt.poseActive(), evt.colIndex(), evt.rowIndex());
          } else {
             this.npcManager.setSprite(
                   evt.entity(), evt.poseActive(), evt.colIndex(), evt.rowIndex());
@@ -195,7 +197,7 @@ public class Area {
       }
    }
 
-   private void goToArea(int newArea, int reenterDir) {
+   private void goToArea(int newArea, Direction reenterDir) {
       int newSong = exploring.getSongForArea(newArea);
       int newAmbience = exploring.getAmbienceForArea(newArea);
       checkStopAudio(newSong, newAmbience);
@@ -304,7 +306,7 @@ public class Area {
    private void checkPortalInteraction() {
       int portalIndex = getPortalIntersectingPlayer();
       if ((portalIndex >= 0 && !game.isFading())) {
-         int reenterDir = portals.get(portalIndex).getReenterDir();
+         Direction reenterDir = portals.get(portalIndex).getReenterDir();
          int newArea = portals.get(portalIndex).getAreaItLeadsTo();
          player.resetAll();
          game.fadeToBlack(Fader.FAST_FADE, () -> goToArea(newArea, reenterDir));
@@ -349,7 +351,7 @@ public class Area {
                player.resetAll();
             } else {
                int newArea = door.getAreaItLeadsTo();
-               int reenterDir = door.getReenterDir();
+               Direction reenterDir = door.getReenterDir();
                player.resetAll();
                game.fadeToBlack(Fader.FAST_FADE, () -> goToArea(newArea, reenterDir));
             }

@@ -1,6 +1,6 @@
 ambience;99
 song;99;false
-player;441;795;45f;18f;0
+player;441;795;45f;18f;right
 object;420;780;54f;30f;Ship
 object;2757;666;375f;60f;BrokenCannon
 npc;1020;690f;120f;100f;Mechanic;60;80;false

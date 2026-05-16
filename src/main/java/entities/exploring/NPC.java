@@ -2,6 +2,10 @@ package entities.exploring;
 
 import java.awt.geom.Rectangle2D;
 
+import entities.AnimationFrame;
+import utils.Constants.Direction;
+import utils.Constants.Exploring.CharacterAction;
+
 public interface NPC {
 
    public void update();
@@ -16,11 +20,11 @@ public interface NPC {
 
    public String getName();
 
-   public void setDir(int dir);
+   public void setDir(Direction dir);
 
    public void setSprite(boolean poseActive, int colIndex, int rowIndex);
 
-   public void setAction(int action);
+   public void setAction(CharacterAction action);
 
    public void adjustPos(float deltaX, float deltaY);
 
@@ -30,7 +34,5 @@ public interface NPC {
 
    public float getYDrawOffset();
 
-   public int getAction();
-
-   public int getAniIndex();
+   public AnimationFrame getAnimation();
 }

@@ -1,6 +1,8 @@
 package entities.flying.enemies;
 
 import java.awt.geom.Rectangle2D;
+
+import entities.AnimationFrame;
 import entities.flying.EntityInfo;
 
 /**
@@ -16,7 +18,9 @@ public class BurningFragment extends BaseEnemy {
       startY = hitbox.y;
       maxHP = 30;
       HP = maxHP;
-      aniTickPerFrame = 4;
+      this.animation = new AnimationFrame(
+            IDLE, 0,
+            4, 8);
       this.extractYSpeed(shootInterval);
    }
 
@@ -40,11 +44,6 @@ public class BurningFragment extends BaseEnemy {
    @Override
    public boolean canShoot() {
       return false;
-   }
-
-   @Override
-   protected int amountOfFrames() {
-      return 8;
    }
 
    @Override

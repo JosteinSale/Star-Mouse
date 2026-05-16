@@ -1,40 +1,64 @@
 package entities.exploring;
 
-import static utils.Constants.Exploring.DirectionConstants.*;
-import static utils.HelpMethods.CollidesWithMap;
-import static utils.HelpMethods.CollidesWithNpc;
-
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
 import java.util.ArrayList;
 
+import entities.AnimationFrame;
 import entities.Entity;
 import entities.MyCollisionImage;
 import inputs.Inputs;
 import main_classes.Game;
+import utils.Constants.Direction;
+import utils.Constants.Exploring.CharacterAction;
+import utils.HelpMethods;
 
 public class PlayerExp extends Entity {
    private MyCollisionImage collisionImg;
-
-   private boolean poseActive = false;
-   public int playerAction;
-   private int playerDirection = LEFT;
    private float playerSpeed = 5f;
    public boolean visible = true;
-
    public static int CURRENT_SPRITE_SHEET = 0;
-   private int aniTick = 0;
-   private int aniTickPerFrame = 8; // Antall ticks per gang animasjonen oppdateres
-   public int aniIndex = 0;
 
-   public PlayerExp(Game game, Float hitbox, int direction, Integer level, Integer area) {
+   private AnimationFrame animation;
+   public CharacterAction action;
+   public Direction direction;
+
+   public PlayerExp(Game game, Float hitbox, Direction initialDirection, Integer level, Integer area) {
       super(hitbox);
-      this.playerDirection = direction;
-      playerAction = STANDING;
+      action = CharacterAction.STANDING;
+      direction = initialDirection;
       String imgName = "level" + level.toString() + "_area" + area.toString();
       this.collisionImg = game.getImages().getExpImageCollision(imgName + "_cl.png");
+      this.animation = new AnimationFrame(
+            getAnimationRow(), 0,
+            8, 4);
 
+   }
+
+   private int getAnimationRow() {
+      switch (action) {
+         case STANDING:
+            int standingRow = switch (direction) {
+               case RIGHT -> 0;
+               case LEFT -> 1;
+               case DOWN -> 2;
+               case UP -> 3;
+            };
+            return standingRow;
+         case WALKING:
+            int walkingRow = switch (direction) {
+               case RIGHT -> 4;
+               case LEFT -> 5;
+               case DOWN -> 6;
+               case UP -> 7;
+            };
+            return walkingRow;
+         case POSING:
+            return 7;
+         default:
+            throw new IllegalArgumentException("No animation row for action " + action.toString());
+      }
    }
 
    public void keyPressed(KeyEvent e) {
@@ -47,70 +71,68 @@ public class PlayerExp extends Entity {
       if (!cutsceneActive && !fadeActive) {
          handleKeyboardInputs(npcHitboxes);
       }
+      animation.setAction(getAnimationRow());
       updateAniTick();
    }
 
    private void handleKeyboardInputs(ArrayList<Rectangle2D.Float> npcHitboxes) {
       if (Inputs.leftIsPressed) {
-         playerAction = WALKING_LEFT;
-         playerDirection = LEFT;
+         action = CharacterAction.WALKING;
+         direction = Direction.LEFT;
          hitbox.x -= playerSpeed;
-         if (CollidesWithMap(hitbox, collisionImg) || CollidesWithNpc(hitbox, npcHitboxes)) {
+         if (collidesWithMap(npcHitboxes)) {
             hitbox.x += playerSpeed;
          }
       }
       if (Inputs.upIsPressed && !(Inputs.leftIsPressed && Inputs.rightIsPressed)) {
-         playerAction = WALKING_UP;
-         playerDirection = UP;
+         action = CharacterAction.WALKING;
+         direction = Direction.UP;
          hitbox.y -= playerSpeed;
-         if (CollidesWithMap(hitbox, collisionImg) || CollidesWithNpc(hitbox, npcHitboxes)) {
+         if (collidesWithMap(npcHitboxes)) {
             hitbox.y += playerSpeed;
          }
       }
       if (Inputs.rightIsPressed) {
-         playerAction = WALKING_RIGHT;
-         playerDirection = RIGHT;
+         action = CharacterAction.WALKING;
+         direction = Direction.RIGHT;
          hitbox.x += playerSpeed;
-         if (CollidesWithMap(hitbox, collisionImg) || CollidesWithNpc(hitbox, npcHitboxes)) {
+         if (collidesWithMap(npcHitboxes)) {
             hitbox.x -= playerSpeed;
          }
       }
       if (Inputs.downIsPressed && !(Inputs.leftIsPressed && Inputs.rightIsPressed)) {
-         playerAction = WALKING_DOWN;
-         playerDirection = DOWN;
+         action = CharacterAction.WALKING;
+         direction = Direction.DOWN;
          hitbox.y += playerSpeed;
-         if (CollidesWithMap(hitbox, collisionImg) || CollidesWithNpc(hitbox, npcHitboxes)) {
+         if (collidesWithMap(npcHitboxes)) {
             hitbox.y -= playerSpeed;
          }
       }
       handleStandingAnimation();
    }
 
+   private boolean collidesWithMap(ArrayList<Rectangle2D.Float> npcHitboxes) {
+      return HelpMethods.CollidesWithMap(hitbox, collisionImg)
+            || HelpMethods.CollidesWithNpc(hitbox, npcHitboxes);
+   }
+
    private void handleStandingAnimation() {
-      if (!Inputs.upIsPressed && !Inputs.downIsPressed && !Inputs.leftIsPressed && !Inputs.rightIsPressed) {
-         playerAction = STANDING;
+      if (!Inputs.upIsPressed && !Inputs.downIsPressed
+            && !Inputs.leftIsPressed && !Inputs.rightIsPressed) {
+         action = CharacterAction.STANDING;
          return;
       }
-      if ((Inputs.upIsPressed && Inputs.downIsPressed) || (Inputs.leftIsPressed && Inputs.rightIsPressed)) {
-         playerAction = STANDING;
+      if ((Inputs.upIsPressed && Inputs.downIsPressed)
+            || (Inputs.leftIsPressed && Inputs.rightIsPressed)) {
+         action = CharacterAction.STANDING;
       }
    }
 
    private void updateAniTick() {
-      if (poseActive) {
+      if (action == CharacterAction.POSING) {
          return;
       }
-      aniTick++;
-      if (aniTick >= aniTickPerFrame) {
-         aniIndex++;
-         aniTick = 0;
-      }
-      if (aniIndex >= GetSpriteAmount(playerAction)) {
-         aniIndex = 0;
-      }
-      if (playerAction == STANDING) {
-         aniIndex = playerDirection;
-      }
+      animation.update();
    }
 
    public void resetAll() {
@@ -118,24 +140,23 @@ public class PlayerExp extends Entity {
       Inputs.rightIsPressed = false;
       Inputs.leftIsPressed = false;
       Inputs.upIsPressed = false;
-      this.playerAction = STANDING;
-      this.aniTick = 0;
-      this.aniIndex = 0;
+      this.action = CharacterAction.STANDING;
+      animation.setRow(getAnimationRow());
    }
 
    public Rectangle2D.Float getHitbox() {
       return this.hitbox;
    }
 
-   public void setDirection(int dir) {
-      this.playerDirection = dir;
+   public void setDirection(Direction dir) {
+      this.direction = dir;
    }
 
    public void setVisible(boolean visible) {
       this.visible = visible;
    }
 
-   public void setCURRENT_SPRITE_SHEET(int sheetIndex) {
+   public void setCurrentSpriteSheet(int sheetIndex) {
       PlayerExp.CURRENT_SPRITE_SHEET = sheetIndex;
    }
 
@@ -144,39 +165,41 @@ public class PlayerExp extends Entity {
       hitbox.y += deltaY;
    }
 
-   public void setAction(int action) {
-      this.playerAction = action;
+   public void setAction(CharacterAction action) {
+      this.action = action;
    }
 
-   public void setSprite(boolean pose, int colIndex, int rowIndex) {
+   public void setPose(boolean pose, int colIndex, int rowIndex) {
       if (pose == true) {
-         this.poseActive = true;
-         this.playerAction = rowIndex;
-         this.aniIndex = colIndex;
-      } else { // Stop posing
-         this.poseActive = false;
-         this.playerAction = STANDING;
-         this.aniIndex = 0;
+         this.action = CharacterAction.POSING;
+         animation.setCol(colIndex);
+         animation.setRow(rowIndex);
+      } else {
+         this.action = CharacterAction.STANDING;
+         this.animation.reset();
       }
    }
 
    /** Moves the player 20 px in the reenter-direction specified for this portal */
-   public void adjustReenterPos(int reenterDir) {
+   public void adjustReenterPos(Direction reenterDir) {
       int adjustDistance = 20;
       switch (reenterDir) {
-         // right = 0, left = 1, down = 2, up = 3
-         case 0:
+         case RIGHT:
             hitbox.x += adjustDistance;
             break;
-         case 1:
+         case LEFT:
             hitbox.x -= adjustDistance;
             break;
-         case 2:
+         case DOWN:
             hitbox.y += adjustDistance;
             break;
-         case 3:
+         case UP:
             hitbox.y -= adjustDistance;
             break;
       }
+   }
+
+   public AnimationFrame getAnimation() {
+      return animation;
    }
 }
