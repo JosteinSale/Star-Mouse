@@ -241,9 +241,9 @@ PLAY SFX
 * whichSfx = success/pickup/infoBox, or index
 
 
-SET SPRITE
+SET POSE
 --------------------
-[0] = setSprite (String), [1] = entity (e.g. player / Oliver), [2] = poseActive (boolean)
+[0] = setPose (String), [1] = entity (e.g. player / Oliver), [2] = poseActive (boolean)
 [3] = colIndex, [4] = rowIndex, [5] = description
 
 

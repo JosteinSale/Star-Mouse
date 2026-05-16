@@ -195,7 +195,7 @@ bigDialogue;Max;happy;1;1;You couldn't ask for a finer day!
 endSequence
 bigDialogue;Oliver;normal;0;30;...
 endSequence
-setDir;Oliver;left
+setDir;oliver;left
 bigDialogue;Oliver;happy;1;3;Maybe.
 endSequence
 bigDialogue;Max;laughing;3;1;Remember, MY flight exam was held in a literal storm, and I still passed.
@@ -210,7 +210,7 @@ bigDialogue;Oliver;nervous;2;2;A little chaos would at least shake me out of my 
 endSequence
 bigDialogue;Oliver;nervous;2;2;...But I guess I shouldn't complain.
 endSequence
-setDir;Oliver;up
+setDir;oliver;up
 wait;60
 endSequence
 bigDialogue;Max;normal;0;2;I can hit you in the face, if that helps.
@@ -224,7 +224,7 @@ bigDialogue;Max;thoughtful;5;2;Besides, what you should REALLY be worrying about
 endSequence
 bigDialogue;Max;teasing;2;2;...is all the cute female cadettes that will want to date you.
 endSequence
-setDir;Oliver;left
+setDir;oliver;left
 bigDialogue;Oliver;shocked;3;1;egh what??
 endSequence
 bigDialogue;Max;teasing;2;2;A stout, handsome pilot... Battle worn and mysterious. You'll be irresistable!
@@ -234,12 +234,12 @@ endSequence
 setDir;player;right
 bigDialogue;Max;teasing;2;1;No kidding, I see Charlotte looking at you right now!
 endSequence
-setDir;Oliver;right
+setDir;oliver;right
 bigDialogue;Oliver;blushing;4;2;wah..?
 endSequence
 bigDialogue;Max;laughing;3;3;Hahaha!
 endSequence
-setDir;Oliver;left
+setDir;oliver;left
 bigDialogue;Oliver;blushing;4;1;Shut up!
 endSequence
 bigDialogue;Max;happy;1;2;Heh sorry, I'm just teasing

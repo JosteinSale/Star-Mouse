@@ -116,9 +116,7 @@ public class Constants {
          public static final int SMALL_SPRITES_SIZE = 30;
       }
 
-      // Dette er standard-verdier.
       public static class PlaneAction {
-         // Index for raden en animasjon har i spritesheet.
          public static final int IDLE = 0;
          public static final int FLYING_LEFT = 1;
          public static final int FLYING_RIGHT = 2;

@@ -40,10 +40,10 @@ public class NpcManager {
       }
    }
 
-   public void setSprite(String name, boolean poseActive, int colIndex, int rowIndex) {
+   public void setPose(String name, boolean poseActive, int colIndex, int rowIndex) {
       for (NPC npc : allNpcs) {
          if (npc.getName().equals(name)) {
-            npc.setSprite(poseActive, colIndex, rowIndex);
+            npc.setPose(poseActive, colIndex, rowIndex);
             return;
          }
       }

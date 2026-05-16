@@ -70,7 +70,7 @@ public class StandardNpc extends Entity implements NPC {
    }
 
    @Override
-   public void setSprite(boolean poseActive, int colIndex, int rowIndex) {
+   public void setPose(boolean poseActive, int colIndex, int rowIndex) {
       // Do nothing
    }
 

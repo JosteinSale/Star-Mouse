@@ -51,8 +51,6 @@ public class Oliver extends Entity implements NPC {
                case UP -> 7;
             };
             return walkingRow;
-         case POSING:
-            return 7;
          default:
             throw new IllegalArgumentException("No animation row for action " + action.toString());
       }
@@ -65,14 +63,9 @@ public class Oliver extends Entity implements NPC {
 
    @Override
    public void update() {
-      updateAniTick();
-   }
-
-   private void updateAniTick() {
-      if (action == CharacterAction.POSING) {
-         return;
+      if (action != CharacterAction.POSING) {
+         animation.update();
       }
-      animation.update();
    }
 
    public void adjustPos(float deltaX, float deltaY) {
@@ -109,10 +102,11 @@ public class Oliver extends Entity implements NPC {
    @Override
    public void setDir(Direction dir) {
       this.direction = dir;
+      animation.setRow(getAnimationRow());
    }
 
    @Override
-   public void setSprite(boolean poseActive, int colIndex, int rowIndex) {
+   public void setPose(boolean poseActive, int colIndex, int rowIndex) {
       if (poseActive == true) {
          this.action = CharacterAction.POSING;
          animation.setRow(rowIndex);

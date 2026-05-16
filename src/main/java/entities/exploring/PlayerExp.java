@@ -54,10 +54,8 @@ public class PlayerExp extends Entity {
                case UP -> 7;
             };
             return walkingRow;
-         case POSING:
-            return 7;
          default:
-            throw new IllegalArgumentException("No animation row for action " + action.toString());
+            throw new IllegalArgumentException("Can't get animation row for action " + action.toString());
       }
    }
 
@@ -70,9 +68,11 @@ public class PlayerExp extends Entity {
    public void update(ArrayList<Rectangle2D.Float> npcHitboxes, boolean cutsceneActive, boolean fadeActive) {
       if (!cutsceneActive && !fadeActive) {
          handleKeyboardInputs(npcHitboxes);
+         animation.setRow(getAnimationRow());
       }
-      animation.setAction(getAnimationRow());
-      updateAniTick();
+      if (action != CharacterAction.POSING) {
+         animation.update();
+      }
    }
 
    private void handleKeyboardInputs(ArrayList<Rectangle2D.Float> npcHitboxes) {
@@ -126,13 +126,6 @@ public class PlayerExp extends Entity {
             || (Inputs.leftIsPressed && Inputs.rightIsPressed)) {
          action = CharacterAction.STANDING;
       }
-   }
-
-   private void updateAniTick() {
-      if (action == CharacterAction.POSING) {
-         return;
-      }
-      animation.update();
    }
 
    public void resetAll() {

@@ -159,11 +159,11 @@ public class Area {
       } else if (event instanceof PlaySFXEvent evt) {
          audioPlayer.playSFX(evt.SFXIndex());
 
-      } else if (event instanceof SetSpriteEvent evt) {
+      } else if (event instanceof SetPoseEvent evt) {
          if (evt.entity().equals("player")) {
             this.player.setPose(evt.poseActive(), evt.colIndex(), evt.rowIndex());
          } else {
-            this.npcManager.setSprite(
+            this.npcManager.setPose(
                   evt.entity(), evt.poseActive(), evt.colIndex(), evt.rowIndex());
          }
 

@@ -14,7 +14,7 @@ wait;60
 endSequence
 stopAllLoops
 bigDialogue;Zack;scared;2;2;Wait, look in the distance!
-setSprite;player;true;0;0;standing_right
+setPose;player;true;0;0;standing_right
 endSequence
 addObject;rowOfFlameDronesShadow;flameDrones;0;-320;3;3;4;1
 wait;20
@@ -24,13 +24,13 @@ endSequence
 moveObject;flameDrones;0;0;240
 startSong;5;true
 wait;60
-setSprite;player;true;0;5;shocked
+setPose;player;true;0;8;shocked
 endSequence
 wait;60
 endSequence
 bigDialogue;Max;scared;11;2;!
 endSequence
-setSprite;player;true;2;5;standing_alert_right
+setPose;player;true;2;8;standing_alert_right
 bigDialogue;Lt.Red;nervous;4;5;...
 endSequence
 bigDialogue;Lt.Red;nervous;4;2;The enemy has caught up with us! Everyone to their ships!

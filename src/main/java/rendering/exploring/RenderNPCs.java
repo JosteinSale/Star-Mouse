@@ -6,7 +6,6 @@ import entities.exploring.NPC;
 import entities.exploring.NpcManager;
 import entities.exploring.Oliver;
 import main_classes.Game;
-import rendering.MyImage;
 import rendering.MySubImage;
 import rendering.Render;
 import utils.DrawUtils;
@@ -21,8 +20,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class RenderNPCs implements Render {
    private NpcManager npcManager;
    private MySubImage[] standardNpcSprites;
-   private MyImage gardSprites;
-   private MyImage oliverSprites;
    private MySubImage[][] gardAnimations;
    private MySubImage[][] oliverAnimations;
    private int drawWidth;
@@ -39,15 +36,13 @@ public class RenderNPCs implements Render {
       standardNpcSprites = HelpMethods.GetUnscaled1DAnimationArray(
             images.getExpImageSprite(Images.STANDARD_NPC_SPRITES, true),
             16, 90, 60);
-      gardSprites = images.getExpImageSprite(
-            Images.GARD_SPRITES, true);
-      oliverSprites = images.getExpImageSprite(
-            Images.OLIVER_SPRITES, true);
       gardAnimations = HelpMethods.GetUnscaled2DAnimationArray(
-            gardSprites, 3, 4,
+            images.getExpImageSprite(Images.GARD_SPRITES, true),
+            3, 4,
             STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
       oliverAnimations = HelpMethods.GetUnscaled2DAnimationArray(
-            oliverSprites, 6, 4,
+            images.getExpImageSprite(Images.OLIVER_SPRITES, true),
+            9, 4,
             STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
    }
 

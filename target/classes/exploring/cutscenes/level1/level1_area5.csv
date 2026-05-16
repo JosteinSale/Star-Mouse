@@ -22,14 +22,14 @@ endSequence
 wait;65
 playSFX;15;bigExplosion
 endSequence
-setSprite;player;true;0;5;shocked
+setPose;player;true;0;8;shocked
 screenShake;60
 endSequence
 wait;60
 endSequence
 bigDialogue;Max;shocked;10;4;Wh... What was that!?
 endSequence
-setSprite;player;true;2;5;alert
+setPose;player;true;2;8;alert
 wait;60
 endSequence
 stopAllLoops
@@ -52,10 +52,10 @@ endSequence
 bigDialogue;Oliver;shocked;6;4;Max!
 endSequence
 setDir;player;left
-setSprite;player;true;3;5;alert
+setPose;player;true;3;8;alert
 npcWalk;Oliver;0;right;1628f;558f;120
 endSequence
-setSprite;Oliver;true;0;5;alert
+setPose;oliver;true;0;8;alert
 wait;30
 endSequence
 bigDialogue;Oliver;shocked;6;4;What's going on? Who's attacking us?
@@ -92,8 +92,8 @@ bigDialogue;Max;serious;8;2;Now go! We don't have time!
 endSequence
 wait;30;
 endSequence
-setSprite;Oliver;false;0;0
-setDir;Oliver;left
+setPose;oliver;false;0;0
+setDir;oliver;left
 npcWalk;Oliver;0;left;918f;520f;120
 endSequence
 bigDialogue;Max;nervous;9;2;...Be careful.

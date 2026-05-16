@@ -133,7 +133,7 @@ endSequence
 setDir;player;left
 playerWalk;left;3420f;675f;120
 endSequence
-setDir;Gard;left
+setDir;gard;left
 bigDialogue;Gard;normal;0;2;Max, wait.
 endSequence
 bigDialogue;Gard;normal;0;5;...
@@ -157,14 +157,14 @@ bigDialogue;Max;normal;0;2;I really appreciate that.
 endSequence
 bigDialogue;Lt.Red;looking_down;5;5;...
 endSequence
-setDir;Gard;right
+setDir;gard;right
 wait;60
 endSequence
 bigDialogue;Gard;normal;0;2;Take care of yourself, Lieutenant.
 endSequence
 wait;60
 endSequence
-setDir;Gard;left
+setDir;gard;left
 bigDialogue;Gard;normal;0;2;Now come on, let's go.
 endSequence
 npcWalk;Gard;1;left;3220;495f;200

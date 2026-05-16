@@ -63,7 +63,7 @@ public class CutsceneParser {
       parseMap.put("stopAllLoops", CutsceneParser::parseStopAllLoops);
       parseMap.put("soundEnabled", CutsceneParser::parseSoundEnabled);
       parseMap.put("playSFX", CutsceneParser::parsePlaySFX);
-      parseMap.put("setSprite", CutsceneParser::parseSetSprite);
+      parseMap.put("setPose", CutsceneParser::parseSetSprite);
       parseMap.put("screenShake", CutsceneParser::parseScreenShake);
       parseMap.put("setRedLight", CutsceneParser::parseSetRedLight);
       parseMap.put("fellowShips", CutsceneParser::parseFellowShips);
@@ -363,12 +363,12 @@ public class CutsceneParser {
       return new PlaySFXEvent(index);
    }
 
-   private static SetSpriteEvent parseSetSprite(String[] lineData) {
+   private static SetPoseEvent parseSetSprite(String[] lineData) {
       String entity = lineData[1];
       Boolean poseActive = Boolean.parseBoolean(lineData[2]);
       Integer colIndex = Integer.parseInt(lineData[3]);
       Integer rowIndex = Integer.parseInt(lineData[4]);
-      return new SetSpriteEvent(entity, poseActive, colIndex, rowIndex);
+      return new SetPoseEvent(entity, poseActive, colIndex, rowIndex);
    }
 
    private static ScreenShakeEvent parseScreenShake(String[] lineData) {
