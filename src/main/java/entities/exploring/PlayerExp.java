@@ -76,6 +76,7 @@ public class PlayerExp extends Entity {
    }
 
    private void handleKeyboardInputs(ArrayList<Rectangle2D.Float> npcHitboxes) {
+      // Walking left
       if (Inputs.leftIsPressed) {
          action = CharacterAction.WALKING;
          direction = Direction.LEFT;
@@ -84,6 +85,7 @@ public class PlayerExp extends Entity {
             hitbox.x += playerSpeed;
          }
       }
+      // Walking up
       if (Inputs.upIsPressed && !(Inputs.leftIsPressed && Inputs.rightIsPressed)) {
          action = CharacterAction.WALKING;
          direction = Direction.UP;
@@ -92,6 +94,7 @@ public class PlayerExp extends Entity {
             hitbox.y += playerSpeed;
          }
       }
+      // Walking right
       if (Inputs.rightIsPressed) {
          action = CharacterAction.WALKING;
          direction = Direction.RIGHT;
@@ -100,6 +103,7 @@ public class PlayerExp extends Entity {
             hitbox.x -= playerSpeed;
          }
       }
+      // Walking down
       if (Inputs.downIsPressed && !(Inputs.leftIsPressed && Inputs.rightIsPressed)) {
          action = CharacterAction.WALKING;
          direction = Direction.DOWN;
@@ -108,24 +112,23 @@ public class PlayerExp extends Entity {
             hitbox.y -= playerSpeed;
          }
       }
-      handleStandingAnimation();
-   }
-
-   private boolean collidesWithMap(ArrayList<Rectangle2D.Float> npcHitboxes) {
-      return HelpMethods.CollidesWithMap(hitbox, collisionImg)
-            || HelpMethods.CollidesWithNpc(hitbox, npcHitboxes);
-   }
-
-   private void handleStandingAnimation() {
+      // Standing still
       if (!Inputs.upIsPressed && !Inputs.downIsPressed
             && !Inputs.leftIsPressed && !Inputs.rightIsPressed) {
          action = CharacterAction.STANDING;
          return;
       }
+      // Edge case: If opposite directions are pressed at the same time, the player
+      // should stand still.
       if ((Inputs.upIsPressed && Inputs.downIsPressed)
             || (Inputs.leftIsPressed && Inputs.rightIsPressed)) {
          action = CharacterAction.STANDING;
       }
+   }
+
+   private boolean collidesWithMap(ArrayList<Rectangle2D.Float> npcHitboxes) {
+      return HelpMethods.CollidesWithMap(hitbox, collisionImg)
+            || HelpMethods.CollidesWithNpc(hitbox, npcHitboxes);
    }
 
    public void resetAll() {

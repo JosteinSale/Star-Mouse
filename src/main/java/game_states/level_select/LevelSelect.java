@@ -41,7 +41,7 @@ public class LevelSelect extends State {
       levelInfo.add(new LevelInfo("Apolis", 1, 130));
       levelInfo.add(new LevelInfo("Vyke", 2, 88, 0, 3, 3));
       levelInfo.add(new LevelInfo("Asteroids", 3, 0, 0, 4, 4));
-      levelInfo.add(new LevelInfo("The Dark", 4, 66, 0, 5, 5));
+      levelInfo.add(new LevelInfo("The Tunnel", 4, 66, 0, 5, 5));
       levelInfo.add(new LevelInfo("Cathedral", 5, 100));
       levelInfo.add(new LevelInfo("Level 6", 6, 100, 70, 7, 3));
       levelInfo.add(new LevelInfo("Level 7", 7, 100, 70, 8, 4));

@@ -15,7 +15,7 @@ public class Lurker extends BaseEnemy {
 
    public Lurker(Rectangle2D.Float hitbox, EntityInfo info, int chargeDone) {
       super(hitbox, info, chargeDone, null);
-      maxHP = 10;
+      maxHP = 30;
       HP = maxHP;
       animation.setAniTickPerFrame(6);
       animation.setAmountOfFrames(3);

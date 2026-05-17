@@ -147,7 +147,6 @@ public abstract class BaseEnemy extends Entity implements Enemy {
    }
 
    protected void setAnimationsToDamage() {
-      animation.setFrame(0);
       animation.setAction(TAKING_DAMAGE);
    }
 

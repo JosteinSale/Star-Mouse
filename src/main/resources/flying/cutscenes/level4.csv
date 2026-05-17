@@ -3,11 +3,11 @@ setGameplayActive;false
 fillScreen;black;true
 wait;120
 endSequence
-fadeHeader;in;350;10;Back to Apo
+fadeHeader;in;350;10;The Tunnel
 wait;150
 endSequence
 startAmbience;0
-fadeHeader;out;350;10;Back to Apo
+fadeHeader;out;350;10;The Tunnel
 fellowShips;350;400;650
 wait;100
 endSequence
@@ -21,7 +21,7 @@ endSequence
 smallDialogue;Gard;normal;0;2;So, what's the plan?
 wait;180
 endSequence
-smallDialogue;Max;angry;8;2;We'll have to shake off the pursuers first
+smallDialogue;Max;angry;8;2;We'll have to make it out of this place.
 wait;220
 endSequence
 smallDialogue;Gard;normal;0;2;Alright.
@@ -30,34 +30,6 @@ endSequence
 wait;200;     // Wait for Gard's ship to exit the screen
 endSequence
 
-cutscene;true;thereTheyAre
-smallDialogue;Gard;angry;1;2;There they are!
-wait;180
-endSequence
-
-cutscene;true;outOfTheAsteroids
-smallDialogue;Max;angry;8;2;We're out of the asteroid field!
-wait;180
-endSequence
-smallDialogue;Max;angry;8;2;You alright, Gard?
-wait;120
-endSequence
-smallDialogue;Gard;normal;0;2;...I'm fine.
-wait;120
-endSequence
-wait;120
-endSequence
-smallDialogue;Gard;normal;0;2;Apo's defences are next. 
-wait;120
-endSequence
-smallDialogue;Gard;normal;0;2;We must stay on our toes!
-wait;180
-endSequence
-
-cutscene;true;rudingersDefences
-smallDialogue;Max;angry;8;2;Here they come!
-wait;120
-endSequence
 
 cutscene;true;checkpointReached
 fadeHeader;in;350;60;Checkpoint reached

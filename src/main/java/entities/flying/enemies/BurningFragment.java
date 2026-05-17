@@ -2,8 +2,8 @@ package entities.flying.enemies;
 
 import java.awt.geom.Rectangle2D;
 
-import entities.AnimationFrame;
 import entities.flying.EntityInfo;
+import main_classes.Game;
 
 /**
  * The BurningFragment has a lot of the same behavior as the SmallAsteroid,
@@ -18,9 +18,8 @@ public class BurningFragment extends BaseEnemy {
       startY = hitbox.y;
       maxHP = 30;
       HP = maxHP;
-      this.animation = new AnimationFrame(
-            IDLE, 0,
-            4, 8);
+      animation.setAmountOfFrames(8);
+      animation.setAniTickPerFrame(3);
       this.extractYSpeed(shootInterval);
    }
 
@@ -34,6 +33,12 @@ public class BurningFragment extends BaseEnemy {
          throw new IllegalArgumentException("We can't have negative y-speed");
       }
       this.ySpeed = shootInterval / 100;
+   }
+
+   @Override
+   protected void checkOnScreen(float levelYSpeed) {
+      onScreen = (((hitbox.y + hitbox.height * 1.2) > 0) &&
+            (hitbox.y - 150 < Game.GAME_DEFAULT_HEIGHT));
    }
 
    @Override
