@@ -38,7 +38,7 @@ public class RenderNPCs implements Render {
             16, 90, 60);
       gardAnimations = HelpMethods.GetUnscaled2DAnimationArray(
             images.getExpImageSprite(Images.GARD_SPRITES, true),
-            3, 4,
+            4, 4,
             STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
       oliverAnimations = HelpMethods.GetUnscaled2DAnimationArray(
             images.getExpImageSprite(Images.OLIVER_SPRITES, true),

@@ -26,6 +26,7 @@ public class Gard extends Entity implements NPC {
       this.direction = direction;
       this.inForeground = inForeground;
       makeTriggerBox();
+      this.action = CharacterAction.STANDING;
       this.animation = new AnimationFrame(
             0, 0,
             8, 4);
@@ -82,6 +83,7 @@ public class Gard extends Entity implements NPC {
    @Override
    public void setDir(Direction dir) {
       this.direction = dir;
+      animation.setRow(getAnimationRow());
    }
 
    @Override
@@ -110,15 +112,15 @@ public class Gard extends Entity implements NPC {
       switch (action) {
          case STANDING:
             int standingRow = switch (direction) {
-               case LEFT -> 0;
-               case RIGHT -> 1;
+               case RIGHT -> 0;
+               case LEFT -> 1;
                default -> throw new IllegalArgumentException("Not implemented yet " + action.toString());
             };
             return standingRow;
          case WALKING:
             int walkingRow = switch (direction) {
-               case LEFT -> 2;
-               case RIGHT -> 3;
+               case RIGHT -> 2;
+               case LEFT -> 3;
                default -> throw new IllegalArgumentException("Not implemented yet " + action.toString());
             };
             return walkingRow;

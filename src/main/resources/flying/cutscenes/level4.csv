@@ -21,7 +21,7 @@ endSequence
 smallDialogue;Gard;normal;0;2;So, what's the plan?
 wait;180
 endSequence
-smallDialogue;Max;angry;8;2;We'll have to make it out of this place.
+smallDialogue;Max;angry;8;2;Let's just find the way out, for now.
 wait;220
 endSequence
 smallDialogue;Gard;normal;0;2;Alright.

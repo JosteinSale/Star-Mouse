@@ -11,14 +11,14 @@ public final class Testing {
    public static boolean testingMode = false;
 
    // General stuff
-   public static final Gamestate testState = Gamestate.FLYING;
+   public static final Gamestate testState = Gamestate.LEVEL_SELECT;
    public static final boolean drawHitboxes = false;
-   public static final int unlockedLevels = 13;
+   public static final int unlockedLevels = 12;
    public static final boolean playMusic = true;
    public static final boolean playSFX = true;
 
    // Exploring
-   public static final int exploringLevel = 1;
+   public static final int exploringLevel = 4;
    public static final int exploringArea = 1;
 
    // Flying

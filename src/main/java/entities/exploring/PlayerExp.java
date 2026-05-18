@@ -68,7 +68,7 @@ public class PlayerExp extends Entity {
    public void update(ArrayList<Rectangle2D.Float> npcHitboxes, boolean cutsceneActive, boolean fadeActive) {
       if (!cutsceneActive && !fadeActive) {
          handleKeyboardInputs(npcHitboxes);
-         animation.setRow(getAnimationRow());
+         updateAnimationRow();
       }
       if (action != CharacterAction.POSING) {
          animation.update();
@@ -137,7 +137,7 @@ public class PlayerExp extends Entity {
       Inputs.leftIsPressed = false;
       Inputs.upIsPressed = false;
       this.action = CharacterAction.STANDING;
-      animation.setRow(getAnimationRow());
+      updateAnimationRow();
    }
 
    public Rectangle2D.Float getHitbox() {
@@ -197,5 +197,9 @@ public class PlayerExp extends Entity {
 
    public AnimationFrame getAnimation() {
       return animation;
+   }
+
+   public void updateAnimationRow() {
+      animation.setRow(getAnimationRow());
    }
 }

@@ -124,9 +124,23 @@ bigDialogue;Max;angry;8;2;I saw him last on Apo, so that's where I'm going.
 endSequence
 wait;30
 endSequence
-bigDialogue;Gard;normal;0;2;Max, Apo is heavily guarded.
+bigDialogue;Gard;normal;0;2;Max... how are you even going to get back?
 endSequence
-bigDialogue;Max;angry;8;2;I don't care. I have to find him.
+bigDialogue;Max;angry;8;2;...the drones are still out there. So goind out is too risky.
+endSequence
+bigDialogue;Max;angry;8;2;But these asteroids sometimes circle past Apo.
+endSequence
+bigDialogue;Max;angry;8;2;If we can manage to stay hidden inside here long enough...
+endSequence
+bigDialogue;Max;angry;8;2;...the asteroid might give us shelter until we arrive.
+endSequence
+bigDialogue;Gard;normal;0;2;Granted, you can even manage to navigate your ship out of these narrow caves.
+endSequence
+bigDialogue;Gard;normal;0;2;...And I have a bad feeling about firing up our ships in here.
+endSequence
+bigDialogue;Gard;normal;0;2;It feels like we're being watched... The ship would draw attention.
+endSequence
+bigDialogue;Max;angry;8;2;I don't care. I'm going.
 endSequence
 wait;60
 endSequence
@@ -140,7 +154,7 @@ bigDialogue;Gard;normal;0;5;...
 endSequence
 bigDialogue;Gard;normal;0;4;I'm conflicted.
 endSequence
-bigDialogue;Gard;normal;0;2;I would follow the lieutenant to the bitter end.
+bigDialogue;Gard;normal;0;2;I would stay with the lieutenant to the bitter end.
 endSequence
 bigDialogue;Gard;normal;0;2;But...
 endSequence
