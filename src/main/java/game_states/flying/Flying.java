@@ -1,6 +1,8 @@
 package game_states.flying;
 
 import static utils.Constants.Flying.REPAIR_HEALTH;
+import static utils.Constants.Flying.DEFAULT_FG_SPEED;
+import static utils.Constants.Flying.SLOWED_DOWN_FG_SPEED;
 import static entities.flying.EnemyFactory.TypeConstants.DRONE;
 import static entities.flying.pickupItems.PickupItemFactory.TypeConstants.*;
 import static utils.parsing.LevelDataParser.GetAutomaticTrigger;
@@ -62,8 +64,8 @@ public class Flying extends State {
    public boolean levelFinished = false;
    public boolean checkPointReached = false;
    public boolean gameOver = false;
-   private float fgNormalSpeed = 2f;
-   private float bgNormalSpeed = 0.7f;
+   private float fgNormalSpeed = DEFAULT_FG_SPEED;
+   private float bgNormalSpeed = SLOWED_DOWN_FG_SPEED;
    private float fgCurSpeed = fgNormalSpeed;
    private float bgCurSpeed = bgNormalSpeed;
 
@@ -503,6 +505,9 @@ public class Flying extends State {
 
    private void updateChartingY() {
       mapManager.yProgess += fgCurSpeed;
+      if (Testing.printLevelY) {
+         System.out.println("Y: " + mapManager.yProgess);
+      }
    }
 
    public EnemyFactory getEnemyFactory() {

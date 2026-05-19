@@ -1,5 +1,7 @@
 package entities.flying.enemies;
 
+import static utils.Constants.Flying.DEFAULT_FG_SPEED;
+
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ public class Centipede extends BaseEnemy {
    private final Vector2 normalizedVector;
    private final double angle;
    private final Rectangle2D.Float onScreenArea;
+   private float chargePhaseTick;
    private boolean attackPhaseActive = false;
 
    // Wiggle movement
@@ -38,6 +41,7 @@ public class Centipede extends BaseEnemy {
       this.onScreenArea = new Rectangle2D.Float(
             -200, -100, Game.GAME_DEFAULT_WIDTH + 400, Game.GAME_DEFAULT_HEIGHT + 200);
       this.hitboxCenters = new ArrayList<>();
+      this.chargeDone = (int) (startTimer * DEFAULT_FG_SPEED);
       constructHitboxes();
       constructAnimations();
       constructHitboxCenters();
@@ -156,7 +160,8 @@ public class Centipede extends BaseEnemy {
 
    @Override
    protected void updateCustomBehavior(float levelYSpeed) {
-      if (chargeTick >= chargeDone) {
+      chargePhaseTick += levelYSpeed;
+      if (chargePhaseTick >= chargeDone) {
          attackPhaseActive = true;
          updateAttackPhase();
       }
@@ -225,6 +230,7 @@ public class Centipede extends BaseEnemy {
    @Override
    protected void resetCustomVars() {
       attackPhaseActive = false;
+      chargePhaseTick = 0;
       constructHitboxes();
       constructHitboxCenters();
    }
