@@ -13,7 +13,7 @@ public final class Testing {
    // General stuff
    public static final Gamestate testState = Gamestate.FLYING;
    public static final boolean drawHitboxes = false;
-   public static final int unlockedLevels = 13;
+   public static final int unlockedLevels = 12;
    public static final boolean playMusic = true;
    public static final boolean playSFX = true;
 
@@ -22,9 +22,10 @@ public final class Testing {
    public static final int exploringArea = 1;
 
    // Flying
-   public static final int flyingStartY = 0;
+   public static final int flyingStartY = 0; // 9000
    public static final int flyingLevel = 4;
-   public static final boolean printLevelY = true;
+   public static final boolean printLevelY = false;
+   public static final int maxHP = 100;
 
    // Boss Mode
    public static final int bossNr = 1;

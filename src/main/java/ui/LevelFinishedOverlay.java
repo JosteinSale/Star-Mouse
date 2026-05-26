@@ -96,6 +96,8 @@ public class LevelFinishedOverlay extends Singleton {
             case FLAMEDRONE -> 60;
             case WASPDRONE -> 30;
             case KAMIKAZEDRONE -> 30;
+            case CENTIPEDE -> 100;
+            case LURKER -> 40;
             default -> throw new IllegalArgumentException(
                   "No credit bounty available for enemy of type '" + i + "' ");
          };

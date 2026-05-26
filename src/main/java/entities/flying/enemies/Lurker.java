@@ -15,7 +15,7 @@ public class Lurker extends BaseEnemy {
 
    public Lurker(Rectangle2D.Float hitbox, EntityInfo info, int chargeDone) {
       super(hitbox, info, chargeDone, null);
-      maxHP = 30;
+      maxHP = 20;
       HP = maxHP;
       animation.setAniTickPerFrame(6);
       animation.setAmountOfFrames(3);
@@ -68,7 +68,7 @@ public class Lurker extends BaseEnemy {
       }
 
       // Limit the rotation speed
-      double rotationSpeed = 0.02; // Adjust this value for faster/slower turning
+      double rotationSpeed = 0.025; // Adjust this value for faster/slower turning, 0.02
       if (angleDifference > rotationSpeed) {
          angle += rotationSpeed;
       } else if (angleDifference < -rotationSpeed) {

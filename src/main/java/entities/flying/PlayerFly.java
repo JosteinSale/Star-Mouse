@@ -14,6 +14,7 @@ import entities.MyCollisionImage;
 import entities.flying.enemies.Enemy;
 import inputs.Inputs;
 import main_classes.Game;
+import main_classes.Testing;
 import ui.StatusDisplay;
 import utils.Constants.Audio;
 
@@ -74,7 +75,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
    /** Updates maxHP and such from the progressValues */
    public void onLevelStart() {
       this.setKilledEnemies(0);
-      int maxHp = game.getProgressValues().getMaxHP();
+      int maxHp = Testing.testingMode ? Testing.maxHP : game.getProgressValues().getMaxHP();
       this.maxHP = maxHp;
       this.HP = maxHp;
       statusDisplay.setMaxHP(maxHp);
@@ -235,7 +236,9 @@ public class PlayerFly extends Entity implements ShootingPlayer {
 
    /**
     * Moves the player hitbox, and prevents it from going off screen.
-    * Then it updates the collision pixels
+    * Then it updates the collision pixels.
+    * A distance (edgeDist) is maintained as a margin between the player
+    * and all edges of the screen.
     * 
     * @param deltaX
     * @param deltaY
@@ -301,15 +304,21 @@ public class PlayerFly extends Entity implements ShootingPlayer {
          int collidingPixel = getPixelThatCollides(yLevelOffset, xLevelOffset);
          pushInOppositeDirectionOf(collidingPixel, pushDistance);
          nrOfCollisions += 1;
-         if (nrOfCollisions > 2) { // failsafe, if the player gets stuck
-            this.HP = 0; // kill player
-            takeCollisionDmg();
-            return;
+         if (nrOfCollisions > 2) {
+            // Player got stuck in a corner or at the bottom of the map
+            checkAndHandleBottomOfMapCollision();
+            break;
          }
       }
       if (nrOfCollisions > 0) {
          takeCollisionDmg();
          audioPlayer.playSFX(Audio.SFX_COLLISION);
+      }
+   }
+
+   private void checkAndHandleBottomOfMapCollision() {
+      if ((hitbox.y + hitbox.height) >= Game.GAME_DEFAULT_HEIGHT - edgeDist) {
+         HP = 0;
       }
    }
 

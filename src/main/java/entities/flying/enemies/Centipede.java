@@ -32,7 +32,7 @@ public class Centipede extends BaseEnemy {
 
    public Centipede(Rectangle2D.Float hitbox, EntityInfo info, int startTimer, Vector2 directionVector) {
       super(hitbox, info, startTimer, null);
-      this.maxHP = 150;
+      this.maxHP = 100;
       HP = maxHP;
       this.TAKING_DAMAGE = 3;
       this.speedVector = directionVector;
@@ -248,6 +248,16 @@ public class Centipede extends BaseEnemy {
    @Override
    public boolean canShoot() {
       return false;
+   }
+
+   @Override
+   public void adjustPosition(int deltaY) {
+      for (Rectangle2D.Float hb : allHitboxes) {
+         hb.y -= deltaY;
+      }
+      for (Point.Float p : hitboxCenters) {
+         p.y -= deltaY;
+      }
    }
 
 }
