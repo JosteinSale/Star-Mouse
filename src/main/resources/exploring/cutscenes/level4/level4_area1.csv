@@ -83,37 +83,29 @@ bigDialogue;Max;sad;12;4;(She's gone)
 endSequence
 wait;60
 endSequence
-bigDialogue;Lt.Red;looking_down;5;5;...
-endSequence
-bigDialogue;Lt.Red;looking_down;5;3;My sweet daughter.
-endSequence
-bigDialogue;Lt.Red;sad;1;2;She had trouble making friends when she was younger...
-endSequence
-bigDialogue;Lt.Red;sad;1;2;...because she would be as hard on others as she was on herself.
-endSequence
-bigDialogue;Lt.Red;sad;1;2;But she found a purpose in the military.
-endSequence
-bigDialogue;Lt.Red;sad;1;3;...
-endSequence
-bigDialogue;Lt.Red;looking_down;5;3;I wish she had found a different purpose.
+bigDialogue;Lt.Red;looking_down;5;10;...
 endSequence
 wait;60
 endSequence
-bigDialogue;Gard;normal;0;2;Lieutenant, this is not your fault.
+bigDialogue;Gard;normal;0;4;Lieutenant... This was not your fault.
 endSequence
 wait;60
 endSequence
-bigDialogue;Gard;normal;0;2;...Lieutenant, what are your orders?
+bigDialogue;Lt.Red;looking_down;5;10;...
+endSequence
+bigDialogue;Gard;normal;0;3;...Lieutenant, what are your orders?
 endSequence
 wait;60
 endSequence
-bigDialogue;Lt.Red;looking_down;5;5;...
+bigDialogue;Lt.Red;looking_down;5;5;I'm sorry Gard
 endSequence
-bigDialogue;Lt.Red;looking_down;5;3;There are no orders.
+bigDialogue;Lt.Red;looking_down;5;5;I don't have any orders for you right now.
+endSequence
+bigDialogue;Lt.Red;looking_down;5;5;...I... 
 endSequence
 wait;60
 endSequence
-bigDialogue;Max;sad;12;5;...
+bigDialogue;Max;sad;12;10;...
 endSequence
 setPlayerSheet;0
 bigDialogue;Max;eyes_shut;4;5;.
@@ -124,7 +116,7 @@ bigDialogue;Max;angry;8;2;I saw him last on Apo, so that's where I'm going.
 endSequence
 wait;30
 endSequence
-bigDialogue;Gard;normal;0;2;Max... how are you even going to get back?
+bigDialogue;Gard;normal;0;3;Max... how are you even going to get back?
 endSequence
 bigDialogue;Max;angry;8;2;...the drones are still out there. So goind out is too risky.
 endSequence
@@ -134,13 +126,11 @@ bigDialogue;Max;angry;8;2;If we can manage to stay hidden inside here long enoug
 endSequence
 bigDialogue;Max;angry;8;2;...the asteroid might give us shelter until we arrive.
 endSequence
-bigDialogue;Gard;normal;0;2;Granted, you can even manage to navigate your ship out of these narrow caves.
+wait;60
 endSequence
-bigDialogue;Gard;normal;0;2;...And I have a bad feeling about firing up our ships in here.
+bigDialogue;Gard;normal;0;3;...and you would abandon your team?
 endSequence
-bigDialogue;Gard;normal;0;2;It feels like we're being watched... The ship would draw attention.
-endSequence
-bigDialogue;Max;angry;8;2;I don't care. I'm going.
+bigDialogue;Max;eyes_shut;4;2;Sorry, but I can't give up on my brother.
 endSequence
 wait;60
 endSequence
@@ -169,17 +159,17 @@ bigDialogue;Max;normal;0;2;Thanks Gard.
 endSequence
 bigDialogue;Max;normal;0;2;I really appreciate that.
 endSequence
-bigDialogue;Lt.Red;looking_down;5;5;...
+bigDialogue;Lt.Red;looking_down;5;10;...
 endSequence
 setDir;gard;right
 wait;60
 endSequence
-bigDialogue;Gard;normal;0;2;Take care of yourself, Lieutenant.
+bigDialogue;Gard;normal;0;4;Take care of yourself, Lieutenant.
 endSequence
 wait;60
 endSequence
 setDir;gard;left
-bigDialogue;Gard;normal;0;2;Now come on, let's go.
+bigDialogue;Gard;normal;0;3;Now come on, let's go.
 endSequence
 npcWalk;Gard;1;left;3220;495f;200
 endSequence
