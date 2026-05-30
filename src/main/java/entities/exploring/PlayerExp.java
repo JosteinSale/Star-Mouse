@@ -5,18 +5,21 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
 import java.util.ArrayList;
 
+import com.badlogic.gdx.math.Vector2;
+
 import entities.AnimationFrame;
 import entities.Entity;
 import entities.MyCollisionImage;
 import inputs.Inputs;
 import main_classes.Game;
+import utils.HelpMethods;
 import utils.Constants.Direction;
 import utils.Constants.Exploring.CharacterAction;
-import utils.HelpMethods;
 
 public class PlayerExp extends Entity {
    private MyCollisionImage collisionImg;
    private float playerSpeed = 5f;
+   private Vector2 speedVector;
    public boolean visible = true;
    public static int CURRENT_SPRITE_SHEET = 0;
 
@@ -28,6 +31,7 @@ public class PlayerExp extends Entity {
       super(hitbox);
       action = CharacterAction.STANDING;
       direction = initialDirection;
+      speedVector = new Vector2(0, 0);
       String imgName = "level" + level.toString() + "_area" + area.toString();
       this.collisionImg = game.getImages().getExpImageCollision(imgName + "_cl.png");
       this.animation = new AnimationFrame(
@@ -67,7 +71,9 @@ public class PlayerExp extends Entity {
 
    public void update(ArrayList<Rectangle2D.Float> npcHitboxes, boolean cutsceneActive, boolean fadeActive) {
       if (!cutsceneActive && !fadeActive) {
-         handleKeyboardInputs(npcHitboxes);
+         speedVector.set(0, 0);
+         handleKeyboardInputs();
+         movePlayer(npcHitboxes);
          updateAnimationRow();
       }
       if (action != CharacterAction.POSING) {
@@ -75,118 +81,95 @@ public class PlayerExp extends Entity {
       }
    }
 
-   private void handleKeyboardInputs(ArrayList<Rectangle2D.Float> npcHitboxes) {
-      // Standing still
-      if (!Inputs.upIsPressed && !Inputs.downIsPressed
-            && !Inputs.leftIsPressed && !Inputs.rightIsPressed) {
+   private void handleKeyboardInputs() {
+      // 1. Determine the character's action
+      int amountOfDirectionsPressed = (Inputs.upIsPressed ? 1 : 0)
+            + (Inputs.downIsPressed ? 1 : 0)
+            + (Inputs.leftIsPressed ? 1 : 0)
+            + (Inputs.rightIsPressed ? 1 : 0);
+
+      if (amountOfDirectionsPressed == 0 || amountOfDirectionsPressed >= 3) {
          action = CharacterAction.STANDING;
          return;
-      }
-      // Edge case: If opposite directions are pressed at the same time, the player
-      // should stand still.
-      if ((Inputs.upIsPressed && Inputs.downIsPressed)
-            || (Inputs.leftIsPressed && Inputs.rightIsPressed)) {
+      } else if ((Inputs.upIsPressed && Inputs.downIsPressed) ||
+            (Inputs.leftIsPressed && Inputs.rightIsPressed)) {
          action = CharacterAction.STANDING;
+         return;
+      } else {
+         action = CharacterAction.WALKING;
       }
 
-      // Start by determining the player's intended speed vector
+      // 2. Determining the player's intended speed vector and animation direction
       if (Inputs.leftIsPressed) {
-         action = CharacterAction.WALKING;
          direction = Direction.LEFT;
-         hitbox.x -= playerSpeed;
-         checkAndHandleCollisions(Direction.LEFT, npcHitboxes);
+         speedVector.x -= playerSpeed;
       }
-      // Walking up
-      if (Inputs.upIsPressed && !(Inputs.leftIsPressed && Inputs.rightIsPressed)) {
-         action = CharacterAction.WALKING;
+      if (Inputs.upIsPressed) {
          direction = Direction.UP;
-         hitbox.y -= playerSpeed;
-         checkAndHandleCollisions(Direction.UP, npcHitboxes);
+         speedVector.y -= playerSpeed;
       }
-      // Walking right
       if (Inputs.rightIsPressed) {
-         action = CharacterAction.WALKING;
          direction = Direction.RIGHT;
-         hitbox.x += playerSpeed;
-         checkAndHandleCollisions(Direction.RIGHT, npcHitboxes);
+         speedVector.x += playerSpeed;
       }
-      // Walking down
-      if (Inputs.downIsPressed && !(Inputs.leftIsPressed && Inputs.rightIsPressed)) {
-         action = CharacterAction.WALKING;
+      if (Inputs.downIsPressed) {
          direction = Direction.DOWN;
-         hitbox.y += playerSpeed;
-         checkAndHandleCollisions(Direction.DOWN, npcHitboxes);
-      }
-   }
-
-   private void checkAndHandleCollisions(Direction playerWalkDir, ArrayList<Rectangle2D.Float> npcHitboxes) {
-      if (HelpMethods.CollidesWithMap(hitbox, collisionImg)) {
-         boolean playerWasSlided = tryToSlidePlayerAlongMap(playerWalkDir, npcHitboxes);
-         if (!playerWasSlided) {
-            moveHitboxBack(playerWalkDir);
-         }
-      } else if (HelpMethods.CollidesWithNpc(hitbox, npcHitboxes)) {
-         moveHitboxBack(playerWalkDir);
+         speedVector.y += playerSpeed;
       }
    }
 
    /**
-    * If the player can be slid along the wall in the direction they are walking,
-    * do so and return true. Otherwise, return false.
+    * Moves the player in the requested direction,
+    * and if it crashes with the map / NPCs,
+    * it will try to slide the player into an available position.
     */
-   private boolean tryToSlidePlayerAlongMap(Direction playerWalkDir, ArrayList<Rectangle2D.Float> npcHitboxes) {
-      switch (playerWalkDir) {
-         case RIGHT, LEFT:
-            // Try sliding up
-            hitbox.y -= playerSpeed;
-            if (!HelpMethods.CollidesWithMap(hitbox, collisionImg)
-                  && !HelpMethods.CollidesWithNpc(hitbox, npcHitboxes)) {
-               return true;
-            }
-            // Try sliding down
-            hitbox.y += 2 * playerSpeed; // +2 to go back to original pos and then some
-            if (!HelpMethods.CollidesWithMap(hitbox, collisionImg)
-                  && !HelpMethods.CollidesWithNpc(hitbox, npcHitboxes)) {
-               return true;
-            }
-            hitbox.y -= playerSpeed; // go back to original position if both sliding attempts failed
-            break;
-         case UP, DOWN:
-            // Try sliding left
-            hitbox.x -= playerSpeed;
-            if (!HelpMethods.CollidesWithMap(hitbox, collisionImg)
-                  && !HelpMethods.CollidesWithNpc(hitbox, npcHitboxes)) {
-               return true;
-            }
-            // Try sliding right
-            hitbox.x += 2 * playerSpeed; // +2 to go back to original pos and then some
-            if (!HelpMethods.CollidesWithMap(hitbox, collisionImg)
-                  && !HelpMethods.CollidesWithNpc(hitbox, npcHitboxes)) {
-               return true;
-            }
-            hitbox.x -= playerSpeed; // go back to original position if both sliding attempts failed
-            break;
-         default:
-            throw new IllegalArgumentException("Invalid playerWalkDir: " + playerWalkDir.toString());
+   private void movePlayer(ArrayList<Rectangle2D.Float> npcHitboxes) {
+      if (speedVector.x == 0 && speedVector.y == 0) {
+         return;
       }
-      return false;
+
+      float currentXPos = hitbox.x;
+      float currentYPos = hitbox.y;
+      // 1. Try the requested move first
+      if (tryMove(currentXPos + speedVector.x, currentYPos + speedVector.y, npcHitboxes)) {
+         return;
+      }
+
+      // 2. Requested move blocked — try reasonable alternatives
+      // depending on movement type
+      if (speedVector.x == 0) { // Vertical movement: try sliding right / left
+         if (tryMove(currentXPos + playerSpeed, currentYPos + speedVector.y, npcHitboxes)) {
+            return;
+         }
+         if (tryMove(currentXPos - playerSpeed, currentYPos + speedVector.y, npcHitboxes)) {
+            return;
+         }
+      } else if (speedVector.y == 0) { // Horizontal movement: try sliding up / down
+         if (tryMove(currentXPos + speedVector.x, currentYPos + playerSpeed, npcHitboxes)) {
+            return;
+         }
+         if (tryMove(currentXPos + speedVector.x, currentYPos - playerSpeed, npcHitboxes)) {
+            return;
+         }
+      } else { // Diagonal movement: try each axis separately
+         if (tryMove(currentXPos + speedVector.x, currentYPos, npcHitboxes)) {
+            return;
+         }
+         if (tryMove(currentXPos, currentYPos + speedVector.y, npcHitboxes)) {
+            return;
+         }
+      }
+
+      // 3. No available placements -> move back to startPosition
+      hitbox.x = currentXPos;
+      hitbox.y = currentYPos;
    }
 
-   private void moveHitboxBack(Direction playerWalkDir) {
-      switch (playerWalkDir) {
-         case RIGHT:
-            hitbox.x -= playerSpeed;
-            break;
-         case LEFT:
-            hitbox.x += playerSpeed;
-            break;
-         case DOWN:
-            hitbox.y -= playerSpeed;
-            break;
-         case UP:
-            hitbox.y += playerSpeed;
-            break;
-      }
+   private boolean tryMove(float x, float y, ArrayList<Rectangle2D.Float> npcHitboxes) {
+      hitbox.x = x;
+      hitbox.y = y;
+      return (HelpMethods.CollidesWithMap(hitbox, collisionImg) ||
+            HelpMethods.CollidesWithNpc(hitbox, npcHitboxes));
    }
 
    public void resetAll() {
@@ -194,6 +177,7 @@ public class PlayerExp extends Entity {
       Inputs.rightIsPressed = false;
       Inputs.leftIsPressed = false;
       Inputs.upIsPressed = false;
+      speedVector.set(0, 0);
       this.action = CharacterAction.STANDING;
       updateAnimationRow();
    }
