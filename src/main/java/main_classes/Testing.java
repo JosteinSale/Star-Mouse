@@ -11,7 +11,7 @@ public final class Testing {
    public static boolean testingMode = false;
 
    // General stuff
-   public static final Gamestate testState = Gamestate.FLYING;
+   public static final Gamestate testState = Gamestate.LEVEL_SELECT;
    public static final boolean drawHitboxes = false;
    public static final int unlockedLevels = 13;
    public static final boolean playMusic = true;
