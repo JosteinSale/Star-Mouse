@@ -159,18 +159,18 @@ public class PlayerExp extends Entity {
             return;
          }
       }
-      System.out.println("Collission");
 
       // 3. No available placements -> move back to startPosition
       hitbox.x = currentXPos;
       hitbox.y = currentYPos;
    }
 
+   /** Returns true if the given position is available, false otherwise */
    private boolean tryMove(float x, float y, ArrayList<Rectangle2D.Float> npcHitboxes) {
       hitbox.x = x;
       hitbox.y = y;
-      return (HelpMethods.CollidesWithMap(hitbox, collisionImg) ||
-            HelpMethods.CollidesWithNpc(hitbox, npcHitboxes));
+      return (!HelpMethods.CollidesWithMap(hitbox, collisionImg) &&
+            !HelpMethods.CollidesWithNpc(hitbox, npcHitboxes));
    }
 
    public void resetAll() {
