@@ -70,7 +70,11 @@ public class RenderArea implements Render {
 
       // Maps
       rMap.drawLandscape(sb);
-      rMap.drawBackground(sb);
+      if (Testing.testingMode && Testing.drawCollissionMap) {
+         rMap.drawCollisionMap(sb);
+      } else {
+         rMap.drawBackground(sb);
+      }
 
       // Entities
       rNPCs.drawBgNpcs(sb, xLevelOffset, yLevelOffset);
@@ -81,7 +85,7 @@ public class RenderArea implements Render {
       rMap.drawForeground(sb);
 
       // Hitboxes
-      if (Testing.drawHitboxes) {
+      if (Testing.testingMode && Testing.drawHitboxes) {
          drawHitboxes(sb, xLevelOffset, yLevelOffset);
       }
    }

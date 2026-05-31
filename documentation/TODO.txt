@@ -1,6 +1,3 @@
 * Make sure only one explosion sound effect can be played each frame
 * Make health bar be drawn ontop of enemies, not beneath.
 * Give FellowShip ShipSmoke
-* Experiment with playerExp collission with map be 'soft'. 
-   - E.g if player tries to walk into the map towards the right and collides,
-     we check if there is space to move the player slightly up or down.

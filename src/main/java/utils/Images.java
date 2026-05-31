@@ -163,6 +163,11 @@ public class Images extends Singleton {
       return this.getCollisionImage(fileName);
    }
 
+   public MyImage getExpImageCollisionAsMyImage(String fileName) {
+      fileName = "exploring/images/collision/" + fileName;
+      return this.getImage(fileName, false);
+   }
+
    public MyCollisionImage getFlyImageCollision(String fileName) {
       fileName = "flying/images/collision/" + fileName;
       return this.getCollisionImage(fileName);

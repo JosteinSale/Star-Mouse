@@ -2,9 +2,9 @@ package rendering.exploring;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import entities.MyCollisionImage;
 import game_states.exploring.MapManager1;
 import main_classes.Game;
+import main_classes.Testing;
 import rendering.MyImage;
 import rendering.Render;
 import utils.DrawUtils;
@@ -12,7 +12,7 @@ import utils.Images;
 
 public class RenderMap1 implements Render {
    private MapManager1 map;
-   protected MyCollisionImage clImg;
+   protected MyImage clImg;
    protected MyImage landScapeImg;
    protected MyImage bgImg;
    protected MyImage fgImg;
@@ -35,8 +35,10 @@ public class RenderMap1 implements Render {
             "_area" + areaIndex.toString();
       landScapeImg = images.getExpImageLandscape(imgName + "_ls.png");
       bgImg = images.getExpImageBackground(imgName + "_bg.png");
-      clImg = images.getExpImageCollision(imgName + "_cl.png");
       fgImg = images.getExpImageForeground(imgName + "_fg.png");
+      if (Testing.testingMode && Testing.drawCollissionMap) {
+         clImg = images.getExpImageCollisionAsMyImage(imgName + "_cl.png");
+      }
    }
 
    private void calcLvlOffset() {
@@ -63,6 +65,13 @@ public class RenderMap1 implements Render {
    public void drawBackground(SpriteBatch sb) {
       DrawUtils.drawImage(
             sb, bgImg,
+            0 - map.xLevelOffset, 0 - map.yLevelOffset,
+            bgImgWidth, bgImgHeight);
+   }
+
+   public void drawCollisionMap(SpriteBatch sb) {
+      DrawUtils.drawImage(
+            sb, clImg,
             0 - map.xLevelOffset, 0 - map.yLevelOffset,
             bgImgWidth, bgImgHeight);
    }

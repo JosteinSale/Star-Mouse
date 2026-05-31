@@ -36,7 +36,10 @@ public class BossActionHandler {
       this.shootPatterns = new HashMap<>();
    }
 
-   /** Use this constructor if the action has a globally controlled duration */
+   /**
+    * Use this constructor if the actionHandler should handle the duration of the
+    * action.
+    */
    public void registerAction(String name, int duration, ArrayList<DefaultBossPart> bossParts,
          ArrayList<ShootPattern> shootPatterns) {
       if (durations.containsKey(name)) {
@@ -49,7 +52,7 @@ public class BossActionHandler {
    }
 
    /**
-    * Use this constructor if the action doesn't have a globally controled duration
+    * Use this constructor if the bossPart handles its own duration.
     */
    public void registerAction(
          String name, ArrayList<DefaultBossPart> bossParts,

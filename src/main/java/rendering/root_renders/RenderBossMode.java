@@ -76,7 +76,7 @@ public class RenderBossMode extends Singleton implements Render {
       rEntity.draw(sb);
       rProjectiles.draw(sb);
       rCutscene.draw(sb);
-      if (Testing.drawHitboxes) {
+      if (Testing.testingMode && Testing.drawHitboxes) {
          drawHitboxes(sb);
       }
       if (bossMode.gameOver) {
@@ -97,7 +97,7 @@ public class RenderBossMode extends Singleton implements Render {
    }
 
    public void draw(ShapeRenderer sr) {
-      if (Testing.drawHitboxes) {
+      if (Testing.testingMode && Testing.drawHitboxes) {
          drawHitboxes(sr);
       }
    }

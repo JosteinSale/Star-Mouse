@@ -119,9 +119,9 @@ public class PlayerExp extends Entity {
    }
 
    /**
-    * Moves the player in the requested direction,
+    * Move the player in the requested direction,
     * and if it crashes with the map / NPCs,
-    * it will try to slide the player into an available position.
+    * try to slide the player into an available position.
     */
    private void movePlayer(ArrayList<Rectangle2D.Float> npcHitboxes) {
       if (speedVector.x == 0 && speedVector.y == 0) {
@@ -159,6 +159,7 @@ public class PlayerExp extends Entity {
             return;
          }
       }
+      System.out.println("Collission");
 
       // 3. No available placements -> move back to startPosition
       hitbox.x = currentXPos;

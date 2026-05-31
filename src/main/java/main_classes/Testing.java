@@ -12,7 +12,7 @@ public final class Testing {
 
    // General stuff
    public static final Gamestate testState = Gamestate.LEVEL_SELECT;
-   public static final boolean drawHitboxes = false;
+   public static final boolean drawHitboxes = true;
    public static final int unlockedLevels = 13;
    public static final boolean playMusic = true;
    public static final boolean playSFX = true;
@@ -20,6 +20,7 @@ public final class Testing {
    // Exploring
    public static final int exploringLevel = 4;
    public static final int exploringArea = 1;
+   public static final boolean drawCollissionMap = true;
 
    // Flying
    public static final int flyingStartY = 0; // 9000

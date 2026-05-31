@@ -69,10 +69,10 @@ public class AudioPlayer extends Singleton {
    }
 
    public void setTestVolumes() {
-      if (!Testing.playMusic) {
+      if (Testing.testingMode && !Testing.playMusic) {
          setSongVolume(0f);
       }
-      if (!Testing.playSFX) {
+      if (Testing.testingMode && !Testing.playSFX) {
          setSfxVolume(0f);
       }
    }

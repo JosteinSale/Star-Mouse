@@ -505,7 +505,7 @@ public class Flying extends State {
 
    private void updateChartingY() {
       mapManager.yProgess += fgCurSpeed;
-      if (Testing.printLevelY) {
+      if (Testing.testingMode && Testing.printLevelY) {
          System.out.println("Y: " + mapManager.yProgess);
       }
    }
