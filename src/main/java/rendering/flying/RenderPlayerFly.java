@@ -97,7 +97,7 @@ public class RenderPlayerFly implements Render {
          }
 
          // Ship smoke
-         drawShipSmoke(sb);
+         drawShipSmoke(sb, player.shipSmoke, shipSmokeImg);
 
          // Player
          int actionIndex = player.planeAction;
@@ -120,10 +120,10 @@ public class RenderPlayerFly implements Render {
       }
    }
 
-   private void drawShipSmoke(SpriteBatch sb) {
+   public static void drawShipSmoke(SpriteBatch sb, ShipSmoke shipSmoke, MyImage shipSmokeImg) {
       // Left smoke trail
-      for (int i = 0; i < player.shipSmoke.leftTrailingSmokePoints.size(); i++) {
-         Point.Float point = player.shipSmoke.leftTrailingSmokePoints.get(i);
+      for (int i = 0; i < shipSmoke.leftTrailingSmokePoints.size(); i++) {
+         Point.Float point = shipSmoke.leftTrailingSmokePoints.get(i);
          DrawUtils.drawTransparentImage(
                sb, shipSmokeImg,
                (int) point.x, (int) point.y,
@@ -131,8 +131,8 @@ public class RenderPlayerFly implements Render {
                ShipSmoke.getAlphaForPoint(i));
       }
       // Right smoke trail
-      for (int i = 0; i < player.shipSmoke.rightTrailingSmokePoints.size(); i++) {
-         Point.Float point = player.shipSmoke.rightTrailingSmokePoints.get(i);
+      for (int i = 0; i < shipSmoke.rightTrailingSmokePoints.size(); i++) {
+         Point.Float point = shipSmoke.rightTrailingSmokePoints.get(i);
          DrawUtils.drawTransparentImage(
                sb, shipSmokeImg,
                (int) point.x, (int) point.y,

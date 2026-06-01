@@ -85,6 +85,8 @@ public class Constants {
       public static final int COLLISION_MAP_WIDTH = 450 * 3;
       public static final float DEFAULT_FG_SPEED = 2f;
       public static final float SLOWED_DOWN_FG_SPEED = 0.7f;
+      public static final float SHIP_HITBOX_WIDTH = 50f;
+      public static final float SHIP_HITBOX_HEIGHT = 50f;
 
       public static class TypeConstants {
          // Projectile types

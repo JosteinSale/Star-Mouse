@@ -165,7 +165,10 @@ public class PlayerExp extends Entity {
       hitbox.y = currentYPos;
    }
 
-   /** Returns true if the given position is available, false otherwise */
+   /**
+    * Moves the hitbox into the given position,
+    * and returns true if it is available, false otherwise
+    */
    private boolean tryMove(float x, float y, ArrayList<Rectangle2D.Float> npcHitboxes) {
       hitbox.x = x;
       hitbox.y = y;

@@ -2,6 +2,7 @@ package entities.flying;
 
 import java.util.ArrayList;
 import java.awt.Point;
+import java.awt.geom.Rectangle2D;
 
 /**
  * This class will represent a trail of smoke trailing behind the player ship.
@@ -13,12 +14,12 @@ public class ShipSmoke {
    public ArrayList<Point.Float> rightTrailingSmokePoints;
    private static final int AMOUNT_OF_POINTS = 20;
    private static final float SMOKE_SPEED = 4f;
-   private PlayerFly player;
+   private Rectangle2D.Float shipHitbox;
    private int LEFT = 1;
    private int RIGHT = -1;
 
-   public ShipSmoke(PlayerFly player) {
-      this.player = player;
+   public ShipSmoke(Rectangle2D.Float shipHitbox) {
+      this.shipHitbox = shipHitbox;
       this.leftTrailingSmokePoints = new ArrayList<>();
       this.rightTrailingSmokePoints = new ArrayList<>();
    }
@@ -44,8 +45,8 @@ public class ShipSmoke {
 
    private Point.Float getNewSmokePoint(int direction) {
       Point.Float point = new Point.Float();
-      point.y = player.hitbox.y + player.hitbox.height;
-      point.x = player.hitbox.x + 20 + (25 * direction);
+      point.y = shipHitbox.y + shipHitbox.height;
+      point.x = shipHitbox.x + 20 + (25 * direction);
       return point;
    }
 

@@ -62,7 +62,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       this.audioPlayer = game.getAudioPlayer();
       updateCollisionPixels();
       this.flame = new ShipFlame();
-      this.shipSmoke = new ShipSmoke(this);
+      this.shipSmoke = new ShipSmoke(this.hitbox);
       this.leftLazerGlow = new AnimatedGlow(AnimatedGlow.BLUE_GLOW_SMALL, 1.0f);
       this.rightLazerGlow = new AnimatedGlow(AnimatedGlow.BLUE_GLOW_SMALL, 1.0f);
       setGlowPositions();
@@ -571,6 +571,10 @@ public class PlayerFly extends Entity implements ShootingPlayer {
    public void setGlowType(int glowType) {
       leftLazerGlow.setGlowType(glowType);
       rightLazerGlow.setGlowType(glowType);
+   }
+
+   public static Rectangle2D.Float getNewHitbox() {
+      return new Rectangle2D.Float(500f, 400f, 50f, 50f);
    }
 
 }

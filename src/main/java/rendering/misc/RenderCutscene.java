@@ -22,6 +22,7 @@ import rendering.MyImage;
 import rendering.MySubImage;
 import rendering.Render;
 import rendering.exploring.RenderNumberDisplay;
+import rendering.flying.RenderPlayerFly;
 import ui.TextboxManager;
 import utils.DrawUtils;
 import utils.HelpMethods;
@@ -53,6 +54,7 @@ public class RenderCutscene extends Singleton implements Render {
    private MyImage shipImg;
    private MySubImage[] flameAnimations; // For the fellowships
    private MyImage overlayImage;
+   private MyImage shipSmokeImg;
    private int overlayW;
    private int overlayH;
 
@@ -67,6 +69,7 @@ public class RenderCutscene extends Singleton implements Render {
 
    private void loadImages(Images images) {
       shipImg = images.getFlyImageSprite(Images.FELLOWSHIP_SPRITES, true);
+      shipSmokeImg = images.getFlyImageSprite(Images.SHIP_SMOKE_POINT, true);
       flameAnimations = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.SHIP_FLAME_SPRITES, true),
             2, 15, 15);
@@ -141,13 +144,15 @@ public class RenderCutscene extends Singleton implements Render {
             // Ship
             DrawUtils.drawImage(
                   sb, shipImg,
-                  (int) (ship.xPos - 20), (int) (ship.yPos - 20),
+                  (int) (ship.hitbox.x - 20), (int) (ship.hitbox.y - 20),
                   SHIP_SPRITE_WIDTH * 3, SHIP_SPRITE_HEIGHT * 3);
             // Ship flame
             DrawUtils.drawSubImage(
                   sb, flameAnimations[ship.flame.aniIndex],
-                  (int) (ship.xPos + 3.5f), (int) (ship.yPos + ship.height),
+                  (int) (ship.hitbox.x + 3.5f), (int) (ship.hitbox.y + ship.height),
                   45, 45);
+            // Ship smoke
+            RenderPlayerFly.drawShipSmoke(sb, ship.smoke, shipSmokeImg);
          }
       }
    }

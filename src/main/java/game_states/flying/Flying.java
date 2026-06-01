@@ -1,6 +1,8 @@
 package game_states.flying;
 
 import static utils.Constants.Flying.REPAIR_HEALTH;
+import static utils.Constants.Flying.SHIP_HITBOX_HEIGHT;
+import static utils.Constants.Flying.SHIP_HITBOX_WIDTH;
 import static utils.Constants.Flying.DEFAULT_FG_SPEED;
 import static utils.Constants.Flying.SLOWED_DOWN_FG_SPEED;
 import static entities.flying.EnemyFactory.TypeConstants.DRONE;
@@ -79,7 +81,7 @@ public class Flying extends State {
    }
 
    private void initClasses(OptionsMenu optionsMenu) {
-      Rectangle2D.Float playerHitbox = new Rectangle2D.Float(500f, 400f, 50f, 50f);
+      Rectangle2D.Float playerHitbox = new Rectangle2D.Float(500f, 400f, SHIP_HITBOX_WIDTH, SHIP_HITBOX_HEIGHT);
       this.player = new PlayerFly(game, playerHitbox);
       this.pickupFactory = new PickupItemFactory();
       this.enemyManager = new EnemyManager(player, audioPlayer);
