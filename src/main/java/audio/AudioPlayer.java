@@ -1,5 +1,8 @@
 package audio;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
@@ -41,7 +44,9 @@ public class AudioPlayer extends Singleton {
    private boolean curSongLooping;
    private Music curSong;
    private Music curAmbience;
+   private Set<Integer> sfxPlayedThisFrame;
 
+   // Volume
    private float setSongVolume = 0.61f;
    private float setAmbienceVolume = 0.91f;
    private float setSfxVolume = 0.91f;
@@ -60,6 +65,7 @@ public class AudioPlayer extends Singleton {
    public AudioPlayer() {
       loadAudio();
       startKeepAliveSound();
+      sfxPlayedThisFrame = new HashSet<>();
    }
 
    private void startKeepAliveSound() {
@@ -91,11 +97,15 @@ public class AudioPlayer extends Singleton {
 
    /**
     * Plays the SFX with the given index, using the SFXPlayer-object (see javadoc).
+    * Each sound effect can only play once per frame.
     * 
     * @param index
     */
    public void playSFX(int index) {
-      this.sfxPlayer.playSfx(index);
+      if (!sfxPlayedThisFrame.contains(index)) {
+         this.sfxPlayer.playSfx(index);
+         sfxPlayedThisFrame.add(index);
+      }
    }
 
    /**
@@ -190,6 +200,7 @@ public class AudioPlayer extends Singleton {
    }
 
    public void update() {
+      sfxPlayedThisFrame.clear();
       if (this.fadeOutActive) {
          updateFade();
       }

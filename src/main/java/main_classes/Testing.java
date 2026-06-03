@@ -23,7 +23,7 @@ public final class Testing {
    public static final boolean drawCollissionMap = true;
 
    // Flying
-   public static final int flyingStartY = 0; // 9000
+   public static final int flyingStartY = 9000; // 9000
    public static final int flyingLevel = 4;
    public static final boolean printLevelY = false;
    public static final int maxHP = 100;
