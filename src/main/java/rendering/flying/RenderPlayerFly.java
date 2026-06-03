@@ -111,9 +111,6 @@ public class RenderPlayerFly implements Render {
                (int) (player.hitbox.x - 20), (int) (player.hitbox.y - 20),
                SHIP_SPRITE_WIDTH * 3, SHIP_SPRITE_HEIGHT * 3);
 
-         // Status display
-         drawStatusDisplay(sb);
-
          // Glows from shooting
          rGlow.drawAnimatedGlow(sb, player.leftLazerGlow);
          rGlow.drawAnimatedGlow(sb, player.rightLazerGlow);
@@ -141,7 +138,7 @@ public class RenderPlayerFly implements Render {
       }
    }
 
-   private void drawStatusDisplay(SpriteBatch sb) {
+   public void drawStatusDisplay(SpriteBatch sb) {
       // Images
       DrawUtils.drawImage(
             sb, bombImg,

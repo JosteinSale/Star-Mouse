@@ -56,6 +56,7 @@ public class RenderFlying extends Singleton implements Render {
          rEntity.draw(sb);
          rProjectiles.draw(sb);
          drawHitboxes(sb);
+         rPlayer.drawStatusDisplay(sb);
       }
       if (!flying.gameOver) {
          rCutscene.draw(sb);

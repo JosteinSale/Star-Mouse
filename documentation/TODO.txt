@@ -1,2 +1,1 @@
 * Make sure only one explosion sound effect can be played each frame
-* Make health bar be drawn ontop of enemies, not beneath.
