@@ -93,6 +93,7 @@ public class RenderPlayerFly implements Render {
 
          // Flame
          if (!Inputs.downIsPressed) {
+            rGlow.drawStaticGlow(sb, player.flameGlow);
             drawFlame(sb, player.hitbox.x + 3f, player.hitbox.y + player.hitbox.height);
          }
 

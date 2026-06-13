@@ -24,6 +24,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
    protected MyCollisionImage clImg;
    public ShipFlame flame;
    public ShipSmoke shipSmoke;
+   public StaticGlow flameGlow;
    public StatusDisplay statusDisplay;
    public AnimatedGlow leftLazerGlow;
    public AnimatedGlow rightLazerGlow;
@@ -63,6 +64,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       updateCollisionPixels();
       this.flame = new ShipFlame();
       this.shipSmoke = new ShipSmoke(this.hitbox);
+      this.flameGlow = new StaticGlow(StaticGlow.WHITE_GLOW_DYNAMIC, 1.0f, 0.2f);
       this.leftLazerGlow = new AnimatedGlow(AnimatedGlow.BLUE_GLOW_SMALL, 1.0f);
       this.rightLazerGlow = new AnimatedGlow(AnimatedGlow.BLUE_GLOW_SMALL, 1.0f);
       setGlowPositions();
@@ -269,6 +271,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
    protected void setGlowPositions() {
       leftLazerGlow.setPos(hitbox.x - 52, hitbox.y - 40);
       rightLazerGlow.setPos(hitbox.x - 44 + hitbox.width, hitbox.y - 40);
+      flameGlow.setPos(hitbox.x - 22.5f, hitbox.y + 20);
    }
 
    /**

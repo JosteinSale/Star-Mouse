@@ -1,0 +1,31 @@
+TODOs:
+
+* Add people on the benches in the church
+* Display '0 / ?' as the killcount in LevelSelect if the player hasn't played the level before?
+   .(Might actually introduce a sense of 'foreboding' if the player knows the killcount beforehand?)
+
+Cutscene in Cathedral
+
+Background:
+ * Player just saw that Apo was destroyed, Oliver is likely gone. "All is lost"
+ * The player's perceived goal was just shattered. So we need to establish a new course.
+
+
+Overview:
+ * Max is in a state of shock. He doesn't know what to do next, but his instinct tells him
+   to seek out the truth of what happened.
+	- We show this by some quick dialogue with the disciple
+ * Max discovers the religious death cult, and witnesses one of their sermons.
+   He sees that Raze is a religious figure who leads the cult, who proclaims that he 
+   will save the world, by burning it to the ground and starting anew.	
+	- We see a huge screen being revealed in the cathedral. Raze's face appears on it
+        - We see him from a few angles, obscured by light and darkness
+	- In one hand, he holds a flame. In another hand, he holds a sprout.
+ * Max is disgusted and shocked by Raze's speech.
+	- We see his reaction, and the reaction of the disciple (which is awe)
+ * He asks the discpiple "How can you do this? Why do you follow him?"
+   They answer: "we have seen proof of his words"
+   Max is in disbelief.
+ * He asks the disciple where he can find Raze, and they tell him to seek out
+   the centre of the Cathedral.
+ * Max leaves (maybe we can explore a secret room)
