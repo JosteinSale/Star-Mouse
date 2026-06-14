@@ -17,7 +17,8 @@ import static entities.flying.StaticGlow.*;
  * sizes
  */
 public class RenderGlow {
-   private MySubImage[] orangeGlowSmall;
+   private MySubImage[] orangeGlowBig;
+   private MySubImage[] orangeGlowDynamic;
    private MySubImage[] blueGlowSmall;
    private MySubImage[] greenGlowSmall;
    private MySubImage[] reaperGlow;
@@ -27,7 +28,7 @@ public class RenderGlow {
    private int reaperSpriteWidth = 80;
 
    public RenderGlow(Images images) {
-      this.orangeGlowSmall = HelpMethods.GetUnscaled1DAnimationArray(
+      this.orangeGlowBig = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.ORANGE_GLOW_BIG, true),
             4, spriteSize, spriteSize);
 
@@ -45,6 +46,10 @@ public class RenderGlow {
       this.whiteGlow = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.WHITE_GLOW_BIG, true),
             4, spriteSize, spriteSize);
+
+      this.orangeGlowDynamic = HelpMethods.GetUnscaled1DAnimationArray(
+            images.getFlyImageSprite(Images.ORANGE_GLOW_DYNAMIC, true),
+            4, spriteSize, spriteSize);
    }
 
    public void drawAnimatedGlow(SpriteBatch sb, AnimatedGlow glow) {
@@ -53,7 +58,7 @@ public class RenderGlow {
       }
       switch (glow.getGlowType()) {
          case ORANGE_GLOW_BIG:
-            drawAnimated(sb, glow, orangeGlowSmall);
+            drawAnimated(sb, glow, orangeGlowBig);
             break;
          case BLUE_GLOW_SMALL:
             drawAnimated(sb, glow, blueGlowSmall);
@@ -84,6 +89,11 @@ public class RenderGlow {
             drawStatic(sb, glow, whiteGlow, 1);
             drawStatic(sb, glow, whiteGlow, 2);
             drawStatic(sb, glow, whiteGlow, 3);
+            break;
+         case ORANGE_GLOW_DYNAMIC:
+            drawStatic(sb, glow, orangeGlowDynamic, 1);
+            drawStatic(sb, glow, orangeGlowDynamic, 2);
+            drawStatic(sb, glow, orangeGlowDynamic, 3);
             break;
       }
    }

@@ -135,7 +135,7 @@ public class AudioPlayer extends Singleton {
       stopFadeOutIfActive(); // In case fadeOut is happening
       curSong = songs.getResource(songFileNames[index], false).get();
       curSong.setVolume(songFadeVolume);
-      if (curSongLooping) {
+      if (shouldLoop) {
          curSong.setLooping(true);
          curSong.play();
       } else {

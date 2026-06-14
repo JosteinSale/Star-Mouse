@@ -59,7 +59,7 @@ cutscene;true;powerups
 smallDialogue;Max;normal;0;2;Powerups make your shots stronger!
 wait;240
 endSequence
-wait;60
+wait;300
 endSequence
 smallDialogue;Max;normal;0;2;Repairs can... uh... repair.
 wait;200

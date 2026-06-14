@@ -192,6 +192,7 @@ public class PlayerExp extends Entity {
 
    public void setDirection(Direction dir) {
       this.direction = dir;
+      updateAnimationRow();
    }
 
    public void setVisible(boolean visible) {
@@ -209,6 +210,7 @@ public class PlayerExp extends Entity {
 
    public void setAction(CharacterAction action) {
       this.action = action;
+      updateAnimationRow();
    }
 
    public void setPose(boolean pose, int colIndex, int rowIndex) {

@@ -24,9 +24,8 @@ public class PlayerWalkEffect implements UpdatableEffect, AdvancableEffect {
       PlayerWalkEvent playEvt = (PlayerWalkEvent) evt;
       this.active = true;
       this.walkDuration = playEvt.walkDuration();
-      player.setDirection(playEvt.direction());
       player.setAction(CharacterAction.WALKING);
-      player.updateAnimationRow();
+      player.setDirection(playEvt.direction());
 
       float xDistance = playEvt.targetX() - this.player.getHitbox().x;
       float yDistance = playEvt.targetY() - this.player.getHitbox().y;

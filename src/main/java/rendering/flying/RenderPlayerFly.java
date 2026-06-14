@@ -91,14 +91,14 @@ public class RenderPlayerFly implements Render {
             drawShadow(sb, -player.teleportDistance);
          }
 
+         // Ship smoke
+         drawShipSmoke(sb, player.shipSmoke, shipSmokeImg);
+
          // Flame
          if (!Inputs.downIsPressed) {
             rGlow.drawStaticGlow(sb, player.flameGlow);
             drawFlame(sb, player.hitbox.x + 3f, player.hitbox.y + player.hitbox.height);
          }
-
-         // Ship smoke
-         drawShipSmoke(sb, player.shipSmoke, shipSmokeImg);
 
          // Player
          int actionIndex = player.planeAction;

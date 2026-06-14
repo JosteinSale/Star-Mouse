@@ -7,11 +7,11 @@ import static utils.Constants.Flying.COLLISION_MAP_Y_OFFSET;
 import static utils.Constants.Flying.COLLISION_MAP_WIDTH;
 
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Comparator;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -315,7 +315,15 @@ public class LevelEditor extends State {
    }
 
    private void printLevelData() {
-      for (String line : levelData) {
+      // Sort by y, which is the third field in the levelData
+      Comparator<String> comparator = (levelDataStringA, levelDataStringB) -> {
+         int yA = Integer.parseInt(levelDataStringA.split(";")[2]);
+         int yB = Integer.parseInt(levelDataStringB.split(";")[2]);
+         return Integer.compare(yB, yA);
+      };
+      ArrayList<String> sorted = new ArrayList<>(levelData);
+      sorted.sort(comparator);
+      for (String line : sorted) {
          System.out.println(line);
       }
    }

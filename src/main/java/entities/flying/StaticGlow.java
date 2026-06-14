@@ -12,6 +12,7 @@ public class StaticGlow {
    public static final int WHITE_GLOW_BIG = 3;
    public static final int WHITE_GLOW_BIGGEST = 4;
    public static final int WHITE_GLOW_DYNAMIC = 5;
+   public static final int ORANGE_GLOW_DYNAMIC = 6;
 
    private int glowType;
    private float alpha = 1f;

@@ -58,7 +58,7 @@ public class Flying extends State {
 
    private Integer level;
    private int song;
-   public boolean shouldSongLoop;
+   public boolean shouldSongLoop = true;
    public boolean ambienceEnabled = true;
    public boolean musicEnabled = true;
    public boolean pause = false;

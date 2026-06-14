@@ -6,7 +6,7 @@ public class FlyLevelInfo {
          7600, 10740, 9750, 9200, 10500, 1200, 1200,
          1200, 1200, 1200, 1200, 1200, 1200, 1200 };
    private static int[] clImgHeights = {
-         6500, 10000, 10000, 10000, 10000, 10000, 10000,
+         6900, 10000, 10000, 10000, 10000, 10000, 10000,
          10000, 10000, 10000, 10000, 10000, 10000, 10000 };
    private static float[] resetPoints = {
          20f, 1300f, 1000f, 20f, 20f, 20f, 20f,
@@ -16,7 +16,7 @@ public class FlyLevelInfo {
          99999f, 99999f, 99999f,
          99999f, 99999f, 99999f, 99999f };
    private static float[] skipLevelPoints = {
-         17000f, 27500f, 23800f, 24200f, 27500f, 9900f, 9900f,
+         18000f, 27500f, 23800f, 24200f, 27500f, 9900f, 9900f,
          9900f, 9900f, 9900f, 9900f, 9900f, 9900f, 9900f };
    private static float[] songResetPoints = {
          0f, 8f, 8f, 0f, 0f, 0f, 0f,
