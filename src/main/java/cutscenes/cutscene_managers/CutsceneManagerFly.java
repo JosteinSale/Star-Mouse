@@ -23,12 +23,7 @@ public class CutsceneManagerFly extends DefaultCutsceneManager {
       this.addEffect(new FellowShipEffect());
       this.addEffect(new SetOverlayEffect(game));
       this.addEffect(new FillScreenEffect());
-      this.addEffect(new FadeEffect(
-            () -> {
-               eventHandler.triggerEvents();
-               this.active = false;
-            },
-            () -> this.active = false));
+      this.addEffect(new FadeEffect());
       this.addEffect(new FadeHeaderEffect());
    }
 

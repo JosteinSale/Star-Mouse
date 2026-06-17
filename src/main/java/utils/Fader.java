@@ -76,6 +76,6 @@ public class Fader {
    }
 
    public static float FadeSpeedByInt(int speed) {
-      return speed / 200f;
+      return speed / 300f;
    }
 }

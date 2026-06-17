@@ -16,20 +16,10 @@ import utils.Fader;
  */
 public class FadeEffect implements UpdatableEffect, DrawableEffect, AdvancableEffect {
    private Fader fader;
-   private Runnable onStandardFadeToComplete;
-   private Runnable onStandardFadeFromComplete;
    private String fadeDirection;
-   private boolean standardFade; // TODO - I don't like standardFade >:[
    private boolean shouldAdvance = false;
 
-   /**
-    * Takes two runnables as argument:
-    * 
-    * @onFadeToComplete will run when the fadeTo[color] completes
-    * @onFadeFromComplete will run when the fadeFrom[color] completes
-    */
-   public FadeEffect(Runnable onStandardFadeToComplete, Runnable onStandardFadeFromComplete) {
-      this.onStandardFadeToComplete = onStandardFadeToComplete;
+   public FadeEffect() {
       this.fader = new Fader();
    }
 
@@ -37,28 +27,16 @@ public class FadeEffect implements UpdatableEffect, DrawableEffect, AdvancableEf
    public void activate(GeneralEvent evt) {
       FadeEvent fadeEvt = (FadeEvent) evt;
       this.fadeDirection = fadeEvt.in_out();
-      this.standardFade = fadeEvt.standardFade();
-      // This will run when a fadeTo[color] is completed
-      Runnable r1 = () -> {
-         if (standardFade) {
-            onStandardFadeToComplete.run();
-         } else {
-            this.shouldAdvance = true;
-         }
-      };
-      // This will run when a fadeFrom[color] is completed
-      Runnable r2 = () -> {
-         if (standardFade) {
-            onStandardFadeFromComplete.run();
-         } else {
-            this.shouldAdvance = true;
-         }
-      };
-
       if (fadeDirection.equals(FADE_TO)) {
-         fader.fadeTo(fadeEvt.color(), Fader.FadeSpeedByInt(fadeEvt.speed()), r1);
+         fader.fadeTo(
+               fadeEvt.color(),
+               Fader.FadeSpeedByInt(fadeEvt.speed()),
+               () -> shouldAdvance = true);
       } else {
-         fader.fadeFrom(fadeEvt.color(), Fader.FadeSpeedByInt(fadeEvt.speed()), r2);
+         fader.fadeFrom(
+               fadeEvt.color(),
+               Fader.FadeSpeedByInt(fadeEvt.speed()),
+               () -> shouldAdvance = true);
       }
    }
 
@@ -70,10 +48,6 @@ public class FadeEffect implements UpdatableEffect, DrawableEffect, AdvancableEf
    @Override
    public boolean isActive() {
       return fader.isFading();
-   }
-
-   public boolean isStandardFadeActive() {
-      return (fader.isFading() && this.standardFade);
    }
 
    @Override

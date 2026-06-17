@@ -34,12 +34,7 @@ public class CutsceneManagerCinematic extends DefaultCutsceneManager {
 
       // Effects that need to be on the top layer
       this.addEffect(new FillScreenEffect());
-      this.addEffect(new FadeEffect(
-            () -> {
-               eventHandler.triggerEvents();
-               this.active = false;
-            },
-            () -> this.active = false));
+      this.addEffect(new FadeEffect());
       this.addEffect(new FadeHeaderEffect());
    }
 

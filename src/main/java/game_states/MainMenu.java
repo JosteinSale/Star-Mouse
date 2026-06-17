@@ -115,19 +115,19 @@ public class MainMenu extends State {
             game.getLevelSelect().returnToLevelSelect();
             return;
          case EXPLORING:
+            Gamestate.state = Gamestate.EXPLORING;
             game.getExploring().loadLevel(Testing.exploringLevel, Testing.exploringArea);
             game.getExploring().update();
-            Gamestate.state = Gamestate.EXPLORING;
             return;
          case FLYING:
+            Gamestate.state = Gamestate.FLYING;
             game.getFlying().loadLevel(Testing.flyingLevel);
             game.getFlying().update();
-            Gamestate.state = Gamestate.FLYING;
             return;
          case BOSS_MODE:
+            Gamestate.state = Gamestate.BOSS_MODE;
             game.getBossMode().loadNewBoss(Testing.bossNr);
             game.getBossMode().update();
-            Gamestate.state = Gamestate.BOSS_MODE;
             return;
          default:
             return;

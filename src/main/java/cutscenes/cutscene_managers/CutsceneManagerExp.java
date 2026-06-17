@@ -51,12 +51,7 @@ public class CutsceneManagerExp extends DefaultCutsceneManager {
 
       // Effects that need to be drawn on top
       this.addEffect(new FillScreenEffect());
-      this.addEffect(new FadeEffect(
-            () -> {
-               eventHandler.triggerEvents();
-               this.active = false;
-            },
-            () -> this.active = false));
+      this.addEffect(new FadeEffect());
    }
 
    /** Is called from the state's update-loop if the cutsceneManager is active */

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import game_states.flying.Flying;
 import main_classes.Game;
 import utils.Constants.Audio;
+import utils.Fader;
 import utils.Singleton;
 import inputs.Inputs;
 
@@ -67,7 +68,7 @@ public class LevelFinishedOverlay extends Singleton {
       if (Inputs.interactIsPressed) {
          Inputs.interactIsPressed = false;
          this.flying.audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
-         this.flying.exitFinishedLevel();
+         game.fadeToBlack(Fader.MEDIUM_FAST_FADE, () -> this.flying.exitFinishedLevel());
       }
    }
 
