@@ -114,7 +114,7 @@ FILL SCREEN
 
 FADE IN/OUT HEADER
 --------------------
-[0] = fadeHeader, [1] = in/out (string), [2] = y-pos, [3] = fadeSpeed, [4] = headerText
+[0] = fadeHeader, [1] = in/out (string), [2] = color (string), [3] = y-pos, [4] = fadeSpeed, [5] = headerText
 
 
 WAIT

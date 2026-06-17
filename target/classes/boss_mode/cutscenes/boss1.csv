@@ -10,7 +10,7 @@ addObject;rudinger1Idle;boss;10;-410;3;3;3;2
 wait;60
 endSequence
 fillScreen;black;false
-fade;in;black;10
+fade;from;black;10
 endSequence
 wait;60
 endSequence
@@ -106,14 +106,14 @@ bigDialogue;Rudinger;evil_eye;4;2;Now let's have some fun...  Commence the exper
 endSequence
 bigDialogue;Lt.Red;scared;3;2;All pilots, spread out!
 endSequence
-fade;out;white;5
+fade;to;white;5
 endSequence
 fillScreen;white;true
 moveObject;rudingerShip;450;-140;1; // Move rudingerShip out of the screen
 wait;60
 endSequence
 fillScreen;white;false
-fade;in;white;5
+fade;from;white;5
 endSequence
 clearObjects
 setBossVisible;true
@@ -141,7 +141,7 @@ wait;10
 endSequence
 wait;100
 endSequence
-fade;out;white;2
+fade;to;white;2
 endSequence
 fillScreen;white;true
 clearObjects
@@ -151,7 +151,7 @@ addObject;playerShip;player;490;600;3;3;3;2
 wait;180
 endSequence
 fillScreen;white;false
-fade;in;white;1
+fade;from;white;1
 endSequence
 wait;120
 endSequence
@@ -211,7 +211,7 @@ endSequence
 moveObject;player;500;800;100
 wait;30
 endSequence
-fade;out;black;5
+fade;to;black;5
 endSequence
 fillScreen;black;true
 clearObjects

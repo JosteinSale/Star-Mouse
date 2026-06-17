@@ -3,17 +3,17 @@ setGameplayActive;false
 fillScreen;black;true
 wait;120
 endSequence
-fadeHeader;in;350;10;Take off from Vyke
+fadeHeader;to;white;350;10;Take off from Vyke
 wait;150
 endSequence
 startAmbience;0
-fadeHeader;out;350;10;Take off from Vyke
+fadeHeader;from;white;350;10;Take off from Vyke
 fellowShips;100;500;440;200;400;410;300;450;500;700;450;530;800;400;470;900;500;500;
 wait;100
 endSequence
 setGameplayActive;true
 fillScreen;black;false
-fade;in;black;10
+fade;from;black;10
 startSong;5;true
 endSequence
 wait;100
@@ -33,10 +33,10 @@ wait;200
 endSequence
 
 cutscene;true;checkpointReached
-fadeHeader;in;350;60;Checkpoint reached
+fadeHeader;to;white;350;60;Checkpoint reached
 wait;150
 endSequence
-fadeHeader;out;350;60;Checkpoint reached
+fadeHeader;from;white;350;60;Checkpoint reached
 wait;5
 endSequence
 
@@ -65,7 +65,7 @@ wait;1
 endSequence
 
 cutscene;true;levelFinished
-fade;out;black;5
+fade;to;black;5
 endSequence
 setGameplayActive;false
 fillScreen;black;true

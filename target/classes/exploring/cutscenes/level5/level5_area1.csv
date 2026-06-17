@@ -9,6 +9,6 @@ setPlayerSheet;2
 wait;60
 endSequence
 fillScreen;black;false
-fade;in;black;5
+fade;from;black;5
 startAmbience;4;   // is needed because we override the justEntered-method with a cutscene.
 endSequence

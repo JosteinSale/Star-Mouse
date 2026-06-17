@@ -11,6 +11,7 @@ import cutscenes.CutscenesForEntity;
 import cutscenes.Sequence;
 import cutscenes.events.*;
 import game_states.Gamestate;
+import rendering.MyColor;
 import utils.Constants.Direction;
 
 /** A parser which can parse all GeneralEvents. */
@@ -172,12 +173,13 @@ public class CutsceneParser {
    }
 
    private static FadeHeaderEvent parseFadeHeader(String[] lineData) {
-      String inOut = lineData[1];
-      Integer yPos = Integer.parseInt(lineData[2]);
-      Integer fadeSpeed = Integer.parseInt(lineData[3]);
-      String headerText = lineData[4];
+      String fadeDir = LevelDataParser.ParseFadeDirection(lineData[1]);
+      MyColor color = LevelDataParser.ParseColor(lineData[2]);
+      Integer yPos = Integer.parseInt(lineData[3]);
+      Integer fadeSpeed = Integer.parseInt(lineData[4]);
+      String headerText = lineData[5];
       String textWithDynamicValues = InsertDynamicValues(headerText);
-      return new FadeHeaderEvent(inOut, yPos, fadeSpeed, textWithDynamicValues);
+      return new FadeHeaderEvent(fadeDir, color, yPos, fadeSpeed, textWithDynamicValues);
    }
 
    private static BigDialogueEvent parseBigDialogue(String[] lineData) {
@@ -208,8 +210,8 @@ public class CutsceneParser {
    }
 
    private static FadeEvent parseFade(String[] lineData) {
-      String direction = lineData[1];
-      String color = lineData[2];
+      String direction = LevelDataParser.ParseFadeDirection(lineData[1]);
+      MyColor color = LevelDataParser.ParseColor(lineData[2]);
       Integer speed = Integer.parseInt(lineData[3]);
       return new FadeEvent(direction, color, speed, false);
    }

@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import data_storage.DrawSaving;
 import game_states.Gamestate;
-import rendering.MyColor;
 import rendering.misc.RenderCutscene;
 import rendering.misc.RenderInfoBox;
 import rendering.misc.RenderInfoChoice;
@@ -19,6 +18,7 @@ import rendering.root_renders.RenderLevelSelect;
 import rendering.root_renders.RenderMainMenu;
 import rendering.root_renders.RenderStartScreen;
 import utils.DrawUtils;
+import utils.Fader;
 import utils.Images;
 import utils.Singleton;
 
@@ -113,8 +113,9 @@ public class View extends Singleton {
    }
 
    private void drawFader(SpriteBatch sb) {
-      if (game.getFader().isFading()) {
-         DrawUtils.fillScreen(sb, new MyColor(0, 0, 0, game.getFader().getAlpha()));
+      Fader f = game.getFader();
+      if (f.isFading()) {
+         DrawUtils.fillScreen(sb, f.getColor());
       }
    }
 

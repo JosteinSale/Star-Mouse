@@ -1,6 +1,4 @@
 TODO:
-* Add people on the benches in the church
-* Refactor FadeEffect to use Fader?
 * Display '0 / ?' as the killcount in LevelSelect if the player hasn't played the level before?
    .(Might actually introduce a sense of 'foreboding' if the player knows the killcount beforehand?)
 * Make cutscene in the cathedral:

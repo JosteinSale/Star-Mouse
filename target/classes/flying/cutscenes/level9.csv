@@ -1,5 +1,5 @@
 cutscene;true;automaticTrigger;0
-fade;out;black;5
+fade;to;black;5
 endSequence
 setGameplayActive;false
 fillScreen;black;true

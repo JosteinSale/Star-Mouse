@@ -49,7 +49,7 @@ bigDialogue;Lt.Red;nervous;4;2;We'll shake them off in the asteroids, and then m
 endSequence
 bigDialogue;Lt.Red;angry;3;2;Now GO!
 endSequence
-fade;out;black;3
+fade;to;black;3
 endSequence
 fillScreen;black;true
 clearObjects
@@ -113,7 +113,7 @@ fillScreen;black;true
 wait;60
 endSequence
 fillScreen;black;false
-fade;in;black;5
+fade;from;black;5
 startAmbience;1;   // is needed because we override the justEntered-method with a cutscene.
 endSequence
 

@@ -1,11 +1,15 @@
 package cutscenes.effects;
 
+import static utils.Constants.Exploring.Cutscenes.FADE_FROM;
+import static utils.Constants.Exploring.Cutscenes.FADE_TO;
+
 import com.badlogic.gdx.math.Rectangle;
 
 import cutscenes.events.FadeHeaderEvent;
 import cutscenes.events.GeneralEvent;
 import game_states.Gamestate;
 import main_classes.Game;
+import rendering.MyColor;
 
 /**
  * Must be used in combination with some other event to advance,
@@ -15,6 +19,7 @@ import main_classes.Game;
  */
 public class FadeHeaderEffect implements UpdatableEffect, DrawableEffect {
    private boolean active;
+   private MyColor color;
    public String headerText;
    public Rectangle headerBox;
    public int alphaFade = 0;
@@ -28,20 +33,21 @@ public class FadeHeaderEffect implements UpdatableEffect, DrawableEffect {
    public void activate(GeneralEvent evt) {
       FadeHeaderEvent headerEvt = (FadeHeaderEvent) evt;
       this.active = true;
-      if (headerEvt.inOut().equals("in")) {
-         this.headerBox.y = headerEvt.yPos();
-         this.headerText = headerEvt.text();
+      this.color = headerEvt.color();
+      this.headerText = headerEvt.text();
+      this.headerBox.y = headerEvt.yPos();
+      if (headerEvt.fadeDir().equals(FADE_FROM)) {
+         this.headerFadeSpeed = -headerEvt.fadeSpeed();
+         this.alphaFade = 255;
+      } else if (headerEvt.fadeDir().equals(FADE_TO)) {
          this.headerFadeSpeed = headerEvt.fadeSpeed();
          this.alphaFade = 0;
-      } else if (headerEvt.inOut().equals("out")) {
-         this.headerFadeSpeed = -headerEvt.fadeSpeed();
       }
-
    }
 
    @Override
    public GeneralEvent getAssociatedEvent() {
-      return (new FadeHeaderEvent("in", 0, 0, "gey"));
+      return (new FadeHeaderEvent(FADE_FROM, MyColor.WHITE, 0, 0, "gey"));
    }
 
    @Override
@@ -70,5 +76,9 @@ public class FadeHeaderEffect implements UpdatableEffect, DrawableEffect {
    @Override
    public void reset() {
       this.active = false;
+   }
+
+   public MyColor getColor() {
+      return MyColor.getColorWithAlpha(color, alphaFade);
    }
 }

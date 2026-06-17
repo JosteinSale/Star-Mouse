@@ -8,6 +8,7 @@ import game_states.exploring.Exploring;
 import game_states.flying.Flying;
 import game_states.level_select.LevelSelect;
 import inputs.Inputs;
+import rendering.MyColor;
 import ui.OptionsMenu;
 import ui.TextboxManager;
 import utils.Fader;
@@ -200,11 +201,11 @@ public class Game extends ApplicationAdapter {
    }
 
    public void fadeFromBlack(float fadeSpeed, Runnable onFadeComplete) {
-      fader.fadeFromBlack(fadeSpeed, onFadeComplete);
+      fader.fadeFrom(MyColor.BLACK, fadeSpeed, onFadeComplete);
    }
 
    public void fadeToBlack(float fadeSpeed, Runnable onFadeComplete) {
-      fader.fadeToBlack(fadeSpeed, onFadeComplete);
+      fader.fadeTo(MyColor.BLACK, fadeSpeed, onFadeComplete);
    }
 
    /**
@@ -216,12 +217,13 @@ public class Game extends ApplicationAdapter {
     * @param cleanupMethod
     */
    public void returnToMainMenu(Runnable cleanupMethod) {
-      fader.fadeToBlack(Fader.MEDIUM_FAST_FADE, () -> {
+      Runnable runnable = () -> {
          if (cleanupMethod != null) {
             cleanupMethod.run();
          }
          mainMenu.returnToMainMenu();
-      });
+      };
+      fader.fadeTo(MyColor.BLACK, Fader.MEDIUM_FAST_FADE, runnable);
    }
 
    // ------ Getters ------

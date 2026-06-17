@@ -1,5 +1,8 @@
 package utils.parsing;
 
+import static utils.Constants.Exploring.Cutscenes.FADE_FROM;
+import static utils.Constants.Exploring.Cutscenes.FADE_TO;
+
 import java.awt.geom.Rectangle2D;
 
 import entities.exploring.AutomaticTrigger;
@@ -197,6 +200,31 @@ public class LevelDataParser {
                "'" + string + "' is not a valid direction");
       };
       return dir;
+   }
+
+   public static MyColor ParseColor(String color) {
+      switch (color) {
+         case "black":
+            return MyColor.BLACK;
+         case "white":
+            return MyColor.WHITE;
+         case "red":
+            return MyColor.RED;
+         default:
+            throw new IllegalArgumentException("No color available for: " + color);
+      }
+   }
+
+   public static String ParseFadeDirection(String dir) {
+      switch (dir) {
+         case "to":
+            return FADE_TO;
+         case "from":
+            return FADE_FROM;
+         default:
+            throw new IllegalArgumentException("Not a valid fade direction: " + dir);
+
+      }
    }
 
 }

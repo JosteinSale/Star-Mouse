@@ -1,14 +1,12 @@
 package cutscenes.effects;
 
-import static utils.Constants.Exploring.Cutscenes.FADE_IN;
-import static utils.Constants.Exploring.Cutscenes.FADE_OUT;
+import static utils.Constants.Exploring.Cutscenes.FADE_FROM;
+import static utils.Constants.Exploring.Cutscenes.FADE_TO;
 
-import cutscenes.cutscene_managers.CutsceneManagerExp;
-import cutscenes.cutscene_managers.DefaultCutsceneManager;
-import cutscenes.events.EventHandler;
 import cutscenes.events.FadeEvent;
 import cutscenes.events.GeneralEvent;
 import game_states.Gamestate;
+import utils.Fader;
 
 /**
  * Note: in the event of standard fades, when fading out, the isActive-boolean
@@ -17,85 +15,65 @@ import game_states.Gamestate;
  * The effect is properly reset the next time the player enters the area.
  */
 public class FadeEffect implements UpdatableEffect, DrawableEffect, AdvancableEffect {
-   private EventHandler eventHandler;
-   private CutsceneManagerExp cutsceneManager;
+   private Fader fader;
+   private Runnable onStandardFadeToComplete;
+   private Runnable onStandardFadeFromComplete;
    private String fadeDirection;
-   public String color;
-   private boolean standardFade;
-   private boolean isActive = false;
+   private boolean standardFade; // TODO - I don't like standardFade >:[
    private boolean shouldAdvance = false;
-   private int fadeSpeed;
-   public int alphaFade;
 
    /**
-    * Takes the cutsceneManager as an argument, in case of EXPLORING -> sets
-    * cutsceneManager.ative to false after a standardFade.
+    * Takes two runnables as argument:
+    * 
+    * @onFadeToComplete will run when the fadeTo[color] completes
+    * @onFadeFromComplete will run when the fadeFrom[color] completes
     */
-   public FadeEffect(EventHandler eventHandler, DefaultCutsceneManager cutsceneManager) {
-      this.eventHandler = eventHandler;
-      if (cutsceneManager instanceof CutsceneManagerExp cm) {
-         this.cutsceneManager = cm;
-      }
+   public FadeEffect(Runnable onStandardFadeToComplete, Runnable onStandardFadeFromComplete) {
+      this.onStandardFadeToComplete = onStandardFadeToComplete;
+      this.fader = new Fader();
    }
 
    @Override
    public void activate(GeneralEvent evt) {
       FadeEvent fadeEvt = (FadeEvent) evt;
       this.fadeDirection = fadeEvt.in_out();
-      this.color = fadeEvt.color();
-      this.fadeSpeed = fadeEvt.speed();
       this.standardFade = fadeEvt.standardFade();
-      this.isActive = true;
-      if (fadeDirection.equals(FADE_IN)) {
-         alphaFade = 255;
+      // This will run when a fadeTo[color] is completed
+      Runnable r1 = () -> {
+         if (standardFade) {
+            onStandardFadeToComplete.run();
+         } else {
+            this.shouldAdvance = true;
+         }
+      };
+      // This will run when a fadeFrom[color] is completed
+      Runnable r2 = () -> {
+         if (standardFade) {
+            onStandardFadeFromComplete.run();
+         } else {
+            this.shouldAdvance = true;
+         }
+      };
+
+      if (fadeDirection.equals(FADE_TO)) {
+         fader.fadeTo(fadeEvt.color(), Fader.FadeSpeedByInt(fadeEvt.speed()), r1);
       } else {
-         alphaFade = 0;
+         fader.fadeFrom(fadeEvt.color(), Fader.FadeSpeedByInt(fadeEvt.speed()), r2);
       }
    }
 
    @Override
    public void update() {
-      if (fadeDirection.equals(FADE_OUT)) {
-         updateFadeOut();
-      } else {
-         updateFadeIn();
-      }
-   }
-
-   private void updateFadeOut() {
-      this.alphaFade += fadeSpeed;
-      if (this.alphaFade > 255) {
-         alphaFade = 255;
-         if (standardFade) {
-            eventHandler.triggerEvents();
-            cutsceneManager.setActive(false);
-         } else {
-            this.isActive = false;
-            this.shouldAdvance = true;
-         }
-      }
-   }
-
-   private void updateFadeIn() {
-      this.alphaFade -= fadeSpeed;
-      if (this.alphaFade < 0) {
-         alphaFade = 0;
-         this.isActive = false;
-         if (standardFade) {
-            this.cutsceneManager.setActive(false);
-         } else {
-            this.shouldAdvance = true;
-         }
-      }
+      fader.update();
    }
 
    @Override
    public boolean isActive() {
-      return this.isActive;
+      return fader.isFading();
    }
 
    public boolean isStandardFadeActive() {
-      return (this.isActive && this.standardFade);
+      return (fader.isFading() && this.standardFade);
    }
 
    @Override
@@ -106,17 +84,20 @@ public class FadeEffect implements UpdatableEffect, DrawableEffect, AdvancableEf
    @Override
    public void reset() {
       this.shouldAdvance = false;
-      this.isActive = false;
    }
 
    @Override
    public GeneralEvent getAssociatedEvent() {
-      return new FadeEvent(FADE_IN, null, 0, false);
+      return new FadeEvent(FADE_FROM, null, 0, false);
    }
 
    @Override
    public boolean supportsGamestate(Gamestate state) {
       return true; // All gamestates are supported
+   }
+
+   public Fader getFader() {
+      return fader;
    }
 
 }

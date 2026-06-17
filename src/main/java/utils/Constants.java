@@ -61,8 +61,8 @@ public class Constants {
       }
 
       public static class Cutscenes {
-         public static final String FADE_OUT = "out";
-         public static final String FADE_IN = "in";
+         public static final String FADE_TO = "to";
+         public static final String FADE_FROM = "from";
 
          public static final String OBJECT = "object";
          public static final String DOOR = "door";

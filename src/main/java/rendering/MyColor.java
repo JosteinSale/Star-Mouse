@@ -66,4 +66,23 @@ public class MyColor {
       return color.a;
    }
 
+   /**
+    * Returns the transparent version of this color.
+    * 
+    * @param color The color to adjust
+    * @param alpha Float between 0.0 (fully transparent) and 1.0 (fully opaque)
+    */
+   public static MyColor getColorWithAlpha(MyColor color, float alpha) {
+      return new MyColor(color.getRed(), color.getGreen(), color.getBlue(), alpha);
+   }
+
+   /**
+    * Returns the transparent version of this color.
+    * 
+    * @param color The color to adjust
+    * @param alpha Int between 0 (fully transparent) and 255 (fully opaque)
+    */
+   public static MyColor getColorWithAlpha(MyColor color, int alpha) {
+      return new MyColor(color.getRed(), color.getGreen(), color.getBlue(), alpha / 255f);
+   }
 }

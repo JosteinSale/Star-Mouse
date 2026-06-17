@@ -61,14 +61,14 @@ setPlayerSheet;1
 wait;120
 endSequence
 fillScreen;_;false
-fade;in;black;1
+fade;from;black;1
 endSequence
-fadeHeader;in;50;10;Press {interact} to wake up
+fadeHeader;to;white;50;10;Press {interact} to wake up
 wait;1
 endSequence
 bigDialogue;Max;naked_eyes_shut;6;30;.
 endSequence
-fadeHeader;out;50;10;_
+fadeHeader;from;white;50;10;Press {interact} to wake up
 wait;1
 endSequence
 bigDialogue;Max;naked_eyes_shut;6;2;I should probably get up

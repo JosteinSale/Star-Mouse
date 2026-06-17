@@ -10,7 +10,7 @@ wait;60
 endSequence
 startSong;9;false
 fillScreen;black;false
-fade;in;black;1
+fade;from;black;1
 endSequence
 noSkipDialogue;????;normal;2;30;...
 endSequence
@@ -46,14 +46,14 @@ wait;1
 endSequence
 wait;250
 endSequence
-fade;out;white;1
+fade;to;white;1
 endSequence
 fillScreen;white;true
 wait;100
 endSequence
 noSkipDialogue;????;normal;2;3;Release
 endSequence
-fade;out;black;3
+fade;to;black;3
 endSequence
 fillScreen;black;true
 wait;30

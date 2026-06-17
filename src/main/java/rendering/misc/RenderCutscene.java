@@ -25,9 +25,11 @@ import rendering.exploring.RenderNumberDisplay;
 import rendering.flying.RenderPlayerFly;
 import ui.TextboxManager;
 import utils.DrawUtils;
+import utils.Fader;
 import utils.HelpMethods;
 import utils.Images;
 import utils.Singleton;
+import utils.parsing.LevelDataParser;
 
 import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_HEIGHT;
 import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_WIDTH;
@@ -117,24 +119,29 @@ public class RenderCutscene extends Singleton implements Render {
     */
    private void drawEffect(SpriteBatch sb, DrawableEffect effect) {
       if (effect instanceof FadeEffect e) {
-         MyColor color = this.getTransparentColor(e.color, e.alphaFade);
-         DrawUtils.fillScreen(sb, color);
+         this.drawFader(sb, e);
       } else if (effect instanceof FadeHeaderEffect e) {
-         MyColor color = this.getTransparentColor("white", e.alphaFade);
-         this.drawHeader(sb, e.headerText, e.headerBox, color);
+         this.drawHeader(sb, e.headerText, e.headerBox, e.getColor());
       } else if (effect instanceof FellowShipEffect e) {
          this.drawFellowShips(sb, e.fellowShips);
       } else if (effect instanceof FillScreenEffect e) {
-         DrawUtils.fillScreen(sb, this.getOpaqueColor(e.color));
+         DrawUtils.fillScreen(sb, LevelDataParser.ParseColor(e.color));
       } else if (effect instanceof NumberDisplayEffect) {
          this.rNumberDisplay.draw(sb);
       } else if (effect instanceof ObjectMoveEffect) {
          this.rObjectMove.draw(sb);
       } else if (effect instanceof RedLightEffect e) {
-         MyColor color = getTransparentColor("red", e.alpha);
+         MyColor color = MyColor.getColorWithAlpha(MyColor.RED, e.alpha);
          DrawUtils.fillScreen(sb, color);
       } else if (effect instanceof SetOverlayEffect) {
          this.drawOverlayImage(sb);
+      }
+   }
+
+   private void drawFader(SpriteBatch sb, FadeEffect e) {
+      Fader f = e.getFader();
+      if (f.isFading()) {
+         DrawUtils.fillScreen(sb, f.getColor());
       }
    }
 
@@ -175,30 +182,6 @@ public class RenderCutscene extends Singleton implements Render {
             sb, overlayImage,
             0, 0,
             overlayW, overlayH);
-   }
-
-   private MyColor getTransparentColor(String color, int alphaFade) {
-      switch (color) {
-         case "black":
-            return new MyColor(0, 0, 0, alphaFade);
-         case "white":
-            return new MyColor(255, 255, 255, alphaFade);
-         case "red":
-            return new MyColor(255, 0, 0, alphaFade);
-         default:
-            throw new IllegalArgumentException("No color available for: " + color);
-      }
-   }
-
-   private MyColor getOpaqueColor(String color) {
-      switch (color) {
-         case "black":
-            return MyColor.BLACK;
-         case "white":
-            return MyColor.WHITE;
-         default:
-            throw new IllegalArgumentException("color " + color + "is not supported");
-      }
    }
 
    public RenderObjectMove getRenderObjectMove() {

@@ -3,17 +3,17 @@ setGameplayActive;false
 fillScreen;black;true
 wait;120
 endSequence
-fadeHeader;in;350;10;The Tunnel
+fadeHeader;to;white;350;10;The Tunnel
 wait;150
 endSequence
 startAmbience;0
-fadeHeader;out;350;10;The Tunnel
+fadeHeader;from;white;350;10;The Tunnel
 fellowShips;350;400;650
 wait;100
 endSequence
 setGameplayActive;true
 fillScreen;black;false
-fade;in;black;10
+fade;from;black;10
 startSong;10;false
 endSequence
 wait;80
@@ -32,10 +32,10 @@ endSequence
 
 
 cutscene;true;checkpointReached
-fadeHeader;in;350;60;Checkpoint reached
+fadeHeader;to;white;350;60;Checkpoint reached
 wait;150
 endSequence
-fadeHeader;out;350;60;Checkpoint reached
+fadeHeader;from;white;350;60;Checkpoint reached
 wait;5
 endSequence
 
@@ -117,7 +117,7 @@ wait;180
 endSequence
 
 cutscene;true;levelFinished
-fade;out;black;5
+fade;to;black;5
 endSequence
 setGameplayActive;false
 fillScreen;black;true
