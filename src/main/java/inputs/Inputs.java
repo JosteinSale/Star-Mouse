@@ -199,7 +199,10 @@ public class Inputs extends Singleton implements InputProcessor {
 
    @Override
    public boolean scrolled(float amountX, float amountY) {
-      return false;
+      if (Gamestate.state == Gamestate.LEVEL_EDITOR) {
+         game.getLevelEditor().mouseScrolled(amountY);
+      }
+      return true;
    }
 
 }

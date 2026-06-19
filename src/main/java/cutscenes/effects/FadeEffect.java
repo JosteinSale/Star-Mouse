@@ -8,12 +8,6 @@ import cutscenes.events.GeneralEvent;
 import game_states.Gamestate;
 import utils.Fader;
 
-/**
- * Note: in the event of standard fades, when fading out, the isActive-boolean
- * is left true. Thus it will still be drawn black, to cover for premature
- * resetting before drawing is complete in fullscreen-mode.
- * The effect is properly reset the next time the player enters the area.
- */
 public class FadeEffect implements UpdatableEffect, DrawableEffect, AdvancableEffect {
    private Fader fader;
    private String fadeDirection;

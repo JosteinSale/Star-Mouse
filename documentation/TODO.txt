@@ -1,4 +1,7 @@
 TODO:
+* Make foreground elements in Area be drawn behind player if player.y is below a element.y
+   - This requires that we make an object called 'foregroundElement', where each element holds an
+     x- and y-pos.
 * Display '0 / ?' as the killcount in LevelSelect if the player hasn't played the level before?
    .(Might actually introduce a sense of 'foreboding' if the player knows the killcount beforehand?)
 * Make cutscene in the cathedral:

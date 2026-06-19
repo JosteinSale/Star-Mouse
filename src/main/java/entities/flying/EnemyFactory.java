@@ -160,7 +160,7 @@ public class EnemyFactory {
       enemyInfo.put(LURKER, new EntityInfo(
             LURKER,
             Images.LURKER_SPRITE, 40, 40, 2, 3,
-            100, 100, 0, 0));
+            90, 80, 0, 0));
    }
 
    /**

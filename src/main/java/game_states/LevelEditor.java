@@ -26,7 +26,7 @@ import utils.ResourceLoader;
 
 /**
  * Draws all entities on screen, with their hitbox represented in black.
- * Entity names, -shootTimers, -flipXs and -hitboxes are held in separate
+ * Entity names, -chargeTimers, -flipXs and -hitboxes are held in separate
  * lists. Thus a specific entity is only identifies by it's common index in the
  * different lists.
  * 
@@ -63,7 +63,7 @@ public class LevelEditor extends State {
    // Enemy stuff
    public int selectedEntity;
    public int enemyFlipX = 1; // 1 for right, -1 for left.
-   public int shootTimer = 100;
+   public int chargeTimer = 100;
    public boolean settingVector;
    public Vector2 directionVector;
 
@@ -136,10 +136,10 @@ public class LevelEditor extends State {
             int xCor = Integer.parseInt(lineData[1]);
             int yCor = Integer.parseInt(lineData[2]);
             int dir = Integer.parseInt(lineData[3]);
-            int shootTimer = Integer.parseInt(lineData[4]);
+            int chargeTimer = Integer.parseInt(lineData[4]);
             int vectorX = lineData.length > 5 ? Integer.parseInt(lineData[5]) : 0;
             int vectorY = lineData.length > 6 ? Integer.parseInt(lineData[6]) : 0;
-            addEntity(false, entryName, xCor, yCor, dir, shootTimer, vectorX, vectorY);
+            addEntity(false, entryName, xCor, yCor, dir, chargeTimer, vectorX, vectorY);
             settingVector = false;
          }
       }
@@ -150,9 +150,10 @@ public class LevelEditor extends State {
     * ---------------------------------------------
     * ENTER - Return to Main Menu
     * MOUSE MOVE - Change cursor position
+    * MOUSE SCROLLED - Change chargeTimer
     * WASD - Move screen
     * Z / C - Change entity
-    * UP / DOWN - Change shootTimer
+    * UP / DOWN - Change chargeTimer
     * F - Change entity direction
     * SPACE - Add / delete entity
     * P - Print levelData in console
@@ -165,8 +166,8 @@ public class LevelEditor extends State {
          case Input.Keys.D -> moveScreen(RIGHT);
          case Input.Keys.SPACE -> spacePressed();
          case Input.Keys.ENTER -> goToMainMenu();
-         case Input.Keys.UP -> shootTimer += 10;
-         case Input.Keys.DOWN -> shootTimer -= 10;
+         case Input.Keys.UP -> chargeTimer += 10;
+         case Input.Keys.DOWN -> chargeTimer -= 10;
          case Input.Keys.C -> toggleSelectedEntity(RIGHT);
          case Input.Keys.Z -> toggleSelectedEntity(LEFT);
          case Input.Keys.F -> enemyFlipX *= -1;
@@ -207,7 +208,7 @@ public class LevelEditor extends State {
       } else {
          addEntity(
                true, name, adjustedX, adjustedY, enemyFlipX,
-               shootTimer, 0, 0);
+               chargeTimer, 0, 0);
          adjustDirectionVector();
       }
    }
@@ -237,15 +238,15 @@ public class LevelEditor extends State {
             deleteOverlappingEntity(hitbox);
             return; // Abort the method.
          case BLASTERDRONE:
-            // Blasterdrones have a standard shootTimer of 30
+            // Blasterdrones have a standard chargeTimer of 30
             addEntityToLists(name, x, y, direction, 30, hitbox, vectorX, vectorY);
             break;
          case FLAMEDRONE:
-            // Flamedrones have a standard shootTimer of 120
+            // Flamedrones have a standard chargeTimer of 120
             addEntityToLists(name, x, y, direction, 120, hitbox, vectorX, vectorY);
             break;
          case POWERUP, BOMB, REPAIR, TARGET, SMALLSHIP, TANKDRONE, KAMIKAZEDRONE:
-            // Entities without shootTimer will have standard value of 0.
+            // Entities without chargeTimer will have standard value of 0.
             addEntityToLists(name, x, y, direction, 0, hitbox, vectorX, vectorY);
             break;
          case CENTIPEDE:
@@ -268,6 +269,10 @@ public class LevelEditor extends State {
             ";" + Integer.toString((int) directionVector.y);
       levelData.set(entityIndex, newLevelData);
       settingVector = false;
+   }
+
+   public void mouseScrolled(float amountY) {
+      chargeTimer -= amountY * 10;
    }
 
    public void mouseMoved(int mouseX, int mouseY) {
@@ -360,15 +365,16 @@ public class LevelEditor extends State {
    }
 
    private void addEntityToLists(
-         String name, int x, int y, int direction, int shootTimer, Rectangle2D.Float hitbox, int vectorX, int vectorY) {
+         String name, int x, int y, int direction, int chargeTimer, Rectangle2D.Float hitbox, int vectorX,
+         int vectorY) {
       String levelDataString = name + ";" + Integer.toString(x) + ";" + Integer.toString(y) +
-            ";" + Integer.toString(direction) + ";" + Integer.toString(shootTimer);
+            ";" + Integer.toString(direction) + ";" + Integer.toString(chargeTimer);
       if (vectorX != 0 || vectorY != 0) {
          levelDataString += ";" + Integer.toString(vectorX) + ";" + Integer.toString(vectorY);
       }
       levelData.add(levelDataString);
       hitboxes.add(hitbox);
-      chargeTimers.add(shootTimer);
+      chargeTimers.add(chargeTimer);
       flipXs.add(direction);
       vectors.add(new Vector2(vectorX, vectorY));
    }

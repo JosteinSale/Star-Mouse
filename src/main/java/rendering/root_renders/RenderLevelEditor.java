@@ -64,7 +64,7 @@ public class RenderLevelEditor extends Singleton {
             20, 20);
       DrawUtils.drawText(
             sb, MyColor.BLACK, DrawUtils.infoFont,
-            "shootTimer : " + Integer.toString(le.shootTimer),
+            "shootTimer : " + Integer.toString(le.chargeTimer),
             20, 50);
       DrawUtils.drawText(
             sb, MyColor.BLACK, DrawUtils.infoFont,
@@ -88,18 +88,18 @@ public class RenderLevelEditor extends Singleton {
                   hbX, hbY - 20);
          }
 
-         // Hitbox
-         DrawUtils.fillRect(
-               sb, MyColor.BLACK,
-               (float) hbX, (float) hbY,
-               (float) hitbox.getWidth(), (float) hitbox.getHeight());
-
          // Image
          int flipX = le.flipXs.get(i);
          MySubImage img = entityImages.getImageFor(
                info.typeConstant, info.editorImgRow, info.editorImgCol);
          Rectangle2D.Float adjustedHitbox = getEditorAdjustedHitbox(hitbox);
          DrawUtils.drawRotatedImage(sb, adjustedHitbox, flipX, 0.0, img);
+
+         // Hitbox
+         DrawUtils.drawRect(
+               sb, MyColor.RED,
+               (float) hbX, (float) hbY,
+               (float) hitbox.getWidth(), (float) hitbox.getHeight());
 
          // Direction vector
          Vector2 vector = le.vectors.get(i);
