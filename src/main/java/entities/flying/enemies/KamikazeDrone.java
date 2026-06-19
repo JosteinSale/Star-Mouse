@@ -10,19 +10,12 @@ public class KamikazeDrone extends BaseEnemy {
    private int playerCollisions = 0; // When the drone has collided 3 times, it explodes
    private float xSpeed = 3;
 
-   public KamikazeDrone(Rectangle2D.Float hitbox, EntityInfo info) {
+   public KamikazeDrone(Rectangle2D.Float hitbox, EntityInfo info, PlayerFly player) {
       super(hitbox, info);
+      this.player = player;
       maxHP = 60;
       HP = maxHP;
       animation.setAmountOfFrames(2);
-   }
-
-   /**
-    * The kamikazedrone follows the player's position, so it needs access to the
-    * player
-    */
-   public void setPlayer(PlayerFly player) {
-      this.player = player;
    }
 
    @Override

@@ -18,8 +18,8 @@ public final class Testing {
    public static final boolean playSFX = true;
 
    // Exploring
-   public static final int exploringLevel = 1;
-   public static final int exploringArea = 1;
+   public static final int exploringLevel = 5;
+   public static final int exploringArea = 3;
    public static final boolean drawCollissionMap = false;
 
    // Flying

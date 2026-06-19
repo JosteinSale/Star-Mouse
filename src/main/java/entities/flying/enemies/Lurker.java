@@ -13,21 +13,14 @@ public class Lurker extends BaseEnemy {
    private Point2D.Float lurkerPos;
    private double angle;
 
-   public Lurker(Rectangle2D.Float hitbox, EntityInfo info, int chargeDone) {
+   public Lurker(Rectangle2D.Float hitbox, EntityInfo info, int chargeDone, PlayerFly player) {
       super(hitbox, info, chargeDone, null);
+      this.player = player;
       maxHP = 20;
       HP = maxHP;
       animation.setAniTickPerFrame(6);
       animation.setAmountOfFrames(3);
       lurkerPos = new Point2D.Float(hitbox.x, hitbox.y);
-   }
-
-   /**
-    * The lurker follows the player's position, so it needs access to the
-    * player
-    */
-   public void setPlayer(PlayerFly player) {
-      this.player = player;
       playerPos = new Point2D.Float(player.hitbox.x, player.hitbox.y);
    }
 

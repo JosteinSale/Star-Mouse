@@ -21,10 +21,8 @@ endSequence
 smallDialogue;Lt.Red;serious;0;2;We're heading out!
 wait;200
 endSequence
-wait;300; // wait for fellowShips to exit the screen
+wait;300;
 endSequence
-
-cutscene;true;somethingsWrong
 smallDialogue;Lt.Red;suspicious;2;2;Wait, something's wrong...
 wait;180
 endSequence

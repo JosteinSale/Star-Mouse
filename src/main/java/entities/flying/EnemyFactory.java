@@ -218,9 +218,7 @@ public class EnemyFactory {
          case WASPDRONE:
             return new WaspDrone(hitbox, info, dir, chargeTimer);
          case KAMIKAZEDRONE:
-            KamikazeDrone kamikazeDrone = new KamikazeDrone(hitbox, info);
-            kamikazeDrone.setPlayer(player);
-            return kamikazeDrone;
+            return new KamikazeDrone(hitbox, info, player);
          case SMALL_ASTEROID:
             return new SmallAsteroid(hitbox, info, chargeTimer, dir);
          case BIG_ASTEROID:
@@ -232,9 +230,7 @@ public class EnemyFactory {
             int vectorY = Integer.parseInt(lineData[6]);
             return new Centipede(hitbox, info, chargeTimer, new Vector2(vectorX, vectorY));
          case LURKER:
-            Lurker lurker = new Lurker(hitbox, info, chargeTimer);
-            lurker.setPlayer(player);
-            return lurker;
+            return new Lurker(hitbox, info, chargeTimer, player);
          default:
             throw new IllegalArgumentException("No enemy constructor for type " + typeConstant);
       }

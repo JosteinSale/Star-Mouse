@@ -1,5 +1,4 @@
 automaticTrigger;0f;2f;10f;10f;openingCutscene
-automaticTrigger;0f;-1250f;10f;10f;somethingsWrong
 automaticTrigger;0f;-11950f;10f;10f;checkpointReached
 automaticTrigger;0f;-12500f;10f;10f;sendInTheFlameDrones
 automaticTrigger;0f;-13100f;10f;10f;whoWasThat
