@@ -97,11 +97,11 @@ bigDialogue;Gard;normal;0;3;...Lieutenant, what are your orders?
 endSequence
 wait;60
 endSequence
-bigDialogue;Lt.Red;looking_down;5;5;I'm sorry Gard
+bigDialogue;Lt.Red;looking_down;5;5;Orders...
 endSequence
-bigDialogue;Lt.Red;looking_down;5;5;I don't have any orders for you right now.
+bigDialogue;Lt.Red;looking_down;5;5;I don't think I have any more orders.
 endSequence
-bigDialogue;Lt.Red;looking_down;5;5;...I... 
+bigDialogue;Lt.Red;looking_down;5;5;...Do as you please
 endSequence
 wait;60
 endSequence

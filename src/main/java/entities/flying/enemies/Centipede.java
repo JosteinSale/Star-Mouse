@@ -64,8 +64,8 @@ public class Centipede extends BaseEnemy {
       allHitboxes.clear();
       // 1. Head
       allHitboxes.add(hitbox);
-      // 2. Middle segment
-      for (int i = 1; i <= nrOfMiddleSegments; i++) {
+      // 2. Middle segment + tail
+      for (int i = 1; i <= (nrOfMiddleSegments + 1); i++) {
          Rectangle2D.Float middleHitbox = new Rectangle2D.Float(
                hitbox.x + angleAdjustedXPosition(i * distanceBetweenSegments),
                hitbox.y + angleAdjustedYPosition(i * distanceBetweenSegments),
@@ -73,15 +73,8 @@ public class Centipede extends BaseEnemy {
                hitbox.height);
          allHitboxes.add(middleHitbox);
       }
-      // 3. Tail
-      Rectangle2D.Float tailHitbox = new Rectangle2D.Float(
-            hitbox.x + angleAdjustedXPosition((nrOfMiddleSegments + 1) * distanceBetweenSegments),
-            hitbox.y + angleAdjustedYPosition((nrOfMiddleSegments + 1) * distanceBetweenSegments),
-            hitbox.width,
-            hitbox.height);
-      allHitboxes.add(tailHitbox);
 
-      // 4. Reverse, since the head will be drawn last (on top)
+      // 3. Reverse, since the head will be drawn last (on top)
       Collections.reverse(allHitboxes);
    }
 
@@ -102,11 +95,11 @@ public class Centipede extends BaseEnemy {
 
       // 1. Head
       animation = new AnimationFrame(
-            IDLE, 0,
+            0, 0,
             aniTickPerFrame, amountOfFrames);
       allAnimations.add(animation);
 
-      // 2. Mmiddle segment
+      // 2. Middle segment
       for (int i = 0; i < nrOfMiddleSegments; i++) {
          AnimationFrame middleAnimation = new AnimationFrame(
                1, (nrOfMiddleSegments - i) % 8,

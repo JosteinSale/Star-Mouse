@@ -24,10 +24,10 @@ public class AnimationFrame {
    private int startAction;
    private int startColumn;
 
-   public AnimationFrame(int startAction, int startColumn, int aniTickPerFrame, int amountOfFrames) {
+   public AnimationFrame(int startRow, int startColumn, int aniTickPerFrame, int amountOfFrames) {
       this.startAction = row;
       this.startColumn = startColumn;
-      this.row = startAction;
+      this.row = startRow;
       this.col = startColumn;
       this.aniTickPerFrame = aniTickPerFrame;
       this.amountOfFrames = amountOfFrames;
