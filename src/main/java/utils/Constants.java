@@ -185,7 +185,8 @@ public class Constants {
       public static final int SONG_BOSS1 = 6;
       public static final int RUDINGER_THEME = 7;
       public static final int SONG_ASTEROID_ESCAPE = 8;
-      public static final int SONG_BACK_TO_APO = 10;
+      public static final int SONG_THE_TUNNEL = 10;
+      public static final int SONG_HOLY_HALLS = 13;
 
       // Ambience (don't change these indexes!)
       public static final int AMBIENCE_ROCKET_ENGINE = 0;
@@ -202,7 +203,9 @@ public class Constants {
             case 3:
                return SONG_ASTEROID_ESCAPE;
             case 4:
-               return SONG_BACK_TO_APO;
+               return SONG_THE_TUNNEL;
+            case 5:
+               return SONG_HOLY_HALLS;
             default:
                return SONG_LEVEL0;
          }

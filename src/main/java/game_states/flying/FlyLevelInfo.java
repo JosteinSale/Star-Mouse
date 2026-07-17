@@ -3,7 +3,7 @@ package game_states.flying;
 /** A container class for constants related to specific flying levels */
 public class FlyLevelInfo {
    private static int[] bgImgHeights = {
-         7600, 10740, 9750, 9200, 10500, 1200, 1200,
+         7600, 10740, 9750, 9200, 10500, 6000, 1200,
          1200, 1200, 1200, 1200, 1200, 1200, 1200 };
    private static int[] clImgHeights = {
          6900, 10000, 10000, 10000, 10000, 10000, 10000,

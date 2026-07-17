@@ -28,7 +28,8 @@ public class AudioPlayer extends Singleton {
          "Song - Apo Explodes.ogg",
          "Song - The Dark.ogg",
          "Song - The Dark (Ending).ogg",
-         "Song - Cathedral.ogg"
+         "Song - Cathedral.ogg",
+         "Song - Holy Halls.ogg"
    };
    private String[] ambienceFileNames = {
          "Ambience - RocketEngineQuiet.ogg",
