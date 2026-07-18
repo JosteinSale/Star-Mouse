@@ -20,13 +20,14 @@ import ui.InventoryItem;
 import ui.TextboxManager;
 import utils.Constants.Direction;
 import utils.Fader;
+import utils.parsing.AudioParser;
 
 public class Area {
    private Game game;
    private AudioPlayer audioPlayer;
    private Exploring exploring;
-   private Integer song;
-   private Integer ambienceIndex;
+   private String songId;
+   private String ambienceId;
 
    private MapManager1 mapManager;
    private PlayerExp player;
@@ -67,9 +68,9 @@ public class Area {
          String typeOfEntry = lineData.length > 0 ? lineData[0] : "";
 
          switch (typeOfEntry) {
-            case AMBIENCE -> this.ambienceIndex = Integer.parseInt(lineData[1]);
+            case AMBIENCE -> this.ambienceId = lineData[1];
             case SONG -> {
-               this.song = Integer.parseInt(lineData[1]);
+               this.songId = lineData[1];
                this.musicEnabled = Boolean.parseBoolean(lineData[2]);
             }
             case PLAYER -> player = GetPlayer(game, lineData, levelIndex, areaIndex);
@@ -140,7 +141,7 @@ public class Area {
          exploring.updatePauseInventory();
 
       } else if (event instanceof StartSongEvent evt) {
-         this.audioPlayer.startSong(evt.index(), 0, evt.shouldLoop());
+         this.audioPlayer.startSong(evt.audioId(), 0, evt.shouldLoop());
 
       } else if (event instanceof StopLoopsEvent) {
          this.audioPlayer.stopAllLoops();
@@ -154,7 +155,7 @@ public class Area {
             default -> throw new IllegalArgumentException("SoundType not supported: " + evt.soundType());
          }
       } else if (event instanceof StartAmbienceEvent evt) {
-         audioPlayer.startAmbienceLoop(evt.index());
+         audioPlayer.startAmbienceLoop(evt.ambienceId());
 
       } else if (event instanceof PlaySFXEvent evt) {
          audioPlayer.playSFX(evt.SFXIndex());
@@ -198,9 +199,9 @@ public class Area {
    }
 
    private void goToArea(int newArea, Direction reenterDir) {
-      int newSong = exploring.getSongForArea(newArea);
-      int newAmbience = exploring.getAmbienceForArea(newArea);
-      checkStopAudio(newSong, newAmbience);
+      String newSongId = exploring.getSongForArea(newArea);
+      String newAmbienceId = exploring.getAmbienceForArea(newArea);
+      checkStopAudio(newSongId, newAmbienceId);
       player.setDirection(reenterDir);
       player.adjustReenterPos(reenterDir);
       player.resetAll();
@@ -214,11 +215,11 @@ public class Area {
     * Stops ambience, and maybe stops the song.
     * If the song for the new area is the same as the old song, it doesn't stop it.
     */
-   private void checkStopAudio(int newSong, int newAmbience) {
-      if (this.song != newSong) {
+   private void checkStopAudio(String newSongId, String newAmbienceId) {
+      if (!this.songId.equals(newSongId)) {
          audioPlayer.stopSong();
       }
-      if (this.ambienceIndex != newAmbience) {
+      if (!this.ambienceId.equals(newAmbienceId)) {
          audioPlayer.stopAmbience();
       }
    }
@@ -272,11 +273,11 @@ public class Area {
     * playing due to it being started in another area. If so, it loops the song.
     */
    private void checkIfAudioShouldStart() {
-      if (musicEnabled && !audioPlayer.isSongPlaying(this.song)) {
-         audioPlayer.startSong(song, 0, true);
+      if (musicEnabled && !audioPlayer.isSongPlaying(this.songId)) {
+         audioPlayer.startSong(songId, 0, true);
       }
-      if (!audioPlayer.isAmbiencePlaying(this.ambienceIndex)) {
-         audioPlayer.startAmbienceLoop(ambienceIndex);
+      if (!audioPlayer.isAmbiencePlaying(this.ambienceId)) {
+         audioPlayer.startAmbienceLoop(ambienceId);
       }
    }
 
@@ -436,12 +437,12 @@ public class Area {
       return this.player;
    }
 
-   public int getSong() {
-      return this.song;
+   public String getSongId() {
+      return this.songId;
    }
 
-   public int getAmbience() {
-      return this.ambienceIndex;
+   public String getAmbience() {
+      return this.ambienceId;
    }
 
    public int getXLevelOffset() {

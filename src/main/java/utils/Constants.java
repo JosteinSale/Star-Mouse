@@ -175,39 +175,52 @@ public class Constants {
       public static final int SFX_METALLIC_SOUND = 18;
       public static final int SFX_RUDINGER1_DEATH = 19;
 
-      // Songs (don't change these indexes!)
-      public static final int SONG_LEVEL0 = 0;
-      public static final int SONG_ACADEMY = 1;
-      public static final int SONG_LEVEL1 = 2;
-      public static final int SONG_MAIN_MENU = 3;
-      public static final int SONG_VYKE = 4;
-      public static final int SONG_LEVEL2 = 5;
-      public static final int SONG_BOSS1 = 6;
-      public static final int RUDINGER_THEME = 7;
-      public static final int SONG_ASTEROID_ESCAPE = 8;
-      public static final int SONG_THE_TUNNEL = 10;
-      public static final int SONG_HOLY_HALLS = 13;
+      // Song IDs - Misc
+      public static final String NONE = "none";
+      public static final String SONG_MAIN_MENU = "song_main_menu";
+      public static final String SONG_RUDINGER_THEME = "song_rudinger_theme";
+      public static final String SONG_APO_EXPLODES = "song_apo_explodes";
+      public static final String SONG_BURNING_PLANET = "song_burning_planet";
 
-      // Ambience (don't change these indexes!)
-      public static final int AMBIENCE_ROCKET_ENGINE = 0;
-      public static final int AMBIENCE_WIND = 1;
+      // Song IDs - Flying
+      public static final String SONG_FLY_LEVEL0 = "song_fly_level0";
+      public static final String SONG_FLY_LEVEL1 = "song_fly_level1";
+      public static final String SONG_FLY_LEVEL2 = "song_fly_level2";
+      public static final String SONG_FLY_LEVEL3 = "song_fly_level3";
+      public static final String SONG_FLY_LEVEL4 = "song_fly_level4";
+      public static final String SONG_FLY_LEVEL5 = "song_fly_level5";
 
-      public static int GetFlyLevelSong(int level) {
+      // Song IDs - Exploring
+      public static final String SONG_EXPLORING_ACADEMY = "song_exploring_academy";
+      public static final String SONG_EXPLORING_VYKE = "song_exploring_vyke";
+      public static final String SONG_EXPLORING_CATHEDRAL = "song_exploring_cathedral";
+
+      // Song IDs - Bosses
+      public static final String SONG_BOSS1 = "song_boss1";
+
+      // Ambience IDs
+      public static final String AMBIENCE_ROCKET_ENGINE = "ambience_rocket_engine";
+      public static final String AMBIENCE_WIND = "ambience_wind";
+      public static final String AMBIENCE_HANGAR = "ambience_hangar";
+      public static final String AMBIENCE_ALARM = "ambience_alarm";
+      public static final String AMBIENCE_CAVE = "ambience_cave";
+
+      public static String GetFlyLevelSong(int level) {
          switch (level) {
             case 0:
-               return SONG_LEVEL0;
+               return SONG_FLY_LEVEL0;
             case 1:
-               return SONG_LEVEL1;
+               return SONG_FLY_LEVEL1;
             case 2:
-               return SONG_LEVEL2;
+               return SONG_FLY_LEVEL2;
             case 3:
-               return SONG_ASTEROID_ESCAPE;
+               return SONG_FLY_LEVEL3;
             case 4:
-               return SONG_THE_TUNNEL;
+               return SONG_FLY_LEVEL4;
             case 5:
-               return SONG_HOLY_HALLS;
+               return SONG_FLY_LEVEL5;
             default:
-               return SONG_LEVEL0;
+               return SONG_FLY_LEVEL0;
          }
       }
    }

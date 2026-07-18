@@ -6,6 +6,7 @@ import static utils.parsing.LevelDataParser.ParseDirection;
 import java.util.HashMap;
 import java.util.List;
 
+import audio.AudioPlayer;
 import cutscenes.Cutscene;
 import cutscenes.CutscenesForEntity;
 import cutscenes.Sequence;
@@ -336,14 +337,14 @@ public class CutsceneParser {
    }
 
    private static StartSongEvent parseStartSong(String[] lineData) {
-      Integer index = Integer.parseInt(lineData[1]);
+      String songId = lineData[1];
       Boolean shouldLoop = Boolean.parseBoolean(lineData[2]);
-      return new StartSongEvent(index, shouldLoop);
+      return new StartSongEvent(songId, shouldLoop);
    }
 
    private static StartAmbienceEvent parseStartAmbience(String[] lineData) {
-      Integer index = Integer.parseInt(lineData[1]);
-      return new StartAmbienceEvent(index);
+      String ambienceId = lineData[1];
+      return new StartAmbienceEvent(ambienceId);
    }
 
    private static FadeOutLoopEvent parseFadeOutLoops(String[] lineData) {
@@ -361,7 +362,7 @@ public class CutsceneParser {
    }
 
    private static PlaySFXEvent parsePlaySFX(String[] lineData) {
-      Integer index = LevelDataParser.ParseSFX(lineData[1]);
+      Integer index = AudioParser.ParseSFX(lineData[1]);
       return new PlaySFXEvent(index);
    }
 

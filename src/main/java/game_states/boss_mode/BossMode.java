@@ -81,10 +81,10 @@ public class BossMode extends State {
          cutsceneManager.activateTextbox(tbEvt);
       } else if (event instanceof StartSongEvent evt) {
          musicEnabled = true;
-         audioPlayer.startSong(evt.index(), 0, true);
+         audioPlayer.startSong(evt.audioId(), 0, true);
       } else if (event instanceof StartAmbienceEvent evt) {
          ambienceEnabled = true;
-         audioPlayer.startAmbienceLoop(evt.index());
+         audioPlayer.startAmbienceLoop(evt.ambienceId());
       } else if (event instanceof StopLoopsEvent) {
          ambienceEnabled = false;
          musicEnabled = false;
@@ -233,13 +233,13 @@ public class BossMode extends State {
 
    /** Is called from the gameOverOverlay */
    public void restartBossSong() {
-      int songNr = switch (bossNr) {
+      String songId = switch (bossNr) {
          case 1 -> Audio.SONG_BOSS1;
          default -> throw new IllegalArgumentException("No song available for boss nr: " + bossNr);
       };
       musicEnabled = true;
       ambienceEnabled = true;
-      game.getAudioPlayer().startSong(songNr, 0f, true);
+      game.getAudioPlayer().startSong(songId, 0f, true);
       game.getAudioPlayer().startAmbienceLoop(Audio.AMBIENCE_ROCKET_ENGINE);
    }
 

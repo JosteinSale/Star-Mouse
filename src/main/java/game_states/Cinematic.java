@@ -57,13 +57,13 @@ public class Cinematic extends State {
       if (event instanceof TextBoxEvent tbEvt) {
          this.cutsceneManager.activateTextbox(tbEvt);
       } else if (event instanceof StartSongEvent evt) {
-         this.audioPlayer.startSong(evt.index(), 0, evt.shouldLoop());
+         this.audioPlayer.startSong(evt.audioId(), 0, evt.shouldLoop());
       } else if (event instanceof StopLoopsEvent) {
          this.audioPlayer.stopAllLoops();
       } else if (event instanceof FadeOutLoopEvent) {
          audioPlayer.fadeOutAllLoops();
       } else if (event instanceof StartAmbienceEvent evt) {
-         audioPlayer.startAmbienceLoop(evt.index());
+         audioPlayer.startAmbienceLoop(evt.ambienceId());
       } else if (event instanceof PlaySFXEvent evt) {
          audioPlayer.playSFX(evt.SFXIndex());
       } else if (event instanceof ObjectMoveEvent evt) {

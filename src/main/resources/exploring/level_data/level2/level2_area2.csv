@@ -1,5 +1,5 @@
-ambience;99
-song;4;true
+ambience;none
+song;song_exploring_vyke;true
 player;174;662;45f;18f;right
 portal;135f;580f;30f;111f;1;right;exit
 door;1405f;645f;30f;39f;1;lockerRoomDoor;3;left

@@ -104,11 +104,11 @@ public class Exploring extends State {
       this.mechanicOverlay.onOpen();
    }
 
-   public int getSongForArea(int newArea) {
-      return this.areas.get(newArea - 1).getSong();
+   public String getSongForArea(int newArea) {
+      return this.areas.get(newArea - 1).getSongId();
    }
 
-   public int getAmbienceForArea(int newArea) {
+   public String getAmbienceForArea(int newArea) {
       return this.areas.get(newArea - 1).getAmbience();
    }
 

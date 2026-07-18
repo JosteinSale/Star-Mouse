@@ -85,5 +85,5 @@ wait;60
 endSequence
 fillScreen;black;false
 fade;from;black;2
-startSong;4;true;   // is needed because we override the justEntered-method with a cutscene.
+startSong;song_exploring_vyke;true;   // is needed because we override the justEntered-method with a cutscene.
 endSequence

@@ -1,5 +1,5 @@
-ambience;99
-song;4;true
+ambience;none
+song;song_exploring_vyke;true
 player;450;750;45f;18f;right
 object;378f;723;57f;18f;exitSaber
 door;1467f;657f;69f;87f;0;entrance;2;left

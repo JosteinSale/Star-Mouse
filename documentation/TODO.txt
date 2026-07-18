@@ -1,4 +1,5 @@
 TODO:
+* Player status display doesn't show in bossmode
 * Make foreground elements in Area be drawn behind player if player.y is below a element.y
    - This requires that we make an object called 'foregroundElement', where each element holds an
      x- and y-pos.

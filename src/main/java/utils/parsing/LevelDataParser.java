@@ -16,7 +16,6 @@ import entities.exploring.StandardNpc;
 import game_states.Gamestate;
 import main_classes.Game;
 import rendering.MyColor;
-import utils.Constants.Audio;
 import utils.Constants.Direction;
 
 public class LevelDataParser {
@@ -111,20 +110,6 @@ public class LevelDataParser {
          default:
             throw new IllegalArgumentException("Couldn't parse game state with name: " + string);
       }
-   }
-
-   /**
-    * Checks if the sfx-string matches any standard names. Else it
-    * tries to parse the string to an integer.
-    */
-   public static Integer ParseSFX(String string) {
-      Integer index = switch (string) {
-         case "infoBox" -> Audio.SFX_INFOBOX;
-         case "pickup" -> Audio.SFX_INVENTORY_PICKUP;
-         case "success" -> Audio.SFX_SUCCESS;
-         default -> Integer.parseInt(string);
-      };
-      return index;
    }
 
    /** Get the rowIndex in the 2D-BufferedImage-array for the character */

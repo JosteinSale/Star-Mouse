@@ -6,14 +6,14 @@ endSequence
 fadeHeader;to;white;350;10;Academy flight range
 wait;150
 endSequence
-startAmbience;0
+startAmbience;ambience_rocket_engine
 fadeHeader;from;white;350;10;Academy flight range
 wait;100
 endSequence
 setGameplayActive;true
 fillScreen;black;false
 fade;from;black;10
-startSong;0;true
+startSong;song_fly_level0;true
 endSequence
 
 cutscene;true;howToMove

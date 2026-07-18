@@ -22,7 +22,7 @@ endSequence
 moveCamera;0;-200;120
 endSequence
 moveObject;flameDrones;0;0;240
-startSong;5;true
+startSong;song_fly_level2;true
 wait;60
 setPose;player;true;0;8;shocked
 endSequence
@@ -114,7 +114,7 @@ wait;60
 endSequence
 fillScreen;black;false
 fade;from;black;5
-startAmbience;1;   // is needed because we override the justEntered-method with a cutscene.
+startAmbience;ambience_wind;   // is needed because we override the justEntered-method with a cutscene.
 endSequence
 
 cutscene;false;ICanSeeAPath

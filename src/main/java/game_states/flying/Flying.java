@@ -96,7 +96,7 @@ public class Flying extends State {
 
    public void loadLevel(int lvl) {
       this.level = lvl;
-      this.song = Audio.GetFlyLevelSong(lvl);
+      this.song = 0; // Audio.GetFlyLevelSong(lvl);
       mapManager.loadNewMap(lvl, FlyLevelInfo.getBgImgHeight(lvl), game);
       player.setClImg(mapManager.clImg);
       projectileHandler.setClImg(mapManager.clImg);
@@ -156,9 +156,9 @@ public class Flying extends State {
          this.levelFinishedOverlay.setLevelStats(enemyManager.getFinalKilledEnemies());
       } else if (event instanceof StartSongEvent evt) {
          this.shouldSongLoop = evt.shouldLoop();
-         this.game.getAudioPlayer().startSong(evt.index(), 0, shouldSongLoop);
+         this.game.getAudioPlayer().startSong(evt.audioId(), 0, shouldSongLoop);
       } else if (event instanceof StartAmbienceEvent evt) {
-         audioPlayer.startAmbienceLoop(evt.index());
+         audioPlayer.startAmbienceLoop(evt.ambienceId());
       } else if (event instanceof FadeOutLoopEvent) {
          audioPlayer.fadeOutAllLoops();
       } else if (event instanceof StopLoopsEvent) {
@@ -425,7 +425,7 @@ public class Flying extends State {
 
       // 5. Restart audio
       if (musicEnabled) {
-         audioPlayer.startSong(song, songResetPos, shouldSongLoop);
+         audioPlayer.startSong("song", songResetPos, shouldSongLoop);
       }
       if (ambienceEnabled) {
          audioPlayer.startAmbienceLoop(Audio.AMBIENCE_ROCKET_ENGINE);

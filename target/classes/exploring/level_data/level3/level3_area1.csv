@@ -1,5 +1,5 @@
-ambience;1
-song;99;false
+ambience;ambience_wind
+song;none;false
 player;1086;651;45f;18f;right
 object;993f;621f;60f;36f;exitSaber
 portal;228f;790f;261f;36f;2;up;toCliff

@@ -6,7 +6,7 @@ endSequence
 fadeHeader;to;white;350;10;The Tunnel
 wait;150
 endSequence
-startAmbience;0
+startAmbience;ambience_rocket_engine
 fadeHeader;from;white;350;10;The Tunnel
 fellowShips;350;400;650
 wait;100
@@ -14,7 +14,7 @@ endSequence
 setGameplayActive;true
 fillScreen;black;false
 fade;from;black;10
-startSong;10;false
+startSong;song_fly_level4;false
 endSequence
 wait;80
 endSequence
@@ -93,7 +93,7 @@ setOverlayImage;true;overlayDeath.png
 wait;300
 endSequence
 soundEnabled;true;music
-startSong;11;false
+startSong;song_burning_planet;false
 setOverlayImage;false;overlayDeath.png
 setGameplayActive;true
 wait;1

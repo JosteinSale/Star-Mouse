@@ -1,5 +1,5 @@
-ambience;1
-song;99;false
+ambience;ambience_wind
+song;none;false
 player;570f;140f;45f;18f;down
 object;1044f;1680f;429f;228f;destroyedDrone
 portal;510f;30f;161f;36f;1;down;exit

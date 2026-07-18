@@ -92,7 +92,7 @@ bigDialogue;Max;happy;1;2;Good luck!
 endSequence
 wait;1
 setStartCutscene;oliver;3
-startSong;1;true
+startSong;song_exploring_academy;true
 endSequence
 
 cutscene;true;oliver
@@ -120,7 +120,7 @@ endSequence
 wait;100;
 endSequence
 bigDialogue;Oliver;happy;1;2;Just let me know if you want to go again!
-startSong;1;true
+startSong;song_exploring_academy;true
 endSequence
 
 cutscene;true;oliver
@@ -189,7 +189,7 @@ endSequence
 bigDialogue;Max;happy;1;1;Clear skies, perfect flying conditions.
 setDir;player;right
 soundEnabled;true;music
-startSong;1;true
+startSong;song_exploring_academy;true
 endSequence
 bigDialogue;Max;happy;1;1;You couldn't ask for a finer day!
 endSequence
@@ -289,7 +289,7 @@ bigDialogue;Max;happy;1;2;No problem
 endSequence
 bigDialogue;Max;happy;1;2;Good luck!
 endSequence
-startSong;1;true
+startSong;song_exploring_academy;true
 wait;1
 setStartCutscene;oliver;3
 endSequence

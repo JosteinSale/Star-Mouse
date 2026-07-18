@@ -1,5 +1,5 @@
-ambience;3
-song;99;false
+ambience;ambience_hangar
+song;none;false
 player;70f;615f;45f;18f;right
 object;90f;555f;129f;36;sign
 object;1497f;567f;231f;120f;Saber

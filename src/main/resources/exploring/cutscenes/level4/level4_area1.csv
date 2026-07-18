@@ -54,7 +54,7 @@ wait;60
 endSequence
 fillScreen;black;false
 fade;from;black;5
-startAmbience;4;   // is needed because we override the justEntered-method with a cutscene.
+startAmbience;ambience_cave;   // is needed because we override the justEntered-method with a cutscene.
 endSequence
 
 cutscene;false;talkToTheMechanic
