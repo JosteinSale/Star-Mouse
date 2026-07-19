@@ -1,5 +1,5 @@
 cutscene;true;exitSaber
-playSFX;infoBox
+playSFX;infobox
 infoChoice;Leave area?;No;Yes
 endSequence
 

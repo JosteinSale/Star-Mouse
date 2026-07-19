@@ -150,30 +150,34 @@ public class Constants {
    }
 
    public static class Audio {
-      // SFX - Flying
-      public static final int SFX_LAZER = 0;
-      public static final int SFX_BOMBSHOOT = 1;
-      public static final int SFX_TELEPORT = 2;
-      public static final int SFX_COLLISION = 3;
-      public static final int SFX_SMALL_EXPLOSION = 4;
-      public static final int SFX_BIG_EXPLOSION = 5;
-      public static final int SFX_BOMB_PICKUP = 6;
-      public static final int SFX_REPAIR = 7;
-      public static final int SFX_POWERUP = 8;
-      public static final int SFX_HURT = 16;
-      public static final int SFX_DEATH = 17;
+      // SFX IDs - Misc
+      public static final String CATHEDRAL_SHOT = "cathedral_shot";
 
-      // SFX - Exploring
-      public static final int SFX_CURSOR = 9;
-      public static final int SFX_CURSOR_SELECT = 11;
-      public static final int SFX_STARTGAME = 10;
-      public static final int SFX_INVENTORY_PICKUP = 12;
-      public static final int SFX_SUCCESS = 13;
-      public static final int SFX_INFOBOX = 14;
+      // SFX IDs - Flying
+      public static final String SFX_LAZER = "lazer";
+      public static final String SFX_BOMBSHOOT = "bomb_shoot";
+      public static final String SFX_TELEPORT = "teleport";
+      public static final String SFX_COLLISION = "collision";
+      public static final String SFX_SMALL_EXPLOSION = "small_explosion";
+      public static final String SFX_BIG_EXPLOSION = "big_explosion";
+      public static final String SFX_BOMB_PICKUP = "bomb_pickup";
+      public static final String SFX_REPAIR = "repair";
+      public static final String SFX_POWERUP = "powerup";
+      public static final String SFX_HURT = "hurt";
+      public static final String SFX_DEATH = "death";
 
-      // SFX - BossMode
-      public static final int SFX_METALLIC_SOUND = 18;
-      public static final int SFX_RUDINGER1_DEATH = 19;
+      // SFX IDs - Exploring
+      public static final String SFX_CURSOR = "cursor";
+      public static final String SFX_CURSOR_SELECT = "cursor_select";
+      public static final String SFX_STARTGAME = "start_game";
+      public static final String SFX_INVENTORY_PICKUP = "pickup";
+      public static final String SFX_SUCCESS = "success";
+      public static final String SFX_INFOBOX = "infobox";
+      public static final String MISSILE_STRIKE = "missile_strike";
+
+      // SFX IDs - BossMode
+      public static final String SFX_METALLIC_SOUND = "metallic_sound";
+      public static final String SFX_RUDINGER1_DEATH = "rudinger_death";
 
       // Song IDs - Misc
       public static final String NONE = "none";

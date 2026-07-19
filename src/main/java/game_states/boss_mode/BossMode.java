@@ -94,7 +94,7 @@ public class BossMode extends State {
          musicEnabled = false;
          audioPlayer.fadeOutAllLoops();
       } else if (event instanceof PlaySFXEvent evt) {
-         audioPlayer.playSFX(evt.SFXIndex());
+         audioPlayer.playSFX(evt.sfxId());
       } else if (event instanceof GoToFlyingEvent) {
          goToFlying();
       } else if (event instanceof SetBossVisibleEvent evt) {

@@ -65,7 +65,7 @@ public class Cinematic extends State {
       } else if (event instanceof StartAmbienceEvent evt) {
          audioPlayer.startAmbienceLoop(evt.ambienceId());
       } else if (event instanceof PlaySFXEvent evt) {
-         audioPlayer.playSFX(evt.SFXIndex());
+         audioPlayer.playSFX(evt.sfxId());
       } else if (event instanceof ObjectMoveEvent evt) {
          this.cutsceneManager.moveObject(evt);
       } else if (event instanceof ClearObjectsEvent) {

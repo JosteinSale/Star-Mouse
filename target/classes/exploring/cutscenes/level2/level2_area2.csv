@@ -9,7 +9,7 @@ info;You hear a short beep. The door unlocks itself!
 endSequence
 
 cutscene;true;lockerRoomDoor
-playSFX;infoBox
+playSFX;infobox
 info;Nothing happened...
 endSequence
 
@@ -47,13 +47,13 @@ endSequence
 bigDialogue;Mechanic;normal;0;2;No credits, no service. And no refunds.
 endSequence
 setStartCutscene;Mechanic;1
-playSFX;infoBox
+playSFX;infobox
 mechanicDisplay
 wait;1
 endSequence
 
 cutscene;true;Mechanic
-playSFX;infoBox
+playSFX;infobox
 mechanicDisplay
 wait;1
 endSequence

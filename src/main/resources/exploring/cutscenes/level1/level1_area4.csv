@@ -1,6 +1,6 @@
 cutscene;false;clothingRack
 info;A clothing rack with old, discarded pilot jackets.
-playSFX;infoBox
+playSFX;infobox
 endSequence
 info;You search through them...
 endSequence
@@ -11,17 +11,17 @@ setStartCutscene;clothingRack;1
 endSequence
 
 cutscene;true;clothingRack
-playSFX;infoBox
+playSFX;infobox
 info;Nothing more of use here.
 endSequence
 
 cutscene;true;leftCrate
-playSFX;infoBox
+playSFX;infobox
 info;Blank ammunitions, likely for training purposes.
 endSequence
 
 cutscene;false;bombBox1
-playSFX;infoBox
+playSFX;infobox
 info;An unopened box. You search through it.
 endSequence
 info;You found 3 bombs!
@@ -31,31 +31,31 @@ setStartCutscene;bombBox1;1
 endSequence
 
 cutscene;true;bombBox1
-playSFX;infoBox
+playSFX;infobox
 info;It's empty.
 endSequence
 
 cutscene;true;bombBox2
-playSFX;infoBox
+playSFX;infobox
 info;It's empty.
 endSequence
 
 cutscene;true;rightCrates1
-playSFX;infoBox
+playSFX;infobox
 info;Surface-to-air missiles. Nothing you can use.
 endSequence
 
 cutscene;true;rightCrates2
-playSFX;infoBox
+playSFX;infobox
 info;Plasma rifle rounds. Nothing you can use.
 endSequence
 
 cutscene;true;rightCrates3
-playSFX;infoBox
+playSFX;infobox
 info;Blank ammunitions, likely for training purposes.
 endSequence
 
 cutscene;true;rightBox
-playSFX;infoBox
+playSFX;infobox
 info;It's empty, except for a lot of dust.
 endSequence

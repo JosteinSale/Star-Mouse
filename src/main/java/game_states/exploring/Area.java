@@ -20,7 +20,6 @@ import ui.InventoryItem;
 import ui.TextboxManager;
 import utils.Constants.Direction;
 import utils.Fader;
-import utils.parsing.AudioParser;
 
 public class Area {
    private Game game;
@@ -158,7 +157,7 @@ public class Area {
          audioPlayer.startAmbienceLoop(evt.ambienceId());
 
       } else if (event instanceof PlaySFXEvent evt) {
-         audioPlayer.playSFX(evt.SFXIndex());
+         audioPlayer.playSFX(evt.sfxId());
 
       } else if (event instanceof SetPoseEvent evt) {
          if (evt.entity().equals("player")) {

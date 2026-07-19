@@ -1,5 +1,5 @@
 cutscene;true;destroyedDrone
-playSFX;infoBox
+playSFX;infobox
 info;You search the drone.
 endSequence
 info;You found some parts you could sell to the mechanic.
@@ -15,7 +15,7 @@ info;(The drone doesn't seem too happy about it).
 endSequence
 
 cutscene;true;destroyedDrone
-playSFX;infoBox
+playSFX;infobox
 info;Nothing more of use here.
 endSequence
 

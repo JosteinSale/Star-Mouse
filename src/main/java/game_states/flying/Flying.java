@@ -9,6 +9,7 @@ import static entities.flying.EnemyFactory.TypeConstants.DRONE;
 import static entities.flying.pickupItems.PickupItemFactory.TypeConstants.*;
 import static utils.parsing.LevelDataParser.GetAutomaticTrigger;
 import static utils.parsing.CutsceneParser.ParseCutscenes;
+import static utils.Constants.Audio.GetFlyLevelSong;
 
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
@@ -57,7 +58,6 @@ public class Flying extends State {
    public ArrayList<PickupItem> pickupItems;
 
    private Integer level;
-   private int song;
    public boolean shouldSongLoop = true;
    public boolean ambienceEnabled = true;
    public boolean musicEnabled = true;
@@ -96,7 +96,6 @@ public class Flying extends State {
 
    public void loadLevel(int lvl) {
       this.level = lvl;
-      this.song = 0; // Audio.GetFlyLevelSong(lvl);
       mapManager.loadNewMap(lvl, FlyLevelInfo.getBgImgHeight(lvl), game);
       player.setClImg(mapManager.clImg);
       projectileHandler.setClImg(mapManager.clImg);
@@ -425,7 +424,7 @@ public class Flying extends State {
 
       // 5. Restart audio
       if (musicEnabled) {
-         audioPlayer.startSong("song", songResetPos, shouldSongLoop);
+         audioPlayer.startSong(GetFlyLevelSong(level), songResetPos, shouldSongLoop);
       }
       if (ambienceEnabled) {
          audioPlayer.startAmbienceLoop(Audio.AMBIENCE_ROCKET_ENGINE);

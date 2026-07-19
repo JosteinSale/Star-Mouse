@@ -1,5 +1,5 @@
 cutscene;true;exitSaber
-playSFX;infoBox
+playSFX;infobox
 infoChoice;Leave area?;No;Yes
 endSequence
 
@@ -85,13 +85,13 @@ cutscene;true;Mechanic
 bigDialogue;Mechanic;normal;0;2;Hey buddy, need service?
 endSequence
 setStartCutscene;Mechanic;1
-playSFX;infoBox
+playSFX;infobox
 mechanicDisplay
 wait;1
 endSequence
 
 cutscene;true;Mechanic
-playSFX;infoBox
+playSFX;infobox
 mechanicDisplay
 wait;1
 endSequence

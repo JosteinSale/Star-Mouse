@@ -8,7 +8,6 @@ import com.badlogic.gdx.audio.Music;
 import utils.Constants.Audio;
 import utils.ResourceContainer;
 import utils.ResourceLoader;
-import utils.parsing.AudioParser;
 
 /**
  * This class handles basic functionality for MyMusics (= songs and ambience).
@@ -71,6 +70,20 @@ public class MusicPlayer {
       this.curAmbience = ambienceTracks.getResource(curAmbienceId, true).get();
    }
 
+   private String getSongFileName(String songId) {
+      if (!SONG_MAP.containsKey(songId)) {
+         throw new IllegalArgumentException("No song loaded for songId: " + songId);
+      }
+      return SONG_MAP.get(songId);
+   }
+
+   private String getAmbienceFileName(String ambienceId) {
+      if (!AMBIENCE_MAP.containsKey(ambienceId)) {
+         throw new IllegalArgumentException("No ambience loaded for ambienceId: " + ambienceId);
+      }
+      return AMBIENCE_MAP.get(ambienceId);
+   }
+
    public void startSong(String songId, float startPos, boolean shouldLoop) {
       if (songId.equals(Audio.NONE)) {
          return;
@@ -80,7 +93,7 @@ public class MusicPlayer {
       }
       this.curSongId = songId;
       this.curSongLooping = shouldLoop;
-      String songFileName = AudioParser.ParseSongId(songId);
+      String songFileName = getSongFileName(songId);
       curSong = songs.getResource(songFileName, false).get();
       curSong.setVolume(curSongVolume);
       if (shouldLoop) {
@@ -100,7 +113,7 @@ public class MusicPlayer {
          curAmbience.stop();
       }
       this.curAmbienceId = ambienceId;
-      String ambienceFileName = AudioParser.ParseAmbienceId(ambienceId);
+      String ambienceFileName = getAmbienceFileName(ambienceId);
       curAmbience = ambienceTracks.getResource(ambienceFileName, false).get();
       curAmbience.setVolume(curAmbienceVolume);
       curAmbience.setLooping(true);

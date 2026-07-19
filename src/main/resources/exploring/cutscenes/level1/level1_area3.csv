@@ -1,6 +1,6 @@
 cutscene;true;locker#1
 info;You search through locker #1...
-playSFX;infoBox
+playSFX;infobox
 endSequence
 info;You found 100 credits!
 playSFX;pickup
@@ -10,24 +10,24 @@ endSequence
 
 cutscene;true;locker#1
 info;Nothing more of use here.
-playSFX;infoBox
+playSFX;infobox
 endSequence
 
 cutscene;true;locker#2
 info;You search through locker #2...
-playSFX;infoBox
+playSFX;infobox
 endSequence
 info;It's empty
 setStartCutscene;locker#2;1
 endSequence
 
 cutscene;true;locker#2
-playSFX;infoBox
+playSFX;infobox
 info;It's empty
 endSequence
 
 cutscene;true;locker#3
-playSFX;infoBox
+playSFX;infobox
 info;You search through locker #3...
 endSequence
 info;You found 200 credits!
@@ -37,7 +37,7 @@ setStartCutscene;locker#3;1
 endSequence
 
 cutscene;true;locker#3
-playSFX;infoBox
+playSFX;infobox
 info;Nothing more of use here.
 endSequence
 
@@ -52,7 +52,7 @@ info;You hear a short beep. The door unlocks itself!
 endSequence
 
 cutscene;true;storageDoor
-playSFX;infoBox
+playSFX;infobox
 info;Nothing happened...
 endSequence
 

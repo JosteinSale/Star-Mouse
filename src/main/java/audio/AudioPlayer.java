@@ -62,8 +62,8 @@ public class AudioPlayer extends Singleton {
     * 
     * @param index
     */
-   public void playSFX(int index) {
-      sfxPlayer.playSfx(index);
+   public void playSFX(String sfxId) {
+      sfxPlayer.playSfx(sfxId);
    }
 
    /**

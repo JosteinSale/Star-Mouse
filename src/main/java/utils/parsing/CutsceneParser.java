@@ -6,7 +6,6 @@ import static utils.parsing.LevelDataParser.ParseDirection;
 import java.util.HashMap;
 import java.util.List;
 
-import audio.AudioPlayer;
 import cutscenes.Cutscene;
 import cutscenes.CutscenesForEntity;
 import cutscenes.Sequence;
@@ -362,8 +361,8 @@ public class CutsceneParser {
    }
 
    private static PlaySFXEvent parsePlaySFX(String[] lineData) {
-      Integer index = AudioParser.ParseSFX(lineData[1]);
-      return new PlaySFXEvent(index);
+      String sfxId = lineData[1];
+      return new PlaySFXEvent(sfxId);
    }
 
    private static SetPoseEvent parseSetSprite(String[] lineData) {

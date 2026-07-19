@@ -1,6 +1,6 @@
 cutscene;false;clothingRack
 info;A clothing rack with old, discarded pilot jackets.
-playSFX;infoBox
+playSFX;infobox
 endSequence
 info;You search through them...
 endSequence
@@ -11,12 +11,12 @@ setStartCutscene;clothingRack;1
 endSequence
 
 cutscene;true;clothingRack
-playSFX;infoBox
+playSFX;infobox
 info;Nothing more of use here.
 endSequence
 
 cutscene;false;bombBox
-playSFX;infoBox
+playSFX;infobox
 info;An unopened box. You search through it.
 endSequence
 info;You found 1 bomb!
@@ -26,12 +26,12 @@ setStartCutscene;bombBox;1
 endSequence
 
 cutscene;true;bombBox
-playSFX;infoBox
+playSFX;infobox
 info;It's empty.
 endSequence
 
 cutscene;false;cabinet
-playSFX;infoBox
+playSFX;infobox
 info;You open the cabinet and rummage through it.
 endSequence
 info;You found a comfort pet plushie!
@@ -43,6 +43,6 @@ setStartCutscene;cabinet;1
 endSequence
 
 cutscene;true;cabinet
-playSFX;infoBox
+playSFX;infobox
 info;Nothing more of interest here.
 endSequence

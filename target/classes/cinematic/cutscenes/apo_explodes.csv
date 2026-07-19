@@ -41,7 +41,7 @@ noSkipDialogue;????;normal;2;3;Now, let this planet bathe in the light of salvat
 endSequence
 moveObject;charge;660;200;1
 fadeOutLoops
-playSFX;20;charge up
+playSFX;cathedral_shot
 wait;1
 endSequence
 wait;250

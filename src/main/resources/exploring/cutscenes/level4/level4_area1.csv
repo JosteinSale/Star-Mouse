@@ -1,11 +1,11 @@
 cutscene;true;Ship
 info;I can't leave yet.
-playSFX;infoBox
+playSFX;infobox
 endSequence
 
 cutscene;true;BrokenCannon
 info;The remains of a Saber cannon.
-playSFX;infoBox
+playSFX;infobox
 endSequence
 
 cutscene;true;Mechanic
@@ -24,7 +24,7 @@ playSFX;pickup
 updateInventory;credits;1000
 setStartCutscene;Mechanic;1
 endSequence
-playSFX;infoBox
+playSFX;infobox
 mechanicDisplay
 wait;1
 endSequence
@@ -34,7 +34,7 @@ bigDialogue;Mechanic;normal;0;3;It's not a pretty scene back there.
 endSequence
 
 cutscene;true;Mechanic
-playSFX;infoBox
+playSFX;infobox
 mechanicDisplay
 wait;1
 endSequence
@@ -59,7 +59,7 @@ endSequence
 
 cutscene;false;talkToTheMechanic
 info;This might be your only chance to talk to the mechanic
-playSFX;infoBox
+playSFX;infobox
 endSequence
 
 cutscene;false;deathOfSkye

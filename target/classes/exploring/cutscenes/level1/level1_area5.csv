@@ -4,12 +4,12 @@ endSequence
 
 cutscene;true;Saber
 info;Your trusty Saber
-playSFX;infoBox
+playSFX;infobox
 endSequence
 
 cutscene;true;ladder
 infoChoice;Leave area?;No;Yes
-playSFX;infoBox
+playSFX;infobox
 endSequence
 
 cutscene;true;ladder
@@ -20,7 +20,7 @@ cutscene;false;ladder
 wait;60
 endSequence
 wait;65
-playSFX;15;bigExplosion
+playSFX;missile_strike
 endSequence
 setPose;player;true;0;8;shocked
 screenShake;60

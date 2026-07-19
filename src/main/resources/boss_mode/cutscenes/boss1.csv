@@ -93,7 +93,7 @@ moveObject;drones3;-520;120;240
 moveObject;drones4;1060;120;240
 moveObject;rudingerShip;450;400;240
 moveObject;boss;11;-15;240
-playSFX;18
+playSFX;metallic_sound
 wait;240
 endSequence
 wait;30
@@ -124,7 +124,7 @@ endSequence
 
 cutscene;true;boss
 setBossVisible;false
-playSFX;19
+playSFX;rudinger_death
 addObject;rudinger1Death;bossDeath;11;-15;3;3;4;2
 addObject;loopingExplosion;explosion1;240;81;3;3;4;10
 addObject;loopingExplosion;explosion2;750;250;3;3;4;10

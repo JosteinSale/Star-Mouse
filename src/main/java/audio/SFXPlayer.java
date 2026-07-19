@@ -2,72 +2,74 @@ package audio;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import utils.ResourceContainer;
 import utils.ResourceLoader;
 import utils.Singleton;
 
+import static utils.Constants.Audio;
+
 /**
  * This class handles basic functionality for MySounds (= SFX).
  */
 public class SFXPlayer extends Singleton {
    private float curVolume;
-   private Set<Integer> sfxPlayedThisFrame;
+   private Set<String> sfxPlayedThisFrame;
 
-   // Voice clips are identified by character name
    private ResourceContainer<MySound> voiceClips;
-   private static HashMap<String, String> characterToSoundMap = new HashMap<>();
-   static {
-      characterToSoundMap.put("Max", "VoiceClip - Max.ogg");
-      characterToSoundMap.put("Oliver", "VoiceClip - Oliver.ogg");
-      characterToSoundMap.put("Lance", "VoiceClip - Feno.ogg");
-      characterToSoundMap.put("Charlotte", "VoiceClip - Charlotte.ogg");
-      characterToSoundMap.put("Nina", "VoiceClip - Nina.ogg");
-      characterToSoundMap.put("Shady pilot", "VoiceClip - ShadyPilot.ogg");
-      characterToSoundMap.put("Speaker", "VoiceClip - Speaker.ogg");
-      characterToSoundMap.put("Sign", "VoiceClip - Sign.ogg");
-      characterToSoundMap.put("Lt.Red", "VoiceClip - Lt.Red.ogg");
-      characterToSoundMap.put("Russel", "VoiceClip - Russel.ogg");
-      characterToSoundMap.put("Emma", "VoiceClip - Emma.ogg");
-      characterToSoundMap.put("Nathan", "VoiceClip - Nathan.ogg");
-      characterToSoundMap.put("Frida", "VoiceClip - Frida.ogg");
-      characterToSoundMap.put("Mechanic", "VoiceClip - ShadyPilot.ogg");
-      characterToSoundMap.put("Skye", "VoiceClip - Skye.ogg");
-      characterToSoundMap.put("Zack", "VoiceClip - Zack.ogg");
-      characterToSoundMap.put("Gard", "VoiceClip - Gard.ogg");
-      characterToSoundMap.put("Feno", "VoiceClip - Feno.ogg");
-      characterToSoundMap.put("Rudinger", "VoiceClip - Rudinger2.ogg");
-      characterToSoundMap.put("???", "VoiceClip - Rudinger2.ogg");
-      characterToSoundMap.put("Raze", "VoiceClip - Raze.ogg");
-      characterToSoundMap.put("????", "VoiceClip - Raze.ogg");
-      characterToSoundMap.put("Drone", "VoiceClip - Drone.ogg");
-   }
-
-   // SFX are identified by indexes (also hard-coded into the Constant class)
    private ResourceContainer<MySound> sfx;
-   private String[] SFXfileNames = {
-         "SFX - Lazer10.ogg",
-         "SFX - BombShoot.ogg",
-         "SFX - Teleport.ogg",
-         "SFX - ShipCrash1.5.ogg",
-         "SFX - SmallExplosion3.6.ogg",
-         "SFX - BigExplosion2.ogg",
-         "SFX - BombPickup.ogg",
-         "SFX - Powerup2.ogg",
-         "SFX - Powerup3.ogg",
-         "SFX - Cursor1.ogg",
-         "SFX - Select2.ogg",
-         "SFX - MenuSound.ogg",
-         "SFX - ItemPickup.ogg",
-         "SFX - Success.ogg",
-         "SFX - InfoBox2.ogg",
-         "SFX - BigExplosion3.ogg",
-         "SFX - Hurt2.ogg",
-         "SFX - Death.ogg",
-         "SFX - MetallicWarning.ogg",
-         "SFX - Rudinger1Death.ogg",
-         "SFX - CathedralShot.ogg"
+
+   public static final HashMap<String, String> CHARACTER_SOUND_MAP = new HashMap<>();
+   static {
+      CHARACTER_SOUND_MAP.put("Max", "VoiceClip - Max.ogg");
+      CHARACTER_SOUND_MAP.put("Oliver", "VoiceClip - Oliver.ogg");
+      CHARACTER_SOUND_MAP.put("Lance", "VoiceClip - Feno.ogg");
+      CHARACTER_SOUND_MAP.put("Charlotte", "VoiceClip - Charlotte.ogg");
+      CHARACTER_SOUND_MAP.put("Nina", "VoiceClip - Nina.ogg");
+      CHARACTER_SOUND_MAP.put("Shady pilot", "VoiceClip - ShadyPilot.ogg");
+      CHARACTER_SOUND_MAP.put("Speaker", "VoiceClip - Speaker.ogg");
+      CHARACTER_SOUND_MAP.put("Sign", "VoiceClip - Sign.ogg");
+      CHARACTER_SOUND_MAP.put("Lt.Red", "VoiceClip - Lt.Red.ogg");
+      CHARACTER_SOUND_MAP.put("Russel", "VoiceClip - Russel.ogg");
+      CHARACTER_SOUND_MAP.put("Emma", "VoiceClip - Emma.ogg");
+      CHARACTER_SOUND_MAP.put("Nathan", "VoiceClip - Nathan.ogg");
+      CHARACTER_SOUND_MAP.put("Frida", "VoiceClip - Frida.ogg");
+      CHARACTER_SOUND_MAP.put("Mechanic", "VoiceClip - ShadyPilot.ogg");
+      CHARACTER_SOUND_MAP.put("Skye", "VoiceClip - Skye.ogg");
+      CHARACTER_SOUND_MAP.put("Zack", "VoiceClip - Zack.ogg");
+      CHARACTER_SOUND_MAP.put("Gard", "VoiceClip - Gard.ogg");
+      CHARACTER_SOUND_MAP.put("Feno", "VoiceClip - Feno.ogg");
+      CHARACTER_SOUND_MAP.put("Rudinger", "VoiceClip - Rudinger2.ogg");
+      CHARACTER_SOUND_MAP.put("???", "VoiceClip - Rudinger2.ogg");
+      CHARACTER_SOUND_MAP.put("Raze", "VoiceClip - Raze.ogg");
+      CHARACTER_SOUND_MAP.put("????", "VoiceClip - Raze.ogg");
+      CHARACTER_SOUND_MAP.put("Drone", "VoiceClip - Drone.ogg");
+   }
+   public static final Map<String, String> SFX_MAP = new HashMap<>();
+   static {
+      SFX_MAP.put(Audio.SFX_LAZER, "SFX - Lazer10.ogg");
+      SFX_MAP.put(Audio.SFX_BOMBSHOOT, "SFX - BombShoot.ogg");
+      SFX_MAP.put(Audio.SFX_TELEPORT, "SFX - Teleport.ogg");
+      SFX_MAP.put(Audio.SFX_COLLISION, "SFX - ShipCrash1.5.ogg");
+      SFX_MAP.put(Audio.SFX_SMALL_EXPLOSION, "SFX - SmallExplosion3.6.ogg");
+      SFX_MAP.put(Audio.SFX_BIG_EXPLOSION, "SFX - BigExplosion2.ogg");
+      SFX_MAP.put(Audio.SFX_BOMB_PICKUP, "SFX - BombPickup.ogg");
+      SFX_MAP.put(Audio.SFX_REPAIR, "SFX - Powerup2.ogg");
+      SFX_MAP.put(Audio.SFX_POWERUP, "SFX - Powerup3.ogg");
+      SFX_MAP.put(Audio.SFX_CURSOR, "SFX - Cursor1.ogg");
+      SFX_MAP.put(Audio.SFX_CURSOR_SELECT, "SFX - Select2.ogg");
+      SFX_MAP.put(Audio.SFX_STARTGAME, "SFX - MenuSound.ogg");
+      SFX_MAP.put(Audio.SFX_INVENTORY_PICKUP, "SFX - ItemPickup.ogg");
+      SFX_MAP.put(Audio.SFX_SUCCESS, "SFX - Success.ogg");
+      SFX_MAP.put(Audio.SFX_INFOBOX, "SFX - InfoBox2.ogg");
+      SFX_MAP.put(Audio.SFX_HURT, "SFX - Hurt2.ogg");
+      SFX_MAP.put(Audio.SFX_DEATH, "SFX - Death.ogg");
+      SFX_MAP.put(Audio.SFX_METALLIC_SOUND, "SFX - MetallicWarning.ogg");
+      SFX_MAP.put(Audio.SFX_RUDINGER1_DEATH, "SFX - Rudinger1Death.ogg");
+      SFX_MAP.put(Audio.CATHEDRAL_SHOT, "SFX - CathedralShot.ogg");
+      SFX_MAP.put(Audio.MISSILE_STRIKE, "SFX - BigExplosion3.ogg");
    };
 
    public SFXPlayer(float initialVolume) {
@@ -77,16 +79,27 @@ public class SFXPlayer extends Singleton {
       sfxPlayedThisFrame = new HashSet<>();
    }
 
-   public void playSfx(int index) {
-      if (!sfxPlayedThisFrame.contains(index)) {
-         sfxPlayedThisFrame.add(index);
+   public void playSfx(String sfxId) {
+      if (!sfxPlayedThisFrame.contains(sfxId)) {
+         sfxPlayedThisFrame.add(sfxId);
       }
-      MySound sound = sfx.getResource(SFXfileNames[index], false);
+      String fileName = getSFXFileName(sfxId);
+      MySound sound = sfx.getResource(fileName, false);
       sound.get().play(curVolume);
    }
 
+   private String getSFXFileName(String sfxId) {
+      if (!SFX_MAP.containsKey(sfxId)) {
+         throw new IllegalArgumentException("No SFX loaded for sfxId: " + sfxId);
+      }
+      return SFX_MAP.get(sfxId);
+   }
+
    public void playVoiceClip(String name) {
-      MySound sound = voiceClips.getResource(characterToSoundMap.get(name), false);
+      if (!CHARACTER_SOUND_MAP.containsKey(name)) {
+         throw new IllegalArgumentException("No voice clip loaded for character with name: " + name);
+      }
+      MySound sound = voiceClips.getResource(CHARACTER_SOUND_MAP.get(name), false);
       sound.get().play(curVolume);
    }
 

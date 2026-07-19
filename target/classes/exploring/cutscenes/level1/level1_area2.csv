@@ -1,5 +1,5 @@
 cutscene;true;infoBoard
-playSFX;infoBox
+playSFX;infobox
 info;The sign says "Information for visitors".
 endSequence
 infoChoice;Read info?;Yes;No
