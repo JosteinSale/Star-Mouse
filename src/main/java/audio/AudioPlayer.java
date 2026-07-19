@@ -1,63 +1,19 @@
 package audio;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
 import main_classes.Testing;
-import utils.Constants.Audio;
-import utils.ResourceContainer;
 import utils.ResourceLoader;
 import utils.Singleton;
-import utils.parsing.AudioParser;
 
+/**
+ * Handles all music and sound for the game.
+ * Provides methods for starting, stopping, continuing, pausing and fading of
+ * music and sounds, as well as setting volume
+ */
 public class AudioPlayer extends Singleton {
-   public static final Map<String, String> SONG_MAP = new HashMap<>();
-   public static final Map<String, String> AMBIENCE_MAP = new HashMap<>();
-
-   static {
-      // Misc
-      SONG_MAP.put(Audio.SONG_MAIN_MENU, "Song - Main Menu.ogg");
-      SONG_MAP.put(Audio.SONG_RUDINGER_THEME, "Song - Rudinger Theme.ogg");
-      SONG_MAP.put(Audio.SONG_APO_EXPLODES, "Song - Apo Explodes.ogg");
-      SONG_MAP.put(Audio.SONG_BURNING_PLANET, "Song - Burning Planet.ogg");
-
-      // Flying
-      SONG_MAP.put(Audio.SONG_FLY_LEVEL0, "Song - Tutorial (FINISHED)3.ogg");
-      SONG_MAP.put(Audio.SONG_FLY_LEVEL1, "Song - Skies Over Apolis.ogg");
-      SONG_MAP.put(Audio.SONG_FLY_LEVEL2, "Song - Vyke Ambush.ogg");
-      SONG_MAP.put(Audio.SONG_FLY_LEVEL3, "Song - Asteroid Escape.ogg");
-      SONG_MAP.put(Audio.SONG_FLY_LEVEL4, "Song - The Tunnel.ogg");
-      SONG_MAP.put(Audio.SONG_FLY_LEVEL5, "Song - Holy Halls.ogg");
-
-      // Exploring
-      SONG_MAP.put(Audio.SONG_EXPLORING_VYKE, "Song - Vyke.ogg");
-      SONG_MAP.put(Audio.SONG_EXPLORING_ACADEMY, "Song - The Academy ver3.ogg");
-      SONG_MAP.put(Audio.SONG_EXPLORING_CATHEDRAL, "Song - Cathedral.ogg");
-
-      // Bosses
-      SONG_MAP.put(Audio.SONG_BOSS1, "Song - Grand Reaper.ogg");
-
-      // Ambience
-      AMBIENCE_MAP.put(Audio.AMBIENCE_ROCKET_ENGINE, "Ambience - RocketEngineQuiet.ogg");
-      AMBIENCE_MAP.put(Audio.AMBIENCE_WIND, "Ambience - Wind.ogg");
-      AMBIENCE_MAP.put(Audio.AMBIENCE_HANGAR, "Ambience - Hangar.ogg");
-      AMBIENCE_MAP.put(Audio.AMBIENCE_CAVE, "Ambience - Cave.ogg");
-   }
-
    private SFXPlayer sfxPlayer;
-   private ResourceContainer<MyMusic> songs;
-   private ResourceContainer<MyMusic> ambienceTracks;
-   private String curSongId;
-   private String curAmbienceId;
-   private boolean curSongLooping;
-   private Music curSong;
-   private Music curAmbience;
-   private Set<Integer> sfxPlayedThisFrame;
+   private MusicPlayer musicPlayer;
 
    // Volume
    private float setSongVolume = 0.61f;
@@ -78,7 +34,6 @@ public class AudioPlayer extends Singleton {
    public AudioPlayer() {
       loadAudio();
       startKeepAliveSound();
-      sfxPlayedThisFrame = new HashSet<>();
    }
 
    private void startKeepAliveSound() {
@@ -98,14 +53,7 @@ public class AudioPlayer extends Singleton {
 
    private void loadAudio() {
       this.sfxPlayer = new SFXPlayer(setSfxVolume);
-      this.songs = new ResourceContainer<>(s -> ResourceLoader.getSong(s));
-      this.ambienceTracks = new ResourceContainer<>(s -> ResourceLoader.getSong(s));
-
-      // Initial assignments: needed to avoid nullpointers
-      String mainMenuSong = SONG_MAP.get(Audio.SONG_MAIN_MENU);
-      String rocketEngineAmbience = AMBIENCE_MAP.get(Audio.AMBIENCE_ROCKET_ENGINE);
-      this.curSong = songs.getResource(mainMenuSong, false).get();
-      this.curAmbience = ambienceTracks.getResource(rocketEngineAmbience, true).get();
+      this.musicPlayer = new MusicPlayer(setSongVolume, setAmbienceVolume);
    }
 
    /**
@@ -115,10 +63,7 @@ public class AudioPlayer extends Singleton {
     * @param index
     */
    public void playSFX(int index) {
-      if (!sfxPlayedThisFrame.contains(index)) {
-         this.sfxPlayer.playSfx(index);
-         sfxPlayedThisFrame.add(index);
-      }
+      sfxPlayer.playSfx(index);
    }
 
    /**
@@ -136,26 +81,8 @@ public class AudioPlayer extends Singleton {
     * specified identifier.
     */
    public void startSong(String songId, float startPos, boolean shouldLoop) {
-      if (songId.equals(Audio.NONE)) {
-         return;
-      }
-      if (curSong.isPlaying()) {
-         curSong.stop();
-      }
-      this.curSongId = songId;
-      this.songFadeVolume = setSongVolume;
-      this.curSongLooping = shouldLoop;
       stopFadeOutIfActive();
-      String songFileName = AudioParser.ParseSongId(songId);
-      curSong = songs.getResource(songFileName, false).get();
-      curSong.setVolume(songFadeVolume);
-      if (shouldLoop) {
-         curSong.setLooping(true);
-         curSong.play();
-      } else {
-         curSong.play();
-      }
-      curSong.setPosition(startPos); // Needs to be called after .play()
+      musicPlayer.startSong(songId, startPos, shouldLoop);
    }
 
    /**
@@ -163,38 +90,24 @@ public class AudioPlayer extends Singleton {
     * ambience loop with the specified identifier.
     */
    public void startAmbienceLoop(String ambienceId) {
-      if (ambienceId.equals(Audio.NONE)) {
-         return;
-      }
-      if (curAmbience.isPlaying()) {
-         curAmbience.stop();
-      }
-      this.curAmbienceId = ambienceId;
-      this.ambienceFadeVolume = setAmbienceVolume;
       stopFadeOutIfActive();
-      String ambienceFileName = AudioParser.ParseAmbienceId(ambienceId);
-      curAmbience = ambienceTracks.getResource(ambienceFileName, false).get();
-      curAmbience.setVolume(ambienceFadeVolume);
-      curAmbience.setLooping(true);
-      curAmbience.play();
+      musicPlayer.startAmbienceLoop(ambienceId);
    }
 
    /**
     * Sometimes we start a new song/ambience while a fadeOut is happening.
     * In such case we need to stop the fadeout and reset it, so that it
-    * doesn't stop the new song/ambience.
+    * doesn't stop the next potential song/ambience.
     */
    private void stopFadeOutIfActive() {
       if (fadeOutActive) {
-         fadeOutActive = false;
-         volumeFadeTick = 0;
+         resetFadeValues();
       }
    }
 
    /** Stops all loops and resets them to the beginning */
    public void stopAllLoops() {
-      curSong.stop();
-      curAmbience.stop();
+      musicPlayer.stopAllLoops();
    }
 
    /**
@@ -202,19 +115,18 @@ public class AudioPlayer extends Singleton {
     * song was paused
     */
    public void pauseAllLoops() {
-      curSong.pause();
-      curAmbience.pause();
+      musicPlayer.pauseAllLoops();
    }
 
    /** Fades out the current song + ambience, and then stops them. */
    public void fadeOutAllLoops() {
-      if (curSong.isPlaying() || curAmbience.isPlaying()) {
+      if (musicPlayer.isLoopPlaying()) {
          this.fadeOutActive = true;
       }
    }
 
    public void update() {
-      sfxPlayedThisFrame.clear();
+      sfxPlayer.update();
       if (this.fadeOutActive) {
          updateFade();
       }
@@ -226,19 +138,21 @@ public class AudioPlayer extends Singleton {
          volumeFadeTick = 0;
          songFadeVolume = Math.max(songFadeVolume - volumeFadeSpeed, 0);
          ambienceFadeVolume = Math.max(ambienceFadeVolume - volumeFadeSpeed, 0);
-         curSong.setVolume(songFadeVolume);
-         curAmbience.setVolume(ambienceFadeVolume);
+         musicPlayer.setFadeVolume(songFadeVolume, ambienceFadeVolume);
          // Check if both songVolume and ambienceVolume are 0. We need to check both,
          // in case the user has turned down the volume for one of them.
          if (songFadeVolume == 0 && ambienceFadeVolume == 0) {
-            curSong.stop();
-            curAmbience.stop();
-            songFadeVolume = setSongVolume;
-            ambienceFadeVolume = setAmbienceVolume;
-            this.fadeOutActive = false;
-            volumeFadeTick = 0;
+            musicPlayer.stopAllLoops();
+            resetFadeValues();
          }
       }
+   }
+
+   private void resetFadeValues() {
+      songFadeVolume = setSongVolume;
+      ambienceFadeVolume = setAmbienceVolume;
+      fadeOutActive = false;
+      volumeFadeTick = 0;
    }
 
    /** Returns the volume set by player (not currentVolume) */
@@ -251,23 +165,25 @@ public class AudioPlayer extends Singleton {
       return sfxPlayer.getVolume();
    }
 
-   /** Is called from the OptionsMenu */
+   /** Adjusts volume to safe colume, sets it, and also resets any fading. */
    public void setSongVolume(float volume) {
       float adjustedVolume = adjustToSafeVolume(volume);
       this.setSongVolume = adjustedVolume;
-      this.songFadeVolume = adjustedVolume;
-      curSong.setVolume(adjustedVolume);
+      musicPlayer.setSongVolume(adjustedVolume);
+      resetFadeValues();
    }
 
-   /** Is called from the OptionsMenu. Goes for both ambience and sfx */
+   /**
+    * Goes for both ambience and sfx.
+    * Adjusts volume to safe colume, sets it, and also resets any fading.
+    */
    public void setSfxVolume(float volume) {
       float adjustedVolume = adjustToSafeVolume(volume);
       this.setSfxVolume = adjustedVolume;
       this.sfxPlayer.setVolume(adjustedVolume);
-
       this.setAmbienceVolume = adjustedVolume;
-      this.ambienceFadeVolume = adjustedVolume;
-      curAmbience.setVolume(adjustedVolume);
+      musicPlayer.setAmbienceVolume(adjustedVolume);
+      resetFadeValues();
    }
 
    private float adjustToSafeVolume(float volume) {
@@ -281,40 +197,33 @@ public class AudioPlayer extends Singleton {
    }
 
    public void stopSong() {
-      curSong.stop();
+      musicPlayer.stopSong();
    }
 
    public void stopAmbience() {
-      curAmbience.stop();
+      musicPlayer.stopAmbience();
    }
 
    public boolean isSongPlaying(String songId) {
-      return songId.equals(curSongId) && curSong.isPlaying();
+      return musicPlayer.isSongPlaying(songId);
    }
 
    public boolean isAmbiencePlaying(String ambienceId) {
-      return ambienceId.equals(curAmbienceId) && curAmbience.isPlaying();
+      return musicPlayer.isAmbiencePlaying(ambienceId);
    }
 
    /** Loops the current song if it should loop, else it just starts it. */
    public void continueCurrentSong() {
-      if (curSongLooping) {
-         this.curSong.setLooping(true);
-         this.curSong.play();
-      } else {
-         this.curSong.play();
-      }
+      musicPlayer.continueCurrentSong();
    }
 
    /** Continues looping the current ambience */
    public void continueCurrentAmbience() {
-      this.curAmbience.setLooping(true);
-      this.curAmbience.play();
+      musicPlayer.continueCurrentAmbience();
    }
 
    public void flush() {
-      songs.flush();
-      ambienceTracks.flush();
+      musicPlayer.flush();
       sfxPlayer.flush();
    }
 }

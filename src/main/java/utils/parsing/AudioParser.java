@@ -1,6 +1,7 @@
 package utils.parsing;
 
-import audio.AudioPlayer;
+import static audio.MusicPlayer.SONG_MAP;
+import static audio.MusicPlayer.AMBIENCE_MAP;
 import utils.Constants.Audio;
 
 public class AudioParser {
@@ -20,17 +21,17 @@ public class AudioParser {
    }
 
    public static String ParseSongId(String songId) {
-      if (!AudioPlayer.SONG_MAP.containsKey(songId)) {
+      if (!SONG_MAP.containsKey(songId)) {
          throw new IllegalArgumentException("No song loaded for songId: " + songId);
       }
-      return AudioPlayer.SONG_MAP.get(songId);
+      return SONG_MAP.get(songId);
    }
 
    public static String ParseAmbienceId(String ambienceId) {
-      if (!AudioPlayer.AMBIENCE_MAP.containsKey(ambienceId)) {
+      if (!AMBIENCE_MAP.containsKey(ambienceId)) {
          throw new IllegalArgumentException("No ambience loaded for ambienceId: " + ambienceId);
       }
-      return AudioPlayer.AMBIENCE_MAP.get(ambienceId);
+      return AMBIENCE_MAP.get(ambienceId);
    }
 
 }

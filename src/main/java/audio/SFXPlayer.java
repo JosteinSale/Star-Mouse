@@ -1,17 +1,19 @@
 package audio;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import utils.ResourceContainer;
 import utils.ResourceLoader;
 import utils.Singleton;
 
 /**
- * This class handles all SFX for the game.
- * At present it loads all SFX into memory upon start.
+ * This class handles basic functionality for MySounds (= SFX).
  */
 public class SFXPlayer extends Singleton {
    private float curVolume;
+   private Set<Integer> sfxPlayedThisFrame;
 
    // Voice clips are identified by character name
    private ResourceContainer<MySound> voiceClips;
@@ -72,9 +74,13 @@ public class SFXPlayer extends Singleton {
       this.curVolume = initialVolume;
       voiceClips = new ResourceContainer<>(s -> (MySound) ResourceLoader.getSound(s));
       sfx = new ResourceContainer<>(s -> (MySound) ResourceLoader.getSound(s));
+      sfxPlayedThisFrame = new HashSet<>();
    }
 
    public void playSfx(int index) {
+      if (!sfxPlayedThisFrame.contains(index)) {
+         sfxPlayedThisFrame.add(index);
+      }
       MySound sound = sfx.getResource(SFXfileNames[index], false);
       sound.get().play(curVolume);
    }
@@ -95,5 +101,9 @@ public class SFXPlayer extends Singleton {
    public void flush() {
       sfx.flush();
       voiceClips.flush();
+   }
+
+   public void update() {
+      sfxPlayedThisFrame.clear();
    }
 }
