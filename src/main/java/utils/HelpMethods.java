@@ -14,8 +14,14 @@ public class HelpMethods {
    /**
     * Checks if the pixel at the given coordinates is solid (i.e. collidable).
     * Solid is defined as the red value in RGBA of the pixel being > 0 && < 100.
+    * If the given pixel is outside the bounds of the image, it returns false.
     */
    public static boolean IsSolid(int pixelX, int pixelY, MyCollisionImage collisionImg) {
+      if (pixelX > collisionImg.getWidth() || pixelX < 0 ||
+            pixelY > collisionImg.getHeight() | pixelY < 0) {
+         return false;
+      }
+
       int pix = collisionImg.getImage().getPixel(pixelX, pixelY);
       Color c = new Color();
       Color.rgba8888ToColor(c, pix);
@@ -39,6 +45,7 @@ public class HelpMethods {
       float newY1 = (hitbox.y) / 3;
       float newX2 = (hitbox.x + hitbox.width) / 3;
       float newY2 = (hitbox.y + hitbox.height) / 3;
+
       if (!IsSolid((int) newX1, (int) newY1, collisionImg) &&
             !IsSolid((int) newX2, (int) newY1, collisionImg) &&
             !IsSolid((int) newX1, (int) newY2, collisionImg) &&
