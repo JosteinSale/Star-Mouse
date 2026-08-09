@@ -17,7 +17,6 @@ import inputs.Inputs;
 
 import static utils.Constants.Flying.SpriteSizes.*;
 import static utils.Constants.Flying.TypeConstants.BOMB_PROJECTILE;
-import static entities.flying.EnemyFactory.TypeConstants.*;
 import static utils.Constants.Flying.TypeConstants.DRONE_PROJECTILE;
 import static utils.HelpMethods.IsSolid;
 import static utils.Constants.Audio;
@@ -27,6 +26,7 @@ public class ProjectileHandler extends Singleton {
    protected AudioPlayer audioPlayer;
    protected ShootingPlayer player;
    protected EnemyManager enemyManager;
+   protected ProjectileFactory projectileFactory = new ProjectileFactory();
    public ArrayList<Projectile> allProjectiles; // projectiles on screen
    protected ArrayList<Integer> projectilesToRemove;
    public ArrayList<ProjectileHit> projectileHits;
@@ -97,9 +97,9 @@ public class ProjectileHandler extends Singleton {
       Rectangle2D.Float hitbox2 = new Rectangle2D.Float(
             xPos + 43, yPos - 30, PLAYER_PRJT_SPRITE_W, PLAYER_PRJT_SPRITE_H);
       this.allProjectiles.add(
-            new PlayerProjectile(hitbox1, powerUp, game.getProgressValues().getLazerDmg()));
+            projectileFactory.createPlayerProjectile(hitbox1, powerUp, game.getProgressValues().getLazerDmg()));
       this.allProjectiles.add(
-            new PlayerProjectile(hitbox2, powerUp, game.getProgressValues().getLazerDmg()));
+            projectileFactory.createPlayerProjectile(hitbox2, powerUp, game.getProgressValues().getLazerDmg()));
    }
 
    protected void addBombProjectile(float xPos, float yPos) {
@@ -108,7 +108,7 @@ public class ProjectileHandler extends Singleton {
             yPos - 50,
             BOMB_PRJT_SPRITE_SIZE,
             BOMB_PRJT_SPRITE_SIZE);
-      this.allProjectiles.add(new BombProjectile(hitbox));
+      this.allProjectiles.add(projectileFactory.createBombProjectile(hitbox));
    }
 
    private void checkEnemeyShoot() {
@@ -121,54 +121,7 @@ public class ProjectileHandler extends Singleton {
    }
 
    private void addEnemeyProjectile(int type, Rectangle2D.Float hitbox, int dir) {
-      if (type == DRONE) {
-         Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
-               hitbox.x + 25, hitbox.y + 66, 32, 33);
-         this.allProjectiles.add(new DroneProjectile(prjctHitbox));
-
-      } else if (type == BLASTERDRONE) {
-         Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
-               hitbox.x + 15, hitbox.y + 90, 32, 33);
-         this.allProjectiles.add(new DroneProjectile(prjctHitbox));
-
-      } else if (type == OCTADRONE) {
-         double radius = hitbox.getWidth();
-         for (int i = 0; i < 8; i++) {
-            double angle = Math.toRadians(((double) i / 8) * 360d);
-            double x = (Math.cos(angle) * radius) + hitbox.x + hitbox.width / 3;
-            double y = (Math.sin(angle) * radius) + hitbox.y + hitbox.height / 3;
-            int xSpeed = (int) (Math.cos(angle) * 4);
-            int ySpeed = (int) ((Math.sin(angle) * 4) + fgSpeed);
-            Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
-                  (float) x, (float) y, 25, 25);
-            this.allProjectiles.add(new OctaProjectile(prjctHitbox, xSpeed, ySpeed));
-         }
-
-      } else if (type == REAPERDRONE) {
-         Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
-               hitbox.x + 85, hitbox.y + 160, 300, 24);
-         this.allProjectiles.add(new ReaperProjectile(prjctHitbox));
-
-      } else if (type == FLAMEDRONE) {
-         Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
-               (hitbox.x - 130), (hitbox.y + 160), 378, 195);
-         this.allProjectiles.add(new FlameProjectile(prjctHitbox));
-
-      } else if (type == WASPDRONE) {
-         if (dir == 1) { // Facing right
-            int xSpeed = 3;
-            int ySpeed = 4;
-            Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
-                  hitbox.x + 75, hitbox.y + 95, 28, 28);
-            this.allProjectiles.add(new OctaProjectile(prjctHitbox, xSpeed, ySpeed));
-         } else { // Facing left
-            int xSpeed = -3;
-            int ySpeed = 4;
-            Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
-                  hitbox.x + 5, hitbox.y + 95, 28, 28);
-            this.allProjectiles.add(new OctaProjectile(prjctHitbox, xSpeed, ySpeed));
-         }
-      }
+      this.allProjectiles.addAll(projectileFactory.createEnemyProjectiles(type, hitbox, dir, fgSpeed));
    }
 
    protected void updatePlayerShootTick() {
@@ -423,7 +376,7 @@ public class ProjectileHandler extends Singleton {
          case DRONE_PROJECTILE:
             Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
                   evt.xPos(), evt.yPos(), 32, 33);
-            this.allProjectiles.add(new DroneProjectile(prjctHitbox, evt.xSpeed(), evt.ySpeed()));
+            this.allProjectiles.add(projectileFactory.createDroneProjectile(prjctHitbox, evt.xSpeed(), evt.ySpeed()));
             break;
          default:
             throw new IllegalArgumentException("Projectile type " + evt.type() + " is not supported yet.");

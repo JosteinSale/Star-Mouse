@@ -2,8 +2,6 @@ package projectiles;
 
 import java.awt.geom.Rectangle2D.Float;
 
-import entities.Entity;
-
 import static utils.Constants.Flying.TypeConstants.BOSS_PROJECTILE1;
 
 /**
@@ -12,61 +10,15 @@ import static utils.Constants.Flying.TypeConstants.BOSS_PROJECTILE1;
  * getCollisionPixels() is called. Also xSpeed and ySpeed is not
  * hard coded into the object, but rather taken as arguments.
  */
-public class BossProjectile1 extends Entity implements Projectile {
-   private int damage = 10;
-   private float xSpeed;
-   private float ySpeed;
-   private boolean isActive = true;
+public class BossProjectile1 extends BaseProjectile {
 
    public BossProjectile1(Float hitbox, float xSpeed, float ySpeed) {
-      super(hitbox);
-      this.xSpeed = xSpeed;
-      this.ySpeed = ySpeed;
-   }
-
-   @Override
-   public Float getHitbox() {
-      return this.hitbox;
-   }
-
-   @Override
-   public int getDamage() {
-      return this.damage;
-   }
-
-   @Override
-   public float getXSpeed() {
-      return xSpeed;
-   }
-
-   @Override
-   public float getYSpeed() {
-      return ySpeed;
+      super(hitbox, BOSS_PROJECTILE1, 10, xSpeed, ySpeed);
+      // collisionPixels intentionally left null - see class javadoc.
    }
 
    @Override
    public void updateCollisionPixels() {
       /* Do nothing */
    }
-
-   @Override
-   public int[][] getCollisionPixels() {
-      return null;
-   }
-
-   @Override
-   public int getType() {
-      return BOSS_PROJECTILE1;
-   }
-
-   @Override
-   public void setActive(boolean active) {
-      this.isActive = active;
-   }
-
-   @Override
-   public boolean isActive() {
-      return isActive;
-   }
-
 }

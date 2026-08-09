@@ -54,7 +54,7 @@ public class ProjectileHandler2 extends ProjectileHandler {
       switch (type) {
          case BOSS_PROJECTILE1:
             Rectangle2D.Float hitbox = new Rectangle2D.Float(xPos, yPos, 70, 70);
-            allProjectiles.add(new BossProjectile1(hitbox, xSpeed, ySpeed));
+            allProjectiles.add(projectileFactory.createBossProjectile(hitbox, xSpeed, ySpeed));
       }
    }
 
