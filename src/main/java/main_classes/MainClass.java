@@ -8,7 +8,6 @@ public class MainClass {
       Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
       cfg.setTitle("StarMouse");
       cfg.useVsync(true);
-      cfg.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
       cfg.setForegroundFPS(60);
 
       new Lwjgl3Application(new Game(), cfg);

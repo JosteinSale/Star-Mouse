@@ -65,6 +65,7 @@ public class Game extends ApplicationAdapter {
       Inputs kbInputs = new Inputs(this);
       Gdx.input.setInputProcessor(kbInputs);
       camera.setToOrtho(true, Game.GAME_DEFAULT_WIDTH, Game.GAME_DEFAULT_HEIGHT);
+      toggleFullScreen();
 
       // Main game objects
       this.initializeSaveData();
