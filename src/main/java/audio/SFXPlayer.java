@@ -59,8 +59,8 @@ public class SFXPlayer extends Singleton {
       SFX_MAP.put(Audio.SFX_REPAIR, "SFX - Powerup2.ogg");
       SFX_MAP.put(Audio.SFX_POWERUP, "SFX - Powerup3.ogg");
       SFX_MAP.put(Audio.SFX_CURSOR, "SFX - Cursor1.ogg");
-      SFX_MAP.put(Audio.SFX_CURSOR_SELECT, "SFX - Select2.ogg");
-      SFX_MAP.put(Audio.SFX_STARTGAME, "SFX - MenuSound.ogg");
+      SFX_MAP.put(Audio.SFX_CURSOR_SELECT, "SFX - MenuSound.ogg");
+      SFX_MAP.put(Audio.SFX_STARTGAME, "SFX - Select2.ogg");
       SFX_MAP.put(Audio.SFX_INVENTORY_PICKUP, "SFX - ItemPickup.ogg");
       SFX_MAP.put(Audio.SFX_SUCCESS, "SFX - Success.ogg");
       SFX_MAP.put(Audio.SFX_INFOBOX, "SFX - InfoBox2.ogg");
@@ -80,9 +80,7 @@ public class SFXPlayer extends Singleton {
    }
 
    public void playSfx(String sfxId) {
-      if (!sfxPlayedThisFrame.contains(sfxId)) {
-         sfxPlayedThisFrame.add(sfxId);
-      }
+      sfxPlayedThisFrame.add(sfxId);
       String fileName = getSFXFileName(sfxId);
       MySound sound = sfx.getResource(fileName, false);
       sound.get().play(curVolume);

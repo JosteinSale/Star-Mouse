@@ -57,20 +57,16 @@ public class AudioPlayer extends Singleton {
    }
 
    /**
-    * Plays the SFX with the given index, using the SFXPlayer-object (see javadoc).
+    * Plays the SFX with the given ID, using the SFXPlayer-object (see javadoc).
     * Each sound effect can only play once per frame.
-    * 
-    * @param index
     */
    public void playSFX(String sfxId) {
       sfxPlayer.playSfx(sfxId);
    }
 
    /**
-    * Plays the voice clip with the given index, using the voicePlayer-object (see
+    * Plays the voice clip with the given character name, using the voicePlayer-object (see
     * javadoc).
-    * 
-    * @param index
     */
    public void playVoiceClip(String name) {
       this.sfxPlayer.playVoiceClip(name);
