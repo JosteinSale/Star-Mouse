@@ -1,2 +1,8 @@
 # Jar files -> Don't upload to git
 *.jar
+
+# Compiled classes
+*.class
+
+# Maven build output
+target/
