@@ -24,7 +24,7 @@ import static utils.Constants.Flying.SpriteSizes.FLAME_PRJT_SPRITE_W;
 import static utils.Constants.Flying.SpriteSizes.BOMB_PRJT_SPRITE_SIZE;
 import static utils.Constants.Flying.SpriteSizes.REAPERDRONE_PRJT_SPRITE_H;
 import static utils.Constants.Flying.SpriteSizes.REAPERDRONE_PRJT_SPRITE_W;
-import static utils.Constants.Flying.TypeConstants.*;
+import static projectiles.ProjectileFactory.TypeConstants.*;
 
 /**
  * Flying and Bossmode have separate projectileHandlers, but uses the

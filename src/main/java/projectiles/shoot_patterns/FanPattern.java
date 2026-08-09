@@ -5,8 +5,7 @@ import java.awt.Point;
 import entities.boss_mode.AnimatedComponent;
 import entities.boss_mode.AnimatedComponentFactory;
 import projectiles.ProjectileHandler2;
-import static utils.Constants.Flying.TypeConstants.BOSS_PROJECTILE1;
-
+import static projectiles.ProjectileFactory.TypeConstants.BOSS_PROJECTILE1;
 /**
  * Shoots 6 projectiles at once in a fan pattern, downwards.
  * There are accompanying charge- and shoot animations at the gunPoint.

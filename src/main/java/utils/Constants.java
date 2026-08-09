@@ -22,8 +22,6 @@ public class Constants {
       public static final int OPTIONS_HEIGHT = 600;
       public static final int PAUSE_EXPLORING_WIDTH = 800;
       public static final int PAUSE_EXPLORING_HEIGHT = 600;
-      public static final int PAUSE_FLYING_WIDTH = 600;
-      public static final int PAUSE_FLYING_HEIGHT = 400;
       public static final int MECHANIC_DISPLAY_WIDTH = 265 * 3;
       public static final int MECHANIC_DISPLAY_HEIGHT = 177 * 3;
       public static final int NUMBER_DISPLAY_WIDTH = 164 * 3;
@@ -49,7 +47,7 @@ public class Constants {
 
    public static class Exploring {
 
-      public static enum CharacterAction {
+      public enum CharacterAction {
          STANDING,
          WALKING,
          POSING
@@ -88,28 +86,13 @@ public class Constants {
       public static final float SHIP_HITBOX_WIDTH = 50f;
       public static final float SHIP_HITBOX_HEIGHT = 50f;
 
-      public static class TypeConstants {
-         // Projectile types
-         public static final int PLAYER_PROJECTILE = 0;
-         public static final int DRONE_PROJECTILE = 1;
-         public static final int OCTA_PROJECTILE = 2;
-         public static final int BOMB_PROJECTILE = 3;
-         public static final int REAPER_PROJECTILE = 4;
-         public static final int FLAME_PROJECTILE = 5;
-         public static final int BOSS_PROJECTILE1 = 6;
-      }
-
       public static class SpriteSizes {
          public static final int SHIP_SPRITE_WIDTH = 30;
          public static final int SHIP_SPRITE_HEIGHT = 30;
-         public static final int SHIP_FLAMESPRITE_WIDTH = 15;
-         public static final int SHIP_FLAMESPRITE_HEIGHT = 15;
          public static final int PRJT_HIT_SPRITE_SIZE = 15;
          public static final int PLAYER_PRJT_SPRITE_W = 15;
          public static final int PLAYER_PRJT_SPRITE_H = 25;
          public static final int BOMB_PRJT_SPRITE_SIZE = 25;
-         public static final int DRONE_PRJT_SPRITE_SIZE = 37;
-         public static final int OCTADRONE_PRJT_SPRITE_SIZE = 28;
          public static final int REAPERDRONE_PRJT_SPRITE_W = 114;
          public static final int REAPERDRONE_PRJT_SPRITE_H = 17;
          public static final int FLAME_PRJT_SPRITE_W = 150;
@@ -117,7 +100,6 @@ public class Constants {
          public static final int EXPLOSION_SPRITE_SIZE = 40;
          public static final int BOMBEXPLOSION_SPRITE_WIDTH = 300;
          public static final int BOMBEXPLOSION_SPRITE_HEIGHT = 250;
-         public static final int SMALL_SPRITES_SIZE = 30;
       }
 
       public static class PlaneAction {

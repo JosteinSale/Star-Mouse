@@ -6,7 +6,7 @@ import entities.boss_mode.AnimatedComponent;
 import entities.boss_mode.AnimatedComponentFactory;
 import entities.boss_mode.PlayerBoss;
 import projectiles.ProjectileHandler2;
-import static utils.Constants.Flying.TypeConstants.BOSS_PROJECTILE1;
+import static projectiles.ProjectileFactory.TypeConstants.BOSS_PROJECTILE1;
 
 /**
  * Shoots a single projectiles directed at the player.

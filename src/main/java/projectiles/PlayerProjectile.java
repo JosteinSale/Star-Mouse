@@ -1,6 +1,6 @@
 package projectiles;
 
-import static utils.Constants.Flying.TypeConstants.PLAYER_PROJECTILE;
+import static projectiles.ProjectileFactory.TypeConstants.PLAYER_PROJECTILE;
 
 import java.awt.geom.Rectangle2D;
 

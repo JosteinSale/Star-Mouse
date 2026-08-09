@@ -1,6 +1,5 @@
 package projectiles;
 
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import audio.AudioPlayer;
@@ -11,9 +10,8 @@ import entities.boss_mode.PlayerBoss;
 import entities.flying.enemies.EnemyManager;
 import main_classes.Game;
 
-import static utils.Constants.Flying.TypeConstants.BOMB_PROJECTILE;
-import static utils.Constants.Flying.TypeConstants.BOSS_PROJECTILE1;
-import static utils.Constants.Flying.TypeConstants.PLAYER_PROJECTILE;
+import static projectiles.ProjectileFactory.TypeConstants.BOMB_PROJECTILE;
+import static projectiles.ProjectileFactory.TypeConstants.PLAYER_PROJECTILE;
 import static utils.HelpMethods.IsSolid;
 import static utils.Constants.Audio;
 
@@ -51,11 +49,7 @@ public class ProjectileHandler2 extends ProjectileHandler {
    }
 
    public void addBossProjectile(int type, float xPos, float yPos, float xSpeed, float ySpeed) {
-      switch (type) {
-         case BOSS_PROJECTILE1:
-            Rectangle2D.Float hitbox = new Rectangle2D.Float(xPos, yPos, 70, 70);
-            allProjectiles.add(projectileFactory.createBossProjectile(hitbox, xSpeed, ySpeed));
-      }
+      allProjectiles.add(projectileFactory.createBossProjectile(type, xPos, yPos, xSpeed, ySpeed));
    }
 
    @Override

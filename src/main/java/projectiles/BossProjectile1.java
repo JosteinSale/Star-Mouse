@@ -2,7 +2,7 @@ package projectiles;
 
 import java.awt.geom.Rectangle2D.Float;
 
-import static utils.Constants.Flying.TypeConstants.BOSS_PROJECTILE1;
+import static projectiles.ProjectileFactory.TypeConstants.BOSS_PROJECTILE1;
 
 /**
  * The bossProjectile differs from a regular projectile in that it

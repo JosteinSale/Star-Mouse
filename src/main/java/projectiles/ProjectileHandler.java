@@ -15,11 +15,8 @@ import utils.Constants.Audio;
 import utils.Singleton;
 import inputs.Inputs;
 
-import static utils.Constants.Flying.SpriteSizes.*;
-import static utils.Constants.Flying.TypeConstants.BOMB_PROJECTILE;
-import static utils.Constants.Flying.TypeConstants.DRONE_PROJECTILE;
+import static projectiles.ProjectileFactory.TypeConstants.BOMB_PROJECTILE;
 import static utils.HelpMethods.IsSolid;
-import static utils.Constants.Audio;
 
 public class ProjectileHandler extends Singleton {
    protected Game game;
@@ -76,39 +73,30 @@ public class ProjectileHandler extends Singleton {
       if (Inputs.interactIsPressed && lazerShootTick == 0) {
          player.onLazerShoot();
          lazerShootTick = lazerShootBuffer;
-         this.addPlayerProjectile(player.getHitbox().x, player.getHitbox().y);
+         this.addPlayerProjectile(player.getHitbox());
          audioPlayer.playSFX(Audio.SFX_LAZER);
       }
       if (Inputs.bombIsPressed && bombShootTick == 0 && nrOfBombs > 0) {
          nrOfBombs--;
          audioPlayer.playSFX(Audio.SFX_BOMBSHOOT);
          bombShootTick = bombShootBuffer;
-         this.addBombProjectile(player.getHitbox().x, player.getHitbox().y);
+         this.addBombProjectile(player.getHitbox());
          this.player.setBombs(nrOfBombs);
       }
    }
 
    /**
     * Adds two player projectiles, one each in front of the ship's cannons
+    * @param hitbox The player's hitbox, used to determine where the projectiles should spawn
     */
-   protected void addPlayerProjectile(float xPos, float yPos) {
-      Rectangle2D.Float hitbox1 = new Rectangle2D.Float(
-            xPos - 8, yPos - 30, PLAYER_PRJT_SPRITE_W, PLAYER_PRJT_SPRITE_H);
-      Rectangle2D.Float hitbox2 = new Rectangle2D.Float(
-            xPos + 43, yPos - 30, PLAYER_PRJT_SPRITE_W, PLAYER_PRJT_SPRITE_H);
-      this.allProjectiles.add(
-            projectileFactory.createPlayerProjectile(hitbox1, powerUp, game.getProgressValues().getLazerDmg()));
-      this.allProjectiles.add(
-            projectileFactory.createPlayerProjectile(hitbox2, powerUp, game.getProgressValues().getLazerDmg()));
+   protected void addPlayerProjectile(Rectangle2D.Float hitbox) {
+      allProjectiles.addAll(projectileFactory.createPlayerProjectile(
+              hitbox, powerUp,
+              game.getProgressValues().getLazerDmg()));
    }
 
-   protected void addBombProjectile(float xPos, float yPos) {
-      Rectangle2D.Float hitbox = new Rectangle2D.Float(
-            xPos + player.getHitbox().width / 2 - BOMB_PRJT_SPRITE_SIZE / 2,
-            yPos - 50,
-            BOMB_PRJT_SPRITE_SIZE,
-            BOMB_PRJT_SPRITE_SIZE);
-      this.allProjectiles.add(projectileFactory.createBombProjectile(hitbox));
+   protected void addBombProjectile(Rectangle2D.Float hitbox) {
+      allProjectiles.add(projectileFactory.createBombProjectile(hitbox));
    }
 
    private void checkEnemeyShoot() {
@@ -121,7 +109,7 @@ public class ProjectileHandler extends Singleton {
    }
 
    private void addEnemeyProjectile(int type, Rectangle2D.Float hitbox, int dir) {
-      this.allProjectiles.addAll(projectileFactory.createEnemyProjectiles(type, hitbox, dir, fgSpeed));
+      this.allProjectiles.addAll(projectileFactory.createProjectilesForEnemy(type, hitbox, dir, fgSpeed));
    }
 
    protected void updatePlayerShootTick() {
@@ -370,17 +358,8 @@ public class ProjectileHandler extends Singleton {
       bombShootTick = 0;
    }
 
-   /* This could be done better */
    public void addCustomProjectile(AddProjectileEvent evt) {
-      switch (evt.type()) {
-         case DRONE_PROJECTILE:
-            Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
-                  evt.xPos(), evt.yPos(), 32, 33);
-            this.allProjectiles.add(projectileFactory.createDroneProjectile(prjctHitbox, evt.xSpeed(), evt.ySpeed()));
-            break;
-         default:
-            throw new IllegalArgumentException("Projectile type " + evt.type() + " is not supported yet.");
-      }
+      this.allProjectiles.add(projectileFactory.createCustomDroneProjectile(evt.xPos(), evt.yPos(), evt.ySpeed(), evt.ySpeed()));
    }
 
    public List<Rectangle2D.Float> getAllHitboxes() {

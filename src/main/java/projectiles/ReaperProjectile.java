@@ -1,6 +1,6 @@
 package projectiles;
 
-import static utils.Constants.Flying.TypeConstants.REAPER_PROJECTILE;
+import static projectiles.ProjectileFactory.TypeConstants.REAPER_PROJECTILE;
 
 import java.awt.geom.Rectangle2D;
 
