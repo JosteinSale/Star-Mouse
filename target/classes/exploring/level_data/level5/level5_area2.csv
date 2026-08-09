@@ -1,6 +1,0 @@
-ambience;ambience_cave
-song;none;false
-player;1460f;680f;45f;18f;up
-portal;1320f;730f;300f;30f;1;up;backToShip
-door;2571f;570f;162f;39f;0;churchDoor;3;down
-automaticTrigger;672f;573f;24f;114f;maxCries
