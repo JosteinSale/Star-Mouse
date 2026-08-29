@@ -1,9 +1,8 @@
 package entities.boss_mode;
 
-import java.awt.Point;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D;
 
-import com.badlogic.gdx.math.Polygon;
+import entities.MyRectangle;
 
 /**
  * An interface that represents a default BossPart. It has methods for updating
@@ -36,13 +35,8 @@ public interface IBossPart {
    public void setPosition(int centerX, int centerY, Double rotation);
 
    /** Returns true if the point is inside the bossPart */
-   public boolean containsPoint(Point p);
+   public boolean containsPoint(Point2D p);
 
-   /** Returns true if the rectangle intersects the bossPart */
-   public boolean intersectsRect(Rectangle2D.Float hb);
-
-   /** OBS: Only use to get hitbox-dimensions, or centerX / centerY */
-   public Rectangle2D.Float getNonRotatedHitbox();
 
    /**
     * If the bossPart can't currently be collided with, it should be set to false.
@@ -146,5 +140,5 @@ public interface IBossPart {
     */
    public void finishAttack();
 
-   public Polygon getRotatedHitbox();
+   public MyRectangle getHitbox();
 }

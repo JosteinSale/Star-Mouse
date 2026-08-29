@@ -1,10 +1,12 @@
 package utils;
 
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Color;
 
+import entities.CollisionPixels;
 import entities.MyCollisionImage;
 import rendering.MyImage;
 import rendering.MySubImage;
@@ -34,26 +36,29 @@ public class HelpMethods {
       }
    }
 
+   public static int GetPixelThatCollides(CollisionPixels collisionPixels, MyCollisionImage clImg, float xLevelOffset, float yLevelOffset) {
+      Point2D[] pixels = collisionPixels.get();
+      for (int i = 0; i < pixels.length; i++) {
+         if (IsSolid(
+                 (int) ((pixels[i].getX() - xLevelOffset) / 3f),
+                 (int) ((pixels[i].getY() - yLevelOffset) / 3f),
+                 clImg)) {
+            return i;
+         }
+      }
+      return -1;
+   }
+
    /**
-    * Checks the four corners of the hitbox,
+    * Checks all pixels in the given CollisionPixels,
     * and returns true if any of them touches something solid.
-    * Note: the coordinates of the hitbox are divided by 3, to match the scale of
+    * Note: the coordinates of the square are divided by 3, to match the scale of
     * the collision image.
     */
-   public static boolean CollidesWithMap(Rectangle2D.Float hitbox, MyCollisionImage collisionImg) {
-      float newX1 = (hitbox.x) / 3;
-      float newY1 = (hitbox.y) / 3;
-      float newX2 = (hitbox.x + hitbox.width) / 3;
-      float newY2 = (hitbox.y + hitbox.height) / 3;
-
-      if (!IsSolid((int) newX1, (int) newY1, collisionImg) &&
-            !IsSolid((int) newX2, (int) newY1, collisionImg) &&
-            !IsSolid((int) newX1, (int) newY2, collisionImg) &&
-            !IsSolid((int) newX2, (int) newY2, collisionImg)) {
-         return false;
-      } else {
-         return true;
-      }
+   public static boolean CollidesWithMap(
+           CollisionPixels collisionPixels, MyCollisionImage clImg,
+           float xLevelOffset, float yLevelOffset) {
+      return GetPixelThatCollides(collisionPixels, clImg, xLevelOffset, yLevelOffset) > -1;
    }
 
    public static boolean CollidesWithNpc(Rectangle2D.Float playerHitbox, ArrayList<Rectangle2D.Float> npcHitboxes) {
@@ -70,7 +75,7 @@ public class HelpMethods {
     * given line length limit. Then returns them as a list.
     * 
     * @param text
-    * @param lineLimit
+    * @param lineLengthLimit
     * @return
     */
    public static ArrayList<String> ChopStringIntoLines(String text, int lineLengthLimit) {

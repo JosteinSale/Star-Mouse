@@ -252,7 +252,7 @@ public class BossMode extends State {
    public void killPlayer() {
       gameOver = true;
       player.setVisible(false);
-      gameoverOverlay.setPlayerPos(player.getHitbox().x, player.getHitbox().y);
+      gameoverOverlay.setPlayerPos(player.x(), player.y());
       game.getAudioPlayer().stopAllLoops();
       game.getAudioPlayer().playSFX(Audio.SFX_DEATH);
    }
@@ -309,7 +309,7 @@ public class BossMode extends State {
 
    public ArrayList<Rectangle2D.Float> getAllNonRotatedHitboxes() {
       ArrayList<Rectangle2D.Float> allHitboxes = new ArrayList<>();
-      allHitboxes.add(player.getHitbox());
+      allHitboxes.add(player.getHitboxAsFloat());
       for (PickupItem p : pickupItems) {
          if (p.isActive()) {
             allHitboxes.add(p.getHitbox());
@@ -323,7 +323,7 @@ public class BossMode extends State {
 
    public ArrayList<Polygon> getAllRotatedHitboxes() {
       ArrayList<Polygon> allHitboxes = new ArrayList<>();
-      getBoss().getBossParts().forEach(part -> allHitboxes.add(part.getRotatedHitbox()));
+      getBoss().getBossParts().forEach(part -> allHitboxes.add(part.getHitbox().getPolygon()));
       return allHitboxes;
    }
 

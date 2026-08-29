@@ -21,7 +21,7 @@ public class Lurker extends BaseEnemy {
       animation.setAniTickPerFrame(6);
       animation.setAmountOfFrames(3);
       lurkerPos = new Point2D.Float(hitbox.x, hitbox.y);
-      playerPos = new Point2D.Float(player.hitbox.x, player.hitbox.y);
+      playerPos = new Point2D.Float(player.x(), player.y());
    }
 
    @Override
@@ -80,7 +80,7 @@ public class Lurker extends BaseEnemy {
    }
 
    private void updatePoint2Ds() {
-      playerPos.setLocation(player.hitbox.x, player.hitbox.y);
+      playerPos.setLocation(player.x(), player.y());
       lurkerPos.setLocation(hitbox.x, hitbox.y);
    }
 

@@ -35,7 +35,7 @@ public class MapManager2 {
    }
 
    private int clImgResetPos() {
-      return Game.GAME_DEFAULT_HEIGHT - clImgHeight + COLLISION_MAP_Y_OFFSET;
+      return Game.GAME_DEFAULT_HEIGHT - clImgHeight - COLLISION_MAP_Y_OFFSET;
    }
 
    private int bgImgResetPos() {

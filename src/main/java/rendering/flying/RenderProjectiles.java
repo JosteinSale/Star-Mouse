@@ -156,16 +156,19 @@ public class RenderProjectiles {
 
    private void drawProjectile(Projectile p, SpriteBatch sb, ProjectileDrawInfo info) {
       // Projectile
-      DrawUtils.drawImage(
-            sb, info.img,
-            (int) (p.getHitbox().x - info.drawOffsetX),
-            (int) (p.getHitbox().y - info.drawOffsetY),
-            info.width, info.height);
+      int x = (int) (p.getHitbox().x() - info.drawOffsetX);
+      int y = (int) (p.getHitbox().y() - info.drawOffsetY);
+      if (p.getRotation() == 0.0) {
+         DrawUtils.drawImage(sb, info.img, x, y, info.width, info.height);
+      } else {
+         // Note: the glow below is not rotated with the sprite - acceptable, glows are round.
+         DrawUtils.drawRotatedImage(sb, info.img, x, y, info.width, info.height, p.getRotation());
+      }
       // Glow
       if (info.glow != null) {
          info.glow.setPos(
-               p.getHitbox().x - info.glowDrawOffsetX,
-               p.getHitbox().y - info.glowDrawOffsetY);
+               p.getHitbox().x() - info.glowDrawOffsetX,
+               p.getHitbox().y() - info.glowDrawOffsetY);
          renderGlow.drawStaticGlow(sb, info.glow);
       }
 

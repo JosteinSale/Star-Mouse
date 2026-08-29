@@ -86,6 +86,26 @@ public class DrawUtils {
       batch.setColor(Color.WHITE);
    }
 
+   /**
+    * Draws img rotated around the center of the given x/y/width/height box.
+    * Unlike the MySubImage overload below (which centers on a hitbox and
+    * always scales by x3, for boss parts), this takes explicit dimensions so
+    * callers with their own per-type width/height/offsets (e.g. projectiles)
+    * can reuse their existing draw geometry unchanged when rotation is 0.
+    */
+   public static void drawRotatedImage(SpriteBatch batch, MyImage img, int x, int y, int width, int height,
+         double rotation) {
+      Texture texture = img.getTexture();
+      batch.draw(texture,
+            x, y,
+            width / 2f, height / 2f,
+            width, height,
+            1f, -1f,
+            (float) (MathUtils.radiansToDegrees * rotation),
+            0, 0, texture.getWidth(), texture.getHeight(),
+            false, false);
+   }
+
    public static void drawRotatedImage(SpriteBatch batch, Rectangle2D.Float hitbox,
          int dir, double rotation, MySubImage img) {
       float width = img.getWidth() * 3;

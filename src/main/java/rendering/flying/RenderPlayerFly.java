@@ -97,7 +97,7 @@ public class RenderPlayerFly implements Render {
          // Flame
          if (!Inputs.downIsPressed) {
             rGlow.drawStaticGlow(sb, player.flameGlow);
-            drawFlame(sb, player.hitbox.x + 3f, player.hitbox.y + player.hitbox.height);
+            drawFlame(sb, player.x() + 3f, player.y() + player.height());
          }
 
          // Player
@@ -109,7 +109,7 @@ public class RenderPlayerFly implements Render {
          }
          DrawUtils.drawSubImage(
                sb, animations[actionIndex][player.aniIndex],
-               (int) (player.hitbox.x - 20), (int) (player.hitbox.y - 20),
+               (int) (player.x() - 20), (int) (player.y() - 20),
                SHIP_SPRITE_WIDTH * 3, SHIP_SPRITE_HEIGHT * 3);
 
          // Glows from shooting
@@ -181,8 +181,8 @@ public class RenderPlayerFly implements Render {
    private void drawShadow(SpriteBatch sb, int teleportDistance) {
       DrawUtils.drawImage(
             sb, tpShadowImg,
-            (int) (player.hitbox.x - 20 - teleportDistance),
-            (int) (player.hitbox.y - 20),
+            (int) (player.x() - 20 - teleportDistance),
+            (int) (player.y() - 20),
             SHIP_SPRITE_WIDTH * 3,
             SHIP_SPRITE_HEIGHT * 3);
    }

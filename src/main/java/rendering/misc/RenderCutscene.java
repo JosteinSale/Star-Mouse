@@ -151,12 +151,12 @@ public class RenderCutscene extends Singleton implements Render {
             // Ship
             DrawUtils.drawImage(
                   sb, shipImg,
-                  (int) (ship.hitbox.x - 20), (int) (ship.hitbox.y - 20),
+                  (int) (ship.hitbox.x() - 20), (int) (ship.hitbox.y() - 20),
                   SHIP_SPRITE_WIDTH * 3, SHIP_SPRITE_HEIGHT * 3);
             // Ship flame
             DrawUtils.drawSubImage(
                   sb, flameAnimations[ship.flame.aniIndex],
-                  (int) (ship.hitbox.x + 3.5f), (int) (ship.hitbox.y + ship.height),
+                  (int) (ship.hitbox.x() + 3.5f), (int) (ship.hitbox.y() + ship.height),
                   45, 45);
             // Ship smoke
             RenderPlayerFly.drawShipSmoke(sb, ship.smoke, shipSmokeImg);

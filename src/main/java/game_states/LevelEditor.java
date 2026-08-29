@@ -114,7 +114,7 @@ public class LevelEditor extends State {
       clImgHeight = FlyLevelInfo.getClImgHeight(lvl) * 3;
       clImgWidth = COLLISION_MAP_WIDTH;
       clImgY = setClImgY();
-      clImgX = -COLLISION_MAP_X_OFFSET;
+      clImgX = COLLISION_MAP_X_OFFSET;
    }
 
    public int getEditorY() {
@@ -122,7 +122,7 @@ public class LevelEditor extends State {
    }
 
    private int setClImgY() {
-      return -clImgHeight + COLLISION_MAP_Y_OFFSET + getEditorY() + Game.GAME_DEFAULT_HEIGHT;
+      return getEditorY() + Game.GAME_DEFAULT_HEIGHT - clImgHeight - COLLISION_MAP_Y_OFFSET;
    }
 
    private void loadLevelData(Integer level) {

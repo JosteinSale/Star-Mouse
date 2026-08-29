@@ -9,10 +9,10 @@ import entities.boss_mode.IBossPart;
 import entities.boss_mode.PlayerBoss;
 import entities.flying.enemies.EnemyManager;
 import main_classes.Game;
+import utils.HelpMethods;
 
 import static projectiles.ProjectileFactory.TypeConstants.BOMB_PROJECTILE;
 import static projectiles.ProjectileFactory.TypeConstants.PLAYER_PROJECTILE;
-import static utils.HelpMethods.IsSolid;
 import static utils.Constants.Audio;
 
 /**
@@ -83,24 +83,21 @@ public class ProjectileHandler2 extends ProjectileHandler {
 
    private void checkPlayerProjectileCollision(Projectile p, float bossYoffset, float bossXoffset) {
       if (p.isActive()) {
-         // 1. Checks collision with boss main Body : clImg
-         p.updateCollisionPixels();
-         for (int[] cor : p.getCollisionPixels()) {
-            int xPos = cor[0] + (int) (bossXoffset / 3);
-            int yPos = cor[1] - (int) (bossYoffset / 3);
-            if (IsSolid(xPos, yPos, clImg)) {
-               this.onMapCollision(p);
-               break;
-            }
+         if (HelpMethods.CollidesWithMap(p.getCollisionPixels(), clImg, bossXoffset, bossYoffset)) {
+            this.onMapCollision(p);
          }
          // 2. Checks collision with bossParts
          for (IBossPart bp : bossParts) {
-            if (bp.stopsProjectiles() && bp.intersectsRect(p.getHitbox())) {
+            if (bp.stopsProjectiles() && projectileIntersectsBossPart(p, bp)) {
                this.onBossCollision(p, bp);
                break;
             }
          }
       }
+   }
+
+   private boolean projectileIntersectsBossPart(Projectile p, IBossPart bp) {
+      return p.intersects(bp.getHitbox());
    }
 
    private void onBossCollision(Projectile p, IBossPart bp) {
@@ -131,7 +128,7 @@ public class ProjectileHandler2 extends ProjectileHandler {
       if (!p.isActive()) {
          return;
       }
-      if (p.getHitbox().intersects(player.getHitbox())) {
+      if (p.intersects(player.getHitbox())) {
          p.setActive(false);
          player.takeShootDamage(p.getDamage());
          audioPlayer.playSFX(Audio.SFX_HURT);

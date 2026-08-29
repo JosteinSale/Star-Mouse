@@ -1,11 +1,11 @@
 package entities.flying;
 
-import java.awt.geom.Rectangle2D;
+import entities.MyRectangle;
 
 /** An interface for a player that can interact with a ProjectileHandler */
 public interface ShootingPlayer {
 
-   public Rectangle2D.Float getHitbox();
+   public MyRectangle getHitbox();
 
    public void setBombs(int nrOfBombs);
 

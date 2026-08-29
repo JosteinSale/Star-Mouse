@@ -22,12 +22,12 @@ public class MapManager1 {
 
    public void adjustOffsets(PlayerExp player) {
       xLevelOffset = getOffset(
-            (int) player.getHitbox().x,
+            (int) player.x(),
             xLevelOffset,
             xBorder,
             maxLvlOffsetX);
       yLevelOffset = getOffset(
-            (int) player.getHitbox().y,
+            (int) player.y(),
             yLevelOffset,
             yBorder,
             maxLvlOffsetY);

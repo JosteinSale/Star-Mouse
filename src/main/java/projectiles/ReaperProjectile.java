@@ -1,13 +1,15 @@
 package projectiles;
 
-import static projectiles.ProjectileFactory.TypeConstants.REAPER_PROJECTILE;
+import entities.CollisionPixels;
+import entities.Dimensions;
 
-import java.awt.geom.Rectangle2D;
+import static projectiles.ProjectileFactory.TypeConstants.REAPER_PROJECTILE;
+import static entities.CollisionPixels.CollisionAt;
 
 public class ReaperProjectile extends BaseProjectile {
 
-   public ReaperProjectile(Rectangle2D.Float hitbox) {
-      super(hitbox, REAPER_PROJECTILE, 10, 0, 8);
-      collisionPixels = new int[1][2];
+   public ReaperProjectile(Dimensions dimensions) {
+      super(dimensions, REAPER_PROJECTILE, 10, 0, 8);
+      this.collisionPixels = new CollisionPixels(this, CollisionAt.BOTTOM_CENTER);
    }
 }

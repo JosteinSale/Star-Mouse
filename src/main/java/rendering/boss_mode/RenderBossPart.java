@@ -30,7 +30,7 @@ public class RenderBossPart {
          int aniRow = bp.animation.getCurrentAniRow();
          int aniIndex = bp.animation.aniIndex;
          MySubImage img = animation[aniRow][aniIndex];
-         DrawUtils.drawRotatedImage(sb, bp.getNonRotatedHitbox(), 1, bp.rotation, img);
+         DrawUtils.drawRotatedImage(sb, bp.getHitboxAsFloat(), 1, bp.getRotationRadians(), img);
       }
    }
 }

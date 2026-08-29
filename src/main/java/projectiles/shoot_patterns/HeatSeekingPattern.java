@@ -44,8 +44,8 @@ public class HeatSeekingPattern extends DefaultShootPattern {
 
    private Point.Float getShootVector() {
       // Calculate the direction vector of the line
-      double dx = player.getHitbox().getCenterX() - gunPoint.getX();
-      double dy = player.getHitbox().getCenterY() - gunPoint.getY();
+      double dx = player.getHitbox().centerX() - gunPoint.getX();
+      double dy = player.getHitbox().centerY() - gunPoint.getY();
 
       // Calculate the length of the line
       double lineLength = Math.sqrt(dx * dx + dy * dy);

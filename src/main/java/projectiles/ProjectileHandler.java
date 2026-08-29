@@ -7,28 +7,29 @@ import java.util.List;
 import audio.AudioPlayer;
 import cutscenes.events.AddProjectileEvent;
 import entities.MyCollisionImage;
+import entities.MyRectangle;
 import entities.flying.ShootingPlayer;
 import entities.flying.enemies.Enemy;
 import entities.flying.enemies.EnemyManager;
 import main_classes.Game;
 import utils.Constants.Audio;
+import utils.HelpMethods;
 import utils.Singleton;
 import inputs.Inputs;
 
 import static projectiles.ProjectileFactory.TypeConstants.BOMB_PROJECTILE;
-import static utils.HelpMethods.IsSolid;
 
 public class ProjectileHandler extends Singleton {
    protected Game game;
    protected AudioPlayer audioPlayer;
    protected ShootingPlayer player;
    protected EnemyManager enemyManager;
-   protected ProjectileFactory projectileFactory = new ProjectileFactory();
+   protected ProjectileFactory projectileFactory;
    public ArrayList<Projectile> allProjectiles; // projectiles on screen
    protected ArrayList<Integer> projectilesToRemove;
    public ArrayList<ProjectileHit> projectileHits;
    public ArrayList<BombExplosion> bombExplosions;
-   protected Rectangle2D.Float screenBox;
+   protected MyRectangle screenBox;
 
    protected MyCollisionImage clImg;
 
@@ -50,11 +51,12 @@ public class ProjectileHandler extends Singleton {
       this.audioPlayer = audioPlayer;
       this.player = player;
       this.enemyManager = enemyManager;
+      this.projectileFactory = new ProjectileFactory();
       this.allProjectiles = new ArrayList<>();
       this.projectilesToRemove = new ArrayList<>();
       this.projectileHits = new ArrayList<>();
       this.bombExplosions = new ArrayList<>();
-      this.screenBox = new Rectangle2D.Float(0, 0, Game.GAME_DEFAULT_WIDTH, Game.GAME_DEFAULT_HEIGHT);
+      this.screenBox = new MyRectangle(0, 0, Game.GAME_DEFAULT_WIDTH, Game.GAME_DEFAULT_HEIGHT);
    }
 
    public void update(float yLevelOffset, float xLevelOffset, float fgCurSpeed) {
@@ -87,16 +89,16 @@ public class ProjectileHandler extends Singleton {
 
    /**
     * Adds two player projectiles, one each in front of the ship's cannons
-    * @param hitbox The player's hitbox, used to determine where the projectiles should spawn
+    * @param playerHitbox The player's hitbox, used to determine where the projectiles should spawn
     */
-   protected void addPlayerProjectile(Rectangle2D.Float hitbox) {
+   protected void addPlayerProjectile(MyRectangle playerHitbox) {
       allProjectiles.addAll(projectileFactory.createPlayerProjectile(
-              hitbox, powerUp,
+              playerHitbox, powerUp,
               game.getProgressValues().getLazerDmg()));
    }
 
-   protected void addBombProjectile(Rectangle2D.Float hitbox) {
-      allProjectiles.add(projectileFactory.createBombProjectile(hitbox));
+   protected void addBombProjectile(MyRectangle playerHitbox) {
+      allProjectiles.add(projectileFactory.createBombProjectile(playerHitbox));
    }
 
    private void checkEnemeyShoot() {
@@ -125,8 +127,7 @@ public class ProjectileHandler extends Singleton {
 
    protected void moveProjectiles() {
       for (Projectile p : allProjectiles) {
-         p.getHitbox().x += p.getXSpeed();
-         p.getHitbox().y += p.getYSpeed();
+         p.getHitbox().move(p.getXSpeed(), p.getYSpeed());
          p.updateCollisionPixels();
       }
    }
@@ -135,7 +136,7 @@ public class ProjectileHandler extends Singleton {
       projectilesToRemove.clear();
       int index = 0;
       for (Projectile p : allProjectiles) {
-         if (!p.getHitbox().intersects(screenBox)) {
+         if (!p.intersects(screenBox)) {
             projectilesToRemove.add(index);
          }
          index += 1;
@@ -179,17 +180,11 @@ public class ProjectileHandler extends Singleton {
     * Handles any potential collision between a single projectile and the map,
     * and returns true if a collision was registered.
     */
-   private boolean handleProjectileCollisionWithMap(Projectile p, float yLevelOffset, float xLevelOffset) {
-      for (int[] cor : p.getCollisionPixels()) {
-         int xPos = cor[0] + (int) (xLevelOffset / 3);
-         int yPos = cor[1] - (int) (yLevelOffset / 3);
-         if (IsSolid(xPos, yPos, clImg)) {
-            p.setActive(false);
-            projectileHits.add(ProjectileHit.GetNewProjectilHitForEnemyOrMap(p));
-            return true;
-         }
+   private void handleProjectileCollisionWithMap(Projectile p, float yLevelOffset, float xLevelOffset) {
+      if (HelpMethods.CollidesWithMap(p.getCollisionPixels(), clImg, xLevelOffset, yLevelOffset)) {
+         p.setActive(false);
+         projectileHits.add(ProjectileHit.GetNewProjectilHitForEnemyOrMap(p));
       }
-      return false;
    }
 
    /**
@@ -197,7 +192,7 @@ public class ProjectileHandler extends Singleton {
     * and returns true if a collision was registered.
     */
    private boolean handleProjectileCollisionWithPlayer(Projectile p) {
-      if (p.getHitbox().intersects(player.getHitbox())) {
+      if (p.intersects(player.getHitbox())) {
          p.setActive(false);
          player.takeShootDamage(p.getDamage());
          audioPlayer.playSFX(Audio.SFX_HURT);
@@ -250,20 +245,16 @@ public class ProjectileHandler extends Singleton {
          }
       }
       // 2. Checks collision with map
-      for (int[] cor : p.getCollisionPixels()) {
-         int xPos = cor[0] + (int) (xLevelOffset / 3);
-         int yPos = cor[1] - (int) (yLevelOffset / 3);
-         if (IsSolid(xPos, yPos, clImg)) {
-            p.setActive(false);
-            addBombExplosion(p.getHitbox());
-            audioPlayer.playSFX(Audio.SFX_BIG_EXPLOSION);
-            return;
-         }
+      if (HelpMethods.CollidesWithMap(p.getCollisionPixels(), clImg, xLevelOffset, yLevelOffset)) {
+         p.setActive(false);
+         addBombExplosion(p.getHitbox());
+         audioPlayer.playSFX(Audio.SFX_BIG_EXPLOSION);
+         return;
       }
    }
 
-   protected void addBombExplosion(Rectangle2D.Float prjctHb) {
-      bombExplosions.add(new BombExplosion((int) (prjctHb.x + 5), (int) (prjctHb.y + 5)));
+   protected void addBombExplosion(MyRectangle prjctHb) {
+      bombExplosions.add(new BombExplosion((int) (prjctHb.x() + 5), (int) (prjctHb.y() + 5)));
    }
 
    protected void updateBombExplosions(float fgSpeed) {
@@ -365,7 +356,7 @@ public class ProjectileHandler extends Singleton {
    public List<Rectangle2D.Float> getAllHitboxes() {
       List<Rectangle2D.Float> hitboxes = new ArrayList<>(allProjectiles.size());
       for (Projectile p : allProjectiles) {
-         hitboxes.add(p.getHitbox());
+         hitboxes.add(p.getHitbox().getHitboxAsFloat());
       }
       return hitboxes;
    }

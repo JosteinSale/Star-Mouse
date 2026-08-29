@@ -2,11 +2,11 @@ package entities.boss_mode;
 
 import java.awt.Point;
 
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Polygon;
+import entities.MyRectangle;
+
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Float;
+
 
 /**
  * A BossPart represents an animated part of a boss that can be rotated, moved
@@ -24,10 +24,7 @@ import java.awt.geom.Rectangle2D.Float;
  * well as the dimensions of the hitbox, but it's NOT used for collision
  * detection.
  */
-abstract public class DefaultBossPart implements IBossPart {
-   public Rectangle2D.Float nonRotatedHitbox;
-   protected Polygon rotatedHitbox; // Is used to check collision
-   public Double rotation = 0.0;
+abstract public class DefaultBossPart extends MyRectangle implements IBossPart {
    protected Boolean collisionEnabled = false;
    public boolean isVisible = false;
    public AnimatedComponent animation;
@@ -42,65 +39,25 @@ abstract public class DefaultBossPart implements IBossPart {
     * @param animation
     */
    public DefaultBossPart(Rectangle2D.Float hitbox, AnimatedComponent animation) {
-      this.nonRotatedHitbox = hitbox;
+      super(hitbox);
       this.animation = animation;
-      constructCollisionPolygon(hitbox);
-      updateCollisionArea();
-   }
-
-   private void constructCollisionPolygon(Float hitbox) {
-      float[] verts = {
-            0, 0,
-            hitbox.width, 0,
-            hitbox.width, hitbox.height,
-            0, hitbox.height
-      };
-      this.rotatedHitbox = new Polygon(verts);
    }
 
    @Override
    public void updatePosition(int deltaX, int deltaY, Double deltaR) {
-      this.rotation = (this.rotation + deltaR) % (Math.PI * 2);
-      this.nonRotatedHitbox.x += deltaX;
-      this.nonRotatedHitbox.y += deltaY;
-      updateCollisionArea();
+      this.move(deltaX, deltaY);
+      this.rotate(deltaR);
    }
 
    @Override
    public void setPosition(int centerX, int centerY, Double rotation) {
-      this.rotation = rotation;
-      this.nonRotatedHitbox.x = centerX - nonRotatedHitbox.width / 2;
-      this.nonRotatedHitbox.y = centerY - nonRotatedHitbox.height / 2;
-      updateCollisionArea();
-   }
-
-   private void updateCollisionArea() {
-      rotatedHitbox.setOrigin(nonRotatedHitbox.width / 2f, nonRotatedHitbox.height / 2f);
-      rotatedHitbox.setPosition(nonRotatedHitbox.x, nonRotatedHitbox.y);
-      rotatedHitbox.setRotation((float) (rotation * MathUtils.radiansToDegrees));
+      this.setPosition(centerX - hitboxWidth/2f, centerY - hitboxHeight/2f);
+      this.setRotation(rotation);
    }
 
    @Override
-   public boolean containsPoint(Point p) {
-      return rotatedHitbox.contains(p.x, p.y);
-   }
-
-   @Override
-   public boolean intersectsRect(Rectangle2D.Float hb) {
-      Polygon otherHitbox = new Polygon(new float[] {
-            0, 0,
-            hb.width, 0,
-            hb.width, hb.height,
-            0, hb.height
-      });
-      otherHitbox.setOrigin(hb.width / 2f, hb.height / 2f);
-      otherHitbox.setPosition(hb.x, hb.y);
-      return Intersector.overlapConvexPolygons(rotatedHitbox, otherHitbox);
-   }
-
-   @Override
-   public Rectangle2D.Float getNonRotatedHitbox() {
-      return this.nonRotatedHitbox;
+   public boolean containsPoint(Point2D p) {
+      return this.contains((float)p.getX(), (float)p.getY());
    }
 
    @Override
@@ -124,8 +81,8 @@ abstract public class DefaultBossPart implements IBossPart {
    }
 
    @Override
-   public Polygon getRotatedHitbox() {
-      return this.rotatedHitbox;
+   public MyRectangle getHitbox() {
+      return this;
    }
 
    @Override

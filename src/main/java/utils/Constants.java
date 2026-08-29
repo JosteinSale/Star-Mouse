@@ -78,8 +78,8 @@ public class Constants {
 
    public static class Flying {
       public static final int REPAIR_HEALTH = 50;
-      public static final int COLLISION_MAP_Y_OFFSET = 150;
-      public static final int COLLISION_MAP_X_OFFSET = 150;
+      public static final int COLLISION_MAP_Y_OFFSET = -150;
+      public static final int COLLISION_MAP_X_OFFSET = -150;
       public static final int COLLISION_MAP_WIDTH = 450 * 3;
       public static final float DEFAULT_FG_SPEED = 2f;
       public static final float SLOWED_DOWN_FG_SPEED = 0.7f;

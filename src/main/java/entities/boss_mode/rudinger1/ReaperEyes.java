@@ -51,8 +51,8 @@ public class ReaperEyes extends AnimatedComponent {
 
    private void lookAtPlayer() {
       // Calculate the direction vector of the line
-      double dx = player.getHitbox().getCenterX() - eyesCenter.getX();
-      double dy = player.getHitbox().getCenterY() - eyesCenter.getY();
+      double dx = player.centerX() - eyesCenter.getX();
+      double dy = player.centerY() - eyesCenter.getY();
 
       // Calculate the length of the line
       double lineLength = Math.sqrt(dx * dx + dy * dy);

@@ -1,5 +1,7 @@
 package utils;
 
+import entities.CollisionPixels;
+import entities.MyRectangle;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -85,26 +87,32 @@ public class HelpMethodsTest {
       int nonSolidColor = 0x64000000; // Red is 100 -> should not collide
 
       // Simulate that all pixels are non-solid -> should not collide
-      Rectangle2D.Float hitbox1 = new Rectangle2D.Float(
+      when(pixmap.getPixel(anyInt(), anyInt())).thenReturn(nonSolidColor);
+
+      // Construct something that can collide with the map
+      MyRectangle hitbox1 = new MyRectangle(
             30, 30, // will be divided by 3
             30, 30); // will be divided by 3
-      when(pixmap.getPixel(anyInt(), anyInt())).thenReturn(nonSolidColor);
-      assertFalse(HelpMethods.CollidesWithMap(hitbox1, imgMock));
+
+      CollisionPixels collisionPixels = new CollisionPixels(hitbox1, CollisionPixels.CollisionAt.ALL_FOUR_CORNERS);
+
+      assertFalse(HelpMethods.CollidesWithMap(collisionPixels, imgMock, 0, 0));
 
       // Simulate a collision with a solid pixel in the top left corner
       // Note that we divide the pixel coordinates by 3 to match the in-game scaling
       when(pixmap.getPixel(10, 10)).thenReturn(solidColor);
-      assertTrue(HelpMethods.CollidesWithMap(hitbox1, imgMock));
+      assertTrue(HelpMethods.CollidesWithMap(collisionPixels, imgMock, 0, 0));
 
       // Simulate a collision with a solid pixel in the down right corner
       when(pixmap.getPixel(anyInt(), anyInt())).thenReturn(nonSolidColor);
       when(pixmap.getPixel(20, 20)).thenReturn(solidColor);
-      assertTrue(HelpMethods.CollidesWithMap(hitbox1, imgMock));
+      assertTrue(HelpMethods.CollidesWithMap(collisionPixels, imgMock, 0, 0));
 
       // Trying to check a pixel outside of the image bounds should return false
-      Rectangle2D.Float hitbox2 = new Rectangle2D.Float(
+      MyRectangle hitbox2 = new MyRectangle(
             50, 50,
             50, 50); // The X2 and Y2 will be 100 (divided by 3 = 33) -> outside the bounds
-      assertFalse(HelpMethods.CollidesWithMap(hitbox2, imgMock));
+      CollisionPixels collisionPixels2 = new CollisionPixels(hitbox2, CollisionPixels.CollisionAt.ALL_FOUR_CORNERS);
+      assertFalse(HelpMethods.CollidesWithMap(collisionPixels2, imgMock, 0, 0));
    }
 }

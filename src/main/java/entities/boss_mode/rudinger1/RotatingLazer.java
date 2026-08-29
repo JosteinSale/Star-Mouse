@@ -91,8 +91,8 @@ public class RotatingLazer extends DefaultBossPart {
       this.isVisible = false;
       this.chargeTick = 0;
       this.setPosition( // Resets to start position
-            (int) nonRotatedHitbox.getCenterX(),
-            (int) nonRotatedHitbox.getCenterY(),
+            (int) getHitbox().centerX(),
+            (int) getHitbox().centerY(),
             initialRotation);
    }
 }

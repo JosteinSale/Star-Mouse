@@ -1,5 +1,7 @@
 package projectiles;
 
+import entities.MyRectangle;
+import entities.Dimensions;
 import entities.flying.enemies.Enemy;
 
 import java.awt.geom.Rectangle2D;
@@ -28,45 +30,49 @@ public class ProjectileFactory {
       public static final int BOSS_PROJECTILE1 = 6;
    }
 
-   public List<Projectile> createPlayerProjectile(Rectangle2D.Float playerHb, boolean powerUp, int lazerDmg) {
+   public List<Projectile> createPlayerProjectile(MyRectangle playerHb, boolean powerUp, int lazerDmg) {
       ArrayList<Projectile> projectiles = new ArrayList<>();
 
       // Left projectile
-      Rectangle2D.Float hitbox1 = new Rectangle2D.Float(
-              playerHb.x - 8, playerHb.y - 30, PLAYER_PRJT_SPRITE_W, PLAYER_PRJT_SPRITE_H);
+      Dimensions dim1 = new Dimensions(
+              playerHb.x() - 8,
+              playerHb.y() - 30,
+              PLAYER_PRJT_SPRITE_W,
+              PLAYER_PRJT_SPRITE_H);
+      projectiles.add(new PlayerProjectile(dim1, powerUp, lazerDmg));
 
       // Right projectile
-      Rectangle2D.Float hitbox2 = new Rectangle2D.Float(
-              playerHb.x + 43, playerHb.y - 30, PLAYER_PRJT_SPRITE_W, PLAYER_PRJT_SPRITE_H);
-
-      projectiles.add(new PlayerProjectile(hitbox1, powerUp, lazerDmg));
-      projectiles.add(new PlayerProjectile(hitbox2, powerUp, lazerDmg));
+      Dimensions dim2 = new Dimensions(
+               playerHb.x() + 43,
+               playerHb.y() - 30,
+               PLAYER_PRJT_SPRITE_W,
+               PLAYER_PRJT_SPRITE_H);
+      projectiles.add(new PlayerProjectile(dim2, powerUp, lazerDmg));
       return projectiles;
    }
 
-   public Projectile createBombProjectile(Rectangle2D.Float playerHb) {
-      Rectangle2D.Float projectileHb = new Rectangle2D.Float(
-              playerHb.x + playerHb.width / 2 - BOMB_PRJT_SPRITE_SIZE / 2,
-              playerHb.y - 50,
-              BOMB_PRJT_SPRITE_SIZE,
-              BOMB_PRJT_SPRITE_SIZE);
-      return new BombProjectile(projectileHb);
+   public Projectile createBombProjectile(MyRectangle playerHb) {
+      Dimensions dim = new Dimensions(
+               playerHb.x() + playerHb.width() / 2 - BOMB_PRJT_SPRITE_SIZE / 2,
+               playerHb.y() - 50,
+               BOMB_PRJT_SPRITE_SIZE,
+               BOMB_PRJT_SPRITE_SIZE);
+      return new BombProjectile(dim);
    }
 
    /**
     * Creates a DroneProjectile with the given projectile hitbox and custom speed.
     */
    public Projectile createCustomDroneProjectile(int xPos, int yPos, int xSpeed, int ySpeed) {
-      Rectangle2D.Float prjctHb = new Rectangle2D.Float(
-              xPos, yPos, 32, 33);
-      return new DroneProjectile(prjctHb, xSpeed, ySpeed);
+      Dimensions dim = new Dimensions(xPos, yPos, 32, 33);
+      return new DroneProjectile(dim, xSpeed, ySpeed);
    }
 
    public Projectile createBossProjectile(int type, float xPos, float yPos, float xSpeed, float ySpeed) {
       switch (type) {
          case BOSS_PROJECTILE1:
-            Rectangle2D.Float hitbox = new Rectangle2D.Float(xPos, yPos, 70, 70);
-            return new BossProjectile1(hitbox, xSpeed, ySpeed);
+            Dimensions dim = new Dimensions(xPos, yPos, 70, 70);
+            return new BossProjectile1(dim, xSpeed, ySpeed);
          default:
             throw new IllegalArgumentException("No boss projectile type defined for type: " + type);
       }
@@ -85,15 +91,15 @@ public class ProjectileFactory {
       switch (enemyType) {
 
          case DRONE:
-            Rectangle2D.Float hb = new Rectangle2D.Float(
+            Dimensions dim1 = new Dimensions(
                enemyHb.x + 25, enemyHb.y + 66, 32, 33);
-            projectiles.add(new DroneProjectile(hb, 0, 5));
+            projectiles.add(new DroneProjectile(dim1, 0, 5));
             break;
 
          case BLASTERDRONE:
-            Rectangle2D.Float hb2 = new Rectangle2D.Float(
+            Dimensions dim2 = new Dimensions(
                enemyHb.x + 15, enemyHb.y + 90, 32, 33);
-            projectiles.add(new DroneProjectile(hb2, 0, 5));
+            projectiles.add(new DroneProjectile(dim2, 0, 5));
             break;
 
          case OCTADRONE:
@@ -104,37 +110,37 @@ public class ProjectileFactory {
                double y = (Math.sin(angle) * radius) + enemyHb.y + enemyHb.height / 3;
                int xSpeed = (int) (Math.cos(angle) * 4);
                int ySpeed = (int) ((Math.sin(angle) * 4) + fgSpeed);
-               Rectangle2D.Float hb3 = new Rectangle2D.Float(
+               Dimensions dim3 = new Dimensions(
                   (float) x, (float) y, 25, 25);
-               projectiles.add(new OctaProjectile(hb3, xSpeed, ySpeed));
+               projectiles.add(new OctaProjectile(dim3, xSpeed, ySpeed));
             }
             break;
 
          case REAPERDRONE:
-            Rectangle2D.Float hb4 = new Rectangle2D.Float(
+            Dimensions dim4 = new Dimensions(
                     enemyHb.x + 85, enemyHb.y + 160, 300, 24);
-            projectiles.add(new ReaperProjectile(hb4));
+            projectiles.add(new ReaperProjectile(dim4));
             break;
 
          case FLAMEDRONE:
-            Rectangle2D.Float hb5 = new Rectangle2D.Float(
+            Dimensions dim5 = new Dimensions(
                     enemyHb.x - 130, enemyHb.y + 160, 378, 195);
-            projectiles.add(new FlameProjectile(hb5));
+            projectiles.add(new FlameProjectile(dim5));
             break;
 
          case WASPDRONE:
             if (dir == Enemy.RIGHT) {
                int xSpeed = 3;
                int ySpeed = 4;
-               Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
+               Dimensions dim = new Dimensions(
                      enemyHb.x + 75, enemyHb.y + 95, 28, 28);
-               projectiles.add(new OctaProjectile(prjctHitbox, xSpeed, ySpeed));
+               projectiles.add(new OctaProjectile(dim, xSpeed, ySpeed));
             } else {
                int xSpeed = -3;
                int ySpeed = 4;
-               Rectangle2D.Float prjctHitbox = new Rectangle2D.Float(
+               Dimensions dim = new Dimensions(
                      enemyHb.x + 5, enemyHb.y + 95, 28, 28);
-               projectiles.add(new OctaProjectile(prjctHitbox, xSpeed, ySpeed));
+               projectiles.add(new OctaProjectile(dim, xSpeed, ySpeed));
             }
       }
       return projectiles;

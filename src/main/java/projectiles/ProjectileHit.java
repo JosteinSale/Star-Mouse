@@ -53,15 +53,15 @@ public class ProjectileHit {
 
    public static ProjectileHit GetNewProjectilHitForEnemyOrMap(Projectile p) {
       return new ProjectileHit(
-            (int) p.getHitbox().x - 15,
-            (int) p.getHitbox().y + 5,
+            (int) p.getHitbox().x() - 15,
+            (int) p.getHitbox().y() + 5,
             SMALL_HIT);
    }
 
    public static ProjectileHit GetNewProjectilHitForPlayer(ShootingPlayer player) {
       return new ProjectileHit(
-            (int) player.getHitbox().x - 12,
-            (int) player.getHitbox().y + 15,
+            (int) player.getHitbox().x() - 12,
+            (int) player.getHitbox().y() + 15,
             BIG_HIT);
    }
 }

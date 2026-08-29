@@ -3,6 +3,7 @@ package entities.boss_mode;
 import static utils.Constants.Flying.PlaneAction.*;
 
 import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
 import java.util.ArrayList;
@@ -30,10 +31,10 @@ import utils.Constants.Audio;
  * the boss.
  */
 public class PlayerBoss extends PlayerFly {
-   private int noFlyZone = 350; // Player cannot fly above this point
+   private final int noFlyZone = 350; // Player cannot fly above this point
    private ArrayList<IBossPart> bossParts;
 
-   private int customIframes = 60; // The playerBoss should stay invincible for longer
+   private final int customIframes = 60; // The playerBoss should stay invincible for longer
    private int customIframeTick = 0;
 
    public PlayerBoss(Game game, Float hitbox) {
@@ -50,7 +51,6 @@ public class PlayerBoss extends PlayerFly {
       handleKeyboardInputs();
       handleKeyboardNotPressed();
       movePlayer();
-      updateCollisionPixels();
       checkBossInteraction();
       if (planeAction != prevAction) {
          aniIndex = 0;
@@ -73,24 +73,24 @@ public class PlayerBoss extends PlayerFly {
    /** Moves the player hitbox, and prevents it from going off screen */
    @Override
    protected void adjustPos(float deltaX, float deltaY) {
-      hitbox.x += deltaX;
-      hitbox.y += deltaY;
-      if (hitbox.x < edgeDist) {
-         hitbox.x = edgeDist;
+      move(deltaX, deltaY);
+      if (x() < edgeDist) {
+         setX(edgeDist);
          xSpeed = 0;
       }
-      if ((hitbox.x + hitbox.width + edgeDist) > Game.GAME_DEFAULT_WIDTH) {
-         hitbox.x = Game.GAME_DEFAULT_WIDTH - hitbox.width - edgeDist;
+      if ((x() + width() + edgeDist) > Game.GAME_DEFAULT_WIDTH) {
+         setX(Game.GAME_DEFAULT_WIDTH - width() - edgeDist);
          xSpeed = 0;
       }
-      if (hitbox.y < noFlyZone) {
-         hitbox.y = noFlyZone;
+      if (y() < noFlyZone) {
+         setY(noFlyZone);
          ySpeed = 0;
       }
-      if ((hitbox.y + hitbox.height + edgeDist) > Game.GAME_DEFAULT_HEIGHT) {
-         hitbox.y = Game.GAME_DEFAULT_HEIGHT - hitbox.height - edgeDist;
+      if ((y() + height() + edgeDist) > Game.GAME_DEFAULT_HEIGHT) {
+         setY(Game.GAME_DEFAULT_HEIGHT - height() - edgeDist);
          ySpeed = 0;
       }
+      collisionPixels.update();
       setGlowPositions();
    }
 
@@ -102,7 +102,7 @@ public class PlayerBoss extends PlayerFly {
    private void checkBossTeleportHit() {
       if (planeAction == TELEPORTING_LEFT || planeAction == TELEPORTING_RIGHT) {
          for (IBossPart bp : bossParts) {
-            if (bp.intersectsRect(teleportHitbox)) {
+            if (bp.getHitbox().intersects(teleportHitbox)) {
                bp.onTeleportHit();
             }
          }
@@ -131,12 +131,11 @@ public class PlayerBoss extends PlayerFly {
             continue;
          }
          for (int i = 0; i < 9; i++) {
-            Point point = new Point((int) collisionXs[i], (int) collisionYs[i]);
-            if (bp.containsPoint(point)) {
+            if (bp.containsPoint(this.collisionPixels.get()[i])) {
                this.takeCollisionDmg();
                audioPlayer.playSFX(Audio.SFX_COLLISION);
                pushInOppositeDirectionOf(i, pushDistance);
-               this.updateCollisionPixels();
+               collisionPixels.update();
                this.resetSpeed();
                bp.onPlayerCollision();
                return;
@@ -188,9 +187,9 @@ public class PlayerBoss extends PlayerFly {
       HP = maxHP;
       statusDisplay.setHP(this.HP);
       statusDisplay.setBlinking(false);
-      hitbox.x = 500f;
-      hitbox.y = 600f;
-      updateCollisionPixels();
+      setX(500f);
+      setY(400f);
+      collisionPixels.update();
       planeAction = IDLE;
    }
 

@@ -86,8 +86,8 @@ public class HeatSeekingLazer extends DefaultBossPart {
 
    private void pointLazerAtPlayer() {
       // Calculate the direction vector of the line
-      double dx = player.getHitbox().getCenterX() - gunCenter.getX();
-      double dy = player.getHitbox().getCenterY() - gunCenter.getY();
+      double dx = player.getHitbox().centerX() - gunCenter.getX();
+      double dy = player.getHitbox().centerY() - gunCenter.getY();
 
       // Calculate the length of the line
       double lineLength = Math.sqrt(dx * dx + dy * dy);
@@ -128,16 +128,6 @@ public class HeatSeekingLazer extends DefaultBossPart {
       this.behaviorTick = 0;
    }
 
-   // Can be used for debugging
-   // private void drawLazerLine(Graphics g) {
-   // Graphics2D g2 = (Graphics2D) g;
-   // g2.drawLine(
-   // (int) (lazerLine.getX1() * Game.SCALE),
-   // (int) (lazerLine.getY1() * Game.SCALE),
-   // (int) (lazerLine.getX2() * Game.SCALE),
-   // (int) (lazerLine.getY2() * Game.SCALE));
-   // }
-
    // Include in this update method to update debugLazer
    private void updateLazerLine() {
       // We start by making a line representing the lazer angle.
@@ -145,6 +135,6 @@ public class HeatSeekingLazer extends DefaultBossPart {
             // From:
             gunCenter.getX(), gunCenter.getY(),
             // To:
-            player.getHitbox().getCenterX(), player.getHitbox().getCenterY());
+            player.getHitbox().centerX(), player.getHitbox().centerY());
    }
 }

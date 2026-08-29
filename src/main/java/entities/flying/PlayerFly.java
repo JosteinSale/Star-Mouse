@@ -3,25 +3,30 @@ package entities.flying;
 import static utils.Constants.Flying.PlaneAction.*;
 import static utils.HelpMethods.IsSolid;
 
-import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
 import java.util.ArrayList;
 
 import audio.AudioPlayer;
-import entities.Entity;
+import entities.CollisionPixels;
 import entities.MyCollisionImage;
+import entities.MyRectangle;
 import entities.flying.enemies.Enemy;
 import inputs.Inputs;
 import main_classes.Game;
 import main_classes.Testing;
 import ui.StatusDisplay;
 import utils.Constants.Audio;
+import utils.HelpMethods;
 
-public class PlayerFly extends Entity implements ShootingPlayer {
+import static entities.CollisionPixels.CollisionAt;
+
+public class PlayerFly extends MyRectangle implements ShootingPlayer {
    protected Game game;
    protected AudioPlayer audioPlayer;
    protected MyCollisionImage clImg;
+   protected final CollisionPixels collisionPixels;
    public ShipFlame flame;
    public ShipSmoke shipSmoke;
    public StaticGlow flameGlow;
@@ -38,8 +43,6 @@ public class PlayerFly extends Entity implements ShootingPlayer {
    protected float acceleration = 1.0f;
    protected float playerMaxSpeed = 8f;
    public boolean visible = true;
-   protected float[] collisionXs = new float[9];
-   protected float[] collisionYs = new float[9];
    protected int edgeDist = 20; // The minimum distance from player to edge of screen
    protected int pushDistance = 40; // How far the player is pushed back when taking damage
    public int teleportDistance = 250;
@@ -61,9 +64,9 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       super(hitbox);
       this.game = game;
       this.audioPlayer = game.getAudioPlayer();
-      updateCollisionPixels();
+      this.collisionPixels = new CollisionPixels(this, CollisionAt.NINE_POINT_GRID);
       this.flame = new ShipFlame();
-      this.shipSmoke = new ShipSmoke(this.hitbox);
+      this.shipSmoke = new ShipSmoke(this);
       this.flameGlow = new StaticGlow(StaticGlow.WHITE_GLOW_DYNAMIC, 1.0f, 0.2f);
       this.leftLazerGlow = new AnimatedGlow(AnimatedGlow.BLUE_GLOW_SMALL, 1.0f);
       this.rightLazerGlow = new AnimatedGlow(AnimatedGlow.BLUE_GLOW_SMALL, 1.0f);
@@ -82,39 +85,6 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       this.HP = maxHp;
       statusDisplay.setMaxHP(maxHp);
       statusDisplay.setHP(maxHp);
-   }
-
-   /*
-    * 9 pixels in the player hitbox are used for colission detection with enemies
-    * and map. These are enumerated according to the order they should be checked
-    * by the collission algorithms. To understand the logic, see the planning
-    * notes.
-    *
-    * 4 - 0 - 5
-    * 1 - 6 - 2
-    * 7 - 3 - 8
-    *
-    */
-   protected void updateCollisionPixels() {
-      collisionXs[0] = hitbox.x + hitbox.width / 2;
-      collisionXs[1] = hitbox.x;
-      collisionXs[2] = hitbox.x + hitbox.width;
-      collisionXs[3] = hitbox.x + hitbox.width / 2;
-      collisionXs[4] = hitbox.x;
-      collisionXs[5] = hitbox.x + hitbox.width;
-      collisionXs[6] = hitbox.x + hitbox.width / 2;
-      collisionXs[7] = hitbox.x;
-      collisionXs[8] = hitbox.x + hitbox.width;
-
-      collisionYs[0] = hitbox.y;
-      collisionYs[1] = hitbox.y + hitbox.height / 2;
-      collisionYs[2] = hitbox.y + hitbox.height / 2;
-      collisionYs[3] = hitbox.y + hitbox.height;
-      collisionYs[4] = hitbox.y;
-      collisionYs[5] = hitbox.y;
-      collisionYs[6] = hitbox.y + hitbox.height / 2;
-      collisionYs[7] = hitbox.y + hitbox.height;
-      collisionYs[8] = hitbox.y + hitbox.height;
    }
 
    public void update(float yLevelOffset, float xLevelOffset) {
@@ -246,32 +216,31 @@ public class PlayerFly extends Entity implements ShootingPlayer {
     * @param deltaY
     */
    protected void adjustPos(float deltaX, float deltaY) {
-      hitbox.x += deltaX;
-      hitbox.y += deltaY;
-      if (hitbox.x < edgeDist) {
-         hitbox.x = edgeDist;
+      move(deltaX, deltaY);
+      if (x() < edgeDist) {
+         setX(edgeDist);
          xSpeed = 0;
       }
-      if ((hitbox.x + hitbox.width + edgeDist) > Game.GAME_DEFAULT_WIDTH) {
-         hitbox.x = Game.GAME_DEFAULT_WIDTH - hitbox.width - edgeDist;
+      if ((x() + width() + edgeDist) > Game.GAME_DEFAULT_WIDTH) {
+         setX(Game.GAME_DEFAULT_WIDTH - width() - edgeDist);
          xSpeed = 0;
       }
-      if (hitbox.y < edgeDist) {
-         hitbox.y = edgeDist;
+      if (y() < edgeDist) {
+         setY(edgeDist);
          ySpeed = 0;
       }
-      if ((hitbox.y + hitbox.height + edgeDist) > Game.GAME_DEFAULT_HEIGHT) {
-         hitbox.y = Game.GAME_DEFAULT_HEIGHT - hitbox.height - edgeDist;
+      if ((y() + height() + edgeDist) > Game.GAME_DEFAULT_HEIGHT) {
+         setY(Game.GAME_DEFAULT_HEIGHT - height() - edgeDist);
          ySpeed = 0;
       }
-      updateCollisionPixels();
+      collisionPixels.update();
       setGlowPositions();
    }
 
    protected void setGlowPositions() {
-      leftLazerGlow.setPos(hitbox.x - 52, hitbox.y - 40);
-      rightLazerGlow.setPos(hitbox.x - 44 + hitbox.width, hitbox.y - 40);
-      flameGlow.setPos(hitbox.x - 22.5f, hitbox.y + 20);
+      leftLazerGlow.setPos(x() - 52, y() - 40);
+      rightLazerGlow.setPos(x() - 44 + width(), y() - 40);
+      flameGlow.setPos(x() - 22.5f, y() + 20);
    }
 
    /**
@@ -280,11 +249,11 @@ public class PlayerFly extends Entity implements ShootingPlayer {
     * teleported.
     */
    protected void adjustTeleportHitbox() {
-      teleportHitbox.y = hitbox.y;
+      teleportHitbox.y = y();
       if (flipX == 1) {
-         teleportHitbox.x = hitbox.x - teleportKillOffset - teleportKillWidth;
+         teleportHitbox.x = x() - teleportKillOffset - teleportKillWidth;
       } else if (flipX == -1) {
-         teleportHitbox.x = hitbox.x + hitbox.width + teleportKillOffset;
+         teleportHitbox.x = x() + width() + teleportKillOffset;
       }
    }
 
@@ -320,7 +289,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
    }
 
    private void checkAndHandleBottomOfMapCollision() {
-      if ((hitbox.y + hitbox.height) >= Game.GAME_DEFAULT_HEIGHT - edgeDist) {
+      if ((y() + height()) >= Game.GAME_DEFAULT_HEIGHT - edgeDist) {
          HP = 0;
       }
    }
@@ -334,8 +303,8 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       else {
          ArrayList<Enemy> bigEnemies = game.getFlying().getBigEnemies();
          for (Enemy e : bigEnemies) {
-            if (hitbox.intersects(e.getMainHitbox())) {
-               handleTeleportCollisionWithBigEnemy(e, yLevelOffset, xLevelOffset);
+            if (intersects(e.getMainHitbox())) {
+               handleTeleportCollisionWithBigEnemy(e);
             }
          }
       }
@@ -345,9 +314,9 @@ public class PlayerFly extends Entity implements ShootingPlayer {
     * Should be called if the player tried to teleport into a big enemy.
     * It moves the player back outside the enemy, takes damage, and plays SFX.
     */
-   private void handleTeleportCollisionWithBigEnemy(Enemy e, float yLevelOffset, float xLevelOffset) {
+   private void handleTeleportCollisionWithBigEnemy(Enemy e) {
       this.planeAction = TAKING_COLLISION_DAMAGE;
-      while (e.getMainHitbox().intersects(hitbox)) {
+      while (intersects(e.getMainHitbox())) {
          int xMove = -(teleportDistance / 10 * flipX);
          adjustPos(xMove, 0);
       }
@@ -372,27 +341,11 @@ public class PlayerFly extends Entity implements ShootingPlayer {
    }
 
    private boolean collidesWithMap(float yLevelOffset, float xLevelOffset) {
-      for (int i = 0; i < 9; i++) {
-         if (IsSolid(
-               (int) (collisionXs[i] + xLevelOffset) / 3,
-               (int) (collisionYs[i] - yLevelOffset) / 3,
-               clImg)) {
-            return true;
-         }
-      }
-      return false;
+      return HelpMethods.CollidesWithMap(collisionPixels, clImg, xLevelOffset, yLevelOffset);
    }
 
    private int getPixelThatCollides(float yLevelOffset, float xLevelOffset) {
-      for (int i = 0; i < 9; i++) {
-         if (IsSolid(
-               (int) (collisionXs[i] + xLevelOffset) / 3,
-               (int) (collisionYs[i] - yLevelOffset) / 3,
-               clImg)) {
-            return i;
-         }
-      }
-      return -1;
+      return HelpMethods.GetPixelThatCollides(collisionPixels, clImg, xLevelOffset, yLevelOffset);
    }
 
    /**
@@ -404,7 +357,7 @@ public class PlayerFly extends Entity implements ShootingPlayer {
     */
    public boolean checkAndHandleCollisionWithEnemy(ArrayList<Rectangle2D.Float> hitboxesForEnemy) {
       for (Rectangle2D.Float enemyHitbox : hitboxesForEnemy) {
-         if (hitbox.intersects(enemyHitbox)) {
+         if (intersects(enemyHitbox)) {
             onEnemyCollision(enemyHitbox);
             return true;
          }
@@ -419,9 +372,9 @@ public class PlayerFly extends Entity implements ShootingPlayer {
     * @param enemyHitbox
     */
    private void onEnemyCollision(Rectangle2D.Float enemyHitbox) {
+      Point2D[] collisionPixels = this.collisionPixels.get();
       for (int i = 0; i < 9; i++) {
-         Point point = new Point((int) collisionXs[i], (int) collisionYs[i]);
-         if (enemyHitbox.contains(point)) {
+         if (enemyHitbox.contains(collisionPixels[i])) {
             takeCollisionDmg();
             audioPlayer.playSFX(Audio.SFX_COLLISION);
             pushInOppositeDirectionOf(i, pushDistance);
@@ -513,8 +466,8 @@ public class PlayerFly extends Entity implements ShootingPlayer {
    }
 
    @Override
-   public Rectangle2D.Float getHitbox() {
-      return this.hitbox;
+   public MyRectangle getHitbox() {
+      return this;
    }
 
    public void setVisible(boolean visible) {
@@ -564,9 +517,9 @@ public class PlayerFly extends Entity implements ShootingPlayer {
       statusDisplay.setBlinking(false);
       statusDisplay.setKilledEnemies(0);
       shipSmoke.reset();
-      hitbox.x = 500f;
-      hitbox.y = 400f;
-      updateCollisionPixels();
+      setX(500f);
+      setY(400f);
+      collisionPixels.update();
       resetSpeed();
       planeAction = IDLE;
    }
@@ -574,10 +527,6 @@ public class PlayerFly extends Entity implements ShootingPlayer {
    public void setGlowType(int glowType) {
       leftLazerGlow.setGlowType(glowType);
       rightLazerGlow.setGlowType(glowType);
-   }
-
-   public static Rectangle2D.Float getNewHitbox() {
-      return new Rectangle2D.Float(500f, 400f, 50f, 50f);
    }
 
 }

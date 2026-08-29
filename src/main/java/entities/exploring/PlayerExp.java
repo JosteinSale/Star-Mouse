@@ -7,28 +7,29 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
 
-import entities.AnimationFrame;
-import entities.Entity;
-import entities.MyCollisionImage;
+import entities.*;
 import inputs.Inputs;
 import main_classes.Game;
 import utils.HelpMethods;
 import utils.Constants.Direction;
 import utils.Constants.Exploring.CharacterAction;
+import static entities.CollisionPixels.CollisionAt;
 
-public class PlayerExp extends Entity {
-   private MyCollisionImage collisionImg;
-   private float playerSpeed = 5f;
-   private Vector2 speedVector;
+public class PlayerExp extends MyRectangle {
+   private final MyCollisionImage collisionImg;
+   private final CollisionPixels collisionPixels;
+   private final float playerSpeed = 5f;
+   private final Vector2 speedVector;
    public boolean visible = true;
    public static int CURRENT_SPRITE_SHEET = 0;
 
-   private AnimationFrame animation;
+   private final AnimationFrame animation;
    public CharacterAction action;
    public Direction direction;
 
    public PlayerExp(Game game, Float hitbox, Direction initialDirection, Integer level, Integer area) {
       super(hitbox);
+      collisionPixels = new CollisionPixels(this, CollisionAt.ALL_FOUR_CORNERS);
       action = CharacterAction.STANDING;
       direction = initialDirection;
       speedVector = new Vector2(0, 0);
@@ -74,6 +75,7 @@ public class PlayerExp extends Entity {
          speedVector.set(0, 0);
          handleKeyboardInputs();
          movePlayer(npcHitboxes);
+         collisionPixels.update();
       }
       if (action != CharacterAction.POSING) {
          updateAnimationRow();
@@ -128,8 +130,8 @@ public class PlayerExp extends Entity {
          return;
       }
 
-      float currentXPos = hitbox.x;
-      float currentYPos = hitbox.y;
+      float currentXPos = x();
+      float currentYPos = y();
       // 1. Try the requested move first
       if (tryMove(currentXPos + speedVector.x, currentYPos + speedVector.y, npcHitboxes)) {
          return;
@@ -161,8 +163,7 @@ public class PlayerExp extends Entity {
       }
 
       // 3. No available placements -> move back to startPosition
-      hitbox.x = currentXPos;
-      hitbox.y = currentYPos;
+      setPosition(currentXPos, currentYPos);
    }
 
    /**
@@ -170,10 +171,10 @@ public class PlayerExp extends Entity {
     * and returns true if it is available, false otherwise
     */
    private boolean tryMove(float x, float y, ArrayList<Rectangle2D.Float> npcHitboxes) {
-      hitbox.x = x;
-      hitbox.y = y;
-      return (!HelpMethods.CollidesWithMap(hitbox, collisionImg) &&
-            !HelpMethods.CollidesWithNpc(hitbox, npcHitboxes));
+      setPosition(x, y);
+      collisionPixels.update();
+      return (!HelpMethods.CollidesWithMap(collisionPixels, collisionImg, 0, 0) &&
+              !HelpMethods.CollidesWithNpc(getHitboxAsFloat(), npcHitboxes));
    }
 
    public void resetAll() {
@@ -184,10 +185,6 @@ public class PlayerExp extends Entity {
       speedVector.set(0, 0);
       this.action = CharacterAction.STANDING;
       updateAnimationRow();
-   }
-
-   public Rectangle2D.Float getHitbox() {
-      return this.hitbox;
    }
 
    public void setDirection(Direction dir) {
@@ -203,16 +200,15 @@ public class PlayerExp extends Entity {
    }
 
    public void adjustPos(float deltaX, float deltaY) {
-      hitbox.x += deltaX;
-      hitbox.y += deltaY;
+      move(deltaX, deltaY);
    }
 
    public void setAction(CharacterAction action) {
       this.action = action;
    }
 
-   public void setPose(boolean pose, int colIndex, int rowIndex) {
-      if (pose == true) {
+   public void setPose(boolean posing, int colIndex, int rowIndex) {
+      if (posing) {
          this.action = CharacterAction.POSING;
          animation.setCol(colIndex);
          animation.setRow(rowIndex);
@@ -224,19 +220,19 @@ public class PlayerExp extends Entity {
 
    /** Moves the player 20 px in the reenter-direction specified for this portal */
    public void adjustReenterPos(Direction reenterDir) {
-      int adjustDistance = 20;
+      int distance = 20;
       switch (reenterDir) {
          case RIGHT:
-            hitbox.x += adjustDistance;
+            move(distance, 0);
             break;
          case LEFT:
-            hitbox.x -= adjustDistance;
+            move(-distance, 0);
             break;
          case DOWN:
-            hitbox.y += adjustDistance;
+            move(0, distance);
             break;
          case UP:
-            hitbox.y -= adjustDistance;
+            move(0, -distance);
             break;
       }
    }

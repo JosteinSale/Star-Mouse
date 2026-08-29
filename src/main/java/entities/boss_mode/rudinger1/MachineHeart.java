@@ -82,7 +82,7 @@ public class MachineHeart extends DefaultBossPart {
       // Then move towards midway docking-point
       collisionEnabled = true;
       updatePosition(0, (int) dockingSpeed, 0.0);
-      if (getNonRotatedHitbox().getCenterY() >= midwayPoint.y) {
+      if (getHitbox().centerY() >= midwayPoint.y) {
          startDocking = false;
          behaviorTick = 0;
       }
@@ -96,8 +96,8 @@ public class MachineHeart extends DefaultBossPart {
       // If not taking damage and hasn't collided
       if (this.collisionTick == 0 && this.damageTick == 0) {
          this.moveTowardsPoint( // Move towards player
-               (int) player.getHitbox().getCenterX(),
-               (int) player.getHitbox().getCenterY(),
+               (int) player.getHitbox().centerX(),
+               (int) player.getHitbox().centerY(),
                followSpeed);
       }
       // Check if the follow phase is over
@@ -132,14 +132,14 @@ public class MachineHeart extends DefaultBossPart {
    }
 
    private boolean isNotAtDockingPoint() {
-      return (Math.abs(this.getNonRotatedHitbox().getCenterY() - this.dockingPoint.y) > 4) ||
-            (Math.abs(this.getNonRotatedHitbox().getCenterX() - this.dockingPoint.x) > 4);
+      return (Math.abs(getHitbox().centerY() - dockingPoint.y) > 4) ||
+            (Math.abs(getHitbox().centerX() - dockingPoint.x) > 4);
    }
 
    private void moveTowardsPoint(int x, int y, double speed) {
       // Calculate the direction vector of the line
-      double dx = x - this.nonRotatedHitbox.getCenterX();
-      double dy = y - this.nonRotatedHitbox.getCenterY();
+      double dx = x - getHitbox().centerX();
+      double dy = y - getHitbox().centerY();
 
       // Calculate the length of the line
       double lineLength = Math.sqrt(dx * dx + dy * dy);

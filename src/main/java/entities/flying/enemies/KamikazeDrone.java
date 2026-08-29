@@ -24,10 +24,10 @@ public class KamikazeDrone extends BaseEnemy {
       this.hitbox.y += levelYSpeed;
 
       // Follow the player's X position
-      if (Math.abs(player.getHitbox().x - hitbox.x) < 5) { // To avoid jittering
+      if (Math.abs(player.x() - hitbox.x) < 5) { // To avoid jittering
          return;
       }
-      if (player.getHitbox().x > hitbox.x) { // Player is to the right of the drone
+      if (player.x() > hitbox.x) { // Player is to the right of the drone
          this.hitbox.x += xSpeed;
       } else {
          this.hitbox.x -= xSpeed; // Player is to the left of the drone

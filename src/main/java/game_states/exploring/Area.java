@@ -333,7 +333,7 @@ public class Area {
    private void checkObjectInteraction() {
       for (int i = 0; i < interactableObject.size(); i++) {
          InteractableObject ob = interactableObject.get(i);
-         if (player.getHitbox().intersects(ob.getHitbox())) {
+         if (player.intersects(ob.getHitbox())) {
             String entityName = ob.getName();
             cutsceneManager.startCutscene(entityName, ob.getStartCutscene());
             player.resetAll();
@@ -344,7 +344,7 @@ public class Area {
    private void checkDoorInteraction() {
       for (int i = 0; i < doors.size(); i++) {
          Door door = doors.get(i);
-         if (player.getHitbox().intersects(door.getHitbox())) {
+         if (player.intersects(door.getHitbox())) {
             if (!door.areRequirementsMet()) {
                String entityName = door.getName();
                cutsceneManager.startCutscene(entityName, door.getStartCutscene());
@@ -362,7 +362,7 @@ public class Area {
    private void checkNPCInteraction() {
       for (int i = 0; i < npcManager.getAmount(); i++) {
          NPC npc = npcManager.getNpc(i);
-         if (player.getHitbox().intersects(npc.getTriggerBox())) {
+         if (player.intersects(npc.getTriggerBox())) {
             String entityName = npc.getName();
             cutsceneManager.startCutscene(entityName, npc.getStartCutscene());
             player.resetAll();
@@ -376,7 +376,7 @@ public class Area {
     */
    private int getAutomaticCutsceneTrigger() {
       for (int i = 0; i < automaticTriggers.size(); i++) {
-         if (automaticTriggers.get(i).getHitbox().intersects(player.getHitbox())) {
+         if (player.intersects(automaticTriggers.get(i).getHitbox())) {
             return i;
          }
       }
@@ -389,7 +389,7 @@ public class Area {
     */
    private int getPortalIntersectingPlayer() {
       for (int i = 0; i < portals.size(); i++) {
-         if (portals.get(i).getHitbox().intersects(player.getHitbox())) {
+         if (player.intersects(portals.get(i).getHitbox())) {
             return i;
          }
       }
@@ -499,7 +499,7 @@ public class Area {
 
    public ArrayList<Float> getAllHitboxes() {
       ArrayList<Float> hitboxes = new ArrayList<>();
-      hitboxes.add(player.getHitbox());
+      hitboxes.add(player.getHitboxAsFloat());
       hitboxes.addAll(npcManager.getHitboxes());
       for (InteractableObject ob : interactableObject) {
          hitboxes.add(ob.getHitbox());

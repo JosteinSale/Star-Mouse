@@ -256,7 +256,7 @@ public class Flying extends State {
          PlayerFly player, ProjectileHandler projectileHandler, AudioPlayer audioPlayer) {
       for (PickupItem p : pickupItems) {
          p.update(fgCurSpeed);
-         if (p.isActive() && (p.getHitbox().intersects(player.getHitbox()))) {
+         if (p.isActive() && (p.getHitbox().intersects(player.getHitboxAsFloat()))) {
             p.setActive(false);
             if (p.getType() == POWERUP) {
                projectileHandler.setPowerup(true);
@@ -393,7 +393,7 @@ public class Flying extends State {
       gameOver = true;
       gamePlayActive = false;
       player.setVisible(false);
-      gameoverOverlay.setPlayerPos(player.getHitbox().x, player.getHitbox().y);
+      gameoverOverlay.setPlayerPos(player.x(), player.y());
       audioPlayer.stopAllLoops();
       audioPlayer.playSFX(Audio.SFX_DEATH);
    }
@@ -553,7 +553,7 @@ public class Flying extends State {
 
    public ArrayList<Float> getAllHitboxes() {
       ArrayList<Float> allHitboxes = new ArrayList<>();
-      allHitboxes.add(player.getHitbox());
+      allHitboxes.add(player.getHitboxAsFloat());
       for (Enemy enemy : enemyManager.activeEnemiesOnScreen) {
          allHitboxes.addAll(enemy.getAllHitboxes());
       }

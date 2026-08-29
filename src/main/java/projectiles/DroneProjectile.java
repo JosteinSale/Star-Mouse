@@ -1,13 +1,15 @@
 package projectiles;
 
-import static projectiles.ProjectileFactory.TypeConstants.DRONE_PROJECTILE;
+import entities.CollisionPixels;
+import entities.Dimensions;
+import static entities.CollisionPixels.CollisionAt;
 
-import java.awt.geom.Rectangle2D;
+import static projectiles.ProjectileFactory.TypeConstants.DRONE_PROJECTILE;
 
 public class DroneProjectile extends BaseProjectile {
 
-    public DroneProjectile(Rectangle2D.Float hitbox, int xSpeed, int ySpeed) {
-        super(hitbox, DRONE_PROJECTILE, 20, xSpeed, ySpeed);
-        collisionPixels = new int[1][2];
+    public DroneProjectile(Dimensions dimensions, int xSpeed, int ySpeed) {
+        super(dimensions, DRONE_PROJECTILE, 20, xSpeed, ySpeed);
+        this.collisionPixels = new CollisionPixels(this, CollisionAt.CENTER);
     }
 }

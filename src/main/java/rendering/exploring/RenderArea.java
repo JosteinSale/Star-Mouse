@@ -96,8 +96,8 @@ public class RenderArea implements Render {
       if (player.visible) {
          DrawUtils.drawSubImage(
                sb, playerSprites.get(PlayerExp.CURRENT_SPRITE_SHEET)[animation.getRow()][animation.getCol()],
-               (int) (player.hitbox.x - 113 - xLevelOffset),
-               (int) (player.hitbox.y - 135 - yLevelOffset),
+               (int) (player.x() - 113 - xLevelOffset),
+               (int) (player.y() - 135 - yLevelOffset),
                playerSpriteWidth, playerSpriteHeight);
       }
    }
