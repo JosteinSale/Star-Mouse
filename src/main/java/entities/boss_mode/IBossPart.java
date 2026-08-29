@@ -22,21 +22,18 @@ import entities.MyRectangle;
 public interface IBossPart {
 
    /**
-    * Moves the bossPart x- and y-position, as well as its rotation
-    * around the hitbox center. Collision-rectangles are updated.
+    * Moves the bossPart x- and y-position, as well as its rotation.
     */
    public void updatePosition(int deltaX, int deltaY, Double deltaR);
 
    /**
-    * Sets new positions for the bossPart centerX and centerY,
-    * as well as its rotation around the hitbox center.
+    * Sets new positions for the bossPart as well as its rotation.
     * Collision-rectangles are updated.
     */
-   public void setPosition(int centerX, int centerY, Double rotation);
+   public void setPosition(float x, float y, Double rotation);
 
    /** Returns true if the point is inside the bossPart */
    public boolean containsPoint(Point2D p);
-
 
    /**
     * If the bossPart can't currently be collided with, it should be set to false.

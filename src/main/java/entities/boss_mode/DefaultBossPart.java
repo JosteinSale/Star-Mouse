@@ -1,12 +1,9 @@
 package entities.boss_mode;
 
-import java.awt.Point;
-
 import entities.MyRectangle;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-
 
 /**
  * A BossPart represents an animated part of a boss that can be rotated, moved
@@ -50,14 +47,14 @@ abstract public class DefaultBossPart extends MyRectangle implements IBossPart {
    }
 
    @Override
-   public void setPosition(int centerX, int centerY, Double rotation) {
-      this.setPosition(centerX - hitboxWidth/2f, centerY - hitboxHeight/2f);
+   public void setPosition(float x, float y, Double rotation) {
+      this.setPosition(x, y);
       this.setRotation(rotation);
    }
 
    @Override
    public boolean containsPoint(Point2D p) {
-      return this.contains((float)p.getX(), (float)p.getY());
+      return this.contains((float) p.getX(), (float) p.getY());
    }
 
    @Override

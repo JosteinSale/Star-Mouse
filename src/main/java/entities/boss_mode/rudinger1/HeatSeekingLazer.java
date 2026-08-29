@@ -7,15 +7,12 @@ import entities.boss_mode.AnimatedComponentFactory;
 import entities.boss_mode.DefaultBossPart;
 import entities.boss_mode.PlayerBoss;
 
-import java.awt.geom.Line2D;
-
 /**
  * Follows the player and shoots at regular intervals.
  * Currently each shoot-cycle takes 180 frames
  */
 public class HeatSeekingLazer extends DefaultBossPart {
    private PlayerBoss player;
-   private Line2D lazerLine; // For debugging
    private Point gunCenter;
    private double imgDistanceFromCenter; // The image is always drawn from the hitbox center, thus we need this.
 
@@ -39,7 +36,6 @@ public class HeatSeekingLazer extends DefaultBossPart {
       this.player = player;
       this.imgDistanceFromCenter = hitbox.height / 2;
       this.gunCenter = gunCenter;
-      this.lazerLine = new Line2D.Double();
    }
 
    @Override
@@ -96,14 +92,18 @@ public class HeatSeekingLazer extends DefaultBossPart {
       dx /= lineLength;
       dy /= lineLength;
 
-      // Calculate the new point coordinates
-      double newX = gunCenter.getX() + dx * imgDistanceFromCenter;
-      double newY = gunCenter.getY() + dy * imgDistanceFromCenter;
+      // Calculate the new center for the lazer hitbox
+      double lazerCenterX = gunCenter.getX() + dx * imgDistanceFromCenter;
+      double lazerCenterY = gunCenter.getY() + dy * imgDistanceFromCenter;
+
+      // Offset away from the center to find the actual hitbox x and y
+      float newX = (float) lazerCenterX - hitboxWidth / 2;
+      float newY = (float) lazerCenterY - hitboxHeight / 2;
 
       // Extract the rotation of the vector
       double newRotation = Math.atan2(dy, dx) - Math.PI / 2;
 
-      this.setPosition((int) newX, (int) newY, newRotation);
+      this.setPosition(newX, newY, newRotation);
    }
 
    @Override
@@ -126,15 +126,5 @@ public class HeatSeekingLazer extends DefaultBossPart {
       this.collisionEnabled = false;
       this.isVisible = false;
       this.behaviorTick = 0;
-   }
-
-   // Include in this update method to update debugLazer
-   private void updateLazerLine() {
-      // We start by making a line representing the lazer angle.
-      this.lazerLine = new Line2D.Double(
-            // From:
-            gunCenter.getX(), gunCenter.getY(),
-            // To:
-            player.getHitbox().centerX(), player.getHitbox().centerY());
    }
 }

@@ -1,7 +1,6 @@
 package entities.flying;
 
 import static utils.Constants.Flying.PlaneAction.*;
-import static utils.HelpMethods.IsSolid;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;

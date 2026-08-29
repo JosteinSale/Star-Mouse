@@ -21,26 +21,23 @@ public class MyRectangle {
       this.hitbox = PolygonUtils.newSquareHitboxPolygon(hitbox);
       this.hitboxWidth = (int) hitbox.width;
       this.hitboxHeight = (int) hitbox.height;
-      this.hitbox.setOrigin(hitboxWidth/2f, hitboxHeight/2f);
+      this.hitbox.setOrigin(hitboxWidth / 2f, hitboxHeight / 2f);
    }
 
    public MyRectangle(float x, float y, int width, int height) {
       this.hitbox = PolygonUtils.newSquareHitboxPolygon(x, y, width, height);
       this.hitboxWidth = width;
       this.hitboxHeight = height;
-      this.hitbox.setOrigin(hitboxWidth/2f, hitboxHeight/2f);
+      this.hitbox.setOrigin(hitboxWidth / 2f, hitboxHeight / 2f);
    }
 
    public MyRectangle(Dimensions dim) {
       this.hitbox = PolygonUtils.newSquareHitboxPolygon(
-              dim.x(),
-              dim.y(),
-              dim.width(),
-              dim.height()
-      );
+            dim.x(), dim.y(),
+            dim.width(), dim.height());
       this.hitboxWidth = dim.width();
       this.hitboxHeight = dim.height();
-      this.hitbox.setOrigin(hitboxWidth/2f, hitboxHeight/2f);
+      this.hitbox.setOrigin(hitboxWidth / 2f, hitboxHeight / 2f);
    }
 
    public void move(float deltaX, float deltaY) {
@@ -70,16 +67,17 @@ public class MyRectangle {
    public float width() {
       return hitboxWidth;
    }
+
    public float height() {
       return hitboxHeight;
    }
 
    public float centerX() {
-      return hitbox.getX() + hitboxWidth/2f;
+      return hitbox.getX() + hitboxWidth / 2f;
    }
 
    public float centerY() {
-      return hitbox.getY() + hitboxHeight/2f;
+      return hitbox.getY() + hitboxHeight / 2f;
    }
 
    public double getRotationRadians() {
@@ -112,7 +110,8 @@ public class MyRectangle {
    }
 
    /**
-    * Returns the hitbox as a Rectangle2D.Float. Temporary method while we migrate fully to MyRectangle.
+    * Returns the hitbox as a Rectangle2D.Float. Temporary method while we migrate
+    * fully to MyRectangle.
     */
    public Rectangle2D.Float getHitboxAsFloat() {
       return new Rectangle2D.Float(hitbox.getX(), hitbox.getY(), hitboxWidth, hitboxHeight);
