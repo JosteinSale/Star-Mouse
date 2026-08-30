@@ -1,9 +1,9 @@
 package entities.flying.enemies;
 
-import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 import entities.AnimationFrame;
+import entities.Dimensions;
 import entities.flying.EntityInfo;
 
 /**
@@ -20,7 +20,7 @@ public class SmallAsteroid extends BaseEnemy {
    private int xSpeed;
    private int ySpeed;
 
-   public SmallAsteroid(Rectangle2D.Float hitbox, EntityInfo info, int shootInterval, int direction) {
+   public SmallAsteroid(Dimensions hitbox, EntityInfo info, int shootInterval, int direction) {
       super(hitbox, info);
       maxHP = 30;
       HP = maxHP;
@@ -60,8 +60,7 @@ public class SmallAsteroid extends BaseEnemy {
 
    @Override
    protected void updateCustomBehavior(float __) {
-      hitbox.y += ySpeed;
-      hitbox.x += xSpeed;
+      move(xSpeed, ySpeed);
    }
 
    @Override

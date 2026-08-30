@@ -3,12 +3,12 @@ package entities.flying;
 import static utils.Constants.Flying.PlaneAction.*;
 
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Float;
 import java.util.ArrayList;
 
 import audio.AudioPlayer;
 import entities.CollisionPixels;
+import entities.CollisionPixels.CollisionAt;
+import entities.Dimensions;
 import entities.MyCollisionImage;
 import entities.MyRectangle;
 import entities.flying.enemies.Enemy;
@@ -18,8 +18,6 @@ import main_classes.Testing;
 import ui.StatusDisplay;
 import utils.Constants.Audio;
 import utils.HelpMethods;
-
-import static entities.CollisionPixels.CollisionAt;
 
 public class PlayerFly extends MyRectangle implements ShootingPlayer {
    protected Game game;
@@ -32,7 +30,7 @@ public class PlayerFly extends MyRectangle implements ShootingPlayer {
    public StatusDisplay statusDisplay;
    public AnimatedGlow leftLazerGlow;
    public AnimatedGlow rightLazerGlow;
-   protected Rectangle2D.Float teleportHitbox; // When the player teleports, a 'kill hitbox' materializes
+   protected MyRectangle teleportHitbox; // When the player teleports, a 'kill hitbox' materializes
    protected int teleportKillWidth = 100; // Width of said hitbox
    protected int teleportKillOffset; // The distance between the players hitbox and the teleport kill hitbox
 
@@ -59,8 +57,8 @@ public class PlayerFly extends MyRectangle implements ShootingPlayer {
    public int teleportBuffer = 0;
    protected int teleportCoolDown = 10; // The amount of frames between each time the player can teleport
 
-   public PlayerFly(Game game, Float hitbox) {
-      super(hitbox);
+   public PlayerFly(Game game, Dimensions dimensions) {
+      super(dimensions);
       this.game = game;
       this.audioPlayer = game.getAudioPlayer();
       this.collisionPixels = new CollisionPixels(this, CollisionAt.NINE_POINT_GRID);
@@ -70,9 +68,9 @@ public class PlayerFly extends MyRectangle implements ShootingPlayer {
       this.leftLazerGlow = new AnimatedGlow(AnimatedGlow.BLUE_GLOW_SMALL, 1.0f);
       this.rightLazerGlow = new AnimatedGlow(AnimatedGlow.BLUE_GLOW_SMALL, 1.0f);
       setGlowPositions();
-      this.teleportHitbox = new Rectangle2D.Float(
-            hitbox.x, hitbox.y, teleportKillWidth, hitbox.height);
-      this.teleportKillOffset = (int) (teleportDistance - hitbox.width - teleportKillWidth) / 2;
+      this.teleportHitbox = new MyRectangle(
+            dimensions.x(), dimensions.y(), teleportKillWidth, dimensions.height());
+      this.teleportKillOffset = (int) (teleportDistance - dimensions.width() - teleportKillWidth) / 2;
       this.statusDisplay = new StatusDisplay();
    }
 
@@ -248,11 +246,11 @@ public class PlayerFly extends MyRectangle implements ShootingPlayer {
     * teleported.
     */
    protected void adjustTeleportHitbox() {
-      teleportHitbox.y = y();
+      teleportHitbox.setY(y());
       if (flipX == 1) {
-         teleportHitbox.x = x() - teleportKillOffset - teleportKillWidth;
+         teleportHitbox.setX(x() - teleportKillOffset - teleportKillWidth);
       } else if (flipX == -1) {
-         teleportHitbox.x = x() + width() + teleportKillOffset;
+         teleportHitbox.setX(x() + width() + teleportKillOffset);
       }
    }
 
@@ -354,8 +352,8 @@ public class PlayerFly extends MyRectangle implements ShootingPlayer {
     * If a collision has occured, player takes damage and is pushed in opposite
     * direction.
     */
-   public boolean checkAndHandleCollisionWithEnemy(ArrayList<Rectangle2D.Float> hitboxesForEnemy) {
-      for (Rectangle2D.Float enemyHitbox : hitboxesForEnemy) {
+   public boolean checkAndHandleCollisionWithEnemy(ArrayList<MyRectangle> hitboxesForEnemy) {
+      for (MyRectangle enemyHitbox : hitboxesForEnemy) {
          if (intersects(enemyHitbox)) {
             onEnemyCollision(enemyHitbox);
             return true;
@@ -370,7 +368,7 @@ public class PlayerFly extends MyRectangle implements ShootingPlayer {
     * 
     * @param enemyHitbox
     */
-   private void onEnemyCollision(Rectangle2D.Float enemyHitbox) {
+   private void onEnemyCollision(MyRectangle enemyHitbox) {
       Point2D[] collisionPixels = this.collisionPixels.get();
       for (int i = 0; i < 9; i++) {
          if (enemyHitbox.contains(collisionPixels[i])) {
@@ -383,9 +381,9 @@ public class PlayerFly extends MyRectangle implements ShootingPlayer {
       }
    }
 
-   public boolean teleportHitsEnemy(ArrayList<Rectangle2D.Float> hitboxesForEnemy) {
+   public boolean teleportHitsEnemy(ArrayList<MyRectangle> hitboxesForEnemy) {
       if (planeAction == TELEPORTING_RIGHT || planeAction == TELEPORTING_LEFT) {
-         for (Rectangle2D.Float hitbox : hitboxesForEnemy) {
+         for (MyRectangle hitbox : hitboxesForEnemy) {
             if (teleportHitbox.intersects(hitbox)) {
                return true;
             }

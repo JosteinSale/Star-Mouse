@@ -54,7 +54,7 @@ abstract public class DefaultBossPart extends MyRectangle implements IBossPart {
 
    @Override
    public boolean containsPoint(Point2D p) {
-      return this.contains((float) p.getX(), (float) p.getY());
+      return this.contains(p);
    }
 
    @Override

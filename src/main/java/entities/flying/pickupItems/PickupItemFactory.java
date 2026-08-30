@@ -1,8 +1,8 @@
 package entities.flying.pickupItems;
 
-import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 
+import entities.Dimensions;
 import entities.flying.EntityInfo;
 import utils.Images;
 
@@ -71,7 +71,7 @@ public class PickupItemFactory {
       int hitboxH = info.hitboxH;
 
       // Construct the pickupItem
-      Rectangle2D.Float hitbox = new Rectangle2D.Float(x, y, hitboxW, hitboxH);
+      Dimensions hitbox = new Dimensions(x, y, hitboxW, hitboxH);
       switch (typeConstant) {
          case BOMB:
             return new Bomb(hitbox, info);

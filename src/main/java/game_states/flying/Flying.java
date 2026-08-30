@@ -11,8 +11,6 @@ import static utils.parsing.LevelDataParser.GetAutomaticTrigger;
 import static utils.parsing.CutsceneParser.ParseCutscenes;
 import static utils.Constants.Audio.GetFlyLevelSong;
 
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Float;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +18,8 @@ import audio.AudioPlayer;
 import cutscenes.cutscene_managers.CutsceneManagerFly;
 import cutscenes.cutscene_managers.DefaultCutsceneManager;
 import cutscenes.events.*;
+import entities.Dimensions;
+import entities.MyRectangle;
 import entities.exploring.AutomaticTrigger;
 import entities.flying.EnemyFactory;
 import entities.flying.AnimatedGlow;
@@ -81,7 +81,7 @@ public class Flying extends State {
    }
 
    private void initClasses(OptionsMenu optionsMenu) {
-      Rectangle2D.Float playerHitbox = new Rectangle2D.Float(500f, 400f, SHIP_HITBOX_WIDTH, SHIP_HITBOX_HEIGHT);
+      Dimensions playerHitbox = new Dimensions(500f, 400f, (int) SHIP_HITBOX_WIDTH, (int) SHIP_HITBOX_HEIGHT);
       this.player = new PlayerFly(game, playerHitbox);
       this.pickupFactory = new PickupItemFactory();
       this.enemyManager = new EnemyManager(player, audioPlayer);
@@ -353,7 +353,7 @@ public class Flying extends State {
       mapManager.clYOffset += y;
       mapManager.bgYOffset += y * (bgCurSpeed / fgCurSpeed);
       for (PickupItem p : pickupItems) {
-         p.getHitbox().y += y;
+         p.getHitbox().move(0, y);
       }
       for (AutomaticTrigger trigger : automaticTriggers) {
          trigger.getHitbox().y += y;
@@ -551,9 +551,9 @@ public class Flying extends State {
       return this.pickupItems;
    }
 
-   public ArrayList<Float> getAllHitboxes() {
-      ArrayList<Float> allHitboxes = new ArrayList<>();
-      allHitboxes.add(player.getHitboxAsFloat());
+   public ArrayList<MyRectangle> getAllHitboxes() {
+      ArrayList<MyRectangle> allHitboxes = new ArrayList<>();
+      allHitboxes.add(player.getHitbox());
       for (Enemy enemy : enemyManager.activeEnemiesOnScreen) {
          allHitboxes.addAll(enemy.getAllHitboxes());
       }
@@ -562,7 +562,7 @@ public class Flying extends State {
             allHitboxes.add(p.getHitbox());
          }
       }
-      for (Rectangle2D.Float projectileHitbox : projectileHandler.getAllHitboxes()) {
+      for (MyRectangle projectileHitbox : projectileHandler.getAllHitboxes()) {
          allHitboxes.add(projectileHitbox);
       }
       return allHitboxes;

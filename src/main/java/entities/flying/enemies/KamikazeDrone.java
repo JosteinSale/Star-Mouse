@@ -1,7 +1,6 @@
 package entities.flying.enemies;
 
-import java.awt.geom.Rectangle2D;
-
+import entities.Dimensions;
 import entities.flying.EntityInfo;
 import entities.flying.PlayerFly;
 
@@ -10,7 +9,7 @@ public class KamikazeDrone extends BaseEnemy {
    private int playerCollisions = 0; // When the drone has collided 3 times, it explodes
    private float xSpeed = 3;
 
-   public KamikazeDrone(Rectangle2D.Float hitbox, EntityInfo info, PlayerFly player) {
+   public KamikazeDrone(Dimensions hitbox, EntityInfo info, PlayerFly player) {
       super(hitbox, info);
       this.player = player;
       maxHP = 60;
@@ -21,16 +20,16 @@ public class KamikazeDrone extends BaseEnemy {
    @Override
    protected void updateCustomBehavior(float levelYSpeed) {
       // Double the downward movement speed
-      this.hitbox.y += levelYSpeed;
+      move(0, levelYSpeed);
 
       // Follow the player's X position
-      if (Math.abs(player.x() - hitbox.x) < 5) { // To avoid jittering
+      if (Math.abs(player.x() - this.x()) < 5) { // To avoid jittering
          return;
       }
-      if (player.x() > hitbox.x) { // Player is to the right of the drone
-         this.hitbox.x += xSpeed;
+      if (player.x() > this.x()) { // Player is to the right of the drone
+         move(xSpeed, 0);
       } else {
-         this.hitbox.x -= xSpeed; // Player is to the left of the drone
+         move(-xSpeed, 0); // Player is to the left of the drone
       }
    }
 

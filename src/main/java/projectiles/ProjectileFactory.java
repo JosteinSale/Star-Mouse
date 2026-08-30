@@ -4,7 +4,6 @@ import entities.MyRectangle;
 import entities.Dimensions;
 import entities.flying.enemies.Enemy;
 
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,28 +34,28 @@ public class ProjectileFactory {
 
       // Left projectile
       Dimensions dim1 = new Dimensions(
-              playerHb.x() - 8,
-              playerHb.y() - 30,
-              PLAYER_PRJT_SPRITE_W,
-              PLAYER_PRJT_SPRITE_H);
+            playerHb.x() - 8,
+            playerHb.y() - 30,
+            PLAYER_PRJT_SPRITE_W,
+            PLAYER_PRJT_SPRITE_H);
       projectiles.add(new PlayerProjectile(dim1, powerUp, lazerDmg));
 
       // Right projectile
       Dimensions dim2 = new Dimensions(
-               playerHb.x() + 43,
-               playerHb.y() - 30,
-               PLAYER_PRJT_SPRITE_W,
-               PLAYER_PRJT_SPRITE_H);
+            playerHb.x() + 43,
+            playerHb.y() - 30,
+            PLAYER_PRJT_SPRITE_W,
+            PLAYER_PRJT_SPRITE_H);
       projectiles.add(new PlayerProjectile(dim2, powerUp, lazerDmg));
       return projectiles;
    }
 
    public Projectile createBombProjectile(MyRectangle playerHb) {
       Dimensions dim = new Dimensions(
-               playerHb.x() + playerHb.width() / 2 - BOMB_PRJT_SPRITE_SIZE / 2,
-               playerHb.y() - 50,
-               BOMB_PRJT_SPRITE_SIZE,
-               BOMB_PRJT_SPRITE_SIZE);
+            playerHb.x() + playerHb.width() / 2 - BOMB_PRJT_SPRITE_SIZE / 2,
+            playerHb.y() - 50,
+            BOMB_PRJT_SPRITE_SIZE,
+            BOMB_PRJT_SPRITE_SIZE);
       return new BombProjectile(dim);
    }
 
@@ -78,53 +77,52 @@ public class ProjectileFactory {
       }
    }
 
-
    /**
     * Given a shooting enemy's type, main hitbox and facing direction,
     * constructs the projectile(s) it fires. Mirrors EnemyFactory.GetNewEnemy's
     * switch-on-type shape. Returns more than one projectile only for
     * OCTADRONE's 8-way radial burst.
     */
-   public List<Projectile> createProjectilesForEnemy(int enemyType, Rectangle2D.Float enemyHb, int dir, float fgSpeed) {
+   public List<Projectile> createProjectilesForEnemy(int enemyType, MyRectangle enemyHb, int dir, float fgSpeed) {
       List<Projectile> projectiles = new ArrayList<>();
 
       switch (enemyType) {
 
          case DRONE:
             Dimensions dim1 = new Dimensions(
-               enemyHb.x + 25, enemyHb.y + 66, 32, 33);
+                  enemyHb.x() + 25, enemyHb.y() + 66, 32, 33);
             projectiles.add(new DroneProjectile(dim1, 0, 5));
             break;
 
          case BLASTERDRONE:
             Dimensions dim2 = new Dimensions(
-               enemyHb.x + 15, enemyHb.y + 90, 32, 33);
+                  enemyHb.x() + 15, enemyHb.y() + 90, 32, 33);
             projectiles.add(new DroneProjectile(dim2, 0, 5));
             break;
 
          case OCTADRONE:
-            double radius = enemyHb.getWidth();
+            double radius = enemyHb.width();
             for (int i = 0; i < 8; i++) {
                double angle = Math.toRadians(((double) i / 8) * 360d);
-               double x = (Math.cos(angle) * radius) + enemyHb.x + enemyHb.width / 3;
-               double y = (Math.sin(angle) * radius) + enemyHb.y + enemyHb.height / 3;
+               double x = (Math.cos(angle) * radius) + enemyHb.x() + enemyHb.width() / 3;
+               double y = (Math.sin(angle) * radius) + enemyHb.y() + enemyHb.height() / 3;
                int xSpeed = (int) (Math.cos(angle) * 4);
                int ySpeed = (int) ((Math.sin(angle) * 4) + fgSpeed);
                Dimensions dim3 = new Dimensions(
-                  (float) x, (float) y, 25, 25);
+                     (float) x, (float) y, 25, 25);
                projectiles.add(new OctaProjectile(dim3, xSpeed, ySpeed));
             }
             break;
 
          case REAPERDRONE:
             Dimensions dim4 = new Dimensions(
-                    enemyHb.x + 85, enemyHb.y + 160, 300, 24);
+                  enemyHb.x() + 85, enemyHb.y() + 160, 300, 24);
             projectiles.add(new ReaperProjectile(dim4));
             break;
 
          case FLAMEDRONE:
             Dimensions dim5 = new Dimensions(
-                    enemyHb.x - 130, enemyHb.y + 160, 378, 195);
+                  enemyHb.x() - 130, enemyHb.y() + 160, 378, 195);
             projectiles.add(new FlameProjectile(dim5));
             break;
 
@@ -133,13 +131,13 @@ public class ProjectileFactory {
                int xSpeed = 3;
                int ySpeed = 4;
                Dimensions dim = new Dimensions(
-                     enemyHb.x + 75, enemyHb.y + 95, 28, 28);
+                     enemyHb.x() + 75, enemyHb.y() + 95, 28, 28);
                projectiles.add(new OctaProjectile(dim, xSpeed, ySpeed));
             } else {
                int xSpeed = -3;
                int ySpeed = 4;
                Dimensions dim = new Dimensions(
-                     enemyHb.x + 5, enemyHb.y + 95, 28, 28);
+                     enemyHb.x() + 5, enemyHb.y() + 95, 28, 28);
                projectiles.add(new OctaProjectile(dim, xSpeed, ySpeed));
             }
       }

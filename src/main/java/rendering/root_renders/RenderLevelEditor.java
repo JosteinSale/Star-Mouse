@@ -3,8 +3,7 @@ package rendering.root_renders;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-import java.awt.geom.Rectangle2D;
-
+import entities.MyRectangle;
 import entities.flying.EntityInfo;
 import entities.flying.enemies.Enemy;
 import game_states.LevelEditor;
@@ -75,9 +74,9 @@ public class RenderLevelEditor extends Singleton {
    private void drawEntities(SpriteBatch sb) {
       for (int i = 0; i < le.addedEntities.size(); i++) {
          EntityInfo info = le.getEntityInfo(le.addedEntities.get(i));
-         Rectangle2D.Float hitbox = le.hitboxes.get(i);
-         int hbX = (int) hitbox.getX() + le.editorXOffset;
-         int hbY = (int) hitbox.getY() + le.getEditorY();
+         MyRectangle hitbox = le.hitboxes.get(i);
+         int hbX = (int) hitbox.x() + le.editorXOffset;
+         int hbY = (int) hitbox.y() + le.getEditorY();
 
          // Charge timer
          int chargeTimer = le.chargeTimers.get(i);
@@ -92,14 +91,14 @@ public class RenderLevelEditor extends Singleton {
          int flipX = le.flipXs.get(i);
          MySubImage img = entityImages.getImageFor(
                info.typeConstant, info.editorImgRow, info.editorImgCol);
-         Rectangle2D.Float adjustedHitbox = getEditorAdjustedHitbox(hitbox);
+         MyRectangle adjustedHitbox = getEditorAdjustedHitbox(hitbox);
          DrawUtils.drawRotatedImage(sb, adjustedHitbox, flipX, 0.0, img);
 
          // Hitbox
          DrawUtils.drawRect(
                sb, MyColor.RED,
                (float) hbX, (float) hbY,
-               (float) hitbox.getWidth(), (float) hitbox.getHeight());
+               (float) hitbox.width(), (float) hitbox.height());
 
          // Direction vector
          Vector2 vector = le.vectors.get(i);
@@ -130,21 +129,21 @@ public class RenderLevelEditor extends Singleton {
 
    private void drawSettingVector(SpriteBatch sb) {
       if (le.settingVector) {
-         Rectangle2D.Float enemyHb = le.hitboxes.get(le.hitboxes.size() - 1);
+         MyRectangle enemyHb = le.hitboxes.get(le.hitboxes.size() - 1);
          double rotation = Math.atan2(le.directionVector.y, le.directionVector.x);
-         Rectangle2D.Float adjustedHitbox = getEditorAdjustedHitbox(enemyHb);
+         MyRectangle adjustedHitbox = getEditorAdjustedHitbox(enemyHb);
          DrawUtils.drawRotatedImage(sb, adjustedHitbox, Enemy.RIGHT, rotation, vectorImg);
-         drawVectorText(sb, le.directionVector, rotation, (int) adjustedHitbox.x, (int) adjustedHitbox.y);
+         drawVectorText(sb, le.directionVector, rotation, (int) adjustedHitbox.x(), (int) adjustedHitbox.y());
       }
    }
 
    // Adjust the hitbox position based on the editor's current offset and scroll.
-   private Rectangle2D.Float getEditorAdjustedHitbox(Rectangle2D.Float hitbox) {
-      return new Rectangle2D.Float(
-            (float) hitbox.getX() + le.editorXOffset,
-            (float) hitbox.getY() + le.getEditorY(),
-            (float) hitbox.getWidth(),
-            (float) hitbox.getHeight());
+   private MyRectangle getEditorAdjustedHitbox(MyRectangle hitbox) {
+      return new MyRectangle(
+            (float) hitbox.x() + le.editorXOffset,
+            (float) hitbox.y() + le.getEditorY(),
+            hitbox.width(),
+            hitbox.height());
    }
 
    private void drawVectorText(SpriteBatch sb, Vector2 vector, double rotation, int hbX, int hbY) {

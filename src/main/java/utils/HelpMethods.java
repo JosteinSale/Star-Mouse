@@ -36,13 +36,15 @@ public class HelpMethods {
       }
    }
 
-   public static int GetPixelThatCollides(CollisionPixels collisionPixels, MyCollisionImage clImg, float xLevelOffset, float yLevelOffset) {
+   public static int GetPixelThatCollides(
+         CollisionPixels collisionPixels, MyCollisionImage clImg,
+         float xLevelOffset, float yLevelOffset) {
       Point2D[] pixels = collisionPixels.get();
       for (int i = 0; i < pixels.length; i++) {
          if (IsSolid(
-                 (int) ((pixels[i].getX() - xLevelOffset) / 3f),
-                 (int) ((pixels[i].getY() - yLevelOffset) / 3f),
-                 clImg)) {
+               (int) ((pixels[i].getX() - xLevelOffset) / 3f),
+               (int) ((pixels[i].getY() - yLevelOffset) / 3f),
+               clImg)) {
             return i;
          }
       }
@@ -56,8 +58,8 @@ public class HelpMethods {
     * the collision image.
     */
    public static boolean CollidesWithMap(
-           CollisionPixels collisionPixels, MyCollisionImage clImg,
-           float xLevelOffset, float yLevelOffset) {
+         CollisionPixels collisionPixels, MyCollisionImage clImg,
+         float xLevelOffset, float yLevelOffset) {
       return GetPixelThatCollides(collisionPixels, clImg, xLevelOffset, yLevelOffset) > -1;
    }
 

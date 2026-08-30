@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import utils.PolygonUtils;
 
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -64,11 +65,11 @@ public class MyRectangle {
       return hitbox.getY();
    }
 
-   public float width() {
+   public int width() {
       return hitboxWidth;
    }
 
-   public float height() {
+   public int height() {
       return hitboxHeight;
    }
 
@@ -96,6 +97,10 @@ public class MyRectangle {
 
    public boolean contains(float x, float y) {
       return hitbox.contains(x, y);
+   }
+
+   public boolean contains(Point2D point) {
+      return hitbox.contains((float) point.getX(), (float) point.getY());
    }
 
    public boolean intersects(MyRectangle other) {

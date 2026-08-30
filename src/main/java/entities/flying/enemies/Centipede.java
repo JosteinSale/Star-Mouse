@@ -3,13 +3,14 @@ package entities.flying.enemies;
 import static utils.Constants.Flying.DEFAULT_FG_SPEED;
 
 import java.awt.Point;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import com.badlogic.gdx.math.Vector2;
 
 import entities.AnimationFrame;
+import entities.Dimensions;
+import entities.MyRectangle;
 import entities.flying.EntityInfo;
 import main_classes.Game;
 
@@ -19,7 +20,7 @@ public class Centipede extends BaseEnemy {
    private final Vector2 speedVector;
    private final Vector2 normalizedVector;
    private final double angle;
-   private final Rectangle2D.Float onScreenArea;
+   private final MyRectangle onScreenArea;
    private float chargePhaseTick;
    private boolean attackPhaseActive = false;
 
@@ -30,7 +31,7 @@ public class Centipede extends BaseEnemy {
    private double wiggleRotation;
    private final ArrayList<Point.Float> hitboxCenters;
 
-   public Centipede(Rectangle2D.Float hitbox, EntityInfo info, int startTimer, Vector2 directionVector) {
+   public Centipede(Dimensions hitbox, EntityInfo info, int startTimer, Vector2 directionVector) {
       super(hitbox, info, startTimer, null);
       this.maxHP = 100;
       HP = maxHP;
@@ -38,7 +39,7 @@ public class Centipede extends BaseEnemy {
       this.speedVector = directionVector;
       this.normalizedVector = normalizeVector(directionVector);
       this.angle = calculateAngle(normalizedVector);
-      this.onScreenArea = new Rectangle2D.Float(
+      this.onScreenArea = new MyRectangle(
             -200, -100, Game.GAME_DEFAULT_WIDTH + 400, Game.GAME_DEFAULT_HEIGHT + 200);
       this.hitboxCenters = new ArrayList<>();
       this.chargeDone = (int) (startTimer * DEFAULT_FG_SPEED);
@@ -63,14 +64,14 @@ public class Centipede extends BaseEnemy {
    private void constructHitboxes() {
       allHitboxes.clear();
       // 1. Head
-      allHitboxes.add(hitbox);
+      allHitboxes.add(this);
       // 2. Middle segment + tail
       for (int i = 1; i <= (nrOfMiddleSegments + 1); i++) {
-         Rectangle2D.Float middleHitbox = new Rectangle2D.Float(
-               hitbox.x + angleAdjustedXPosition(i * distanceBetweenSegments),
-               hitbox.y + angleAdjustedYPosition(i * distanceBetweenSegments),
-               hitbox.width,
-               hitbox.height);
+         MyRectangle middleHitbox = new MyRectangle(
+               x() + angleAdjustedXPosition(i * distanceBetweenSegments),
+               y() + angleAdjustedYPosition(i * distanceBetweenSegments),
+               width(),
+               height());
          allHitboxes.add(middleHitbox);
       }
 
@@ -119,13 +120,13 @@ public class Centipede extends BaseEnemy {
    private void constructHitboxCenters() {
       hitboxCenters.clear();
       allHitboxes.forEach(hb -> hitboxCenters.add(
-            new Point.Float(hb.x + hb.width / 2, hb.y + hb.height / 2)));
+            new Point.Float(hb.x() + hb.width() / 2, hb.y() + hb.height() / 2)));
    }
 
    @Override
    protected void moveEnemyDown(float levelYSpeed) {
       allHitboxes.forEach(hb -> {
-         hb.y += levelYSpeed;
+         hb.move(0, levelYSpeed);
       });
       hitboxCenters.forEach(p -> {
          p.y += levelYSpeed;
@@ -163,8 +164,7 @@ public class Centipede extends BaseEnemy {
    private void updateAttackPhase() {
       // 1. Move in the direction of the speed vector
       allHitboxes.forEach(hb -> {
-         hb.x += speedVector.x;
-         hb.y += speedVector.y;
+         hb.move(speedVector.x, speedVector.y);
       });
       hitboxCenters.forEach(p -> {
          p.x += speedVector.x;
@@ -186,9 +186,10 @@ public class Centipede extends BaseEnemy {
          float yOffset = scalar * perpY;
 
          Point.Float center = hitboxCenters.get(i);
-         Rectangle2D.Float hb = allHitboxes.get(i);
-         hb.x = center.x - hb.width / 2 + xOffset;
-         hb.y = center.y - hb.height / 2 + yOffset;
+         MyRectangle hb = allHitboxes.get(i);
+         hb.setPosition(
+               center.x - hb.width() / 2 + xOffset,
+               center.y - hb.height() / 2 + yOffset);
       }
    }
 
@@ -245,8 +246,8 @@ public class Centipede extends BaseEnemy {
 
    @Override
    public void adjustPosition(int deltaY) {
-      for (Rectangle2D.Float hb : allHitboxes) {
-         hb.y -= deltaY;
+      for (MyRectangle hb : allHitboxes) {
+         hb.move(0, -deltaY);
       }
       for (Point.Float p : hitboxCenters) {
          p.y -= deltaY;

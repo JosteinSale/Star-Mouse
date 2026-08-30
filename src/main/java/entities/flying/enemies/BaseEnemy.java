@@ -1,10 +1,10 @@
 package entities.flying.enemies;
 
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import entities.Entity;
+import entities.MyRectangle;
 import entities.AnimationFrame;
+import entities.Dimensions;
 import entities.flying.AnimatedGlow;
 import entities.flying.EntityInfo;
 import main_classes.Game;
@@ -21,7 +21,7 @@ import main_classes.Game;
  * - having 2 states: idle and taking damage
  * All of these can be overridden by subclasses if needed.
  */
-public abstract class BaseEnemy extends Entity implements Enemy {
+public abstract class BaseEnemy extends MyRectangle implements Enemy {
    protected EntityInfo info;
    public AnimatedGlow glow; // Can be null
    protected float startY;
@@ -30,7 +30,7 @@ public abstract class BaseEnemy extends Entity implements Enemy {
    protected int HP = maxHP;
    protected boolean onScreen = false;
    protected boolean dead = false;
-   protected ArrayList<Rectangle2D.Float> allHitboxes; // will contain only one hitbox by default
+   protected ArrayList<MyRectangle> allHitboxes; // will contain only one hitbox by default
    protected int damageTick = 0;
    protected int chargeTick = 0;
    protected int chargeDone;
@@ -43,34 +43,34 @@ public abstract class BaseEnemy extends Entity implements Enemy {
    protected AnimationFrame animation;
    protected ArrayList<AnimationFrame> allAnimations; // will contain only one AnimationFrame by default
 
-   public BaseEnemy(Rectangle2D.Float hitbox, EntityInfo info, int chargeDone, AnimatedGlow glow) {
+   public BaseEnemy(Dimensions hitbox, EntityInfo info, int chargeDone, AnimatedGlow glow) {
       super(hitbox);
       allHitboxes = new ArrayList<>();
-      allHitboxes.add(hitbox);
+      allHitboxes.add(this);
 
       allAnimations = new ArrayList<>();
       animation = new AnimationFrame(IDLE, 0, 4, 1);
       allAnimations.add(animation);
 
       this.info = info;
-      startY = hitbox.y;
-      startX = hitbox.x;
+      startY = hitbox.y();
+      startX = hitbox.x();
       this.chargeDone = chargeDone;
       this.glow = glow;
    }
 
-   public BaseEnemy(Rectangle2D.Float hitbox, EntityInfo info) {
+   public BaseEnemy(Dimensions hitbox, EntityInfo info) {
       super(hitbox);
       allHitboxes = new ArrayList<>();
-      allHitboxes.add(hitbox);
+      allHitboxes.add(this);
 
       allAnimations = new ArrayList<>();
       animation = new AnimationFrame(IDLE, 0, 4, 1);
       allAnimations.add(animation);
 
       this.info = info;
-      startY = hitbox.y;
-      startX = hitbox.x;
+      startY = hitbox.y();
+      startX = hitbox.x();
    }
 
    @Override
@@ -85,12 +85,14 @@ public abstract class BaseEnemy extends Entity implements Enemy {
    }
 
    protected void moveEnemyDown(float levelYSpeed) {
-      hitbox.y += levelYSpeed;
+      for (MyRectangle hb : allHitboxes) {
+         hb.move(0, levelYSpeed);
+      }
    }
 
    protected void checkOnScreen(float levelYSpeed) {
-      onScreen = (((hitbox.y + hitbox.height * 1.2) > 0) &&
-            (hitbox.y - hitbox.height * 0.2 < Game.GAME_DEFAULT_HEIGHT));
+      onScreen = (((y() + height() * 1.2) > 0) &&
+            (y() - height() * 0.2 < Game.GAME_DEFAULT_HEIGHT));
    }
 
    /**
@@ -122,12 +124,12 @@ public abstract class BaseEnemy extends Entity implements Enemy {
    }
 
    @Override
-   public Rectangle2D.Float getMainHitbox() {
-      return this.hitbox;
+   public MyRectangle getMainHitbox() {
+      return this;
    }
 
    @Override
-   public ArrayList<Rectangle2D.Float> getAllHitboxes() {
+   public ArrayList<MyRectangle> getAllHitboxes() {
       return this.allHitboxes;
    }
 
@@ -172,8 +174,7 @@ public abstract class BaseEnemy extends Entity implements Enemy {
 
    @Override
    public void resetTo(float y) {
-      hitbox.y = startY + y;
-      hitbox.x = startX;
+      setPosition(startX, startY + y);
       if (glow != null)
          glow.reset();
       animation.reset();
@@ -231,8 +232,8 @@ public abstract class BaseEnemy extends Entity implements Enemy {
 
    /** Is used with the 'startAt()' method, for testing */
    public void adjustPosition(int deltaY) {
-      for (Rectangle2D.Float hb : allHitboxes) {
-         hb.y -= deltaY;
+      for (MyRectangle hb : allHitboxes) {
+         hb.move(0, -deltaY);
       }
    }
 }

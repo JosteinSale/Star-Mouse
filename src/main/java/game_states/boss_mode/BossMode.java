@@ -4,6 +4,7 @@ import static utils.parsing.CutsceneParser.ParseCutscenes;
 import static utils.Constants.Exploring.Cutscenes.BOSS;
 
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Float;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,8 @@ import audio.AudioPlayer;
 import cutscenes.cutscene_managers.CutsceneManagerBoss;
 import cutscenes.cutscene_managers.DefaultCutsceneManager;
 import cutscenes.events.*;
+import entities.Dimensions;
+import entities.MyRectangle;
 import entities.boss_mode.AnimatedComponentFactory;
 import entities.boss_mode.IBoss;
 import entities.boss_mode.PlayerBoss;
@@ -56,7 +59,7 @@ public class BossMode extends State {
    }
 
    private void initClasses() {
-      Rectangle2D.Float playerHitbox = new Rectangle2D.Float(500f, 600f, 50f, 50f);
+      Dimensions playerHitbox = new Dimensions(500f, 600f, 50, 50);
       player = new PlayerBoss(game, playerHitbox);
 
       pickupItems = new ArrayList<>();
@@ -307,23 +310,26 @@ public class BossMode extends State {
 
    }
 
-   public ArrayList<Rectangle2D.Float> getAllNonRotatedHitboxes() {
-      ArrayList<Rectangle2D.Float> allHitboxes = new ArrayList<>();
-      allHitboxes.add(player.getHitboxAsFloat());
+   public ArrayList<MyRectangle> getAllHitboxes() {
+      ArrayList<MyRectangle> allHitboxes = new ArrayList<>();
+      // Player
+      allHitboxes.add(player.getHitbox());
+
+      // Pickup items
       for (PickupItem p : pickupItems) {
          if (p.isActive()) {
             allHitboxes.add(p.getHitbox());
          }
       }
-      for (Rectangle2D.Float projectileHitbox : projectileHandler.getAllHitboxes()) {
+
+      // Projectiles
+      for (MyRectangle projectileHitbox : projectileHandler.getAllHitboxes()) {
          allHitboxes.add(projectileHitbox);
       }
-      return allHitboxes;
-   }
 
-   public ArrayList<Polygon> getAllRotatedHitboxes() {
-      ArrayList<Polygon> allHitboxes = new ArrayList<>();
-      getBoss().getBossParts().forEach(part -> allHitboxes.add(part.getHitbox().getPolygon()));
+      // Boss
+      getBoss().getBossParts().forEach(part -> allHitboxes.add(part.getHitbox()));
+
       return allHitboxes;
    }
 

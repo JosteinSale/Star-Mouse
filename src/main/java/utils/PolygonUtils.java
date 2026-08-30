@@ -30,10 +30,10 @@ public final class PolygonUtils {
    /** Builds an unrotated, positioned polygon shaped like the given rectangle. */
    public static Polygon newSquareHitboxPolygon(Rectangle2D.Float hitbox) {
       float[] verts = {
-            0, 0,                          // x, y upper left corner
-            hitbox.width, 0,               // x, y upper right corner
-            hitbox.width, hitbox.height,   // x, y lower right corner
-            0, hitbox.height               // x, y lower left corner
+            0, 0, // x, y upper left corner
+            hitbox.width, 0, // x, y upper right corner
+            hitbox.width, hitbox.height, // x, y lower right corner
+            0, hitbox.height // x, y lower left corner
       };
       Polygon polygon = new Polygon(verts);
       polygon.translate(hitbox.x, hitbox.y);
@@ -43,17 +43,20 @@ public final class PolygonUtils {
    /** Builds an unrotated, positioned polygon shaped like the given rectangle. */
    public static Polygon newSquareHitboxPolygon(float x, float y, float width, float height) {
       float[] verts = {
-              0, 0,                        // x, y upper left corner
-              width, 0,                    // x, y upper right corner
-              width, height,               // x, y lower right corner
-              0, height                    // x, y lower left corner
+            0, 0, // x, y upper left corner
+            width, 0, // x, y upper right corner
+            width, height, // x, y lower right corner
+            0, height // x, y lower left corner
       };
       Polygon polygon = new Polygon(verts);
       polygon.translate(x, y);
       return polygon;
    }
 
-   /** Positions and rotates polygon to match hitbox's current location and the given rotation, in radians. */
+   /**
+    * Positions and rotates polygon to match hitbox's current location and the
+    * given rotation, in radians.
+    */
    public static void syncPolygonToRectPosition(Polygon polygon, Rectangle2D.Float hitbox, double rotationRadians) {
       polygon.setPosition(hitbox.x, hitbox.y);
       polygon.setRotation((float) (rotationRadians * MathUtils.radiansToDegrees));
@@ -71,7 +74,8 @@ public final class PolygonUtils {
    }
 
    /**
-    * Updates the given pixel to the current position of the given corner of the square polygon.
+    * Updates the given pixel to the current position of the given corner of the
+    * square polygon.
     */
    public static void UpdatePixelForSquarePosition(SquarePosition position, Polygon polygon, Point2D.Float px) {
       float[] verts = polygon.getTransformedVertices();

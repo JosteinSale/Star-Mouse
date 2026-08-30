@@ -4,9 +4,8 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.math.Vector2;
 
-import java.awt.geom.Rectangle2D;
-
 import utils.Images;
+import entities.Dimensions;
 import entities.flying.enemies.*;
 import static entities.flying.EnemyFactory.TypeConstants.*;
 
@@ -197,7 +196,7 @@ public class EnemyFactory {
       int hitboxH = info.hitboxH;
 
       // Construct the enemy
-      Rectangle2D.Float hitbox = new Rectangle2D.Float(x, y, hitboxW, hitboxH);
+      Dimensions hitbox = new Dimensions(x, y, hitboxW, hitboxH);
       switch (typeConstant) {
          case TARGET:
             return new Target(hitbox, info);

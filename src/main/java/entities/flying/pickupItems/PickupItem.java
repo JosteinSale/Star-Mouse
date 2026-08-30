@@ -1,7 +1,6 @@
 package entities.flying.pickupItems;
 
-import java.awt.geom.Rectangle2D;
-
+import entities.MyRectangle;
 import entities.flying.EntityInfo;
 import entities.flying.StaticGlow;
 
@@ -19,7 +18,7 @@ public interface PickupItem {
 
    public void setActive(boolean active);
 
-   public Rectangle2D.Float getHitbox();
+   public MyRectangle getHitbox();
 
    public EntityInfo getDrawInfo();
 

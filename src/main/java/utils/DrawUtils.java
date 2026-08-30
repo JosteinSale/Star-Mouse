@@ -1,7 +1,5 @@
 package utils;
 
-import java.awt.geom.Rectangle2D;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -13,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 
+import entities.MyRectangle;
 import entities.flying.enemies.Enemy;
 import main_classes.Game;
 import rendering.MyColor;
@@ -106,12 +105,12 @@ public class DrawUtils {
             false, false);
    }
 
-   public static void drawRotatedImage(SpriteBatch batch, Rectangle2D.Float hitbox,
+   public static void drawRotatedImage(SpriteBatch batch, MyRectangle hitbox,
          int dir, double rotation, MySubImage img) {
       float width = img.getWidth() * 3;
       float height = img.getHeight() * 3;
-      float x = (float) hitbox.getCenterX() - width / 2;
-      float y = (float) hitbox.getCenterY() - height / 2;
+      float x = hitbox.centerX() - (width / 2f);
+      float y = hitbox.centerY() - (height / 2f);
       if (dir == Enemy.LEFT) {
          x += width;
          width = -width; // flip horizontally

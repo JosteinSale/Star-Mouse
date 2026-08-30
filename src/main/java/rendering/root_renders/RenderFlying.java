@@ -1,9 +1,8 @@
 package rendering.root_renders;
 
-import java.awt.geom.Rectangle2D;
-
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import entities.MyRectangle;
 import game_states.flying.Flying;
 import main_classes.Game;
 import main_classes.Testing;
@@ -72,12 +71,12 @@ public class RenderFlying extends Singleton implements Render {
 
    private void drawHitboxes(SpriteBatch sb) {
       if (Testing.testingMode && Testing.drawHitboxes) {
-         for (Rectangle2D.Float hitbox : flying.getAllHitboxes()) {
+         for (MyRectangle hitbox : flying.getAllHitboxes()) {
             DrawUtils.drawRect(sb, MyColor.RED,
-                  (int) hitbox.x,
-                  (int) hitbox.y,
-                  (int) hitbox.width,
-                  (int) hitbox.height);
+                  (int) hitbox.x(),
+                  (int) hitbox.y(),
+                  (int) hitbox.width(),
+                  (int) hitbox.height());
          }
       }
    }

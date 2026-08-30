@@ -1,11 +1,9 @@
 package rendering.root_renders;
 
-import java.awt.geom.Rectangle2D;
-
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Polygon;
 
+import entities.MyRectangle;
 import entities.boss_mode.rudinger1.Rudinger1;
 import game_states.boss_mode.BossMode;
 import main_classes.Game;
@@ -75,24 +73,12 @@ public class RenderBossMode extends Singleton implements Render {
       rBoss.draw(sb);
       rEntity.draw(sb);
       rProjectiles.draw(sb);
+      rPlayer.drawStatusDisplay(sb);
       rCutscene.draw(sb);
-      if (Testing.testingMode && Testing.drawHitboxes) {
-         drawHitboxes(sb);
-      }
       if (bossMode.gameOver) {
          rGameOver.draw(sb);
       } else if (bossMode.pause) {
          rPause.draw(sb);
-      }
-   }
-
-   private void drawHitboxes(SpriteBatch sb) {
-      for (Rectangle2D.Float hitbox : bossMode.getAllNonRotatedHitboxes()) {
-         DrawUtils.drawRect(sb, MyColor.RED,
-               (int) hitbox.x,
-               (int) hitbox.y,
-               (int) hitbox.width,
-               (int) hitbox.height);
       }
    }
 
@@ -103,8 +89,8 @@ public class RenderBossMode extends Singleton implements Render {
    }
 
    public void drawHitboxes(ShapeRenderer sr) {
-      for (Polygon hitbox : bossMode.getAllRotatedHitboxes()) {
-         DrawUtils.drawRotatedPolygon(sr, hitbox, MyColor.RED);
+      for (MyRectangle hitbox : bossMode.getAllHitboxes()) {
+         DrawUtils.drawRotatedPolygon(sr, hitbox.getPolygon(), MyColor.RED);
       }
    }
 }

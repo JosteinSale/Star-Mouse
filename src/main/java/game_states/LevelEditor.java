@@ -7,7 +7,6 @@ import static utils.Constants.Flying.COLLISION_MAP_Y_OFFSET;
 import static utils.Constants.Flying.COLLISION_MAP_WIDTH;
 
 import java.awt.Point;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +16,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 
+import entities.MyRectangle;
 import entities.flying.EnemyFactory;
 import entities.flying.EntityInfo;
 import entities.flying.pickupItems.PickupItemFactory;
@@ -44,7 +44,7 @@ public class LevelEditor extends State {
    public PickupItemFactory pickupFactory;
    private ArrayList<String> levelData;
    public ArrayList<Integer> addedEntities;
-   public ArrayList<Rectangle2D.Float> hitboxes;
+   public ArrayList<MyRectangle> hitboxes;
    public ArrayList<Integer> chargeTimers;
    public ArrayList<Integer> flipXs;
    public ArrayList<Vector2> vectors;
@@ -230,7 +230,7 @@ public class LevelEditor extends State {
          x -= info.hitboxW / 2;
          y -= info.hitboxH / 2;
       }
-      Rectangle2D.Float hitbox = new Rectangle2D.Float(x, y, info.hitboxW, info.hitboxH);
+      MyRectangle hitbox = new MyRectangle(x, y, info.hitboxW, info.hitboxH);
 
       // Handle delete, and modify + add entries.
       switch (typeConstant) {
@@ -296,10 +296,10 @@ public class LevelEditor extends State {
       int entityIndex = addedEntities.size() - 1; // The vector will be belong to the most recently added entity.
       int adjustedCursorY = cursorY - getEditorY();
       int adjustedCursorX = cursorX - editorXOffset;
-      Rectangle2D.Float hitbox = hitboxes.get(entityIndex);
+      MyRectangle hitbox = hitboxes.get(entityIndex);
       Point.Float vectorStartPoint = new Point.Float(
-            hitbox.x + hitbox.width / 2,
-            hitbox.y + hitbox.height / 2);
+            hitbox.x() + hitbox.width() / 2,
+            hitbox.y() + hitbox.height() / 2);
       directionVector.set(
             (adjustedCursorX - vectorStartPoint.x) / 10,
             (adjustedCursorY - vectorStartPoint.y) / 10);
@@ -342,7 +342,7 @@ public class LevelEditor extends State {
       }
    }
 
-   private void deleteOverlappingEntity(Rectangle2D.Float deleteHitbox) {
+   private void deleteOverlappingEntity(MyRectangle deleteHitbox) {
       int indexToRemove = -1;
       for (int i = 0; i < hitboxes.size(); i++) {
          if (deleteHitbox.intersects(hitboxes.get(i))) {
@@ -365,7 +365,7 @@ public class LevelEditor extends State {
    }
 
    private void addEntityToLists(
-         String name, int x, int y, int direction, int chargeTimer, Rectangle2D.Float hitbox, int vectorX,
+         String name, int x, int y, int direction, int chargeTimer, MyRectangle hitbox, int vectorX,
          int vectorY) {
       String levelDataString = name + ";" + Integer.toString(x) + ";" + Integer.toString(y) +
             ";" + Integer.toString(direction) + ";" + Integer.toString(chargeTimer);

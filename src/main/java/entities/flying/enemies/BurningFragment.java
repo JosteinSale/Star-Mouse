@@ -1,7 +1,6 @@
 package entities.flying.enemies;
 
-import java.awt.geom.Rectangle2D;
-
+import entities.Dimensions;
 import entities.flying.EntityInfo;
 import main_classes.Game;
 
@@ -13,9 +12,9 @@ import main_classes.Game;
 public class BurningFragment extends BaseEnemy {
    private int ySpeed;
 
-   public BurningFragment(Rectangle2D.Float hitbox, EntityInfo info, int shootInterval) {
+   public BurningFragment(Dimensions hitbox, EntityInfo info, int shootInterval) {
       super(hitbox, info);
-      startY = hitbox.y;
+      startY = hitbox.y();
       maxHP = 30;
       HP = maxHP;
       animation.setAmountOfFrames(8);
@@ -37,13 +36,13 @@ public class BurningFragment extends BaseEnemy {
 
    @Override
    protected void checkOnScreen(float levelYSpeed) {
-      onScreen = (((hitbox.y + hitbox.height * 1.2) > 0) &&
-            (hitbox.y - 150 < Game.GAME_DEFAULT_HEIGHT));
+      onScreen = (((y() + height() * 1.2) > 0) &&
+            (y() - 150 < Game.GAME_DEFAULT_HEIGHT));
    }
 
    @Override
    protected void updateCustomBehavior(float __) {
-      hitbox.y += ySpeed;
+      move(0, ySpeed);
    }
 
    @Override

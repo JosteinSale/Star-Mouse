@@ -1,7 +1,7 @@
 package entities.flying.enemies;
 
-import java.awt.geom.Rectangle2D;
 import entities.flying.EntityInfo;
+import entities.Dimensions;
 import entities.flying.AnimatedGlow;
 
 /**
@@ -9,7 +9,7 @@ import entities.flying.AnimatedGlow;
  * They are not hard to dodge or kill, but has an imposing effect.
  */
 public class ReaperDrone extends BaseEnemy {
-   public ReaperDrone(Rectangle2D.Float hitbox, EntityInfo info, int shootInterval) {
+   public ReaperDrone(Dimensions hitbox, EntityInfo info, int shootInterval) {
       super(hitbox, info, shootInterval, new AnimatedGlow(AnimatedGlow.REAPER_GLOW, 1.5f));
       maxHP = 150;
       HP = maxHP;
@@ -23,7 +23,7 @@ public class ReaperDrone extends BaseEnemy {
    }
 
    private void setGlowPosition() {
-      glow.setPos(hitbox.x + 75, hitbox.y + 100);
+      glow.setPos(x() + 75, y() + 100);
    }
 
    @Override

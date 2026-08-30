@@ -89,12 +89,14 @@ public class ProjectileHandler extends Singleton {
 
    /**
     * Adds two player projectiles, one each in front of the ship's cannons
-    * @param playerHitbox The player's hitbox, used to determine where the projectiles should spawn
+    * 
+    * @param playerHitbox The player's hitbox, used to determine where the
+    *                     projectiles should spawn
     */
    protected void addPlayerProjectile(MyRectangle playerHitbox) {
       allProjectiles.addAll(projectileFactory.createPlayerProjectile(
-              playerHitbox, powerUp,
-              game.getProgressValues().getLazerDmg()));
+            playerHitbox, powerUp,
+            game.getProgressValues().getLazerDmg()));
    }
 
    protected void addBombProjectile(MyRectangle playerHitbox) {
@@ -110,7 +112,7 @@ public class ProjectileHandler extends Singleton {
       }
    }
 
-   private void addEnemeyProjectile(int type, Rectangle2D.Float hitbox, int dir) {
+   private void addEnemeyProjectile(int type, MyRectangle hitbox, int dir) {
       this.allProjectiles.addAll(projectileFactory.createProjectilesForEnemy(type, hitbox, dir, fgSpeed));
    }
 
@@ -226,7 +228,7 @@ public class ProjectileHandler extends Singleton {
    }
 
    protected boolean projectileIntersectsEnemy(Projectile p, Enemy enemy) {
-      for (Rectangle2D.Float hitbox : enemy.getAllHitboxes()) {
+      for (MyRectangle hitbox : enemy.getAllHitboxes()) {
          if (p.getHitbox().intersects(hitbox)) {
             return true;
          }
@@ -350,13 +352,14 @@ public class ProjectileHandler extends Singleton {
    }
 
    public void addCustomProjectile(AddProjectileEvent evt) {
-      this.allProjectiles.add(projectileFactory.createCustomDroneProjectile(evt.xPos(), evt.yPos(), evt.ySpeed(), evt.ySpeed()));
+      this.allProjectiles
+            .add(projectileFactory.createCustomDroneProjectile(evt.xPos(), evt.yPos(), evt.ySpeed(), evt.ySpeed()));
    }
 
-   public List<Rectangle2D.Float> getAllHitboxes() {
-      List<Rectangle2D.Float> hitboxes = new ArrayList<>(allProjectiles.size());
+   public List<MyRectangle> getAllHitboxes() {
+      List<MyRectangle> hitboxes = new ArrayList<>(allProjectiles.size());
       for (Projectile p : allProjectiles) {
-         hitboxes.add(p.getHitbox().getHitboxAsFloat());
+         hitboxes.add(p.getHitbox());
       }
       return hitboxes;
    }

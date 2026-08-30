@@ -1,8 +1,8 @@
 package entities.flying.enemies;
 
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
+import entities.Dimensions;
 import entities.flying.EntityInfo;
 import entities.flying.PlayerFly;
 
@@ -13,14 +13,14 @@ public class Lurker extends BaseEnemy {
    private Point2D.Float lurkerPos;
    private double angle;
 
-   public Lurker(Rectangle2D.Float hitbox, EntityInfo info, int chargeDone, PlayerFly player) {
+   public Lurker(Dimensions hitbox, EntityInfo info, int chargeDone, PlayerFly player) {
       super(hitbox, info, chargeDone, null);
       this.player = player;
       maxHP = 20;
       HP = maxHP;
       animation.setAniTickPerFrame(6);
       animation.setAmountOfFrames(3);
-      lurkerPos = new Point2D.Float(hitbox.x, hitbox.y);
+      lurkerPos = new Point2D.Float(hitbox.x(), hitbox.y());
       playerPos = new Point2D.Float(player.x(), player.y());
    }
 
@@ -41,10 +41,9 @@ public class Lurker extends BaseEnemy {
    }
 
    private void jitterMovement() {
-      float jitterAmount = 3f;
+      float jitterAmount = (float) (Math.random() - 0.5) * 3f;
       if (animation.getTick() == 0) {
-         hitbox.x += (Math.random() - 0.5) * jitterAmount;
-         hitbox.y += (Math.random() - 0.5) * jitterAmount;
+         move(jitterAmount, jitterAmount);
       }
    }
 
@@ -75,13 +74,12 @@ public class Lurker extends BaseEnemy {
       float speed = 5.0f; // Speed at which the lurker moves towards the player
       float dx = (float) (speed * Math.cos(angle - Math.PI / 2));
       float dy = (float) (speed * Math.sin(angle - Math.PI / 2));
-      hitbox.x += dx;
-      hitbox.y += dy;
+      move(dx, dy);
    }
 
    private void updatePoint2Ds() {
       playerPos.setLocation(player.x(), player.y());
-      lurkerPos.setLocation(hitbox.x, hitbox.y);
+      lurkerPos.setLocation(this.x(), this.y());
    }
 
    private void turnFastTowardsPlayer() {

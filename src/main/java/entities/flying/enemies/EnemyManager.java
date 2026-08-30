@@ -4,12 +4,11 @@ import static entities.flying.EnemyFactory.TypeConstants.BURNING_FRAGMENT;
 import static entities.flying.EnemyFactory.TypeConstants.SMALL_ASTEROID;
 import static utils.Constants.Flying.SpriteSizes.EXPLOSION_SPRITE_SIZE;
 
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Float;
 import java.util.ArrayList;
 import java.util.List;
 
 import audio.AudioPlayer;
+import entities.MyRectangle;
 import entities.flying.EnemyFactory;
 import entities.flying.PlayerFly;
 import projectiles.Explosion;
@@ -103,20 +102,20 @@ public class EnemyManager {
    }
 
    /** Makes an explosion centered in the enemy's hitbox */
-   public void addSmallExplosions(ArrayList<Rectangle2D.Float> hbas) {
+   public void addSmallExplosions(ArrayList<MyRectangle> enemyHitboxes) {
       int size = EXPLOSION_SPRITE_SIZE * 3;
-      for (Rectangle2D.Float hb : hbas) {
-         float x = (hb.x + hb.width / 2) - (size / 2);
-         float y = (hb.y + hb.height / 2) - (size / 2);
+      for (MyRectangle hb : enemyHitboxes) {
+         float x = (hb.x() + hb.width() / 2) - (size / 2);
+         float y = (hb.y() + hb.height() / 2) - (size / 2);
          explosions.add(new Explosion((int) x, (int) y, size));
       }
    }
 
    /** Makes a big explosion centered in the enemy's hitbox */
-   private void addBigExplosion(Float hb) {
+   private void addBigExplosion(MyRectangle enemyHb) {
       int size = EXPLOSION_SPRITE_SIZE * 8;
-      float x = (hb.x + hb.width / 2) - (size / 2);
-      float y = (hb.y + hb.height / 2) - (size / 2);
+      float x = (enemyHb.x() + enemyHb.width() / 2) - (size / 2);
+      float y = (enemyHb.y() + enemyHb.height() / 2) - (size / 2);
       explosions.add(new Explosion((int) x, (int) y, size));
    }
 

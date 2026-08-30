@@ -1,10 +1,10 @@
 package rendering.flying;
 
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import entities.AnimationFrame;
+import entities.MyRectangle;
 import entities.flying.EnemyFactory;
 import entities.flying.enemies.Enemy;
 import entities.flying.enemies.EnemyManager;
@@ -79,7 +79,7 @@ public class RenderEntity {
 
    private void drawEnemy(Enemy enemy, SpriteBatch sb) {
       // Enemy animations
-      ArrayList<Rectangle2D.Float> allHitboxes = enemy.getAllHitboxes();
+      ArrayList<MyRectangle> allHitboxes = enemy.getAllHitboxes();
       for (int i = 0; i < allHitboxes.size(); i++) {
          AnimationFrame af = enemy.getAnimationForHitbox(i);
          MySubImage img = entityImgs.getImageFor(enemy.getType(), af.getRow(), af.getCol());

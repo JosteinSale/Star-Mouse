@@ -1,10 +1,10 @@
 package entities.flying.enemies;
 
-import java.awt.geom.Rectangle2D;
+import entities.Dimensions;
 import entities.flying.EntityInfo;
 
 public class TankDrone extends BaseEnemy {
-   public TankDrone(Rectangle2D.Float hitbox, EntityInfo info) {
+   public TankDrone(Dimensions hitbox, EntityInfo info) {
       super(hitbox, info);
       maxHP = 300;
       HP = maxHP;

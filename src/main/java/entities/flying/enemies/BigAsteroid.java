@@ -1,7 +1,6 @@
 package entities.flying.enemies;
 
-import java.awt.geom.Rectangle2D;
-
+import entities.Dimensions;
 import entities.flying.EntityInfo;
 import main_classes.Game;
 
@@ -18,10 +17,10 @@ public class BigAsteroid extends BaseEnemy {
    private float curXSpeed;
    private float curYSpeed;
 
-   public BigAsteroid(Rectangle2D.Float hitbox, EntityInfo info, int shootInterval, int direction) {
+   public BigAsteroid(Dimensions hitbox, EntityInfo info, int shootInterval, int direction) {
       super(hitbox, info);
-      startY = hitbox.y;
-      startX = hitbox.x;
+      startY = hitbox.y();
+      startX = hitbox.x();
       this.info = info;
       // Extract x- and y-Speed.
       this.extractXandYSpeed(shootInterval, direction);
@@ -49,11 +48,11 @@ public class BigAsteroid extends BaseEnemy {
 
    @Override
    public void update(float levelYSpeed) {
-      hitbox.y += levelYSpeed;
-      onScreen = (((hitbox.y + hitbox.height + 50) > 0) && ((hitbox.y - 50) < Game.GAME_DEFAULT_HEIGHT));
+      move(0, levelYSpeed);
+      onScreen = (((y() + height() + 50) > 0) &&
+            ((y() - 50) < Game.GAME_DEFAULT_HEIGHT));
       if (onScreen) {
-         hitbox.y += curYSpeed;
-         hitbox.x += curXSpeed;
+         move(curXSpeed, curYSpeed);
       }
    }
 
@@ -95,8 +94,7 @@ public class BigAsteroid extends BaseEnemy {
 
    @Override
    public void resetTo(float y) {
-      hitbox.y = startY + y;
-      hitbox.x = startX;
+      setPosition(startX, startY + y);
       curXSpeed = startXSpeed;
       curYSpeed = startYSpeed;
       onScreen = false;

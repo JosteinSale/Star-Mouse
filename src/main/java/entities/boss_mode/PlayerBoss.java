@@ -2,13 +2,11 @@ package entities.boss_mode;
 
 import static utils.Constants.Flying.PlaneAction.*;
 
-import java.awt.Point;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Float;
 import java.util.ArrayList;
 
+import entities.Dimensions;
 import entities.MyCollisionImage;
+import entities.MyRectangle;
 import entities.flying.AnimatedGlow;
 import entities.flying.PlayerFly;
 import main_classes.Game;
@@ -37,7 +35,7 @@ public class PlayerBoss extends PlayerFly {
    private final int customIframes = 60; // The playerBoss should stay invincible for longer
    private int customIframeTick = 0;
 
-   public PlayerBoss(Game game, Float hitbox) {
+   public PlayerBoss(Game game, Dimensions hitbox) {
       super(game, hitbox);
    }
 
@@ -195,12 +193,12 @@ public class PlayerBoss extends PlayerFly {
 
    // ----- Methods we don't use will do nothing / return false. -----
    @Override
-   public boolean checkAndHandleCollisionWithEnemy(ArrayList<Rectangle2D.Float> hitboxesForEnemy) {
+   public boolean checkAndHandleCollisionWithEnemy(ArrayList<MyRectangle> hitboxesForEnemy) {
       return false;
    }
 
    @Override
-   public boolean teleportHitsEnemy(ArrayList<Rectangle2D.Float> hitboxesForEnemy) {
+   public boolean teleportHitsEnemy(ArrayList<MyRectangle> hitboxesForEnemy) {
       return false;
    }
 

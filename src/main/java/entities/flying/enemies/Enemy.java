@@ -1,10 +1,10 @@
 package entities.flying.enemies;
 
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import entities.flying.EntityInfo;
 import entities.AnimationFrame;
+import entities.MyRectangle;
 import entities.flying.AnimatedGlow;
 
 public interface Enemy {
@@ -32,12 +32,12 @@ public interface Enemy {
     * Returns the main hitbox of the enemy, which is considered the
     * 'anchor' or the 'head' of the enemy.
     */
-   public Rectangle2D.Float getMainHitbox();
+   public MyRectangle getMainHitbox();
 
    /**
     * Returns all hitboxes of the enemy, including the main hitbox.
     */
-   public ArrayList<Rectangle2D.Float> getAllHitboxes();
+   public ArrayList<MyRectangle> getAllHitboxes();
 
    public int getType();
 

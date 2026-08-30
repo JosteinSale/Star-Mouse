@@ -1,8 +1,7 @@
 package entities.flying.enemies;
 
-import java.awt.geom.Rectangle2D;
-
 import cutscenes.effects.SimpleAnimation;
+import entities.Dimensions;
 import entities.flying.EntityInfo;
 
 public class FlameDrone extends BaseEnemy {
@@ -10,9 +9,9 @@ public class FlameDrone extends BaseEnemy {
    private int charginStarts = 90;
    private int shootStarts = 120;
 
-   public FlameDrone(Rectangle2D.Float hitbox, EntityInfo info) {
+   public FlameDrone(Dimensions hitbox, EntityInfo info) {
       super(hitbox, info);
-      startY = hitbox.y;
+      startY = hitbox.y();
       this.info = info;
       maxHP = 120;
       HP = maxHP;
@@ -22,11 +21,11 @@ public class FlameDrone extends BaseEnemy {
    }
 
    private int getFlameAnimationX() {
-      return (int) (hitbox.x - 130);
+      return (int) (x() - 130);
    }
 
    private int getFlameAnimationY() {
-      return (int) (hitbox.y + 86);
+      return (int) (y() + 86);
    }
 
    @Override

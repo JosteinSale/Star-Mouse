@@ -1,12 +1,11 @@
 package entities.flying.pickupItems;
 
-import java.awt.geom.Rectangle2D;
-
-import entities.Entity;
+import entities.Dimensions;
+import entities.MyRectangle;
 import entities.flying.EntityInfo;
 import entities.flying.StaticGlow;
 
-public class DefaultPickupitem extends Entity implements PickupItem {
+public class DefaultPickupitem extends MyRectangle implements PickupItem {
    private EntityInfo info;
    protected StaticGlow glow;
    private float startY;
@@ -16,10 +15,10 @@ public class DefaultPickupitem extends Entity implements PickupItem {
    protected int nrOfImages;
    private boolean active = true;
 
-   public DefaultPickupitem(Rectangle2D.Float hitbox, EntityInfo info, int aniTickPerFrame, int nrOfImages,
+   public DefaultPickupitem(Dimensions hitbox, EntityInfo info, int aniTickPerFrame, int nrOfImages,
          StaticGlow glow) {
       super(hitbox);
-      startY = hitbox.y;
+      startY = hitbox.y();
       this.info = info;
       this.aniTickPerFrame = aniTickPerFrame;
       this.nrOfImages = nrOfImages;
@@ -27,7 +26,7 @@ public class DefaultPickupitem extends Entity implements PickupItem {
    }
 
    public void update(float yLevelSpeed) {
-      this.hitbox.y += yLevelSpeed;
+      move(0, yLevelSpeed);
       aniTick++;
       setGlowPos();
       if (aniTick == aniTickPerFrame) {
@@ -51,8 +50,8 @@ public class DefaultPickupitem extends Entity implements PickupItem {
       this.active = active;
    }
 
-   public Rectangle2D.Float getHitbox() {
-      return this.hitbox;
+   public MyRectangle getHitbox() {
+      return this;
    }
 
    public int getType() {
@@ -62,7 +61,7 @@ public class DefaultPickupitem extends Entity implements PickupItem {
    @Override
    public void resetTo(float y) {
       this.active = true;
-      hitbox.y = startY + y;
+      setY(startY + y);
    }
 
    @Override
