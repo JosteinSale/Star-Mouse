@@ -7,7 +7,7 @@ import entities.MyRectangle;
 /**
  * An interface that represents a default BossPart. It has methods for updating
  * the
- * x- y- and rotation, checking collision with Rectangle2D's, and drawing.
+ * x- y- and rotation, checking collision with hitboxes, and drawing.
  * Specific implementations of bossParts can extend this object, and should
  * override the following methods:
  * - updateBehavior(),

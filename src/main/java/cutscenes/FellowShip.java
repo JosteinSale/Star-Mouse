@@ -3,9 +3,6 @@ package cutscenes;
 import static utils.Constants.Flying.SHIP_HITBOX_HEIGHT;
 import static utils.Constants.Flying.SHIP_HITBOX_WIDTH;
 
-import java.awt.geom.Rectangle2D;
-
-import entities.Dimensions;
 import entities.MyRectangle;
 import entities.flying.ShipFlame;
 import entities.flying.ShipSmoke;

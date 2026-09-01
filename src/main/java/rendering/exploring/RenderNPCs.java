@@ -65,8 +65,8 @@ public class RenderNPCs implements Render {
    private void drawNpc(SpriteBatch sb, NPC npc, int xLevelOffset, int yLevelOffset) {
       DrawUtils.drawSubImage(
             sb, this.getSprite(npc),
-            (int) (npc.getHitbox().x - npc.getXDrawOffset() - xLevelOffset),
-            (int) (npc.getHitbox().y - npc.getYDrawOffset() - yLevelOffset),
+            (int) (npc.getHitbox().x() - npc.getXDrawOffset() - xLevelOffset),
+            (int) (npc.getHitbox().y() - npc.getYDrawOffset() - yLevelOffset),
             drawWidth, drawHeight);
    }
 

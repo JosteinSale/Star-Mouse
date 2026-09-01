@@ -33,8 +33,8 @@ public class NPCWalkEffect implements UpdatableEffect, AdvancableEffect {
       npc.setAction(CharacterAction.WALKING);
       npc.setDir(npcEvt.dir());
 
-      float xDistance = npcEvt.targetX() - this.npcManager.getNpc(npcIndex).getHitbox().x;
-      float yDistance = npcEvt.targetY() - this.npcManager.getNpc(npcIndex).getHitbox().y;
+      float xDistance = npcEvt.targetX() - this.npcManager.getNpc(npcIndex).getHitbox().x();
+      float yDistance = npcEvt.targetY() - this.npcManager.getNpc(npcIndex).getHitbox().y();
       this.xSpeed = xDistance / walkDuration;
       this.ySpeed = yDistance / walkDuration;
    }

@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Polygon;
 import utils.PolygonUtils;
 
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * Represents a rectangle for use in math calculations in the game.
@@ -17,13 +16,6 @@ public class MyRectangle {
    protected int hitboxWidth;
    protected int hitboxHeight;
    protected double rotationRadians = 0.0;
-
-   public MyRectangle(Rectangle2D.Float hitbox) {
-      this.hitbox = PolygonUtils.newSquareHitboxPolygon(hitbox);
-      this.hitboxWidth = (int) hitbox.width;
-      this.hitboxHeight = (int) hitbox.height;
-      this.hitbox.setOrigin(hitboxWidth / 2f, hitboxHeight / 2f);
-   }
 
    public MyRectangle(float x, float y, int width, int height) {
       this.hitbox = PolygonUtils.newSquareHitboxPolygon(x, y, width, height);
@@ -105,21 +97,6 @@ public class MyRectangle {
 
    public boolean intersects(MyRectangle other) {
       return PolygonUtils.polygonsIntersect(this.hitbox, other.hitbox);
-   }
-
-   /**
-    * Temporary intersects-method while we migrate fully to MyRectangle
-    */
-   public boolean intersects(Rectangle2D.Float other) {
-      return PolygonUtils.polygonIntersectsRect(this.hitbox, other);
-   }
-
-   /**
-    * Returns the hitbox as a Rectangle2D.Float. Temporary method while we migrate
-    * fully to MyRectangle.
-    */
-   public Rectangle2D.Float getHitboxAsFloat() {
-      return new Rectangle2D.Float(hitbox.getX(), hitbox.getY(), hitboxWidth, hitboxHeight);
    }
 
    /**

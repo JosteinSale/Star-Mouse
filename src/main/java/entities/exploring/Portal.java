@@ -1,8 +1,7 @@
 package entities.exploring;
 
-import java.awt.geom.Rectangle2D;
-
-import entities.Entity;
+import entities.Dimensions;
+import entities.MyRectangle;
 import utils.Constants.Direction;
 
 /**
@@ -11,11 +10,11 @@ import utils.Constants.Direction;
  * outside the portal hitbox, so that it doesn't trigger immediately upon the
  * player returning to the current area.
  */
-public class Portal extends Entity {
+public class Portal extends MyRectangle {
    private int areaItLeadsTo;
    private Direction reenterDir;
 
-   public Portal(Rectangle2D.Float hitbox, int areaItLeadsTo, Direction reenterDir) {
+   public Portal(Dimensions hitbox, int areaItLeadsTo, Direction reenterDir) {
       super(hitbox);
       this.areaItLeadsTo = areaItLeadsTo;
       this.reenterDir = reenterDir;
@@ -29,7 +28,7 @@ public class Portal extends Entity {
       return this.reenterDir;
    }
 
-   public Rectangle2D.Float getHitbox() {
-      return this.hitbox;
+   public MyRectangle getHitbox() {
+      return this;
    }
 }

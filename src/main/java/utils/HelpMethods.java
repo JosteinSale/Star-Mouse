@@ -1,13 +1,13 @@
 package utils;
 
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Color;
 
 import entities.CollisionPixels;
 import entities.MyCollisionImage;
+import entities.MyRectangle;
 import rendering.MyImage;
 import rendering.MySubImage;
 
@@ -63,8 +63,8 @@ public class HelpMethods {
       return GetPixelThatCollides(collisionPixels, clImg, xLevelOffset, yLevelOffset) > -1;
    }
 
-   public static boolean CollidesWithNpc(Rectangle2D.Float playerHitbox, ArrayList<Rectangle2D.Float> npcHitboxes) {
-      for (Rectangle2D.Float npcHitbox : npcHitboxes) {
+   public static boolean CollidesWithNpc(MyRectangle playerHitbox, ArrayList<MyRectangle> npcHitboxes) {
+      for (MyRectangle npcHitbox : npcHitboxes) {
          if (npcHitbox.intersects(playerHitbox)) {
             return true;
          }

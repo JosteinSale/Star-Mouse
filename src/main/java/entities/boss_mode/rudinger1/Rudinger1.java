@@ -1,10 +1,10 @@
 package entities.boss_mode.rudinger1;
 
 import java.awt.Point;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import entities.Dimensions;
 import entities.boss_mode.AnimatedComponent;
 import entities.boss_mode.AnimatedComponentFactory;
 import entities.boss_mode.BossActionHandler;
@@ -125,7 +125,7 @@ public class Rudinger1 implements IBoss {
 
       int width1 = 30;
       int height1 = 1300;
-      Rectangle2D.Float hitbox1 = new Rectangle2D.Float(
+      Dimensions hitbox1 = new Dimensions(
             (float) mainGunPoint.getX() - width1 / 2,
             (float) mainGunPoint.getY() - height1 / 2,
             width1, height1);
@@ -141,7 +141,7 @@ public class Rudinger1 implements IBoss {
 
       int width2 = 90;
       int height2 = 660;
-      Rectangle2D.Float hitbox2 = new Rectangle2D.Float(
+      Dimensions hitbox2 = new Dimensions(
             (float) mainGunPoint.getX() - width2 / 2,
             (float) mainGunPoint.getY(),
             width2, height2);
@@ -152,7 +152,7 @@ public class Rudinger1 implements IBoss {
 
       int width3 = 100;
       int height3 = 100;
-      Rectangle2D.Float hitbox3 = new Rectangle2D.Float(
+      Dimensions hitbox3 = new Dimensions(
             (float) heartDockingPoint.getX() - width3 / 2,
             (float) heartDockingPoint.getY() - height3 / 2,
             width3, height3);
@@ -164,7 +164,7 @@ public class Rudinger1 implements IBoss {
 
       int width4 = 120;
       int height4 = 40;
-      Rectangle2D.Float hitbox4 = new Rectangle2D.Float(
+      Dimensions hitbox4 = new Dimensions(
             (float) heartDockingPoint.getX() - width4 / 2,
             (float) heartDockingPoint.getY() + 40,
             width4, height4);

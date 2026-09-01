@@ -2,8 +2,6 @@ package projectiles;
 
 import entities.Dimensions;
 
-import java.awt.geom.Rectangle2D.Float;
-
 import static projectiles.ProjectileFactory.TypeConstants.BOSS_PROJECTILE1;
 
 /**

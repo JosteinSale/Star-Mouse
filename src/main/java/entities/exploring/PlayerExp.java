@@ -1,8 +1,6 @@
 package entities.exploring;
 
 import java.awt.event.KeyEvent;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Float;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
@@ -27,7 +25,7 @@ public class PlayerExp extends MyRectangle {
    public CharacterAction action;
    public Direction direction;
 
-   public PlayerExp(Game game, Float hitbox, Direction initialDirection, Integer level, Integer area) {
+   public PlayerExp(Game game, Dimensions hitbox, Direction initialDirection, Integer level, Integer area) {
       super(hitbox);
       collisionPixels = new CollisionPixels(this, CollisionAt.ALL_FOUR_CORNERS);
       action = CharacterAction.STANDING;
@@ -70,7 +68,7 @@ public class PlayerExp extends MyRectangle {
    public void KeyReleased(KeyEvent e) {
    }
 
-   public void update(ArrayList<Rectangle2D.Float> npcHitboxes, boolean cutsceneActive, boolean fadeActive) {
+   public void update(ArrayList<MyRectangle> npcHitboxes, boolean cutsceneActive, boolean fadeActive) {
       if (!cutsceneActive && !fadeActive) {
          speedVector.set(0, 0);
          handleKeyboardInputs();
@@ -125,7 +123,7 @@ public class PlayerExp extends MyRectangle {
     * and if it crashes with the map / NPCs,
     * try to slide the player into an available position.
     */
-   private void movePlayer(ArrayList<Rectangle2D.Float> npcHitboxes) {
+   private void movePlayer(ArrayList<MyRectangle> npcHitboxes) {
       if (speedVector.x == 0 && speedVector.y == 0) {
          return;
       }
@@ -170,11 +168,11 @@ public class PlayerExp extends MyRectangle {
     * Moves the hitbox into the given position,
     * and returns true if it is available, false otherwise
     */
-   private boolean tryMove(float x, float y, ArrayList<Rectangle2D.Float> npcHitboxes) {
+   private boolean tryMove(float x, float y, ArrayList<MyRectangle> npcHitboxes) {
       setPosition(x, y);
       collisionPixels.update();
       return (!HelpMethods.CollidesWithMap(collisionPixels, collisionImg, 0, 0) &&
-              !HelpMethods.CollidesWithNpc(getHitboxAsFloat(), npcHitboxes));
+            !HelpMethods.CollidesWithNpc(this, npcHitboxes));
    }
 
    public void resetAll() {

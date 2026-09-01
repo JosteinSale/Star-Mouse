@@ -1,23 +1,21 @@
 package entities.exploring;
 
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Float;
-
 import entities.AnimationFrame;
-import entities.Entity;
+import entities.Dimensions;
+import entities.MyRectangle;
 import utils.Constants.Direction;
 import utils.Constants.Exploring.CharacterAction;
 
-public class StandardNpc extends Entity implements NPC {
-   public String name;
-   private Rectangle2D.Float triggerBox;
-   public int xDrawOffset; // = (spriteWidth - characterWidth) / 2
+public class BaseNpc extends MyRectangle implements NPC {
+   protected String name;
+   protected MyRectangle triggerBox;
+   public int xDrawOffset;
    public int yDrawOffset;
-   private int startCutscene = 0;
+   protected int startCutscene = 0;
    public boolean inForeground;
-   private AnimationFrame animation;
+   protected AnimationFrame animation;
 
-   public StandardNpc(String name, Float hitbox, int xDrawOffset, int yDrawOffset,
+   public BaseNpc(String name, Dimensions hitbox, int xDrawOffset, int yDrawOffset,
          boolean inForeground) {
       super(hitbox);
       makeTriggerBox();
@@ -35,17 +33,17 @@ public class StandardNpc extends Entity implements NPC {
    }
 
    private void makeTriggerBox() {
-      this.triggerBox = new Rectangle2D.Float(
-            hitbox.x - 8, hitbox.y - 8, hitbox.width + 16, hitbox.height + 16);
+      this.triggerBox = new MyRectangle(
+            x() - 8, y() - 8, width() + 16, height() + 16);
    }
 
    @Override
-   public Float getHitbox() {
-      return this.hitbox;
+   public MyRectangle getHitbox() {
+      return this;
    }
 
    @Override
-   public Rectangle2D.Float getTriggerBox() {
+   public MyRectangle getTriggerBox() {
       return this.triggerBox;
    }
 
@@ -84,6 +82,7 @@ public class StandardNpc extends Entity implements NPC {
       // Do nothing
    }
 
+   @Override
    public boolean inForeground() {
       return this.inForeground;
    }

@@ -1,22 +1,20 @@
 package entities.exploring;
 
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Float;
-
-import entities.Entity;
+import entities.Dimensions;
+import entities.MyRectangle;
 
 /** Mostly just called 'object' in the rest of the code */
-public class InteractableObject extends Entity {
+public class InteractableObject extends MyRectangle {
    private String name;
    private int startCutscene = 0;
 
-   public InteractableObject(Float hitbox, String name) {
+   public InteractableObject(Dimensions hitbox, String name) {
       super(hitbox);
       this.name = name;
    }
 
-   public Rectangle2D.Float getHitbox() {
-      return this.hitbox;
+   public MyRectangle getHitbox() {
+      return this;
    }
 
    public void setStartCutscene(int index) {

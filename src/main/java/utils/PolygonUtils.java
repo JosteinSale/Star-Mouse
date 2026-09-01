@@ -1,10 +1,8 @@
 package utils;
 
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 
 /**
@@ -28,19 +26,6 @@ public final class PolygonUtils {
    }
 
    /** Builds an unrotated, positioned polygon shaped like the given rectangle. */
-   public static Polygon newSquareHitboxPolygon(Rectangle2D.Float hitbox) {
-      float[] verts = {
-            0, 0, // x, y upper left corner
-            hitbox.width, 0, // x, y upper right corner
-            hitbox.width, hitbox.height, // x, y lower right corner
-            0, hitbox.height // x, y lower left corner
-      };
-      Polygon polygon = new Polygon(verts);
-      polygon.translate(hitbox.x, hitbox.y);
-      return polygon;
-   }
-
-   /** Builds an unrotated, positioned polygon shaped like the given rectangle. */
    public static Polygon newSquareHitboxPolygon(float x, float y, float width, float height) {
       float[] verts = {
             0, 0, // x, y upper left corner
@@ -51,22 +36,6 @@ public final class PolygonUtils {
       Polygon polygon = new Polygon(verts);
       polygon.translate(x, y);
       return polygon;
-   }
-
-   /**
-    * Positions and rotates polygon to match hitbox's current location and the
-    * given rotation, in radians.
-    */
-   public static void syncPolygonToRectPosition(Polygon polygon, Rectangle2D.Float hitbox, double rotationRadians) {
-      polygon.setPosition(hitbox.x, hitbox.y);
-      polygon.setRotation((float) (rotationRadians * MathUtils.radiansToDegrees));
-   }
-
-   /** Tests a (possibly rotated) polygon against an unrotated rectangle. */
-   public static boolean polygonIntersectsRect(Polygon polygon, Rectangle2D.Float rect) {
-      Polygon rectAsPolygon = newSquareHitboxPolygon(rect);
-      syncPolygonToRectPosition(rectAsPolygon, rect, 0.0);
-      return Intersector.overlapConvexPolygons(polygon, rectAsPolygon);
    }
 
    public static boolean polygonsIntersect(Polygon a, Polygon b) {

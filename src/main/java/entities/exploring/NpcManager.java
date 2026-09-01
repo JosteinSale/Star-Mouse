@@ -1,13 +1,13 @@
 package entities.exploring;
 
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import entities.MyRectangle;
 import utils.Constants.Direction;
 
 public class NpcManager {
-   public ArrayList<NPC> allNpcs = new ArrayList<>();
-   private ArrayList<Rectangle2D.Float> hitboxes = new ArrayList<>();
+   public ArrayList<NPC> allNpcs = new ArrayList<>(); // TODO - should be HashMap
+   private ArrayList<MyRectangle> hitboxes = new ArrayList<>();
 
    public NpcManager() {
    }
@@ -23,7 +23,7 @@ public class NpcManager {
       }
    }
 
-   public ArrayList<Rectangle2D.Float> getHitboxes() {
+   public ArrayList<MyRectangle> getHitboxes() {
       return this.hitboxes;
    }
 

@@ -1,12 +1,12 @@
 package rendering.exploring;
 
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import entities.exploring.PlayerExp;
 import entities.AnimationFrame;
+import entities.MyRectangle;
 import game_states.exploring.Area;
 import main_classes.Game;
 import main_classes.Testing;
@@ -103,12 +103,12 @@ public class RenderArea implements Render {
    }
 
    private void drawHitboxes(SpriteBatch sb, int xLevelOffset, int yLevelOffset) {
-      for (Rectangle2D.Float hitbox : area.getAllHitboxes()) {
+      for (MyRectangle hitbox : area.getAllHitboxes()) {
          DrawUtils.drawRect(sb, MyColor.RED,
-               (int) (hitbox.x - xLevelOffset),
-               (int) (hitbox.y - yLevelOffset),
-               (int) hitbox.width,
-               (int) hitbox.height);
+               (int) (hitbox.x() - xLevelOffset),
+               (int) (hitbox.y() - yLevelOffset),
+               (int) hitbox.width(),
+               (int) hitbox.height());
       }
    }
 

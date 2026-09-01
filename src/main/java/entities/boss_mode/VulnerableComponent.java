@@ -1,6 +1,6 @@
 package entities.boss_mode;
 
-import java.awt.geom.Rectangle2D.Float;
+import entities.Dimensions;
 
 /**
  * The VulnerableComponent is a part of the boss that can take damage.
@@ -17,7 +17,7 @@ public class VulnerableComponent extends DefaultBossPart {
    private IBoss boss;
 
    public VulnerableComponent(
-         int lazerDmg, Float hitbox, IBoss boss) {
+         int lazerDmg, Dimensions hitbox, IBoss boss) {
       super(hitbox, null);
       this.boss = boss;
       this.lazerDmg = lazerDmg;

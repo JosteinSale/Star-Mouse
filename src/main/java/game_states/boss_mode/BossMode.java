@@ -3,12 +3,8 @@ package game_states.boss_mode;
 import static utils.parsing.CutsceneParser.ParseCutscenes;
 import static utils.Constants.Exploring.Cutscenes.BOSS;
 
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Float;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.badlogic.gdx.math.Polygon;
 
 import audio.AudioPlayer;
 import cutscenes.cutscene_managers.CutsceneManagerBoss;

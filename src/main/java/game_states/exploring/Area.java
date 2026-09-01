@@ -4,7 +4,6 @@ import static utils.Constants.Exploring.Cutscenes.*;
 import static utils.parsing.LevelDataParser.*;
 import static utils.parsing.CutsceneParser.ParseCutscenes;
 
-import java.awt.geom.Rectangle2D.Float;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +11,7 @@ import audio.AudioPlayer;
 import cutscenes.cutscene_managers.CutsceneManagerExp;
 import cutscenes.cutscene_managers.DefaultCutsceneManager;
 import cutscenes.events.*;
+import entities.MyRectangle;
 import entities.exploring.*;
 import game_states.Gamestate;
 import inputs.Inputs;
@@ -497,9 +497,9 @@ public class Area {
       return this.cutsceneManager;
    }
 
-   public ArrayList<Float> getAllHitboxes() {
-      ArrayList<Float> hitboxes = new ArrayList<>();
-      hitboxes.add(player.getHitboxAsFloat());
+   public ArrayList<MyRectangle> getAllHitboxes() {
+      ArrayList<MyRectangle> hitboxes = new ArrayList<>();
+      hitboxes.add(player);
       hitboxes.addAll(npcManager.getHitboxes());
       for (InteractableObject ob : interactableObject) {
          hitboxes.add(ob.getHitbox());

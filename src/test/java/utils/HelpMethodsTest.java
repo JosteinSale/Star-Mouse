@@ -10,7 +10,6 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import com.badlogic.gdx.graphics.Pixmap;
 import entities.MyCollisionImage;

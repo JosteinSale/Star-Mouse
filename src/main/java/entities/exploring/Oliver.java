@@ -2,35 +2,22 @@ package entities.exploring;
 
 import static utils.Constants.Exploring.Cutscenes.OLIVER;
 
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Float;
-
 import entities.AnimationFrame;
-import entities.Entity;
+import entities.Dimensions;
 import utils.Constants.Direction;
 import utils.Constants.Exploring.CharacterAction;
 
-public class Oliver extends Entity implements NPC {
-   private String name = OLIVER;
-   private Rectangle2D.Float triggerBox;
-   private int xDrawOffset = 80;
-   private int yDrawOffset = 30;
-   private int startCutscene = 0;
-   private boolean inForeground;
-
-   private AnimationFrame animation;
+public class Oliver extends BaseNpc {
    public CharacterAction action;
    public Direction direction;
 
-   public Oliver(Float hitbox, Direction direction, boolean inForeground) {
-      super(hitbox);
+   public Oliver(Dimensions hitbox, Direction direction, boolean inForeground) {
+      super(OLIVER, hitbox, 80, 30, inForeground);
       this.direction = direction;
       this.action = CharacterAction.STANDING;
       this.animation = new AnimationFrame(
             getAnimationRow(), 0,
             8, 4);
-      this.inForeground = inForeground;
-      makeTriggerBox();
    }
 
    private int getAnimationRow() {
@@ -56,11 +43,6 @@ public class Oliver extends Entity implements NPC {
       }
    }
 
-   private void makeTriggerBox() {
-      this.triggerBox = new Rectangle2D.Float(
-            hitbox.x - 8, hitbox.y, hitbox.width + 16, hitbox.height + 8);
-   }
-
    @Override
    public void update() {
       if (action != CharacterAction.POSING) {
@@ -68,35 +50,10 @@ public class Oliver extends Entity implements NPC {
       }
    }
 
+   @Override
    public void adjustPos(float deltaX, float deltaY) {
-      this.hitbox.x += deltaX;
-      this.hitbox.y += deltaY;
-      this.triggerBox.x += deltaX;
-      this.triggerBox.y += deltaY;
-   }
-
-   @Override
-   public Rectangle2D.Float getHitbox() {
-      return this.hitbox;
-   }
-
-   @Override
-   public Rectangle2D.Float getTriggerBox() {
-      return this.triggerBox;
-   }
-
-   public int getStartCutscene() {
-      return this.startCutscene;
-   }
-
-   @Override
-   public void setStartCutscene(int startCutscene) {
-      this.startCutscene = startCutscene;
-   }
-
-   @Override
-   public String getName() {
-      return this.name;
+      move(deltaX, deltaY);
+      triggerBox.move(deltaX, deltaY);
    }
 
    @Override
@@ -118,28 +75,9 @@ public class Oliver extends Entity implements NPC {
    }
 
    @Override
-   public boolean inForeground() {
-      return this.inForeground;
-   }
-
    public void setAction(CharacterAction action) {
       this.action = action;
       this.animation.setRow(getAnimationRow());
-   }
-
-   @Override
-   public float getXDrawOffset() {
-      return this.xDrawOffset;
-   }
-
-   @Override
-   public float getYDrawOffset() {
-      return this.yDrawOffset;
-   }
-
-   @Override
-   public AnimationFrame getAnimation() {
-      return this.animation;
    }
 
 }

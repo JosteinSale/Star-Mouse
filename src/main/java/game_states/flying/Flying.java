@@ -256,7 +256,7 @@ public class Flying extends State {
          PlayerFly player, ProjectileHandler projectileHandler, AudioPlayer audioPlayer) {
       for (PickupItem p : pickupItems) {
          p.update(fgCurSpeed);
-         if (p.isActive() && (p.getHitbox().intersects(player.getHitboxAsFloat()))) {
+         if (p.isActive() && (p.getHitbox().intersects(player))) {
             p.setActive(false);
             if (p.getType() == POWERUP) {
                projectileHandler.setPowerup(true);
@@ -275,13 +275,13 @@ public class Flying extends State {
 
    private void moveCutsceneTriggers() {
       for (AutomaticTrigger trigger : automaticTriggers) {
-         trigger.getHitbox().y += fgCurSpeed;
+         trigger.getHitbox().move(0, fgCurSpeed);
       }
    }
 
    private void checkCutsceneTriggers() {
       for (AutomaticTrigger trigger : automaticTriggers) {
-         if ((trigger.getHitbox().y > 0) && (trigger.getHitbox().y < 10)) {
+         if ((trigger.getHitbox().y() > 0) && (trigger.getHitbox().y() < 10)) {
             if (!trigger.hasPlayed()) {
                String entityName = trigger.getName();
                this.cutsceneManager.startCutscene(entityName, trigger.getStartCutscene());
@@ -356,7 +356,7 @@ public class Flying extends State {
          p.getHitbox().move(0, y);
       }
       for (AutomaticTrigger trigger : automaticTriggers) {
-         trigger.getHitbox().y += y;
+         trigger.getHitbox().move(0, y);
       }
       enemyManager.moveAllEnemies(-y);
    }

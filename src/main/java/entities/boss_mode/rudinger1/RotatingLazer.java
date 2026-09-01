@@ -1,7 +1,6 @@
 package entities.boss_mode.rudinger1;
 
-import java.awt.geom.Rectangle2D.Float;
-
+import entities.Dimensions;
 import entities.boss_mode.AnimatedComponent;
 import entities.boss_mode.AnimatedComponentFactory;
 import entities.boss_mode.DefaultBossPart;
@@ -22,9 +21,9 @@ public class RotatingLazer extends DefaultBossPart {
    public static final String VISUAL_WARNING = "VISUAL_WARNING";
 
    public RotatingLazer(
-         Float hitbox, AnimatedComponentFactory animationFactory,
+         Dimensions hitbox, AnimatedComponentFactory animationFactory,
          Double startRotation, AnimatedComponent chargeAnimation) {
-      super(hitbox, animationFactory.getRotatingLazerAnimation((int) hitbox.x, (int) hitbox.y));
+      super(hitbox, animationFactory.getRotatingLazerAnimation((int) hitbox.x(), (int) hitbox.y()));
       this.lazerAnimation = this.animation;
       this.initialRotation = startRotation;
       this.updatePosition(0, 0, initialRotation);

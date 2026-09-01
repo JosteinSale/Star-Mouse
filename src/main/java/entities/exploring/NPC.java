@@ -1,8 +1,7 @@
 package entities.exploring;
 
-import java.awt.geom.Rectangle2D;
-
 import entities.AnimationFrame;
+import entities.MyRectangle;
 import utils.Constants.Direction;
 import utils.Constants.Exploring.CharacterAction;
 
@@ -10,9 +9,9 @@ public interface NPC {
 
    public void update();
 
-   public Rectangle2D.Float getHitbox();
+   public MyRectangle getHitbox();
 
-   public Rectangle2D.Float getTriggerBox();
+   public MyRectangle getTriggerBox();
 
    public void setStartCutscene(int startCutscene);
 

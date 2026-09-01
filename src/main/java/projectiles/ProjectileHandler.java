@@ -1,6 +1,5 @@
 package projectiles;
 
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -7,8 +7,6 @@ import static entities.CollisionPixels.CollisionAt;
 
 import static projectiles.ProjectileFactory.TypeConstants.FLAME_PROJECTILE;
 
-import java.awt.geom.Rectangle2D;
-
 public class FlameProjectile extends BaseProjectile {
 
    public FlameProjectile(Dimensions dimensions) {

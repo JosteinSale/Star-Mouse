@@ -3,8 +3,7 @@ package utils.parsing;
 import static utils.Constants.Exploring.Cutscenes.FADE_FROM;
 import static utils.Constants.Exploring.Cutscenes.FADE_TO;
 
-import java.awt.geom.Rectangle2D;
-
+import entities.Dimensions;
 import entities.exploring.AutomaticTrigger;
 import entities.exploring.Door;
 import entities.exploring.Gard;
@@ -12,7 +11,7 @@ import entities.exploring.InteractableObject;
 import entities.exploring.Oliver;
 import entities.exploring.PlayerExp;
 import entities.exploring.Portal;
-import entities.exploring.StandardNpc;
+import entities.exploring.BaseNpc;
 import game_states.Gamestate;
 import main_classes.Game;
 import rendering.MyColor;
@@ -20,24 +19,24 @@ import utils.Constants.Direction;
 
 public class LevelDataParser {
 
-   public static Rectangle2D.Float CreateHitbox(String[] lineData) {
-      Float x = Float.parseFloat(lineData[1]);
-      Float y = Float.parseFloat(lineData[2]);
-      Float width = Float.parseFloat(lineData[3]);
-      Float height = Float.parseFloat(lineData[4]);
-      Rectangle2D.Float hitbox = new Rectangle2D.Float(x, y, width, height);
+   public static Dimensions CreateHitbox(String[] lineData) {
+      float x = Float.parseFloat(lineData[1]);
+      float y = Float.parseFloat(lineData[2]);
+      float width = Float.parseFloat(lineData[3]);
+      float height = Float.parseFloat(lineData[4]);
+      Dimensions hitbox = new Dimensions(x, y, (int) width, (int) height);
       return hitbox;
    }
 
    public static PlayerExp GetPlayer(Game game, String[] lineData, int level, int area) {
-      Rectangle2D.Float hitbox = CreateHitbox(lineData);
+      Dimensions hitbox = CreateHitbox(lineData);
       Direction direction = ParseDirection(lineData[5]);
       PlayerExp player = new PlayerExp(game, hitbox, direction, level, area);
       return player;
    }
 
    public static Oliver GetOliver(String[] lineData) {
-      Rectangle2D.Float hitbox = CreateHitbox(lineData);
+      Dimensions hitbox = CreateHitbox(lineData);
       Direction direction = ParseDirection(lineData[5]);
       Boolean inForeground = Boolean.parseBoolean(lineData[6]);
       Oliver oliver = new Oliver(hitbox, direction, inForeground);
@@ -45,33 +44,33 @@ public class LevelDataParser {
    }
 
    public static Gard GetGard(String[] lineData) {
-      Rectangle2D.Float hitbox = CreateHitbox(lineData);
+      Dimensions hitbox = CreateHitbox(lineData);
       Direction direction = ParseDirection(lineData[5]);
       Boolean inForeground = Boolean.parseBoolean(lineData[6]);
       Gard gard = new Gard(hitbox, direction, inForeground);
       return gard;
    }
 
-   public static StandardNpc GetStandardNpc(String[] lineData) {
-      Rectangle2D.Float hitbox = CreateHitbox(lineData);
+   public static BaseNpc GetStandardNpc(String[] lineData) {
+      Dimensions hitbox = CreateHitbox(lineData);
       String name = lineData[5];
       Integer xDrawOffset = Integer.parseInt(lineData[6]);
       Integer yDrawOffset = Integer.parseInt(lineData[7]);
       Boolean inForeground = Boolean.parseBoolean(lineData[8]);
-      StandardNpc npc = new StandardNpc(
+      BaseNpc npc = new BaseNpc(
             name, hitbox, xDrawOffset, yDrawOffset, inForeground);
       return npc;
    }
 
    public static InteractableObject GetInteractableObject(String[] lineData) {
-      Rectangle2D.Float hitbox = CreateHitbox(lineData);
+      Dimensions hitbox = CreateHitbox(lineData);
       String name = lineData[5];
       InteractableObject object = new InteractableObject(hitbox, name);
       return object;
    }
 
    public static Door GetDoor(String[] lineData) {
-      Rectangle2D.Float hitbox = CreateHitbox(lineData);
+      Dimensions hitbox = CreateHitbox(lineData);
       Integer nrOfRequirements = Integer.parseInt(lineData[5]);
       String name = lineData[6];
       Integer areaItLeadsTo = Integer.parseInt(lineData[7]);
@@ -81,7 +80,7 @@ public class LevelDataParser {
    }
 
    public static Portal GetPortal(String[] lineData) {
-      Rectangle2D.Float hitbox = CreateHitbox(lineData);
+      Dimensions hitbox = CreateHitbox(lineData);
       Integer areaItLeadsTo = Integer.parseInt(lineData[5]);
       Direction playerDirUponReentering = ParseDirection(lineData[6]);
       Portal portal = new Portal(hitbox, areaItLeadsTo, playerDirUponReentering);
@@ -89,7 +88,7 @@ public class LevelDataParser {
    }
 
    public static AutomaticTrigger GetAutomaticTrigger(String[] lineData) {
-      Rectangle2D.Float hitbox = CreateHitbox(lineData);
+      Dimensions hitbox = CreateHitbox(lineData);
       String name = lineData[5];
       AutomaticTrigger trigger = new AutomaticTrigger(hitbox, name);
       return trigger;
