@@ -1,5 +1,7 @@
 package ui;
 
+import com.badlogic.gdx.Gdx;
+
 import audio.AudioPlayer;
 import inputs.Inputs;
 import main_classes.Game;
@@ -7,35 +9,38 @@ import utils.Constants.Audio;
 import utils.Singleton;
 
 public class OptionsMenu extends Singleton {
-   private Game game;
    private AudioPlayer audioPlayer;
    private ControlsMenu controlsMenu;
    private boolean active = false;
-   public String[] menuOptions = { "Music volume", "SFX volume", "Controls", "Return" };
+   public boolean vSync = true;
+   public String[] menuOptions = { "Music volume", "SFX volume", "VSync", "Controls", "Return" };
 
    public int selectedIndex = 0;
    private static final int UP = 1;
    private static final int DOWN = -1;
    private static final int MUSIC_VOLUME = 0;
    private static final int SFX_VOLUME = 1;
-   private static final int CONTROLS = 2;
-   private static final int RETURN = 3;
+   private static final int VSYNC = 2;
+   private static final int CONTROLS = 3;
+   private static final int RETURN = 4;
 
    public int cursorX = 170;
-   private int cursorMinY = 330;
+   public int cursorMinY = 280;
    private int cursorMaxY = 550;
    public int cursorY = cursorMinY;
-   public int menuOptionsDiff = (cursorMaxY - cursorMinY) / 3;
+   public int menuOptionsDiff = (cursorMaxY - cursorMinY) / 4;
+   public int musicVolumeY = cursorMinY + (MUSIC_VOLUME * menuOptionsDiff) - 20;
+   public int sfxVolumeY = cursorMinY + (SFX_VOLUME * menuOptionsDiff) - 20;
+
    public int sliderBarWidth = 300;
    public int musicSliderX;
    public int sfxSliderX;
-   private int sliderMinX = 570;
+   private int sliderMinX = 545;
    private int sliderMaxX = 830;
    private int musicPercent;
    private int sfxPercent;
 
    public OptionsMenu(Game game) {
-      this.game = game;
       this.audioPlayer = game.getAudioPlayer();
       this.controlsMenu = new ControlsMenu(game, audioPlayer);
       musicPercent = (int) (audioPlayer.getMusicVolume() * 100);
@@ -48,8 +53,9 @@ public class OptionsMenu extends Singleton {
    }
 
    private void calcVolumeXs() {
-      musicSliderX = (int) (sliderMinX + ((sliderBarWidth - 16) * (musicPercent / 100f))) - 25;
-      sfxSliderX = (int) (sliderMinX + ((sliderBarWidth - 16) * (sfxPercent / 100f))) - 25;
+      int sliderRange = sliderBarWidth - 16;
+      musicSliderX = (int) (sliderMinX + sliderRange * musicPercent / 100f);
+      sfxSliderX = (int) (sliderMinX + sliderRange * sfxPercent / 100f);
    }
 
    public void update() {
@@ -85,9 +91,17 @@ public class OptionsMenu extends Singleton {
          } else if (selectedIndex == CONTROLS) {
             audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
             controlsMenu.setActive(true);
+         } else if (selectedIndex == VSYNC) {
+            this.toggleVSync();
          }
       }
 
+   }
+
+   private void toggleVSync() {
+      this.vSync = !vSync;
+      Gdx.graphics.setVSync(vSync);
+      audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
    }
 
    private void changeVolume(int selected, int change) {
@@ -114,7 +128,7 @@ public class OptionsMenu extends Singleton {
    private void goDown() {
       this.cursorY += menuOptionsDiff;
       this.selectedIndex++;
-      if (selectedIndex > 3) {
+      if (selectedIndex > 4) {
          selectedIndex = 0;
          cursorY = cursorMinY;
       }
@@ -124,7 +138,7 @@ public class OptionsMenu extends Singleton {
       this.cursorY -= menuOptionsDiff;
       this.selectedIndex--;
       if (selectedIndex < 0) {
-         selectedIndex = 3;
+         selectedIndex = 4;
          cursorY = cursorMaxY;
       }
    }

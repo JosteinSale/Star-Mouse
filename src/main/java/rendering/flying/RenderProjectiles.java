@@ -130,7 +130,6 @@ public class RenderProjectiles {
       for (Projectile p : pCopy) {
          if (p.isActive()) {
             drawProjectile(p, sb, getInfoForProjectile(p));
-            // p.drawHitbox(g);
          }
       }
       for (ProjectileHit ph : projectileHandler.projectileHits) {
@@ -161,7 +160,8 @@ public class RenderProjectiles {
       if (p.getRotation() == 0.0) {
          DrawUtils.drawImage(sb, info.img, x, y, info.width, info.height);
       } else {
-         // Note: the glow below is not rotated with the sprite - acceptable, glows are round.
+         // Note: the glow below is not rotated with the sprite - acceptable, glows are
+         // round.
          DrawUtils.drawRotatedImage(sb, info.img, x, y, info.width, info.height, p.getRotation());
       }
       // Glow

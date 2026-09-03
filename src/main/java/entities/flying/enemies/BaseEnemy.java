@@ -227,7 +227,7 @@ public abstract class BaseEnemy extends MyRectangle implements Enemy {
 
    @Override
    public double getRotation() {
-      return 0.0;
+      return this.rotationRadians;
    }
 
    /** Is used with the 'startAt()' method, for testing */

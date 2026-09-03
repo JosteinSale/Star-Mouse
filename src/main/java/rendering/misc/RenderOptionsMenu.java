@@ -32,7 +32,6 @@ public class RenderOptionsMenu extends Singleton implements Render {
    private int bgX;
    private int bgY;
    private int optionsX = 250;
-   private int optionsY = 330;
 
    public RenderOptionsMenu(OptionsMenu optionsMenu, ControlsMenu controlsMenu, Images images) {
       this.optionsMenu = optionsMenu;
@@ -80,24 +79,33 @@ public class RenderOptionsMenu extends Singleton implements Render {
          DrawUtils.drawText(
                sb, MyColor.WHITE, DrawUtils.menuFont,
                optionsMenu.menuOptions[i],
-               optionsX, optionsY + i * optionsMenu.menuOptionsDiff);
+               optionsX,
+               optionsMenu.cursorMinY + i * optionsMenu.menuOptionsDiff);
       }
 
       // Sliders
       DrawUtils.fillRect(
             sb, MyColor.WHITE,
-            550, 318, optionsMenu.sliderBarWidth, 5);
+            550, optionsMenu.musicVolumeY,
+            optionsMenu.sliderBarWidth, 5);
       DrawUtils.fillRect(
             sb, MyColor.WHITE,
-            550, 390, optionsMenu.sliderBarWidth, 5);
+            550, optionsMenu.sfxVolumeY,
+            optionsMenu.sliderBarWidth, 5);
       DrawUtils.drawImage(
             sb, sliderImg,
-            optionsMenu.musicSliderX, 295,
+            optionsMenu.musicSliderX, optionsMenu.musicVolumeY - 20,
             SLIDER_WIDTH, SLIDER_HEIGHT);
       DrawUtils.drawImage(
             sb, sliderImg,
-            optionsMenu.sfxSliderX, 370,
+            optionsMenu.sfxSliderX, optionsMenu.sfxVolumeY - 20,
             SLIDER_WIDTH, SLIDER_HEIGHT);
+
+      // VSync on/off
+      String onOff = optionsMenu.vSync ? "ON" : "OFF";
+      DrawUtils.drawText(
+            sb, MyColor.WHITE, DrawUtils.menuFont,
+            onOff, optionsX + 300, optionsMenu.cursorMinY + (optionsMenu.menuOptionsDiff * 2));
 
       // Cursor
       DrawUtils.drawImage(

@@ -90,7 +90,7 @@ public class RenderBossMode extends Singleton implements Render {
 
    public void drawHitboxes(ShapeRenderer sr) {
       for (MyRectangle hitbox : bossMode.getAllHitboxes()) {
-         DrawUtils.drawRotatedPolygon(sr, hitbox.getPolygon(), MyColor.RED);
+         DrawUtils.drawRotatedRect(sr, hitbox, MyColor.RED);
       }
    }
 }

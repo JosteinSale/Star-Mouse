@@ -107,6 +107,9 @@ public class View extends Singleton {
          case BOSS_MODE:
             rBossMode.draw(sr);
             break;
+         case FLYING:
+            rFlying.draw(sr);
+            break;
          default:
             break;
       }

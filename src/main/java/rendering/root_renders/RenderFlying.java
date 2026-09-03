@@ -1,6 +1,7 @@
 package rendering.root_renders;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import entities.MyRectangle;
 import game_states.flying.Flying;
@@ -54,7 +55,6 @@ public class RenderFlying extends Singleton implements Render {
          rPlayer.draw(sb);
          rEntity.draw(sb);
          rProjectiles.draw(sb);
-         drawHitboxes(sb);
          rPlayer.drawStatusDisplay(sb);
       }
       if (!flying.gameOver) {
@@ -69,14 +69,10 @@ public class RenderFlying extends Singleton implements Render {
       }
    }
 
-   private void drawHitboxes(SpriteBatch sb) {
+   public void draw(ShapeRenderer sr) {
       if (Testing.testingMode && Testing.drawHitboxes) {
          for (MyRectangle hitbox : flying.getAllHitboxes()) {
-            DrawUtils.drawRect(sb, MyColor.RED,
-                  (int) hitbox.x(),
-                  (int) hitbox.y(),
-                  (int) hitbox.width(),
-                  (int) hitbox.height());
+            DrawUtils.drawRotatedRect(sr, hitbox, MyColor.RED);
          }
       }
    }

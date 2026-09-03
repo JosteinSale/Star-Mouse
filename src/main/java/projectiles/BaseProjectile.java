@@ -1,19 +1,19 @@
 package projectiles;
 
-import java.awt.geom.Point2D;
-
 import entities.CollisionPixels;
 import entities.MyRectangle;
 import entities.Dimensions;
 
 /**
  * Base class for most projectile types in the game.
- * This class serves as a common ancestor for various projectile implementations.
+ * This class serves as a common ancestor for various projectile
+ * implementations.
  * It defaults to:
  * - being active as soon as it's constructed
  * - returning damage as a flat, constant value
  * All of these can be overridden by subclasses if needed.
- * Collision with the map is optional, and is applied by leaving the 'collisionPixels' field empty.
+ * Collision with the map is optional, and is applied by leaving the
+ * 'collisionPixels' field empty.
  */
 public abstract class BaseProjectile extends MyRectangle implements Projectile {
    protected CollisionPixels collisionPixels;
@@ -52,7 +52,8 @@ public abstract class BaseProjectile extends MyRectangle implements Projectile {
    }
 
    /**
-    * Updates the collisionPixels array to the current center of the projectile's hitbox.
+    * Updates the collisionPixels array to the current center of the projectile's
+    * hitbox.
     */
    @Override
    public void updateCollisionPixels() {
