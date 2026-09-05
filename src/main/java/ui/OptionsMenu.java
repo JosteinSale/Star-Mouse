@@ -15,22 +15,21 @@ public class OptionsMenu extends Singleton {
    public boolean vSync = true;
    public String[] menuOptions = { "Music volume", "SFX volume", "VSync", "Controls", "Return" };
 
-   public int selectedIndex = 0;
-   private static final int UP = 1;
-   private static final int DOWN = -1;
    private static final int MUSIC_VOLUME = 0;
    private static final int SFX_VOLUME = 1;
    private static final int VSYNC = 2;
    private static final int CONTROLS = 3;
    private static final int RETURN = 4;
+   public int selectedIndex = RETURN;
 
    public int cursorX = 170;
    public int cursorMinY = 280;
    private int cursorMaxY = 550;
-   public int cursorY = cursorMinY;
-   public int menuOptionsDiff = (cursorMaxY - cursorMinY) / 4;
-   public int musicVolumeY = cursorMinY + (MUSIC_VOLUME * menuOptionsDiff) - 20;
-   public int sfxVolumeY = cursorMinY + (SFX_VOLUME * menuOptionsDiff) - 20;
+   public int cursorY = cursorMaxY;
+   public int menuOptionsDiff = (cursorMaxY - cursorMinY) / (menuOptions.length - 1);
+   public int musicVolumeY = getMenuOptionY(MUSIC_VOLUME);
+   public int sfxVolumeY = getMenuOptionY(SFX_VOLUME);
+   public int vSyncY = getMenuOptionY(VSYNC);
 
    public int sliderBarWidth = 300;
    public int musicSliderX;
@@ -46,6 +45,10 @@ public class OptionsMenu extends Singleton {
       musicPercent = (int) (audioPlayer.getMusicVolume() * 100);
       sfxPercent = (int) (audioPlayer.getSfxVolume() * 100);
       calcVolumeXs();
+   }
+
+   private int getMenuOptionY(int menuOptionIndex) {
+      return cursorMinY + (menuOptionIndex * menuOptionsDiff) - 20;
    }
 
    public void setKeyboardInputs(Inputs keyboardInputs) {
@@ -77,11 +80,11 @@ public class OptionsMenu extends Singleton {
          audioPlayer.playSFX(Audio.SFX_CURSOR);
       } else if (Inputs.rightIsPressed) {
          Inputs.rightIsPressed = false;
-         changeVolume(selectedIndex, UP);
+         changeVolume(selectedIndex, 10);
          audioPlayer.playSFX(Audio.SFX_CURSOR);
       } else if (Inputs.leftIsPressed) {
          Inputs.leftIsPressed = false;
-         changeVolume(selectedIndex, DOWN);
+         changeVolume(selectedIndex, -10);
          audioPlayer.playSFX(Audio.SFX_CURSOR);
       } else if (Inputs.interactIsPressed) {
          Inputs.interactIsPressed = false;
@@ -104,9 +107,9 @@ public class OptionsMenu extends Singleton {
       audioPlayer.playSFX(Audio.SFX_CURSOR_SELECT);
    }
 
-   private void changeVolume(int selected, int change) {
+   private void changeVolume(int selected, int amount) {
       if (selected == MUSIC_VOLUME) {
-         musicPercent += 10 * change;
+         musicPercent += amount;
          if (musicPercent > 100) {
             musicPercent = 100;
          } else if (musicPercent <= 0) {
@@ -114,7 +117,7 @@ public class OptionsMenu extends Singleton {
          }
          audioPlayer.setSongVolume(musicPercent / 100f);
       } else if (selected == SFX_VOLUME) {
-         sfxPercent += 10 * change;
+         sfxPercent += amount;
          if (sfxPercent > 100) {
             sfxPercent = 100;
          } else if (sfxPercent <= 0) {

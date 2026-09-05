@@ -32,12 +32,12 @@ public class LoadSaveMenu extends Singleton {
    private static final int RETURN = 3;
 
    private boolean active = false;
-   private int selectedIndex = 0;
+   private int selectedIndex = RETURN;
    private int selectedSaveFile;
 
    private int cursorMinY = 330;
    private int cursorMaxY = 550;
-   public int cursorY = cursorMinY;
+   public int cursorY = cursorMaxY;
    public int menuOptionsDiff = (cursorMaxY - cursorMinY) / 3;
 
    public LoadSaveMenu(Game game, InfoChoice infoChoice) {
