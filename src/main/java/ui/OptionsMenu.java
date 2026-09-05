@@ -45,6 +45,7 @@ public class OptionsMenu extends Singleton {
       musicPercent = (int) (audioPlayer.getMusicVolume() * 100);
       sfxPercent = (int) (audioPlayer.getSfxVolume() * 100);
       calcVolumeXs();
+      Gdx.graphics.setVSync(vSync);
    }
 
    private int getMenuOptionY(int menuOptionIndex) {

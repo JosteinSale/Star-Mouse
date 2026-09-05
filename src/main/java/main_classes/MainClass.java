@@ -7,7 +7,6 @@ public class MainClass {
    public static void main(String[] args) {
       Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
       cfg.setTitle("StarMouse");
-      cfg.useVsync(false);
       cfg.setForegroundFPS(60);
 
       new Lwjgl3Application(new Game(), cfg);

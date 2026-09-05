@@ -16,6 +16,7 @@ import utils.Images;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -28,6 +29,7 @@ public class Game extends ApplicationAdapter {
    // Game width and height
    public static final int GAME_DEFAULT_WIDTH = 1050;
    public static final int GAME_DEFAULT_HEIGHT = 750;
+   private boolean borderlessFullscreen = false;
 
    // Game states
    private StartScreen startScreen;
@@ -150,13 +152,33 @@ public class Game extends ApplicationAdapter {
    }
 
    public void toggleFullScreen() {
-      if (Gdx.graphics.isFullscreen()) {
-         Gdx.graphics.setWindowedMode(GAME_DEFAULT_WIDTH, GAME_DEFAULT_HEIGHT);
+      if (borderlessFullscreen) {
+         borderlessFullscreen = false;
          Gdx.graphics.setUndecorated(false);
+         Gdx.graphics.setWindowedMode(
+               GAME_DEFAULT_WIDTH,
+               GAME_DEFAULT_HEIGHT);
       } else {
-         Gdx.graphics.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
+         borderlessFullscreen = true;
+         DisplayMode displayMode = Lwjgl3ApplicationConfiguration.getDisplayMode();
+         Gdx.graphics.setUndecorated(true);
+         Gdx.graphics.setWindowedMode(
+               displayMode.width,
+               displayMode.height);
       }
    }
+
+   /*
+    * public void toggleFullScreen() {
+    * if (Gdx.graphics.isFullscreen()) {
+    * Gdx.graphics.setWindowedMode(GAME_DEFAULT_WIDTH, GAME_DEFAULT_HEIGHT);
+    * Gdx.graphics.setUndecorated(false);
+    * } else {
+    * Gdx.graphics.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode(
+    * ));
+    * }
+    * }
+    */
 
    private void update() {
       audioPlayer.update();
