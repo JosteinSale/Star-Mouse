@@ -8,8 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 
+import entities.Dimensions;
 import entities.MyRectangle;
 import entities.flying.enemies.Enemy;
 import main_classes.Game;
@@ -130,7 +130,7 @@ public class DrawUtils {
       font.draw(batch, layout, x, newY);
    }
 
-   public static void drawCenteredText(SpriteBatch batch, String text, Rectangle rect, BitmapFont font,
+   public static void drawCenteredText(SpriteBatch batch, String text, Dimensions rect, BitmapFont font,
          MyColor color) {
       font.setColor(color.getColor());
       layout.setText(font, text);

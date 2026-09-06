@@ -20,7 +20,7 @@ public class Lurker extends BaseEnemy {
       HP = maxHP;
       animation.setAniTickPerFrame(6);
       animation.setAmountOfFrames(3);
-      lurkerPos = new Point2D.Float(hitbox.x(), hitbox.y());
+      lurkerPos = new Point2D.Float(hitbox.x, hitbox.y);
       playerPos = new Point2D.Float(player.x(), player.y());
    }
 

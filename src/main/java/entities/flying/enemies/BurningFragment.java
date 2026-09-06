@@ -14,7 +14,7 @@ public class BurningFragment extends BaseEnemy {
 
    public BurningFragment(Dimensions hitbox, EntityInfo info, int shootInterval) {
       super(hitbox, info);
-      startY = hitbox.y();
+      startY = hitbox.y;
       maxHP = 30;
       HP = maxHP;
       animation.setAmountOfFrames(8);

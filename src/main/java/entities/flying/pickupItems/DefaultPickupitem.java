@@ -18,7 +18,7 @@ public class DefaultPickupitem extends MyRectangle implements PickupItem {
    public DefaultPickupitem(Dimensions hitbox, EntityInfo info, int aniTickPerFrame, int nrOfImages,
          StaticGlow glow) {
       super(hitbox);
-      startY = hitbox.y();
+      startY = hitbox.y;
       this.info = info;
       this.aniTickPerFrame = aniTickPerFrame;
       this.nrOfImages = nrOfImages;

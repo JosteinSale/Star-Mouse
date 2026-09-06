@@ -43,7 +43,7 @@ public class MachineHeart extends DefaultBossPart {
    public MachineHeart(
          Dimensions hitbox, AnimatedComponentFactory animationFactory,
          PlayerBoss player, Point startPoint) {
-      super(hitbox, animationFactory.getMachineHeartAnimation((int) hitbox.x(), (int) hitbox.y()));
+      super(hitbox, animationFactory.getMachineHeartAnimation((int) hitbox.x, (int) hitbox.y));
       this.player = player;
       this.dockingPoint = startPoint;
       this.midwayPoint = new Point(

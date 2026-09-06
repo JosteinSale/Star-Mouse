@@ -3,8 +3,8 @@ package rendering.flying;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 
+import entities.Dimensions;
 import rendering.MyColor;
 import rendering.MyImage;
 import rendering.MySubImage;
@@ -22,7 +22,7 @@ public class RenderGameOver {
    private MyColor grayTextColor = new MyColor(255, 255, 255, 130);
    private MyImage pointerImg;
    private MySubImage[] deathAnimation;
-   private ArrayList<Rectangle> menuRects;
+   private ArrayList<Dimensions> menuRects;
 
    public RenderGameOver(GameoverOverlay gameoverOverlay, Images images) {
       this.gameOver = gameoverOverlay;
@@ -42,7 +42,7 @@ public class RenderGameOver {
    private void constructMenuRects() {
       this.menuRects = new ArrayList<>();
       for (int i = 0; i < gameOver.menuOptions.length; i++) {
-         Rectangle rect = new Rectangle(
+         Dimensions rect = new Dimensions(
                425, (450 + i * gameOver.menuOptionsDiff),
                200, 50);
          menuRects.add(rect);

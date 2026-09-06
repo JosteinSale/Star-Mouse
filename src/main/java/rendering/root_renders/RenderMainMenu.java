@@ -3,8 +3,8 @@ package rendering.root_renders;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 
+import entities.Dimensions;
 import game_states.MainMenu;
 import main_classes.Game;
 import rendering.MyColor;
@@ -27,7 +27,7 @@ public class RenderMainMenu extends Singleton implements Render {
    public MyImage bgImg;
    private MyImage titleImg;
    private MyImage cursorImg;
-   public ArrayList<Rectangle> menuRectangles;
+   public ArrayList<Dimensions> menuRectangles;
 
    public RenderMainMenu(Game game, RenderOptionsMenu rOptionsMenu, RenderInfoChoice rInfoChoice) {
       this.mainMenu = game.getMainMenu();
@@ -47,7 +47,7 @@ public class RenderMainMenu extends Singleton implements Render {
    private void makeMenuRectangles() {
       this.menuRectangles = new ArrayList<>();
       for (int i = 0; i < mainMenu.alternatives.length; i++) {
-         Rectangle rect = new Rectangle(
+         Dimensions rect = new Dimensions(
                425,
                450 + i * mainMenu.cursorYStep,
                200,

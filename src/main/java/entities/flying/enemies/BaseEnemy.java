@@ -53,8 +53,8 @@ public abstract class BaseEnemy extends MyRectangle implements Enemy {
       allAnimations.add(animation);
 
       this.info = info;
-      startY = hitbox.y();
-      startX = hitbox.x();
+      startY = hitbox.y;
+      startX = hitbox.x;
       this.chargeDone = chargeDone;
       this.glow = glow;
    }
@@ -69,8 +69,8 @@ public abstract class BaseEnemy extends MyRectangle implements Enemy {
       allAnimations.add(animation);
 
       this.info = info;
-      startY = hitbox.y();
-      startX = hitbox.x();
+      startY = hitbox.y;
+      startX = hitbox.x;
    }
 
    @Override

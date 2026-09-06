@@ -32,9 +32,9 @@ public class HeatSeekingLazer extends DefaultBossPart {
    public HeatSeekingLazer(
          Dimensions hitbox, AnimatedComponentFactory animationFactory,
          PlayerBoss player, Point gunCenter) {
-      super(hitbox, animationFactory.getHeatSeekingLazerAnimation((int) hitbox.x(), (int) hitbox.y()));
+      super(hitbox, animationFactory.getHeatSeekingLazerAnimation((int) hitbox.x, (int) hitbox.y));
       this.player = player;
-      this.imgDistanceFromCenter = hitbox.height() / 2;
+      this.imgDistanceFromCenter = hitbox.height / 2;
       this.gunCenter = gunCenter;
    }
 

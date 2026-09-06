@@ -3,8 +3,8 @@ package rendering.flying;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 
+import entities.Dimensions;
 import rendering.MyColor;
 import rendering.MyImage;
 import rendering.misc.RenderOptionsMenu;
@@ -18,7 +18,7 @@ import static utils.Constants.UI.CURSOR_WIDTH;
 public class RenderPauseFly {
    private PauseFlying pause;
    private RenderOptionsMenu rOptions;
-   private ArrayList<Rectangle> menuRects;
+   private ArrayList<Dimensions> menuRects;
    private MyColor bgColor = new MyColor(0, 0, 0, 140);
    private MyImage pointerImg;
 
@@ -33,7 +33,7 @@ public class RenderPauseFly {
    private void constructMenuRects() {
       this.menuRects = new ArrayList<>();
       for (int i = 0; i < pause.menuOptions.length; i++) {
-         Rectangle rect = new Rectangle(
+         Dimensions rect = new Dimensions(
                425, pause.cursorMinY - 40 + i * pause.menuOptionsDiff,
                200, 50);
          menuRects.add(rect);

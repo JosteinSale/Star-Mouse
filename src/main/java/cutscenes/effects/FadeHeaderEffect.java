@@ -3,10 +3,9 @@ package cutscenes.effects;
 import static utils.Constants.Exploring.Cutscenes.FADE_FROM;
 import static utils.Constants.Exploring.Cutscenes.FADE_TO;
 
-import com.badlogic.gdx.math.Rectangle;
-
 import cutscenes.events.FadeHeaderEvent;
 import cutscenes.events.GeneralEvent;
+import entities.Dimensions;
 import game_states.Gamestate;
 import main_classes.Game;
 import rendering.MyColor;
@@ -21,12 +20,12 @@ public class FadeHeaderEffect implements UpdatableEffect, DrawableEffect {
    private boolean active;
    private MyColor color;
    public String headerText;
-   public Rectangle headerBox;
+   public Dimensions headerBox;
    public int alphaFade = 0;
    private int headerFadeSpeed = 10;
 
    public FadeHeaderEffect() {
-      this.headerBox = new Rectangle(0, 300, Game.GAME_DEFAULT_WIDTH, 100);
+      this.headerBox = new Dimensions(0, 300, Game.GAME_DEFAULT_WIDTH, 100);
    }
 
    @Override

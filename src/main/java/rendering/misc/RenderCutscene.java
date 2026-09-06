@@ -3,7 +3,6 @@ package rendering.misc;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 
 import cutscenes.FellowShip;
 import cutscenes.cutscene_managers.CutsceneManagerExp;
@@ -17,6 +16,7 @@ import cutscenes.effects.NumberDisplayEffect;
 import cutscenes.effects.ObjectMoveEffect;
 import cutscenes.effects.RedLightEffect;
 import cutscenes.effects.SetOverlayEffect;
+import entities.Dimensions;
 import rendering.MyColor;
 import rendering.MyImage;
 import rendering.MySubImage;
@@ -164,7 +164,7 @@ public class RenderCutscene extends Singleton implements Render {
       }
    }
 
-   private void drawHeader(SpriteBatch sb, String headerText, Rectangle rect, MyColor color) {
+   private void drawHeader(SpriteBatch sb, String headerText, Dimensions rect, MyColor color) {
       DrawUtils.drawCenteredText(
             sb, headerText, rect,
             DrawUtils.headerFont, color);

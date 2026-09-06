@@ -26,10 +26,10 @@ public class MyRectangle {
 
    public MyRectangle(Dimensions dim) {
       this.hitbox = PolygonUtils.newSquareHitboxPolygon(
-            dim.x(), dim.y(),
-            dim.width(), dim.height());
-      this.hitboxWidth = dim.width();
-      this.hitboxHeight = dim.height();
+            dim.x, dim.y,
+            dim.width, dim.height);
+      this.hitboxWidth = dim.width;
+      this.hitboxHeight = dim.height;
       this.hitbox.setOrigin(hitboxWidth / 2f, hitboxHeight / 2f);
    }
 

@@ -10,7 +10,8 @@ import utils.Images;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
+
+import entities.Dimensions;
 
 import static utils.Constants.UI.CURSOR_HEIGHT;
 import static utils.Constants.UI.CURSOR_WIDTH;
@@ -19,7 +20,7 @@ public class RenderPauseBoss {
    private PauseBoss pause;
    private MyColor bgColor = new MyColor(0, 0, 0, 140);
    private MyImage pointerImg;
-   private ArrayList<Rectangle> menuRects;
+   private ArrayList<Dimensions> menuRects;
    private RenderOptionsMenu rOptions;
 
    public RenderPauseBoss(PauseBoss pause, RenderOptionsMenu rOptions, Images images) {
@@ -33,7 +34,7 @@ public class RenderPauseBoss {
 
    private void constructMenuRects() {
       for (int i = 0; i < pause.menuOptions.length; i++) {
-         Rectangle rect = new Rectangle(
+         Dimensions rect = new Dimensions(
                425, (pause.cursorMinY - 40 + i * pause.menuOptionsDiff),
                200, 50);
          menuRects.add(rect);

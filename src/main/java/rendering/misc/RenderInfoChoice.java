@@ -13,7 +13,8 @@ import static utils.Constants.UI.CURSOR_WIDTH;
 import static utils.Constants.UI.INFOBOX_WIDTH;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
+
+import entities.Dimensions;
 
 import static utils.Constants.UI.INFOBOX_HEIGHT;
 
@@ -21,7 +22,7 @@ public class RenderInfoChoice extends Singleton implements Render {
    private InfoChoice ic;
    private MyImage background;
    private MyImage cursorImg;
-   private Rectangle questionRect;
+   private Dimensions questionRect;
    private int infoChY;
    private int cursorY;
    private int cursorW;
@@ -41,7 +42,7 @@ public class RenderInfoChoice extends Singleton implements Render {
       this.cursorY = infoChY + 90;
       this.cursorW = (int) (CURSOR_WIDTH * 0.6f);
       this.cursorH = (int) (CURSOR_HEIGHT * 0.6f);
-      this.questionRect = new Rectangle(
+      this.questionRect = new Dimensions(
             this.ic.infoChX, infoChY + 20,
             INFOBOX_WIDTH, 50);
    }

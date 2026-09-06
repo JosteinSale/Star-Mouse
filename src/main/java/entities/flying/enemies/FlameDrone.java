@@ -11,7 +11,7 @@ public class FlameDrone extends BaseEnemy {
 
    public FlameDrone(Dimensions hitbox, EntityInfo info) {
       super(hitbox, info);
-      startY = hitbox.y();
+      startY = hitbox.y;
       this.info = info;
       maxHP = 120;
       HP = maxHP;

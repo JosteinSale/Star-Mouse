@@ -3,7 +3,8 @@ package rendering.boss_mode;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
+
+import entities.Dimensions;
 
 import static utils.Constants.UI.CURSOR_HEIGHT;
 import static utils.Constants.UI.CURSOR_WIDTH;
@@ -22,7 +23,7 @@ public class RenderGameOver2 implements Render {
    private MyColor bgColor = new MyColor(0, 0, 0, 140);
    private MyImage pointerImg;
    private MySubImage[] deathAnimation;
-   private ArrayList<Rectangle> menuRects;
+   private ArrayList<Dimensions> menuRects;
 
    public RenderGameOver2(GameoverOverlay2 gameOver, Images images) {
       this.gameOver = gameOver;
@@ -42,7 +43,7 @@ public class RenderGameOver2 implements Render {
    private void constructMenuRects() {
       this.menuRects = new ArrayList<>();
       for (int i = 0; i < gameOver.menuOptions.length; i++) {
-         Rectangle rect = new Rectangle(
+         Dimensions rect = new Dimensions(
                425,
                (int) (450 + i * gameOver.menuOptionsDiff),
                200,

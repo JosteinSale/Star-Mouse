@@ -9,7 +9,7 @@ public class SmallShip extends BaseEnemy {
 
    public SmallShip(Dimensions hitbox, EntityInfo info, int direction) {
       super(hitbox, info);
-      startX = hitbox.x();
+      startX = hitbox.x;
       maxHP = 20;
       HP = maxHP;
       this.direction = direction;

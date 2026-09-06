@@ -160,6 +160,8 @@ public class Game extends ApplicationAdapter {
                GAME_DEFAULT_HEIGHT);
       } else {
          borderlessFullscreen = true;
+         // We prefer borderless fullscreen rather than true fullscreen, to avoid screen
+         // flashing issues on certain computers
          DisplayMode displayMode = Lwjgl3ApplicationConfiguration.getDisplayMode();
          Gdx.graphics.setUndecorated(true);
          Gdx.graphics.setWindowedMode(
@@ -167,18 +169,6 @@ public class Game extends ApplicationAdapter {
                displayMode.height);
       }
    }
-
-   /*
-    * public void toggleFullScreen() {
-    * if (Gdx.graphics.isFullscreen()) {
-    * Gdx.graphics.setWindowedMode(GAME_DEFAULT_WIDTH, GAME_DEFAULT_HEIGHT);
-    * Gdx.graphics.setUndecorated(false);
-    * } else {
-    * Gdx.graphics.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode(
-    * ));
-    * }
-    * }
-    */
 
    private void update() {
       audioPlayer.update();

@@ -2,7 +2,7 @@ package game_states.level_select;
 
 import static utils.Constants.UI.LEVEL_ICON_DRAW_SIZE;
 
-import com.badlogic.gdx.math.Rectangle;
+import entities.Dimensions;
 
 /**
  * Represents a slot in levelSelect, which contains a level icon, and holds
@@ -22,17 +22,17 @@ public class LevelSlot {
    public LevelInfo levelInfo;
    public int xPos;
    public int yPos;
-   public Rectangle lvlNameRect;
-   public Rectangle killCountRect;
+   public Dimensions lvlNameRect;
+   public Dimensions killCountRect;
    public boolean isEmpty = true;
 
    public LevelSlot(int xPos, int yPos) {
       this.xPos = xPos;
       this.yPos = yPos;
-      this.lvlNameRect = new Rectangle(
+      this.lvlNameRect = new Dimensions(
             xPos, yPos - 75,
             LEVEL_ICON_DRAW_SIZE, 50);
-      this.killCountRect = new Rectangle(lvlNameRect);
+      this.killCountRect = new Dimensions(lvlNameRect);
       this.killCountRect.y += 195;
    }
 

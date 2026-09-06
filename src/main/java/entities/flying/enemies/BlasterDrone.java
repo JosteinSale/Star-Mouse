@@ -8,7 +8,7 @@ public class BlasterDrone extends BaseEnemy {
 
    public BlasterDrone(Dimensions hitbox, EntityInfo info) {
       super(hitbox, info, 60, new AnimatedGlow(AnimatedGlow.ORANGE_GLOW_BIG, 1f));
-      startY = hitbox.y();
+      startY = hitbox.y;
       this.info = info;
       maxHP = 80;
       HP = maxHP;

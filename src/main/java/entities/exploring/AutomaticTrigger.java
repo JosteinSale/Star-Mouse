@@ -11,7 +11,7 @@ public class AutomaticTrigger extends MyRectangle {
 
    public AutomaticTrigger(Dimensions hitbox, String name) {
       super(hitbox);
-      startY = hitbox.y();
+      startY = hitbox.y;
       this.name = name;
    }
 

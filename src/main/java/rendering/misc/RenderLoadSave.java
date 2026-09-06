@@ -6,9 +6,9 @@ import static utils.Constants.UI.OPTIONS_HEIGHT;
 import static utils.Constants.UI.OPTIONS_WIDTH;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 
 import data_storage.SaveData;
+import entities.Dimensions;
 import main_classes.Game;
 import rendering.MyColor;
 import rendering.MyImage;
@@ -21,7 +21,7 @@ public class RenderLoadSave implements Render {
    private Game game;
    private LoadSaveMenu menu;
    private RenderInfoChoice rInfoChoice;
-   private Rectangle headerRect;
+   private Dimensions headerRect;
    private MyColor bgColor = new MyColor(0, 0, 0, 230);
    private MyImage pointerImg;
 
@@ -55,7 +55,7 @@ public class RenderLoadSave implements Render {
    }
 
    private void constructRectangles() {
-      this.headerRect = new Rectangle(
+      this.headerRect = new Dimensions(
             0, 150,
             Game.GAME_DEFAULT_WIDTH, 50);
    }

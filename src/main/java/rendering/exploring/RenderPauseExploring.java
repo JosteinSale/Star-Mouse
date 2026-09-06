@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 
+import entities.Dimensions;
 import main_classes.Game;
 import rendering.MyColor;
 import rendering.MyImage;
@@ -31,8 +31,8 @@ public class RenderPauseExploring implements Render {
    private MyImage itemBoxImg;
    private MyImage itemSelectedImg;
    private MyImage pointerImg;
-   private Rectangle itemInfoBox; // Not adjusted to Game.SCALE
-   private ArrayList<Rectangle> menuRects;
+   private Dimensions itemInfoBox; // Not adjusted to Game.SCALE
+   private ArrayList<Dimensions> menuRects;
    public HashMap<String, MyImage> itemImages;
 
    private int bgW;
@@ -62,7 +62,7 @@ public class RenderPauseExploring implements Render {
    private void constructMenuRects() {
       this.menuRects = new ArrayList<>();
       for (int i = 0; i < pause.menuOptions.length; i++) {
-         Rectangle rect = new Rectangle(
+         Dimensions rect = new Dimensions(
                600, (pause.cursorMinY - 35 + i * pause.menuOptionsDiff),
                200, 50);
          menuRects.add(rect);
@@ -80,7 +80,7 @@ public class RenderPauseExploring implements Render {
       itemBoxX = bgX + (bgW / 2) - 20;
       itemBoxY = bgY + 120;
 
-      this.itemInfoBox = new Rectangle(
+      this.itemInfoBox = new Dimensions(
             170, itemBoxY,
             300, itemBoxH);
    }

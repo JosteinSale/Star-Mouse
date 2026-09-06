@@ -69,8 +69,8 @@ public class PlayerFly extends MyRectangle implements ShootingPlayer {
       this.rightLazerGlow = new AnimatedGlow(AnimatedGlow.BLUE_GLOW_SMALL, 1.0f);
       setGlowPositions();
       this.teleportHitbox = new MyRectangle(
-            dimensions.x(), dimensions.y(), teleportKillWidth, dimensions.height());
-      this.teleportKillOffset = (int) (teleportDistance - dimensions.width() - teleportKillWidth) / 2;
+            dimensions.x, dimensions.y, teleportKillWidth, dimensions.height);
+      this.teleportKillOffset = (int) (teleportDistance - dimensions.width - teleportKillWidth) / 2;
       this.statusDisplay = new StatusDisplay();
    }
 

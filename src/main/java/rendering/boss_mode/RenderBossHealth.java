@@ -4,7 +4,8 @@ import ui.BossHealthDisplay;
 import utils.DrawUtils;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
+
+import entities.Dimensions;
 import rendering.MyColor;
 
 /**
@@ -16,12 +17,12 @@ public class RenderBossHealth {
    private MyColor HPbgColor = new MyColor(97, 0, 15, 180);
    private int HPbarH = 10;
    private int HPbarY = 10;
-   private Rectangle bossNameRect;
+   private Dimensions bossNameRect;
 
    /** Sets the health display for the new boss */
    public void setNew(BossHealthDisplay healthDisplay) {
       this.hdp = healthDisplay;
-      this.bossNameRect = new Rectangle(
+      this.bossNameRect = new Dimensions(
             (int) healthDisplay.HPbarX,
             (int) (HPbarY + 20),
             (int) healthDisplay.HPbarMaxW,
