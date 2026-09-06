@@ -27,12 +27,8 @@ public class HeatSeekingLazer extends DefaultBossPart {
    private int visualWarningPoint = 100;
    private int shootDuration = 60;
 
-   // String spriteSheet, int aniRows, int aniCols, int spriteW, int spriteH
-
-   public HeatSeekingLazer(
-         Dimensions hitbox, AnimatedComponentFactory animationFactory,
-         PlayerBoss player, Point gunCenter) {
-      super(hitbox, animationFactory.getHeatSeekingLazerAnimation((int) hitbox.x, (int) hitbox.y));
+   public HeatSeekingLazer(Dimensions hitbox, PlayerBoss player, Point gunCenter) {
+      super(hitbox, AnimatedComponentFactory.GetHeatSeekingLazerAnimation((int) hitbox.x, (int) hitbox.y));
       this.player = player;
       this.imgDistanceFromCenter = hitbox.height / 2;
       this.gunCenter = gunCenter;

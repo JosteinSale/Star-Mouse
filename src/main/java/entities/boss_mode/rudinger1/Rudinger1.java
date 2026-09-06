@@ -25,7 +25,6 @@ import ui.BossHealthDisplay;
 
 public class Rudinger1 implements IBoss {
    public BossActionHandler actionHandler;
-   private AnimatedComponentFactory animationFactory;
    private PickupItemFactory pickupItemFactory;
    private BossHealthDisplay healthDisplay;
    public boolean visible;
@@ -69,9 +68,8 @@ public class Rudinger1 implements IBoss {
    private int maxHP = 3000;
    private int HP = maxHP;
 
-   public Rudinger1(Game game, PlayerBoss player, ProjectileHandler2 projectileHandler,
-         AnimatedComponentFactory animationFactory, ArrayList<PickupItem> pickupItems) {
-      this.animationFactory = animationFactory;
+   public Rudinger1(Game game, PlayerBoss player,
+         ProjectileHandler2 projectileHandler, ArrayList<PickupItem> pickupItems) {
       this.pickupItemFactory = new PickupItemFactory();
       this.pickupItems = pickupItems;
       this.actionHandler = new BossActionHandler();
@@ -90,29 +88,29 @@ public class Rudinger1 implements IBoss {
 
       // Two fanPatterns, one for each wing cannon.
       this.fanPattern1 = new FanPattern(
-            projectileHandler, leftGunPoint, animationFactory,
+            projectileHandler, leftGunPoint,
             120, 0, 200);
 
       this.fanPattern2 = new FanPattern(
-            projectileHandler, rightGunPoint, animationFactory,
+            projectileHandler, rightGunPoint,
             120, 100, 200);
 
       // Two heatSeekingPatterns, one for each wing cannon.
       this.heatSeekingPattern1 = new HeatSeekingPattern(
-            projectileHandler, leftGunPoint, animationFactory, player,
+            projectileHandler, leftGunPoint, player,
             60, 0, 60);
 
       this.heatSeekingPattern2 = new HeatSeekingPattern(
-            projectileHandler, rightGunPoint, animationFactory, player,
+            projectileHandler, rightGunPoint, player,
             60, 30, 60);
    }
 
    private void constructAnimatedComponents(PlayerBoss player) {
       // Reaper eyes
-      this.eyes = animationFactory.getReaperEyes(230, 100, player);
+      this.eyes = AnimatedComponentFactory.GetReaperEyes(230, 100, player);
 
       // Reaper mouth
-      this.mouth = animationFactory.getAnimatedMouth(403, 145);
+      this.mouth = AnimatedComponentFactory.GetAnimatedMouth(403, 145);
    }
 
    private void constructMainBody() {
@@ -129,13 +127,13 @@ public class Rudinger1 implements IBoss {
             (float) mainGunPoint.getX() - width1 / 2,
             (float) mainGunPoint.getY() - height1 / 2,
             width1, height1);
-      AnimatedComponent redChargeAnimation = animationFactory.getRedChargeAnimation(
+      AnimatedComponent redChargeAnimation = AnimatedComponentFactory.GetRedChargeAnimation(
             Game.GAME_DEFAULT_WIDTH / 2 - 150,
             Game.GAME_DEFAULT_HEIGHT / 2 - 170);
       this.verticalLazer = new RotatingLazer(
-            hitbox1, animationFactory, 0.0, redChargeAnimation);
+            hitbox1, 0.0, redChargeAnimation);
       this.horizontalLazer = new RotatingLazer(
-            hitbox1, animationFactory, Math.PI / 2, null);
+            hitbox1, Math.PI / 2, null);
 
       // A heatseeking lazer.
 
@@ -146,7 +144,7 @@ public class Rudinger1 implements IBoss {
             (float) mainGunPoint.getY(),
             width2, height2);
       this.heatSeekingLazer = new HeatSeekingLazer(
-            hitbox2, animationFactory, player, mainGunPoint);
+            hitbox2, player, mainGunPoint);
 
       // The machine heart.
 
@@ -157,7 +155,7 @@ public class Rudinger1 implements IBoss {
             (float) heartDockingPoint.getY() - height3 / 2,
             width3, height3);
       this.machineHeart = new MachineHeart(
-            hitbox3, animationFactory, player, heartDockingPoint);
+            hitbox3, player, heartDockingPoint);
 
       // The vulnerable area (is not part of an attack, doesn't have animations)
       // It's placed just below the machine heart.

@@ -12,7 +12,6 @@ import cutscenes.cutscene_managers.DefaultCutsceneManager;
 import cutscenes.events.*;
 import entities.Dimensions;
 import entities.MyRectangle;
-import entities.boss_mode.AnimatedComponentFactory;
 import entities.boss_mode.IBoss;
 import entities.boss_mode.PlayerBoss;
 import entities.boss_mode.rudinger1.Rudinger1;
@@ -34,7 +33,6 @@ import utils.ResourceLoader;
 public class BossMode extends State {
    private PlayerBoss player;
    private ProjectileHandler2 projectileHandler;
-   private AnimatedComponentFactory animationFactory;
    public ArrayList<PickupItem> pickupItems;
    private AudioPlayer audioPlayer;
    private CutsceneManagerBoss cutsceneManager;
@@ -64,7 +62,6 @@ public class BossMode extends State {
             game.getAudioPlayer(),
             player,
             new EnemyManager(null, null));
-      animationFactory = new AnimatedComponentFactory();
       pauseOverlay = new PauseBoss(game, this, game.getOptionsMenu());
       gameoverOverlay = new GameoverOverlay2(game, this);
 
@@ -158,8 +155,7 @@ public class BossMode extends State {
       switch (bossNr) {
          case 1:
             boss = new Rudinger1(
-                  game, player, projectileHandler,
-                  animationFactory, pickupItems);
+                  game, player, projectileHandler, pickupItems);
             return;
          default:
             throw new IllegalArgumentException("No boss available for bossNr: " + bossNr);

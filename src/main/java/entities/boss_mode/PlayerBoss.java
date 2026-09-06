@@ -1,7 +1,5 @@
 package entities.boss_mode;
 
-import static utils.Constants.Flying.PlaneAction.*;
-
 import java.util.ArrayList;
 
 import entities.Dimensions;
@@ -11,6 +9,8 @@ import entities.flying.AnimatedGlow;
 import entities.flying.PlayerFly;
 import main_classes.Game;
 import utils.Constants.Audio;
+import utils.Constants.Flying.PlaneAction;
+import static utils.Constants.Flying.PlaneAction.*;
 
 /**
  * This class extends the PlayerFly object.
@@ -45,16 +45,17 @@ public class PlayerBoss extends PlayerFly {
 
    @Override
    public void update(float yLevelOffset, float xLevelOffset) {
-      int prevAction = planeAction;
+      PlaneAction prevAction = planeAction;
       handleKeyboardInputs();
       handleKeyboardNotPressed();
       movePlayer();
       checkBossInteraction();
       if (planeAction != prevAction) {
-         aniIndex = 0;
+         animation.setAnimation(planeAction.toString());
       }
+      animation.updateAnimations();
+      updateTeleportBuffer();
       updateCustomIframes();
-      updateAniTick();
       flame.update();
       leftLazerGlow.update();
       rightLazerGlow.update();
@@ -145,9 +146,8 @@ public class PlayerBoss extends PlayerFly {
    @Override
    public void takeShootDamage(int damage) {
       this.HP -= damage;
-      this.aniTick = 0;
-      this.aniIndex = 0;
       this.planeAction = TAKING_SHOOT_DAMAGE;
+      this.animation.setAnimation(TAKING_SHOOT_DAMAGE.toString());
       this.statusDisplay.setHP(this.HP);
       this.statusDisplay.setBlinking(true);
       if (HP <= 0) {
@@ -158,10 +158,9 @@ public class PlayerBoss extends PlayerFly {
    @Override
    protected void takeCollisionDmg() {
       HP -= collisionDmg;
-      this.aniTick = 0;
-      this.aniIndex = 0;
       this.resetSpeed();
       this.planeAction = TAKING_COLLISION_DAMAGE;
+      this.animation.setAnimation(TAKING_COLLISION_DAMAGE.toString());
       this.statusDisplay.setHP(HP);
       this.statusDisplay.setBlinking(true);
       this.customIframeTick = customIframes;
@@ -176,8 +175,8 @@ public class PlayerBoss extends PlayerFly {
 
    @Override
    public void reset() {
-      this.visible = true;
-      this.aniIndex = 0;
+      visible = true;
+      animation.reset();
       this.resetSpeed();
       leftLazerGlow.reset();
       rightLazerGlow.reset();

@@ -18,6 +18,7 @@ public class AnimatedComponent {
    public int aniIndex;
    private int aniTick;
    public String aniAction;
+   private String initialAction;
    public float xPos;
    public float yPos;
 
@@ -33,6 +34,7 @@ public class AnimatedComponent {
          int spriteW, int spriteH, int rows, int cols, float xPos, float yPos) {
       this.spriteName = spriteName;
       this.aniAction = initialAction;
+      this.initialAction = initialAction;
       this.spriteW = spriteW;
       this.spriteH = spriteH;
       this.rows = rows;
@@ -51,7 +53,7 @@ public class AnimatedComponent {
          // Reset aniTick
          this.aniTick = 0;
          // If it should reverse
-         if (aniInfos.get(newAction).reverse) {
+         if (aniInfos.get(newAction).reverse) { // TODO - Error on get; check the actual key values in the hashMap
             // Set aniIndex to last in animation.
             this.aniIndex = aniInfos.get(newAction).nrOfFrames - 1;
          } else {
@@ -95,5 +97,11 @@ public class AnimatedComponent {
 
    public int getCurrentAniRow() {
       return aniInfos.get(aniAction).aniRow;
+   }
+
+   public void reset() {
+      this.setAnimation(initialAction);
+      this.aniIndex = 0;
+      this.aniTick = 0;
    }
 }

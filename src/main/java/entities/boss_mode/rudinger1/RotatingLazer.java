@@ -21,9 +21,8 @@ public class RotatingLazer extends DefaultBossPart {
    public static final String VISUAL_WARNING = "VISUAL_WARNING";
 
    public RotatingLazer(
-         Dimensions hitbox, AnimatedComponentFactory animationFactory,
-         Double startRotation, AnimatedComponent chargeAnimation) {
-      super(hitbox, animationFactory.getRotatingLazerAnimation((int) hitbox.x, (int) hitbox.y));
+         Dimensions hitbox, Double startRotation, AnimatedComponent chargeAnimation) {
+      super(hitbox, AnimatedComponentFactory.GetRotatingLazerAnimation((int) hitbox.x, (int) hitbox.y));
       this.lazerAnimation = this.animation;
       this.initialRotation = startRotation;
       this.updatePosition(0, 0, initialRotation);

@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import audio.AudioPlayer;
 import entities.CollisionPixels;
 import entities.CollisionPixels.CollisionAt;
+import entities.boss_mode.AnimatedComponent;
+import entities.boss_mode.AnimatedComponentFactory;
 import entities.Dimensions;
 import entities.MyCollisionImage;
 import entities.MyRectangle;
@@ -17,45 +19,44 @@ import main_classes.Game;
 import main_classes.Testing;
 import ui.StatusDisplay;
 import utils.Constants.Audio;
+import utils.Constants.Flying.PlaneAction;
 import utils.HelpMethods;
 
 public class PlayerFly extends MyRectangle implements ShootingPlayer {
-   protected Game game;
-   protected AudioPlayer audioPlayer;
-   protected MyCollisionImage clImg;
+   protected final Game game;
+   protected final AudioPlayer audioPlayer;
    protected final CollisionPixels collisionPixels;
-   public ShipFlame flame;
-   public ShipSmoke shipSmoke;
-   public StaticGlow flameGlow;
-   public StatusDisplay statusDisplay;
-   public AnimatedGlow leftLazerGlow;
-   public AnimatedGlow rightLazerGlow;
-   protected MyRectangle teleportHitbox; // When the player teleports, a 'kill hitbox' materializes
-   protected int teleportKillWidth = 100; // Width of said hitbox
-   protected int teleportKillOffset; // The distance between the players hitbox and the teleport kill hitbox
+   protected final AnimatedComponent animation;
+   public final ShipFlame flame;
+   public final ShipSmoke shipSmoke;
+   public final StaticGlow flameGlow;
+   public final StatusDisplay statusDisplay;
+   public final AnimatedGlow leftLazerGlow;
+   public final AnimatedGlow rightLazerGlow;
 
-   public int planeAction;
+   public final int teleportDistance = 250;
+   protected final MyRectangle teleportHitbox; // When the player teleports, a 'kill hitbox' materializes
+   protected final int teleportKillWidth = 100; // Width of said hitbox
+   protected final int teleportKillOffset; // The distance between the players hitbox and the teleport kill hitbox
+   protected final int teleportCoolDown = 10; // The amount of frames between each time the player can teleport
+
+   protected final float playerMaxSpeed = 8f;
+   protected final int edgeDist = 20; // The minimum distance from player to edge of screen
+   protected final int pushDistance = 40; // How far the player is pushed back when taking damage
+   protected final int collisionDmg = 10;
+
+   protected MyCollisionImage clImg;
+   public PlaneAction planeAction;
    protected float xSpeed = 0;
    protected float ySpeed = 0;
    protected float acceleration = 1.0f;
-   protected float playerMaxSpeed = 8f;
    public boolean visible = true;
-   protected int edgeDist = 20; // The minimum distance from player to edge of screen
-   protected int pushDistance = 40; // How far the player is pushed back when taking damage
-   public int teleportDistance = 250;
    protected int maxHP;
    protected int HP;
-   protected int collisionDmg = 10;
    protected int flipX = 1; // 1 = right, -1 = left. Is used in checkTeleportCollision
-
-   protected int aniTick = 0;
-   protected int aniTickPerFrame = 3;
-   public int aniIndex = 0;
-
    protected int iFrames = 20; // When player takes damage, they get 20 frames of invinsibilty
    protected int iFrameCount = 0;
    public int teleportBuffer = 0;
-   protected int teleportCoolDown = 10; // The amount of frames between each time the player can teleport
 
    public PlayerFly(Game game, Dimensions dimensions) {
       super(dimensions);
@@ -72,6 +73,7 @@ public class PlayerFly extends MyRectangle implements ShootingPlayer {
             dimensions.x, dimensions.y, teleportKillWidth, dimensions.height);
       this.teleportKillOffset = (int) (teleportDistance - dimensions.width - teleportKillWidth) / 2;
       this.statusDisplay = new StatusDisplay();
+      this.animation = AnimatedComponentFactory.GetPlayerFlyAnimation(dimensions.x, dimensions.y);
    }
 
    /** Updates maxHP and such from the progressValues */
@@ -85,15 +87,16 @@ public class PlayerFly extends MyRectangle implements ShootingPlayer {
    }
 
    public void update(float yLevelOffset, float xLevelOffset) {
-      int prevAction = planeAction;
+      PlaneAction prevAction = planeAction;
       handleKeyboardInputs();
       handleKeyboardNotPressed();
       movePlayer();
       checkAndHandleCollision(yLevelOffset, xLevelOffset);
       if (planeAction != prevAction) {
-         aniIndex = 0;
+         animation.setAnimation(planeAction.toString());
       }
-      updateAniTick();
+      animation.updateAnimations();
+      updateTeleportBuffer();
       flame.update();
       leftLazerGlow.update();
       rightLazerGlow.update();
@@ -412,18 +415,10 @@ public class PlayerFly extends MyRectangle implements ShootingPlayer {
       }
    }
 
-   protected void updateAniTick() {
+   protected void updateTeleportBuffer() {
       this.teleportBuffer -= 1;
       if (teleportBuffer < 0) {
          teleportBuffer = 0;
-      }
-      this.aniTick++;
-      if (aniTick >= aniTickPerFrame) {
-         aniIndex++;
-         aniTick = 0;
-         if (aniIndex == GetPlayerSpriteAmount(planeAction)) {
-            aniIndex = GetPlayerSpriteAmount(planeAction) - 1;
-         }
       }
    }
 
@@ -439,9 +434,8 @@ public class PlayerFly extends MyRectangle implements ShootingPlayer {
    @Override
    public void takeShootDamage(int damage) {
       this.HP -= damage;
-      this.aniTick = 0;
-      this.aniIndex = 0;
       this.planeAction = TAKING_SHOOT_DAMAGE;
+      this.animation.setAnimation(TAKING_SHOOT_DAMAGE.toString());
       this.statusDisplay.setHP(this.HP);
       this.statusDisplay.setBlinking(true);
       if (HP <= 0) {
@@ -451,10 +445,9 @@ public class PlayerFly extends MyRectangle implements ShootingPlayer {
 
    protected void takeCollisionDmg() {
       HP -= collisionDmg;
-      this.aniTick = 0;
-      this.aniIndex = 0;
       this.resetSpeed();
       this.planeAction = TAKING_COLLISION_DAMAGE;
+      this.animation.setAnimation(TAKING_COLLISION_DAMAGE.toString());
       this.statusDisplay.setHP(HP);
       this.statusDisplay.setBlinking(true);
       if (HP <= 0) {
@@ -504,8 +497,8 @@ public class PlayerFly extends MyRectangle implements ShootingPlayer {
    }
 
    public void reset() {
-      this.visible = true;
-      this.aniIndex = 0;
+      visible = true;
+      animation.reset();
       leftLazerGlow.reset();
       rightLazerGlow.reset();
       setGlowType(AnimatedGlow.BLUE_GLOW_SMALL);
@@ -524,6 +517,14 @@ public class PlayerFly extends MyRectangle implements ShootingPlayer {
    public void setGlowType(int glowType) {
       leftLazerGlow.setGlowType(glowType);
       rightLazerGlow.setGlowType(glowType);
+   }
+
+   public int getAniIndex() {
+      return animation.aniIndex;
+   }
+
+   public int getAniRow() {
+      return animation.getCurrentAniRow();
    }
 
 }

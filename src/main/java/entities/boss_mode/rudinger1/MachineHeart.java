@@ -40,10 +40,8 @@ public class MachineHeart extends DefaultBossPart {
    private int damageTick = 0;
    private int damageDuration = 20;
 
-   public MachineHeart(
-         Dimensions hitbox, AnimatedComponentFactory animationFactory,
-         PlayerBoss player, Point startPoint) {
-      super(hitbox, animationFactory.getMachineHeartAnimation((int) hitbox.x, (int) hitbox.y));
+   public MachineHeart(Dimensions hitbox, PlayerBoss player, Point startPoint) {
+      super(hitbox, AnimatedComponentFactory.GetMachineHeartAnimation((int) hitbox.x, (int) hitbox.y));
       this.player = player;
       this.dockingPoint = startPoint;
       this.midwayPoint = new Point(

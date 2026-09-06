@@ -19,14 +19,14 @@ public class HeatSeekingPattern extends DefaultShootPattern {
    private PlayerBoss player;
 
    public HeatSeekingPattern(
-         ProjectileHandler2 projectileHandler, Point gunPoint, AnimatedComponentFactory animationFactory,
+         ProjectileHandler2 projectileHandler, Point gunPoint,
          PlayerBoss player,
          int chargeTime, int startDelay, int shootInterval) {
       super(projectileHandler, gunPoint, chargeTime, startDelay, shootInterval);
       this.player = player;
-      this.shootAnimation = animationFactory.getPinkShootAnimation(
+      this.shootAnimation = AnimatedComponentFactory.GetPinkShootAnimation(
             (int) gunPoint.getX() - 140, (int) gunPoint.getY() - 140);
-      this.chargeAnimation = animationFactory.getPinkEnergyBall(
+      this.chargeAnimation = AnimatedComponentFactory.GetPinkEnergyBall(
             (int) gunPoint.getX() - 90, (int) gunPoint.getY() - 90);
    }
 

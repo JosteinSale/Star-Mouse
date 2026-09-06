@@ -6,6 +6,7 @@ import entities.boss_mode.AnimatedComponent;
 import entities.boss_mode.AnimatedComponentFactory;
 import projectiles.ProjectileHandler2;
 import static projectiles.ProjectileFactory.TypeConstants.BOSS_PROJECTILE1;
+
 /**
  * Shoots 6 projectiles at once in a fan pattern, downwards.
  * There are accompanying charge- and shoot animations at the gunPoint.
@@ -22,12 +23,12 @@ public class FanPattern extends DefaultShootPattern {
    private double startAngle = 180 + (180 - fanWidth) / 2;
 
    public FanPattern(
-         ProjectileHandler2 projectileHandler, Point gunPoint, AnimatedComponentFactory animationFactory,
+         ProjectileHandler2 projectileHandler, Point gunPoint,
          int chargeTime, int startDelay, int shootInterval) {
       super(projectileHandler, gunPoint, chargeTime, startDelay, shootInterval);
-      this.shootAnimation = animationFactory.getPinkShootAnimation(
+      this.shootAnimation = AnimatedComponentFactory.GetPinkShootAnimation(
             (int) gunPoint.getX() - 150, (int) gunPoint.getY() - 150);
-      this.chargeAnimation = animationFactory.getPinkEnergyBall(
+      this.chargeAnimation = AnimatedComponentFactory.GetPinkEnergyBall(
             (int) gunPoint.getX() - 90, (int) gunPoint.getY() - 90);
    }
 

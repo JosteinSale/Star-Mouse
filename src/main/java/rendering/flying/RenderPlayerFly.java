@@ -22,7 +22,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import static utils.Constants.Flying.PlaneAction.*;
 
 public class RenderPlayerFly implements Render {
-   private Game game;
    private PlayerFly player;
    private MySubImage[][] animations;
    private MySubImage[] flameAnimations;
@@ -46,7 +45,6 @@ public class RenderPlayerFly implements Render {
    private MyColor HPbarBgColor = new MyColor(97, 0, 15, 180);
 
    public RenderPlayerFly(Game game, PlayerFly player) {
-      this.game = game;
       this.player = player;
       this.loadImages(game.getImages());
       this.rGlow = new RenderGlow(game.getImages());
@@ -101,14 +99,13 @@ public class RenderPlayerFly implements Render {
          }
 
          // Player
-         int actionIndex = player.planeAction;
+         int aniRow = player.getAniRow();
          if ((player.teleportBuffer > 5) &&
                (player.planeAction != TAKING_COLLISION_DAMAGE)) {
-            actionIndex = TELEPORTING_RIGHT;
-            // Gives us a few extra frames with teleport-animation
+            aniRow = 4; // Gives us a few extra frames with teleport-animation
          }
          DrawUtils.drawSubImage(
-               sb, animations[actionIndex][player.aniIndex],
+               sb, animations[aniRow][player.getAniIndex()],
                (int) (player.x() - 20), (int) (player.y() - 20),
                SHIP_SPRITE_WIDTH * 3, SHIP_SPRITE_HEIGHT * 3);
 

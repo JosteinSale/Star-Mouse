@@ -102,32 +102,14 @@ public class Constants {
          public static final int BOMBEXPLOSION_SPRITE_HEIGHT = 250;
       }
 
-      public static class PlaneAction {
-         public static final int IDLE = 0;
-         public static final int FLYING_LEFT = 1;
-         public static final int FLYING_RIGHT = 2;
-         public static final int TELEPORTING_RIGHT = 3;
-         public static final int TELEPORTING_LEFT = 4;
-         public static final int TAKING_COLLISION_DAMAGE = 5;
-         public static final int TAKING_SHOOT_DAMAGE = 6;
-
-         public static int GetPlayerSpriteAmount(int planeAction) {
-            switch (planeAction) {
-               case FLYING_RIGHT:
-                  return 3;
-               case FLYING_LEFT:
-                  return 3;
-               case TELEPORTING_LEFT:
-               case TELEPORTING_RIGHT:
-               case IDLE:
-                  return 1;
-               case TAKING_COLLISION_DAMAGE:
-                  return 6;
-               case TAKING_SHOOT_DAMAGE:
-                  return 4;
-            }
-            return 4;
-         }
+      public static enum PlaneAction {
+         IDLE,
+         FLYING_RIGHT,
+         FLYING_LEFT,
+         TELEPORTING_RIGHT,
+         TELEPORTING_LEFT,
+         TAKING_COLLISION_DAMAGE,
+         TAKING_SHOOT_DAMAGE
       }
    }
 
