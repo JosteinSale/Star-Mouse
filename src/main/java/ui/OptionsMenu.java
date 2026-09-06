@@ -12,7 +12,7 @@ public class OptionsMenu extends Singleton {
    private AudioPlayer audioPlayer;
    private ControlsMenu controlsMenu;
    private boolean active = false;
-   public boolean vSync = true;
+   public boolean vSync = false;
    public String[] menuOptions = { "Music volume", "SFX volume", "VSync", "Controls", "Return" };
 
    private static final int MUSIC_VOLUME = 0;
@@ -25,8 +25,8 @@ public class OptionsMenu extends Singleton {
    public int cursorX = 170;
    public int cursorMinY = 280;
    private int cursorMaxY = 550;
-   public int cursorY = cursorMaxY;
    public int menuOptionsDiff = (cursorMaxY - cursorMinY) / (menuOptions.length - 1);
+   public int cursorY = cursorMaxY;
    public int musicVolumeY = getMenuOptionY(MUSIC_VOLUME);
    public int sfxVolumeY = getMenuOptionY(SFX_VOLUME);
    public int vSyncY = getMenuOptionY(VSYNC);

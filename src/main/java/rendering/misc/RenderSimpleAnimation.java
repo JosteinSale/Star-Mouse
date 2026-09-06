@@ -8,7 +8,7 @@ import utils.DrawUtils;
 
 public class RenderSimpleAnimation {
    public static void draw(SpriteBatch sb, SimpleAnimation sa, MySubImage[] spriteArray) {
-      MySubImage subImg = spriteArray[sa.aniIndex];
+      MySubImage subImg = spriteArray[sa.getFrame()];
       DrawUtils.drawSubImage(
             sb, subImg,
             (int) sa.xPos,

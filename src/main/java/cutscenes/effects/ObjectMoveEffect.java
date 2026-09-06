@@ -40,10 +40,6 @@ public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
       this.moveDurations = new HashMap<>();
       this.xSpeeds = new HashMap<>();
       this.ySpeeds = new HashMap<>();
-      // TODO - Later we might also include the AnimatedComponentFactory.
-      // TODO - Then, include methods setAnimation(String name, int row) which throws
-      // exception if not AnimatedComponent.
-      // and setPose(int row, int col, boolean active).
    }
 
    /*

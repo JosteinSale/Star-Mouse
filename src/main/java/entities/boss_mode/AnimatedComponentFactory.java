@@ -91,7 +91,7 @@ public class AnimatedComponentFactory {
          }
       });
       return new ReaperEyes(
-            "boss1_eyes.png", 200, 52, 4, 5,
+            Images.REAPER_EYES, 200, 52, 4, 5,
             aniInfo, x, y, player);
    }
 
@@ -106,7 +106,7 @@ public class AnimatedComponentFactory {
          }
       });
       return new AnimatedMouth(
-            "boss1_mouth.png", 81, 58, 3, 8,
+            Images.REAPER_MOUTH, 81, 58, 3, 8,
             aniInfo, x, y);
    }
 

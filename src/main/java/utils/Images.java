@@ -100,6 +100,8 @@ public class Images extends Singleton {
    public static final String HEATSEEKING_LAZER_SPRITE = "heatSeekingLazer.png";
    public static final String MACHINE_HEART_SPRITE = "machineHeart.png";
    public static final String BOSS_PROJECTILE1 = "projectile_boss1.png";
+   public static final String REAPER_EYES = "boss1_eyes.png";
+   public static final String REAPER_MOUTH = "boss1_mouth.png";
    public static final String EMPTY_IMAGE = "nonImg.png"; // An empty image
 
    // Sprites - LevelEditor
