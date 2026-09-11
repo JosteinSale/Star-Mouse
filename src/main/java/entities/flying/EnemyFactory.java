@@ -42,6 +42,7 @@ public class EnemyFactory {
       public static final int BURNING_FRAGMENT = 16;
       public static final int CENTIPEDE = 17;
       public static final int LURKER = 18;
+      public static final int BAT_DRONE = 19;
    }
 
    public EnemyFactory(PlayerFly player) {
@@ -68,6 +69,7 @@ public class EnemyFactory {
       this.nameToTypeMap.put("burningFragment", BURNING_FRAGMENT);
       this.nameToTypeMap.put("centipede", CENTIPEDE);
       this.nameToTypeMap.put("lurker", LURKER);
+      this.nameToTypeMap.put("batDrone", BAT_DRONE);
    }
 
    private void registerAllEntities() {
@@ -160,6 +162,12 @@ public class EnemyFactory {
             LURKER,
             Images.LURKER_SPRITE, 40, 40, 2, 3,
             90, 80, 0, 0));
+
+      // BAT DRONE
+      enemyInfo.put(BAT_DRONE, new EntityInfo(
+            BAT_DRONE,
+            Images.BAT_DRONE_SPRITE, 40, 40, 2, 7,
+            60, 60, 0, 6));
    }
 
    /**
@@ -230,6 +238,8 @@ public class EnemyFactory {
             return new Centipede(hitbox, info, chargeTimer, new Vector2(vectorX, vectorY));
          case LURKER:
             return new Lurker(hitbox, info, chargeTimer, player);
+         case BAT_DRONE:
+            return new BatDrone(hitbox, info, chargeTimer, dir);
          default:
             throw new IllegalArgumentException("No enemy constructor for type " + typeConstant);
       }

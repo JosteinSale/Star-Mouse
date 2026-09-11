@@ -10,7 +10,6 @@ import java.util.List;
 import static entities.flying.EnemyFactory.TypeConstants.*;
 import static projectiles.ProjectileFactory.TypeConstants.BOSS_PROJECTILE1;
 import static utils.Constants.Flying.SpriteSizes.*;
-import static utils.Constants.Flying.SpriteSizes.BOMB_PRJT_SPRITE_SIZE;
 
 /**
  * Constructs Projectile instances. Mirrors EnemyFactory's role for enemies:
@@ -28,6 +27,10 @@ public class ProjectileFactory {
       public static final int FLAME_PROJECTILE = 5;
       public static final int BOSS_PROJECTILE1 = 6;
    }
+
+   private final int DRONE_PRJT_SIZE = 32;
+   private final int OCTADRONE_PRJT_SIZE = 25;
+   private final int WASPDRONE_PRJT_SIZE = 28;
 
    public List<Projectile> createPlayerProjectile(MyRectangle playerHb, boolean powerUp, int lazerDmg) {
       ArrayList<Projectile> projectiles = new ArrayList<>();
@@ -63,7 +66,7 @@ public class ProjectileFactory {
     * Creates a DroneProjectile with the given projectile hitbox and custom speed.
     */
    public Projectile createCustomDroneProjectile(int xPos, int yPos, int xSpeed, int ySpeed) {
-      Dimensions dim = new Dimensions(xPos, yPos, 32, 33);
+      Dimensions dim = new Dimensions(xPos, yPos, DRONE_PRJT_SIZE, DRONE_PRJT_SIZE);
       return new DroneProjectile(dim, xSpeed, ySpeed);
    }
 
@@ -90,13 +93,13 @@ public class ProjectileFactory {
 
          case DRONE:
             Dimensions dim1 = new Dimensions(
-                  enemyHb.x() + 25, enemyHb.y() + 66, 32, 33);
+                  enemyHb.x() + 25, enemyHb.y() + 66, DRONE_PRJT_SIZE, DRONE_PRJT_SIZE);
             projectiles.add(new DroneProjectile(dim1, 0, 5));
             break;
 
          case BLASTERDRONE:
             Dimensions dim2 = new Dimensions(
-                  enemyHb.x() + 15, enemyHb.y() + 90, 32, 33);
+                  enemyHb.x() + 15, enemyHb.y() + 90, DRONE_PRJT_SIZE, DRONE_PRJT_SIZE);
             projectiles.add(new DroneProjectile(dim2, 0, 5));
             break;
 
@@ -109,7 +112,7 @@ public class ProjectileFactory {
                int xSpeed = (int) (Math.cos(angle) * 4);
                int ySpeed = (int) ((Math.sin(angle) * 4) + fgSpeed);
                Dimensions dim3 = new Dimensions(
-                     (float) x, (float) y, 25, 25);
+                     (float) x, (float) y, OCTADRONE_PRJT_SIZE, OCTADRONE_PRJT_SIZE);
                projectiles.add(new OctaProjectile(dim3, xSpeed, ySpeed));
             }
             break;
@@ -131,15 +134,21 @@ public class ProjectileFactory {
                int xSpeed = 3;
                int ySpeed = 4;
                Dimensions dim = new Dimensions(
-                     enemyHb.x() + 75, enemyHb.y() + 95, 28, 28);
+                     enemyHb.x() + 75, enemyHb.y() + 95, WASPDRONE_PRJT_SIZE, WASPDRONE_PRJT_SIZE);
                projectiles.add(new OctaProjectile(dim, xSpeed, ySpeed));
             } else {
                int xSpeed = -3;
                int ySpeed = 4;
                Dimensions dim = new Dimensions(
-                     enemyHb.x() + 5, enemyHb.y() + 95, 28, 28);
+                     enemyHb.x() + 5, enemyHb.y() + 95, WASPDRONE_PRJT_SIZE, WASPDRONE_PRJT_SIZE);
                projectiles.add(new OctaProjectile(dim, xSpeed, ySpeed));
             }
+
+         case BAT_DRONE:
+            Dimensions dim6 = new Dimensions(
+                  enemyHb.x() + 13, enemyHb.y() + 60, DRONE_PRJT_SIZE, DRONE_PRJT_SIZE);
+            projectiles.add(new DroneProjectile(dim6, 0, 5));
+            break;
       }
       return projectiles;
    }

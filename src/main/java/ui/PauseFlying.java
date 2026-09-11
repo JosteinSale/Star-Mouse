@@ -83,7 +83,7 @@ public class PauseFlying extends Singleton {
             this.flying.minus10KilledEnemies();
          } else if (selectedIndex == DIE) {
             this.flying.resetPause();
-            this.flying.killPlayer();
+            this.flying.onPlayerDeath();
          }
       }
    }

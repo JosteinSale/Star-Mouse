@@ -12,6 +12,14 @@ public interface Enemy {
    public static final int RIGHT = 1;
    public static final int LEFT = -1;
 
+   public static String dirToString(int dir) {
+      if (dir == RIGHT) {
+         return "Right";
+      } else {
+         return "Left";
+      }
+   }
+
    /**
     * If the enemy is small, the player can teleport through it and kill it.
     * Big enemies can not be teleported through, and if the player attempts it,

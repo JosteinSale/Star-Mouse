@@ -439,7 +439,7 @@ public class PlayerFly extends MyRectangle implements ShootingPlayer {
       this.statusDisplay.setHP(this.HP);
       this.statusDisplay.setBlinking(true);
       if (HP <= 0) {
-         game.getFlying().killPlayer();
+         game.getFlying().onPlayerDeath();
       }
    }
 
@@ -451,7 +451,7 @@ public class PlayerFly extends MyRectangle implements ShootingPlayer {
       this.statusDisplay.setHP(HP);
       this.statusDisplay.setBlinking(true);
       if (HP <= 0) {
-         game.getFlying().killPlayer();
+         game.getFlying().onPlayerDeath();
       }
    }
 

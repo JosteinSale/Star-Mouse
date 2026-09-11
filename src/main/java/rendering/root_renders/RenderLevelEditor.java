@@ -59,7 +59,7 @@ public class RenderLevelEditor extends Singleton {
       // Top text
       DrawUtils.drawText(
             sb, MyColor.BLACK, DrawUtils.infoFont,
-            "direction : " + Integer.toString(le.enemyFlipX),
+            "direction : " + Enemy.dirToString(le.enemyFlipX),
             20, 20);
       DrawUtils.drawText(
             sb, MyColor.BLACK, DrawUtils.infoFont,

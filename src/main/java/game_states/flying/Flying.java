@@ -389,7 +389,7 @@ public class Flying extends State {
       cutsceneManager.reset();
    }
 
-   public void killPlayer() {
+   public void onPlayerDeath() {
       gameOver = true;
       gamePlayActive = false;
       player.setVisible(false);

@@ -1,2 +1,9 @@
 automaticTrigger;0f;2f;10f;10f;openingCutscene
 automaticTrigger;0f;-19000f;10f;10f;levelFinished
+batDrone;370;-1310;1;100
+batDrone;620;-1510;-1;100
+batDrone;230;-1710;1;100
+batDrone;460;-1760;1;100
+batDrone;330;-1830;1;100
+batDrone;770;-2020;-1;100
+batDrone;600;-2080;-1;100
