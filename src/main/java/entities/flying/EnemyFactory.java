@@ -24,7 +24,8 @@ import static entities.flying.EnemyFactory.TypeConstants.*;
 public class EnemyFactory {
    public HashMap<Integer, EntityInfo> enemyInfo;
    private HashMap<String, Integer> nameToTypeMap;
-   private PlayerFly player; // Some enemies might need the player for their constructor.
+   private PlayerFly player;
+   private EnemyManager enemyManager;
 
    public static class TypeConstants {
       public static final int TARGET = 4;
@@ -43,11 +44,13 @@ public class EnemyFactory {
       public static final int CENTIPEDE = 17;
       public static final int LURKER = 18;
       public static final int BAT_DRONE = 19;
+      public static final int MINE_DRONE = 20;
    }
 
-   public EnemyFactory(PlayerFly player) {
+   public EnemyFactory(EnemyManager enemyManager, PlayerFly player) {
       this.enemyInfo = new HashMap<>();
       this.nameToTypeMap = new HashMap<>();
+      this.enemyManager = enemyManager;
       this.player = player;
       this.constructNameToConstantMap();
       this.registerAllEntities();
@@ -70,6 +73,7 @@ public class EnemyFactory {
       this.nameToTypeMap.put("centipede", CENTIPEDE);
       this.nameToTypeMap.put("lurker", LURKER);
       this.nameToTypeMap.put("batDrone", BAT_DRONE);
+      this.nameToTypeMap.put("mineDrone", MINE_DRONE);
    }
 
    private void registerAllEntities() {
@@ -168,6 +172,12 @@ public class EnemyFactory {
             BAT_DRONE,
             Images.BAT_DRONE_SPRITE, 40, 40, 2, 7,
             60, 60, 0, 6));
+
+      // MINE DRONE
+      enemyInfo.put(MINE_DRONE, new EntityInfo(
+            MINE_DRONE,
+            Images.MINE_DRONE_SPRITE, 150, 150, 3, 8,
+            84, 84, 0, 0));
    }
 
    /**
@@ -240,6 +250,8 @@ public class EnemyFactory {
             return new Lurker(hitbox, info, chargeTimer, player);
          case BAT_DRONE:
             return new BatDrone(hitbox, info, chargeTimer, dir);
+         case MINE_DRONE:
+            return new MineDrone(hitbox, info, enemyManager, player);
          default:
             throw new IllegalArgumentException("No enemy constructor for type " + typeConstant);
       }

@@ -20,11 +20,13 @@ import utils.HelpMethods;
 import utils.Images;
 
 import static utils.Constants.Flying.SpriteSizes.EXPLOSION_SPRITE_SIZE;
+import static utils.Constants.Flying.SpriteSizes.MINE_EXPLOSION_SPRITE_SIZE;
 
 public class RenderEntity {
    private ArrayList<PickupItem> pickupItems;
    private EnemyManager enemyManager;
    private MySubImage[] explosionAnimation;
+   private MySubImage[] mineExplosionAnimation;
    private MySubImage[] flameShootAnimation;
    private EntityImages entityImgs;
    private RenderGlow rGlow;
@@ -36,10 +38,13 @@ public class RenderEntity {
       this.explosionAnimation = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.EXPLOSION, true),
             5, EXPLOSION_SPRITE_SIZE, EXPLOSION_SPRITE_SIZE);
+      this.mineExplosionAnimation = HelpMethods.GetUnscaled1DAnimationArray(
+            images.getFlyImageSprite(Images.MINE_EXPLOSION, true),
+            5, MINE_EXPLOSION_SPRITE_SIZE, MINE_EXPLOSION_SPRITE_SIZE);
       this.flameShootAnimation = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.FLAME_SHOOT, true),
             6, 132, 100);
-      this.entityImgs = new EntityImages(new EnemyFactory(null), new PickupItemFactory(), images);
+      this.entityImgs = new EntityImages(new EnemyFactory(null, null), new PickupItemFactory(), images);
       this.rGlow = new RenderGlow(images);
    }
 
@@ -60,10 +65,21 @@ public class RenderEntity {
       // Explosions
       for (Explosion ex : enemyManager.explosions) {
          DrawUtils.drawSubImage(
-               sb, explosionAnimation[ex.getAniIndex()],
+               sb, getExplosionImage(ex.getType(), ex.getAniIndex()),
                ex.getX(), ex.getY(),
                (int) ex.getSize(), (int) ex.getSize());
 
+      }
+   }
+
+   private MySubImage getExplosionImage(int type, int aniIndex) {
+      switch (type) {
+         case Explosion.SMALL, Explosion.BIG:
+            return explosionAnimation[aniIndex];
+         case Explosion.MINE:
+            return mineExplosionAnimation[aniIndex];
+         default:
+            throw new IllegalArgumentException("No animation defined for explosion with type: " + type);
       }
    }
 
@@ -83,7 +99,7 @@ public class RenderEntity {
       for (int i = 0; i < allHitboxes.size(); i++) {
          AnimationFrame af = enemy.getAnimationForHitbox(i);
          MySubImage img = entityImgs.getImageFor(enemy.getType(), af.getRow(), af.getCol());
-         DrawUtils.drawRotatedImage(sb, allHitboxes.get(i), enemy.getDir(), enemy.getRotation(), img);
+         DrawUtils.drawRotatedImage(sb, allHitboxes.get(i), enemy.getDir(), enemy.getAnimationRotation(), img);
       }
       // Glow
       if (enemy.hasGlow()) {

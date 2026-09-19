@@ -1,50 +1,61 @@
 package projectiles;
 
 public class Explosion {
-    private int x;
-    private int y;
-    private int aniTick = 0;
-    private int aniIndex = 0;
-    private int aniTickPerFrame = 5;
-    boolean done = false;
-    private int size;
+   private int x;
+   private int y;
+   private int aniTick = 0;
+   private int aniIndex = 0;
+   private int aniTickPerFrame = 5;
+   private int size;
+   private int type;
+   boolean done = false;
 
-    public Explosion(int x, int y, int size) {
-        this.x = x;
-        this.y = y;
-        this.size = size;
-    }
+   // Explosion types
+   public static final int SMALL = 0;
+   public static final int BIG = 1;
+   public static final int MINE = 2;
 
-    public void update(float fgCurSpeed) {
-        this.y += fgCurSpeed;
-        this.aniTick++;
-        if (aniTick > aniTickPerFrame) {
-            aniIndex ++;
-            aniTick = 0;
-            if (aniIndex > 4) {
-                done = true;
-                aniIndex = 4;
-            }
-        }
-    }
+   public Explosion(int type, int x, int y, int size) {
+      this.x = x;
+      this.y = y;
+      this.size = size;
+      this.type = type;
+   }
 
-    public int getAniIndex() {
-        return this.aniIndex;
-    }
+   public void update(float fgCurSpeed) {
+      this.y += fgCurSpeed;
+      this.aniTick++;
+      if (aniTick > aniTickPerFrame) {
+         aniIndex++;
+         aniTick = 0;
+         if (aniIndex > 4) {
+            done = true;
+            aniIndex = 4;
+         }
+      }
+   }
 
-    public int getX() {
-        return this.x;
-    }
+   public int getAniIndex() {
+      return this.aniIndex;
+   }
 
-    public int getY() {
-        return this.y;
-    }
+   public int getX() {
+      return this.x;
+   }
 
-    public boolean isDone() {
-        return this.done;
-    }
+   public int getY() {
+      return this.y;
+   }
+
+   public boolean isDone() {
+      return this.done;
+   }
 
    public float getSize() {
       return this.size;
+   }
+
+   public int getType() {
+      return this.type;
    }
 }

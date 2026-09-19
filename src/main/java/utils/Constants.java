@@ -98,6 +98,7 @@ public class Constants {
          public static final int FLAME_PRJT_SPRITE_W = 150;
          public static final int FLAME_PRJT_SPRITE_H = 80;
          public static final int EXPLOSION_SPRITE_SIZE = 40;
+         public static final int MINE_EXPLOSION_SPRITE_SIZE = 150;
          public static final int BOMBEXPLOSION_SPRITE_WIDTH = 300;
          public static final int BOMBEXPLOSION_SPRITE_HEIGHT = 250;
       }
@@ -129,6 +130,8 @@ public class Constants {
       public static final String SFX_POWERUP = "powerup";
       public static final String SFX_HURT = "hurt";
       public static final String SFX_DEATH = "death";
+      public static final String SFX_MINE_CHARGE = "mine_charge";
+      public static final String SFX_MINE_EXPLOSION = "mine_explosion";
 
       // SFX IDs - Exploring
       public static final String SFX_CURSOR = "cursor";

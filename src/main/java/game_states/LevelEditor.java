@@ -77,7 +77,7 @@ public class LevelEditor extends State {
 
    public LevelEditor(Game game) {
       super(game);
-      this.enemyFactory = new EnemyFactory(null);
+      this.enemyFactory = new EnemyFactory(null, null);
       this.pickupFactory = new PickupItemFactory();
       directionVector = new Vector2(0, 0);
       constructEntityNameToTypeMap();

@@ -230,7 +230,7 @@ public class Centipede extends BaseEnemy {
    }
 
    @Override
-   public double getRotation() {
+   public double getHitboxRotation() {
       return angle;
    }
 

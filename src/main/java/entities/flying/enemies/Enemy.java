@@ -103,7 +103,9 @@ public interface Enemy {
 
    public AnimatedGlow getGlow();
 
-   public double getRotation();
+   public double getHitboxRotation();
+
+   public double getAnimationRotation();
 
    /** For testing purposes */
    public void adjustPosition(int deltaY);

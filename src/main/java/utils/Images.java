@@ -67,6 +67,7 @@ public class Images extends Singleton {
    public static final String REAPERDRONE_PROJECTILE = "projectile_reaper.png";
    public static final String PROJECTILE_HIT = "sprites_projectileHit.png";
    public static final String EXPLOSION = "sprites_explosion.png";
+   public static final String MINE_EXPLOSION = "sprites_mineExplosion.png";
    public static final String TARGET_SPRITE = "sprites_target.png";
    public static final String DRONE_SPRITE = "sprites_drone.png";
    public static final String SMALLSHIP_SPRITE = "sprites_smallShip.png";
@@ -92,6 +93,7 @@ public class Images extends Singleton {
    public static final String CENTIPEDE_SPRITE = "sprites_centipede.png";
    public static final String LURKER_SPRITE = "sprites_lurker.png";
    public static final String BAT_DRONE_SPRITE = "sprites_batDrone.png";
+   public static final String MINE_DRONE_SPRITE = "sprites_mineDrone.png";
 
    // Sprites - BossMode
    public static final String ROTATING_LAZER_SPRITE = "rotatingLazer.png";

@@ -70,6 +70,8 @@ public class SFXPlayer extends Singleton {
       SFX_MAP.put(Audio.SFX_RUDINGER1_DEATH, "SFX - Rudinger1Death.ogg");
       SFX_MAP.put(Audio.CATHEDRAL_SHOT, "SFX - CathedralShot.ogg");
       SFX_MAP.put(Audio.MISSILE_STRIKE, "SFX - BigExplosion3.ogg");
+      SFX_MAP.put(Audio.SFX_MINE_CHARGE, "SFX - MineCharge.ogg");
+      SFX_MAP.put(Audio.SFX_MINE_EXPLOSION, "SFX - BigExplosion1.ogg");
    };
 
    public SFXPlayer(float initialVolume) {

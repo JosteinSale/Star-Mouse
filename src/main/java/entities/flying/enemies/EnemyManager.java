@@ -1,8 +1,10 @@
 package entities.flying.enemies;
 
 import static entities.flying.EnemyFactory.TypeConstants.BURNING_FRAGMENT;
+import static entities.flying.EnemyFactory.TypeConstants.MINE_DRONE;
 import static entities.flying.EnemyFactory.TypeConstants.SMALL_ASTEROID;
 import static utils.Constants.Flying.SpriteSizes.EXPLOSION_SPRITE_SIZE;
+import static utils.Constants.Flying.SpriteSizes.MINE_EXPLOSION_SPRITE_SIZE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +31,7 @@ public class EnemyManager {
    public EnemyManager(PlayerFly player, AudioPlayer audioPlayer) {
       this.player = player;
       this.audioPlayer = audioPlayer;
-      this.enemyFactory = new EnemyFactory(player);
+      this.enemyFactory = new EnemyFactory(this, player);
       allEnemies = new ArrayList<>();
       activeEnemiesOnScreen = new ArrayList<>();
       this.explosions = new ArrayList<>();
@@ -105,18 +107,44 @@ public class EnemyManager {
    public void addSmallExplosions(ArrayList<MyRectangle> enemyHitboxes) {
       int size = EXPLOSION_SPRITE_SIZE * 3;
       for (MyRectangle hb : enemyHitboxes) {
-         float x = (hb.x() + hb.width() / 2) - (size / 2);
-         float y = (hb.y() + hb.height() / 2) - (size / 2);
-         explosions.add(new Explosion((int) x, (int) y, size));
+         float x = hb.centerX() - (size / 2);
+         float y = hb.centerY() - (size / 2);
+         explosions.add(new Explosion(Explosion.SMALL, (int) x, (int) y, size));
       }
    }
 
    /** Makes a big explosion centered in the enemy's hitbox */
    private void addBigExplosion(MyRectangle enemyHb) {
       int size = EXPLOSION_SPRITE_SIZE * 8;
-      float x = (enemyHb.x() + enemyHb.width() / 2) - (size / 2);
-      float y = (enemyHb.y() + enemyHb.height() / 2) - (size / 2);
-      explosions.add(new Explosion((int) x, (int) y, size));
+      float x = enemyHb.centerX() - (size / 2);
+      float y = enemyHb.centerY() - (size / 2);
+      explosions.add(new Explosion(Explosion.BIG, (int) x, (int) y, size));
+   }
+
+   /**
+    * Makes a mine explosion centered in the enemy's hitbox.
+    * If the parameter 'hitsPlayer' is true, the player takes the given amount of
+    * damage, and a damage sound effect plays.
+    */
+   public void handleMineExplosion(MyRectangle enemyHb, boolean hitsPlayer, int damageAmount) {
+      int size = MINE_EXPLOSION_SPRITE_SIZE * 3;
+      float x = enemyHb.centerX() - (size / 2);
+      float y = enemyHb.centerY() - (size / 2);
+      explosions.add(new Explosion(Explosion.MINE, (int) x, (int) y, size));
+      audioPlayer.playSFX(Audio.SFX_MINE_EXPLOSION);
+      increaseKilledEnemies(MINE_DRONE);
+      if (hitsPlayer) {
+         player.takeShootDamage(damageAmount);
+         audioPlayer.playSFX(Audio.SFX_HURT);
+      }
+   }
+
+   /**
+    * Plays a mine charge SFX. This sfx happens regardless of whether the mine
+    * actually detonates, since it might die before that time.
+    */
+   public void playMineChargeSfx() {
+      audioPlayer.playSFX(Audio.SFX_MINE_CHARGE);
    }
 
    public ArrayList<Enemy> getActiveEnemiesOnScreen() {

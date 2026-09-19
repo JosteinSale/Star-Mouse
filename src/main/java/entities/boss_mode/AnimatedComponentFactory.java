@@ -121,7 +121,7 @@ public class AnimatedComponentFactory {
             put(PlaneAction.TELEPORTING_RIGHT.toString(), new AnimationInfo(3, 1, 3, 0, false));
             put(PlaneAction.TELEPORTING_LEFT.toString(), new AnimationInfo(4, 1, 3, 0, false));
             put(PlaneAction.TAKING_COLLISION_DAMAGE.toString(), new AnimationInfo(5, 6, 3, 5, false));
-            put(PlaneAction.TAKING_SHOOT_DAMAGE.toString(), new AnimationInfo(6, 4, 3, 4, false));
+            put(PlaneAction.TAKING_SHOOT_DAMAGE.toString(), new AnimationInfo(6, 4, 3, 3, false));
          }
       });
       return new AnimatedComponent(

@@ -226,7 +226,13 @@ public abstract class BaseEnemy extends MyRectangle implements Enemy {
    }
 
    @Override
-   public double getRotation() {
+   public double getHitboxRotation() {
+      return this.rotationRadians;
+   }
+
+   @Override
+   public double getAnimationRotation() {
+      // Return the same as hitboxRotation by default
       return this.rotationRadians;
    }
 

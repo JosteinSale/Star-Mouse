@@ -92,7 +92,7 @@ public class Lurker extends BaseEnemy {
    }
 
    @Override
-   public double getRotation() {
+   public double getHitboxRotation() {
       return angle;
    }
 
