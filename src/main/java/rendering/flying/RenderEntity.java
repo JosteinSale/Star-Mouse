@@ -40,7 +40,7 @@ public class RenderEntity {
             5, EXPLOSION_SPRITE_SIZE, EXPLOSION_SPRITE_SIZE);
       this.mineExplosionAnimation = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.MINE_EXPLOSION, true),
-            5, MINE_EXPLOSION_SPRITE_SIZE, MINE_EXPLOSION_SPRITE_SIZE);
+            6, MINE_EXPLOSION_SPRITE_SIZE, MINE_EXPLOSION_SPRITE_SIZE);
       this.flameShootAnimation = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.FLAME_SHOOT, true),
             6, 132, 100);

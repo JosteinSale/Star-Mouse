@@ -14,7 +14,7 @@ public final class Testing {
    public static final Gamestate testState = Gamestate.FLYING;
    public static final boolean drawHitboxes = false;
    public static final int unlockedLevels = 13;
-   public static final boolean playMusic = true;
+   public static final boolean playMusic = false;
    public static final boolean playSFX = true;
 
    // Exploring

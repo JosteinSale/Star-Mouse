@@ -28,10 +28,21 @@ public class Explosion {
       if (aniTick > aniTickPerFrame) {
          aniIndex++;
          aniTick = 0;
-         if (aniIndex > 4) {
+         if (aniIndex == amountOfSpritesInAnimation()) {
             done = true;
-            aniIndex = 4;
+            aniIndex--;
          }
+      }
+   }
+
+   private int amountOfSpritesInAnimation() {
+      switch (type) {
+         case SMALL, BIG:
+            return 5;
+         case MINE:
+            return 6;
+         default:
+            throw new IllegalArgumentException("No sprite amount defined for explosion type: " + type);
       }
    }
 
