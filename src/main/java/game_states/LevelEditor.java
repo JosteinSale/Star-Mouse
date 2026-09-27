@@ -249,7 +249,7 @@ public class LevelEditor extends State {
             // Entities without chargeTimer will have standard value of 0.
             addEntityToLists(name, x, y, direction, 0, hitbox, vectorX, vectorY);
             break;
-         case CENTIPEDE:
+         case CENTIPEDE, LAZER_DRONE:
             settingVector = true;
             addEntityToLists(name, x, y, direction, chargeTimer, hitbox, vectorX, vectorY);
             break;

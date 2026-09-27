@@ -13,6 +13,7 @@ import entities.Dimensions;
 import entities.MyRectangle;
 import entities.flying.EntityInfo;
 import main_classes.Game;
+import utils.HelpMethods;
 
 public class Centipede extends BaseEnemy {
    private final int nrOfMiddleSegments = 8;
@@ -37,8 +38,8 @@ public class Centipede extends BaseEnemy {
       HP = maxHP;
       this.TAKING_DAMAGE = 3;
       this.speedVector = directionVector;
-      this.normalizedVector = normalizeVector(directionVector);
-      this.angle = calculateAngle(normalizedVector);
+      this.normalizedVector = HelpMethods.NormalizeVector(directionVector);
+      this.angle = HelpMethods.CalculateAngle(normalizedVector);
       this.onScreenArea = new MyRectangle(
             -200, -100, Game.GAME_DEFAULT_WIDTH + 400, Game.GAME_DEFAULT_HEIGHT + 200);
       this.hitboxCenters = new ArrayList<>();
@@ -46,19 +47,6 @@ public class Centipede extends BaseEnemy {
       constructHitboxes();
       constructAnimations();
       constructHitboxCenters();
-   }
-
-   private Vector2 normalizeVector(Vector2 vector) {
-      Vector2 v = vector.cpy();
-      if (v.len() != 0) {
-         v.nor();
-      }
-      return v;
-   }
-
-   private double calculateAngle(Vector2 vector) {
-      // adjust by -90 degrees so sprite's native facing aligns with movement
-      return Math.atan2(vector.y, vector.x) + Math.PI / 2.0;
    }
 
    private void constructHitboxes() {

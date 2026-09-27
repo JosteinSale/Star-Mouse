@@ -4,6 +4,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 
 import entities.CollisionPixels;
 import entities.MyCollisionImage;
@@ -124,5 +125,18 @@ public class HelpMethods {
                c * spriteW, 0, spriteW, spriteH);
       }
       return animation;
+   }
+
+   public static Vector2 NormalizeVector(Vector2 vector) {
+      Vector2 v = vector.cpy();
+      if (v.len() != 0) {
+         v.nor();
+      }
+      return v;
+   }
+
+   public static double CalculateAngle(Vector2 vector) {
+      // adjust by -90 degrees so sprite's native facing aligns with movement
+      return Math.atan2(vector.y, vector.x) + Math.PI / 2.0;
    }
 }

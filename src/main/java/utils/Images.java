@@ -94,6 +94,7 @@ public class Images extends Singleton {
    public static final String LURKER_SPRITE = "sprites_lurker.png";
    public static final String BAT_DRONE_SPRITE = "sprites_batDrone.png";
    public static final String MINE_DRONE_SPRITE = "sprites_mineDrone.png";
+   public static final String LAZER_DRONE_SPRITE = "sprites_lazerDrone.png";
 
    // Sprites - BossMode
    public static final String ROTATING_LAZER_SPRITE = "rotatingLazer.png";

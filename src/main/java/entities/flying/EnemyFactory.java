@@ -45,6 +45,7 @@ public class EnemyFactory {
       public static final int LURKER = 18;
       public static final int BAT_DRONE = 19;
       public static final int MINE_DRONE = 20;
+      public static final int LAZER_DRONE = 21;
    }
 
    public EnemyFactory(EnemyManager enemyManager, PlayerFly player) {
@@ -74,6 +75,7 @@ public class EnemyFactory {
       this.nameToTypeMap.put("lurker", LURKER);
       this.nameToTypeMap.put("batDrone", BAT_DRONE);
       this.nameToTypeMap.put("mineDrone", MINE_DRONE);
+      this.nameToTypeMap.put("lazerDrone", LAZER_DRONE);
    }
 
    private void registerAllEntities() {
@@ -178,6 +180,12 @@ public class EnemyFactory {
             MINE_DRONE,
             Images.MINE_DRONE_SPRITE, 150, 150, 3, 8,
             84, 84, 0, 0));
+
+      // LAZER DRONE
+      enemyInfo.put(LAZER_DRONE, new EntityInfo(
+            LAZER_DRONE,
+            Images.LAZER_DRONE_SPRITE, 60, 60, 2, 2,
+            66, 66, 0, 0));
    }
 
    /**
@@ -243,15 +251,19 @@ public class EnemyFactory {
          case BURNING_FRAGMENT:
             return new BurningFragment(hitbox, info, chargeTimer);
          case CENTIPEDE:
-            int vectorX = Integer.parseInt(lineData[5]);
-            int vectorY = Integer.parseInt(lineData[6]);
-            return new Centipede(hitbox, info, chargeTimer, new Vector2(vectorX, vectorY));
+            int centipedeVectorX = Integer.parseInt(lineData[5]);
+            int centipedeVectorY = Integer.parseInt(lineData[6]);
+            return new Centipede(hitbox, info, chargeTimer, new Vector2(centipedeVectorX, centipedeVectorY));
          case LURKER:
             return new Lurker(hitbox, info, chargeTimer, player);
          case BAT_DRONE:
             return new BatDrone(hitbox, info, chargeTimer, dir);
          case MINE_DRONE:
             return new MineDrone(hitbox, info, enemyManager, player);
+         case LAZER_DRONE:
+            int lazerVectorX = Integer.parseInt(lineData[5]);
+            int lazerVectorY = Integer.parseInt(lineData[6]);
+            return new LazerDrone(hitbox, info, new Vector2(lazerVectorX, lazerVectorY));
          default:
             throw new IllegalArgumentException("No enemy constructor for type " + typeConstant);
       }
