@@ -1,9 +1,9 @@
 package entities.flying.enemies;
 
-import entities.AnimationFrame;
 import entities.Dimensions;
 import entities.MyRectangle;
-import entities.flying.EntityInfo;
+import entities.animation.Animation;
+import entities.flying.FlyEntityInfo;
 import entities.flying.PlayerFly;
 import main_classes.Game;
 
@@ -21,11 +21,12 @@ public class MineDrone extends BaseEnemy {
    protected int TAKING_DAMAGE = 1;
    protected int CHARGING_UP = 2;
 
-   public MineDrone(Dimensions hitbox, EntityInfo info, EnemyManager enemyManager, PlayerFly player) {
+   public MineDrone(Dimensions hitbox, FlyEntityInfo info, EnemyManager enemyManager, PlayerFly player) {
       super(hitbox, info, 1000, null);
       this.enemyManager = enemyManager;
       this.player = player;
-      animation = new AnimationFrame(IDLE, 0, 10, 8);
+      this.animationLength = 8;
+      animation = new Animation(IDLE, 0, 10);
       allAnimations.clear();
       allAnimations.add(animation);
       this.rotate(Math.PI / 4);

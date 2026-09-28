@@ -4,14 +4,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 import entities.MyRectangle;
-import entities.flying.EntityInfo;
+import entities.flying.FlyEntityInfo;
 import entities.flying.enemies.Enemy;
 import game_states.LevelEditor;
 import main_classes.Game;
 import rendering.MyColor;
 import rendering.MyImage;
 import rendering.MySubImage;
-import rendering.flying.EntityImages;
+import rendering.flying.FlyEntityImages;
 import utils.DrawUtils;
 import utils.Images;
 import utils.Singleton;
@@ -20,11 +20,11 @@ public class RenderLevelEditor extends Singleton {
 
    private Images images;
    private LevelEditor le;
-   private EntityImages entityImages;
+   private FlyEntityImages entityImages;
    private MyImage clImg;
    private MySubImage vectorImg;
 
-   public RenderLevelEditor(LevelEditor levelEditor, EntityImages entityImages, Images images) {
+   public RenderLevelEditor(LevelEditor levelEditor, FlyEntityImages entityImages, Images images) {
       this.images = images;
       this.le = levelEditor;
       this.entityImages = entityImages;
@@ -73,7 +73,7 @@ public class RenderLevelEditor extends Singleton {
 
    private void drawEntities(SpriteBatch sb) {
       for (int i = 0; i < le.addedEntities.size(); i++) {
-         EntityInfo info = le.getEntityInfo(le.addedEntities.get(i));
+         FlyEntityInfo info = le.getEntityInfo(le.addedEntities.get(i));
          MyRectangle hitbox = le.hitboxes.get(i);
          int hbX = (int) hitbox.x() + le.editorXOffset;
          int hbY = (int) hitbox.y() + le.getEditorY();
@@ -114,11 +114,11 @@ public class RenderLevelEditor extends Singleton {
       if (le.settingVector) {
          return;
       }
-      EntityInfo info = le.getEntityInfo(le.selectedEntity);
+      FlyEntityInfo info = le.getEntityInfo(le.selectedEntity);
       MySubImage img = entityImages.getImageFor(
             info.typeConstant, info.editorImgRow, info.editorImgCol);
-      int width = info.spriteW * 3;
-      int height = info.spriteH * 3;
+      int width = info.spriteInfo.spriteW * 3;
+      int height = info.spriteInfo.spriteH * 3;
       int x = le.cursorX - (width / 2);
       int y = le.cursorY - (height / 2);
       DrawUtils.drawSubImage(

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import entities.boss_mode.DefaultBossPart;
 import rendering.MySubImage;
+import rendering.misc.SpriteInfo;
 import utils.DrawUtils;
 import utils.HelpMethods;
 import utils.Images;
@@ -11,15 +12,16 @@ import utils.Images;
 /** Renders a single bossPart */
 public class RenderBossPart {
    private DefaultBossPart bp;
-   private MySubImage[][] animation;
+   private MySubImage[][] spriteArray;
 
    public RenderBossPart(DefaultBossPart bp, Images images) {
       this.bp = bp;
       if (bp.animation != null) {
-         this.animation = HelpMethods.GetUnscaled2DAnimationArray(
-               images.getBossSprite(bp.animation.spriteName),
-               bp.animation.rows, bp.animation.cols,
-               bp.animation.spriteW, bp.animation.spriteH);
+         SpriteInfo spriteInfo = bp.animation.spriteInfo;
+         this.spriteArray = HelpMethods.GetUnscaled2DAnimationArray(
+               images.getBossSprite(spriteInfo.spriteName),
+               spriteInfo.rows, spriteInfo.cols,
+               spriteInfo.spriteW, spriteInfo.spriteH);
       }
    }
 
@@ -27,9 +29,9 @@ public class RenderBossPart {
       if (!bp.isVisible) {
          return;
       } else {
-         int aniRow = bp.animation.getCurrentAniRow();
-         int aniIndex = bp.animation.aniIndex;
-         MySubImage img = animation[aniRow][aniIndex];
+         int row = bp.animation.getRow();
+         int col = bp.animation.getCol();
+         MySubImage img = spriteArray[row][col];
          DrawUtils.drawRotatedImage(sb, bp.getHitbox(), 1, bp.getRotationRadians(), img);
       }
    }

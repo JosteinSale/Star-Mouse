@@ -2,7 +2,6 @@ package projectiles.shoot_patterns;
 
 import java.awt.Point;
 
-import entities.boss_mode.AnimatedComponent;
 import projectiles.ProjectileHandler2;
 
 /**

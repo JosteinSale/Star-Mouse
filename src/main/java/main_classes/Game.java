@@ -163,10 +163,10 @@ public class Game extends ApplicationAdapter {
          // We prefer borderless fullscreen rather than true fullscreen, to avoid screen
          // flashing issues on certain computers
          DisplayMode displayMode = Lwjgl3ApplicationConfiguration.getDisplayMode();
-         Gdx.graphics.setUndecorated(true);
          Gdx.graphics.setWindowedMode(
                displayMode.width,
                displayMode.height);
+         Gdx.graphics.setUndecorated(true);
       }
    }
 

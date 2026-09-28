@@ -1,13 +1,13 @@
 package entities.flying.enemies;
 
-import entities.flying.EntityInfo;
+import entities.flying.FlyEntityInfo;
 import entities.Dimensions;
-import entities.flying.AnimatedGlow;
+import entities.animation.AnimatedGlow;
 
 public class WaspDrone extends BaseEnemy {
    private int direction; // 1 = right, -1 = left
 
-   public WaspDrone(Dimensions hitbox, EntityInfo info, int direction, int shootTimer) {
+   public WaspDrone(Dimensions hitbox, FlyEntityInfo info, int direction, int shootTimer) {
       super(hitbox, info, shootTimer, new AnimatedGlow(AnimatedGlow.ORANGE_GLOW_BIG, 1f));
       maxHP = 60;
       HP = maxHP;

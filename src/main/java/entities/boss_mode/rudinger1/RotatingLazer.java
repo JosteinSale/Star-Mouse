@@ -1,8 +1,8 @@
 package entities.boss_mode.rudinger1;
 
 import entities.Dimensions;
-import entities.boss_mode.AnimatedComponent;
-import entities.boss_mode.AnimatedComponentFactory;
+import entities.animation.ComplexAnimation;
+import entities.animation.ComplexAnimationFactory;
 import entities.boss_mode.DefaultBossPart;
 
 public class RotatingLazer extends DefaultBossPart {
@@ -13,16 +13,16 @@ public class RotatingLazer extends DefaultBossPart {
    private int chargeDuration = 140;
    private int visualWarningPoint = 100;
 
-   private final AnimatedComponent lazerAnimation; // alias for the inherited animation field
-   public AnimatedComponent chargeAnimation; // Can be null
+   private final ComplexAnimation lazerAnimation; // alias for the inherited animation field
+   public ComplexAnimation chargeAnimation; // Can be null
 
    // Animation states
    public static final String SHOOTING = "SHOOTING";
    public static final String VISUAL_WARNING = "VISUAL_WARNING";
 
    public RotatingLazer(
-         Dimensions hitbox, Double startRotation, AnimatedComponent chargeAnimation) {
-      super(hitbox, AnimatedComponentFactory.GetRotatingLazerAnimation((int) hitbox.x, (int) hitbox.y));
+         Dimensions hitbox, Double startRotation, ComplexAnimation chargeAnimation) {
+      super(hitbox, ComplexAnimationFactory.GetRotatingLazerAnimation((int) hitbox.x, (int) hitbox.y));
       this.lazerAnimation = this.animation;
       this.initialRotation = startRotation;
       this.updatePosition(0, 0, initialRotation);

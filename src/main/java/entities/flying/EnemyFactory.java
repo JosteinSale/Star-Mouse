@@ -22,7 +22,7 @@ import static entities.flying.EnemyFactory.TypeConstants.*;
  * needed.
  */
 public class EnemyFactory {
-   public HashMap<Integer, EntityInfo> enemyInfo;
+   public HashMap<Integer, FlyEntityInfo> enemyInfo;
    private HashMap<String, Integer> nameToTypeMap;
    private PlayerFly player;
    private EnemyManager enemyManager;
@@ -80,109 +80,109 @@ public class EnemyFactory {
 
    private void registerAllEntities() {
       // TARGET
-      enemyInfo.put(TARGET, new EntityInfo(
+      enemyInfo.put(TARGET, new FlyEntityInfo(
             TARGET,
             Images.TARGET_SPRITE, 20, 20, 2, 1,
             60, 60, 0, 0));
 
       // DRONE
-      enemyInfo.put(DRONE, new EntityInfo(
+      enemyInfo.put(DRONE, new FlyEntityInfo(
             DRONE,
             Images.DRONE_SPRITE, 30, 30, 2, 1,
             78, 66, 0, 0));
 
       // SMALLSHIP
-      enemyInfo.put(SMALLSHIP, new EntityInfo(
+      enemyInfo.put(SMALLSHIP, new FlyEntityInfo(
             SMALLSHIP,
             Images.SMALLSHIP_SPRITE, 30, 30, 2, 1,
             60, 30, 0, 0));
 
       // OCTADRONE
-      enemyInfo.put(OCTADRONE, new EntityInfo(
+      enemyInfo.put(OCTADRONE, new FlyEntityInfo(
             OCTADRONE,
             Images.OCTADRONE_SPRITE, 30, 30, 2, 1,
             80, 80, 0, 0));
 
       // TANKDRONE
-      enemyInfo.put(TANKDRONE, new EntityInfo(
+      enemyInfo.put(TANKDRONE, new FlyEntityInfo(
             TANKDRONE,
             Images.TANKDRONE_SPRITE, 30, 30, 2, 4,
             80, 90, 0, 0));
 
       // BLASTERDRONE
-      enemyInfo.put(BLASTERDRONE, new EntityInfo(
+      enemyInfo.put(BLASTERDRONE, new FlyEntityInfo(
             BLASTERDRONE,
             Images.BLASTERDRONE_SPRITE, 30, 30, 2, 1,
             60, 90, 0, 0));
 
       // REAPERDRONE
-      enemyInfo.put(REAPERDRONE, new EntityInfo(
+      enemyInfo.put(REAPERDRONE, new FlyEntityInfo(
             REAPERDRONE,
             Images.REAPERDRONE_SPRITE, 210, 80, 2, 1,
             510, 150, 0, 0));
 
       // FLAMEDRONE
-      enemyInfo.put(FLAMEDRONE, new EntityInfo(
+      enemyInfo.put(FLAMEDRONE, new FlyEntityInfo(
             FLAMEDRONE,
             Images.FLAMEDRONE_SPRITE, 68, 68, 2, 1,
             120, 120, 0, 0));
 
       // WASPDRONE
-      enemyInfo.put(WASPDRONE, new EntityInfo(
+      enemyInfo.put(WASPDRONE, new FlyEntityInfo(
             WASPDRONE,
             Images.WASPDRONE_SPRITE, 40, 40, 2, 1,
             90, 90, 0, 0));
 
       // KAMIKAZEDRONE
-      enemyInfo.put(KAMIKAZEDRONE, new EntityInfo(
+      enemyInfo.put(KAMIKAZEDRONE, new FlyEntityInfo(
             KAMIKAZEDRONE,
             Images.KAMIKAZEDRONE_SPRITE, 30, 30, 2, 2,
             75, 75, 0, 0));
 
       // SMALL_ASTEROID
-      enemyInfo.put(SMALL_ASTEROID, new EntityInfo(
+      enemyInfo.put(SMALL_ASTEROID, new FlyEntityInfo(
             SMALL_ASTEROID,
             Images.SMALL_ASTEROID_SPRITE, 30, 30, 8, 1,
             75, 75, 0, 0));
 
       // BIG_ASTEROID
-      enemyInfo.put(BIG_ASTEROID, new EntityInfo(
+      enemyInfo.put(BIG_ASTEROID, new FlyEntityInfo(
             BIG_ASTEROID,
             Images.BIG_ASTEROID_SPRITE, 90, 90, 1, 1,
             220, 220, 0, 0));
 
       // BURNING_FRAGMENT
-      enemyInfo.put(BURNING_FRAGMENT, new EntityInfo(
+      enemyInfo.put(BURNING_FRAGMENT, new FlyEntityInfo(
             BURNING_FRAGMENT,
             Images.BURNING_FRAGMENT_SPRITE, 50, 163, 2, 8,
             75, 75, 0, 0));
 
       // CENTIPEDE
-      enemyInfo.put(CENTIPEDE, new EntityInfo(
+      enemyInfo.put(CENTIPEDE, new FlyEntityInfo(
             CENTIPEDE,
             Images.CENTIPEDE_SPRITE, 100, 50, 6, 8,
             81, 66, 0, 0));
 
       // LURKER
-      enemyInfo.put(LURKER, new EntityInfo(
+      enemyInfo.put(LURKER, new FlyEntityInfo(
             LURKER,
             Images.LURKER_SPRITE, 40, 40, 2, 3,
             90, 80, 0, 0));
 
       // BAT DRONE
-      enemyInfo.put(BAT_DRONE, new EntityInfo(
+      enemyInfo.put(BAT_DRONE, new FlyEntityInfo(
             BAT_DRONE,
             Images.BAT_DRONE_SPRITE, 40, 40, 2, 7,
             60, 60, 0, 6));
 
       // MINE DRONE
-      enemyInfo.put(MINE_DRONE, new EntityInfo(
+      enemyInfo.put(MINE_DRONE, new FlyEntityInfo(
             MINE_DRONE,
             Images.MINE_DRONE_SPRITE, 150, 150, 3, 8,
             84, 84, 0, 0));
 
       // LAZER DRONE
-      enemyInfo.put(LAZER_DRONE, new EntityInfo(
+      enemyInfo.put(LAZER_DRONE, new FlyEntityInfo(
             LAZER_DRONE,
             Images.LAZER_DRONE_SPRITE, 60, 60, 2, 2,
             66, 66, 0, 0));
@@ -216,7 +216,7 @@ public class EnemyFactory {
       int chargeTimer = Integer.parseInt(lineData[4]);
 
       // Extracting necessary info
-      EntityInfo info = this.enemyInfo.get(nameToTypeMap.get(name));
+      FlyEntityInfo info = this.enemyInfo.get(nameToTypeMap.get(name));
       int typeConstant = info.typeConstant;
       int hitboxW = info.hitboxW;
       int hitboxH = info.hitboxH;

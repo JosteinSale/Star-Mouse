@@ -2,10 +2,10 @@ package entities.flying.enemies;
 
 import java.util.ArrayList;
 
-import entities.flying.EntityInfo;
-import entities.AnimationFrame;
+import entities.flying.FlyEntityInfo;
 import entities.MyRectangle;
-import entities.flying.AnimatedGlow;
+import entities.animation.AnimatedGlow;
+import entities.animation.Animation;
 
 public interface Enemy {
 
@@ -83,7 +83,7 @@ public interface Enemy {
    public int getDir();
 
    /** Is used for drawing */
-   public EntityInfo getInfo();
+   public FlyEntityInfo getInfo();
 
    /**
     * Returns the current animation frame in the spritesheet, for the given
@@ -91,7 +91,7 @@ public interface Enemy {
     * should be between 0 and n-1, where 0 is the main hitbox, and n-1 is the last
     * hitbox.
     */
-   public AnimationFrame getAnimationForHitbox(int hitboxNr);
+   public Animation getAnimationForHitbox(int hitboxNr);
 
    /**
     * Called when the enemy shoots a projectile. Can activate enemy-specific

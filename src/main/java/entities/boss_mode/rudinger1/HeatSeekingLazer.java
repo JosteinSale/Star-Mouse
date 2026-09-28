@@ -3,7 +3,7 @@ package entities.boss_mode.rudinger1;
 import java.awt.Point;
 
 import entities.Dimensions;
-import entities.boss_mode.AnimatedComponentFactory;
+import entities.animation.ComplexAnimationFactory;
 import entities.boss_mode.DefaultBossPart;
 import entities.boss_mode.PlayerBoss;
 
@@ -28,7 +28,7 @@ public class HeatSeekingLazer extends DefaultBossPart {
    private int shootDuration = 60;
 
    public HeatSeekingLazer(Dimensions hitbox, PlayerBoss player, Point gunCenter) {
-      super(hitbox, AnimatedComponentFactory.GetHeatSeekingLazerAnimation((int) hitbox.x, (int) hitbox.y));
+      super(hitbox, ComplexAnimationFactory.GetHeatSeekingLazerAnimation((int) hitbox.x, (int) hitbox.y));
       this.player = player;
       this.imgDistanceFromCenter = hitbox.height / 2;
       this.gunCenter = gunCenter;

@@ -3,8 +3,8 @@ package rendering.flying;
 import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import entities.AnimationFrame;
 import entities.MyRectangle;
+import entities.animation.Animation;
 import entities.flying.EnemyFactory;
 import entities.flying.enemies.Enemy;
 import entities.flying.enemies.EnemyManager;
@@ -14,7 +14,7 @@ import entities.flying.pickupItems.PickupItemFactory;
 import projectiles.Explosion;
 import rendering.MySubImage;
 import rendering.misc.RenderGlow;
-import rendering.misc.RenderSimpleAnimation;
+import rendering.misc.RenderPositionedAnimation;
 import utils.DrawUtils;
 import utils.HelpMethods;
 import utils.Images;
@@ -22,16 +22,16 @@ import utils.Images;
 import static utils.Constants.Flying.SpriteSizes.EXPLOSION_SPRITE_SIZE;
 import static utils.Constants.Flying.SpriteSizes.MINE_EXPLOSION_SPRITE_SIZE;
 
-public class RenderEntity {
+public class RenderFlyEntity {
    private ArrayList<PickupItem> pickupItems;
    private EnemyManager enemyManager;
    private MySubImage[] explosionAnimation;
    private MySubImage[] mineExplosionAnimation;
    private MySubImage[] flameShootAnimation;
-   private EntityImages entityImgs;
+   private FlyEntityImages entityImgs;
    private RenderGlow rGlow;
 
-   public RenderEntity(
+   public RenderFlyEntity(
          EnemyManager enemyManager, ArrayList<PickupItem> pickupItems, Images images) {
       this.enemyManager = enemyManager;
       this.pickupItems = pickupItems;
@@ -44,7 +44,7 @@ public class RenderEntity {
       this.flameShootAnimation = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.FLAME_SHOOT, true),
             6, 132, 100);
-      this.entityImgs = new EntityImages(new EnemyFactory(null, null), new PickupItemFactory(), images);
+      this.entityImgs = new FlyEntityImages(new EnemyFactory(null, null), new PickupItemFactory(), images);
       this.rGlow = new RenderGlow(images);
    }
 
@@ -97,7 +97,7 @@ public class RenderEntity {
       // Enemy animations
       ArrayList<MyRectangle> allHitboxes = enemy.getAllHitboxes();
       for (int i = 0; i < allHitboxes.size(); i++) {
-         AnimationFrame af = enemy.getAnimationForHitbox(i);
+         Animation af = enemy.getAnimationForHitbox(i);
          MySubImage img = entityImgs.getImageFor(enemy.getType(), af.getRow(), af.getCol());
          DrawUtils.drawRotatedImage(sb, allHitboxes.get(i), enemy.getDir(), enemy.getAnimationRotation(), img);
       }
@@ -109,12 +109,12 @@ public class RenderEntity {
       if (enemy.getType() == EnemyFactory.TypeConstants.FLAMEDRONE) {
          FlameDrone fd = (FlameDrone) enemy;
          if (fd.isPreparingToShoot()) {
-            RenderSimpleAnimation.draw(sb, fd.flameAnimation, flameShootAnimation);
+            RenderPositionedAnimation.draw(sb, fd.flameAnimation, flameShootAnimation);
          }
       }
    }
 
-   public EntityImages getEntityImages() {
+   public FlyEntityImages getEntityImages() {
       return this.entityImgs;
    }
 }

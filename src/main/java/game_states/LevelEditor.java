@@ -18,7 +18,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import entities.MyRectangle;
 import entities.flying.EnemyFactory;
-import entities.flying.EntityInfo;
+import entities.flying.FlyEntityInfo;
 import entities.flying.pickupItems.PickupItemFactory;
 import game_states.flying.FlyLevelInfo;
 import main_classes.Game;
@@ -224,7 +224,7 @@ public class LevelEditor extends State {
          boolean calledFromEditor, String name, int x, int y,
          int direction, int chargeTimer, int vectorX, int vectorY) {
       int typeConstant = entityNameToTypeMap.get(name);
-      EntityInfo info = getEntityInfo(typeConstant);
+      FlyEntityInfo info = getEntityInfo(typeConstant);
       if (calledFromEditor) {
          // Adjusting x and y to represent hitbox.x- and -y
          x -= info.hitboxW / 2;
@@ -334,7 +334,7 @@ public class LevelEditor extends State {
    }
 
    // Is public to be accessible from RenderLevelEditor
-   public EntityInfo getEntityInfo(int typeConstant) {
+   public FlyEntityInfo getEntityInfo(int typeConstant) {
       if (enemyFactory.enemyInfo.containsKey(typeConstant)) {
          return enemyFactory.enemyInfo.get(typeConstant);
       } else {

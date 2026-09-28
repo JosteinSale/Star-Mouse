@@ -2,8 +2,8 @@ package projectiles.shoot_patterns;
 
 import java.awt.Point;
 
-import entities.boss_mode.AnimatedComponent;
-import entities.boss_mode.AnimatedComponentFactory;
+import entities.animation.ComplexAnimation;
+import entities.animation.ComplexAnimationFactory;
 import entities.boss_mode.PlayerBoss;
 import projectiles.ProjectileHandler2;
 import static projectiles.ProjectileFactory.TypeConstants.BOSS_PROJECTILE1;
@@ -13,8 +13,8 @@ import static projectiles.ProjectileFactory.TypeConstants.BOSS_PROJECTILE1;
  * There are accompanying charge- and shoot animations at the gunPoint.
  */
 public class HeatSeekingPattern extends DefaultShootPattern {
-   private AnimatedComponent shootAnimation;
-   private AnimatedComponent chargeAnimation;
+   private ComplexAnimation shootAnimation;
+   private ComplexAnimation chargeAnimation;
    private float projectileSpeed = 4f;
    private PlayerBoss player;
 
@@ -24,9 +24,9 @@ public class HeatSeekingPattern extends DefaultShootPattern {
          int chargeTime, int startDelay, int shootInterval) {
       super(projectileHandler, gunPoint, chargeTime, startDelay, shootInterval);
       this.player = player;
-      this.shootAnimation = AnimatedComponentFactory.GetPinkShootAnimation(
+      this.shootAnimation = ComplexAnimationFactory.GetPinkShootAnimation(
             (int) gunPoint.getX() - 140, (int) gunPoint.getY() - 140);
-      this.chargeAnimation = AnimatedComponentFactory.GetPinkEnergyBall(
+      this.chargeAnimation = ComplexAnimationFactory.GetPinkEnergyBall(
             (int) gunPoint.getX() - 90, (int) gunPoint.getY() - 90);
    }
 
@@ -71,12 +71,12 @@ public class HeatSeekingPattern extends DefaultShootPattern {
    }
 
    @Override
-   public AnimatedComponent getChargeAnimation() {
+   public ComplexAnimation getChargeAnimation() {
       return this.chargeAnimation;
    }
 
    @Override
-   public AnimatedComponent getShootAnimation() {
+   public ComplexAnimation getShootAnimation() {
       return this.shootAnimation;
    }
 

@@ -1,4 +1,4 @@
-package cutscenes;
+package cutscenes.effects;
 
 import static utils.Constants.Flying.SHIP_HITBOX_HEIGHT;
 import static utils.Constants.Flying.SHIP_HITBOX_WIDTH;

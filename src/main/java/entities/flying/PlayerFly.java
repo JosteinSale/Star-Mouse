@@ -8,8 +8,9 @@ import java.util.ArrayList;
 import audio.AudioPlayer;
 import entities.CollisionPixels;
 import entities.CollisionPixels.CollisionAt;
-import entities.boss_mode.AnimatedComponent;
-import entities.boss_mode.AnimatedComponentFactory;
+import entities.animation.AnimatedGlow;
+import entities.animation.ComplexAnimation;
+import entities.animation.ComplexAnimationFactory;
 import entities.Dimensions;
 import entities.MyCollisionImage;
 import entities.MyRectangle;
@@ -26,7 +27,7 @@ public class PlayerFly extends MyRectangle implements ShootingPlayer {
    protected final Game game;
    protected final AudioPlayer audioPlayer;
    protected final CollisionPixels collisionPixels;
-   protected final AnimatedComponent animation;
+   protected final ComplexAnimation animation;
    public final ShipFlame flame;
    public final ShipSmoke shipSmoke;
    public final StaticGlow flameGlow;
@@ -73,7 +74,7 @@ public class PlayerFly extends MyRectangle implements ShootingPlayer {
             dimensions.x, dimensions.y, teleportKillWidth, dimensions.height);
       this.teleportKillOffset = (int) (teleportDistance - dimensions.width - teleportKillWidth) / 2;
       this.statusDisplay = new StatusDisplay();
-      this.animation = AnimatedComponentFactory.GetPlayerFlyAnimation(dimensions.x, dimensions.y);
+      this.animation = ComplexAnimationFactory.GetPlayerFlyAnimation(dimensions.x, dimensions.y);
    }
 
    /** Updates maxHP and such from the progressValues */
@@ -520,11 +521,11 @@ public class PlayerFly extends MyRectangle implements ShootingPlayer {
    }
 
    public int getAniIndex() {
-      return animation.aniIndex;
+      return animation.getFrame();
    }
 
    public int getAniRow() {
-      return animation.getCurrentAniRow();
+      return animation.getRow();
    }
 
 }

@@ -1,15 +1,15 @@
 package entities.flying.enemies;
 
-import entities.flying.EntityInfo;
+import entities.flying.FlyEntityInfo;
 import entities.Dimensions;
-import entities.flying.AnimatedGlow;
+import entities.animation.AnimatedGlow;
 
 /**
  * The ReaperDrone shoots 3 wide, fast projectiles in fast succession.
  * They are not hard to dodge or kill, but has an imposing effect.
  */
 public class ReaperDrone extends BaseEnemy {
-   public ReaperDrone(Dimensions hitbox, EntityInfo info, int shootInterval) {
+   public ReaperDrone(Dimensions hitbox, FlyEntityInfo info, int shootInterval) {
       super(hitbox, info, shootInterval, new AnimatedGlow(AnimatedGlow.REAPER_GLOW, 1.5f));
       maxHP = 150;
       HP = maxHP;

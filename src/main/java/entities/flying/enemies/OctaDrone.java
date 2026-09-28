@@ -1,11 +1,11 @@
 package entities.flying.enemies;
 
-import entities.flying.EntityInfo;
+import entities.flying.FlyEntityInfo;
 import entities.Dimensions;
-import entities.flying.AnimatedGlow;
+import entities.animation.AnimatedGlow;
 
 public class OctaDrone extends BaseEnemy {
-   public OctaDrone(Dimensions hitbox, EntityInfo info, int shootTimer) {
+   public OctaDrone(Dimensions hitbox, FlyEntityInfo info, int shootTimer) {
       super(hitbox, info, shootTimer, new AnimatedGlow(AnimatedGlow.ORANGE_GLOW_BIG, 1f));
       maxHP = 85;
       HP = maxHP;

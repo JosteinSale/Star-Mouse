@@ -6,12 +6,14 @@ import java.util.ArrayList;
 import com.badlogic.gdx.math.Vector2;
 
 import entities.*;
+import entities.animation.Animation;
 import inputs.Inputs;
 import main_classes.Game;
 import utils.HelpMethods;
 import utils.Constants.Direction;
 import utils.Constants.Exploring.CharacterAction;
 import static entities.CollisionPixels.CollisionAt;
+import static entities.animation.Animation.Type.LOOP_FORWARDS;
 
 public class PlayerExp extends MyRectangle {
    private final MyCollisionImage collisionImg;
@@ -21,7 +23,7 @@ public class PlayerExp extends MyRectangle {
    public boolean visible = true;
    public static int CURRENT_SPRITE_SHEET = 0;
 
-   private final AnimationFrame animation;
+   private final Animation animation;
    public CharacterAction action;
    public Direction direction;
 
@@ -33,10 +35,8 @@ public class PlayerExp extends MyRectangle {
       speedVector = new Vector2(0, 0);
       String imgName = "level" + level.toString() + "_area" + area.toString();
       this.collisionImg = game.getImages().getExpImageCollision(imgName + "_cl.png");
-      this.animation = new AnimationFrame(
-            getAnimationRow(), 0,
-            8, 4);
-
+      this.animation = new Animation(
+            getAnimationRow(), 0, 8);
    }
 
    private int getAnimationRow() {
@@ -76,9 +76,13 @@ public class PlayerExp extends MyRectangle {
          collisionPixels.update();
       }
       if (action != CharacterAction.POSING) {
-         updateAnimationRow();
-         animation.update();
+         updateAnimations();
       }
+   }
+
+   private void updateAnimations() {
+      updateAnimationRow();
+      animation.play(LOOP_FORWARDS, 3);
    }
 
    private void handleKeyboardInputs() {
@@ -235,7 +239,7 @@ public class PlayerExp extends MyRectangle {
       }
    }
 
-   public AnimationFrame getAnimation() {
+   public Animation getAnimation() {
       return animation;
    }
 

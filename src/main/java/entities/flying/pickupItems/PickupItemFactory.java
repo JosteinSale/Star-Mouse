@@ -3,13 +3,13 @@ package entities.flying.pickupItems;
 import java.util.HashMap;
 
 import entities.Dimensions;
-import entities.flying.EntityInfo;
+import entities.flying.FlyEntityInfo;
 import utils.Images;
 
 import static entities.flying.pickupItems.PickupItemFactory.TypeConstants.*;
 
 public class PickupItemFactory {
-   public HashMap<Integer, EntityInfo> pickupInfo;
+   public HashMap<Integer, FlyEntityInfo> pickupInfo;
    private HashMap<String, Integer> nameToTypeMap;
 
    public static class TypeConstants {
@@ -35,25 +35,25 @@ public class PickupItemFactory {
 
    private void registerAllEntities() {
       // DELETE
-      pickupInfo.put(DELETE, new EntityInfo(
+      pickupInfo.put(DELETE, new FlyEntityInfo(
             DELETE,
             Images.DELETE_SPRITE, 28, 30, 1, 1,
             90, 90, 0, 0));
 
       // POWERUP
-      pickupInfo.put(POWERUP, new EntityInfo(
+      pickupInfo.put(POWERUP, new FlyEntityInfo(
             POWERUP,
             Images.POWERUP_SPRITE, 30, 30, 1, 7,
             30, 50, 0, 0));
 
       // REPAIR
-      pickupInfo.put(REPAIR, new EntityInfo(
+      pickupInfo.put(REPAIR, new FlyEntityInfo(
             REPAIR,
             Images.REPAIR_SPRITE, 30, 30, 1, 4,
             60, 60, 0, 0));
 
       // BOMB
-      pickupInfo.put(BOMB, new EntityInfo(
+      pickupInfo.put(BOMB, new FlyEntityInfo(
             BOMB,
             Images.BOMB_PICKUP_SPRITE, 25, 25, 1, 2,
             45, 45, 0, 0));
@@ -66,7 +66,7 @@ public class PickupItemFactory {
 
    public PickupItem getNewPickupItem(int typeConstant, float x, float y) {
       // Extracting necessary info
-      EntityInfo info = this.pickupInfo.get(typeConstant);
+      FlyEntityInfo info = this.pickupInfo.get(typeConstant);
       int hitboxW = info.hitboxW;
       int hitboxH = info.hitboxH;
 

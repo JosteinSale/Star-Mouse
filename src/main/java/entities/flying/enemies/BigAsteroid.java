@@ -1,7 +1,7 @@
 package entities.flying.enemies;
 
 import entities.Dimensions;
-import entities.flying.EntityInfo;
+import entities.flying.FlyEntityInfo;
 import main_classes.Game;
 
 /**
@@ -17,7 +17,7 @@ public class BigAsteroid extends BaseEnemy {
    private float curXSpeed;
    private float curYSpeed;
 
-   public BigAsteroid(Dimensions hitbox, EntityInfo info, int shootInterval, int direction) {
+   public BigAsteroid(Dimensions hitbox, FlyEntityInfo info, int shootInterval, int direction) {
       super(hitbox, info);
       startY = hitbox.y;
       startX = hitbox.x;

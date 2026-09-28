@@ -11,7 +11,7 @@ GENERAL STUFF:
    .E.g. when the player interacts with an object with the name "cupboard", 
     the cutsceneManager will look for a cutscene with the name "cupboard" and start it.
 * Each entity can have several cutscenes. They are differentiated by index,
-  whichof is automatically inferred by counting the amount of cutscenes 
+  which is automatically inferred by counting the amount of cutscenes 
   belonging to an entity, in the cutscene sheet.
      .E.g if there are 3 cutscenes belonging to "cupboard", then the first 
       of those will have index '0', and then the next will have '1', and the last '2'.
@@ -21,7 +21,7 @@ GENERAL STUFF:
 * Each cutscene is divided into sequences, signified by the "endSequence"-keyword.
 * Each sequence can have several events. Once a sequence is initiated, all events
   in that sequence will be activated at once.
-* We can advance to the next cutscene in 2 ways:
+* We can advance to the next sequence in 2 ways:
    .Having a dialogue/textBox-event.
    .Having an Advancable event.
 * Each sequence must contain either of these two.
@@ -273,7 +273,9 @@ REATTATCH CAMERA
 ADD ANIMATED OBJECT
 --------------------
 [0] = addObject (String), [1] = objectName (String) *
-[2] = xPos (float), [3] = yPos (float)
+[2] = xPos (float), [3] = yPos (float),
+[4] = scaleW (float), [5] = scaleH (float),
+[6] = aniSpeed (int), [7] = aniLength (int)
 * for valid names, check the file names in SimpleAnimationFactory
 
 

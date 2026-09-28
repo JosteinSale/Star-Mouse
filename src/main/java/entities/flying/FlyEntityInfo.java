@@ -1,30 +1,24 @@
 package entities.flying;
 
+import rendering.misc.SpriteInfo;
+
 /**
- * Contains all constants and animation-info associated with an enemy.
+ * Contains all constants and SpriteInfo associated with an enemy.
  * Is used in enemy, drawing, and levelEditor.
  */
-public class EntityInfo {
+public class FlyEntityInfo {
    public final int typeConstant;
-   public final String spriteSheet;
-   public final int spriteW;
-   public final int spriteH;
-   public final int rows;
-   public final int cols;
    public final int hitboxW;
    public final int hitboxH;
    public final int editorImgRow;
    public final int editorImgCol;
+   public final SpriteInfo spriteInfo;
 
-   public EntityInfo(int typeConstant,
+   public FlyEntityInfo(int typeConstant,
          String spriteSheet, int spriteW, int spriteH, int rows, int cols,
          int hitboxW, int hitboxH, int editorImgRow, int editorImgCol) {
       this.typeConstant = typeConstant;
-      this.spriteSheet = spriteSheet;
-      this.spriteW = spriteW;
-      this.spriteH = spriteH;
-      this.rows = rows;
-      this.cols = cols;
+      this.spriteInfo = new SpriteInfo(spriteSheet, spriteW, spriteH, rows, cols);
       this.hitboxW = hitboxW;
       this.hitboxH = hitboxH;
       this.editorImgRow = editorImgRow;

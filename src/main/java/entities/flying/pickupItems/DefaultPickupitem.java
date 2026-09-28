@@ -2,11 +2,11 @@ package entities.flying.pickupItems;
 
 import entities.Dimensions;
 import entities.MyRectangle;
-import entities.flying.EntityInfo;
+import entities.flying.FlyEntityInfo;
 import entities.flying.StaticGlow;
 
 public class DefaultPickupitem extends MyRectangle implements PickupItem {
-   private EntityInfo info;
+   private FlyEntityInfo info;
    protected StaticGlow glow;
    private float startY;
    private int aniIndex;
@@ -15,7 +15,7 @@ public class DefaultPickupitem extends MyRectangle implements PickupItem {
    protected int nrOfImages;
    private boolean active = true;
 
-   public DefaultPickupitem(Dimensions hitbox, EntityInfo info, int aniTickPerFrame, int nrOfImages,
+   public DefaultPickupitem(Dimensions hitbox, FlyEntityInfo info, int aniTickPerFrame, int nrOfImages,
          StaticGlow glow) {
       super(hitbox);
       startY = hitbox.y;
@@ -70,7 +70,7 @@ public class DefaultPickupitem extends MyRectangle implements PickupItem {
    }
 
    @Override
-   public EntityInfo getDrawInfo() {
+   public FlyEntityInfo getDrawInfo() {
       return this.info;
    }
 

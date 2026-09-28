@@ -33,7 +33,7 @@ setPose;player;true;2;8;alert
 wait;60
 endSequence
 stopAllLoops
-startAmbience;2;alarm
+startAmbience;ambience_alarm
 setRedLight;true
 wait;120
 endSequence

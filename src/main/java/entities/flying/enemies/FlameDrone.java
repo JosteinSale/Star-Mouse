@@ -1,23 +1,26 @@
 package entities.flying.enemies;
 
-import cutscenes.effects.SimpleAnimation;
+import static entities.animation.Animation.Type.ONCE_FORWARDS;
+
 import entities.Dimensions;
-import entities.flying.EntityInfo;
+import entities.animation.PositionedAnimation;
+import entities.flying.FlyEntityInfo;
 
 public class FlameDrone extends BaseEnemy {
-   public SimpleAnimation flameAnimation;
+   public PositionedAnimation flameAnimation;
    private int charginStarts = 90;
    private int shootStarts = 120;
 
-   public FlameDrone(Dimensions hitbox, EntityInfo info) {
+   public FlameDrone(Dimensions hitbox, FlyEntityInfo info) {
       super(hitbox, info);
       startY = hitbox.y;
       this.info = info;
       maxHP = 120;
       HP = maxHP;
-      this.flameAnimation = new SimpleAnimation(
+      this.flameAnimation = new PositionedAnimation(
+            0, 0, 5,
             getFlameAnimationX(), getFlameAnimationY(),
-            3f, 3f, 5, 6);
+            3f, 3f);
    }
 
    private int getFlameAnimationX() {
@@ -33,7 +36,7 @@ public class FlameDrone extends BaseEnemy {
       if (isPreparingToShoot()) {
          flameAnimation.xPos = getFlameAnimationX();
          flameAnimation.yPos = getFlameAnimationY();
-         flameAnimation.updateAnimation();
+         flameAnimation.play(ONCE_FORWARDS, 6);
       }
    }
 

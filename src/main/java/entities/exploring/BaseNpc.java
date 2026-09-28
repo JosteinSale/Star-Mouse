@@ -1,8 +1,8 @@
 package entities.exploring;
 
-import entities.AnimationFrame;
 import entities.Dimensions;
 import entities.MyRectangle;
+import entities.animation.Animation;
 import utils.Constants.Direction;
 import utils.Constants.Exploring.CharacterAction;
 
@@ -13,7 +13,7 @@ public class BaseNpc extends MyRectangle implements NPC {
    public int yDrawOffset;
    protected int startCutscene = 0;
    public boolean inForeground;
-   protected AnimationFrame animation;
+   protected Animation animation;
 
    public BaseNpc(String name, Dimensions hitbox, int xDrawOffset, int yDrawOffset,
          boolean inForeground) {
@@ -23,13 +23,12 @@ public class BaseNpc extends MyRectangle implements NPC {
       this.xDrawOffset = xDrawOffset;
       this.yDrawOffset = yDrawOffset;
       this.inForeground = inForeground;
-      this.animation = new AnimationFrame(
-            0, 0,
-            8, 1);
+      this.animation = new Animation(0, 0, 0);
    }
 
    @Override
    public void update() {
+      // Do nothing by default
    }
 
    private void makeTriggerBox() {
@@ -98,7 +97,7 @@ public class BaseNpc extends MyRectangle implements NPC {
    }
 
    @Override
-   public AnimationFrame getAnimation() {
+   public Animation getAnimation() {
       return this.animation;
    }
 }

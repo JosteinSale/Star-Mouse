@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import entities.boss_mode.rudinger1.Rudinger1;
 import rendering.MyImage;
-import rendering.misc.RenderAnimatedComponent;
+import rendering.misc.RenderComplexAnimation;
 import utils.DrawUtils;
 import utils.Images;
 
@@ -15,9 +15,9 @@ public class RenderRudinger1 implements IRenderBoss {
    private int mainBodyW;
    private int mainBodyH;
    private RenderBossHealth rBossHealth;
-   private RenderAnimatedComponent rEyes;
-   private RenderAnimatedComponent rMouth;
-   private RenderAnimatedComponent rRotatingLazerCharge;
+   private RenderComplexAnimation rEyes;
+   private RenderComplexAnimation rMouth;
+   private RenderComplexAnimation rRotatingLazerCharge;
 
    public RenderRudinger1(Rudinger1 rudinger, RenderBossHealth rBossHealth, Images images) {
       this.rudinger = rudinger;
@@ -27,9 +27,9 @@ public class RenderRudinger1 implements IRenderBoss {
       this.rBossHealth = rBossHealth;
       rBossHealth.setNew(rudinger.getHealthDisplay());
       this.rActionHandler = new RenderActionHandler(rudinger.actionHandler, images);
-      this.rEyes = new RenderAnimatedComponent(rudinger.eyes, images);
-      this.rMouth = new RenderAnimatedComponent(rudinger.mouth, images);
-      this.rRotatingLazerCharge = new RenderAnimatedComponent(
+      this.rEyes = new RenderComplexAnimation(rudinger.eyes, images);
+      this.rMouth = new RenderComplexAnimation(rudinger.mouth, images);
+      this.rRotatingLazerCharge = new RenderComplexAnimation(
             rudinger.verticalLazer.chargeAnimation, images);
    }
 

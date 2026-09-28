@@ -1,7 +1,7 @@
 package entities.flying.pickupItems;
 
 import entities.MyRectangle;
-import entities.flying.EntityInfo;
+import entities.flying.FlyEntityInfo;
 import entities.flying.StaticGlow;
 
 /**
@@ -20,7 +20,7 @@ public interface PickupItem {
 
    public MyRectangle getHitbox();
 
-   public EntityInfo getDrawInfo();
+   public FlyEntityInfo getDrawInfo();
 
    public int getType();
 

@@ -1,11 +1,14 @@
 package cutscenes.effects;
 
+import static entities.animation.Animation.Type.LOOP_FORWARDS;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import cutscenes.events.AddObjectEvent;
 import cutscenes.events.GeneralEvent;
 import cutscenes.events.ObjectMoveEvent;
+import entities.animation.PositionedAnimation;
 import game_states.Gamestate;
 import main_classes.Game;
 
@@ -23,13 +26,14 @@ import main_classes.Game;
 public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
    private Game game;
    private boolean active;
-   private ArrayList<SimpleAnimation> objects; // Need arraylist because of sorting, to ensure correct layering
+   private ArrayList<PositionedAnimation> objects; // Need arraylist because of sorting, to ensure correct layering
    private HashMap<String, Integer> nameToIndexMap; // Needed to associate the identifier with the correct index
    private HashMap<String, Boolean> moveStatuses;
    private HashMap<String, Integer> moveTicks;
    private HashMap<String, Integer> moveDurations;
    private HashMap<String, Float> xSpeeds;
    private HashMap<String, Float> ySpeeds;
+   private HashMap<String, Integer> aniLengths;
 
    public ObjectMoveEffect(Game game) {
       this.game = game;
@@ -40,6 +44,7 @@ public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
       this.moveDurations = new HashMap<>();
       this.xSpeeds = new HashMap<>();
       this.ySpeeds = new HashMap<>();
+      this.aniLengths = new HashMap<>();
    }
 
    /*
@@ -55,14 +60,15 @@ public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
       if (this.nameToIndexMap.containsKey(addEvt.identifier())) {
          throw new IllegalArgumentException("Identifier already registered: " + addEvt.identifier());
       }
-      SimpleAnimation animation = new SimpleAnimation(
+      PositionedAnimation animation = new PositionedAnimation(
+            0, 0, addEvt.aniSpeed(),
             addEvt.xPos(), addEvt.yPos(),
-            addEvt.scaleW(), addEvt.scaleH(), addEvt.aniSpeed(), addEvt.aniLength());
-      this.addNewEmptyEntry(addEvt.identifier(), animation);
+            addEvt.scaleW(), addEvt.scaleH());
+      this.addNewEmptyEntry(addEvt.identifier(), addEvt.aniLength(), animation);
       game.getView().getRenderCutscene().getRenderObjectMove().addAnimation(addEvt.objectName(), animation);
    }
 
-   private void addNewEmptyEntry(String identifier, SimpleAnimation animation) {
+   private void addNewEmptyEntry(String identifier, int aniLength, PositionedAnimation animation) {
       this.nameToIndexMap.put(identifier, objects.size());
       this.objects.add(animation);
       this.moveStatuses.put(identifier, false);
@@ -70,6 +76,7 @@ public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
       this.moveDurations.put(identifier, 0);
       this.xSpeeds.put(identifier, 0f);
       this.ySpeeds.put(identifier, 0f);
+      this.aniLengths.put(identifier, aniLength);
    }
 
    /**
@@ -108,7 +115,8 @@ public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
    public void update() {
       for (String id : nameToIndexMap.keySet()) {
          int index = nameToIndexMap.get(id);
-         objects.get(index).updateAnimation();
+         int lastColInAnimation = aniLengths.get(id) - 1;
+         objects.get(index).play(LOOP_FORWARDS, lastColInAnimation);
          if (shouldObjectMove(id)) {
             this.updatePositionOf(id);
          }
@@ -116,7 +124,7 @@ public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
    }
 
    private void updatePositionOf(String id) {
-      SimpleAnimation object = objects.get(nameToIndexMap.get(id));
+      PositionedAnimation object = objects.get(nameToIndexMap.get(id));
       object.xPos += xSpeeds.get(id);
       object.yPos += ySpeeds.get(id);
       int updatedTick = moveTicks.get(id) + 1;
@@ -146,6 +154,7 @@ public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
       this.moveStatuses.clear();
       this.xSpeeds.clear();
       this.ySpeeds.clear();
+      this.aniLengths.clear();
       this.game.getView().getRenderCutscene().getRenderObjectMove().clear();
    }
 

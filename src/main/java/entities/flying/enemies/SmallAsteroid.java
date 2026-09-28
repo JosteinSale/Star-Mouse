@@ -2,9 +2,9 @@ package entities.flying.enemies;
 
 import java.util.Random;
 
-import entities.AnimationFrame;
 import entities.Dimensions;
-import entities.flying.EntityInfo;
+import entities.animation.Animation;
+import entities.flying.FlyEntityInfo;
 
 /**
  * The SmallAsteroid will use the shootInterval and direction
@@ -20,7 +20,7 @@ public class SmallAsteroid extends BaseEnemy {
    private int xSpeed;
    private int ySpeed;
 
-   public SmallAsteroid(Dimensions hitbox, EntityInfo info, int shootInterval, int direction) {
+   public SmallAsteroid(Dimensions hitbox, FlyEntityInfo info, int shootInterval, int direction) {
       super(hitbox, info);
       maxHP = 30;
       HP = maxHP;
@@ -30,9 +30,7 @@ public class SmallAsteroid extends BaseEnemy {
       int variantIndex = rand.nextInt(4);
       this.IDLE = IDLE + (variantIndex * 2);
       this.TAKING_DAMAGE = TAKING_DAMAGE + (variantIndex * 2);
-      this.animation = new AnimationFrame(
-            IDLE, 0,
-            4, 1);
+      this.animation = new Animation(IDLE, 0, 4);
       this.allAnimations.clear();
       this.allAnimations.add(this.animation);
 

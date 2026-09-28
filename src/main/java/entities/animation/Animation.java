@@ -1,13 +1,13 @@
-package entities;
+package entities.animation;
 
 /**
  * Contains a row and column index, corresponding to a specific frame in a
- * sprite sheet. Also provides methods to update and reset the animation.
+ * sprite sheet.
  * 
  * Note: in this object, 'row' is equivalent to 'action'.
  * This is because an entity's action/state corresponds to its row in the sprite
  * sheet. For example, row 0 might be the idle animation, row 1 might be the
- * taking damage animation, etc.
+ * taking-damage animation, etc.
  * 
  * Also: in this object, 'col' is equivalent to 'frame'. The spritesheet column
  * corresponds to a current frame in an action's animation.
@@ -15,31 +15,83 @@ package entities;
  * Depending on the context, it can be more intuitive to use get/setAction
  * instead of get/setRow, and get/setFrame instead of get/setCol.
  */
-public class AnimationFrame {
-   private int row; // = entity action
+public class Animation {
+   private int row; // = current entity action
    private int col; // = current animation frame for an action
    private int aniTick;
    private int aniTickPerFrame;
-   private int amountOfFrames;
    private int startAction;
    private int startColumn;
 
-   public AnimationFrame(int startRow, int startColumn, int aniTickPerFrame, int amountOfFrames) {
-      this.startAction = row;
+   public enum Type {
+      LOOP_FORWARDS, LOOP_BACKWARDS, ONCE_FORWARDS, ONCE_BACKWARDS
+   }
+
+   public Animation(int startRow, int startColumn, int aniTickPerFrame) {
+      this.startAction = startRow;
       this.startColumn = startColumn;
       this.row = startRow;
       this.col = startColumn;
       this.aniTickPerFrame = aniTickPerFrame;
-      this.amountOfFrames = amountOfFrames;
    }
 
-   public void update() {
+   public void play(Type type, int lastCol) {
+      switch (type) {
+         case LOOP_FORWARDS:
+            this.loopForwards(lastCol);
+            break;
+         case LOOP_BACKWARDS:
+            this.loopBackwards(lastCol);
+            break;
+         case ONCE_FORWARDS:
+            this.playOnceForwards(lastCol);
+            break;
+         case ONCE_BACKWARDS:
+            this.playOnceBackwards(lastCol);
+            break;
+      }
+   }
+
+   private void loopForwards(int lastCol) {
       aniTick++;
       if (aniTick >= aniTickPerFrame) {
          aniTick = 0;
-         nextFrame();
-         if (getFrame() >= amountOfFrames) {
-            setFrame(0);
+         col++;
+         if (col > lastCol) {
+            col = 0;
+         }
+      }
+   }
+
+   private void loopBackwards(int lastCol) {
+      aniTick++;
+      if (aniTick >= aniTickPerFrame) {
+         aniTick = 0;
+         col--;
+         if (col < 0) {
+            col = lastCol;
+         }
+      }
+   }
+
+   private void playOnceForwards(int lastCol) {
+      aniTick++;
+      if (aniTick >= aniTickPerFrame) {
+         aniTick = 0;
+         col++;
+         if (col > lastCol) {
+            col = lastCol;
+         }
+      }
+   }
+
+   private void playOnceBackwards(int lastCol) {
+      aniTick++;
+      if (aniTick >= aniTickPerFrame) {
+         aniTick = 0;
+         col--;
+         if (col < 0) {
+            col = 0;
          }
       }
    }
@@ -62,10 +114,6 @@ public class AnimationFrame {
    /** Does the same as setCol */
    public void setFrame(int frame) {
       this.col = frame;
-   }
-
-   private void nextFrame() {
-      col++;
    }
 
    /** Does the same as getAction */
@@ -92,14 +140,15 @@ public class AnimationFrame {
       return this.aniTick;
    }
 
+   /** Resets to the initial action and column */
    public void reset() {
       this.row = startAction;
       this.col = startColumn;
       aniTick = 0;
    }
 
-   public void setAmountOfFrames(int amount) {
-      this.amountOfFrames = amount;
+   public void resetTick() {
+      this.aniTick = 0;
    }
 
    public void setAniTickPerFrame(int amount) {

@@ -1,5 +1,6 @@
 package projectiles;
 
+// TODO - rewrite to a PositionedAnimation
 public class Explosion {
    private int x;
    private int y;

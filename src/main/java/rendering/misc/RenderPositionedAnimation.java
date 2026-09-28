@@ -2,12 +2,12 @@ package rendering.misc;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import cutscenes.effects.SimpleAnimation;
+import entities.animation.PositionedAnimation;
 import rendering.MySubImage;
 import utils.DrawUtils;
 
-public class RenderSimpleAnimation {
-   public static void draw(SpriteBatch sb, SimpleAnimation sa, MySubImage[] spriteArray) {
+public class RenderPositionedAnimation {
+   public static void draw(SpriteBatch sb, PositionedAnimation sa, MySubImage[] spriteArray) {
       MySubImage subImg = spriteArray[sa.getFrame()];
       DrawUtils.drawSubImage(
             sb, subImg,

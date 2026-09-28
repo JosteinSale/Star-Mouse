@@ -2,8 +2,8 @@ package entities.boss_mode.rudinger1;
 
 import java.util.HashMap;
 
-import entities.boss_mode.AnimatedComponent;
-import entities.boss_mode.AnimationInfo;
+import entities.animation.AnimationInfo;
+import entities.animation.ComplexAnimation;
 
 /**
  * The AnimatedMouth handles animations pertaining to the mouth of Rudinger1.
@@ -13,7 +13,7 @@ import entities.boss_mode.AnimationInfo;
  * The damage animation is drawn ontop of whatever animation is beneath, to
  * avoid messing with the animation state.
  */
-public class AnimatedMouth extends AnimatedComponent {
+public class AnimatedMouth extends ComplexAnimation {
    private boolean isBlinking = false;
    public boolean shouldDrawBlink = false;
    private int blinkTick = 0;

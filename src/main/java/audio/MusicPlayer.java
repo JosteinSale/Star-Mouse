@@ -42,6 +42,7 @@ public class MusicPlayer {
       // Ambience
       AMBIENCE_MAP.put(Audio.AMBIENCE_ROCKET_ENGINE, "Ambience - RocketEngineQuiet.ogg");
       AMBIENCE_MAP.put(Audio.AMBIENCE_WIND, "Ambience - Wind.ogg");
+      AMBIENCE_MAP.put(Audio.AMBIENCE_ALARM, "Ambience - Alarm.ogg");
       AMBIENCE_MAP.put(Audio.AMBIENCE_HANGAR, "Ambience - Hangar.ogg");
       AMBIENCE_MAP.put(Audio.AMBIENCE_CAVE, "Ambience - Cave.ogg");
    }

@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import entities.exploring.PlayerExp;
-import entities.AnimationFrame;
 import entities.MyRectangle;
+import entities.animation.Animation;
 import game_states.exploring.Area;
 import main_classes.Game;
 import main_classes.Testing;
@@ -92,7 +92,7 @@ public class RenderArea implements Render {
 
    public void drawPlayer(SpriteBatch sb, int xLevelOffset, int yLevelOffset) {
       PlayerExp player = area.getPlayer();
-      AnimationFrame animation = player.getAnimation();
+      Animation animation = player.getAnimation();
       if (player.visible) {
          DrawUtils.drawSubImage(
                sb, playerSprites.get(PlayerExp.CURRENT_SPRITE_SHEET)[animation.getRow()][animation.getCol()],

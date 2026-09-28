@@ -1,12 +1,12 @@
 package entities.flying.enemies;
 
-import entities.flying.EntityInfo;
+import entities.flying.FlyEntityInfo;
 import entities.Dimensions;
-import entities.flying.AnimatedGlow;
+import entities.animation.AnimatedGlow;
 
 public class Drone extends BaseEnemy {
 
-   public Drone(Dimensions hitbox, EntityInfo info, int shootInterval) {
+   public Drone(Dimensions hitbox, FlyEntityInfo info, int shootInterval) {
       super(hitbox, info, shootInterval, new AnimatedGlow(AnimatedGlow.ORANGE_GLOW_BIG, 1f));
       setGlowPosition();
    }

@@ -3,7 +3,7 @@ package entities.boss_mode.rudinger1;
 import java.awt.Point;
 
 import entities.Dimensions;
-import entities.boss_mode.AnimatedComponentFactory;
+import entities.animation.ComplexAnimationFactory;
 import entities.boss_mode.DefaultBossPart;
 import entities.boss_mode.PlayerBoss;
 
@@ -41,7 +41,7 @@ public class MachineHeart extends DefaultBossPart {
    private int damageDuration = 20;
 
    public MachineHeart(Dimensions hitbox, PlayerBoss player, Point startPoint) {
-      super(hitbox, AnimatedComponentFactory.GetMachineHeartAnimation((int) hitbox.x, (int) hitbox.y));
+      super(hitbox, ComplexAnimationFactory.GetMachineHeartAnimation((int) hitbox.x, (int) hitbox.y));
       this.player = player;
       this.dockingPoint = startPoint;
       this.midwayPoint = new Point(

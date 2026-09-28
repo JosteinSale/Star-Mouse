@@ -1,4 +1,6 @@
-package entities.flying;
+package entities.animation;
+
+import static entities.animation.Animation.Type.ONCE_FORWARDS;
 
 /**
  * A glowing effect in the game. Used for shooting effects and other visual
@@ -17,25 +19,23 @@ public class AnimatedGlow {
    public static final int GREEN_GLOW_SMALL = 3;
    public static final int REAPER_GLOW = 4;
 
-   private int glowType;
-   private float scale;
-
-   private int aniTick = 0;
-   private int aniSpeed = 2;
-   private int aniIndex = 0;
-
-   private float x;
-   private float y;
    private boolean active = false;
+   private int tick;
+   private int tickPerFrame = 2;
+
+   private int glowType;
+   private PositionedAnimation animation;
 
    public AnimatedGlow(int glowType, float scale) {
       this.glowType = glowType;
-      this.scale = scale;
+      this.animation = new PositionedAnimation(
+            0, 0, tickPerFrame,
+            0, 0, scale, scale);
    }
 
    public void setPos(float x, float y) {
-      this.x = x;
-      this.y = y;
+      animation.xPos = x;
+      animation.yPos = y;
    }
 
    public void start() {
@@ -44,32 +44,28 @@ public class AnimatedGlow {
 
    public void update() {
       if (active) {
-         updateAnimationTick();
-      }
-   }
-
-   private void updateAnimationTick() {
-      aniTick++;
-      if (aniTick > aniSpeed) {
-         aniTick = 0;
-         aniIndex++;
-         if (aniIndex > lastIndexInAnimation()) {
-            active = false;
-            aniIndex = 0;
+         tick++;
+         animation.play(ONCE_FORWARDS, animationLength() - 1);
+         if (tick >= duration()) {
+            this.reset();
          }
       }
    }
 
-   private int lastIndexInAnimation() {
+   private int duration() {
+      return tickPerFrame * animationLength();
+   }
+
+   private int animationLength() {
       switch (glowType) {
          case ORANGE_GLOW_BIG:
          case REAPER_GLOW:
-            return 3;
+            return 4;
          case BLUE_GLOW_SMALL:
          case GREEN_GLOW_SMALL:
-            return 1;
+            return 2;
          default:
-            return 1;
+            return 2;
       }
    }
 
@@ -82,11 +78,11 @@ public class AnimatedGlow {
    }
 
    public float getScale() {
-      return scale;
+      return animation.scaleW; // Same as scaleH
    }
 
    public int getAniIndex() {
-      return aniIndex;
+      return animation.getCol();
    }
 
    public boolean isActive() {
@@ -94,27 +90,27 @@ public class AnimatedGlow {
    }
 
    public float getX() {
-      return x;
+      return animation.xPos;
    }
 
    public float getY() {
-      return y;
+      return animation.yPos;
    }
 
    public void reset() {
-      aniIndex = 0;
-      aniTick = 0;
+      animation.reset();
       active = false;
+      tick = 0;
    }
 
    public float getAlpha() {
       switch (glowType) {
          case ORANGE_GLOW_BIG:
          case REAPER_GLOW:
-            return 1f - (aniIndex * 0.25f);
+            return 1f - (animation.getCol() * 0.25f);
          case BLUE_GLOW_SMALL:
          case GREEN_GLOW_SMALL:
-            return 1f - (aniIndex * 0.4f);
+            return 1f - (animation.getCol() * 0.4f);
          default:
             return 1f;
       }

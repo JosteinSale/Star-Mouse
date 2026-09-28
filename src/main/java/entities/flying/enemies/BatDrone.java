@@ -1,10 +1,11 @@
 package entities.flying.enemies;
 
 import java.awt.geom.Point2D;
-import entities.AnimationFrame;
+
 import entities.Dimensions;
-import entities.flying.AnimatedGlow;
-import entities.flying.EntityInfo;
+import entities.animation.AnimatedGlow;
+import entities.animation.Animation;
+import entities.flying.FlyEntityInfo;
 import main_classes.Game;
 
 public class BatDrone extends BaseEnemy {
@@ -13,12 +14,13 @@ public class BatDrone extends BaseEnemy {
    private final float xMoveSpeed = 8f;
    private final float yMoveSpeed = 2f;
 
-   public BatDrone(Dimensions hitbox, EntityInfo info, int chargeDone, int dir) {
+   public BatDrone(Dimensions hitbox, FlyEntityInfo info, int chargeDone, int dir) {
       super(hitbox, info, chargeDone, new AnimatedGlow(AnimatedGlow.ORANGE_GLOW_BIG, 1f));
       maxHP = 20;
       HP = maxHP;
+      animationLength = 7;
       setGlowPosition();
-      animation = new AnimationFrame(IDLE, 0, 4, 7);
+      animation = new Animation(IDLE, 0, 4);
       allAnimations.clear();
       allAnimations.add(animation);
       this.dir = dir;

@@ -1,5 +1,6 @@
 package entities.flying.enemies;
 
+import static entities.animation.Animation.Type.LOOP_FORWARDS;
 import static utils.Constants.Flying.DEFAULT_FG_SPEED;
 
 import java.awt.Point;
@@ -8,10 +9,10 @@ import java.util.Collections;
 
 import com.badlogic.gdx.math.Vector2;
 
-import entities.AnimationFrame;
 import entities.Dimensions;
 import entities.MyRectangle;
-import entities.flying.EntityInfo;
+import entities.animation.Animation;
+import entities.flying.FlyEntityInfo;
 import main_classes.Game;
 import utils.HelpMethods;
 
@@ -20,7 +21,6 @@ public class Centipede extends BaseEnemy {
    private final int distanceBetweenSegments = 60;
    private final Vector2 speedVector;
    private final Vector2 normalizedVector;
-   private final double angle;
    private final MyRectangle onScreenArea;
    private float chargePhaseTick;
    private boolean attackPhaseActive = false;
@@ -32,14 +32,15 @@ public class Centipede extends BaseEnemy {
    private double wiggleRotation;
    private final ArrayList<Point.Float> hitboxCenters;
 
-   public Centipede(Dimensions hitbox, EntityInfo info, int startTimer, Vector2 directionVector) {
+   public Centipede(Dimensions hitbox, FlyEntityInfo info, int startTimer, Vector2 directionVector) {
       super(hitbox, info, startTimer, null);
       this.maxHP = 100;
       HP = maxHP;
+      animationLength = 8;
       this.TAKING_DAMAGE = 3;
       this.speedVector = directionVector;
       this.normalizedVector = HelpMethods.NormalizeVector(directionVector);
-      this.angle = HelpMethods.CalculateAngle(normalizedVector);
+      this.rotationRadians = HelpMethods.CalculateAngle(normalizedVector);
       this.onScreenArea = new MyRectangle(
             -200, -100, Game.GAME_DEFAULT_WIDTH + 400, Game.GAME_DEFAULT_HEIGHT + 200);
       this.hitboxCenters = new ArrayList<>();
@@ -80,25 +81,22 @@ public class Centipede extends BaseEnemy {
    private void constructAnimations() {
       allAnimations.clear();
       int aniTickPerFrame = 4;
-      int amountOfFrames = 8;
 
       // 1. Head
-      animation = new AnimationFrame(
-            0, 0,
-            aniTickPerFrame, amountOfFrames);
+      animation = new Animation(0, 0, aniTickPerFrame);
       allAnimations.add(animation);
 
       // 2. Middle segment
       for (int i = 0; i < nrOfMiddleSegments; i++) {
-         AnimationFrame middleAnimation = new AnimationFrame(
+         Animation middleAnimation = new Animation(
                1, (nrOfMiddleSegments - i) % 8,
-               aniTickPerFrame, amountOfFrames);
+               aniTickPerFrame);
          allAnimations.add(middleAnimation);
       }
       // 3. Tail
-      AnimationFrame tailAnimation = new AnimationFrame(
+      Animation tailAnimation = new Animation(
             2, 0,
-            aniTickPerFrame, amountOfFrames);
+            aniTickPerFrame);
       allAnimations.add(tailAnimation);
 
       // 4. Reverse so that head is drawn last (= on top)
@@ -182,9 +180,9 @@ public class Centipede extends BaseEnemy {
    }
 
    @Override
-   protected void updateAniTick() {
-      for (AnimationFrame af : allAnimations) {
-         af.update();
+   protected void updateAnimations() {
+      for (Animation af : allAnimations) {
+         af.play(LOOP_FORWARDS, animationLength - 1);
       }
       if (damageTick > 0) {
          damageTick--;
@@ -215,11 +213,6 @@ public class Centipede extends BaseEnemy {
       chargePhaseTick = 0;
       constructHitboxes();
       constructHitboxCenters();
-   }
-
-   @Override
-   public double getHitboxRotation() {
-      return angle;
    }
 
    @Override

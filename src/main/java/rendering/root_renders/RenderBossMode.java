@@ -11,7 +11,7 @@ import main_classes.Testing;
 import rendering.MyColor;
 import rendering.Render;
 import rendering.boss_mode.*;
-import rendering.flying.RenderEntity;
+import rendering.flying.RenderFlyEntity;
 import rendering.flying.RenderPlayerFly;
 import rendering.flying.RenderProjectiles;
 import rendering.misc.RenderCutscene;
@@ -27,7 +27,7 @@ public class RenderBossMode extends Singleton implements Render {
    private Images images;
    private BossMode bossMode;
    private RenderBossMap mapManager;
-   private RenderEntity rEntity;
+   private RenderFlyEntity rEntity;
    private RenderPlayerFly rPlayer;
    private RenderCutscene rCutscene;
    private RenderProjectiles rProjectiles;
@@ -42,7 +42,7 @@ public class RenderBossMode extends Singleton implements Render {
       this.bossMode = game.getBossMode();
       this.mapManager = new RenderBossMap();
       this.rPlayer = new RenderPlayerFly(game, bossMode.getPlayer());
-      this.rEntity = new RenderEntity(null, bossMode.pickupItems, images);
+      this.rEntity = new RenderFlyEntity(null, bossMode.pickupItems, images);
       this.rCutscene = rCutscene;
       this.rProjectiles = new RenderProjectiles(bossMode.getProjectileHandler(), images);
       this.rPause = new RenderPauseBoss(bossMode.getPauseOverlay(), rOptions, images);

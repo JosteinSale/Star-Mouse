@@ -1,7 +1,7 @@
 package entities.flying.enemies;
 
 import entities.Dimensions;
-import entities.flying.EntityInfo;
+import entities.flying.FlyEntityInfo;
 import entities.flying.PlayerFly;
 
 public class KamikazeDrone extends BaseEnemy {
@@ -9,12 +9,12 @@ public class KamikazeDrone extends BaseEnemy {
    private int playerCollisions = 0; // When the drone has collided 3 times, it explodes
    private float xSpeed = 3;
 
-   public KamikazeDrone(Dimensions hitbox, EntityInfo info, PlayerFly player) {
+   public KamikazeDrone(Dimensions hitbox, FlyEntityInfo info, PlayerFly player) {
       super(hitbox, info);
       this.player = player;
       maxHP = 60;
       HP = maxHP;
-      animation.setAmountOfFrames(2);
+      animationLength = 2;
    }
 
    @Override

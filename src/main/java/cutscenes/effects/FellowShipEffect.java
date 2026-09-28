@@ -2,7 +2,6 @@ package cutscenes.effects;
 
 import java.util.ArrayList;
 
-import cutscenes.FellowShip;
 import cutscenes.events.FellowShipEvent;
 import cutscenes.events.GeneralEvent;
 import game_states.Gamestate;

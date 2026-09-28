@@ -9,8 +9,8 @@ import main_classes.Game;
 import main_classes.Testing;
 import rendering.MyColor;
 import rendering.Render;
-import rendering.flying.EntityImages;
-import rendering.flying.RenderEntity;
+import rendering.flying.FlyEntityImages;
+import rendering.flying.RenderFlyEntity;
 import rendering.flying.RenderGameOver;
 import rendering.flying.RenderLevelFinished;
 import rendering.flying.RenderMap2;
@@ -26,7 +26,7 @@ public class RenderFlying extends Singleton implements Render {
    private Flying flying;
    private RenderMap2 rMap;
    private RenderPlayerFly rPlayer;
-   private RenderEntity rEntity;
+   private RenderFlyEntity rEntity;
    private RenderProjectiles rProjectiles;
    private RenderCutscene rCutscene;
    private RenderGameOver rGameOver;
@@ -38,7 +38,7 @@ public class RenderFlying extends Singleton implements Render {
       this.flying = flying;
       this.rMap = new RenderMap2(flying.getMapManager(), game.getImages());
       this.rPlayer = new RenderPlayerFly(game, flying.getPlayer());
-      this.rEntity = new RenderEntity(
+      this.rEntity = new RenderFlyEntity(
             flying.getEnemyManager(), flying.getPickupItems(), game.getImages());
       this.rProjectiles = new RenderProjectiles(flying.getProjectileHandler(), game.getImages());
       this.rCutscene = rCutscene;
@@ -90,7 +90,7 @@ public class RenderFlying extends Singleton implements Render {
       return this.rProjectiles;
    }
 
-   public EntityImages getEntityImages() {
+   public FlyEntityImages getEntityImages() {
       return this.rEntity.getEntityImages();
    }
 

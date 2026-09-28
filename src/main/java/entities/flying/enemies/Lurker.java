@@ -3,7 +3,7 @@ package entities.flying.enemies;
 import java.awt.geom.Point2D;
 
 import entities.Dimensions;
-import entities.flying.EntityInfo;
+import entities.flying.FlyEntityInfo;
 import entities.flying.PlayerFly;
 
 public class Lurker extends BaseEnemy {
@@ -11,15 +11,14 @@ public class Lurker extends BaseEnemy {
    private boolean attackPhase = false;
    private Point2D.Float playerPos;
    private Point2D.Float lurkerPos;
-   private double angle;
 
-   public Lurker(Dimensions hitbox, EntityInfo info, int chargeDone, PlayerFly player) {
+   public Lurker(Dimensions hitbox, FlyEntityInfo info, int chargeDone, PlayerFly player) {
       super(hitbox, info, chargeDone, null);
       this.player = player;
       maxHP = 20;
       HP = maxHP;
+      animationLength = 3;
       animation.setAniTickPerFrame(6);
-      animation.setAmountOfFrames(3);
       lurkerPos = new Point2D.Float(hitbox.x, hitbox.y);
       playerPos = new Point2D.Float(player.x(), player.y());
    }
@@ -49,7 +48,7 @@ public class Lurker extends BaseEnemy {
 
    private void turnSlowTowardsPlayer() {
       double targetAngle = Math.atan2(playerPos.y - lurkerPos.y, playerPos.x - lurkerPos.x) + Math.PI / 2;
-      double angleDifference = targetAngle - angle;
+      double angleDifference = targetAngle - rotationRadians;
 
       // Normalize the angle difference to the range [-PI, PI]
       while (angleDifference > Math.PI) {
@@ -62,18 +61,18 @@ public class Lurker extends BaseEnemy {
       // Limit the rotation speed
       double rotationSpeed = 0.025; // Adjust this value for faster/slower turning, 0.02
       if (angleDifference > rotationSpeed) {
-         angle += rotationSpeed;
+         rotate(rotationSpeed);
       } else if (angleDifference < -rotationSpeed) {
-         angle -= rotationSpeed;
+         rotate(-rotationSpeed);
       } else {
-         angle = targetAngle; // Close enough to the target angle
+         setRotation(targetAngle); // Close enough to the target angle
       }
    }
 
    private void moveTowardsPlayer(float levelYSpeed) {
       float speed = 5.0f; // Speed at which the lurker moves towards the player
-      float dx = (float) (speed * Math.cos(angle - Math.PI / 2));
-      float dy = (float) (speed * Math.sin(angle - Math.PI / 2));
+      float dx = (float) (speed * Math.cos(rotationRadians - Math.PI / 2));
+      float dy = (float) (speed * Math.sin(rotationRadians - Math.PI / 2));
       move(dx, dy);
    }
 
@@ -83,17 +82,12 @@ public class Lurker extends BaseEnemy {
    }
 
    private void turnFastTowardsPlayer() {
-      angle = Math.atan2(playerPos.y - lurkerPos.y, playerPos.x - lurkerPos.x) + Math.PI / 2;
+      setRotation(Math.atan2(playerPos.y - lurkerPos.y, playerPos.x - lurkerPos.x) + Math.PI / 2);
    }
 
    @Override
    public boolean canShoot() {
       return false;
-   }
-
-   @Override
-   public double getHitboxRotation() {
-      return angle;
    }
 
    @Override

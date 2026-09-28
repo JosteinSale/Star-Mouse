@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import entities.Dimensions;
-import entities.boss_mode.AnimatedComponent;
-import entities.boss_mode.AnimatedComponentFactory;
+import entities.animation.ComplexAnimation;
+import entities.animation.ComplexAnimationFactory;
 import entities.boss_mode.BossActionHandler;
 import entities.boss_mode.DefaultBossPart;
 import entities.boss_mode.IBoss;
@@ -107,10 +107,10 @@ public class Rudinger1 implements IBoss {
 
    private void constructAnimatedComponents(PlayerBoss player) {
       // Reaper eyes
-      this.eyes = AnimatedComponentFactory.GetReaperEyes(230, 100, player);
+      this.eyes = ComplexAnimationFactory.GetReaperEyes(230, 100, player);
 
       // Reaper mouth
-      this.mouth = AnimatedComponentFactory.GetAnimatedMouth(403, 145);
+      this.mouth = ComplexAnimationFactory.GetAnimatedMouth(403, 145);
    }
 
    private void constructMainBody() {
@@ -127,7 +127,7 @@ public class Rudinger1 implements IBoss {
             (float) mainGunPoint.getX() - width1 / 2,
             (float) mainGunPoint.getY() - height1 / 2,
             width1, height1);
-      AnimatedComponent redChargeAnimation = AnimatedComponentFactory.GetRedChargeAnimation(
+      ComplexAnimation redChargeAnimation = ComplexAnimationFactory.GetRedChargeAnimation(
             Game.GAME_DEFAULT_WIDTH / 2 - 150,
             Game.GAME_DEFAULT_HEIGHT / 2 - 170);
       this.verticalLazer = new RotatingLazer(

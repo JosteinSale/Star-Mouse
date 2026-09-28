@@ -1,9 +1,10 @@
 package entities.exploring;
 
+import static entities.animation.Animation.Type.LOOP_FORWARDS;
 import static utils.Constants.Exploring.Cutscenes.GARD;
 
-import entities.AnimationFrame;
 import entities.Dimensions;
+import entities.animation.Animation;
 import utils.Constants.Direction;
 import utils.Constants.Exploring.CharacterAction;
 
@@ -15,21 +16,15 @@ public class Gard extends BaseNpc {
       super(GARD, hitbox, 80, 30, inForeground);
       this.direction = direction;
       this.action = CharacterAction.STANDING;
-      this.animation = new AnimationFrame(
-            0, 0,
-            8, 4);
+      this.animation = new Animation(
+            0, 0, 8);
    }
 
    @Override
    public void update() {
-      updateAniTick();
-   }
-
-   private void updateAniTick() {
-      if (action == CharacterAction.POSING) {
-         return;
+      if (action != CharacterAction.POSING) {
+         animation.play(LOOP_FORWARDS, 3);
       }
-      animation.update();
    }
 
    @Override

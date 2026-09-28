@@ -3,8 +3,8 @@ package entities.boss_mode.rudinger1;
 import java.awt.Point;
 import java.util.HashMap;
 
-import entities.boss_mode.AnimatedComponent;
-import entities.boss_mode.AnimationInfo;
+import entities.animation.AnimationInfo;
+import entities.animation.ComplexAnimation;
 import entities.boss_mode.PlayerBoss;
 
 /**
@@ -12,7 +12,7 @@ import entities.boss_mode.PlayerBoss;
  * It tracks the position of the Player and sets eye position accordingly.
  * It has several animations that can be activated.
  */
-public class ReaperEyes extends AnimatedComponent {
+public class ReaperEyes extends ComplexAnimation {
    private PlayerBoss player;
    private Point eyesCenter;
    private int eyeMoveDistance = 25;
@@ -39,14 +39,14 @@ public class ReaperEyes extends AnimatedComponent {
    }
 
    public void update() {
-      if (aniAction.equals(IDLE) || aniAction.equals(SMALL_EYES)) {
+      if (currentAction.equals(IDLE) || currentAction.equals(SMALL_EYES)) {
          lookAtPlayer();
       }
-      if (aniAction.equals(SHUT_DOWN)) {
+      if (currentAction.equals(SHUT_DOWN)) {
          this.xPos = startX;
          this.yPos = startY + 10;
       }
-      this.updateAnimations();
+      updateAnimations();
    }
 
    private void lookAtPlayer() {
@@ -67,9 +67,5 @@ public class ReaperEyes extends AnimatedComponent {
 
       this.xPos = (float) (newX - (eyesWidth / 2));
       this.yPos = (float) newY;
-   }
-
-   public void setAnimation(String aniAction) {
-      this.aniAction = aniAction;
    }
 }

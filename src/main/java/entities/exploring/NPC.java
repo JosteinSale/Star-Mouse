@@ -1,7 +1,7 @@
 package entities.exploring;
 
-import entities.AnimationFrame;
 import entities.MyRectangle;
+import entities.animation.Animation;
 import utils.Constants.Direction;
 import utils.Constants.Exploring.CharacterAction;
 
@@ -33,5 +33,5 @@ public interface NPC {
 
    public float getYDrawOffset();
 
-   public AnimationFrame getAnimation();
+   public Animation getAnimation();
 }

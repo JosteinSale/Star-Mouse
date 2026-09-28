@@ -2,6 +2,7 @@ package entities.boss_mode;
 
 import entities.Dimensions;
 import entities.MyRectangle;
+import entities.animation.ComplexAnimation;
 
 import java.awt.geom.Point2D;
 
@@ -24,7 +25,7 @@ import java.awt.geom.Point2D;
 abstract public class DefaultBossPart extends MyRectangle implements IBossPart {
    protected Boolean collisionEnabled = false;
    public boolean isVisible = false;
-   public AnimatedComponent animation;
+   public ComplexAnimation animation;
 
    /**
     * Constructs a new BossPart with the given hitbox and spriteSheet.
@@ -35,7 +36,7 @@ abstract public class DefaultBossPart extends MyRectangle implements IBossPart {
     * @param hitbox
     * @param animation
     */
-   public DefaultBossPart(Dimensions hitbox, AnimatedComponent animation) {
+   public DefaultBossPart(Dimensions hitbox, ComplexAnimation animation) {
       super(hitbox);
       this.animation = animation;
    }

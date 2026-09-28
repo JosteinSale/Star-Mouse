@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import entities.Dimensions;
 import entities.MyCollisionImage;
 import entities.MyRectangle;
-import entities.flying.AnimatedGlow;
+import entities.animation.AnimatedGlow;
 import entities.flying.PlayerFly;
 import main_classes.Game;
 import utils.Constants.Audio;

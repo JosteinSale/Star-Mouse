@@ -2,24 +2,24 @@ package rendering.boss_mode;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import entities.boss_mode.AnimatedComponent;
+import entities.animation.ComplexAnimation;
 import projectiles.shoot_patterns.ShootPattern;
-import rendering.misc.RenderAnimatedComponent;
+import rendering.misc.RenderComplexAnimation;
 import utils.Images;
 
 public class RenderShootPattern {
    private ShootPattern sp;
-   private AnimatedComponent chargeAnimation;
-   private AnimatedComponent shootAnimation;
-   private RenderAnimatedComponent rCharge;
-   private RenderAnimatedComponent rShoot;
+   private ComplexAnimation chargeAnimation;
+   private ComplexAnimation shootAnimation;
+   private RenderComplexAnimation rCharge;
+   private RenderComplexAnimation rShoot;
 
    public RenderShootPattern(ShootPattern sp, Images images) {
       this.sp = sp;
       this.chargeAnimation = sp.getChargeAnimation();
       this.shootAnimation = sp.getShootAnimation();
-      this.rCharge = new RenderAnimatedComponent(chargeAnimation, images);
-      this.rShoot = new RenderAnimatedComponent(shootAnimation, images);
+      this.rCharge = new RenderComplexAnimation(chargeAnimation, images);
+      this.rShoot = new RenderComplexAnimation(shootAnimation, images);
    }
 
    /**

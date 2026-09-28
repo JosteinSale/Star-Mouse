@@ -1,7 +1,7 @@
 package entities.flying.enemies;
 
 import entities.Dimensions;
-import entities.flying.EntityInfo;
+import entities.flying.FlyEntityInfo;
 import main_classes.Game;
 
 /**
@@ -12,12 +12,12 @@ import main_classes.Game;
 public class BurningFragment extends BaseEnemy {
    private int ySpeed;
 
-   public BurningFragment(Dimensions hitbox, EntityInfo info, int shootInterval) {
+   public BurningFragment(Dimensions hitbox, FlyEntityInfo info, int shootInterval) {
       super(hitbox, info);
       startY = hitbox.y;
       maxHP = 30;
+      animationLength = 8;
       HP = maxHP;
-      animation.setAmountOfFrames(8);
       animation.setAniTickPerFrame(3);
       this.extractYSpeed(shootInterval);
    }

@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import cutscenes.FellowShip;
 import cutscenes.cutscene_managers.CutsceneManagerExp;
 import cutscenes.cutscene_managers.DefaultCutsceneManager;
 import cutscenes.effects.DrawableEffect;
 import cutscenes.effects.FadeEffect;
 import cutscenes.effects.FadeHeaderEffect;
+import cutscenes.effects.FellowShip;
 import cutscenes.effects.FellowShipEffect;
 import cutscenes.effects.FillScreenEffect;
 import cutscenes.effects.NumberDisplayEffect;

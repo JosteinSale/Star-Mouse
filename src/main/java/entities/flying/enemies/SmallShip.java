@@ -1,13 +1,13 @@
 package entities.flying.enemies;
 
 import entities.Dimensions;
-import entities.flying.EntityInfo;
+import entities.flying.FlyEntityInfo;
 
 public class SmallShip extends BaseEnemy {
    private int direction; // 1 = right, -1 = left
    private float xSpeed = 2;
 
-   public SmallShip(Dimensions hitbox, EntityInfo info, int direction) {
+   public SmallShip(Dimensions hitbox, FlyEntityInfo info, int direction) {
       super(hitbox, info);
       startX = hitbox.x;
       maxHP = 20;

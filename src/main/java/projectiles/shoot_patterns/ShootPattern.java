@@ -1,8 +1,6 @@
 package projectiles.shoot_patterns;
 
-import java.util.ArrayList;
-
-import entities.boss_mode.AnimatedComponent;
+import entities.animation.ComplexAnimation;
 
 /**
  * A class representing a specific shootpattern.
@@ -46,11 +44,11 @@ public interface ShootPattern {
     * Returns the chargeAnimation.
     * (Should we allow it be null?)
     */
-   public AnimatedComponent getChargeAnimation();
+   public ComplexAnimation getChargeAnimation();
 
    /**
     * Return the shootAnimation.
     * (Should we allow it be null?)
     */
-   public AnimatedComponent getShootAnimation();
+   public ComplexAnimation getShootAnimation();
 }

@@ -1,9 +1,10 @@
 package entities.exploring;
 
+import static entities.animation.Animation.Type.LOOP_FORWARDS;
 import static utils.Constants.Exploring.Cutscenes.OLIVER;
 
-import entities.AnimationFrame;
 import entities.Dimensions;
+import entities.animation.Animation;
 import utils.Constants.Direction;
 import utils.Constants.Exploring.CharacterAction;
 
@@ -15,9 +16,8 @@ public class Oliver extends BaseNpc {
       super(OLIVER, hitbox, 80, 30, inForeground);
       this.direction = direction;
       this.action = CharacterAction.STANDING;
-      this.animation = new AnimationFrame(
-            getAnimationRow(), 0,
-            8, 4);
+      this.animation = new Animation(
+            getAnimationRow(), 0, 8);
    }
 
    private int getAnimationRow() {
@@ -46,7 +46,7 @@ public class Oliver extends BaseNpc {
    @Override
    public void update() {
       if (action != CharacterAction.POSING) {
-         animation.update();
+         animation.play(LOOP_FORWARDS, 3);
       }
    }
 

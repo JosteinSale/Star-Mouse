@@ -1,12 +1,14 @@
 package entities.flying.enemies;
 
+import static entities.animation.Animation.Type.LOOP_FORWARDS;
+
 import java.util.ArrayList;
 
 import entities.MyRectangle;
-import entities.AnimationFrame;
+import entities.animation.AnimatedGlow;
+import entities.animation.Animation;
 import entities.Dimensions;
-import entities.flying.AnimatedGlow;
-import entities.flying.EntityInfo;
+import entities.flying.FlyEntityInfo;
 import main_classes.Game;
 
 /**
@@ -22,11 +24,12 @@ import main_classes.Game;
  * All of these can be overridden by subclasses if needed.
  */
 public abstract class BaseEnemy extends MyRectangle implements Enemy {
-   protected EntityInfo info;
+   protected FlyEntityInfo info;
    public AnimatedGlow glow; // Can be null
    protected float startY;
    protected float startX;
    protected int maxHP = 60;
+   protected int animationLength = 1;
    protected int HP = maxHP;
    protected boolean onScreen = false;
    protected boolean dead = false;
@@ -40,16 +43,16 @@ public abstract class BaseEnemy extends MyRectangle implements Enemy {
    protected int TAKING_DAMAGE = 1;
 
    // Animation(s)
-   protected AnimationFrame animation;
-   protected ArrayList<AnimationFrame> allAnimations; // will contain only one AnimationFrame by default
+   protected Animation animation;
+   protected ArrayList<Animation> allAnimations; // will contain only one Animation by default
 
-   public BaseEnemy(Dimensions hitbox, EntityInfo info, int chargeDone, AnimatedGlow glow) {
+   public BaseEnemy(Dimensions hitbox, FlyEntityInfo info, int chargeDone, AnimatedGlow glow) {
       super(hitbox);
       allHitboxes = new ArrayList<>();
       allHitboxes.add(this);
 
       allAnimations = new ArrayList<>();
-      animation = new AnimationFrame(IDLE, 0, 4, 1);
+      animation = new Animation(IDLE, 0, 4);
       allAnimations.add(animation);
 
       this.info = info;
@@ -59,13 +62,13 @@ public abstract class BaseEnemy extends MyRectangle implements Enemy {
       this.glow = glow;
    }
 
-   public BaseEnemy(Dimensions hitbox, EntityInfo info) {
+   public BaseEnemy(Dimensions hitbox, FlyEntityInfo info) {
       super(hitbox);
       allHitboxes = new ArrayList<>();
       allHitboxes.add(this);
 
       allAnimations = new ArrayList<>();
-      animation = new AnimationFrame(IDLE, 0, 4, 1);
+      animation = new Animation(IDLE, 0, 4);
       allAnimations.add(animation);
 
       this.info = info;
@@ -78,7 +81,7 @@ public abstract class BaseEnemy extends MyRectangle implements Enemy {
       moveEnemyDown(levelYSpeed);
       checkOnScreen(levelYSpeed);
       if (onScreen) {
-         updateAniTick();
+         updateAnimations();
          updateChargeTick();
          updateCustomBehavior(levelYSpeed);
       }
@@ -103,8 +106,9 @@ public abstract class BaseEnemy extends MyRectangle implements Enemy {
       // Default behavior: Do nothing
    }
 
-   protected void updateAniTick() {
-      animation.update();
+   protected void updateAnimations() {
+      animation.play(LOOP_FORWARDS, animationLength - 1);
+
       // 2. Set action
       if (animation.getAction() == TAKING_DAMAGE) {
          damageTick--;
@@ -199,12 +203,12 @@ public abstract class BaseEnemy extends MyRectangle implements Enemy {
    }
 
    @Override
-   public EntityInfo getInfo() {
+   public FlyEntityInfo getInfo() {
       return this.info;
    }
 
    @Override
-   public AnimationFrame getAnimationForHitbox(int hitboxNr) {
+   public Animation getAnimationForHitbox(int hitboxNr) {
       return allAnimations.get(hitboxNr);
    }
 

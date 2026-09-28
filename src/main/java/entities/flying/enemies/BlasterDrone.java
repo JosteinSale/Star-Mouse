@@ -1,12 +1,12 @@
 package entities.flying.enemies;
 
-import entities.flying.EntityInfo;
+import entities.flying.FlyEntityInfo;
 import entities.Dimensions;
-import entities.flying.AnimatedGlow;
+import entities.animation.AnimatedGlow;
 
 public class BlasterDrone extends BaseEnemy {
 
-   public BlasterDrone(Dimensions hitbox, EntityInfo info) {
+   public BlasterDrone(Dimensions hitbox, FlyEntityInfo info) {
       super(hitbox, info, 60, new AnimatedGlow(AnimatedGlow.ORANGE_GLOW_BIG, 1f));
       startY = hitbox.y;
       this.info = info;
