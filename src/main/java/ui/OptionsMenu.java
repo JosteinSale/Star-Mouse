@@ -12,7 +12,7 @@ public class OptionsMenu extends Singleton {
    private AudioPlayer audioPlayer;
    private ControlsMenu controlsMenu;
    private boolean active = false;
-   public boolean vSync = true;
+   public boolean vSync = false;
    public String[] menuOptions = { "Music volume", "SFX volume", "VSync", "Controls", "Return" };
 
    private static final int MUSIC_VOLUME = 0;

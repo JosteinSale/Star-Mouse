@@ -44,6 +44,7 @@ public class ComplexAnimation extends PositionedAnimation {
          AnimationInfo info = aniInfos.get(newAction);
          setAniTickPerFrame(info.speed);
          setCol(getStartCol(info));
+         setRow(info.aniRow);
       }
    }
 
