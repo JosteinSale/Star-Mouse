@@ -85,6 +85,7 @@ public class ProjectileHandler2 extends ProjectileHandler {
       if (p.isActive()) {
          if (HelpMethods.CollidesWithMap(p.getCollisionPixels(), clImg, bossXoffset, bossYoffset)) {
             this.onMapCollision(p);
+            return;
          }
          // 2. Checks collision with bossParts
          for (IBossPart bp : bossParts) {

@@ -22,6 +22,7 @@ public class Animation {
    private int aniTickPerFrame;
    private int startAction;
    private int startColumn;
+   private boolean playedOnce = false;
 
    public enum Type {
       LOOP_FORWARDS, LOOP_BACKWARDS, ONCE_FORWARDS, ONCE_BACKWARDS
@@ -81,6 +82,7 @@ public class Animation {
          col++;
          if (col > lastCol) {
             col = lastCol;
+            playedOnce = true;
          }
       }
    }
@@ -92,6 +94,7 @@ public class Animation {
          col--;
          if (col < 0) {
             col = 0;
+            playedOnce = true;
          }
       }
    }
@@ -113,7 +116,7 @@ public class Animation {
 
    /** Does the same as setCol */
    public void setFrame(int frame) {
-      this.col = frame;
+      col = frame;
    }
 
    /** Does the same as getAction */
@@ -133,18 +136,23 @@ public class Animation {
 
    /** Same as setRow */
    public void setAction(int action) {
-      this.row = action;
+      row = action;
    }
 
    public int getTick() {
-      return this.aniTick;
+      return aniTick;
+   }
+
+   public boolean playedOnce() {
+      return playedOnce;
    }
 
    /** Resets to the initial action and column */
    public void reset() {
-      this.row = startAction;
-      this.col = startColumn;
+      row = startAction;
+      col = startColumn;
       aniTick = 0;
+      playedOnce = false;
    }
 
    public void resetTick() {

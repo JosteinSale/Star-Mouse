@@ -2,9 +2,9 @@ package entities.flying.enemies;
 
 import java.util.ArrayList;
 
+import entities.flying.AnimatedGlow;
 import entities.flying.FlyEntityInfo;
 import entities.MyRectangle;
-import entities.animation.AnimatedGlow;
 import entities.animation.Animation;
 
 public interface Enemy {

@@ -28,7 +28,7 @@ public class DrawUtils {
 
    private static final GlyphLayout layout = new GlyphLayout();
 
-   public static void drawTransparentImage(SpriteBatch batch, MyImage img, int x, int y, int width, int height,
+   public static void drawTransparentImage(SpriteBatch batch, MyImage img, float x, float y, int width, int height,
          float alpha) {
       Color prev = batch.getColor().cpy();
       batch.setColor(1f, 1f, 1f, alpha);
@@ -44,14 +44,14 @@ public class DrawUtils {
       batch.setColor(prev);
    }
 
-   public static void drawImage(SpriteBatch batch, MyImage img, int x, int y, int width, int height) {
+   public static void drawImage(SpriteBatch batch, MyImage img, float x, float y, int width, int height) {
       Texture texture = img.getTexture();
       batch.draw(texture,
             x, (y + height),
             width, -height);
    }
 
-   public static void drawSubImage(SpriteBatch batch, MySubImage img, int x, int y, int width, int height) {
+   public static void drawSubImage(SpriteBatch batch, MySubImage img, float x, float y, int width, int height) {
       TextureRegion region = img.getImage();
       batch.draw(region,
             x, (y + height),
@@ -91,7 +91,7 @@ public class DrawUtils {
     * callers with their own per-type width/height/offsets (e.g. projectiles)
     * can reuse their existing draw geometry unchanged when rotation is 0.
     */
-   public static void drawRotatedImage(SpriteBatch batch, MyImage img, int x, int y, int width, int height,
+   public static void drawRotatedImage(SpriteBatch batch, MyImage img, float x, float y, int width, int height,
          double rotation) {
       Texture texture = img.getTexture();
       batch.draw(texture,

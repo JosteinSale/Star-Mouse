@@ -106,7 +106,7 @@ public class RenderPlayerFly implements Render {
          }
          DrawUtils.drawSubImage(
                sb, animations[aniRow][player.getAniIndex()],
-               (int) (player.x() - 20), (int) (player.y() - 20),
+               player.x() - 20, player.y() - 20,
                SHIP_SPRITE_WIDTH * 3, SHIP_SPRITE_HEIGHT * 3);
 
          // Glows from shooting
@@ -121,7 +121,7 @@ public class RenderPlayerFly implements Render {
          Point.Float point = shipSmoke.leftTrailingSmokePoints.get(i);
          DrawUtils.drawTransparentImage(
                sb, shipSmokeImg,
-               (int) point.x, (int) point.y,
+               point.x, point.y,
                10, 20,
                ShipSmoke.getAlphaForPoint(i));
       }
@@ -130,7 +130,7 @@ public class RenderPlayerFly implements Render {
          Point.Float point = shipSmoke.rightTrailingSmokePoints.get(i);
          DrawUtils.drawTransparentImage(
                sb, shipSmokeImg,
-               (int) point.x, (int) point.y,
+               point.x, point.y,
                10, 20,
                ShipSmoke.getAlphaForPoint(i));
       }
@@ -178,8 +178,8 @@ public class RenderPlayerFly implements Render {
    private void drawShadow(SpriteBatch sb, int teleportDistance) {
       DrawUtils.drawImage(
             sb, tpShadowImg,
-            (int) (player.x() - 20 - teleportDistance),
-            (int) (player.y() - 20),
+            player.x() - 20 - teleportDistance,
+            player.y() - 20,
             SHIP_SPRITE_WIDTH * 3,
             SHIP_SPRITE_HEIGHT * 3);
    }
@@ -187,7 +187,7 @@ public class RenderPlayerFly implements Render {
    private void drawFlame(SpriteBatch sb, float x, float y) {
       DrawUtils.drawSubImage(
             sb, flameAnimations[player.flame.aniIndex],
-            (int) x, (int) y,
+            x, y,
             45, 45);
    }
 

@@ -1,8 +1,8 @@
 package entities.flying.enemies;
 
+import entities.flying.AnimatedGlow;
 import entities.flying.FlyEntityInfo;
 import entities.Dimensions;
-import entities.animation.AnimatedGlow;
 
 public class OctaDrone extends BaseEnemy {
    public OctaDrone(Dimensions hitbox, FlyEntityInfo info, int shootTimer) {

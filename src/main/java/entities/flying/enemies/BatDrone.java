@@ -3,8 +3,8 @@ package entities.flying.enemies;
 import java.awt.geom.Point2D;
 
 import entities.Dimensions;
-import entities.animation.AnimatedGlow;
 import entities.animation.Animation;
+import entities.flying.AnimatedGlow;
 import entities.flying.FlyEntityInfo;
 import main_classes.Game;
 

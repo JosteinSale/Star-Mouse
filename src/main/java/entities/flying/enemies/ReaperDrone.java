@@ -1,8 +1,8 @@
 package entities.flying.enemies;
 
+import entities.flying.AnimatedGlow;
 import entities.flying.FlyEntityInfo;
 import entities.Dimensions;
-import entities.animation.AnimatedGlow;
 
 /**
  * The ReaperDrone shoots 3 wide, fast projectiles in fast succession.

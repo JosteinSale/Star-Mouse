@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import audio.AudioPlayer;
 import entities.CollisionPixels;
 import entities.CollisionPixels.CollisionAt;
-import entities.animation.AnimatedGlow;
 import entities.animation.ComplexAnimation;
 import entities.animation.ComplexAnimationFactory;
 import entities.Dimensions;

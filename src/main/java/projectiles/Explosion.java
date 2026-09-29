@@ -1,39 +1,25 @@
 package projectiles;
 
-// TODO - rewrite to a PositionedAnimation
-public class Explosion {
-   private int x;
-   private int y;
-   private int aniTick = 0;
-   private int aniIndex = 0;
-   private int aniTickPerFrame = 5;
-   private int size;
+import static entities.animation.Animation.Type.ONCE_FORWARDS;
+
+import entities.animation.PositionedAnimation;
+
+public class Explosion extends PositionedAnimation {
    private int type;
-   boolean done = false;
 
    // Explosion types
    public static final int SMALL = 0;
    public static final int BIG = 1;
    public static final int MINE = 2;
 
-   public Explosion(int type, int x, int y, int size) {
-      this.x = x;
-      this.y = y;
-      this.size = size;
+   public Explosion(int type, float x, float y, float scale) {
+      super(0, 0, 5, x, y, scale, scale);
       this.type = type;
    }
 
    public void update(float fgCurSpeed) {
-      this.y += fgCurSpeed;
-      this.aniTick++;
-      if (aniTick > aniTickPerFrame) {
-         aniIndex++;
-         aniTick = 0;
-         if (aniIndex == amountOfSpritesInAnimation()) {
-            done = true;
-            aniIndex--;
-         }
-      }
+      yPos += fgCurSpeed;
+      play(ONCE_FORWARDS, amountOfSpritesInAnimation() - 1);
    }
 
    private int amountOfSpritesInAnimation() {
@@ -48,23 +34,23 @@ public class Explosion {
    }
 
    public int getAniIndex() {
-      return this.aniIndex;
+      return this.getCol();
    }
 
-   public int getX() {
-      return this.x;
+   public float getX() {
+      return this.xPos;
    }
 
-   public int getY() {
-      return this.y;
+   public float getY() {
+      return this.yPos;
    }
 
    public boolean isDone() {
-      return this.done;
+      return playedOnce();
    }
 
    public float getSize() {
-      return this.size;
+      return this.scaleW; // Same as scaleH
    }
 
    public int getType() {

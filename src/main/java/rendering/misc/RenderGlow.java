@@ -2,14 +2,14 @@ package rendering.misc;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import entities.animation.AnimatedGlow;
+import entities.flying.AnimatedGlow;
 import entities.flying.StaticGlow;
 import rendering.MySubImage;
 import utils.DrawUtils;
 import utils.HelpMethods;
 import utils.Images;
 
-import static entities.animation.AnimatedGlow.*;
+import static entities.flying.AnimatedGlow.*;
 import static entities.flying.StaticGlow.*;
 
 /**

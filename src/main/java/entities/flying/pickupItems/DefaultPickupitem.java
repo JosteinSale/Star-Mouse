@@ -1,7 +1,10 @@
 package entities.flying.pickupItems;
 
+import static entities.animation.Animation.Type.LOOP_FORWARDS;
+
 import entities.Dimensions;
 import entities.MyRectangle;
+import entities.animation.Animation;
 import entities.flying.FlyEntityInfo;
 import entities.flying.StaticGlow;
 
@@ -9,33 +12,24 @@ public class DefaultPickupitem extends MyRectangle implements PickupItem {
    private FlyEntityInfo info;
    protected StaticGlow glow;
    private float startY;
-   private int aniIndex;
-   private int aniTick;
-   protected int aniTickPerFrame;
    protected int nrOfImages;
+   private Animation animation;
    private boolean active = true;
 
    public DefaultPickupitem(Dimensions hitbox, FlyEntityInfo info, int aniTickPerFrame, int nrOfImages,
          StaticGlow glow) {
       super(hitbox);
       startY = hitbox.y;
-      this.info = info;
-      this.aniTickPerFrame = aniTickPerFrame;
+      animation = new Animation(0, 0, aniTickPerFrame);
       this.nrOfImages = nrOfImages;
+      this.info = info;
       this.glow = glow;
    }
 
    public void update(float yLevelSpeed) {
       move(0, yLevelSpeed);
-      aniTick++;
       setGlowPos();
-      if (aniTick == aniTickPerFrame) {
-         aniIndex++;
-         aniTick = 0;
-         if (aniIndex == nrOfImages) {
-            aniIndex = 0;
-         }
-      }
+      animation.play(LOOP_FORWARDS, nrOfImages - 1);
    }
 
    protected void setGlowPos() {
@@ -66,7 +60,7 @@ public class DefaultPickupitem extends MyRectangle implements PickupItem {
 
    @Override
    public int getAniIndex() {
-      return this.aniIndex;
+      return animation.getCol();
    }
 
    @Override

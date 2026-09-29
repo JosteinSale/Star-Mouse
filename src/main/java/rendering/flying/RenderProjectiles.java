@@ -141,27 +141,20 @@ public class RenderProjectiles {
    }
 
    private void drawProjectileHit(SpriteBatch sb, ProjectileHit ph) {
-      int scale = switch (ph.getType()) {
-         case ProjectileHit.SMALL_HIT -> 3;
-         case ProjectileHit.BIG_HIT -> 5;
-         default -> throw new IllegalArgumentException(
-               "No projectileHit scale defined for projectileHit of type: " + ph.getType());
-      };
       DrawUtils.drawSubImage(
             sb, hitAnimation[ph.getAniIndex()],
             ph.getX(), ph.getY(),
-            PRJT_HIT_SPRITE_SIZE * scale, PRJT_HIT_SPRITE_SIZE * scale);
+            (int) (PRJT_HIT_SPRITE_SIZE * ph.scaleW),
+            (int) (PRJT_HIT_SPRITE_SIZE * ph.scaleH));
    }
 
    private void drawProjectile(Projectile p, SpriteBatch sb, ProjectileDrawInfo info) {
       // Projectile
-      int x = (int) (p.getHitbox().x() - info.drawOffsetX);
-      int y = (int) (p.getHitbox().y() - info.drawOffsetY);
+      float x = p.getHitbox().x() - info.drawOffsetX;
+      float y = p.getHitbox().y() - info.drawOffsetY;
       if (p.getRotation() == 0.0) {
          DrawUtils.drawImage(sb, info.img, x, y, info.width, info.height);
       } else {
-         // Note: the glow below is not rotated with the sprite - acceptable, glows are
-         // round.
          DrawUtils.drawRotatedImage(sb, info.img, x, y, info.width, info.height, p.getRotation());
       }
       // Glow
@@ -176,9 +169,9 @@ public class RenderProjectiles {
 
    private void drawBombExplosion(BombExplosion b, SpriteBatch sb) {
       DrawUtils.drawSubImage(
-            sb, bombExplosionAnimation[b.aniIndex],
-            b.x - bombExplInfo.drawOffsetX,
-            b.y - bombExplInfo.drawOffsetY,
+            sb, bombExplosionAnimation[b.getCol()],
+            b.xPos - bombExplInfo.drawOffsetX,
+            b.yPos - bombExplInfo.drawOffsetY,
             bombExplInfo.width, bombExplInfo.height);
    }
 

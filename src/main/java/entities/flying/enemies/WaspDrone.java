@@ -1,8 +1,8 @@
 package entities.flying.enemies;
 
+import entities.flying.AnimatedGlow;
 import entities.flying.FlyEntityInfo;
 import entities.Dimensions;
-import entities.animation.AnimatedGlow;
 
 public class WaspDrone extends BaseEnemy {
    private int direction; // 1 = right, -1 = left

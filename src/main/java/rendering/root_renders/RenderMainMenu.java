@@ -76,7 +76,7 @@ public class RenderMainMenu extends Singleton implements Render {
       // Background
       DrawUtils.drawImage(
             sb, bgImg,
-            (int) mainMenu.bgX, 0,
+            mainMenu.bgX, 0,
             Game.GAME_DEFAULT_WIDTH + 55, Game.GAME_DEFAULT_HEIGHT + 50);
 
       // Text

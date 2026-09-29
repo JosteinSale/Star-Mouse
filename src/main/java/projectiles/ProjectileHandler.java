@@ -291,7 +291,7 @@ public class ProjectileHandler extends Singleton {
    protected void updateHits(float fgCurSpeed) {
       int toRemove = 0;
       for (ProjectileHit ph : projectileHits) {
-         ph.update();
+         ph.update(fgCurSpeed);
          if (ph.isDone()) {
             toRemove += 1;
          }

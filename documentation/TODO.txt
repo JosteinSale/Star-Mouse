@@ -1,14 +1,14 @@
 TODO:
-* Include option to toggle vSync in the options menu.
-  - vSync off makes the game run smoother in windowd mode.
-  - vSync off also creates some strange visual distortion in fullscreen mode.
-  - Having both options seems to be a quality-of-life feature that most gamers appreciate.
-* Make foreground elements in Area be drawn behind player if player.y is below a element.y
+* Look through all DrawUtils-calls, and remove (int)-convertions on x- and y coordinates.
+* Feature: Make foreground elements in Area be drawn behind player if player.y is below a element.y
    - This requires that we make an object called 'foregroundElement', where each element holds an
      x- and y-pos.
-* Display '0 / ?' as the killcount in LevelSelect if the player hasn't played the level before?
+* Feature: Display '0 / ?' as the killcount in LevelSelect if the player hasn't played the level before?
    .(Might actually introduce a sense of 'foreboding' if the player knows the killcount beforehand?)
-* Make cutscene in the cathedral:
+
+
+
+* Dev: Make cutscene in the cathedral:
 
 Background:
  * Player just saw that Apo was destroyed, Oliver is likely gone. "All is lost"

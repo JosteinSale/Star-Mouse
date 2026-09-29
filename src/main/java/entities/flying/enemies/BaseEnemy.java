@@ -5,9 +5,9 @@ import static entities.animation.Animation.Type.LOOP_FORWARDS;
 import java.util.ArrayList;
 
 import entities.MyRectangle;
-import entities.animation.AnimatedGlow;
 import entities.animation.Animation;
 import entities.Dimensions;
+import entities.flying.AnimatedGlow;
 import entities.flying.FlyEntityInfo;
 import main_classes.Game;
 

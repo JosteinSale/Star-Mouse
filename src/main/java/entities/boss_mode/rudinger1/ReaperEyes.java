@@ -46,7 +46,7 @@ public class ReaperEyes extends ComplexAnimation {
          this.xPos = startX;
          this.yPos = startY + 10;
       }
-      updateAnimations();
+      super.updateAnimations();
    }
 
    private void lookAtPlayer() {

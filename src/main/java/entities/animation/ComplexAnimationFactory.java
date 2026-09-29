@@ -21,8 +21,8 @@ public class ComplexAnimationFactory {
 
    public static ComplexAnimation GetMachineHeartAnimation(int x, int y) {
       HashMap<String, AnimationInfo> aniInfo = new HashMap<>();
-      aniInfo.put(MachineHeart.IDLE, new AnimationInfo(0, 2, 2, LOOP_FORWARDS));
-      aniInfo.put(MachineHeart.DAMAGE, new AnimationInfo(1, 2, 2, LOOP_FORWARDS));
+      aniInfo.put(MachineHeart.IDLE, new AnimationInfo(0, 2, 3, LOOP_FORWARDS));
+      aniInfo.put(MachineHeart.DAMAGE, new AnimationInfo(1, 2, 3, LOOP_FORWARDS));
       return new ComplexAnimation(
             Images.MACHINE_HEART_SPRITE,
             aniInfo,
@@ -32,9 +32,9 @@ public class ComplexAnimationFactory {
 
    public static ComplexAnimation GetHeatSeekingLazerAnimation(int x, int y) {
       HashMap<String, AnimationInfo> aniInfo = new HashMap<>();
-      aniInfo.put(HeatSeekingLazer.CHARGING, new AnimationInfo(0, 4, 3, LOOP_FORWARDS));
-      aniInfo.put(HeatSeekingLazer.VISUAL_WARNING, new AnimationInfo(2, 4, 3, LOOP_FORWARDS));
-      aniInfo.put(HeatSeekingLazer.SHOOTING, new AnimationInfo(1, 4, 3, LOOP_FORWARDS));
+      aniInfo.put(HeatSeekingLazer.CHARGING, new AnimationInfo(0, 4, 4, LOOP_FORWARDS));
+      aniInfo.put(HeatSeekingLazer.VISUAL_WARNING, new AnimationInfo(2, 4, 4, LOOP_FORWARDS));
+      aniInfo.put(HeatSeekingLazer.SHOOTING, new AnimationInfo(1, 4, 4, LOOP_FORWARDS));
       return new ComplexAnimation(
             Images.HEATSEEKING_LAZER_SPRITE,
             aniInfo,
@@ -44,8 +44,8 @@ public class ComplexAnimationFactory {
 
    public static ComplexAnimation GetRotatingLazerAnimation(int x, int y) {
       HashMap<String, AnimationInfo> aniInfo = new HashMap<>();
-      aniInfo.put(RotatingLazer.SHOOTING, new AnimationInfo(0, 3, 3, LOOP_FORWARDS));
-      aniInfo.put(RotatingLazer.VISUAL_WARNING, new AnimationInfo(1, 3, 3, LOOP_FORWARDS));
+      aniInfo.put(RotatingLazer.SHOOTING, new AnimationInfo(0, 3, 4, LOOP_FORWARDS));
+      aniInfo.put(RotatingLazer.VISUAL_WARNING, new AnimationInfo(1, 3, 4, LOOP_FORWARDS));
       return new ComplexAnimation(
             Images.ROTATING_LAZER_SPRITE,
             aniInfo,
@@ -55,7 +55,7 @@ public class ComplexAnimationFactory {
 
    public static ComplexAnimation GetRedChargeAnimation(int x, int y) {
       HashMap<String, AnimationInfo> aniInfo = new HashMap<>();
-      aniInfo.put("CHARGE", new AnimationInfo(0, 5, 3, LOOP_FORWARDS));
+      aniInfo.put("CHARGE", new AnimationInfo(0, 5, 4, LOOP_FORWARDS));
       return new ComplexAnimation(
             Images.LAZER_CHARGE_SPRITE1,
             aniInfo,
@@ -65,7 +65,7 @@ public class ComplexAnimationFactory {
 
    public static ComplexAnimation GetPinkShootAnimation(int x, int y) {
       HashMap<String, AnimationInfo> aniInfo = new HashMap<>();
-      aniInfo.put("SHOOT", new AnimationInfo(0, 5, 3, LOOP_BACKWARDS));
+      aniInfo.put("SHOOT", new AnimationInfo(0, 5, 4, LOOP_BACKWARDS));
       return new ComplexAnimation(
             Images.LAZER_CHARGE_SPRITE2,
             aniInfo,
@@ -75,7 +75,7 @@ public class ComplexAnimationFactory {
 
    public static ComplexAnimation GetPinkEnergyBall(int x, int y) {
       HashMap<String, AnimationInfo> aniInfo = new HashMap<>();
-      aniInfo.put("CHARGE", new AnimationInfo(0, 12, 3, LOOP_FORWARDS));
+      aniInfo.put("CHARGE", new AnimationInfo(0, 12, 4, LOOP_FORWARDS));
       return new ComplexAnimation(
             Images.ENERGY_BALL_SPRITE,
             aniInfo,

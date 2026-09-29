@@ -29,11 +29,11 @@ public class RenderMap2 {
    public void drawMaps(SpriteBatch sb) {
       DrawUtils.drawImage(
             sb, bgImg,
-            0, (int) map.bgYOffset,
+            0, map.bgYOffset,
             Game.GAME_DEFAULT_WIDTH, bgImgHeight);
       DrawUtils.drawImage(
             sb, clImg,
-            -150, (int) map.clYOffset,
+            -150, map.clYOffset,
             map.clImgWidth, map.clImgHeight);
    }
 }
