@@ -10,6 +10,7 @@ import entities.animation.Animation;
 import inputs.Inputs;
 import main_classes.Game;
 import utils.HelpMethods;
+import utils.Images;
 import utils.Constants.Direction;
 import utils.Constants.Exploring.CharacterAction;
 import static entities.CollisionPixels.CollisionAt;
@@ -35,8 +36,7 @@ public class PlayerExp extends MyRectangle {
       speedVector = new Vector2(0, 0);
       String imgName = "level" + level.toString() + "_area" + area.toString();
       this.collisionImg = game.getImages().getExpImageCollision(imgName + "_cl.png");
-      this.animation = new Animation(
-            getAnimationRow(), 0, 8);
+      this.animation = new Animation(Images.PLAYER_EXP_SPRITES, getAnimationRow(), 0, 8);
    }
 
    private int getAnimationRow() {

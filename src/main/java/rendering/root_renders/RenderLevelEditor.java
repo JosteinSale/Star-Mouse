@@ -14,6 +14,7 @@ import rendering.MySubImage;
 import rendering.flying.FlyEntityImages;
 import utils.DrawUtils;
 import utils.Images;
+import utils.SpriteInfo;
 import utils.Singleton;
 
 public class RenderLevelEditor extends Singleton {
@@ -117,8 +118,9 @@ public class RenderLevelEditor extends Singleton {
       FlyEntityInfo info = le.getEntityInfo(le.selectedEntity);
       MySubImage img = entityImages.getImageFor(
             info.typeConstant, info.editorImgRow, info.editorImgCol);
-      int width = info.spriteInfo.spriteW * 3;
-      int height = info.spriteInfo.spriteH * 3;
+      SpriteInfo spriteInfo = SpriteInfo.get(info.spriteName);
+      int width = spriteInfo.spriteW * 3;
+      int height = spriteInfo.spriteH * 3;
       int x = le.cursorX - (width / 2);
       int y = le.cursorY - (height / 2);
       DrawUtils.drawSubImage(

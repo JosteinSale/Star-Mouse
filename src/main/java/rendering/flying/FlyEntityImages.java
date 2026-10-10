@@ -8,9 +8,9 @@ import entities.flying.FlyEntityInfo;
 import entities.flying.pickupItems.PickupItemFactory;
 import rendering.MyImage;
 import rendering.MySubImage;
-import rendering.misc.SpriteInfo;
 import utils.HelpMethods;
 import utils.Images;
+import utils.SpriteInfo;
 
 /**
  * Loads all images for PickupItems and Enemies, constructs animation arrays,
@@ -27,12 +27,10 @@ public class FlyEntityImages {
 
    private void addImagesFor(Collection<FlyEntityInfo> c, Images images) {
       for (FlyEntityInfo info : c) {
-         SpriteInfo spriteInfo = info.spriteInfo;
-         MyImage spriteSheet = images.getFlyImageSprite(spriteInfo.spriteName, true);
+         SpriteInfo spriteInfo = SpriteInfo.get(info.spriteName);
+         MyImage spriteSheet = images.getFlyImageSprite(info.spriteName, true);
          MySubImage[][] animation = HelpMethods.GetUnscaled2DAnimationArray(
-               spriteSheet,
-               spriteInfo.rows, spriteInfo.cols,
-               spriteInfo.spriteW, spriteInfo.spriteH);
+               spriteSheet, spriteInfo);
          animations.put(info.typeConstant, animation);
       }
    }

@@ -11,6 +11,7 @@ import rendering.misc.RenderGlow;
 import utils.DrawUtils;
 import utils.HelpMethods;
 import utils.Images;
+import utils.SpriteInfo;
 import java.awt.Point;
 import inputs.Inputs;
 
@@ -58,13 +59,13 @@ public class RenderPlayerFly implements Render {
       // Engine flame
       this.flameAnimations = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.SHIP_FLAME_SPRITES, true),
-            2, 15, 15);
+            SpriteInfo.get(Images.SHIP_FLAME_SPRITES));
 
       // Player Ship
       MyImage shipImg = images.getFlyImageSprite(
             Images.SHIP_SPRITES, true);
       this.animations = HelpMethods.GetUnscaled2DAnimationArray(
-            shipImg, 7, 6, SHIP_SPRITE_WIDTH, SHIP_SPRITE_HEIGHT);
+            shipImg, SpriteInfo.get(Images.SHIP_SPRITES));
 
       // Ship Smoke
       shipSmokeImg = images.getFlyImageSprite(Images.SHIP_SMOKE_POINT, true);

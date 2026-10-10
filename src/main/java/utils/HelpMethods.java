@@ -103,26 +103,25 @@ public class HelpMethods {
    }
 
    /** Returns an unscaled 2D animation array */
-   public static MySubImage[][] GetUnscaled2DAnimationArray(
-         MyImage img, int aniRows, int aniCols, int spriteW, int spriteH) {
-      MySubImage[][] animations = new MySubImage[aniRows][aniCols];
-      for (int r = 0; r < aniRows; r++) {
-         for (int c = 0; c < aniCols; c++) {
+   public static MySubImage[][] GetUnscaled2DAnimationArray(MyImage img, SpriteInfo spriteInfo) {
+      MySubImage[][] animations = new MySubImage[spriteInfo.rows][spriteInfo.cols];
+      for (int r = 0; r < spriteInfo.rows; r++) {
+         for (int c = 0; c < spriteInfo.cols; c++) {
             animations[r][c] = img.getSubimage(
-                  c * spriteW,
-                  r * spriteH, spriteW, spriteH);
+                  c * spriteInfo.spriteW, r * spriteInfo.spriteH,
+                  spriteInfo.spriteW, spriteInfo.spriteH);
          }
       }
       return animations;
    }
 
    /** Returns an unscaled 1D animation array */
-   public static MySubImage[] GetUnscaled1DAnimationArray(
-         MyImage img, int aniCols, int spriteW, int spriteH) {
-      MySubImage[] animation = new MySubImage[aniCols];
-      for (int c = 0; c < aniCols; c++) {
+   public static MySubImage[] GetUnscaled1DAnimationArray(MyImage img, SpriteInfo spriteInfo) {
+      MySubImage[] animation = new MySubImage[spriteInfo.cols];
+      for (int c = 0; c < spriteInfo.cols; c++) {
          animation[c] = img.getSubimage(
-               c * spriteW, 0, spriteW, spriteH);
+               c * spriteInfo.spriteW, 0,
+               spriteInfo.spriteW, spriteInfo.spriteH);
       }
       return animation;
    }

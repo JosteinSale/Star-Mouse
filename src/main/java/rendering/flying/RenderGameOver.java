@@ -12,6 +12,7 @@ import ui.GameoverOverlay;
 import utils.DrawUtils;
 import utils.HelpMethods;
 import utils.Images;
+import utils.SpriteInfo;
 
 import static utils.Constants.UI.CURSOR_HEIGHT;
 import static utils.Constants.UI.CURSOR_WIDTH;
@@ -36,7 +37,7 @@ public class RenderGameOver {
 
       this.deathAnimation = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.SHIP_DEATH_SPRITES, true),
-            26, 40, 40);
+            SpriteInfo.get(Images.SHIP_DEATH_SPRITES));
    }
 
    private void constructMenuRects() {

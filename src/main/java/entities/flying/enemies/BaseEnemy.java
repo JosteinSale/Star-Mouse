@@ -52,7 +52,7 @@ public abstract class BaseEnemy extends MyRectangle implements Enemy {
       allHitboxes.add(this);
 
       allAnimations = new ArrayList<>();
-      animation = new Animation(IDLE, 0, 4);
+      animation = new Animation(info.spriteName, IDLE, 0, 4);
       allAnimations.add(animation);
 
       this.info = info;
@@ -68,7 +68,7 @@ public abstract class BaseEnemy extends MyRectangle implements Enemy {
       allHitboxes.add(this);
 
       allAnimations = new ArrayList<>();
-      animation = new Animation(IDLE, 0, 4);
+      animation = new Animation(info.spriteName, IDLE, 0, 4);
       allAnimations.add(animation);
 
       this.info = info;

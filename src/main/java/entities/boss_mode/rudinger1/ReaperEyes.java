@@ -6,6 +6,7 @@ import java.util.HashMap;
 import entities.animation.AnimationInfo;
 import entities.animation.ComplexAnimation;
 import entities.boss_mode.PlayerBoss;
+import utils.Images;
 
 /**
  * An animated component for use with Rudinger1.
@@ -27,13 +28,13 @@ public class ReaperEyes extends ComplexAnimation {
    public final static String FLASHING = "FLASHING";
    public final static String SMALL_EYES = "SMALL_EYES";
 
-   public ReaperEyes(String spriteSheet, int spriteW, int spriteH, int rows, int cols,
+   public ReaperEyes(
          HashMap<String, AnimationInfo> aniInfo, float xPos, float yPos, PlayerBoss player) {
-      super(spriteSheet, aniInfo, IDLE, spriteW, spriteH, rows, cols, xPos, yPos);
+      super(Images.REAPER_EYES, aniInfo, IDLE, xPos, yPos);
       this.startX = xPos;
       this.startY = yPos;
       this.player = player;
-      this.eyesWidth = spriteW * 3;
+      this.eyesWidth = 600;
       this.eyesCenter = new Point((int) (xPos + (eyesWidth / 2)), (int) yPos);
       this.lookAtPlayer();
    }

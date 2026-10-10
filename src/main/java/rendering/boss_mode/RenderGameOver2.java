@@ -17,6 +17,7 @@ import ui.GameoverOverlay2;
 import utils.DrawUtils;
 import utils.HelpMethods;
 import utils.Images;
+import utils.SpriteInfo;
 
 public class RenderGameOver2 implements Render {
    private GameoverOverlay2 gameOver;
@@ -34,10 +35,9 @@ public class RenderGameOver2 implements Render {
    private void loadResources(Images images) {
       this.pointerImg = images.getExpImageSprite(
             Images.CURSOR_SPRITE_WHITE, true);
-      MyImage deathImg = images.getFlyImageSprite(
-            Images.SHIP_DEATH_SPRITES, true);
       this.deathAnimation = HelpMethods.GetUnscaled1DAnimationArray(
-            deathImg, 26, 40, 40);
+            images.getFlyImageSprite(Images.SHIP_DEATH_SPRITES, true),
+            SpriteInfo.get(Images.SHIP_DEATH_SPRITES));
    }
 
    private void constructMenuRects() {

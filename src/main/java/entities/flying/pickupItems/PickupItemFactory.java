@@ -37,25 +37,25 @@ public class PickupItemFactory {
       // DELETE
       pickupInfo.put(DELETE, new FlyEntityInfo(
             DELETE,
-            Images.DELETE_SPRITE, 28, 30, 1, 1,
+            Images.DELETE_SPRITE,
             90, 90, 0, 0));
 
       // POWERUP
       pickupInfo.put(POWERUP, new FlyEntityInfo(
             POWERUP,
-            Images.POWERUP_SPRITE, 30, 30, 1, 7,
+            Images.POWERUP_SPRITE,
             30, 50, 0, 0));
 
       // REPAIR
       pickupInfo.put(REPAIR, new FlyEntityInfo(
             REPAIR,
-            Images.REPAIR_SPRITE, 30, 30, 1, 4,
+            Images.REPAIR_SPRITE,
             60, 60, 0, 0));
 
       // BOMB
       pickupInfo.put(BOMB, new FlyEntityInfo(
             BOMB,
-            Images.BOMB_PICKUP_SPRITE, 25, 25, 1, 2,
+            Images.BOMB_PICKUP_SPRITE,
             45, 45, 0, 0));
    }
 

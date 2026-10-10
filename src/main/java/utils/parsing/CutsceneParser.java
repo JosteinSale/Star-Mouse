@@ -413,7 +413,7 @@ public class CutsceneParser {
    }
 
    private static AddObjectEvent parseAddObject(String[] lineData) {
-      String objectName = lineData[1];
+      String spriteName = lineData[1];
       String identifier = lineData[2];
       Float xPos = Float.parseFloat(lineData[3]);
       Float yPos = Float.parseFloat(lineData[4]);
@@ -421,7 +421,7 @@ public class CutsceneParser {
       Float scaleH = Float.parseFloat(lineData[6]);
       Integer aniSpeed = Integer.parseInt(lineData[7]);
       Integer aniLength = Integer.parseInt(lineData[8]);
-      return new AddObjectEvent(objectName, identifier, xPos, yPos, scaleW, scaleH, aniSpeed, aniLength);
+      return new AddObjectEvent(spriteName, identifier, xPos, yPos, scaleW, scaleH, aniSpeed, aniLength);
    }
 
    private static ObjectMoveEvent parseMoveObject(String[] lineData) {

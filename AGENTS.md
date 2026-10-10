@@ -72,7 +72,7 @@ documentation/
   classes.
 - **Factories for extensible families.** New enemies go through
   `EnemyFactory`, new pickups through `PickupItemFactory`, new boss parts
-  through `AnimatedComponentFactory`. When adding a new variant, register it
+  through `ComplexAnimationFactory`. When adding a new variant, register it
   in the relevant factory rather than special-casing call sites.
 - **Level/cutscene data lives in CSV, not code.** `LevelDataParser`,
   `CutsceneParser`, and `EventParser` (in `utils/parsing/`) read the CSV files

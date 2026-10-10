@@ -4,10 +4,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import entities.boss_mode.DefaultBossPart;
 import rendering.MySubImage;
-import rendering.misc.SpriteInfo;
 import utils.DrawUtils;
 import utils.HelpMethods;
 import utils.Images;
+import utils.SpriteInfo;
 
 /** Renders a single bossPart */
 public class RenderBossPart {
@@ -17,11 +17,10 @@ public class RenderBossPart {
    public RenderBossPart(DefaultBossPart bp, Images images) {
       this.bp = bp;
       if (bp.animation != null) {
-         SpriteInfo spriteInfo = bp.animation.spriteInfo;
+         String spriteName = bp.animation.getSpriteName();
          this.spriteArray = HelpMethods.GetUnscaled2DAnimationArray(
-               images.getBossSprite(spriteInfo.spriteName),
-               spriteInfo.rows, spriteInfo.cols,
-               spriteInfo.spriteW, spriteInfo.spriteH);
+               images.getBossSprite(spriteName),
+               SpriteInfo.get(spriteName));
       }
    }
 

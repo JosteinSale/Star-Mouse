@@ -317,8 +317,8 @@ public class PlayerFly extends MyRectangle implements ShootingPlayer {
    private void handleTeleportCollisionWithBigEnemy(Enemy e) {
       this.planeAction = TAKING_COLLISION_DAMAGE;
       while (intersects(e.getMainHitbox())) {
-         int xMove = -(teleportDistance / 10 * flipX);
-         adjustPos(xMove, 0);
+         int deltaX = -(teleportDistance / 10 * flipX);
+         adjustPos(deltaX, 0);
       }
       takeCollisionDmg();
       audioPlayer.playSFX(Audio.SFX_COLLISION);
@@ -333,8 +333,8 @@ public class PlayerFly extends MyRectangle implements ShootingPlayer {
    protected void handleTeleportCollisionWithWall(float yLevelOffset, float xLevelOffset) {
       this.planeAction = TAKING_COLLISION_DAMAGE;
       while (collidesWithMap(yLevelOffset, xLevelOffset)) {
-         int xMove = -(teleportDistance / 10 * flipX);
-         adjustPos(xMove, 0);
+         int deltaX = -(teleportDistance / 10 * flipX);
+         adjustPos(deltaX, 0);
       }
       takeCollisionDmg();
       audioPlayer.playSFX(Audio.SFX_COLLISION);

@@ -61,11 +61,12 @@ public class ObjectMoveEffect implements UpdatableEffect, DrawableEffect {
          throw new IllegalArgumentException("Identifier already registered: " + addEvt.identifier());
       }
       PositionedAnimation animation = new PositionedAnimation(
+            addEvt.spriteName(),
             0, 0, addEvt.aniSpeed(),
             addEvt.xPos(), addEvt.yPos(),
             addEvt.scaleW(), addEvt.scaleH());
       this.addNewEmptyEntry(addEvt.identifier(), addEvt.aniLength(), animation);
-      game.getView().getRenderCutscene().getRenderObjectMove().addAnimation(addEvt.objectName(), animation);
+      game.getView().getRenderCutscene().getRenderObjectMove().addAnimation(addEvt.spriteName(), animation);
    }
 
    private void addNewEmptyEntry(String identifier, int aniLength, PositionedAnimation animation) {

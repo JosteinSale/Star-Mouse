@@ -20,7 +20,7 @@ public class DefaultPickupitem extends MyRectangle implements PickupItem {
          StaticGlow glow) {
       super(hitbox);
       startY = hitbox.y;
-      animation = new Animation(0, 0, aniTickPerFrame);
+      animation = new Animation(info.spriteName, 0, 0, aniTickPerFrame);
       this.nrOfImages = nrOfImages;
       this.info = info;
       this.glow = glow;

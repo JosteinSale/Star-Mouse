@@ -15,6 +15,7 @@ import rendering.misc.RenderGlow;
 import utils.DrawUtils;
 import utils.HelpMethods;
 import utils.Images;
+import utils.SpriteInfo;
 
 import static utils.Constants.Flying.SpriteSizes.PRJT_HIT_SPRITE_SIZE;
 import static utils.Constants.Flying.SpriteSizes.BOMBEXPLOSION_SPRITE_WIDTH;
@@ -107,10 +108,10 @@ public class RenderProjectiles {
       // Hit animation, bomb explosion animation
       this.hitAnimation = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.PROJECTILE_HIT, true),
-            4, PRJT_HIT_SPRITE_SIZE, PRJT_HIT_SPRITE_SIZE);
+            SpriteInfo.get(Images.PROJECTILE_HIT));
       this.bombExplosionAnimation = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.BOMB_EXPLOSION_SPRITE, true),
-            11, BOMBEXPLOSION_SPRITE_WIDTH, BOMBEXPLOSION_SPRITE_HEIGHT);
+            SpriteInfo.get(Images.BOMB_EXPLOSION_SPRITE));
       this.bombExplInfo = new ProjectileDrawInfo(
             null, // Drawing method will use image from animation array
             BOMBEXPLOSION_SPRITE_WIDTH * 3,

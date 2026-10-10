@@ -11,6 +11,7 @@ import rendering.Render;
 import utils.DrawUtils;
 import utils.HelpMethods;
 import utils.Images;
+import utils.SpriteInfo;
 
 import static utils.Constants.Exploring.Sprites.STANDARD_SPRITE_HEIGHT;
 import static utils.Constants.Exploring.Sprites.STANDARD_SPRITE_WIDTH;
@@ -35,15 +36,13 @@ public class RenderNPCs implements Render {
    private void loadImages(Images images) {
       standardNpcSprites = HelpMethods.GetUnscaled1DAnimationArray(
             images.getExpImageSprite(Images.STANDARD_NPC_SPRITES, true),
-            16, 90, 60);
+            SpriteInfo.get(Images.STANDARD_NPC_SPRITES));
       gardAnimations = HelpMethods.GetUnscaled2DAnimationArray(
             images.getExpImageSprite(Images.GARD_SPRITES, true),
-            4, 4,
-            STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
+            SpriteInfo.get(Images.GARD_SPRITES));
       oliverAnimations = HelpMethods.GetUnscaled2DAnimationArray(
             images.getExpImageSprite(Images.OLIVER_SPRITES, true),
-            9, 4,
-            STANDARD_SPRITE_WIDTH, STANDARD_SPRITE_HEIGHT);
+            SpriteInfo.get(Images.OLIVER_SPRITES));
    }
 
    public void drawFgNpcs(SpriteBatch sb, int xLevelOffset, int yLevelOffset) {

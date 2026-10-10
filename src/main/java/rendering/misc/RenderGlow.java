@@ -8,6 +8,7 @@ import rendering.MySubImage;
 import utils.DrawUtils;
 import utils.HelpMethods;
 import utils.Images;
+import utils.SpriteInfo;
 
 import static entities.flying.AnimatedGlow.*;
 import static entities.flying.StaticGlow.*;
@@ -30,26 +31,26 @@ public class RenderGlow {
    public RenderGlow(Images images) {
       this.orangeGlowBig = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.ORANGE_GLOW_BIG, true),
-            4, spriteSize, spriteSize);
+            SpriteInfo.get(Images.ORANGE_GLOW_BIG));
 
       this.blueGlowSmall = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.BLUE_GLOW_SMALL, true),
-            2, spriteSize, spriteSize);
+            SpriteInfo.get(Images.BLUE_GLOW_SMALL));
       this.greenGlowSmall = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.GREEN_GLOW_SMALL, true),
-            2, spriteSize, spriteSize);
+            SpriteInfo.get(Images.GREEN_GLOW_SMALL));
 
       this.reaperGlow = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.REAPER_GLOW, true),
-            4, reaperSpriteWidth, spriteSize);
+            SpriteInfo.get(Images.REAPER_GLOW));
 
       this.whiteGlow = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.WHITE_GLOW_BIG, true),
-            4, spriteSize, spriteSize);
+            SpriteInfo.get(Images.WHITE_GLOW_BIG));
 
       this.orangeGlowDynamic = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.ORANGE_GLOW_DYNAMIC, true),
-            4, spriteSize, spriteSize);
+            SpriteInfo.get(Images.ORANGE_GLOW_DYNAMIC));
    }
 
    public void drawAnimatedGlow(SpriteBatch sb, AnimatedGlow glow) {

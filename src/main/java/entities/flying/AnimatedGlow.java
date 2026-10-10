@@ -3,6 +3,7 @@ package entities.flying;
 import static entities.animation.Animation.Type.ONCE_FORWARDS;
 
 import entities.animation.PositionedAnimation;
+import utils.Images;
 
 /**
  * A glowing effect in the game. Used for shooting effects and other visual
@@ -26,8 +27,26 @@ public class AnimatedGlow extends PositionedAnimation {
    public static final int REAPER_GLOW = 4;
 
    public AnimatedGlow(int glowType, float scale) {
-      super(0, 0, 3, 0, 0, scale, scale);
+      super(
+            getSpriteName(glowType),
+            0, 0, 3,
+            0, 0, scale, scale);
       this.glowType = glowType;
+   }
+
+   private static String getSpriteName(int glowType) {
+      switch (glowType) {
+         case ORANGE_GLOW_BIG:
+            return Images.ORANGE_GLOW_BIG;
+         case REAPER_GLOW:
+            return Images.REAPER_GLOW;
+         case BLUE_GLOW_SMALL:
+            return Images.BLUE_GLOW_SMALL;
+         case GREEN_GLOW_SMALL:
+            return Images.GREEN_GLOW_SMALL;
+         default:
+            throw new IllegalArgumentException("No spriteName defined for glowtype " + glowType);
+      }
    }
 
    public void setPos(float x, float y) {

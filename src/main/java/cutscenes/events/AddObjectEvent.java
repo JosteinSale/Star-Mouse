@@ -5,7 +5,7 @@ package cutscenes.events;
  * moved
  */
 public record AddObjectEvent(
-      String objectName, String identifier,
+      String spriteName, String identifier,
       float xPos, float yPos, float scaleW, float scaleH, int aniSpeed, int aniLength)
       implements GeneralEvent {
 }

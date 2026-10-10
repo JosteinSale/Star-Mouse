@@ -5,8 +5,6 @@ import static entities.animation.Animation.Type.ONCE_BACKWARDS;
 
 import java.util.HashMap;
 
-import rendering.misc.SpriteInfo;
-
 /**
  * The most flexible and complex class of animations.
  * For each action/row, it allows for:
@@ -19,13 +17,13 @@ import rendering.misc.SpriteInfo;
 public class ComplexAnimation extends PositionedAnimation {
    public HashMap<String, AnimationInfo> aniInfos;
    protected String currentAction;
-   public SpriteInfo spriteInfo;
 
    /** Initializes the animation to the given initialAction */
    public ComplexAnimation(
-         String spriteName, HashMap<String, AnimationInfo> aniInfo, String initialAction,
-         int spriteW, int spriteH, int rows, int cols, float xPos, float yPos) {
+         String spriteName, HashMap<String, AnimationInfo> aniInfo,
+         String initialAction, float xPos, float yPos) {
       super(
+            spriteName,
             aniInfo.get(initialAction).aniRow, // initial row
             getStartCol(aniInfo.get(initialAction)), // initial col
             aniInfo.get(initialAction).speed, // initial speed
@@ -33,7 +31,6 @@ public class ComplexAnimation extends PositionedAnimation {
 
       this.aniInfos = aniInfo;
       this.currentAction = initialAction;
-      this.spriteInfo = new SpriteInfo(spriteName, spriteW, spriteH, rows, cols);
    }
 
    /** If a new action, it aborts the current animation and starts the new one */

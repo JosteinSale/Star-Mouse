@@ -18,6 +18,7 @@ public class FlameDrone extends BaseEnemy {
       maxHP = 120;
       HP = maxHP;
       this.flameAnimation = new PositionedAnimation(
+            info.spriteName,
             0, 0, 5,
             getFlameAnimationX(), getFlameAnimationY(),
             3f, 3f);

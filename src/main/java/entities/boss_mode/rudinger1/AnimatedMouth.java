@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import entities.animation.AnimationInfo;
 import entities.animation.ComplexAnimation;
+import utils.Images;
 
 /**
  * The AnimatedMouth handles animations pertaining to the mouth of Rudinger1.
@@ -25,9 +26,8 @@ public class AnimatedMouth extends ComplexAnimation {
    public static final String OPEN_UP = "OPEN_UP";
    public static final String CLOSE = "CLOSE";
 
-   public AnimatedMouth(String spriteSheet, int spriteW, int spriteH, int rows, int cols,
-         HashMap<String, AnimationInfo> aniInfo, float xPos, float yPos) {
-      super(spriteSheet, aniInfo, IDLE, spriteW, spriteH, rows, cols, xPos, yPos);
+   public AnimatedMouth(HashMap<String, AnimationInfo> aniInfo, float xPos, float yPos) {
+      super(Images.REAPER_MOUTH, aniInfo, IDLE, xPos, yPos);
    }
 
    /** Call this method (once) when the boss takes damage */

@@ -18,9 +18,7 @@ import rendering.misc.RenderPositionedAnimation;
 import utils.DrawUtils;
 import utils.HelpMethods;
 import utils.Images;
-
-import static utils.Constants.Flying.SpriteSizes.EXPLOSION_SPRITE_SIZE;
-import static utils.Constants.Flying.SpriteSizes.MINE_EXPLOSION_SPRITE_SIZE;
+import utils.SpriteInfo;
 
 public class RenderFlyEntity {
    private ArrayList<PickupItem> pickupItems;
@@ -37,13 +35,13 @@ public class RenderFlyEntity {
       this.pickupItems = pickupItems;
       this.explosionAnimation = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.EXPLOSION, true),
-            5, EXPLOSION_SPRITE_SIZE, EXPLOSION_SPRITE_SIZE);
+            SpriteInfo.get(Images.EXPLOSION));
       this.mineExplosionAnimation = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.MINE_EXPLOSION, true),
-            6, MINE_EXPLOSION_SPRITE_SIZE, MINE_EXPLOSION_SPRITE_SIZE);
+            SpriteInfo.get(Images.MINE_EXPLOSION));
       this.flameShootAnimation = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.FLAME_SHOOT, true),
-            6, 132, 100);
+            SpriteInfo.get(Images.FLAME_SHOOT));
       this.entityImgs = new FlyEntityImages(new EnemyFactory(null, null), new PickupItemFactory(), images);
       this.rGlow = new RenderGlow(images);
    }

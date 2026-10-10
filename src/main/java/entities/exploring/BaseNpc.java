@@ -23,7 +23,7 @@ public class BaseNpc extends MyRectangle implements NPC {
       this.xDrawOffset = xDrawOffset;
       this.yDrawOffset = yDrawOffset;
       this.inForeground = inForeground;
-      this.animation = new Animation(0, 0, 0);
+      this.animation = new Animation("No sprite set", 0, 0, 0);
    }
 
    @Override

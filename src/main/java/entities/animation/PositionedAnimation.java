@@ -10,9 +10,9 @@ public class PositionedAnimation extends Animation {
    public float scaleW;
    public float scaleH;
 
-   public PositionedAnimation(int startRow, int startCol, int aniSpeed,
+   public PositionedAnimation(String spriteName, int startRow, int startCol, int aniSpeed,
          float xPos, float yPos, float scaleW, float scaleH) {
-      super(startRow, startCol, aniSpeed);
+      super(spriteName, startRow, startCol, aniSpeed);
       this.xPos = xPos;
       this.yPos = yPos;
       this.scaleW = scaleW;

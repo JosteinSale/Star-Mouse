@@ -7,6 +7,7 @@ import rendering.MySubImage;
 import utils.DrawUtils;
 import utils.HelpMethods;
 import utils.Images;
+import utils.SpriteInfo;
 
 /** Renders a single AnimatedComponent */
 public class RenderComplexAnimation {
@@ -14,12 +15,12 @@ public class RenderComplexAnimation {
    private MySubImage[][] spriteArray;
    private SpriteInfo spriteInfo;
 
-   public RenderComplexAnimation(ComplexAnimation ac, Images images) {
-      this.ca = ac;
-      this.spriteInfo = ac.spriteInfo;
+   public RenderComplexAnimation(ComplexAnimation ca, Images images) {
+      this.ca = ca;
+      String spriteName = ca.getSpriteName();
+      this.spriteInfo = SpriteInfo.get(spriteName);
       this.spriteArray = HelpMethods.GetUnscaled2DAnimationArray(
-            images.getBossSprite(spriteInfo.spriteName),
-            spriteInfo.rows, spriteInfo.cols, spriteInfo.spriteW, spriteInfo.spriteH);
+            images.getBossSprite(spriteName), spriteInfo);
    }
 
    public void draw(SpriteBatch sb) {

@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 
 import entities.Dimensions;
 import entities.animation.Animation;
-import entities.animation.PositionedAnimation;
 import entities.flying.FlyEntityInfo;
 import utils.HelpMethods;
 
@@ -18,7 +17,7 @@ public class LazerDrone extends BaseEnemy {
       this.rotation = HelpMethods.CalculateAngle(normalizedVector);
       this.rotate(rotation + Math.PI);
       this.animationLength = 2;
-      animation = new Animation(IDLE, 0, 3);
+      animation = new Animation(info.spriteName, IDLE, 0, 3);
       allAnimations.clear();
       allAnimations.add(animation);
       // this.lazerChargeAnimation = new PositionedAnimation(IDLE, HP, hitboxWidth,

@@ -5,6 +5,7 @@ import static utils.Constants.Exploring.Cutscenes.OLIVER;
 
 import entities.Dimensions;
 import entities.animation.Animation;
+import utils.Images;
 import utils.Constants.Direction;
 import utils.Constants.Exploring.CharacterAction;
 
@@ -16,8 +17,7 @@ public class Oliver extends BaseNpc {
       super(OLIVER, hitbox, 80, 30, inForeground);
       this.direction = direction;
       this.action = CharacterAction.STANDING;
-      this.animation = new Animation(
-            getAnimationRow(), 0, 8);
+      this.animation = new Animation(Images.OLIVER_SPRITES, getAnimationRow(), 0, 8);
    }
 
    private int getAnimationRow() {

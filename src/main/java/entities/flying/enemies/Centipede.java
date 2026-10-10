@@ -83,18 +83,20 @@ public class Centipede extends BaseEnemy {
       int aniTickPerFrame = 4;
 
       // 1. Head
-      animation = new Animation(0, 0, aniTickPerFrame);
+      animation = new Animation(info.spriteName, 0, 0, aniTickPerFrame);
       allAnimations.add(animation);
 
       // 2. Middle segment
       for (int i = 0; i < nrOfMiddleSegments; i++) {
          Animation middleAnimation = new Animation(
+               info.spriteName,
                1, (nrOfMiddleSegments - i) % 8,
                aniTickPerFrame);
          allAnimations.add(middleAnimation);
       }
       // 3. Tail
       Animation tailAnimation = new Animation(
+            info.spriteName,
             2, 0,
             aniTickPerFrame);
       allAnimations.add(tailAnimation);

@@ -16,8 +16,9 @@ package entities.animation;
  * instead of get/setRow, and get/setFrame instead of get/setCol.
  */
 public class Animation {
-   private int row; // = current entity action
-   private int col; // = current animation frame for an action
+   private String spriteName;
+   private int row;
+   private int col;
    private int aniTick;
    private int aniTickPerFrame;
    private int startAction;
@@ -28,7 +29,8 @@ public class Animation {
       LOOP_FORWARDS, LOOP_BACKWARDS, ONCE_FORWARDS, ONCE_BACKWARDS
    }
 
-   public Animation(int startRow, int startColumn, int aniTickPerFrame) {
+   public Animation(String spriteName, int startRow, int startColumn, int aniTickPerFrame) {
+      this.spriteName = spriteName;
       this.startAction = startRow;
       this.startColumn = startColumn;
       this.row = startRow;
@@ -141,6 +143,10 @@ public class Animation {
 
    public int getTick() {
       return aniTick;
+   }
+
+   public String getSpriteName() {
+      return spriteName;
    }
 
    public boolean playedOnce() {

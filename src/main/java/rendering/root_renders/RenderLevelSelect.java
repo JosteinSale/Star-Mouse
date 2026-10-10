@@ -1,7 +1,6 @@
 package rendering.root_renders;
 
 import static utils.Constants.UI.LEVEL_ICON_DRAW_SIZE;
-import static utils.Constants.UI.LEVEL_ICON_SIZE;
 import static utils.Constants.UI.LEVEL_SELECT_BOX_SIZE;
 
 import java.util.ArrayList;
@@ -19,6 +18,7 @@ import rendering.Render;
 import utils.DrawUtils;
 import utils.HelpMethods;
 import utils.Images;
+import utils.SpriteInfo;
 import utils.Singleton;
 
 public class RenderLevelSelect extends Singleton implements Render {
@@ -52,7 +52,7 @@ public class RenderLevelSelect extends Singleton implements Render {
       // Level icons
       this.levelIcons = HelpMethods.GetUnscaled1DAnimationArray(
             images.getExpImageSprite(Images.LEVEL_ICONS, true),
-            13, LEVEL_ICON_SIZE, LEVEL_ICON_SIZE);
+            SpriteInfo.get(Images.LEVEL_ICONS));
    }
 
    @Override

@@ -5,6 +5,7 @@ import static utils.Constants.Exploring.Cutscenes.GARD;
 
 import entities.Dimensions;
 import entities.animation.Animation;
+import utils.Images;
 import utils.Constants.Direction;
 import utils.Constants.Exploring.CharacterAction;
 
@@ -16,8 +17,7 @@ public class Gard extends BaseNpc {
       super(GARD, hitbox, 80, 30, inForeground);
       this.direction = direction;
       this.action = CharacterAction.STANDING;
-      this.animation = new Animation(
-            0, 0, 8);
+      this.animation = new Animation(Images.GARD_SPRITES, 0, 0, 8);
    }
 
    @Override

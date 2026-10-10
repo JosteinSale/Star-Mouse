@@ -20,7 +20,7 @@ public class BatDrone extends BaseEnemy {
       HP = maxHP;
       animationLength = 7;
       setGlowPosition();
-      animation = new Animation(IDLE, 0, 4);
+      animation = new Animation(info.spriteName, IDLE, 0, 4);
       allAnimations.clear();
       allAnimations.add(animation);
       this.dir = dir;

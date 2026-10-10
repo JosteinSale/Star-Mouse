@@ -29,6 +29,7 @@ import utils.Fader;
 import utils.HelpMethods;
 import utils.Images;
 import utils.Singleton;
+import utils.SpriteInfo;
 import utils.parsing.LevelDataParser;
 
 import static utils.Constants.Flying.SpriteSizes.SHIP_SPRITE_HEIGHT;
@@ -74,7 +75,7 @@ public class RenderCutscene extends Singleton implements Render {
       shipSmokeImg = images.getFlyImageSprite(Images.SHIP_SMOKE_POINT, true);
       flameAnimations = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.SHIP_FLAME_SPRITES, true),
-            2, 15, 15);
+            SpriteInfo.get(Images.SHIP_FLAME_SPRITES));
    }
 
    /**

@@ -272,11 +272,10 @@ REATTATCH CAMERA
 
 ADD ANIMATED OBJECT
 --------------------
-[0] = addObject (String), [1] = objectName (String) *
+[0] = addObject (String), [1] = spriteName (String)
 [2] = xPos (float), [3] = yPos (float),
 [4] = scaleW (float), [5] = scaleH (float),
 [6] = aniSpeed (int), [7] = aniLength (int)
-* for valid names, check the file names in SimpleAnimationFactory
 
 
 MOVE ANIMATED OBJECT

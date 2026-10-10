@@ -3,6 +3,7 @@ package projectiles;
 import static entities.animation.Animation.Type.ONCE_FORWARDS;
 
 import entities.animation.PositionedAnimation;
+import utils.Images;
 
 public class Explosion extends PositionedAnimation {
    private int type;
@@ -13,7 +14,7 @@ public class Explosion extends PositionedAnimation {
    public static final int MINE = 2;
 
    public Explosion(int type, float x, float y, float scale) {
-      super(0, 0, 5, x, y, scale, scale);
+      super(Images.EXPLOSION, 0, 0, 5, x, y, scale, scale);
       this.type = type;
    }
 

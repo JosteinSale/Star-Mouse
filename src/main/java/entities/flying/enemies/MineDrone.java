@@ -26,7 +26,7 @@ public class MineDrone extends BaseEnemy {
       this.enemyManager = enemyManager;
       this.player = player;
       this.animationLength = 8;
-      animation = new Animation(IDLE, 0, 10);
+      animation = new Animation(info.spriteName, IDLE, 0, 10);
       allAnimations.clear();
       allAnimations.add(animation);
       this.rotate(Math.PI / 4);

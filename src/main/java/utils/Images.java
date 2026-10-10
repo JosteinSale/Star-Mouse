@@ -98,8 +98,8 @@ public class Images extends Singleton {
 
    // Sprites - BossMode
    public static final String ROTATING_LAZER_SPRITE = "rotatingLazer.png";
-   public static final String LAZER_CHARGE_SPRITE1 = "lazerCharge.png";
-   public static final String LAZER_CHARGE_SPRITE2 = "lazerCharge2.png";
+   public static final String RED_CHARGE = "red_charge.png";
+   public static final String PINK_CHARGE = "pink_charge.png";
    public static final String ENERGY_BALL_SPRITE = "energyBall.png";
    public static final String HEATSEEKING_LAZER_SPRITE = "heatSeekingLazer.png";
    public static final String MACHINE_HEART_SPRITE = "machineHeart.png";
@@ -108,8 +108,21 @@ public class Images extends Singleton {
    public static final String REAPER_MOUTH = "boss1_mouth.png";
    public static final String EMPTY_IMAGE = "nonImg.png"; // An empty image
 
+   // Sprites - ObjectMove
+   public static final String ROW_OF_DRONES = "rowOfDrones.png";
+   public static final String RUDINGER_SHIP = "rudingerShip.png";
+   public static final String RUDINGER1_IDLE = "rudinger1Idle.png";
+   public static final String RUDINGER1_DEATH = "rudinger1Death.png";
+   public static final String LOOPING_EXPLOSION = "loopingExplosion.png";
+   public static final String ROW_OF_FLAME_DRONES = "rowOfFlameDrones.png";
+   public static final String ROW_OF_FLAME_DRONES_SHADOW = "rowOfFlameDronesShadow.png";
+   public static final String PLAYER_SHIP = "playerShip.png";
+   public static final String RAZE_SHADOW = "raze_shadow.png";
+   public static final String CATHEDRAL = "cathedral.png";
+   public static final String APO = "apo.png";
+   public static final String WHITE_CHARGE = "white_charge.png";
+
    // Sprites - LevelEditor
-   public static final String SMALL_ENTITY_SPRITES = "sprites_all.png";
    public static final String VECTOR_SPRITE = "sprites_vector.png";
 
    public Images() {

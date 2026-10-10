@@ -4,6 +4,7 @@ import static entities.animation.Animation.Type.ONCE_FORWARDS;
 
 import entities.animation.PositionedAnimation;
 import entities.flying.ShootingPlayer;
+import utils.Images;
 
 public class ProjectileHit extends PositionedAnimation {
    private int type;
@@ -13,7 +14,10 @@ public class ProjectileHit extends PositionedAnimation {
    public static final int BIG_HIT = 1;
 
    private ProjectileHit(float x, float y, int type) {
-      super(0, 0, 3, x, y, getScale(type), getScale(type));
+      super(
+            Images.PROJECTILE_HIT,
+            0, 0, 3,
+            x, y, getScale(type), getScale(type));
       this.type = type;
    }
 

@@ -23,11 +23,7 @@ public class ComplexAnimationFactory {
       HashMap<String, AnimationInfo> aniInfo = new HashMap<>();
       aniInfo.put(MachineHeart.IDLE, new AnimationInfo(0, 2, 3, LOOP_FORWARDS));
       aniInfo.put(MachineHeart.DAMAGE, new AnimationInfo(1, 2, 3, LOOP_FORWARDS));
-      return new ComplexAnimation(
-            Images.MACHINE_HEART_SPRITE,
-            aniInfo,
-            MachineHeart.IDLE,
-            40, 40, 2, 2, x, y);
+      return new ComplexAnimation(Images.MACHINE_HEART_SPRITE, aniInfo, MachineHeart.IDLE, x, y);
    }
 
    public static ComplexAnimation GetHeatSeekingLazerAnimation(int x, int y) {
@@ -35,52 +31,32 @@ public class ComplexAnimationFactory {
       aniInfo.put(HeatSeekingLazer.CHARGING, new AnimationInfo(0, 4, 4, LOOP_FORWARDS));
       aniInfo.put(HeatSeekingLazer.VISUAL_WARNING, new AnimationInfo(2, 4, 4, LOOP_FORWARDS));
       aniInfo.put(HeatSeekingLazer.SHOOTING, new AnimationInfo(1, 4, 4, LOOP_FORWARDS));
-      return new ComplexAnimation(
-            Images.HEATSEEKING_LAZER_SPRITE,
-            aniInfo,
-            HeatSeekingLazer.CHARGING,
-            30, 220, 3, 4, x, y);
+      return new ComplexAnimation(Images.HEATSEEKING_LAZER_SPRITE, aniInfo, HeatSeekingLazer.CHARGING, x, y);
    }
 
    public static ComplexAnimation GetRotatingLazerAnimation(int x, int y) {
       HashMap<String, AnimationInfo> aniInfo = new HashMap<>();
       aniInfo.put(RotatingLazer.SHOOTING, new AnimationInfo(0, 3, 4, LOOP_FORWARDS));
       aniInfo.put(RotatingLazer.VISUAL_WARNING, new AnimationInfo(1, 3, 4, LOOP_FORWARDS));
-      return new ComplexAnimation(
-            Images.ROTATING_LAZER_SPRITE,
-            aniInfo,
-            RotatingLazer.VISUAL_WARNING,
-            10, 433, 2, 3, x, y);
+      return new ComplexAnimation(Images.ROTATING_LAZER_SPRITE, aniInfo, RotatingLazer.VISUAL_WARNING, x, y);
    }
 
    public static ComplexAnimation GetRedChargeAnimation(int x, int y) {
       HashMap<String, AnimationInfo> aniInfo = new HashMap<>();
       aniInfo.put("CHARGE", new AnimationInfo(0, 5, 4, LOOP_FORWARDS));
-      return new ComplexAnimation(
-            Images.LAZER_CHARGE_SPRITE1,
-            aniInfo,
-            "CHARGE",
-            100, 100, 1, 5, x, y);
+      return new ComplexAnimation(Images.RED_CHARGE, aniInfo, "CHARGE", x, y);
    }
 
    public static ComplexAnimation GetPinkShootAnimation(int x, int y) {
       HashMap<String, AnimationInfo> aniInfo = new HashMap<>();
       aniInfo.put("SHOOT", new AnimationInfo(0, 5, 4, LOOP_BACKWARDS));
-      return new ComplexAnimation(
-            Images.LAZER_CHARGE_SPRITE2,
-            aniInfo,
-            "SHOOT",
-            100, 100, 1, 5, x, y);
+      return new ComplexAnimation(Images.PINK_CHARGE, aniInfo, "SHOOT", x, y);
    }
 
    public static ComplexAnimation GetPinkEnergyBall(int x, int y) {
       HashMap<String, AnimationInfo> aniInfo = new HashMap<>();
       aniInfo.put("CHARGE", new AnimationInfo(0, 12, 4, LOOP_FORWARDS));
-      return new ComplexAnimation(
-            Images.ENERGY_BALL_SPRITE,
-            aniInfo,
-            "CHARGE",
-            60, 60, 1, 12, x, y);
+      return new ComplexAnimation(Images.ENERGY_BALL_SPRITE, aniInfo, "CHARGE", x, y);
    }
 
    public static ReaperEyes GetReaperEyes(int x, int y, PlayerBoss player) {
@@ -94,9 +70,7 @@ public class ComplexAnimationFactory {
             put(ReaperEyes.SMALL_EYES, new AnimationInfo(3, 2, 3, LOOP_FORWARDS));
          }
       });
-      return new ReaperEyes(
-            Images.REAPER_EYES, 200, 52, 4, 5,
-            aniInfo, x, y, player);
+      return new ReaperEyes(aniInfo, x, y, player);
    }
 
    public static AnimatedMouth GetAnimatedMouth(int x, int y) {
@@ -109,9 +83,7 @@ public class ComplexAnimationFactory {
             put(AnimatedMouth.CLOSE, new AnimationInfo(2, 8, 10, ONCE_BACKWARDS));
          }
       });
-      return new AnimatedMouth(
-            Images.REAPER_MOUTH, 81, 58, 3, 8,
-            aniInfo, x, y);
+      return new AnimatedMouth(aniInfo, x, y);
    }
 
    public static ComplexAnimation GetPlayerFlyAnimation(float x, float y) {
@@ -127,9 +99,7 @@ public class ComplexAnimationFactory {
             put(PlaneAction.TAKING_SHOOT_DAMAGE.toString(), new AnimationInfo(6, 4, 3, ONCE_FORWARDS));
          }
       });
-      return new ComplexAnimation(
-            Images.SHIP_SPRITES, aniInfo, PlaneAction.IDLE.toString(),
-            30, 30, 7, 6, x, y);
+      return new ComplexAnimation(Images.PLAYER_SHIP, aniInfo, PlaneAction.IDLE.toString(), x, y);
    }
 
 }
