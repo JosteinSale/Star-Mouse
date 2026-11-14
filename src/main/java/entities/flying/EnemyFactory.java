@@ -263,7 +263,7 @@ public class EnemyFactory {
          case LAZER_DRONE:
             int lazerVectorX = Integer.parseInt(lineData[5]);
             int lazerVectorY = Integer.parseInt(lineData[6]);
-            return new LazerDrone(hitbox, info, new Vector2(lazerVectorX, lazerVectorY));
+            return new LazerDrone(hitbox, info, chargeTimer, new Vector2(lazerVectorX, lazerVectorY));
          default:
             throw new IllegalArgumentException("No enemy constructor for type " + typeConstant);
       }

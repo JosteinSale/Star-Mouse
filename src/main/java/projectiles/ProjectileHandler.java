@@ -17,6 +17,8 @@ import utils.Singleton;
 import inputs.Inputs;
 
 import static projectiles.ProjectileFactory.TypeConstants.BOMB_PROJECTILE;
+import static projectiles.ProjectileFactory.TypeConstants.LAZER_PROJECTILE;
+import static utils.Constants.Flying.LAZER_ACTIVATE_Y_POS;
 
 public class ProjectileHandler extends Singleton {
    protected Game game;
@@ -29,6 +31,7 @@ public class ProjectileHandler extends Singleton {
    public ArrayList<ProjectileHit> projectileHits;
    public ArrayList<BombExplosion> bombExplosions;
    protected MyRectangle screenBox;
+   protected MyRectangle screenLazerBox;
 
    protected MyCollisionImage clImg;
 
@@ -56,6 +59,9 @@ public class ProjectileHandler extends Singleton {
       this.projectileHits = new ArrayList<>();
       this.bombExplosions = new ArrayList<>();
       this.screenBox = new MyRectangle(0, 0, Game.GAME_DEFAULT_WIDTH, Game.GAME_DEFAULT_HEIGHT);
+      this.screenLazerBox = new MyRectangle(
+            -Game.GAME_DEFAULT_WIDTH / 2, -LAZER_ACTIVATE_Y_POS,
+            Game.GAME_DEFAULT_WIDTH * 2, Game.GAME_DEFAULT_HEIGHT + LAZER_ACTIVATE_Y_POS);
    }
 
    public void update(float yLevelOffset, float xLevelOffset, float fgCurSpeed) {
@@ -63,7 +69,7 @@ public class ProjectileHandler extends Singleton {
       checkPlayerShoot();
       checkEnemeyShoot();
       updatePlayerShootTick();
-      moveProjectiles();
+      updateProjectiles(fgCurSpeed);
       removeOffScreenProjectiles();
       checkProjectileCollisions(yLevelOffset, xLevelOffset); // checks 1: enemies, 2: maps
       updateHits(fgCurSpeed);
@@ -105,14 +111,14 @@ public class ProjectileHandler extends Singleton {
    private void checkEnemeyShoot() {
       for (Enemy enemy : enemyManager.getActiveEnemiesOnScreen()) {
          if (enemy.canShoot()) {
-            addEnemeyProjectile(enemy.getType(), enemy.getMainHitbox(), enemy.getDir());
+            addEnemeyProjectile(enemy);
             enemy.onShoot();
          }
       }
    }
 
-   private void addEnemeyProjectile(int type, MyRectangle hitbox, int dir) {
-      this.allProjectiles.addAll(projectileFactory.createProjectilesForEnemy(type, hitbox, dir, fgSpeed));
+   private void addEnemeyProjectile(Enemy enemy) {
+      this.allProjectiles.addAll(projectileFactory.createProjectilesForEnemy(enemy));
    }
 
    protected void updatePlayerShootTick() {
@@ -126,10 +132,9 @@ public class ProjectileHandler extends Singleton {
       }
    }
 
-   protected void moveProjectiles() {
+   protected void updateProjectiles(float fgCurSpeed) {
       for (Projectile p : allProjectiles) {
-         p.getHitbox().move(p.getXSpeed(), p.getYSpeed());
-         p.updateCollisionPixels();
+         p.update(fgCurSpeed);
       }
    }
 
@@ -137,7 +142,7 @@ public class ProjectileHandler extends Singleton {
       projectilesToRemove.clear();
       int index = 0;
       for (Projectile p : allProjectiles) {
-         if (!p.intersects(screenBox)) {
+         if (projectileIsOffScreen(p)) {
             projectilesToRemove.add(index);
          }
          index += 1;
@@ -145,10 +150,19 @@ public class ProjectileHandler extends Singleton {
       if (!projectilesToRemove.isEmpty()) {
          int indexAdjustment = 0;
          for (int i : projectilesToRemove) {
-            i -= indexAdjustment; // Trengs siden indeksene forskyves
-            allProjectiles.remove(i); // Tregt
+            i -= indexAdjustment;
+            allProjectiles.remove(i);
             indexAdjustment += 1;
          }
+      }
+   }
+
+   private boolean projectileIsOffScreen(Projectile p) {
+      switch (p.getType()) {
+         case LAZER_PROJECTILE:
+            return !p.intersects(screenLazerBox);
+         default:
+            return !p.intersects(screenBox);
       }
    }
 
@@ -182,7 +196,8 @@ public class ProjectileHandler extends Singleton {
     * and returns true if a collision was registered.
     */
    private void handleProjectileCollisionWithMap(Projectile p, float yLevelOffset, float xLevelOffset) {
-      if (HelpMethods.CollidesWithMap(p.getCollisionPixels(), clImg, xLevelOffset, yLevelOffset)) {
+      if (p.hasMapCollission()
+            && HelpMethods.CollidesWithMap(p.getCollisionPixels(), clImg, xLevelOffset, yLevelOffset)) {
          p.setActive(false);
          projectileHits.add(ProjectileHit.GetNewProjectilHitForEnemyOrMap(p));
       }
@@ -246,7 +261,8 @@ public class ProjectileHandler extends Singleton {
          }
       }
       // 2. Checks collision with map
-      if (HelpMethods.CollidesWithMap(p.getCollisionPixels(), clImg, xLevelOffset, yLevelOffset)) {
+      if (p.hasMapCollission()
+            && HelpMethods.CollidesWithMap(p.getCollisionPixels(), clImg, xLevelOffset, yLevelOffset)) {
          p.setActive(false);
          addBombExplosion(p.getHitbox());
          audioPlayer.playSFX(Audio.SFX_BIG_EXPLOSION);

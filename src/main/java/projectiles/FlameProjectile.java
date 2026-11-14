@@ -10,7 +10,7 @@ import static projectiles.ProjectileFactory.TypeConstants.FLAME_PROJECTILE;
 public class FlameProjectile extends BaseProjectile {
 
    public FlameProjectile(Dimensions dimensions) {
-      super(dimensions, FLAME_PROJECTILE, 20, 0, 4);
+      super(dimensions, FLAME_PROJECTILE, 20, 0, 1);
       this.collisionPixels = new CollisionPixels(this, CollisionAt.BOTTOM_CENTER);
    }
 }

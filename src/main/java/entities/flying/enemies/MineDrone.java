@@ -2,7 +2,6 @@ package entities.flying.enemies;
 
 import entities.Dimensions;
 import entities.MyRectangle;
-import entities.animation.Animation;
 import entities.flying.FlyEntityInfo;
 import entities.flying.PlayerFly;
 import main_classes.Game;
@@ -26,9 +25,7 @@ public class MineDrone extends BaseEnemy {
       this.enemyManager = enemyManager;
       this.player = player;
       this.animationLength = 8;
-      animation = new Animation(info.spriteName, IDLE, 0, 10);
-      allAnimations.clear();
-      allAnimations.add(animation);
+      animation.setAniTickPerFrame(10);
       this.rotate(Math.PI / 4);
       this.constructTriggerZone();
    }

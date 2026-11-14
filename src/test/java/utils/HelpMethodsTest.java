@@ -2,6 +2,7 @@ package utils;
 
 import entities.CollisionPixels;
 import entities.MyRectangle;
+import com.badlogic.gdx.math.Vector2;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -15,6 +16,19 @@ import com.badlogic.gdx.graphics.Pixmap;
 import entities.MyCollisionImage;
 
 public class HelpMethodsTest {
+
+   @Test
+   public void calculateVectorReturnsDirectionForSpriteRotation() {
+      assertVectorEquals(0.0f, -1.0f, HelpMethods.CalculateVector(0.0));
+      assertVectorEquals(1.0f, 0.0f, HelpMethods.CalculateVector(Math.PI / 2.0));
+      assertVectorEquals(0.0f, 1.0f, HelpMethods.CalculateVector(Math.PI));
+      assertVectorEquals(-1.0f, 0.0f, HelpMethods.CalculateVector(3.0 * Math.PI / 2.0));
+   }
+
+   private void assertVectorEquals(float expectedX, float expectedY, Vector2 actual) {
+      assertEquals(expectedX, actual.x, 0.000001f);
+      assertEquals(expectedY, actual.y, 0.000001f);
+   }
 
    @Test
    public void isSolidReturnsTrueForSolidPixel() {

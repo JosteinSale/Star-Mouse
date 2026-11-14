@@ -21,6 +21,7 @@ public abstract class BaseProjectile extends MyRectangle implements Projectile {
    protected float xSpeed;
    protected float ySpeed;
    protected boolean active = true;
+   protected boolean hasMapCollission = true;
    protected int type;
 
    protected BaseProjectile(Dimensions dimensions, int type, int damage, float xSpeed, float ySpeed) {
@@ -37,34 +38,28 @@ public abstract class BaseProjectile extends MyRectangle implements Projectile {
    }
 
    @Override
-   public float getXSpeed() {
-      return this.xSpeed;
-   }
-
-   @Override
-   public float getYSpeed() {
-      return this.ySpeed;
-   }
-
-   @Override
    public MyRectangle getHitbox() {
       return this;
    }
 
-   /**
-    * Updates the collisionPixels array to the current center of the projectile's
-    * hitbox.
-    */
    @Override
-   public void updateCollisionPixels() {
-      collisionPixels.update();
+   public void update(float fgCurSpeed) {
+      move(xSpeed, ySpeed + fgCurSpeed);
+      updateCustomBehavior();
+      if (hasMapCollission) {
+         collisionPixels.update();
+      }
    }
 
-   @Override
+   protected void updateCustomBehavior() {
+      // Default does nothing
+   }
+
    /**
     * Returns a 2D-array of collisionPixels. In the inner layer: 0 = x, and 1 = y.
     * The collisionPixels are already adjusted to 1/3 size.
     */
+   @Override
    public CollisionPixels getCollisionPixels() {
       return collisionPixels;
    }
@@ -102,5 +97,15 @@ public abstract class BaseProjectile extends MyRectangle implements Projectile {
    @Override
    public boolean intersects(MyRectangle other) {
       return super.intersects(other);
+   }
+
+   @Override
+   public boolean hasMapCollission() {
+      return this.hasMapCollission;
+   }
+
+   @Override
+   public int getAniIndex() {
+      return 0; // Default is only one image in the animation
    }
 }

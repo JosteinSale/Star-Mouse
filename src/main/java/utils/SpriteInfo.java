@@ -74,6 +74,7 @@ public class SpriteInfo {
       register(Images.REAPER_GLOW, 80, 32, 1, 4);
       register(Images.WHITE_GLOW_BIG, 32, 32, 1, 4);
       register(Images.ORANGE_GLOW_DYNAMIC, 32, 32, 1, 4);
+      register(Images.LAZER_PROJECTILE_SPRITE, 15, 300, 1, 2);
 
       // UI
       register(Images.LEVEL_ICONS, LEVEL_ICON_SIZE, LEVEL_ICON_SIZE, 1, 13);

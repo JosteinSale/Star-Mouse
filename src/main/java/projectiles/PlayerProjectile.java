@@ -11,7 +11,7 @@ import static projectiles.ProjectileFactory.TypeConstants.PLAYER_PROJECTILE;
  * hitbox
  */
 public class PlayerProjectile extends BaseProjectile {
-   private static final int Y_SPEED = 10;
+   private static final int Y_SPEED = 12;
    private boolean powerUp;
    private float powerupFactor = 1.35f; // Tried 1.5, that was maybe too much.
 

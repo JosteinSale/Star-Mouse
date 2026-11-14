@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import entities.flying.StaticGlow;
+import entities.flying.enemies.Enemy;
 import projectiles.BombExplosion;
 import projectiles.PlayerProjectile;
 import projectiles.Projectile;
@@ -45,8 +46,9 @@ public class RenderProjectiles {
    protected ProjectileDrawInfo plPrjct;
    protected ProjectileDrawInfo bossProjct1;
    protected ProjectileDrawInfo bombExplInfo;
+   protected ProjectileDrawInfo lazerPrjct;
 
-   protected MySubImage[] hitAnimation;
+   protected MySubImage[] hitAnimation; // TODO - rewrite these to use projectileDrawInfo
    protected MySubImage[] bombExplosionAnimation;
 
    protected RenderGlow renderGlow;
@@ -61,13 +63,13 @@ public class RenderProjectiles {
       // Projectiles
       this.plPrjctRegular = new ProjectileDrawInfo(
             images.getFlyImageSprite(Images.PLAYER_PROJECTILE_BLUE, true),
-            16, 52, 0, 0,
+            16, 70, 0, 0,
             new StaticGlow(StaticGlow.WHITE_GLOW_MEDIUM, 0.52f, 0.3f),
             17, 23);
 
       this.plPrjctPowerup = new ProjectileDrawInfo(
             images.getFlyImageSprite(Images.PLAYER_PROJECTILE_GREEN, true),
-            16, 52, 0, 0,
+            16, 70, 0, 0,
             new StaticGlow(StaticGlow.WHITE_GLOW_MEDIUM, 0.52f, 0.3f),
             16, 22);
 
@@ -105,6 +107,13 @@ public class RenderProjectiles {
             new StaticGlow(StaticGlow.WHITE_GLOW_BIG, 1.15f, 0.3f),
             20, 20);
 
+      this.lazerPrjct = new ProjectileDrawInfo(
+            HelpMethods.GetUnscaled1DAnimationArray(
+                  images.getFlyImageSprite(Images.LAZER_PROJECTILE_SPRITE, false),
+                  SpriteInfo.get(Images.LAZER_PROJECTILE_SPRITE)),
+            45, 1200, 0, 0,
+            null, 0, 0);
+
       // Hit animation, bomb explosion animation
       this.hitAnimation = HelpMethods.GetUnscaled1DAnimationArray(
             images.getFlyImageSprite(Images.PROJECTILE_HIT, true),
@@ -113,7 +122,7 @@ public class RenderProjectiles {
             images.getFlyImageSprite(Images.BOMB_EXPLOSION_SPRITE, true),
             SpriteInfo.get(Images.BOMB_EXPLOSION_SPRITE));
       this.bombExplInfo = new ProjectileDrawInfo(
-            null, // Drawing method will use image from animation array
+            new MySubImage[0], // Drawing method will use image from animation array
             BOMBEXPLOSION_SPRITE_WIDTH * 3,
             BOMBEXPLOSION_SPRITE_HEIGHT * 3,
             (BOMBEXPLOSION_SPRITE_WIDTH * 3) / 2,
@@ -151,13 +160,9 @@ public class RenderProjectiles {
 
    private void drawProjectile(Projectile p, SpriteBatch sb, ProjectileDrawInfo info) {
       // Projectile
-      float x = p.getHitbox().x() - info.drawOffsetX;
-      float y = p.getHitbox().y() - info.drawOffsetY;
-      if (p.getRotation() == 0.0) {
-         DrawUtils.drawImage(sb, info.img, x, y, info.width, info.height);
-      } else {
-         DrawUtils.drawRotatedImage(sb, info.img, x, y, info.width, info.height, p.getRotation());
-      }
+      MySubImage img = info.imgs[p.getAniIndex()];
+      DrawUtils.drawRotatedImage(sb, p.getHitbox(), info.width, info.height, Enemy.RIGHT, p.getRotation(), img);
+
       // Glow
       if (info.glow != null) {
          info.glow.setPos(
@@ -198,6 +203,8 @@ public class RenderProjectiles {
             return flamedronPrjct;
          case BOSS_PROJECTILE1:
             return bossProjct1;
+         case LAZER_PROJECTILE:
+            return lazerPrjct;
          default:
             throw new IllegalArgumentException(
                   "No image available for projectile type: " + p.getType());

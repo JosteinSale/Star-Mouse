@@ -9,6 +9,7 @@ import entities.flying.EnemyFactory;
 import entities.flying.enemies.Enemy;
 import entities.flying.enemies.EnemyManager;
 import entities.flying.enemies.FlameDrone;
+import entities.flying.enemies.LazerDrone;
 import entities.flying.pickupItems.PickupItem;
 import entities.flying.pickupItems.PickupItemFactory;
 import projectiles.Explosion;
@@ -26,6 +27,7 @@ public class RenderFlyEntity {
    private MySubImage[] explosionAnimation;
    private MySubImage[] mineExplosionAnimation;
    private MySubImage[] flameShootAnimation;
+   private MySubImage[] lazerChargeAnimation;
    private FlyEntityImages entityImgs;
    private RenderGlow rGlow;
 
@@ -40,8 +42,11 @@ public class RenderFlyEntity {
             images.getFlyImageSprite(Images.MINE_EXPLOSION, true),
             SpriteInfo.get(Images.MINE_EXPLOSION));
       this.flameShootAnimation = HelpMethods.GetUnscaled1DAnimationArray(
-            images.getFlyImageSprite(Images.FLAME_SHOOT, true),
+            images.getFlyImageSprite(Images.FLAME_SHOOT, false),
             SpriteInfo.get(Images.FLAME_SHOOT));
+      this.lazerChargeAnimation = HelpMethods.GetUnscaled1DAnimationArray(
+            images.getBossSprite(Images.RED_CHARGE),
+            SpriteInfo.get(Images.RED_CHARGE));
       this.entityImgs = new FlyEntityImages(new EnemyFactory(null, null), new PickupItemFactory(), images);
       this.rGlow = new RenderGlow(images);
    }
@@ -86,7 +91,7 @@ public class RenderFlyEntity {
          if (p.isActive()) {
             rGlow.drawStaticGlow(sb, p.getGlow());
             MySubImage img = entityImgs.getImageFor(p.getType(), 0, p.getAniIndex());
-            DrawUtils.drawRotatedImage(sb, p.getHitbox(), 1, 0.0, img);
+            DrawUtils.drawRotatedImageAt3xScale(sb, p.getHitbox(), 1, 0.0, img);
          }
       }
    }
@@ -95,19 +100,24 @@ public class RenderFlyEntity {
       // Enemy animations
       ArrayList<MyRectangle> allHitboxes = enemy.getAllHitboxes();
       for (int i = 0; i < allHitboxes.size(); i++) {
-         Animation af = enemy.getAnimationForHitbox(i);
-         MySubImage img = entityImgs.getImageFor(enemy.getType(), af.getRow(), af.getCol());
-         DrawUtils.drawRotatedImage(sb, allHitboxes.get(i), enemy.getDir(), enemy.getAnimationRotation(), img);
+         Animation ani = enemy.getAnimationForHitbox(i);
+         MySubImage img = entityImgs.getImageFor(enemy.getType(), ani.getRow(), ani.getCol());
+         DrawUtils.drawRotatedImageAt3xScale(sb, allHitboxes.get(i), enemy.getDir(), enemy.getAnimationRotation(), img);
       }
       // Glow
       if (enemy.hasGlow()) {
          rGlow.drawAnimatedGlow(sb, enemy.getGlow());
       }
-      // Special case for flame drone's flame animation
+      // Special cases - FlameDrone and LazerDrone
       if (enemy.getType() == EnemyFactory.TypeConstants.FLAMEDRONE) {
          FlameDrone fd = (FlameDrone) enemy;
          if (fd.isPreparingToShoot()) {
             RenderPositionedAnimation.draw(sb, fd.flameAnimation, flameShootAnimation);
+         }
+      } else if (enemy.getType() == EnemyFactory.TypeConstants.LAZER_DRONE) {
+         LazerDrone ld = (LazerDrone) enemy;
+         if (ld.isPreparingToShoot()) {
+            RenderPositionedAnimation.draw(sb, ld.chargeAnimation, lazerChargeAnimation);
          }
       }
    }

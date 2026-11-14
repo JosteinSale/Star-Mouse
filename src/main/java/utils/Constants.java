@@ -85,6 +85,9 @@ public class Constants {
       public static final float SLOWED_DOWN_FG_SPEED = 0.7f;
       public static final float SHIP_HITBOX_WIDTH = 50f;
       public static final float SHIP_HITBOX_HEIGHT = 50f;
+      public static final int LAZER_PROJECTILE_HEIGHT = 1200;
+      public static final int LAZER_PROJECTILE_WIDTH = 20;
+      public static final int LAZER_ACTIVATE_Y_POS = 1200;
 
       public static class SpriteSizes {
          public static final int SHIP_SPRITE_WIDTH = 30;

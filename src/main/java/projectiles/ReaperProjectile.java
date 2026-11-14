@@ -9,7 +9,7 @@ import static entities.CollisionPixels.CollisionAt;
 public class ReaperProjectile extends BaseProjectile {
 
    public ReaperProjectile(Dimensions dimensions) {
-      super(dimensions, REAPER_PROJECTILE, 10, 0, 8);
+      super(dimensions, REAPER_PROJECTILE, 10, 0, 6);
       this.collisionPixels = new CollisionPixels(this, CollisionAt.BOTTOM_CENTER);
    }
 }

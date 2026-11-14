@@ -31,7 +31,7 @@ public class RenderBossPart {
          int row = bp.animation.getRow();
          int col = bp.animation.getCol();
          MySubImage img = spriteArray[row][col];
-         DrawUtils.drawRotatedImage(sb, bp.getHitbox(), 1, bp.getRotationRadians(), img);
+         DrawUtils.drawRotatedImageAt3xScale(sb, bp.getHitbox(), 1, bp.getRotationRadians(), img);
       }
    }
 }

@@ -138,4 +138,12 @@ public class HelpMethods {
       // adjust by -90 degrees so sprite's native facing aligns with movement
       return Math.atan2(vector.y, vector.x) + Math.PI / 2.0;
    }
+
+   /** Returns the unit direction vector corresponding to a sprite rotation in radians. */
+   public static Vector2 CalculateVector(double rotationRadians) {
+      double directionRadians = rotationRadians - Math.PI / 2.0;
+      return new Vector2(
+            (float) Math.cos(directionRadians),
+            (float) Math.sin(directionRadians));
+   }
 }

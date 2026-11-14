@@ -3,6 +3,8 @@ package data_storage;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import main_classes.Testing;
+
 /**
  * This class is a container for values pertaining to the players' progress.
  * It contains the data that will represent a single save file.
@@ -75,7 +77,7 @@ public class ProgressValues {
 
    // Getters
    public int getMaxHP() {
-      return maxHP;
+      return Testing.testingMode ? Testing.maxHP : maxHP;
    }
 
    public int getLazerDmg() {
@@ -87,7 +89,7 @@ public class ProgressValues {
    }
 
    public int getBombs() {
-      return bombs;
+      return Testing.testingMode ? Testing.bombs : bombs;
    }
 
    /** Replaces all variables with default values. */

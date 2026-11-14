@@ -1,50 +1,48 @@
 package projectiles;
 
-import java.awt.geom.Point2D;
-
 import entities.CollisionPixels;
 import entities.MyRectangle;
 
 public interface Projectile {
 
-    public int getDamage();
+   public int getDamage();
 
-    public float getXSpeed();
+   /** Returns the actual int values of the collisionPixels to be checked */
+   public CollisionPixels getCollisionPixels();
 
-    public float getYSpeed();
+   public int getType();
 
-    public void updateCollisionPixels();
+   public void setActive(boolean active);
 
-    /** Returns the actual int values of the collisionPixels to be checked */
-    public CollisionPixels getCollisionPixels();
+   public boolean isActive();
 
-    public int getType();
+   public double getRotation();
 
-    public void setActive(boolean active);
-
-    public boolean isActive();
-
-    public double getRotation();
-
-    /**
-     * Sets rotation to an absolute angle, in radians.
-     * The hitbox polygon is rotated around its center point.
-     */
-    public void setRotation(double radians);
+   /**
+    * Sets rotation to an absolute angle, in radians.
+    * The hitbox polygon is rotated around its center point.
+    */
+   public void setRotation(double radians);
 
    /**
     * Rotates the hitbox, in radians.
     * The hitbox polygon is rotated around its center point.
     */
-    public void rotate(double deltaRadians);
+   public void rotate(double deltaRadians);
 
-    /**
-     * Rotation-aware intersection test against an (unrotated) rectangle.
-     */
-    public boolean intersects(MyRectangle other);
+   /**
+    * Rotation-aware intersection test against an (unrotated) rectangle.
+    */
+   public boolean intersects(MyRectangle other);
 
+   /** The rotated hitbox polygon used for collision */
+   public MyRectangle getHitbox();
 
-    /** The rotated hitbox polygon used for collision */
-    public MyRectangle getHitbox();
+   /** Returns true if the projectile can collide with the map */
+   public boolean hasMapCollission();
+
+   public int getAniIndex();
+
+   public void update(float fgCurSpeed);
 
 }

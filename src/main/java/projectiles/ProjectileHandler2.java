@@ -57,7 +57,7 @@ public class ProjectileHandler2 extends ProjectileHandler {
       // Handled in super class
       checkPlayerShoot();
       updatePlayerShootTick();
-      moveProjectiles();
+      updateProjectiles(fgCurSpeed);
       removeOffScreenProjectiles();
 
       // Handled in this class
@@ -83,7 +83,9 @@ public class ProjectileHandler2 extends ProjectileHandler {
 
    private void checkPlayerProjectileCollision(Projectile p, float bossYoffset, float bossXoffset) {
       if (p.isActive()) {
-         if (HelpMethods.CollidesWithMap(p.getCollisionPixels(), clImg, bossXoffset, bossYoffset)) {
+         // 1. Checks map collission
+         if (p.hasMapCollission()
+               && HelpMethods.CollidesWithMap(p.getCollisionPixels(), clImg, bossXoffset, bossYoffset)) {
             this.onMapCollision(p);
             return;
          }

@@ -306,7 +306,7 @@ public class LevelEditor extends State {
    }
 
    private void goToMainMenu() {
-      game.returnToMainMenu(() -> game.flushImages());
+      game.returnToMainMenu(null);
    }
 
    private void toggleSelectedEntity(int direction) {

@@ -93,7 +93,7 @@ public class RenderLevelEditor extends Singleton {
          MySubImage img = entityImages.getImageFor(
                info.typeConstant, info.editorImgRow, info.editorImgCol);
          MyRectangle adjustedHitbox = getEditorAdjustedHitbox(hitbox);
-         DrawUtils.drawRotatedImage(sb, adjustedHitbox, flipX, 0.0, img);
+         DrawUtils.drawRotatedImageAt3xScale(sb, adjustedHitbox, flipX, 0.0, img);
 
          // Hitbox
          DrawUtils.drawRect(
@@ -105,7 +105,7 @@ public class RenderLevelEditor extends Singleton {
          Vector2 vector = le.vectors.get(i);
          if (vector.x != 0 || vector.y != 0) {
             double rotation = Math.atan2(vector.y, vector.x);
-            DrawUtils.drawRotatedImage(sb, adjustedHitbox, Enemy.RIGHT, rotation, vectorImg);
+            DrawUtils.drawRotatedImageAt3xScale(sb, adjustedHitbox, Enemy.RIGHT, rotation, vectorImg);
             drawVectorText(sb, vector, rotation, hbX, hbY);
          }
       }
@@ -134,7 +134,7 @@ public class RenderLevelEditor extends Singleton {
          MyRectangle enemyHb = le.hitboxes.get(le.hitboxes.size() - 1);
          double rotation = Math.atan2(le.directionVector.y, le.directionVector.x);
          MyRectangle adjustedHitbox = getEditorAdjustedHitbox(enemyHb);
-         DrawUtils.drawRotatedImage(sb, adjustedHitbox, Enemy.RIGHT, rotation, vectorImg);
+         DrawUtils.drawRotatedImageAt3xScale(sb, adjustedHitbox, Enemy.RIGHT, rotation, vectorImg);
          drawVectorText(sb, le.directionVector, rotation, (int) adjustedHitbox.x(), (int) adjustedHitbox.y());
       }
    }

@@ -3,7 +3,6 @@ package entities.flying.enemies;
 import java.awt.geom.Point2D;
 
 import entities.Dimensions;
-import entities.animation.Animation;
 import entities.flying.AnimatedGlow;
 import entities.flying.FlyEntityInfo;
 import main_classes.Game;
@@ -20,9 +19,6 @@ public class BatDrone extends BaseEnemy {
       HP = maxHP;
       animationLength = 7;
       setGlowPosition();
-      animation = new Animation(info.spriteName, IDLE, 0, 4);
-      allAnimations.clear();
-      allAnimations.add(animation);
       this.dir = dir;
       this.attackPos = new Point2D.Float(hitbox.x, hitbox.y);
       setStartPosition();

@@ -3,12 +3,17 @@ package projectiles;
 import entities.MyRectangle;
 import entities.Dimensions;
 import entities.flying.enemies.Enemy;
+import utils.HelpMethods;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.math.Vector2;
+
 import static entities.flying.EnemyFactory.TypeConstants.*;
 import static projectiles.ProjectileFactory.TypeConstants.BOSS_PROJECTILE1;
+import static utils.Constants.Flying.LAZER_PROJECTILE_WIDTH;
+import static utils.Constants.Flying.LAZER_PROJECTILE_HEIGHT;
 import static utils.Constants.Flying.SpriteSizes.*;
 
 /**
@@ -26,6 +31,7 @@ public class ProjectileFactory {
       public static final int REAPER_PROJECTILE = 4;
       public static final int FLAME_PROJECTILE = 5;
       public static final int BOSS_PROJECTILE1 = 6;
+      public static final int LAZER_PROJECTILE = 7;
    }
 
    private final int DRONE_PRJT_SIZE = 32;
@@ -86,21 +92,24 @@ public class ProjectileFactory {
     * switch-on-type shape. Returns more than one projectile only for
     * OCTADRONE's 8-way radial burst.
     */
-   public List<Projectile> createProjectilesForEnemy(int enemyType, MyRectangle enemyHb, int dir, float fgSpeed) {
+   public List<Projectile> createProjectilesForEnemy(Enemy enemy) {
       List<Projectile> projectiles = new ArrayList<>();
+      int enemyType = enemy.getType();
+      int dir = enemy.getDir();
+      MyRectangle enemyHb = enemy.getMainHitbox();
 
       switch (enemyType) {
 
          case DRONE:
             Dimensions dim1 = new Dimensions(
                   enemyHb.x() + 25, enemyHb.y() + 66, DRONE_PRJT_SIZE, DRONE_PRJT_SIZE);
-            projectiles.add(new DroneProjectile(dim1, 0, 5));
+            projectiles.add(new DroneProjectile(dim1, 0, 3));
             break;
 
          case BLASTERDRONE:
             Dimensions dim2 = new Dimensions(
                   enemyHb.x() + 15, enemyHb.y() + 90, DRONE_PRJT_SIZE, DRONE_PRJT_SIZE);
-            projectiles.add(new DroneProjectile(dim2, 0, 5));
+            projectiles.add(new DroneProjectile(dim2, 0, 3));
             break;
 
          case OCTADRONE:
@@ -110,7 +119,7 @@ public class ProjectileFactory {
                double x = (Math.cos(angle) * radius) + enemyHb.x() + enemyHb.width() / 3;
                double y = (Math.sin(angle) * radius) + enemyHb.y() + enemyHb.height() / 3;
                int xSpeed = (int) (Math.cos(angle) * 4);
-               int ySpeed = (int) ((Math.sin(angle) * 4) + fgSpeed);
+               int ySpeed = (int) (Math.sin(angle) * 4);
                Dimensions dim3 = new Dimensions(
                      (float) x, (float) y, OCTADRONE_PRJT_SIZE, OCTADRONE_PRJT_SIZE);
                projectiles.add(new OctaProjectile(dim3, xSpeed, ySpeed));
@@ -147,9 +156,35 @@ public class ProjectileFactory {
          case BAT_DRONE:
             Dimensions dim6 = new Dimensions(
                   enemyHb.x() + 13, enemyHb.y() + 60, DRONE_PRJT_SIZE, DRONE_PRJT_SIZE);
-            projectiles.add(new DroneProjectile(dim6, 0, 5));
+            projectiles.add(new DroneProjectile(dim6, 0, 3));
             break;
+
+         case LAZER_DRONE:
+            LazerProjectile prjct = getLazerProjectile(enemy);
+            projectiles.add(prjct);
+            break;
+
+         default:
+            throw new IllegalArgumentException("No projectile for enemy type: " + enemyType
+                  + ". Can the enemy shoot? If not, override the canShoot method from BaseEnemy.");
+
       }
       return projectiles;
+   }
+
+   private LazerProjectile getLazerProjectile(Enemy enemy) {
+      double rotation = enemy.getHitboxRotation() + Math.PI;
+      float enemyCenterX = enemy.getMainHitbox().centerX();
+      float enemyCenterY = enemy.getMainHitbox().centerY();
+      Vector2 normalizedVector = HelpMethods.CalculateVector(rotation);
+      int hbLength = LAZER_PROJECTILE_HEIGHT;
+      int hbWidth = LAZER_PROJECTILE_WIDTH;
+      Dimensions dim = new Dimensions(0, 0, hbWidth, hbLength);
+      LazerProjectile prjct = new LazerProjectile(dim, enemy);
+      prjct.setRotation(rotation);
+      float centerX = enemyCenterX + normalizedVector.x * (hbLength / 1.75f);
+      float centerY = enemyCenterY + normalizedVector.y * (hbLength / 1.75f);
+      prjct.setCenterPosition(centerX, centerY);
+      return prjct;
    }
 }

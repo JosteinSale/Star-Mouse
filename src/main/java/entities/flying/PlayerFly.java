@@ -79,7 +79,7 @@ public class PlayerFly extends MyRectangle implements ShootingPlayer {
    /** Updates maxHP and such from the progressValues */
    public void onLevelStart() {
       this.setKilledEnemies(0);
-      int maxHp = Testing.testingMode ? Testing.maxHP : game.getProgressValues().getMaxHP();
+      int maxHp = game.getProgressValues().getMaxHP();
       this.maxHP = maxHp;
       this.HP = maxHp;
       statusDisplay.setMaxHP(maxHp);

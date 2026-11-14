@@ -49,6 +49,10 @@ public class MyRectangle {
       hitbox.setPosition(x, y);
    }
 
+   public void setCenterPosition(float x, float y) {
+      hitbox.setPosition(x - hitboxWidth / 2, y - hitboxHeight / 2);
+   }
+
    public float x() {
       return hitbox.getX();
    }
